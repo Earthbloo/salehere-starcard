@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+timeline.xctimeline
+playground.xcworkspace
+
+# Build
+.build/
+*.moved-aside
+
+# Swift Package Manager
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Local / editor
+.claude/
+*.bak
+.idea/
+*.swp
+*~
+
+# Secrets
+.env
+.env.*
+*.pem
+*.p12
+*.mobileprovision
+Secrets.plist
+GoogleService-Info.plist

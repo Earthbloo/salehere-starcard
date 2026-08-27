@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "handle": "nina.beauty",
+  "theme": {
+    "palette": "coral",
+    "background": {
+      "kind": "gradient",
+      "token": "sunset"
+    },
+    "fontPair": "modern",
+    "radius": "lg",
+    "cardStyle": "glass"
+  },
+  "grid": {
+    "cols": 4,
+    "gap": 12,
+    "rowHeight": 88
+  },
+  "blocks": [
+    {
+      "id": "b_profile",
+      "type": "profile",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 0,
+      "data": {
+        "name": "Nina",
+        "tagline": "Beauty & Skincare Creator",
+        "avatarId": "img_avatar",
+        "location": "Bangkok"
+      }
+    },
+    {
+      "id": "b_ig",
+      "type": "statsIG",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 1,
+      "data": {
+        "followers": 184000,
+        "engagementRate": 4.7,
+        "avgReach": 92000,
+        "verified": true
+      }
+    },
+    {
+      "id": "b_tt",
+      "type": "statsTikTok",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 2,
+      "data": {
+        "followers": 320500,
+        "avgViews": 128000,
+        "engagementRate": 8.1
+      }
+    },
+    {
+      "id": "b_gal",
+      "type": "workGallery",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 3,
+      "data": {
+        "imageIds": [
+          "img_w1",
+          "img_w2",
+          "img_w3",
+          "img_w4",
+          "img_w5",
+          "img_w6"
+        ],
+        "layout": "grid"
+      }
+    },
+    {
+      "id": "b_brands",
+      "type": "brandLogos",
+      "span": {
+        "w": 4,
+        "h": 1
+      },
+      "order": 4,
+      "data": {
+        "logoIds": [
+          "img_l1",
+          "img_l2",
+          "img_l3",
+          "img_l4",
+          "img_l5"
+        ]
+      }
+    },
+    {
+      "id": "b_video",
+      "type": "video",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 5,
+      "data": {
+        "provider": "tiktok",
+        "url": "https://www.tiktok.com/@nina.beauty/video/7300000000000000000",
+        "thumbId": "img_thumb"
+      }
+    },
+    {
+      "id": "b_rate",
+      "type": "rateCard",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 6,
+      "data": {
+        "items": [
+          {
+            "label": "IG Reel",
+            "price": 25000,
+            "unit": "คลิป"
+          },
+          {
+            "label": "TikTok Video",
+            "price": 35000,
+            "unit": "คลิป"
+          },
+          {
+            "label": "IG Story x3",
+            "price": 12000,
+            "unit": "ชุด"
+          }
+        ],
+        "currency": "THB",
+        "note": "ราคายังไม่รวม VAT · รวมแก้ไข 2 รอบ"
+      }
+    },
+    {
+      "id": "b_quote",
+      "type": "testimonial",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 7,
+      "data": {
+        "quote": "ยอดขายโตขึ้น 3 เท่าในสัปดาห์เดียวหลังคลิปลง",
+        "author": "Marketing Lead, Brand X",
+        "brandLogoId": "img_l1"
+      }
+    },
+    {
+      "id": "b_txt",
+      "type": "text",
+      "span": {
+        "w": 2,
+        "h": 1
+      },
+      "order": 8,
+      "data": {
+        "markdown": "รับงาน **beauty / skincare** เป็นหลัก"
+      }
+    },
+    {
+      "id": "b_contact",
+      "type": "contact",
+      "span": {
+        "w": 4,
+        "h": 1
+      },
+      "order": 9,
+      "data": {
+        "channels": [
+          {
+            "kind": "email",
+            "value": "hello@nina.co"
+          },
+          {
+            "kind": "line",
+            "value": "@ninabeauty"
+          },
+          {
+            "kind": "ig",
+            "value": "nina.beauty"
+          }
+        ]
+      }
+    }
+  ]
+}

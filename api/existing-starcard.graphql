@@ -1,0 +1,324 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# StarCard — API surface ที่ "มีอยู่แล้ว" ใน salehere-ios (Apollo / GraphAPI)
+# ดึงมาจาก: SaleHere/Resources/API/Query/{Profile,ProfileCreator,Star}.graphql
+#           SaleHere/Resources/API/Query/Fragment/ConnectSocial.graphql
+#           SaleHere/Resources/API/GraphAPI/Schema/{Enums,InputObjects}
+#
+# ใช้เป็นฐานตอนออกแบบใหม่ — UI ทิ้งได้ แต่ contract นี้ยังใช้ต่อได้เกือบทั้งหมด
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# ENUMS ที่มีอยู่
+# ═════════════════════════════════════════════════════════════════════════════
+# CreatorProfileColorTheme    black | brown | green | pink | blue | yellow | white
+# SocialProfileType           facebook | instagram | twitter | youtube | tiktok | lemon8
+# SocialProfileStatusSyncFollower   pending | completed | failed
+# CreatorPreferredContentType photo | shortVDO | longVDO | sharing
+# CreatorAvailableDays        sunday..saturday
+# CreatorTimeSlots            slot_09_12 | slot_12_14 | slot_14_17 | slot_17_late
+# CreatorMeasurementUnit      cm | inch | kg
+# CreatorShoeSizeUnit         eur
+# FacebookProfileType         personal | page
+# WelcomeProgressStep         syncSocial | selectCategories | verifyUser
+# Rank                        star
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 1) READ — ข้อมูลการ์ดของตัวเอง
+#    (ของเดิม: Profile.graphql:1065)
+# ═════════════════════════════════════════════════════════════════════════════
+query ProfileCreator {
+  myProfile {
+    id
+    nickname
+    caption
+    gender
+    socialProfiles {
+      type                       # SocialProfileType
+      profileUrl
+      statusSyncFollower         # pending | completed | failed
+      followerCount
+      # ⚠️ ฟิลด์ต่อไปนี้ "มีใน schema แต่ query เดิมไม่ได้ดึง" — ดู §5
+      # accountId displayName profileImage { imgPath }
+      # avgEngagementCount avgViewCount
+      # photoPrice shortVdoPrice longVdoPrice sharingPrice
+      # suggestedPhotoPrice suggestedShortVdoPrice suggestedLongVdoPrice suggestedSharingPrice
+    }
+    categories(limit: 20) { name }
+    creatorProfile {
+      profileProgress {
+        percentTotal
+        completedInfo
+        completedPersonalProfile
+        completedProfileImage
+        completedSocialProfileAndAvailability
+        completedAddress
+        completedPortfolio
+      }
+      profileColorTheme          # ← "การแต่ง" ทั้งหมดที่เก็บบน server มีแค่ enum ตัวเดียวนี้
+      bodyMeasurement {
+        weight   { value unit }
+        height   { value unit }
+        chest    { value unit }
+        waist    { value unit }
+        hip      { value unit }
+        shoeSize { value unit }
+      }
+      availableTimes {
+        day                      # CreatorAvailableDays
+        displayText
+        timeSlots { timeSlotKey displayText isSelected }
+      }
+      preferredProvinces         # [String]
+      preferredContentTypes      # [CreatorPreferredContentType]
+      profileImages { image { imgPath } seq }
+      portfolio {
+        images { image { imgPath } seq }
+        videos { video { videoPath } videoThumbnail { imgPath } seq }
+      }
+    }
+  }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 2) READ — การ์ดสาธารณะ (คนอื่น/ลูกค้าเปิดดู) ผ่าน slug
+#    (ของเดิม: Profile.graphql:1155)
+#    เหมือน ProfileCreator ทุกอย่าง + เพิ่มช่องทางติดต่อ
+# ═════════════════════════════════════════════════════════════════════════════
+query ProfileCreatorUser($slug: String!) {
+  slug(slug: $slug) {
+    user {
+      id nickname caption gender
+      socialProfiles { type profileUrl statusSyncFollower followerCount }
+      categories(limit: 20) { name }
+      creatorProfile {
+        profileProgress { percentTotal }
+        tel      showTel               # ← มี toggle ซ่อน/โชว์ ต่อช่องทาง
+        lineId   showLineId
+        website  showWebsite
+        profileColorTheme
+        bodyMeasurement { weight { value unit } height { value unit } chest { value unit }
+                          waist { value unit } hip { value unit } shoeSize { value unit } }
+        availableTimes { day displayText timeSlots { timeSlotKey displayText isSelected } }
+        preferredProvinces
+        preferredContentTypes
+        profileImages { image { imgPath } seq }
+        portfolio {
+          images { image { imgPath } seq }
+          videos { video { videoPath } videoThumbnail { imgPath } seq }
+        }
+      }
+    }
+  }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 3) WRITE — บันทึกการ์ด (mutation เดียวจบ, ส่งทั้งก้อน)
+#    (ของเดิม: ProfileCreator.graphql)
+#    InputCreatorPortfolio       { images: [InputCreatorImage], videos: [InputCreatorVideo] }
+#    InputCreatorImage           { image: InputImage, seq: Int }
+#    InputCreatorVideo           { video: InputVideo, videoThumbnail: InputImage, seq: Int }
+#    InputCreatorAvailableTimes  { day: CreatorAvailableDays!, timeSlots: [CreatorTimeSlots] }
+#    InputCreatorBodyMeasurement { weight/height/chest/waist/hip: {value: Int!, unit: CreatorMeasurementUnit!}
+#                                  shoeSize: {value: Float!, unit: CreatorShoeSizeUnit!} }
+# ═════════════════════════════════════════════════════════════════════════════
+mutation createOrUpdateCreatorProfile(
+  $bodyMeasurement: InputCreatorBodyMeasurement
+  $preferredContentTypes: [CreatorPreferredContentType!]
+  $availableTimes: [InputCreatorAvailableTimes!]
+  $preferredProvinces: [String!]
+  $profileImages: [InputCreatorImage!]
+  $portfolio: InputCreatorPortfolio
+  $profileColorTheme: CreatorProfileColorTheme     # ← จุดเดียวที่เก็บ "การแต่ง"
+  $tel: String   $showTel: Boolean
+  $lineId: String $showLineId: Boolean
+  $website: String $showWebsite: Boolean
+) {
+  createOrUpdateCreatorProfile(
+    bodyMeasurement: $bodyMeasurement
+    preferredContentTypes: $preferredContentTypes
+    availableTimes: $availableTimes
+    preferredProvinces: $preferredProvinces
+    profileImages: $profileImages
+    portfolio: $portfolio
+    profileColorTheme: $profileColorTheme
+    tel: $tel showTel: $showTel
+    lineId: $lineId showLineId: $showLineId
+    website: $website showWebsite: $showWebsite
+  ) { successful errors { path message } }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 4) แชร์ / QR / รีเฟรชยอด
+# ═════════════════════════════════════════════════════════════════════════════
+query GenerateCreatorProfileQR($userSlug: String!) {
+  generateCreatorProfileQR(userSlug: $userSlug) {
+    successful errors { path message }
+    qr { name base64 }
+  }
+}
+
+mutation refetchSocialProfileFollower {
+  refetchSocialProfileFollower { successful errors { message path } }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 5) ⭐ ของดีที่ "มีอยู่แล้วแต่การ์ดไม่ได้ใช้"
+#    (ของเดิม: Profile.graphql:1001 StarProfileInfo + Fragment/ConnectSocial.graphql)
+#    → engagement จริง + เรตราคาต่อชิ้นงาน + ราคาที่ระบบแนะนำ
+# ═════════════════════════════════════════════════════════════════════════════
+query StarProfileInfo {
+  myProfile {
+    id username name dob age isVerify
+    profileImage { imgPath imgAlt }
+    userVerify { status documentType province nationality dob { timestamp } }
+    socialProfiles {
+      type profileUrl accountId displayName
+      profileImage { imgPath }
+      followerCount
+      avgEngagementCount            # ⭐ engagement เฉลี่ย (ระบบดึงเอง)
+      avgViewCount                  # ⭐ วิวเฉลี่ย
+      photoPrice                    # ⭐ เรตที่ creator ตั้งเอง
+      shortVdoPrice
+      longVdoPrice
+      sharingPrice
+    }
+    categories(limit: 20) { name }
+    welcomeProgress { isSyncSocialCompleted isSelectCategoriesCompleted
+                      isVerifyUserCompleted isViewedStarProfile }
+    userRank { rank }
+  }
+}
+
+query GetConnectMyProfile {
+  myProfile {
+    socialProfiles {
+      type profileUrl accountId displayName
+      profileImage { imgPath }
+      followerCount avgEngagementCount avgViewCount
+      photoPrice shortVdoPrice longVdoPrice sharingPrice
+      suggestedPhotoPrice           # ⭐ ราคาที่ระบบคำนวณแนะนำให้
+      suggestedShortVdoPrice
+      suggestedLongVdoPrice
+      suggestedSharingPrice
+    }
+  }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 6) OAuth ต่อ social — มีครบแล้ว รวม PKCE
+#    (ของเดิม: Fragment/ConnectSocial.graphql)
+# ═════════════════════════════════════════════════════════════════════════════
+mutation createSocialAuthorizeParams($socialType: SocialProfileType!) {
+  createSocialAuthorizeParams(socialType: $socialType) {
+    successful errors { path message }
+    socialAuthorizeParams {
+      clientId redirectUri authorizationUrl scope responseType
+      state codeChallenge codeChallengeMethod
+      fullAuthorizationUrl isLoginSocialEnable
+    }
+  }
+}
+
+# แลก authCode → ได้ข้อมูล account จริง + ราคาที่ระบบแนะนำ (นี่คือ auto-import)
+query socialEngagementPrice($socialType: SocialProfileType!, $authCode: String!, $state: String!) {
+  socialEngagementPrice(socialType: $socialType, authCode: $authCode, state: $state) {
+    successful errors { path message }
+    socialAccountInfo {
+      id username name displayName profileUrl profileImageUrl
+      followerCount avgEngagementCount avgViewCount
+    }
+    engagementPrice {
+      suggestedShortVdoPrice suggestedLongVdoPrice suggestedPhotoPrice suggestedSharingPrice
+      lastShortVdoPrice lastLongVdoPrice lastPhotoPrice lastSharingPrice
+    }
+  }
+}
+
+# Facebook ใช้อีกเส้น (ต้องส่ง accessToken + profileType เอง)
+query facebookSocialEngagementPrice(
+  $profileLink: String!, $profileType: FacebookProfileType!,
+  $accountId: String!, $accessToken: String!
+) {
+  facebookEngagementPrice(
+    profileLink: $profileLink, profileType: $profileType,
+    accountId: $accountId, accessToken: $accessToken
+  ) {
+    successful errors { path message }
+    socialAccountInfo { id username name displayName profileUrl profileImageUrl
+                        followerCount avgEngagementCount avgViewCount }
+    engagementPrice { suggestedShortVdoPrice suggestedLongVdoPrice
+                      suggestedPhotoPrice suggestedSharingPrice
+                      lastShortVdoPrice lastLongVdoPrice lastPhotoPrice lastSharingPrice }
+  }
+}
+
+mutation createSocialProfile(
+  $socialType: SocialProfileType!, $accountId: String, $profileUrl: String!,
+  $profileImageUrl: String, $name: String, $username: String,
+  $followerCount: Int, $avgViewCount: Int, $avgEngagementCount: Int,
+  $photoPrice: Int, $shortVdoPrice: Int, $longVdoPrice: Int, $sharingPrice: Int,
+  $suggestedPhotoPrice: Int, $suggestedShortVdoPrice: Int,
+  $suggestedLongVdoPrice: Int, $suggestedSharingPrice: Int
+) {
+  createSocialProfile(
+    socialType: $socialType accountId: $accountId profileUrl: $profileUrl
+    profileImageUrl: $profileImageUrl name: $name username: $username
+    followerCount: $followerCount avgViewCount: $avgViewCount
+    avgEngagementCount: $avgEngagementCount
+    photoPrice: $photoPrice shortVdoPrice: $shortVdoPrice
+    longVdoPrice: $longVdoPrice sharingPrice: $sharingPrice
+    suggestedPhotoPrice: $suggestedPhotoPrice
+    suggestedShortVdoPrice: $suggestedShortVdoPrice
+    suggestedLongVdoPrice: $suggestedLongVdoPrice
+    suggestedSharingPrice: $suggestedSharingPrice
+  ) { successful errors { path message } }
+}
+
+mutation updateSocialProfileEngagementPrice(
+  $socialType: SocialProfileType!, $photoPrice: Int,
+  $shortVdoPrice: Int, $longVdoPrice: Int, $sharingPrice: Int
+) {
+  updateSocialProfileEngagementPrice(
+    socialType: $socialType photoPrice: $photoPrice
+    shortVdoPrice: $shortVdoPrice longVdoPrice: $longVdoPrice sharingPrice: $sharingPrice
+  ) { successful errors { message path } }
+}
+
+mutation cancelSocialProfile($socialType: SocialProfileType!) {
+  cancelSocialProfile(socialType: $socialType) { successful errors { path message } }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 7) Gate — ใครมีสิทธิ์มี StarCard
+#    (ของเดิม: Profile.graphql:1290 + Managers/ValidateRegisterSaleHereStar/)
+# ═════════════════════════════════════════════════════════════════════════════
+query validateRegisterSaleHereStar {
+  myProfile {
+    brandCampaignReviewStatus
+    creatorProfile { profileProgress { percentTotal } }
+    welcomeProgress { isSyncSocialCompleted isSelectCategoriesCompleted isVerifyUserCompleted }
+    isVerify
+  }
+}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# ❌ สิ่งที่ "ไม่มี" ใน API วันนี้ — ต้องเพิ่มถ้าจะทำใหม่
+# ═════════════════════════════════════════════════════════════════════════════
+# - layout / block order / block size            → เก็บได้แค่ profileColorTheme (7 สี)
+# - draft vs published                           → save ทับตัวจริงทันที ไม่มี preview ก่อน publish
+# - audience demographics (อายุ/เพศ/จังหวัดผู้ติดตาม)
+# - case study ต่อแคมเปญ (ผลลัพธ์จริง: วิว/CTR/ยอดขาย)
+# - เวลา sync ล่าสุดของยอด follower  → มีแค่ statusSyncFollower (pending/completed/failed)
+#                                        ไม่มี syncedAt → โชว์ความสดของข้อมูลไม่ได้
+# - analytics ฝั่งการ์ด (ใครเปิด / เปิดกี่ครั้ง / กดติดต่อ)
+# - หลาย variant ของการ์ด (ส่งแบรนด์คนละสาย)
+# - PDF / OG image / public web viewer

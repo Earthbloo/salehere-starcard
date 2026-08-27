@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "handle": "forward.test",
+  "theme": {
+    "palette": "coral",
+    "background": {
+      "kind": "gradient",
+      "token": "sunset"
+    },
+    "fontPair": "modern",
+    "radius": "lg",
+    "cardStyle": "glass"
+  },
+  "grid": {
+    "cols": 4,
+    "gap": 12,
+    "rowHeight": 88
+  },
+  "blocks": [
+    {
+      "id": "b_profile",
+      "type": "profile",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 0,
+      "data": {
+        "name": "Nina",
+        "tagline": "Beauty & Skincare Creator",
+        "avatarId": "img_avatar",
+        "location": "Bangkok"
+      }
+    },
+    {
+      "id": "uk_1",
+      "type": "futureThing",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 1,
+      "payload": {
+        "anything": "client เก่าต้อง render placeholder และต้องส่ง object นี้กลับตอน save ครบทุก field"
+      }
+    },
+    {
+      "id": "uk_2",
+      "type": "anotherFutureThing",
+      "span": {
+        "w": 4,
+        "h": 1
+      },
+      "order": 2,
+      "nested": {
+        "a": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "b_contact",
+      "type": "contact",
+      "span": {
+        "w": 4,
+        "h": 1
+      },
+      "order": 3,
+      "data": {
+        "channels": [
+          {
+            "kind": "email",
+            "value": "hello@nina.co"
+          }
+        ]
+      }
+    }
+  ]
+}

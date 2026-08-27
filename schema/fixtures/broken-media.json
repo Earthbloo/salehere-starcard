@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "handle": "media.test",
+  "theme": {
+    "palette": "coral",
+    "background": {
+      "kind": "gradient",
+      "token": "sunset"
+    },
+    "fontPair": "modern",
+    "radius": "lg",
+    "cardStyle": "glass"
+  },
+  "grid": {
+    "cols": 4,
+    "gap": 12,
+    "rowHeight": 88
+  },
+  "blocks": [
+    {
+      "id": "b_profile",
+      "type": "profile",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 0,
+      "data": {
+        "name": "Nina",
+        "avatarId": "img_does_not_exist"
+      }
+    },
+    {
+      "id": "bm_1",
+      "type": "workGallery",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 1,
+      "data": {
+        "imageIds": [
+          "img_missing_1",
+          "img_missing_2",
+          "img_w3"
+        ],
+        "layout": "grid"
+      }
+    },
+    {
+      "id": "bm_2",
+      "type": "video",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 2,
+      "data": {
+        "provider": "ig",
+        "url": "https://instagram.com/reel/deleted",
+        "thumbId": "img_missing_3"
+      }
+    }
+  ]
+}

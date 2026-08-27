@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "handle": "span.test",
+  "theme": {
+    "palette": "coral",
+    "background": {
+      "kind": "gradient",
+      "token": "sunset"
+    },
+    "fontPair": "modern",
+    "radius": "lg",
+    "cardStyle": "glass"
+  },
+  "grid": {
+    "cols": 4,
+    "gap": 12,
+    "rowHeight": 88
+  },
+  "blocks": [
+    {
+      "id": "b_profile",
+      "type": "profile",
+      "span": {
+        "w": 4,
+        "h": 2
+      },
+      "order": 0,
+      "data": {
+        "name": "Nina",
+        "tagline": "Beauty & Skincare Creator",
+        "avatarId": "img_avatar",
+        "location": "Bangkok"
+      }
+    },
+    {
+      "id": "s_1",
+      "type": "brandLogos",
+      "span": {
+        "w": 1,
+        "h": 1
+      },
+      "order": 1,
+      "data": {
+        "logoIds": [
+          "img_l1"
+        ]
+      }
+    },
+    {
+      "id": "s_2",
+      "type": "statsIG",
+      "span": {
+        "w": 2,
+        "h": 1
+      },
+      "order": 2,
+      "data": {
+        "followers": 1000,
+        "verified": false
+      }
+    },
+    {
+      "id": "s_3",
+      "type": "workGallery",
+      "span": {
+        "w": 2,
+        "h": 2
+      },
+      "order": 3,
+      "data": {
+        "imageIds": [
+          "img_w1"
+        ],
+        "layout": "carousel"
+      }
+    },
+    {
+      "id": "s_4",
+      "type": "text",
+      "span": {
+        "w": 4,
+        "h": 1
+      },
+      "order": 4,
+      "data": {
+        "markdown": "full width"
+      }
+    },
+    {
+      "id": "s_5",
+      "type": "video",
+      "span": {
+        "w": 4,
+        "h": 4
+      },
+      "order": 5,
+      "data": {
+        "provider": "yt",
+        "url": "https://youtu.be/dQw4w9WgXcQ"
+      }
+    }
+  ]
+}
