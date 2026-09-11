@@ -59,6 +59,8 @@ enum SHIcon {
     static let heart        = "ph-heart-fill"
     static let users        = "ph-users-three"
     static let ticket       = "ph-ticket"
+    static let share        = "ph-share-network"
+    static let caretRight   = "ph-caret-right"
 }
 
 /// ไอคอนโลโก้แบรนด์ — คงสีต้นฉบับไว้
@@ -72,6 +74,28 @@ struct BrandIcon: View {
             .resizable()
             .scaledToFit()
             .frame(width: size, height: size)
+    }
+}
+
+/// ตราวงกลมของ SaleHere — โลโก้ขาวบนวงกลมสีแบรนด์
+///
+/// ใช้เป็น "ลายเซ็นผู้ออกใบรับรอง" ท้ายป้ายยืนยัน (ดู `VerifiedBadge`)
+/// สีแดงคงที่เสมอ ไม่ย้อมตามหมึกการ์ด — ตราที่เปลี่ยนสีตามของที่มันรับรองอยู่ ไม่ใช่ตรา
+/// และวงกลมทึบทำให้มันอ่านออกบนทุกพื้น ต่างจากโลโก้แดงลอย ๆ ที่จมหายบนการ์ดโทนแดง
+struct SaleHereMark: View {
+    var size: CGFloat = 15
+
+    /// แดงของแบรนด์ — ดูดมาจากไฟล์โลโก้จริง ไม่ใช่แดงที่เดาเอง
+    static let red = Color(red: 218 / 255, green: 56 / 255, blue: 50 / 255)
+
+    var body: some View {
+        Circle()
+            .fill(SaleHereMark.red)
+            .frame(width: size, height: size)
+            .overlay {
+                // โลโก้เป็นตัวอักษรสองบรรทัด ต้องเว้นขอบในวงพอสมควรถึงจะไม่ชนขอบ
+                SymbolIcon(name: SHIcon.wordmark, size: size * 0.58, tint: .white)
+            }
     }
 }
 

@@ -1,130 +1,123 @@
 import SwiftUI
 
-/// Widget Gallery — **ตู้ที่มีแต่ของ ไม่มีป้ายชื่อ**
+/// Widget Gallery — **แท็บสามหมวด · กริดสองคอลัมน์ · เห็นหลายใบพร้อมกัน**
 ///
-/// # ทำไมถึงถอดตัวหนังสือออกทั้งหมด
+/// # ห้ารอบที่ผ่านมา
 ///
-/// ของเดิมทุกช่องมีสามชั้นซ้อนกัน: พรีวิว → ชื่อ → ชั้นสิทธิ์ + ปุ่มบวก
-/// รวมทั้งหน้าได้ตัวหนังสือเกือบร้อยคำ ทั้งที่คำตอบของคำถามเดียวที่ผู้ใช้ถาม
-/// ("มันหน้าตาเป็นยังไง") อยู่ในพรีวิวอยู่แล้ว ตัวหนังสือทั้งหมดจึงเป็นเสียงรบกวน
-/// ที่แย่งพื้นที่จากสิ่งเดียวที่ควรได้พื้นที่
+/// | รอบ | ทำอะไร | พังตรงไหน |
+/// |---|---|---|
+/// | 1 | กริดสองใบ/แถว + ชิปกรองหมวดเดียว | ชิปเบียด |
+/// | 2 | ชิปสองแถว หมวดหลัก + หมวดย่อย | 19 ปุ่มก่อนเห็นของสักชิ้น |
+/// | 3 | รายการหมวด แล้วเจาะเข้าไป | ต้องแตะก่อนถึงจะเห็นวิดเจ็ต |
+/// | 4 | เลื่อนเดียวยาว ๆ ทั้ง 38 ใบ | เลื่อนหาไม่เจอ |
+/// | 5 | แท็บสามหมวด ใบละแถวเต็มความกว้าง | **ใบใหญ่จนเห็นทีละใบ** |
 ///
-/// # สองอย่างที่เปลี่ยนแล้วหน้าเปลี่ยนทั้งหน้า
+/// # สิ่งที่เรียนรู้ครบแล้ว
 ///
-/// 1. **พรีวิวมีทรงเท่าของจริง** — เดิมทุกช่องถูกยัดในกรอบ 3:2 เท่ากันหมด
-///    ปกนิตยสารที่เป็นทรงตั้งกับแถบวิ่งที่เป็นแถบนอนจึงดูเหมือนของขนาดเดียวกัน
-///    ตอนนี้ความสูงคำนวณจากขนาดตั้งต้นบนกริดจริง (`grid.d`) ของก็เลยเรียงเป็น masonry
-///    และผู้ใช้เห็น "ทรง" ของมันตั้งแต่ในตู้ ซึ่งเป็นครึ่งหนึ่งของการตัดสินใจ
-/// 2. **ช่องเดียว = ปุ่มเดียว** ทั้งช่องคือปุ่มเพิ่ม ไม่มีปุ่มบวกซ้อนอยู่ข้างในอีก
+/// การเลือกวิดเจ็ตคือการ **เทียบของหลายชิ้น** ไม่ใช่การอ่านทีละชิ้น
+/// พรีวิวจึงไม่ต้องอ่านออกทุกตัวอักษร ขอแค่ **จำทรงกับองค์ประกอบได้** ก็พอตัดสินใจแล้ว
+/// — ของที่อ่านออกเต็ม ๆ คือของบนการ์ดจริง ไม่ใช่ของในตู้
 ///
-/// ตัวหนังสือเหลือที่เดียวคือช่องที่ยัง **ล็อกอยู่** เพราะช่องที่กดไม่ได้ต้องบอกเหตุผล
-/// ไม่งั้นมันคือช่องที่พังเฉย ๆ
+/// กริดสองคอลัมน์จึงเป็นคำตอบ: ใบกว้าง 6 คอลัมน์ย่อเหลือ ~0.48 เห็นทรงครบ ·
+/// ใบทรงตั้ง 3 คอลัมน์ได้สเกลเกือบ 1:1 พอดีคอลัมน์ · เห็นพร้อมกัน 4–6 ใบต่อหน้าจอ
 struct WidgetGallery: View {
     let theme: CardTheme
     let onAdd: (WidgetKind) -> Void
     let onClose: (() -> Void)?
     @Environment(PhotoStore.self) private var photos
 
-    @State private var group: WidgetGroup? = nil
+    /// หมวดหลักที่เปิดอยู่ — ไม่มีสถานะ "ทั้งหมด" เพราะนั่นคือสิ่งที่ทำให้เลื่อนหาไม่เจอ
+    @State private var group: WidgetGroup = .about
+    /// ความกว้างของหนึ่งคอลัมน์ — วัดจากของจริงครั้งเดียว ค่าตั้งต้นพอให้เฟรมแรกไม่พัง
+    @State private var colW: CGFloat = 160
 
-    // อ่านคีย์เดียวกับ `DebugFlags` — ประกาศไว้ที่นี่เพื่อให้ตู้วาดใหม่ทันทีที่สลับสวิตช์
-    // (`Mock.catalog` อ่าน UserDefaults ตรง ๆ จึงไม่มีอะไรบอก SwiftUI ให้รีเฟรชเอง)
-    @AppStorage(DebugFlags.unlockVerifiedKey) private var unlockVerified = false
+    private let gap: CGFloat = 12
 
-    private var entries: [CatalogEntry] {
-        // เรียงตามหมวด แล้วตามตระกูล — แบบที่สลับกันได้ต้องอยู่ติดกันในตู้ ไม่กระจัดกระจาย
-        let all = (Mock.catalog + Mock.lockedTeasers).sorted { a, b in
-            let ag = WidgetGroup.allCases.firstIndex(of: a.kind.group) ?? 0
-            let bg = WidgetGroup.allCases.firstIndex(of: b.kind.group) ?? 0
-            if ag != bg { return ag < bg }
+    private var all: [CatalogEntry] {
+        (Mock.catalog + Mock.lockedTeasers).sorted { a, b in
             let af = WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0
             let bf = WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0
             if af != bf { return af < bf }
             return a.unlocked && !b.unlocked
         }
-        guard let group else { return all }
-        return all.filter { $0.kind.group == group }
     }
 
-    /// ขนาดจริงของ widget เมื่อไปนั่งอยู่บนการ์ด (หน่วย pt ที่หน้ากระดาษกว้าง 358)
-    ///
-    /// คิดจากขนาดตั้งต้นบนกริด (6 คอลัมน์ × 36 แถว) ตรง ๆ ไม่ได้เดาเป็นค่าคงที่ต่อชนิด
-    /// เพิ่ม widget ใหม่แล้วตู้ได้ทั้งทรงและขนาดที่ถูกต้องเองทันที
-    static func metrics(_ k: WidgetKind) -> (w: CGFloat, h: CGFloat) {
-        let (c, r) = k.grid.d
-        return (60.9 * CGFloat(max(1, c)) - 7.5, 18.67 * CGFloat(max(1, r)) - 7.5)
+    /// ก้อนหนึ่งตระกูล — `id` เป็น rawValue ของตระกูล จึงไม่ซ้ำกันทั้งลิสต์
+    /// (เคยใช้ลำดับ 0,1,2… เป็น id แล้ว `LazyVStack` รีไซเคิลเซลล์ผิดใบมาแล้วรอบหนึ่ง)
+    private struct Section: Identifiable {
+        let id: String
+        let label: String
+        let entries: [CatalogEntry]
     }
 
-    /// ทรงตั้ง = สูงกว่ากว้าง — พวกนี้วางคู่กันสองช่องต่อแถวแล้วยังอ่านออก
-    static func isTall(_ k: WidgetKind) -> Bool {
-        let m = metrics(k)
-        return m.h / m.w >= 0.95
-    }
-
-    /// ผังของตู้ — **แนวนอนหนึ่งช่องเต็มแถว · แนวตั้งสองช่องต่อแถว**
-    ///
-    /// ของแนวนอนอย่างกริดหลักฐานหรือตารางเวลาถูกบีบครึ่งความกว้างเมื่อไหร่ ตัวหนังสือข้างใน
-    /// จะเหลือ 5–6pt ซึ่งดูไม่ออกว่ามันคืออะไร — พวกนี้ต้องได้ความกว้างเต็มเพื่อให้พรีวิว
-    /// มีขนาดเท่าของจริงบนการ์ด ส่วนทรงตั้งสูงพอที่ครึ่งความกว้างก็ยังอ่านออก
-    /// และการวางคู่ทำให้ไม่ต้องเลื่อนยาวเกินจำเป็น
-    private var rows: [[CatalogEntry]] {
-        var out: [[CatalogEntry]] = []
-        var pair: [CatalogEntry] = []
-        for e in entries {
-            if Self.isTall(e.kind) {
-                pair.append(e)
-                if pair.count == 2 { out.append(pair); pair = [] }
+    private var sections: [Section] {
+        var out: [Section] = []
+        for e in all where e.kind.group == group {
+            if let last = out.last, last.id == e.kind.family.rawValue {
+                out[out.count - 1] = Section(id: last.id, label: last.label,
+                                             entries: last.entries + [e])
             } else {
-                if !pair.isEmpty { out.append(pair); pair = [] }
-                out.append([e])
+                out.append(Section(id: e.kind.family.rawValue,
+                                   label: e.kind.family.label, entries: [e]))
             }
         }
-        if !pair.isEmpty { out.append(pair) }
         return out
+    }
+
+    /// ขนาดจริงของ widget เมื่อไปนั่งอยู่บนการ์ด — หน่วย pt บนพื้นที่ออกแบบ
+    /// (ตัวเรียกย่อลงให้พอดีช่องในตู้เอง ดู `GalleryTile.colWidth`)
+    static func metrics(_ k: WidgetKind) -> (w: CGFloat, h: CGFloat) {
+        let s = k.defaultSize
+        return (max(1, s.width), max(1, s.height))
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            topBar
+            bar
+            tabs
+                .padding(.bottom, 16)
 
-            ScrollView(showsIndicators: false) {
-                #if DEBUG
-                if group == nil || group == .work { debugUnlockToggle }
-                #endif
-
-                LazyVStack(spacing: 12) {
-                    ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
-                        HStack(alignment: .top, spacing: 12) {
-                            ForEach(row) { e in
-                                GalleryTile(entry: e, theme: theme) { onAdd(e.kind) }
-                            }
-                            // แถวที่มีทรงตั้งใบเดียว — กันที่ครึ่งขวาไว้ ไม่ให้มันยืดเต็มแถว
-                            if row.count == 1, Self.isTall(row[0].kind) {
-                                Color.clear.frame(maxWidth: .infinity, maxHeight: 1)
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(sections) { sec in
+                            sectionHeader(sec.label)
+                            // `.flexible()` ไม่ใช่ `.fixed()` — ตัวหลังพังทันทีถ้าความกว้างเป็น 0
+                            LazyVGrid(columns: [GridItem(.flexible(), spacing: gap, alignment: .top),
+                                                GridItem(.flexible(), spacing: gap, alignment: .top)],
+                                      alignment: .leading, spacing: gap) {
+                                ForEach(sec.entries) { e in
+                                    GalleryTile(entry: e, theme: theme, colWidth: colW) {
+                                        onAdd(e.kind)
+                                    }
+                                }
                             }
                         }
                     }
+                    .padding(.bottom, 24)
                 }
-                .padding(.top, 2)
-                .padding(.bottom, 8)
-            }
+                // เปลี่ยนแท็บแล้วต้องกลับไปบนสุดเสมอ ไม่งั้นจะโผล่กลางกองของหมวดใหม่
+                .id(group)
+                // วัดความกว้างด้วย `.onGeometryChange` ไม่ใช่ `GeometryReader`
+                //
+                // GeometryReader **กินความสูงทั้งหมดที่มี** ซึ่งบนชีตที่สูงตามเนื้อหา
+                // แปลว่ามันได้ความสูง 0 แล้วทั้งตู้ว่างเปล่า (เจอมาสองรอบ)
+                // ตัวนี้อ่านขนาดโดยไม่แตะผัง จึงวัดได้โดยไม่ทำให้อะไรพัง
+                .background(alignment: .top) {
+                    Color.clear
+                        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { w in
+                            if w > 1 { colW = max(120, (w - gap) / 2) }
+                        }
+                }
         }
         .preferredColorScheme(.dark)
     }
 
-    /// แถวบนสุด — ตัวกรองหมวด กับปุ่มปิด ไม่มีหัวข้อ
-    /// ชีตนี้เปิดจากปุ่มบวก ผู้ใช้รู้อยู่แล้วว่ากำลังเพิ่ม widget การเขียนซ้ำไม่ได้บอกอะไรใหม่
-    private var topBar: some View {
-        HStack(spacing: 10) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    chip(nil, "ทั้งหมด")
-                    ForEach(WidgetGroup.allCases) { g in
-                        chip(g, g.label)
-                    }
-                }
-                .padding(.vertical, 2)
-            }
+    private var bar: some View {
+        HStack(spacing: 12) {
+            Text("เพิ่มวิดเจ็ต")
+                .font(.sh(17, .bold))
+                .foregroundStyle(.white.opacity(0.95))
+            Spacer(minLength: 4)
             if let onClose {
                 Button(action: onClose) {
                     Image(systemName: "xmark").font(.sh(11, .bold))
@@ -135,136 +128,150 @@ struct WidgetGallery: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(.bottom, 12)
+        .padding(.bottom, 16)
     }
 
-    /// ชิปกรองหมวด — เหลือแค่คำ ไม่มีไอคอนนำหน้าแล้ว
-    /// ไอคอนสี่ตัวที่ไม่มีใครจำความหมายได้ทำให้แถวนี้หนักกว่าที่ควรเป็นเท่านั้นเอง
-    private func chip(_ t: WidgetGroup?, _ label: String) -> some View {
-        let active = group == t
-        return Button {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) { group = t }
-        } label: {
-            Text(label)
-                .font(.sh(13, .semibold))
-                .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.66))
-                .padding(.horizontal, 15).padding(.vertical, 8)
-                .background(Capsule().fill(active ? Color.white.opacity(0.92) : Color.white.opacity(0.07)))
-        }
-        .buttonStyle(.plain)
-    }
-
-    #if DEBUG
-    /// สวิตช์สำหรับตอนพัฒนา — ข้ามเงื่อนไข "ส่งงาน 3 ชิ้น" เพื่อดูหน้าตาทั้งตระกูลได้ทันที
-    /// ครอบ `#if DEBUG` ไว้ กติกาโปรดักต์จึงไม่ถูกแตะเลยในบิลด์ที่ปล่อยจริง
+    /// แท็บสามแท็บแบ่งเต็มความกว้าง — ไม่เลื่อน ไม่มีอะไรซ่อน
     ///
-    /// เป็น Button ไม่ใช่ Toggle เพราะตู้อยู่ใน ScrollView ซ้อน ScrollView
-    /// ซึ่ง UISwitch ข้างใน Toggle จะไม่ได้รับ tap เลย
-    private var debugUnlockToggle: some View {
-        Button {
-            withAnimation(.spring(response: 0.28, dampingFraction: 0.8)) {
-                unlockVerified.toggle()
-            }
-            Haptics.impact(.light)
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: "hammer.fill").font(.sh(10))
-                Text("ปลดล็อกชั้นหลักฐาน").font(.sh(11, .semibold))
-                Spacer(minLength: 6)
-                Capsule()
-                    .fill(unlockVerified ? Color.orange : Color.white.opacity(0.18))
-                    .frame(width: 34, height: 20)
-                    .overlay(alignment: unlockVerified ? .trailing : .leading) {
-                        Circle().fill(.white).frame(width: 16, height: 16).padding(2)
+    /// เป็นเส้นใต้ ไม่ใช่แคปซูลทึบ เพราะแคปซูลสามใบเรียงกันอ่านเป็น "ปุ่มสามปุ่ม"
+    /// ส่วนเส้นใต้อ่านเป็น "ตอนนี้อยู่หน้าไหน" ซึ่งตรงกับหน้าที่ของมันจริง ๆ
+    private var tabs: some View {
+        HStack(spacing: 0) {
+            ForEach(WidgetGroup.allCases) { g in
+                let active = group == g
+                Button {
+                    Haptics.impact(.light)
+                    // **ห้ามใส่ `withAnimation` ตรงนี้** — ScrollView ผูก `.id(group)` ไว้
+                    // เปลี่ยนแท็บ = สร้าง view ใหม่ทั้งก้อน ถ้าสั่งอนิเมต SwiftUI จะ cross-fade
+                    // ของเก่ากับของใหม่ แล้วโลโก้แบรนด์จากแท็บก่อนหน้าค้างซ้อนอยู่ (เจอมาแล้ว)
+                    group = g
+                } label: {
+                    VStack(spacing: 9) {
+                        Text(g.label)
+                            .font(.sh(14, active ? .bold : .medium))
+                            .foregroundStyle(.white.opacity(active ? 0.96 : 0.42))
+                            .lineLimit(1)
+                        Capsule()
+                            .fill(active ? Color.white.opacity(0.9) : .clear)
+                            .frame(height: 2)
                     }
+                    .frame(maxWidth: .infinity)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                // อนิเมตเฉพาะเส้นใต้ ไม่ใช่ทั้งรายการ
+                .animation(Motion.snap, value: group)
             }
-            .foregroundStyle(.orange.opacity(0.9))
-            .padding(.horizontal, 12).padding(.vertical, 8)
-            .background(Capsule().fill(.orange.opacity(unlockVerified ? 0.16 : 0.08)))
-            .contentShape(Capsule())
         }
-        .buttonStyle(.plain)
-        .padding(.bottom, 11)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(.white.opacity(0.08)).frame(height: 1)
+        }
     }
-    #endif
+
+    /// หัวข้อคั่นตระกูล — เงียบที่สุดเท่าที่ยังอ่านออก
+    /// ตู้นี้ "ของ" คือพระเอก หัวข้อมีหน้าที่เดียวคือบอกว่ากองนี้เริ่มตรงไหน
+    private func sectionHeader(_ label: String) -> some View {
+        Text(label)
+            .font(.sh(12, .heavy))
+            .foregroundStyle(.white.opacity(0.4))
+            .padding(.top, 20)
+            .padding(.bottom, 11)
+    }
 }
 
-// MARK: - ช่องเดียวในตู้
+// MARK: - พรีวิวหนึ่งใบ
 
-/// หนึ่ง widget = หนึ่งช่อง = หนึ่งปุ่ม · ไม่มีชื่อ ไม่มีป้ายชั้นสิทธิ์ ไม่มีปุ่มบวกซ้อนข้างใน
+/// ทั้งช่องคือปุ่มเพิ่ม · ไม่มีปุ่มบวกซ้อนอยู่ข้างในอีก
 private struct GalleryTile: View {
     let entry: CatalogEntry
     let theme: CardTheme
+    /// ความกว้างของคอลัมน์ที่ช่องนี้อยู่ — วัดครั้งเดียวที่ระดับกริดแล้วส่งลงมา
+    let colWidth: CGFloat
     let onAdd: () -> Void
 
     @State private var pressed = false
 
-    /// ขนาดจริงของ widget ตัวนี้บนการ์ด — ใช้ทั้งกำหนดทรงของช่องและกำหนดสเกลของพรีวิว
     private var metrics: (w: CGFloat, h: CGFloat) { WidgetGallery.metrics(entry.kind) }
 
+    /// สเกลที่ยอมให้พรีวิวย่อ/ขยายได้
+    ///
+    /// # ทำไมต้องคุมช่วง
+    ///
+    /// เดิมทุกใบถูกย่อให้ "เต็มคอลัมน์" พอดี ซึ่งแปลว่า **สเกลไม่เท่ากันสักใบ**:
+    /// ใบกว้าง 6 คอลัมน์ (358pt) ย่อเหลือ 0.48 · ใบทรงตั้ง 3 คอลัมน์ (175pt) ได้ 0.99
+    /// สองเท่าพอดี — ตัวหนังสือในใบแรกเลยเล็กครึ่งหนึ่งของใบหลังทั้งที่บนการ์ดจริงเท่ากัน
+    ///
+    /// ผลคือใบเล็กดู "ใหญ่เกิน" และใบใหญ่ดู "เล็กเกิน" ทั้งที่ไม่มีใบไหนผิดขนาดเลย
+    /// สิ่งที่ผิดคือกติกา "ต้องเต็มคอลัมน์" ซึ่งไม่มีเหตุผลรองรับนอกจากความเรียบร้อยของกริด
+    ///
+    /// ตอนนี้บีบช่วงไว้ที่ 0.45–0.62 — ใบกว้างยังได้ 0.48 เท่าเดิม (ลดไม่ได้ คอลัมน์แค่นั้น)
+    /// แต่ใบทรงตั้งถูกกดจาก 0.99 ลงมาที่ 0.62 แล้วจัดกลางคอลัมน์แทนการยืดเต็ม
+    /// ส่วนต่างของ "ขนาดที่เห็น" จึงเหลือ 1.3 เท่า จากเดิม 2 เท่า
+    private static let scaleRange: ClosedRange<CGFloat> = 0.45...0.62
+
+    /// ความสูงขั้นต่ำของช่อง — ใบเตี้ยมาก (แถบติดต่อ 6×4) ย่อแล้วเหลือ ~30pt
+    /// ซึ่งบางจนอ่านไม่ออกว่าเป็นอะไร ให้พื้นที่หายใจขั้นต่ำแล้วจัดเนื้อหาไว้กลาง
+    private static let minHeight: CGFloat = 58
+
+    /// สเกลจริงที่ใช้ — ตัวเดียวกันทั้งวัดความสูงและวาด จึงไม่มีทางคำนวณเหลื่อมกัน
+    private var scale: CGFloat {
+        min(max(colWidth / metrics.w, Self.scaleRange.lowerBound), Self.scaleRange.upperBound)
+    }
+
     var body: some View {
-        let shape = RoundedRectangle(cornerRadius: 18, style: .continuous)
-        return Color.clear
-            .aspectRatio(metrics.w / metrics.h, contentMode: .fit)
-            .overlay { preview }
-            .background(shape.fill(.white.opacity(0.05)))
-            .clipShape(shape)
-            .overlay(shape.strokeBorder(.white.opacity(0.09), lineWidth: 0.5))
+        let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
+        // **ไม่มีพื้นและไม่มีขอบของช่อง** — เดิมทุกใบถูกครอบด้วยแผ่นขาวจาง + เส้นขอบ
+        // ซึ่งเป็นเปลือกที่ไม่มีอยู่จริงบนการ์ด ผลคือวิดเจ็ตที่ตั้งใจให้ไม่มีกรอบ
+        // (ตัวหนังสือล้วน · ชิปลอย · สติกเกอร์) ดูมีกรอบไปหมดทั้งตู้ แล้วผู้ใช้เลือกผิด
+        // ตู้ต้องแสดง "ของ" ไม่ใช่ "ของในกล่องของตู้"
+        return preview
             .overlay { if !entry.unlocked { lockedVeil(shape) } }
             .scaleEffect(pressed ? 0.96 : 1)
             .animation(Motion.snap, value: pressed)
-            .contentShape(shape)
+            .contentShape(Rectangle())
             .onTapGesture {
                 guard entry.unlocked else { Haptics.rigid(); return }
+                Haptics.impact(.light)
                 onAdd()
             }
-            // กดค้างแล้วช่องยุบตาม — ตอบสนองที่หายไปพร้อมปุ่มบวกต้องมีอะไรมาแทน
             .onLongPressGesture(minimumDuration: .infinity, maximumDistance: 40) {
             } onPressingChanged: { pressed = $0 }
     }
 
-    /// เรนเดอร์ที่ **ความกว้างจริงของ widget** แล้วค่อยสเกลทั้งก้อนให้พอดีช่อง
+    /// เรนเดอร์ที่ **ขนาดจริงของ widget** แล้วค่อยย่อทั้งก้อน
     ///
-    /// สำคัญที่ "ความกว้างจริง" ไม่ใช่ค่าคงที่ค่าเดียวทั้งตู้: โพลารอยด์กว้าง 3 คอลัมน์
-    /// ถ้าเรนเดอร์ที่ความกว้าง 6 คอลัมน์แล้วย่อ มันจะกลายเป็นการ์ดที่ถูกยืดออก ไม่ใช่ของจริงย่อส่วน
-    /// ตัวแนวนอนที่ได้เต็มแถวจะได้สเกล ≈ 1 คือเห็นเท่าที่จะเห็นบนการ์ดเป๊ะ ๆ
+    /// ห้ามเรนเดอร์ที่ความกว้างของคอลัมน์ตรง ๆ — วิดเจ็ตหลายตัวสลับผังตามความกว้าง
+    /// (กริดสองคอลัมน์เป็นคอลัมน์เดียว · ชิปขึ้นบรรทัดใหม่) พรีวิวจะไม่ใช่ของจริงย่อส่วนอีกต่อไป
     private var preview: some View {
-        GeometryReader { geo in
-            let vw = metrics.w
-            let vh = metrics.h
-            let scale = geo.size.width / vw
-            // ตัวที่ **รูปคือพื้นผิว** ปล่อยให้เต็มช่อง · ที่เหลือต้องมีขอบหายใจเท่ากับตอนอยู่บนการ์ด
-            //
-            // เคยใช้ `isPlain` เป็นเงื่อนไข แล้วพวก typography ไร้กรอบ (ชื่อมินิมอล · แนะนำตัว · ชิป)
-            // ถูกดันไปชนขอบช่องจนตัวหนังสือโดนตัดข้าง — พวกนั้นไม่มีพื้นผิวของตัวเอง
-            // สิ่งที่มันมีคือระยะขอบของหน้ากระดาษ ซึ่งช่องในตู้ต้องจำลองให้ด้วย
-            let inset: CGFloat = entry.kind.isFullBleed || entry.kind.usesPhoto ? 0 : 14
-            // ขนาดที่ส่งให้ `WidgetBody` ต้องเป็นขนาด **หลังหักขอบ** ไม่ใช่ขนาดช่อง
-            // ไม่งั้นตัวที่คำนวณผังจาก size (เช่นกริดหลักฐาน) จะเผื่อที่ไว้เกินจริงแล้วล้นออกนอกกรอบ
-            WidgetBody(kind: entry.kind, theme: theme,
-                       size: CGSize(width: vw - inset * 2, height: vh - inset * 2))
-                .padding(inset)
-                .frame(width: vw, height: vh, alignment: .topLeading)
-                .scaleEffect(scale, anchor: .topLeading)
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
-        }
-        .allowsHitTesting(false)
-        .opacity(entry.unlocked ? 1 : 0.18)
+        let vw = metrics.w
+        let vh = metrics.h
+        // ตัวที่ **รูปคือพื้นผิว** ปล่อยให้เต็มช่อง · ที่เหลือต้องมีขอบหายใจเท่ากับตอนอยู่บนการ์ด
+        let inset: CGFloat = entry.kind.isFullBleed || entry.kind.usesPhoto ? 0 : 14
+        return WidgetBody(kind: entry.kind, theme: theme,
+                          size: CGSize(width: vw - inset * 2, height: vh - inset * 2))
+            .padding(inset)
+            .frame(width: vw, height: vh, alignment: .topLeading)
+            .scaleEffect(scale, anchor: .center)
+            // จัดกลางช่อง ไม่ใช่ชิดมุม — ใบที่ถูกกดสเกลลงจะมีที่ว่างรอบตัว
+            // ถ้าชิดมุมบนซ้าย ที่ว่างจะไปกองอยู่ข้างเดียวแล้วกริดดูเอียง
+            .frame(width: colWidth, height: max(Self.minHeight, vh * scale))
+            .allowsHitTesting(false)
+            .opacity(entry.unlocked ? 1 : 0.18)
     }
 
-    /// ช่องที่ยังกดไม่ได้ — ที่เดียวในตู้ที่ยังมีตัวหนังสือ เพราะต้องบอกว่าทำยังไงถึงจะได้มา
+    /// ช่องที่ยังกดไม่ได้ — ต้องบอกว่าทำยังไงถึงจะได้มา ไม่งั้นมันคือช่องที่พังเฉย ๆ
     private func lockedVeil(_ shape: RoundedRectangle) -> some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 5) {
             Image(systemName: "lock.fill")
-                .font(.sh(14, .semibold))
+                .font(.sh(13, .semibold))
                 .foregroundStyle(.white.opacity(0.75))
             Text(entry.requirement ?? "")
-                .font(.sh(10.5, .semibold))
+                .font(.sh(9.5, .semibold))
                 .foregroundStyle(.white.opacity(0.62))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
-        .padding(.horizontal, 14)
+        .padding(.horizontal, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(shape.fill(.black.opacity(0.25)))
     }

@@ -49,22 +49,37 @@ struct ArtPortrait: View {
                     // วิ่งสวนทางรูป — ชั้นที่ใกล้ตาที่สุดต้องเคลื่อนเร็วที่สุด
                     .scrubSlide(scrub.d, travel: -size.width * 0.34, fade: 0.75, eased: false)
 
-                Text(Mock.creator.name)
-                    .font(.sh(min(34, size.height * 0.145), .bold))
-                    .tracking(-0.6)
-                    .foregroundStyle(.white)
-                    .lineLimit(1).minimumScaleFactor(0.5)
-                    .padding(.top, -ghost * 0.26)
-                    // ชื่อคือสมอ — หายทีหลังสุด กลับมาก่อนใคร
-                    .scrubVeil(scrub.d, lead: 0.22, drop: 38, pull: 10)
+                // ชื่อคือสมอ — หายทีหลังสุด กลับมาก่อนใคร
+                HStack(spacing: 6) {
+                    Text(Profile.me.name)
+                        .font(.sh(min(34, size.height * 0.145), .bold))
+                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
+                        .kerning(-0.6)
+                        .foregroundStyle(.white)
+                        .lineLimit(1).truncationMode(.tail)
+                        .editableText(.name, .init(size: min(34, size.height * 0.145),
+                                                   weight: .bold, color: .white, tracking: -0.6))
+                    if Mock.creator.verified {
+                        SymbolIcon(name: SHIcon.sealCheck, size: 12, tint: .white.opacity(0.9))
+                    }
+                    Spacer(minLength: 0)
+                }
+                // ดึงขึ้นชนคำผี **หลัง** veil — veil ปิดท้ายด้วย mask ที่กรอบของตัวเอง
+                // ถ้า padding ติดลบมาก่อน กรอบจะเตี้ยลง 17pt แล้ว mask ตัดหัวบรรทัดทิ้ง
+                // ซึ่งเป็นที่อยู่ของสระบน/วรรณยุกต์ไทยพอดี — ชื่อเลยขึ้นเป็น "นรา ภทรวด"
+                .scrubVeil(scrub.d, lead: 0.22, drop: 38, pull: 10)
+                .padding(.top, -ghost * 0.26)
 
                 HStack(spacing: 8) {
                     // สีเน้นดิบ — ขีดนี้อยู่บนรูป ไม่ใช่บนพื้นการ์ด
                     Capsule().fill(theme.rawAccent).frame(width: 16, height: 2)
-                    Text(Mock.creator.tagline.uppercased())
+                    Text(Profile.me.tagline.uppercased())
                         .font(.sh(9, .semibold)).tracking(2.2)
                         .foregroundStyle(.white.opacity(0.72))
-                        .lineLimit(1).minimumScaleFactor(0.6)
+                        .lineLimit(1).truncationMode(.tail)
+                        .editableText(.tagline, .init(size: 9, weight: .semibold,
+                                                      color: .white.opacity(0.72),
+                                                      tracking: 2.2, uppercase: true))
                 }
                 .padding(.top, 9)
                 .scrubVeil(scrub.d, lead: 0.05, drop: 24, pull: 22)
@@ -185,16 +200,27 @@ struct ArtPolaroid: View {
     private func chinBlock(height: CGFloat, rim: CGFloat) -> some View {
         HStack(alignment: .bottom, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(Mock.creator.name)
-                    // น้ำหนักกลาง ตัวใหญ่กว่าแคปชัน — คนเขียนชื่อลงบนคางด้วยลายมือ ไม่ได้พิมพ์ฉลาก
-                    .font(.sh(min(15, height * 0.34), .medium))
-                    .tracking(0.2)
-                    .foregroundStyle(filmInk.opacity(0.9))
-                    .lineLimit(1).minimumScaleFactor(0.6)
-                Text("\(Mock.creator.location) · 2026")
+                HStack(spacing: 5) {
+                    Text(Profile.me.name)
+                        // น้ำหนักกลาง ตัวใหญ่กว่าแคปชัน — คนเขียนชื่อลงบนคางด้วยลายมือ ไม่ได้พิมพ์ฉลาก
+                        .font(.sh(min(15, height * 0.34), .medium))
+                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
+                        .kerning(0.2)
+                        .foregroundStyle(filmInk.opacity(0.9))
+                        .lineLimit(1).truncationMode(.tail)
+                        .editableText(.name, .init(size: min(15, height * 0.34), weight: .medium,
+                                                   color: filmInk.opacity(0.9), tracking: 0.2))
+                    if Mock.creator.verified {
+                        SymbolIcon(name: SHIcon.sealCheck, size: min(11, height * 0.25),
+                                   tint: theme.rawAccent.onLightSurface(depth: 0.9))
+                    }
+                }
+                Text(Profile.me.tagline)
                     .font(.sh(min(9.5, height * 0.22), .medium))
                     .foregroundStyle(theme.rawAccent.onLightSurface(depth: 0.9))
-                    .lineLimit(1).minimumScaleFactor(0.6)
+                    .lineLimit(1).truncationMode(.tail)
+                    .editableText(.tagline, .init(size: min(9.5, height * 0.22), weight: .medium,
+                                                  color: theme.rawAccent.onLightSurface(depth: 0.9)))
             }
             Spacer(minLength: 0)
             SymbolIcon(name: SHIcon.star, size: min(13, height * 0.3),
@@ -270,6 +296,63 @@ struct ArtFilmstrip: View {
     }
 }
 
+// MARK: - คู่แนวตั้ง
+
+/// สองรูปแนวตั้งเคียงกัน — ช่องเท่ากันเป๊ะ ไม่มีช่องไหนเด่นกว่าช่องไหน
+///
+/// ทำไมต้องมีทั้งที่ตระกูลนี้มีเบนโตะกับแถบภาพอยู่แล้ว: เบนโตะบอกว่า "ชิ้นนี้สำคัญกว่าชิ้นอื่น"
+/// (ช่องใหญ่กินสายตาก่อนเสมอ) ส่วนแถบภาพสี่ช่องบอกว่า "นี่คือคลังงาน ดูรวม ๆ"
+/// แต่งานส่วนใหญ่ที่ครีเอเตอร์อยากโชว์คือ **สองชิ้นที่ดีที่สุด** ซึ่งไม่มีอันไหนเป็นรอง
+/// และคลิปแนวตั้ง (Reel/TikTok) คือสัดส่วนจริงของงานที่ถ่ายมา ไม่ใช่กรอบสี่เหลี่ยมจัตุรัสที่ครอปทิ้ง
+///
+/// ช่องสูงเต็มกรอบที่ผู้ใช้ลากไว้ — ขนาดตั้งต้น (6×11) ให้สัดส่วนพอร์เทรตราว 3:4 ต่อช่อง
+/// อยากได้สูงกว่านั้นก็ยืดกรอบเอง กติกาเดียวกับทุกตัวในตู้
+///
+/// # ท่าเปลี่ยนหน้า — "สองบานหุบสวนกัน"
+///
+/// หน้าต่างสองบานหุบไล่กันตามทิศนิ้ว และภาพข้างในถ่วงตัว **คนละทาง** —
+/// ความลึกจึงมาจากทิศที่ต่างกันของสองชั้น ไม่ใช่จากเงาหรือความจาง (กฎเดียวกับ `HeroAura`)
+struct ArtPair: View {
+    @Environment(\.pageScrub) private var scrub
+    let theme: CardTheme
+
+    // [4, 6] ไม่ใช่ [4, 5] — คลังรูปผลงาน mock มี 3 ใบวนตาม i % 3
+    // slot 5 ตกรูปใบเดียวกับ workReel (index 8) พอวางคู่กันบนหน้าเดียวรูปจะซ้ำติดกัน
+    // slot 4/6 → works[1]/works[0] จึงได้คนละใบทั้งภายในคู่และกับคลิปข้างเคียง
+    private let slots = [4, 6]
+
+    var body: some View {
+        GeometryReader { geo in
+            let gap: CGFloat = 8
+            let w = (geo.size.width - gap) / 2
+            HStack(spacing: gap) {
+                ForEach(Array(slots.enumerated()), id: \.element) { i, slot in
+                    cell(slot, i: i, w: w, h: geo.size.height)
+                }
+            }
+        }
+    }
+
+    private func cell(_ slot: Int, i: Int, w: CGFloat, h: CGFloat) -> some View {
+        let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
+        // ใบซ้ายถ่วงไปทางหนึ่ง ใบขวาถ่วงกลับ — เท่ากันทั้งคู่จะอ่านเป็นภาพเดียวที่ถูกเลื่อน
+        let drift: CGFloat = i == 0 ? 0.09 : -0.09
+        return Color.clear
+            .frame(width: w, height: h)
+            .overlay {
+                WidgetPhoto(index: slot)
+                    .aspectRatio(contentMode: .fill)
+                    .scrubDolly(scrub.d, shift: w * drift, zoom: 0.24)
+            }
+            .clipShape(shape)
+            .overlay(shape.strokeBorder(.white.opacity(0.14), lineWidth: 0.7))
+            .photoSlot(slot)
+            .scrubAperture(scrub.d,
+                           lead: Scrub.lead(i, of: slots.count, d: scrub.d, step: 0.12),
+                           feather: 0.22, dim: 0.5)
+    }
+}
+
 // MARK: - เบนโตะ
 
 /// ผังเบนโตะ — ช่องสูงหนึ่งช่อง + ช่องกว้างหนึ่งช่อง + ช่องเล็กสองช่อง
@@ -332,7 +415,10 @@ struct TypeMarquee: View {
     /// ความกว้างของเนื้อหาหนึ่งชุด — วัดจากของจริง ไม่เดาเป็นค่าคงที่
     @State private var runW: CGFloat = 1
 
-    private var words: [String] { Mock.creator.track.brands.map(\.name) + Mock.creator.categories }
+    /// เฉพาะชื่อแบรนด์ — เดิมต่อท้ายด้วยสายงานที่พิมพ์เอง ซึ่งเป็นข้อมูลของตระกูล `tags`
+    /// แถบนี้อยู่ตระกูล `brand` จึงต้องอ่านเฉพาะสัญญาของตระกูลตัวเอง
+    /// (ไม่งั้นสลับจากแถบวิ่งไปเป็นกำแพงโลโก้แล้วสายงานหายไปเฉย ๆ)
+    private var words: [String] { Mock.creator.track.brands.map(\.name) }
 
     private var row: some View {
         HStack(spacing: 22) {
@@ -423,16 +509,25 @@ struct TypeQuote: View {
                 Image(systemName: "quote.opening")
                     .font(.system(size: 22)).foregroundStyle(theme.rawAccent)
                     .scrubVeil(scrub.d, lead: 0.02, drop: 22, pull: 20)
-                Text("ไม่รีวิวของที่ตัวเองไม่ใช้จริง")
-                    .font(.sh(min(24, size.width * 0.072), .semibold))
-                    .foregroundStyle(.white)
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
+                // คำพูดกินความสูงที่เหลือแล้วตัดท้ายด้วย … — กรอบเป็นคนบอกว่าอ่านได้กี่บรรทัด
+                EditableParagraph(field: .quote,
+                                  style: .init(size: min(24, size.width * 0.072),
+                                               weight: .semibold, color: .white, lineSpacing: 5))
                     .scrubVeil(scrub.d, lead: 0.14, drop: 40, pull: 12)
-                Text("— \(Mock.creator.name)")
-                    .font(.sh(10.5, .medium)).tracking(1.2)
-                    .foregroundStyle(theme.rawAccent)
-                    .scrubVeil(scrub.d, lead: 0.3, drop: 22, pull: 6)
+                // ขีดนำหน้าเป็นเครื่องหมายอ้างคำพูด ไม่ใช่ส่วนหนึ่งของชื่อ — แยกออกจากช่องที่แก้ได้
+                HStack(spacing: 4) {
+                    Text("—")
+                        .font(.sh(10.5, .medium))
+                        .foregroundStyle(theme.rawAccent)
+                    Text(Profile.me.name)
+                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
+                        .font(.sh(10.5, .medium)).kerning(1.2)
+                        .foregroundStyle(theme.rawAccent)
+                        .lineLimit(1).truncationMode(.tail)
+                        .editableText(.name, .init(size: 10.5, weight: .medium,
+                                                   color: theme.rawAccent, tracking: 1.2))
+                }
+                .scrubVeil(scrub.d, lead: 0.3, drop: 22, pull: 6)
             }
             .padding(20)
             .frame(maxWidth: size.width * 0.68, alignment: .leading)
@@ -478,7 +573,18 @@ struct StatGiant: View {
                 }
                 .photoSlot(3)
 
-            VStack(alignment: .leading, spacing: -4) {
+            VStack(alignment: .leading, spacing: 0) {
+                // หัวเรื่องอยู่ **เหนือ** ตัวเลข ไม่ใช่ใต้
+                //
+                // ตัวเลขยักษ์ที่ยังไม่มีคำกำกับ อ่านออกมาเป็นตัวเลขลอย ๆ อยู่หนึ่งจังหวะ
+                // ตาต้องกวาดลงไปอ่านคำข้างล่างแล้วย้อนขึ้นมาอ่านเลขใหม่ — สองรอบเพื่อค่าเดียว
+                // เอาคำขึ้นก่อนแล้วตาอ่านรอบเดียวจบ
+                Text("ผู้ติดตามรวมทุกช่องทาง")
+                    .font(.sh(11, .bold)).tracking(0.6)
+                    .foregroundStyle(.white.opacity(0.72))
+                    .lineLimit(1).minimumScaleFactor(0.6)
+                    .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 8)
+
                 ScrubDigits(text: Fmt.compact(total), d: scrub.d,
                             lead: 0.24, step: 0.06, drop: fs * 1.15)
                     .font(.sh(fs, .black))
@@ -486,35 +592,41 @@ struct StatGiant: View {
                         LinearGradient(colors: [.white, theme.rawAccentSoft],
                                        startPoint: .topLeading, endPoint: .bottomTrailing)
                     )
+                    .padding(.top, 2)
 
-                Text("ผู้ติดตามรวมทุกช่องทาง".uppercased())
-                    .font(.sh(9, .semibold)).tracking(2)
-                    .foregroundStyle(.white.opacity(0.62))
-                    .lineLimit(1).minimumScaleFactor(0.6)
-                    .padding(.top, 10)
-                    .scrubVeil(scrub.d, lead: 0.12, drop: 22, pull: 14)
+                Spacer(minLength: 8)
 
-                HStack(spacing: 12) {
+                // แต่ละช่องเป็นชิปของตัวเอง ไม่ใช่ไอคอนกับเลขลอย ๆ ต่อกัน
+                // ที่ขนาดเดิม (ไอคอน 13 · เลข 11) สามช่องอ่านออกมาเป็นแถบเดียว แยกกันไม่ออก
+                HStack(spacing: 8) {
                     ForEach(Array(Mock.creator.socials.enumerated()), id: \.element.id) { i, s in
-                        HStack(spacing: 5) {
-                            BrandIcon(name: s.type.icon, size: 13)
+                        HStack(spacing: 6) {
+                            BrandIcon(name: s.type.icon, size: 17)
                             Text(Fmt.compact(s.followerCount))
-                                .font(.sh(11, .semibold))
-                                .foregroundStyle(.white.opacity(0.85))
+                                .font(.sh(14, .heavy))
+                                .foregroundStyle(.white)
                         }
-                        .lineLimit(1)
+                        .lineLimit(1).fixedSize()
+                        .padding(.horizontal, 10).padding(.vertical, 6)
+                        // ชิปเป็น **กระจก** ไม่ใช่แผ่นดำจาง — ของเดิมคือ fill ดำ + เส้นขอบขาว
+                        // ซึ่งอ่านออกมาเป็นสติกเกอร์แปะทับรูป ไม่ได้อยู่ในชั้นเดียวกับการ์ด
+                        // สูตรเดียวกับ GlassPanel: ม่านมืดบาง ๆ ใต้เนื้อหาให้ตัวเลขติดตา
+                        // แล้วปล่อยให้ระบบวาด rim light เอง (เส้นขอบที่เขียนเองจะไปกลบของจริง)
+                        .background(Capsule().fill(.black.opacity(0.2)))
+                        .glassEffect(.clear, in: Capsule())
                         .scrubVeil(scrub.d,
                                    lead: Scrub.lead(i, of: Mock.creator.socials.count,
                                                     d: scrub.d, step: 0.06),
                                    drop: 26, pull: 10)
+                        .linkSlot(s.profileURL)
                     }
                     Spacer(minLength: 0)
                 }
-                .padding(.top, 9)
             }
             .padding(18)
         }
     }
+
 }
 
 // MARK: - ตัวอักษรใหญ่คร่อมขอบภาพ
@@ -533,23 +645,39 @@ struct ArtTypeOver: View {
     let theme: CardTheme
     let size: CGSize
 
-    /// ใช้ตัวโรมันพิมพ์ใหญ่สำหรับตัวยักษ์ เพราะสระบน-ล่างของไทยจะชนกันเองที่น้ำหนัก black
-    private var mark: String { Mock.creator.handle.split(separator: ".").first.map { $0.uppercased() } ?? "STAR" }
+    /// ตัวยักษ์ = **ชื่อเล่น** (ช่องของตัวเอง ค่าตั้งต้นคือคำแรกของชื่อ) ไม่ใช่ handle โรมัน
+    ///
+    /// เดิมใช้ `nira.beauty` → `NIRA` เพราะสระบน-ล่างของไทยชนกันที่น้ำหนัก black
+    /// แต่ผลคือแบบนี้เป็นแบบเดียวในตระกูลโปรไฟล์ที่ขึ้นภาษาอังกฤษ ส่วนอีกสี่แบบเป็นไทยหมด —
+    /// สลับแบบทีเดียวภาษาเปลี่ยน ซึ่งผิดกติกาที่ว่าการกด "แบบอื่น" ต้องเปลี่ยนแค่หน้าตา
+    ///
+    /// ทางแก้ที่ไม่ต้องทิ้งตัวยักษ์: ลดน้ำหนักจาก black เป็น bold และย่อขนาดลง 12%
+    /// ที่น้ำหนักนี้ NotoSansThai วางสระกับวรรณยุกต์ได้โดยไม่ชนตัวอักษรข้างเคียง
+    private var mark: String { Profile.me.nickname }
 
     var body: some View {
         GeometryReader { geo in
             let w = geo.size.width
             let h = geo.size.height
             // คำนวณย้อนจากขอบล่างขึ้นมา ไม่ใช่แบ่งเป็นเปอร์เซ็นต์จากบน
-            let fs = min(w * 0.235, h * 0.235)
+            // ย่อกว่าตอนใช้โรมัน 12% — ไทยกินความสูงมากกว่าเพราะมีชั้นสระบนกับวรรณยุกต์
+            let fs = min(w * 0.235, h * 0.235) * 0.88
             let footer: CGFloat = 46            // ชื่อไทย + บรรทัดสายงาน
             let photoH = h - footer - fs * 0.10
-            // NotoSansThai เผื่อที่ให้สระบน-ล่าง ต้องหักด้วย ascent จริง (~0.97em)
-            let baseline = photoH - fs * 0.97
+            // NotoSansThai เผื่อที่ให้สระบน-ล่าง ต้องหักด้วย ascent จริง
+            // ไทยต้องมากกว่าโรมัน เพราะตัวอักษรจริงนั่งต่ำลงมาในกล่อง em (ที่ว่างข้างบนเป็นของสระ)
+            let baseline = photoH - fs * 1.16
 
+            // ชื่อเล่นยาวไม่ตัดด้วย … แต่ **ย่อขนาดลงจนพอดีความกว้าง** —
+            // ตัวยักษ์ที่ถูกตัดกลางคำอ่านไม่ออกว่าเป็นชื่ออะไร ซึ่งทำให้ทั้งแบบนี้ไร้ความหมาย
+            // จึงจับใส่กรอบกว้างเท่าที่มีจริง แล้วปล่อยให้ฟอนต์หดเอง
+            let markW = w * 0.94
             let giant = Text(mark)
-                .font(.sh(fs, .black))
-                .kerning(-fs * 0.03)
+                .font(.sh(fs, .bold))
+                .kerning(-fs * 0.02)
+                .lineLimit(1)
+                .minimumScaleFactor(0.28)
+                .frame(width: markW, alignment: .leading)
 
             ZStack(alignment: .topLeading) {
                 Color.clear
@@ -579,8 +707,12 @@ struct ArtTypeOver: View {
                             .foregroundStyle(theme.accent)
                             .offset(x: w * 0.03 + slide, y: baseline)
                         // ชั้นบน: ส่วนที่ทับอยู่บนภาพ — ตัดด้วยเส้นแบ่งที่เคลื่อนได้
+                        // ช่องพิมพ์ประกาศที่ชั้นนี้ชั้นเดียว (อีกชั้นเป็นเงาสีธีมของตัวเดียวกัน)
                         giant
                             .foregroundStyle(.white)
+                            .editableText(.nickname, .init(size: fs, weight: .bold,
+                                                           color: .white, tracking: -fs * 0.02,
+                                                           corner: 6))
                             .offset(x: w * 0.03 + slide, y: baseline)
                             .mask(alignment: .top) { Rectangle().frame(height: cut) }
                     }
@@ -589,15 +721,30 @@ struct ArtTypeOver: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     // บล็อกนี้อยู่ "ใต้" รูป จึงนั่งบนพื้นการ์ด ไม่ใช่บน scrim — ต้องพลิกตามหมึก
-                    Text(Mock.creator.name)
-                        .font(.sh(14, .semibold))
-                        .foregroundStyle(ink.text(0.9))
-                        .lineLimit(1).minimumScaleFactor(0.6)
-                        .scrubVeil(scrub.d, lead: 0.24, drop: 24, pull: 8)
-                    Text(Mock.creator.tagline.uppercased())
+                    HStack(spacing: 5) {
+                        Text(Profile.me.name)
+                            .font(.sh(14, .semibold))
+                            .foregroundStyle(ink.text(0.9))
+                            .lineLimit(1).truncationMode(.tail)
+                            .editableText(.name, .init(size: 14, weight: .semibold,
+                                                       color: ink.text(0.9)))
+                        // ตรายืนยันเกาะชื่อ ไม่ใช่ widget แยก — ตราที่วางเองได้คือตราที่จัดฉากได้
+                        if Mock.creator.verified {
+                            SymbolIcon(name: SHIcon.sealCheck, size: 10, tint: theme.accent)
+                        }
+                        Spacer(minLength: 0)
+                    }
+                    .scrubVeil(scrub.d, lead: 0.24, drop: 24, pull: 8)
+
+                    // hero บอกแค่ "นี่คือใคร" — ยอดผู้ติดตามกับพื้นที่รับงานเป็นคนละคำถาม
+                    // และมี widget ของตัวเองอยู่แล้ว เอามาใส่ที่นี่คือการตอบคำถามที่ยังไม่มีใครถาม
+                    Text(Profile.me.tagline.uppercased())
                         .font(.sh(8.5, .semibold)).tracking(2)
                         .foregroundStyle(ink.text(0.45))
-                        .lineLimit(1).minimumScaleFactor(0.6)
+                        .lineLimit(1).truncationMode(.tail)
+                        .editableText(.tagline, .init(size: 8.5, weight: .semibold,
+                                                      color: ink.text(0.45), tracking: 2,
+                                                      uppercase: true))
                         .scrubVeil(scrub.d, lead: 0.08, drop: 20, pull: 18)
                 }
                 // ยึดกับแถบล่างที่กันไว้ ไม่ผูกกับ baseline ของตัวยักษ์

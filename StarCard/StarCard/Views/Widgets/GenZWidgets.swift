@@ -134,17 +134,36 @@ struct HeroAura: View {
 
     private func nameBlock(w: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 7) {
-            Text(Mock.creator.name)
-                .font(.sh(min(28, w * 0.105), .black))
-                .tracking(-0.7)
-                .foregroundStyle(
-                    LinearGradient(colors: [ink.text(0.98), theme.accent],
-                                   startPoint: .leading, endPoint: .trailing)
-                )
-                .lineLimit(1).minimumScaleFactor(0.5)
-                .scrubVeil(scrub.d, lead: 0.24, drop: 34, pull: 8)
+            HStack(spacing: 6) {
+                Text(Profile.me.name)
+                    .font(.sh(min(28, w * 0.105), .black))
+                    // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
+                    .kerning(-0.7)
+                    .foregroundStyle(
+                        LinearGradient(colors: [ink.text(0.98), theme.accent],
+                                       startPoint: .leading, endPoint: .trailing)
+                    )
+                    .lineLimit(1).truncationMode(.tail)
+                    // ช่องพิมพ์รับสีเดียวได้ ไม่ใช่ไล่เฉด — ใช้สีต้นทางของเฉด
+                    // ตอนพิมพ์จึงอ่านออกเท่าเดิม แล้วกลับเป็นไล่เฉดทันทีที่ปิดช่อง
+                    .editableText(.name, .init(size: min(28, w * 0.105), weight: .black,
+                                               color: ink.text(0.98), tracking: -0.7))
+                if Mock.creator.verified {
+                    SymbolIcon(name: SHIcon.sealCheck, size: 12, tint: theme.accent)
+                }
+                Spacer(minLength: 0)
+            }
+            .scrubVeil(scrub.d, lead: 0.24, drop: 34, pull: 8)
 
-            FollowerPills(limit: 3)
+            // เคยมีชิปยอดผู้ติดตามต่อท้าย — ถอดออกแล้ว
+            // hero ตอบคำถาม "นี่คือใคร" ส่วนยอดผู้ติดตามตอบ "ใหญ่แค่ไหน" ซึ่งมี widget ของตัวเอง
+            Text(Profile.me.tagline.uppercased())
+                .font(.sh(9, .semibold)).tracking(1.8)
+                .foregroundStyle(ink.text(0.45))
+                .lineLimit(1).truncationMode(.tail)
+                .editableText(.tagline, .init(size: 9, weight: .semibold,
+                                              color: ink.text(0.45), tracking: 1.8,
+                                              uppercase: true))
                 .scrubVeil(scrub.d, lead: 0.06, drop: 24, pull: 16)
         }
         .padding(.top, 10)
@@ -167,8 +186,6 @@ struct AboutNote: View {
     @Environment(\.pageScrub) private var scrub
     let theme: CardTheme
 
-    private var c: CreatorProfile { Mock.creator }
-
     var body: some View {
         ScrubReader(d: scrub.d) { d in
             let t = Scrub.ease(Scrub.t(d))
@@ -190,31 +207,27 @@ struct AboutNote: View {
                     .font(.sh(10, .heavy)).tracking(0.6)
                     .foregroundStyle(Vinyl.ink.opacity(0.55))
                 Spacer(minLength: 4)
-                Text("@\(c.handle)")
-                    .font(.sh(9.5, .semibold))
-                    .foregroundStyle(Vinyl.inkSoft)
-                    .lineLimit(1)
             }
             .scrubVeil(scrub.d, lead: 0.3, drop: 18, pull: 6)
 
             Rectangle().fill(Vinyl.ink.opacity(0.14)).frame(height: 0.8)
 
-            Text(c.about)
-                .font(.sh(13.5, .medium))
-                .foregroundStyle(Vinyl.ink)
-                .lineSpacing(6)
-                .fixedSize(horizontal: false, vertical: true)
+            // เว้นที่ท้ายย่อหน้าไว้ให้บรรทัดไฮไลต์ที่ต้องอยู่ใต้มันเสมอ
+            // ไม่งั้นย่อหน้ากินทั้งแผ่นแล้วบรรทัดปิดท้ายหลุดออกนอกกระดาษ
+            EditableParagraph(field: .about,
+                              style: .init(size: 13.5, weight: .medium,
+                                           color: Vinyl.ink, lineSpacing: 6),
+                              reserve: 8)
                 .scrubVeil(scrub.d, lead: 0.1, drop: 30, pull: 14)
 
-            Spacer(minLength: 2)
-
             // ปากกาไฮไลต์ปิดท้าย — บรรทัดเดียวที่ตาเห็นก่อนอ่านย่อหน้า
-            Text(c.tagline)
+            Text(Profile.me.tagline)
                 .font(.sh(11, .heavy))
                 .foregroundStyle(Vinyl.ink)
+                .lineLimit(1).truncationMode(.tail)
+                .editableText(.tagline, .init(size: 11, weight: .heavy, color: Vinyl.ink))
                 .padding(.horizontal, 4).padding(.vertical, 1)
                 .background(Vinyl.marker)
-                .lineLimit(1).minimumScaleFactor(0.6)
                 .scrubVeil(scrub.d, lead: 0.02, drop: 22, pull: 18)
         }
         .padding(14)
@@ -308,6 +321,7 @@ struct StatWrapped: View {
                         ForEach(Array(ranked.enumerated()), id: \.element.id) { i, s in
                             row(s, rank: i + 1,
                                 lead: Scrub.lead(i, of: ranked.count, d: scrub.d, step: 0.08))
+                                .linkSlot(s.profileURL)
                         }
                     }
                 }
@@ -415,16 +429,14 @@ struct ArtPhotobooth: View {
             }
             .frame(maxHeight: .infinity)
 
+            // แถบขาวใต้รูป — เดิมพิมพ์ว่า "STARCARD BOOTH" กับชื่อผู้ใช้ไว้ตรงนี้
+            // ถอดออกตามกติกาของตระกูล `รูปผลงาน` ที่ว่าห้ามมีตัวอักษร (ดู `GalleryWidgets.swift`)
+            // เหลือดาวดวงเล็กไว้ดวงเดียว — แถบล่างของสตริปจริงไม่เคยว่างเปล่า มันมีมาร์กของตู้เสมอ
             HStack(spacing: 6) {
-                Text("STARCARD BOOTH")
-                    .font(.sh(7.5, .heavy)).tracking(1.4)
-                    .foregroundStyle(Vinyl.ink.opacity(0.6))
+                SymbolIcon(name: SHIcon.star, size: 9, tint: Vinyl.ink.opacity(0.45))
                 Spacer(minLength: 4)
-                Text(Mock.creator.handle.uppercased())
-                    .font(.sh(7.5, .bold)).tracking(1)
-                    .foregroundStyle(Vinyl.inkSoft)
-                    .lineLimit(1)
             }
+            .frame(height: 10)
             .scrubVeil(scrub.d, lead: 0.32, drop: 14, pull: 8)
         }
         .padding(pad)
@@ -487,7 +499,7 @@ struct StickerTags: View {
     private let tilt: [Double] = [-4, 2.5, -1.5, 3.5, -2.5]
 
     var body: some View {
-        let items = Mock.creator.categories
+        let items = Profile.me.categories
         return VStack(alignment: .leading, spacing: 12) {
             WidgetLabel(text: "สายงาน")
                 .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 6)
@@ -497,6 +509,7 @@ struct StickerTags: View {
                     sticker(name, i: i, total: items.count)
                 }
             }
+            .id(items)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
     }
@@ -523,7 +536,10 @@ struct StickerTags: View {
                 Text(name)
                     .font(.sh(13, .heavy))
                     .foregroundStyle(Vinyl.ink)
-                    .lineLimit(1)
+                    .lineLimit(1).truncationMode(.tail)
+                    // ลบข้อความจนหมดแล้วปิดช่อง = ลอกสติกเกอร์ใบนั้นทิ้ง (ดู `Profile.commit`)
+                    .editableText(.categories, index: i,
+                                  .init(size: 13, weight: .heavy, color: Vinyl.ink, corner: 10))
             }
             .padding(.horizontal, 13).padding(.vertical, 8)
             .background(Capsule().fill(fill))

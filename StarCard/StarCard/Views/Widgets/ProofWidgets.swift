@@ -114,18 +114,15 @@ struct ProofWork: View {
             GeometryReader { geo in
                 let gap: CGFloat = 9
                 let w = (geo.size.width - gap * CGFloat(works.count - 1)) / CGFloat(works.count)
-                // บล็อกข้อความใต้รูป: แบรนด์ + แคมเปญ 2 บรรทัด + ตัวเลข
-                let textH: CGFloat = 102
-                // เต็มความกว้างการ์ดเสมอ แล้วสูงตามสัดส่วน 3:4 เท่าที่พื้นที่มี
-                let photoH = min(w * 4.0 / 3.0, max(40, geo.size.height - textH))
 
                 HStack(alignment: .top, spacing: gap) {
                     ForEach(Array(works.enumerated()), id: \.element.id) { i, work in
-                        column(work, w: w, photoH: photoH)
+                        column(work, w: w)
                             // ลำดับการหุบผูกกับ sign(d) ล้วน — บานที่หุบก่อนคือบานที่คลี่ทีหลัง
                             .scrubAperture(scrub.d,
                                            lead: Scrub.lead(i, of: works.count, d: scrub.d, step: 0.13),
                                            feather: 0.18, dim: 0.55)
+                            .linkSlot(work.postURL)
                     }
                 }
             }
@@ -133,10 +130,23 @@ struct ProofWork: View {
     }
 
     /// ผลงานหนึ่งช่อง = บานเกล็ดหนึ่งบาน
-    private func column(_ work: VerifiedWork, w: CGFloat, photoH: CGFloat) -> some View {
+    ///
+    /// # ทำไมไม่มีชื่อแคมเปญแล้ว
+    ///
+    /// เดิมมีบรรทัด "EP.1335 Ballet Dream" ตัวหนาสองบรรทัดคั่นระหว่างรูปกับตัวเลข
+    /// ซึ่งกินความสูงไป ~34pt และเป็นข้อความที่ **แบรนด์ไม่ได้ใช้ตัดสินใจ** —
+    /// ชื่อแคมเปญมีความหมายกับคนที่ทำงานนั้น ไม่ใช่กับคนที่กำลังเลือกจ้าง
+    ///
+    /// สิ่งที่แบรนด์กวาดตาหาจริงมีสี่อย่าง: **รูป · แบรนด์ · วิว · บันทึก/แชร์**
+    /// ตัดชื่อออกแล้วเอาความสูงทั้งหมดคืนให้รูป ซึ่งเป็นหลักฐานที่ดังที่สุดอยู่แล้ว
+    ///
+    /// รูปไม่ล็อกสัดส่วน 3:4 อีกแล้ว แต่ **กินที่ทั้งหมดที่เหลือ** — ของเดิมล็อกไว้
+    /// รูปเลยตันที่ 139pt แล้วที่ว่างที่เหลือกลายเป็นช่องโหว่ ไม่ได้ไปอยู่กับรูป
+    private func column(_ work: VerifiedWork, w: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Color.clear
-                .frame(width: w, height: photoH)
+                .frame(width: w)
+                .frame(maxHeight: .infinity)
                 .overlay {
                     WidgetPhoto(index: work.photo)
                         .aspectRatio(contentMode: .fill)
@@ -146,6 +156,20 @@ struct ProofWork: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .strokeBorder(ink.line(0.1), lineWidth: 0.5))
+                // ป้ายการันตีผลงาน — ติดเฉพาะชิ้นที่ถึงเกณฑ์จริง ไม่ใช่ทุกชิ้น
+                // ถ้าติดครบทุกใบมันจะกลายเป็นของประดับแล้วเลิกมีความหมายทันที
+                .overlay(alignment: .topLeading) {
+                    if let tag = work.viralTag {
+                        Text(tag)
+                            .font(.sh(8.5, .heavy))
+                            .foregroundStyle(.white)
+                            .lineLimit(1).fixedSize()
+                            .padding(.horizontal, 7).padding(.vertical, 3.5)
+                            .background(Capsule().fill(theme.rawAccent.opacity(0.92)))
+                            .padding(7)
+                            .scrubVeil(scrub.d, lead: 0.2, drop: 16, pull: 8)
+                    }
+                }
                 .photoSlot(work.photo)
 
             // แบรนด์เจ้าของงาน — โลโก้จริงคู่ชื่อ อ่านได้ทั้งคนที่จำโลโก้และคนที่จำชื่อ
@@ -163,30 +187,21 @@ struct ProofWork: View {
             }
             .scrubVeil(scrub.d, lead: 0.04, drop: 26, pull: 12)
 
-            Text("\(work.ep) \(work.campaign)")
-                .font(.sh(12, .semibold))
-                .foregroundStyle(ink.text(0.95))
-                .lineSpacing(1)
-                .lineLimit(2)
-                .minimumScaleFactor(0.75)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .scrubVeil(scrub.d, lead: 0.13, drop: 34, pull: 10)
-
-            Spacer(minLength: 0)
-
             // หลักฐานไปท้ายสุด กลับมาก่อนใคร — และไปแบบ "ถอดทีละหลัก" ไม่ใช่จางหาย
             // เหลือยอดวิวค่าเดียว ER ถูกถอดออกทั้งชั้นแล้ว (ยังอยู่ในโมเดลถ้าจะเอากลับมา)
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 ScrubDigits(text: Fmt.compact(work.views), d: scrub.d,
                             lead: 0.3, step: 0.05, drop: 20)
-                    .font(.sh(16, .heavy))
+                    .font(.sh(19, .heavy))
                     .foregroundStyle(ink.text(0.98))
-                Text("วิว").font(.sh(9)).foregroundStyle(ink.text(0.42))
+                Text("วิว").font(.sh(9.5)).foregroundStyle(ink.text(0.42))
                     .scrubVeil(scrub.d, lead: 0.26, drop: 18, pull: 6)
                 Spacer(minLength: 0)
             }
             .lineLimit(1)
+
+            // บรรทัดรอง ไม่ใช่บรรทัดคู่ — วางใต้ยอดวิวและเล็กกว่าชัดเจน
+            WorkDeepStats(work: work, size: 9.5, tint: ink.text(0.52))
         }
         .frame(width: w, alignment: .leading)
     }

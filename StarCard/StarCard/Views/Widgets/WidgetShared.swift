@@ -105,7 +105,22 @@ struct RemotePhoto: View {
                 } else {
                     // ช่องว่างระหว่างโหลด — พื้นมืดใช้ขาวจาง พื้นกระดาษต้องใช้หมึกจาง
                     // ไม่งั้นช่องรูปจะหายไปกับพื้นจนดูเหมือน layout พัง
+                    // แถบแสงกวาดบอกว่า "กำลังมา" — วิ่งเฉพาะระหว่างโหลด พอรูปมาก็ดับตัวเอง
                     ink.fill(0.09)
+                        .overlay {
+                            TimelineView(.animation(minimumInterval: 1 / 30)) { tl in
+                                let t = tl.date.timeIntervalSinceReferenceDate
+                                    .truncatingRemainder(dividingBy: 1.4) / 1.4
+                                GeometryReader { geo in
+                                    LinearGradient(
+                                        colors: [.clear, ink.fill(0.1), .clear],
+                                        startPoint: .leading, endPoint: .trailing)
+                                    .frame(width: geo.size.width * 0.7)
+                                    .offset(x: geo.size.width * (CGFloat(t) * 2 - 1))
+                                }
+                            }
+                            .clipped()
+                        }
                 }
             }
             .task(id: url) {
@@ -153,6 +168,45 @@ struct PhotoTile: View {
     }
 }
 
+/// ยอดบันทึกกับยอดแชร์ของผลงานหนึ่งชิ้น — **ไอคอนแทนคำ**
+///
+/// เดิมเขียนว่า "บันทึก 42.6K · แชร์ 18.9K" ซึ่งกินความกว้างเกือบเท่ายอดวิว
+/// ทั้งที่มันเป็นบรรทัดรอง พอมีสามช่องเรียงกันคำเลยถูกย่อจนอ่านไม่ออกอยู่ดี
+/// ไอคอนกินที่หนึ่งในสี่ของคำ และเป็นสัญลักษณ์ที่คนรุ่นนี้อ่านออกโดยไม่ต้องมีคำกำกับ
+///
+/// สองค่านี้ต้องมีครบทุกแบบในชั้นหลักฐาน ไม่ใช่เฉพาะบางแบบ —
+/// ยอดวิวบอกว่า "คนเห็นเยอะแค่ไหน" ส่วนบันทึก/แชร์บอกว่า "คนเห็นแล้วทำอะไรต่อ"
+/// ซึ่งเป็นคำถามที่แบรนด์ถามจริงกว่า และเป็นตัวที่ผูกกับ intent ซื้อในสายบิวตี้
+struct WorkDeepStats: View {
+    let work: VerifiedWork
+    var size: CGFloat = 9
+    var tint: Color
+    var lead: Double = 0.22
+
+    @Environment(\.pageScrub) private var scrub
+
+    var body: some View {
+        HStack(spacing: 10) {
+            stat("bookmark.fill", work.saves, i: 0)
+            stat("arrowshape.turn.up.right.fill", work.shares, i: 1)
+            Spacer(minLength: 0)
+        }
+        .lineLimit(1).minimumScaleFactor(0.65)
+    }
+
+    private func stat(_ icon: String, _ value: Int, i: Int) -> some View {
+        HStack(spacing: 3.5) {
+            Image(systemName: icon)
+                .font(.system(size: size * 0.92, weight: .semibold))
+            Text(Fmt.compact(value))
+                .font(.sh(size, .bold))
+        }
+        .foregroundStyle(tint)
+        .fixedSize()
+        .scrubVeil(scrub.d, lead: lead + Double(i) * 0.05, drop: 16, pull: 10)
+    }
+}
+
 // MARK: - Dispatcher
 
 struct WidgetBody: View {
@@ -169,8 +223,6 @@ struct WidgetBody: View {
             case .heroMinimal: HeroMinimal(theme: theme, size: size)
             case .aboutText: AboutText(theme: theme)
             case .interestTags: InterestTags(theme: theme)
-            case .workSchedule: WorkScheduleWidget(theme: theme)
-            case .workFormat: WorkFormatWidget(theme: theme)
             case .proofBrands: ProofBrands(theme: theme)
             case .proofBrandWall: ProofBrandWall(theme: theme)
             case .proofBrandGrid: ProofBrandGrid(theme: theme)
@@ -183,18 +235,49 @@ struct WidgetBody: View {
             case .proofZine: ProofZine(theme: theme)
             case .statGiant: StatGiant(theme: theme, size: size)
             case .socialChips: SocialChips(theme: theme, width: size.width)
+            case .socialTiles: SocialTiles(theme: theme, width: size.width)
             case .artFilmstrip: ArtFilmstrip(theme: theme)
             case .artDuo: ArtDuo(theme: theme)
+            case .artPair: ArtPair(theme: theme)
             case .workFeatured: WorkFeatured(theme: theme)
             case .workReel: WorkReel(theme: theme)
+            // สำรับกองรูป
+            case .galleryStack: GalleryStack(theme: theme)
+            case .galleryCarousel: GalleryCarousel(theme: theme)
+            case .galleryMasonry: GalleryMasonry(theme: theme)
+            case .galleryMosaic: GalleryMosaic(theme: theme)
+            case .galleryPost: GalleryPost(theme: theme)
+            case .galleryStory: GalleryStory(theme: theme)
+            case .galleryFilm: GalleryFilm(theme: theme)
+            case .galleryTape: GalleryTape(theme: theme)
             case .typeMarquee: TypeMarquee(theme: theme)
             case .typeQuote: TypeQuote(theme: theme, size: size)
+            case .textBlock: TextBlock(theme: theme, size: size)
             case .nicheTags: NicheTags(theme: theme)
             case .heroAura: HeroAura(theme: theme, size: size)
             case .aboutNote: AboutNote(theme: theme)
             case .statWrapped: StatWrapped(theme: theme, size: size)
             case .artPhotobooth: ArtPhotobooth(theme: theme)
             case .stickerTags: StickerTags(theme: theme)
+            // สำรับรอบสอง — เรตราคาและช่องทางติดต่อ
+            case .rateMenu: RateMenuWidget(theme: theme)
+            case .rateTags: RateTagsWidget(theme: theme)
+            // สำรับเรตแบบศิลป์
+            case .rateReceipt: RateReceiptWidget(theme: theme)
+            case .rateNeon: RateNeonWidget(theme: theme)
+            case .rateStamp: RateStampWidget(theme: theme)
+            case .rateBlock: RateBlockWidget(theme: theme)
+            case .contactCard: ContactCardWidget(theme: theme)
+            case .contactQR: ContactQRWidget(theme: theme)
+            case .contactBar: ContactBarWidget(theme: theme)
+            case .contactStack: ContactStackWidget(theme: theme)
+            case .contactLine: ContactLineWidget(theme: theme, size: size)
+            case .contactChips: ContactChipsWidget(theme: theme)
+            // ประชากรผู้ติดตาม
+            case .audienceLine: AudienceLineWidget(theme: theme, size: size)
+            case .audienceSplit: AudienceSplitWidget(theme: theme)
+            case .audienceAge: AudienceAgeWidget(theme: theme)
+            case .audienceMap: AudienceMapWidget(theme: theme)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -275,6 +358,7 @@ struct FollowerPills: View {
                 .background(Capsule().fill(ink.fill(0.14)))
                 .overlay(Capsule().strokeBorder(ink.line(0.16), lineWidth: 0.5))
                 .lineLimit(1)
+                .linkSlot(s.profileURL)
             }
             Spacer(minLength: 0)
         }

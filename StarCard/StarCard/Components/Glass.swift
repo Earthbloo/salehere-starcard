@@ -52,18 +52,30 @@ extension Font {
 
 /// ป้าย "ยืนยันโดย SaleHere" — ติดเฉพาะ widget ชั้นหลักฐาน
 /// เป็นสิ่งเดียวที่ทำให้การ์ดใบนี้ต่างจาก media kit ทุกใบในตลาด
+///
+/// # ทำไมต้องมีโลโก้ ไม่ใช่แค่ตราถูก
+///
+/// คำว่า "ยืนยัน" เฉย ๆ เป็นคำที่ใครก็พิมพ์ใส่ media kit ของตัวเองได้ — ป้ายที่ไม่บอกว่า
+/// *ใครเป็นคนยืนยัน* จึงไม่ได้เพิ่มความน่าเชื่อเลย มันแค่เพิ่มคำโฆษณาอีกคำ
+/// ป้ายนี้ต้องอ่านออกมาเป็น **ใบรับรองที่มีคนออกให้** ซึ่งแปลว่าต้องมีสองอย่าง:
+/// ชื่อผู้ออก (โลโก้จริง คงสีแบรนด์ ไม่ย้อมตามธีม) และประโยคที่บอกความสัมพันธ์ (Verified by)
+///
+/// โลโก้คงสีต้นฉบับเสมอ — ตราที่เปลี่ยนสีตามการ์ดที่มันรับรองอยู่ ไม่ใช่ตรา แต่เป็นของตกแต่ง
 struct VerifiedBadge: View {
     @Environment(\.cardInk) private var ink
 
     var body: some View {
-        HStack(spacing: 3) {
-            SymbolIcon(name: SHIcon.sealCheck, size: 10, tint: ink.text(0.92))
-            Text("ยืนยัน").font(.sh(8.5, .semibold))
+        // ตราปิดท้ายบรรทัด ไม่ใช่นำหน้า — ประโยคอ่านจบแล้วสายตาไปหยุดที่ *ใครเป็นคนยืนยัน*
+        // ซึ่งคือข้อมูลที่มีค่าที่สุดในป้ายนี้ ถ้าเอาตราขึ้นก่อน มันกลายเป็นแค่ไอคอนนำบรรทัด
+        HStack(spacing: 5) {
+            Text("Verified by")
+                .font(.sh(8, .semibold))
                 .lineLimit(1).fixedSize()
+            SaleHereMark(size: 14)
         }
         .foregroundStyle(ink.text(0.92))
         .fixedSize()
-        .padding(.horizontal, 7).padding(.vertical, 3.5)
+        .padding(.leading, 8).padding(.trailing, 4).padding(.vertical, 3)
         .background(Capsule().fill(ink.fill(0.16)))
         .overlay(Capsule().strokeBorder(ink.line(0.22), lineWidth: 0.5))
     }
@@ -86,10 +98,20 @@ extension EnvironmentValues {
 
 /// หัวข้อของ widget
 ///
-/// เคยเป็นตัวจิ๋วจาง ๆ แบบ caption แล้วอ่านออกมาเป็น "ป้ายกำกับ" ไม่ใช่หัวข้อ
-/// ตอนนี้มีแถบสีธีมนำหน้าเป็นเครื่องหมายประจำตัว + ตัวหนาขนาดอ่านได้จริง
-/// และเลิก uppercase เพราะภาษาไทยไม่มีตัวใหญ่ — สั่งไปก็ได้แค่ตัวโรมันที่ปนอยู่
-/// กลายเป็นตัวใหญ่ตัวเดียวจนบรรทัดดูไม่เข้ากัน
+/// # ประวัติของบรรทัดนี้ อ่านก่อนแก้
+///
+/// รอบแรกเป็นตัวจิ๋วจาง ๆ แบบ caption → อ่านออกมาเป็น "ป้ายกำกับ" ไม่ใช่หัวข้อ
+/// รอบสองเติมแถบสีธีมตั้งนำหน้า + ตัวหนา 15pt → แก้เรื่องน้ำหนักได้ แต่ได้ปัญหาใหม่:
+/// **แถบตั้ง + ตัวหนา คือหน้าตาของ section header ในหน้าฟอร์ม** การ์ดทั้งใบเลยอ่านเป็นแบบฟอร์ม
+///
+/// รอบนี้เปลี่ยน *อุปกรณ์* ไม่ใช่เปลี่ยน *น้ำหนัก* — ทิ้งแถบตั้ง แล้วให้เส้นไหลจากท้ายคำ
+/// ไปจนสุดขอบแทน ซึ่งเป็นท่าของหัวเรื่องในนิตยสาร ไม่ใช่ของฟอร์ม
+/// เส้นทำสองหน้าที่พร้อมกัน: บอกว่าหัวข้อจบตรงไหน และพาสายตาไปหาป้ายท้ายบรรทัด
+///
+/// ขนาดลดจาก 15 เหลือ 13.5 เพราะหัวข้อคือ *บริบท* ไม่ใช่ *เนื้อหา* —
+/// ของที่ควรดังที่สุดใน widget คือตัวเลขกับรูป ไม่ใช่คำว่า "ผลงานที่ยืนยันแล้ว"
+///
+/// (ไม่ uppercase เพราะภาษาไทยไม่มีตัวใหญ่ สั่งไปก็ได้แค่ตัวโรมันที่ปนอยู่กลายเป็นตัวใหญ่ตัวเดียว)
 struct WidgetLabel: View {
     let text: String
     var trailing: AnyView? = nil
@@ -98,17 +120,22 @@ struct WidgetLabel: View {
     @Environment(\.cardInk) private var ink
 
     var body: some View {
-        HStack(spacing: 9) {
-            Capsule()
-                .fill(LinearGradient(colors: [accent, accent.opacity(0.45)],
-                                     startPoint: .top, endPoint: .bottom))
-                .frame(width: 3, height: 15)
+        HStack(spacing: 10) {
             Text(text)
-                .font(.sh(15, .bold))
-                .foregroundStyle(ink.text(0.95))
+                .font(.sh(13.5, .bold))
+                .foregroundStyle(ink.text(0.88))
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
-            Spacer(minLength: 4)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // เส้นไหลจากท้ายคำไปจนสุด — ไล่จางออกไป ไม่ใช่เส้นทึบยาวเท่ากันตลอด
+            // เส้นทึบเสมอกันจะอ่านเป็น "ช่องกรอกที่ยังว่าง" ซึ่งคือสิ่งที่พยายามหนีอยู่พอดี
+            Rectangle()
+                .fill(LinearGradient(colors: [ink.line(0.2), ink.line(0.04)],
+                                     startPoint: .leading, endPoint: .trailing))
+                .frame(height: 0.8)
+                .frame(maxWidth: .infinity)
+
             if let trailing { trailing }
         }
     }

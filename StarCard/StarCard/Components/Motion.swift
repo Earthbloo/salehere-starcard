@@ -117,25 +117,40 @@ extension WidgetKind {
     var entranceStyle: EntranceStyle {
         switch self {
         // ท่าอยู่ข้างในทั้งหมด — บานเกล็ด · ฟิล์ม · แถบวิ่ง · มิเตอร์ · ตารางกวาด
-        case .proofWork, .workFeatured, .workReel, .artDuo, .artFilmstrip, .proofBrandGrid, .artPolaroid,
-             .typeMarquee, .proofBrandRail, .statGiant, .artTypeOver, .workSchedule,
+        case .proofWork, .workFeatured, .workReel, .artDuo, .artPair, .artFilmstrip, .proofBrandGrid, .artPolaroid,
+             .typeMarquee, .proofBrandRail, .statGiant, .artTypeOver,
              // ผลงานยืนยันทั้งตระกูล — ทุกแบบมีท่าประจำตัวข้างใน
              // (ฉีกตั๋ว · พลิกฟอยล์ · แผ่นปลิว · ชั้นเลื่อนสวนกัน)
              .proofTicket, .proofHolo, .proofShelf, .proofZine,
              // ชุดใหม่ทั้งหกอ่าน `pageScrub` เองทุกตัว (ออร่าเต้น · โน้ตแปะ · สรุปปี ·
              // ตู้ถ่ายรูป · แชท · สติกเกอร์) กรอบจึงต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อน
              .heroAura, .aboutNote, .statWrapped, .artPhotobooth,
-             .stickerTags:
+             .stickerTags,
+             // สำรับรอบสอง — ทุกตัวอ่าน `pageScrub` เองทั้งหมด
+             // (แถบสัดส่วนกวาด · เมนูราคาไล่บรรทัด · มิเตอร์ถอดหลัก)
+             // กรอบต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อนจนอ่านไม่ออก
+             .rateMenu, .rateTags,
+             // สำรับเรตแบบศิลป์ — กระดาษถูกดึงขึ้น · หลอดดับไล่ดวง · ตรายกจากกระดาษ ·
+             // บล็อกเลื่อนสวนกัน ทุกท่าอยู่ข้างในทั้งหมด กรอบต้องนิ่ง
+             .rateReceipt, .rateNeon, .rateStamp, .rateBlock,
+             .contactCard, .contactQR,
+             .contactBar, .contactStack, .contactLine, .contactChips,
+             .audienceLine, .audienceSplit, .audienceAge, .audienceMap,
+             // สำรับกองรูป — ทั้งแปดตัวมีท่าประจำวัสดุอยู่ข้างใน (ลอกใบบน · ฟิล์มเดินเฟรม ·
+             // สองคอลัมน์ไหลสวนกัน · กวาดทแยง · สไลด์เดินใบ · แถบสตอรี่เติมตามนิ้ว)
+             // กรอบต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อนจนอ่านไม่ออก
+             .galleryStack, .galleryCarousel, .galleryMasonry, .galleryMosaic,
+             .galleryPost, .galleryStory, .galleryFilm, .galleryTape:
             return .anchored
         // ภาพใหญ่ก้อนเดียว — กรอบพาเดินทางเอง
         case .artPortrait, .typeQuote:
             return .deep
         // แผ่นข้อมูล
-        case .proofBrands, .proofBrandWall, .socialChips,
-             .workFormat, .interestTags, .nicheTags:
+        case .proofBrands, .proofBrandWall, .socialChips, .socialTiles,
+             .interestTags, .nicheTags:
             return .mid
         // ตัวหนังสือล้วน
-        case .heroMinimal, .aboutText, .proofBrandList:
+        case .heroMinimal, .aboutText, .proofBrandList, .textBlock:
             return .light
         }
     }
@@ -562,9 +577,16 @@ struct ScrubRunner<Content: View>: View {
     var copies: Int = 3
     @ViewBuilder var row: () -> Content
 
+    /// พรีวิวย่อส่วนสั่งหยุดเวลาได้ทั้งชุดจาก environment (ดู `CardStripPreview`)
+    ///
+    /// คลัง/หน้าเทมเพลตโชว์พรีวิวพร้อมกันเป็นสิบใบ ถ้าแถบวิ่งของทุกใบยัง invalidate
+    /// ทุกเฟรม การเปลี่ยนหน้า (crossfade สองจอ) จะต้องแย่งเฟรมกับมันจนกระตุก —
+    /// ของจริงบนแคนวาสไม่ได้ตั้งค่านี้ จึงวิ่งเหมือนเดิมทุกประการ
+    @Environment(\.previewStatic) private var previewStatic
+
     var body: some View {
         ScrubReader(d: d) { d in
-            TimelineView(.animation(minimumInterval: nil, paused: !active)) { tl in
+            TimelineView(.animation(minimumInterval: nil, paused: !active || previewStatic)) { tl in
                 let p = max(0.5, period)
                 let raw = tl.date.timeIntervalSinceReferenceDate / p - Double(d) * pull
                 let wrapped = raw - floor(raw)
@@ -574,6 +596,19 @@ struct ScrubRunner<Content: View>: View {
                 .offset(x: -runWidth * CGFloat(wrapped))
             }
         }
+    }
+}
+
+/// สวิตช์ "พรีวิวนิ่ง" — จอที่โชว์การ์ดย่อส่วนพร้อมกันหลายใบตั้งเป็น true
+/// เพื่อหยุดของที่วิ่งตามเวลา (แถบวิ่ง/โลโก้เลื่อน) ไม่ให้แย่งเฟรมกับการเปลี่ยนหน้า
+private struct PreviewStaticKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    var previewStatic: Bool {
+        get { self[PreviewStaticKey.self] }
+        set { self[PreviewStaticKey.self] = newValue }
     }
 }
 

@@ -8,19 +8,30 @@ import SwiftUI
 
 // MARK: - ผลงานชิ้นเด่น
 
-/// ผังเบนโตะแบบมีพระเอก — ช่องใหญ่กินสองในสาม แล้วซ้อนตัวเลขวิวไว้บนช่องนั้นช่องเดียว
+/// ผังเบนโตะแบบมีพระเอก — ช่องใหญ่กินสองในสาม อีกสองช่องเล็กเรียงข้าง
+///
+/// # ทำไมไม่มีป้ายตัวเลขแล้ว
+///
+/// เคยมีป้ายยอดวิว + ชื่อแบรนด์ซ้อนอยู่บนช่องพระเอก · ถอดออกตามกติกาของตระกูล `รูปผลงาน`
+/// ที่ว่าทั้งตระกูลไม่มีตัวอักษร (ดูหัวไฟล์ `GalleryWidgets.swift`)
+/// คำถาม "กี่วิว ของแบรนด์ไหน" เป็นของตระกูล `ผลงานยืนยัน` ซึ่งตอบไว้ครบแล้วห้าแบบ
+/// เหลือโลโก้แพลตฟอร์มมุมล่างไว้ดวงเดียว — มันเป็นสัญลักษณ์ ไม่ใช่ข้อความ
+/// และเป็นสิ่งเดียวที่ทำให้รูปนี้ยังอ่านออกว่า "งานที่ลงไปแล้ว" ไม่ใช่ "รูปที่ถ่ายเก็บไว้"
 ///
 /// # ท่าเปลี่ยนหน้า — "บานเกล็ดสามบานคนละความลึก"
 ///
 /// สามช่องหุบไล่กันตามทิศนิ้ว ช่องที่อยู่ต้นทางของการเดินทางหุบก่อนเสมอ
 /// ความลึกไม่ได้มาจากขนาด แต่มาจาก **อัตราที่ภาพในช่องถ่วงตัว**: ช่องใหญ่ถ่วงน้อย
 /// อ่านเป็นของไกล ช่องเล็กถ่วงมาก อ่านเป็นของใกล้ — ตาจึงแยกระนาบออกจากกันได้
-///
-/// ตัวเลขวิวอยู่ **นอกม่าน** จงใจ มันคือหลักฐาน จึงเป็นชิ้นสุดท้ายที่หายและชิ้นแรกที่กลับมา
 struct WorkFeatured: View {
     @Environment(\.pageScrub) private var scrub
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
+
+    /// ชิ้นที่ทำยอดสูงสุด — เหลือไว้เพื่อรู้ว่าโลโก้มุมล่างควรเป็นแพลตฟอร์มไหนเท่านั้น
+    private var hero: VerifiedWork? {
+        Mock.creator.track.works.max { $0.views < $1.views }
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -33,9 +44,11 @@ struct WorkFeatured: View {
                 ZStack(alignment: .bottomLeading) {
                     frame(4, w: bigW, h: geo.size.height, radius: 20, scrim: true,
                           depth: 0.05, i: 0)
-                    viewBadge.padding(10)
+                    platformMark.padding(10)
                 }
                 .frame(width: bigW, height: geo.size.height)
+                // ช่องพระเอก = ผลงานชิ้นที่ทำยอดสูงสุด · กดแล้วไปดูโพสต์จริงชิ้นนั้น
+                .linkSlot(hero.flatMap(\.postURL))
 
                 VStack(spacing: gap) {
                     frame(5, w: smallW, h: smallH, radius: 15, scrim: false, depth: 0.11, i: 1)
@@ -71,26 +84,28 @@ struct WorkFeatured: View {
                            feather: 0.2, dim: 0.55)
     }
 
-    /// ตัวเลขวิว — หลักลอกทีละตัวก่อน แล้วเม็ดยาถึงค่อยไถลตามทีหลัง
-    private var viewBadge: some View {
-        HStack(spacing: 4) {
-            Image(systemName: "play.fill").font(.sh(7.5, .bold))
-            ScrubDigits(text: "2.4M", d: scrub.d, lead: 0.26, step: 0.05, drop: 16)
-                .font(.sh(10.5, .semibold))
-            Text("วิว").font(.sh(8.5)).foregroundStyle(.white.opacity(0.62))
+    /// โลโก้แพลตฟอร์มบนช่องพระเอก — ชิ้นเดียวที่เหลือจากป้ายหลักฐานเดิม
+    ///
+    /// อยู่ **นอกม่าน** ของท่าเปลี่ยนหน้าจงใจ (หายช้าสุด กลับมาก่อน) ด้วยเหตุผลเดิม:
+    /// มันคือสิ่งที่บอกว่ารูปนี้ไม่ใช่รูปลอย ๆ แต่เป็นของที่ถูกลงไปแล้วบนช่องจริง
+    @ViewBuilder
+    private var platformMark: some View {
+        if let w = hero {
+            BrandIcon(name: w.platform.icon, size: 13)
+                .padding(6)
+                .background(Circle().fill(.black.opacity(0.45)))
+                .overlay(Circle().strokeBorder(.white.opacity(0.14), lineWidth: 0.5))
+                .scrubVeil(scrub.d, lead: 0.4, drop: 22, pull: 8)
         }
-        .foregroundStyle(.white.opacity(0.95))
-        .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(Capsule().fill(.black.opacity(0.45)))
-        .overlay(Capsule().strokeBorder(.white.opacity(0.14), lineWidth: 0.5))
-        .fixedSize()
-        .scrubVeil(scrub.d, lead: 0.4, drop: 22, pull: 8)
     }
 }
 
 // MARK: - คลิปแนวตั้ง
 
 /// คลิปหนึ่งชิ้นเต็มกรอบ พร้อมปุ่มเล่นกลางภาพ
+///
+/// ยอดวิวกับชื่อแบรนด์ที่เคยอยู่มุมล่างถูกถอดออกตามกติกาของตระกูล `รูปผลงาน` —
+/// เหลือโลโก้แพลตฟอร์มดวงเดียว ซึ่งเป็นสัญลักษณ์ ไม่ใช่ตัวอักษร (ดู `WorkFeatured`)
 ///
 /// # ท่าเปลี่ยนหน้า — "หัวอ่านวิดีโอ"
 ///
@@ -101,6 +116,9 @@ struct WorkReel: View {
     @Environment(\.pageScrub) private var scrub
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
+
+    /// ผูกกับผลงานจริงชิ้นแรก — เหลือไว้เพื่อรู้ว่าโลโก้มุมล่างเป็นแพลตฟอร์มไหน
+    private var work: VerifiedWork? { Mock.creator.track.works.first }
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -120,18 +138,19 @@ struct WorkReel: View {
                                endPoint: .bottom)
             }
 
-            VStack {
-                Spacer()
-                HStack(spacing: 5) {
-                    Image(systemName: "play.fill").font(.system(size: 9, weight: .bold))
-                    ScrubDigits(text: "1.2M", d: scrub.d, lead: 0.24, step: 0.05, drop: 16)
-                        .font(.sh(10.5, .semibold))
-                    Text("วิว").font(.sh(10.5, .semibold))
-                    Spacer(minLength: 0)
+            if let w = work {
+                VStack {
+                    Spacer()
+                    HStack {
+                        BrandIcon(name: w.platform.icon, size: 13)
+                            .padding(6)
+                            .background(Circle().fill(.black.opacity(0.42)))
+                            .overlay(Circle().strokeBorder(.white.opacity(0.14), lineWidth: 0.5))
+                        Spacer(minLength: 0)
+                    }
+                    .padding(12)
+                    .scrubVeil(scrub.d, lead: 0.36, drop: 26, pull: 10)
                 }
-                .foregroundStyle(.white.opacity(0.95))
-                .padding(12)
-                .scrubVeil(scrub.d, lead: 0.36, drop: 26, pull: 10)
             }
 
             // สีเน้นดิบ ไม่ใช่สีที่ปรับตามหมึก — วงแหวนนั่งอยู่บนรูป ไม่ใช่บนพื้นการ์ด
@@ -141,6 +160,8 @@ struct WorkReel: View {
         .clipShape(shape)
         .overlay(shape.strokeBorder(ink.line(0.12), lineWidth: 0.6))
         .photoSlot(8)
+        // ทั้งใบคือคลิปหนึ่งคลิป — กดตรงไหนก็คือกดคลิปนั้น
+        .linkSlot(work.flatMap(\.postURL))
     }
 }
 

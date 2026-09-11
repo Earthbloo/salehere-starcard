@@ -14,7 +14,7 @@ struct NicheTags: View {
     let theme: CardTheme
 
     var body: some View {
-        let items = Mock.creator.categories
+        let items = Profile.me.categories
         return VStack(alignment: .leading, spacing: 11) {
             WidgetLabel(text: "สายงาน")
                 .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 6)
@@ -26,7 +26,11 @@ struct NicheTags: View {
                     Text(t)
                         .font(.sh(12, .semibold))
                         .foregroundStyle(ink.text(0.92))
-                        .lineLimit(1)
+                        .lineLimit(1).truncationMode(.tail)
+                        // ลบข้อความจนหมดแล้วปิดช่อง = เอาชิปใบนั้นออก (ดู `Profile.commit`)
+                        .editableText(.categories, index: i,
+                                      .init(size: 12, weight: .semibold,
+                                            color: ink.text(0.92), corner: 10))
                         .padding(.horizontal, 12).padding(.vertical, 7)
                         .background(Capsule().fill(ink.fill(0.07)))
                         .overlay(Capsule().strokeBorder(ink.line(0.16), lineWidth: 0.6))
@@ -35,6 +39,9 @@ struct NicheTags: View {
                                     fade: 0.55)
                 }
             }
+            // ลบชิปออกหนึ่งใบแล้วลำดับที่เหลือเลื่อน — ผูก id กับลิสต์ให้ SwiftUI สร้างใหม่ทั้งแถว
+            // ไม่งั้นชิปใบถัดไปจะยังถือ index เดิมแล้วแก้ผิดใบ
+            .id(items)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
     }

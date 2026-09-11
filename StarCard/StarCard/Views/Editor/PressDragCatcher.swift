@@ -19,7 +19,8 @@ struct PressDragCatcher: UIViewRepresentable {
     var onBegan: () -> Void
     var onChanged: (CGSize) -> Void
     var onEnded: () -> Void
-    var onTap: () -> Void
+    /// แตะสั้น ๆ พร้อมจุดที่แตะ (พิกัดภายใน widget) — ชั้นการ์ดใช้ตัดสินว่านิ้วโดนช่องข้อความหรือโดนตัว widget
+    var onTap: (CGPoint) -> Void
     /// จุดที่นิ้วแตะ (พิกัดภายใน widget) · nil เมื่อยกนิ้ว — ใช้คำนวณการเอียง 3 มิติ
     var onPress: (CGPoint?) -> Void = { _ in }
 
@@ -97,7 +98,8 @@ struct PressDragCatcher: UIViewRepresentable {
         }
 
         @objc func handleTap(_ g: UITapGestureRecognizer) {
-            parent.onTap()
+            guard let view = g.view else { return }
+            parent.onTap(g.location(in: view))
         }
 
         func gestureRecognizer(_ g: UIGestureRecognizer,

@@ -45,4 +45,19 @@ final class ClipInvocation {
         if parts.count == 1, parts[0] != "star" { return parts[0] }
         return nil
     }
+
+    /// ลิงก์การ์ดที่เอาไปแปะ Line / ไบโอได้ — ใช้ URL ที่เปิดมา ถ้าไม่มีก็ประกอบจาก slug
+    static let host = "saleherestarcard.co.th"
+
+    var shareURL: URL {
+        url ?? URL(string: "https://\(Self.host)/star/\(slug)")!
+    }
+
+    /// โฮสต์ + พาธ อ่านง่ายในแถวคัดลอก ไม่มี https://
+    var shareURLDisplay: String {
+        let u = shareURL
+        let host = u.host ?? Self.host
+        let path = u.path == "/" ? "" : u.path
+        return host + path
+    }
 }

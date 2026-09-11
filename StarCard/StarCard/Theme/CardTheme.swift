@@ -229,7 +229,9 @@ enum CornerStyle: String, CaseIterable, Identifiable {
 
 /// แบบของฉากหลัง
 enum BackdropStyle: String, CaseIterable, Identifiable {
-    case gradient, glow, solid, photo
+    /// เรียงจากพื้นแบนไปหาพื้นที่มีของเยอะสุด — แถวชิปในแผงอ่านตามลำดับนี้
+    /// คนที่อยากได้พื้นเรียบ ๆ เจอคำตอบที่ชิปแรกโดยไม่ต้องอ่านจนจบแถว
+    case solid, gradient, glow, photo
     var id: String { rawValue }
 
     var name: String {
@@ -237,7 +239,7 @@ enum BackdropStyle: String, CaseIterable, Identifiable {
         case .gradient: return "ไล่เฉด"
         case .glow:     return "ดวงแสง"
         case .solid:    return "สีเดียว"
-        case .photo:    return "รูปเบลอ"
+        case .photo:    return "รูป"
         }
     }
     var icon: String {
@@ -250,10 +252,39 @@ enum BackdropStyle: String, CaseIterable, Identifiable {
     }
 }
 
+/// เอฟเฟกต์บนรูปพื้นหลัง
+///
+/// สามตัวหลังไม่ใช่ตัวกรองความสวยอย่างเดียว — มันคือเครื่องมือ **ลดเสียงของรูป**
+/// รูปที่คนอัปโหลดมามีสีของมันเอง เต็มไปด้วยรายละเอียด แล้วการ์ดทั้งใบต้องไปยืนทับบนนั้น
+/// ขาวดำตัดสีที่ชนกับธีมทิ้ง · เบลอตัดรายละเอียด · จุดปะตัดทั้งสองอย่างแล้วเหลือเป็นลาย
+enum BackdropEffect: String, CaseIterable, Identifiable {
+    case none, mono, blur, halftone
+    var id: String { rawValue }
+
+    var name: String {
+        switch self {
+        case .none:     return "ไม่มี"
+        case .mono:     return "ขาวดำ"
+        case .blur:     return "เบลอ"
+        // ไม่ใช้คำว่า "ฮาล์ฟโทน" — ป้ายต้องบอกว่ากดแล้วเห็นอะไร ไม่ใช่ชื่อเทคนิคการพิมพ์
+        case .halftone: return "จุดปะ"
+        }
+    }
+
+    /// ต้องอบด้วย CoreImage ก่อนไหม — ที่เหลือเป็น modifier ของ SwiftUI ที่ทำสด ๆ ได้ทุกเฟรม
+    var isBaked: Bool { self == .halftone }
+}
+
 struct CardTheme: Equatable {
     var palette: Palette = .midnight
     /// พื้นผิวของการ์ด — เลือกโดยเจ้าของการ์ด ไม่ล้อ dark mode ของเครื่องผู้ดู
     var ink: CardInk = .night
+    /// ให้ระบบเลือกหมึกจากความสว่างของสีพื้น แทนที่จะใช้ `ink` ที่เก็บไว้
+    ///
+    /// เปิดช่อง hex ให้พิมพ์สีอะไรก็ได้เมื่อไหร่ "เลือกหมึกเอง" กลายเป็นกับดักทันที —
+    /// พิมพ์ `#101010` ทับตอนที่หมึกเป็นกระดาษแล้วตัวหนังสือหายทั้งใบโดยไม่มีอะไรเตือน
+    /// ค่าเริ่มต้นจึงเป็นอัตโนมัติ · แตะชิปโทนเมื่อไหร่คือผู้ใช้ขอคุมเอง แล้วค่านี้ถูกปิด
+    var inkAuto: Bool = true
     var corner: CornerStyle = .round
     var backdrop: BackdropStyle = .gradient
     /// 0 = เข้มเกือบดำ · 1 = สว่าง
@@ -265,13 +296,66 @@ struct CardTheme: Equatable {
     /// เลือกสีพาเลตต์เองเมื่อไหร่ค่านี้ถูกล้าง (ผู้ใช้ตัดสินใจ override)
     var customHue: Double? = nil
     var customSat: Double? = nil
+    /// ความสว่างของสีพื้นที่ผู้ใช้เลือกเอง — **มีค่านี้เมื่อไหร่แปลว่าเป็นสีจริง ไม่ใช่แค่เฉด**
+    ///
+    /// สองตัวบนมาได้จากรูปที่อัปโหลด (`dominantTone` คืนแค่เฉดกับความสด) ซึ่งเป็นเพียง "โทน"
+    /// ที่ยังต้องผ่านสูตรของหมึกอยู่ · ส่วนสีที่พิมพ์เป็น hex หรือลากจากแถบสีคือสีที่ผู้ใช้
+    /// เห็นแล้วต้องได้แบบนั้นเป๊ะ ตัวนี้จึงเป็นตัวแยกสองกรณีออกจากกัน
+    var customBri: Double? = nil
+
+    /// เอฟเฟกต์บนรูปพื้นหลัง — มีผลเฉพาะตอน `backdrop == .photo`
+    var photoEffect: BackdropEffect = .none
+    /// แผ่นสีที่คลุมรูปไว้ 0…0.8 — ยิ่งมากรูปยิ่งจม ตัวหนังสือบนการ์ดยิ่งอ่านง่าย
+    ///
+    /// เดิมตรึงไว้ที่ 0.42 ซึ่งหนักพอที่ใส่เอฟเฟกต์ไปแล้วแทบไม่เห็นความต่าง — และมันเป็น
+    /// การตัดสินใจแทนครีเอเตอร์ว่า "รูปของคุณสำคัญเท่านี้" ทั้งที่บางใบรูปคือพระเอก
+    var photoDim: Double = 0.42
+
+    /// สีพื้นที่ผู้ใช้เลือกเอง แยกเป็นสามค่า — nil เมื่อสียังมาจากพาเลตต์หรือโทนของรูป
+    ///
+    /// ความสดไม่ผ่าน `backdropSat` ที่บีบไว้ 0.15…0.6 — เพดานนั้นมีไว้กันโทนที่ดูดจากรูป
+    /// ไม่ให้ฉูดฉาดเกินการ์ด แต่สีที่พิมพ์มาเองต้องได้แดง `#F11717` เต็ม ๆ ตามที่พิมพ์
+    private var customParts: (h: Double, s: Double, b: Double)? {
+        guard let bri = customBri, customHue != nil else { return nil }
+        return (backdropHue, min(1, max(0, customSat ?? 0.5)), min(1, max(0, bri)))
+    }
+
+    /// มีสีพื้นที่ผู้ใช้เลือกเองอยู่ไหม
+    var hasCustomColor: Bool { customParts != nil }
+
+    /// ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG) — nil เมื่อยังไม่มีสีที่เลือกเอง
+    private var customLuminance: Double? {
+        guard let p = customParts else { return nil }
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard UIColor(Color(hue: p.h, saturation: p.s, brightness: p.b))
+                .getRed(&r, green: &g, blue: &b, alpha: &a) else { return nil }
+        func lin(_ v: CGFloat) -> Double {
+            let x = Double(max(0, min(1, v)))
+            return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4)
+        }
+        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    }
 
     /// หมึกที่ใช้จริง — **พื้นหลังเป็นรูปเมื่อไหร่ บังคับกลางคืนเสมอ**
     ///
     /// รูปพื้นหลังเป็นภาพอะไรก็ได้ สว่างตรงไหนมืดตรงไหนคุมไม่ได้ หมึกเข้มบนกระดาษ
     /// จึงไม่มีทางรับประกันว่าอ่านออก ส่วนหมึกกลางคืนมี scrim ของตัวเองรองอยู่แล้วทุกชั้น
     /// เก็บค่าที่ผู้ใช้เลือกไว้ใน `ink` ตามเดิม — เปลี่ยนฉากหลังกลับเมื่อไหร่ได้โทนเดิมคืน
-    var activeInk: CardInk { backdrop == .photo ? .night : ink }
+    ///
+    /// โหมดอัตโนมัติไม่ได้ใช้เกณฑ์ตายตัวว่า "สว่างเกินเท่านี้คือกระดาษ" — มันคำนวณ contrast
+    /// ของหมึกทั้งสองฝั่งกับพื้นจริงแล้วเลือกฝั่งที่ชนะ · สีกลาง ๆ อย่างแดงสดคือจุดที่เกณฑ์
+    /// ตายตัวตัดสินผิดบ่อยที่สุด เพราะมันไม่สว่างพอจะเป็นกระดาษและไม่มืดพอจะเป็นเวทีมืด
+    var activeInk: CardInk {
+        if backdrop == .photo { return .night }
+        guard inkAuto else { return ink }
+        guard let l = customLuminance else { return .night }
+        let withWhiteInk = 1.05 / (l + 0.05)
+        // หมึกฝั่งสว่างเป็นถ่านที่อาบสีธีม ไม่ใช่ดำสนิท — ความสว่างของมันราว 0.02
+        let withDarkInk = (l + 0.05) / 0.07
+        guard withDarkInk > withWhiteInk else { return .night }
+        // พื้นที่ยังมีสีอยู่มากต้องได้ถ่านที่อาบเฉดเดียวกัน ไม่งั้นตัวหนังสือลอยหลุดออกจากพื้น
+        return (customSat ?? 0) >= 0.35 ? .mist : .paper
+    }
 
     var backdropHue: Double {
         let raw = (customHue ?? palette.backdropHue) + hueShift
@@ -288,6 +372,13 @@ struct CardTheme: Equatable {
     /// พื้นมืดยิ่งสว่างยิ่งต้องลดสีลง ส่วนกระดาษยิ่งสว่างยิ่งต้องเหลือสีไว้นิดหนึ่ง
     /// ไม่งั้นมันจะเป็นสีขาวเปล่าที่ไม่มีบุคลิก
     var backdropColors: (top: Color, bottom: Color) {
+        // สีที่ผู้ใช้เลือกเองไม่ผ่านสูตรของหมึก — ผ่านเมื่อไหร่ `#101010` จะถูกดันขึ้นมาเป็นเทา
+        // และเม็ดสีในแผงกับพื้นการ์ดจะบอกคนละสีกัน ซึ่งเป็นจุดที่คนเลิกเชื่อช่อง hex
+        if let p = customParts {
+            return (Color(hue: p.h, saturation: p.s, brightness: p.b),
+                    // ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
+                    Color(hue: p.h, saturation: min(1, p.s * 1.06), brightness: p.b * 0.80))
+        }
         let hue = backdropHue, sat = backdropSat, b = brightness
         switch activeInk {
         case .night:
@@ -346,10 +437,81 @@ struct CardTheme: Equatable {
     var toolTheme: CardTheme {
         var t = self
         t.ink = .night
+        // ต้องปิดโหมดอัตโนมัติด้วย ไม่งั้นการ์ดที่ตั้งสีพื้นสว่างไว้จะลากหมึกกระดาษเข้ามาในชีต
+        // ทั้งที่ชีตนั่งอยู่บนพื้นมืดคงที่ — บรรทัดบนจะถูกคำนวณทับทันทีที่อ่านค่า
+        t.inkAuto = false
         return t
     }
 
     var radius: CGFloat { corner.radius }
+}
+
+// MARK: - สีพื้นเป็นเลขฐานสิบหก
+
+extension CardTheme {
+    /// สีพื้นตอนนี้แยกเป็น HSB — ตัวเลือกสีเปิดมาต้องชี้ที่สีจริงบนการ์ด ไม่ใช่ค่าตั้งต้น
+    ///
+    /// อ่านจาก `backdropColors.top` ไม่ใช่จาก `customHue`/`customSat` ตรง ๆ เพราะการ์ดที่
+    /// ยังใช้สีพาเลตต์อยู่ก็ต้องตอบได้ว่าตอนนี้พื้นสีอะไร — ไม่งั้นแตะเปิดตัวเลือกสีครั้งแรก
+    /// แถบจะกระโดดไปสีอื่นก่อนผู้ใช้ทันได้แตะอะไรเลย
+    var backdropHSB: (h: Double, s: Double, b: Double) {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard UIColor(backdropColors.top).getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        else { return (backdropHue, 0.5, 0.5) }
+        return (Double(h), Double(s), Double(b))
+    }
+
+    /// สีพื้นตอนนี้ในรูป `#RRGGBB` — ป้ายบนเม็ดสีของแผง
+    var backdropHex: String {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard UIColor(backdropColors.top).getRed(&r, green: &g, blue: &b, alpha: &a)
+        else { return "#000000" }
+        return String(format: "#%02X%02X%02X",
+                      Int(round(max(0, min(1, r)) * 255)),
+                      Int(round(max(0, min(1, g)) * 255)),
+                      Int(round(max(0, min(1, b)) * 255)))
+    }
+
+    /// ตั้งสีพื้นจาก HSB — ทางเข้าเดียวของทั้งแถบสีและช่อง hex
+    ///
+    /// เขียน `customHue` โดยหัก `hueShift` ออกก่อน เพราะ `backdropHue` จะบวกกลับเข้าไปทีหลัง
+    /// ถ้าไม่หัก การ์ดที่มาจากเทมเพลตซึ่งตั้ง `hueShift` ไว้จะได้สีเพี้ยนไปจากที่พิมพ์
+    mutating func setBackdropColor(h: Double, s: Double, b: Double) {
+        customHue = (h - hueShift) - floor(h - hueShift)
+        customSat = min(1, max(0, s))
+        customBri = min(1, max(0, b))
+    }
+
+    /// ล้างสีที่เลือกเอง กลับไปใช้สีของพาเลตต์
+    mutating func clearBackdropColor() {
+        customHue = nil
+        customSat = nil
+        customBri = nil
+    }
+
+    /// อ่านค่า `#RGB` หรือ `#RRGGBB` — คืน false เมื่ออ่านไม่ออก แล้วผู้เรียกคงสีเดิมไว้
+    mutating func setBackdropHex(_ text: String) -> Bool {
+        let raw = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: "#", with: "").uppercased()
+        let digits: String
+        switch raw.count {
+        // ย่อสามหลักแบบ CSS — คนพิมพ์ `#FFF` แล้วคาดว่าจะได้ขาว ไม่ใช่ค่าที่อ่านไม่ออก
+        case 3: digits = raw.map { "\($0)\($0)" }.joined()
+        case 6: digits = raw
+        default: return false
+        }
+        guard digits.allSatisfy(\.isHexDigit), let v = UInt32(digits, radix: 16) else { return false }
+        let ui = UIColor(red: CGFloat((v >> 16) & 0xFF) / 255,
+                         green: CGFloat((v >> 8) & 0xFF) / 255,
+                         blue: CGFloat(v & 0xFF) / 255, alpha: 1)
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard ui.getHue(&h, saturation: &s, brightness: &b, alpha: &a) else { return false }
+        // สีเทาล้วนไม่มีเฉด — `getHue` คืน 0 ให้ ซึ่งจะกลายเป็นแดงทันทีที่ผู้ใช้ดันความสดขึ้น
+        // เก็บเฉดเดิมของการ์ดไว้แทน ตัวสีที่ได้ยังเป็นเทาเหมือนที่พิมพ์เพราะความสดเป็น 0
+        setBackdropColor(h: s < 0.004 ? backdropHue : Double(h),
+                         s: Double(s), b: Double(b))
+        return true
+    }
 }
 
 // MARK: - Backdrop
@@ -360,16 +522,22 @@ struct CardTheme: Equatable {
 /// จึงมีดวงแสงนวลอยู่เสมอในทุกแบบ ยกเว้นแบบ "สีเดียว" ที่ผู้ใช้เลือกความเรียบเอง
 struct CardBackdrop: View {
     let theme: CardTheme
+    /// ตอนเรนเดอร์รูปแถบ 3 หน้า ไม่มี safe area ของจอ — อย่า ignore ไม่งั้นแผ่นจะไม่มีขนาด
+    var ignoreSafeArea: Bool = true
     @Environment(PhotoStore.self) private var photos: PhotoStore?
 
     var body: some View {
         // ต้องห่อด้วย overlay — ดวงแสงมี .frame(width: 440) ซึ่งใหญ่กว่าจอ
         // ถ้าวางตรง ๆ ใน ZStack ฉากหลังจะกว้าง 440pt แล้วดัน layout ทั้งแอปให้เลื่อนออกนอกจอ
-        Rectangle()
+        let view = Rectangle()
             .fill(.clear)
             .overlay { layers }
             .clipped()
-            .ignoresSafeArea()
+        if ignoreSafeArea {
+            view.ignoresSafeArea()
+        } else {
+            view
+        }
     }
 
     @ViewBuilder
@@ -396,12 +564,17 @@ struct CardBackdrop: View {
 
             case .photo:
                 c.bottom
-                if let bg = photos?.background {
+                if let bg = photos?.background(theme.photoEffect) {
                     // พื้นหลังที่ผู้ใช้อัปโหลดเอง — โชว์คมชัด แค่คลุม scrim ให้ตัวหนังสือบนการ์ดอ่านออก
+                    //
+                    // ขาวดำกับเบลอทำสดตรงนี้ · จุดปะถูกอบมาแล้วตั้งแต่ใน `PhotoStore`
+                    // เพราะ CoreImage ต่อเฟรมบนแผ่นเต็มจอแพงเกินกว่าจะทำระหว่างลาก widget
                     Image(uiImage: bg)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .overlay(c.top.opacity(theme.activeInk.isLight ? 0.72 : 0.42))
+                        .grayscale(theme.photoEffect == .mono ? 1 : 0)
+                        .blur(radius: theme.photoEffect == .blur ? 26 : 0, opaque: true)
+                        .overlay(c.top.opacity(theme.photoDim))
                         .overlay(LinearGradient(colors: [.clear, c.bottom.opacity(0.5)],
                                                 startPoint: .center, endPoint: .bottom))
                 } else if let photos {

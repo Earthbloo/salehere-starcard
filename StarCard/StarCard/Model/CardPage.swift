@@ -4,13 +4,13 @@ import SwiftUI
 ///
 /// พอร์ตจริงไม่เคยจบในหน้าเดียว — หน้าแรกขายตัวตน หน้าถัดไปคือผลงาน แล้วปิดด้วยราคา/ติดต่อ
 /// เก็บ items แยกต่อหน้า ไม่ใช่ลิสต์เดียวแล้วให้ระบบตัดหน้าเอง เพราะผู้ใช้ต้องคุมได้ว่าอะไรอยู่หน้าไหน
+///
+/// ตำแหน่งอยู่ที่ตัว widget เอง · ลำดับใน `items` ใช้ตัดสินว่าใครได้ที่ก่อนเมื่อสองตัวชนกัน
+/// ของทับกันไม่ได้ — `PageLayout.solve` ดันตัวที่มาทีหลังลงจนมีที่ว่าง
+/// หน้าล้นไม่มีเช่นกัน เพราะทุกตัวถูกรูดให้อยู่ในกริด 6×36 ตั้งแต่ตอนวาง
 struct CardPage: Identifiable, Equatable {
     let id = UUID()
     var items: [WidgetInstance]
 
     init(_ items: [WidgetInstance] = []) { self.items = items }
-
-    var usedRows: Int { PageLayout.usedRows(items) }
-    var isOverflowing: Bool { usedRows > PageLayout.rows }
-    var freeRows: Int { max(0, PageLayout.rows - usedRows) }
 }

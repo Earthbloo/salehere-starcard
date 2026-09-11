@@ -13,6 +13,8 @@ struct HeroMinimal: View {
     let theme: CardTheme
     let size: CGSize
 
+    private var nameSize: CGFloat { size.width < 260 ? 30 : 40 }
+
     var body: some View {
         // เทรนด์ 2026 · Oversized editorial type — ชื่อคือพระเอก ตัวหนาเต็มที่ ระยะตัวอักษรบีบ
         // คู่กับบรรทัดเล็กที่ปล่อย tracking กว้าง ให้คอนทราสต์ของ "ก้อนใหญ่ปะทะเส้นบาง"
@@ -28,24 +30,40 @@ struct HeroMinimal: View {
                     .font(.sh(8.5, .bold)).tracking(2.6)
                     .foregroundStyle(theme.accent.opacity(0.92))
                     .scrubVeil(scrub.d, lead: 0.06, drop: 16, pull: 14)
+
+                // ตรายืนยันตัวตนติดมากับชื่อเสมอ ไม่ใช่ widget แยก
+                // ตราที่ผู้ใช้เลือกวางเองได้ อ่านออกมาเป็นตราที่จัดฉากได้
+                if Mock.creator.verified {
+                    SymbolIcon(name: SHIcon.sealCheck, size: 11, tint: theme.accent)
+                        .scrubVeil(scrub.d, lead: 0.04, drop: 14, pull: 10)
+                }
             }
 
             ScrubReader(d: scrub.d) { d in
                 let t = Scrub.ease(Scrub.t(d, lead: 0.1))
-                Text(Mock.creator.name)
-                    .font(.sh(size.width < 260 ? 30 : 40, .black))
+                Text(Profile.me.name)
+                    .font(.sh(nameSize, .black))
                     // บีบอยู่ตอนนิ่ง แล้วคลายออกตอนจากไป
-                    .tracking(-1 + 9 * t)
+                    // ต้อง kerning ไม่ใช่ tracking — tracking แทรกช่องไฟ "หลังทุกตัวอักษร"
+                    // รวมถึงระหว่างพยัญชนะกับสระบน/วรรณยุกต์ ทำให้เครื่องหมายไทยหลุดหาย
+                    .kerning(-1 + 9 * t)
                     .foregroundStyle(ink.text(0.98))
-                    .lineLimit(2).minimumScaleFactor(0.5)
-                    .fixedSize(horizontal: false, vertical: true)
+                    // ยาวเกินสองบรรทัดตัดด้วย … ไม่ดัน widget ให้สูงขึ้น
+                    // (เดิม `fixedSize` ให้ข้อความเป็นคนกำหนดความสูง พิมพ์ยาวแล้วล้นกรอบที่วางไว้)
+                    .lineLimit(2).truncationMode(.tail)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .editableText(.name, .init(size: nameSize, weight: .black,
+                                               color: ink.text(0.98), tracking: -1))
             }
             .scrubVeil(scrub.d, lead: 0.24, drop: 44, pull: 8)
 
-            Text(Mock.creator.tagline.uppercased())
+            Text(Profile.me.tagline.uppercased())
                 .font(.sh(9.5, .semibold)).tracking(2)
                 .foregroundStyle(ink.text(0.45)).lineLimit(1)
-                .minimumScaleFactor(0.7)
+                .truncationMode(.tail)
+                .editableText(.tagline, .init(size: 9.5, weight: .semibold,
+                                              color: ink.text(0.45), tracking: 2,
+                                              uppercase: true))
                 .scrubVeil(scrub.d, lead: 0.02, drop: 22, pull: 18)
         }
         // จัดกลางแนวตั้ง — ตอนถูกยืดสูงกว่าข้อความ ช่องว่างแบ่งบนล่างเท่ากัน ไม่กองอยู่ท้ายกล่อง

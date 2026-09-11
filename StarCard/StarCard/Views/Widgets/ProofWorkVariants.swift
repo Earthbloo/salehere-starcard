@@ -124,19 +124,26 @@ private struct ProofFigures: View {
     @Environment(\.pageScrub) private var scrub
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            ScrubDigits(text: Fmt.compact(work.views), d: scrub.d,
-                        lead: lead, step: 0.05, drop: 20)
-                // ตัวเดียวในก้อนแล้ว จึงใหญ่ขึ้นได้โดยไม่ไปแย่งความสนใจกับใคร
-                .font(.sh(size * 1.15, .heavy))
-                .foregroundStyle(tint)
-            Text("วิว")
-                .font(.sh(size * 0.62))
-                .foregroundStyle(subTint)
-                .scrubVeil(scrub.d, lead: lead - 0.04, drop: 18, pull: 6)
-            Spacer(minLength: 2)
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                ScrubDigits(text: Fmt.compact(work.views), d: scrub.d,
+                            lead: lead, step: 0.05, drop: 20)
+                    // ตัวเดียวในบรรทัดนี้ จึงใหญ่ขึ้นได้โดยไม่ไปแย่งความสนใจกับใคร
+                    .font(.sh(size * 1.15, .heavy))
+                    .foregroundStyle(tint)
+                Text("วิว")
+                    .font(.sh(size * 0.62))
+                    .foregroundStyle(subTint)
+                    .scrubVeil(scrub.d, lead: lead - 0.04, drop: 18, pull: 6)
+                Spacer(minLength: 2)
+            }
+            .lineLimit(1)
+
+            // บันทึก/แชร์ เป็นไอคอน ไม่ใช่คำ — และมีครบทุกแบบในชั้นหลักฐาน
+            // ยอดวิวบอกว่าคนเห็นเยอะแค่ไหน สองตัวนี้บอกว่าเห็นแล้วทำอะไรต่อ
+            WorkDeepStats(work: work, size: size * 0.68, tint: subTint,
+                          lead: max(0, lead - 0.08))
         }
-        .lineLimit(1)
         .fixedSize(horizontal: false, vertical: true)
     }
 }
@@ -168,6 +175,7 @@ struct ProofTicket: View {
                     ForEach(Array(works.enumerated()), id: \.element.id) { i, work in
                         stub(work, w: w, h: geo.size.height, photoH: photoH,
                              lead: Scrub.lead(i, of: works.count, d: scrub.d, step: 0.1))
+                            .linkSlot(work.postURL)
                     }
                 }
             }
@@ -292,6 +300,7 @@ struct ProofHolo: View {
                             .scrubLouver(scrub.d,
                                          lead: Scrub.lead(i, of: works.count, d: scrub.d, step: 0.11),
                                          angle: 58, shrink: 0.1)
+                            .linkSlot(work.postURL)
                     }
                 }
             }
@@ -381,6 +390,7 @@ struct ProofShelf: View {
                             .scrubSlide(scrub.d,
                                         travel: i % 2 == 0 ? -26 : 26,
                                         lead: Scrub.lead(i, of: works.count, d: scrub.d, step: 0.08))
+                            .linkSlot(work.postURL)
                     }
                 }
             }
@@ -481,6 +491,7 @@ struct ProofZine: View {
                                 .offset(y: drop[i % drop.count])
                                 .scrubSlide(scrub.d, travel: 34,
                                             lead: Scrub.lead(i, of: works.count, d: scrub.d, step: 0.12))
+                                .linkSlot(work.postURL)
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -488,9 +499,12 @@ struct ProofZine: View {
                     .padding(.top, 14)
 
                     // สติกเกอร์ยืนยัน — วางทับขอบแผ่น ไม่ใช่วางเรียงข้าง ๆ
-                    HStack(spacing: 3) {
-                        SymbolIcon(name: SHIcon.sealCheck, size: 10, tint: .white)
-                        Text("ยืนยันแล้ว").font(.sh(8.5, .bold)).foregroundStyle(.white)
+                    // ต้องบอกชื่อผู้ออกเหมือน `VerifiedBadge` ไม่งั้นมันคือคำที่ใครก็พิมพ์เองได้
+                    // ใช้ตราวงกลมตัวเดียวกัน ทั้งการ์ดจึงมีลายเซ็นผู้ออกแบบเดียว
+                    HStack(spacing: 4) {
+                        Text("Verified by").font(.sh(8, .bold)).foregroundStyle(.white)
+                        SaleHereMark(size: 13)
+                            .overlay(Circle().strokeBorder(.white.opacity(0.9), lineWidth: 1))
                     }
                     .fixedSize()
                     .padding(.horizontal, 8).padding(.vertical, 3.5)
@@ -573,6 +587,8 @@ struct ProofZine: View {
             .overlay(alignment: .top) {
                 Rectangle().fill(Paper.ink).frame(height: 1.4)
             }
+
+            WorkDeepStats(work: work, size: 8, tint: Paper.inkSoft, lead: 0.18)
         }
         .padding(.horizontal, 5)
         .padding(.top, 5)
