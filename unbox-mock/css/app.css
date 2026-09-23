@@ -1249,3 +1249,8 @@ body.no-panel #panel { width: auto; padding: 8px; }
 .prep-ready > span { font-size: 12px; color: #4F4F4F; }
 .ach2-row .sum.loss { color: #B4741A; }
 #toast svg { vertical-align: -2px; margin-right: 2px; }
+/* nudge ใต้หัวข้อเป็น chip: ชิ้นแรก = แบรนด์ใช้ทำอะไร · ชิ้นถัดไป = กติกา */
+.wz-nchips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 20px; }
+.nchip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 13px; background: #F3F4F6; font-size: 12px; font-weight: 600; color: #4F4F4F; }
+.nchip.brand { background: #16181D; color: #fff; }
+.nchip.brand svg { color: #FFD04F; }

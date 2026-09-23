@@ -158,9 +158,9 @@
   // nudge ใต้ปุ่ม: บอกผลทันทีของข้อนี้ (ไม่ใช่กติกา แต่คือสิ่งที่ได้)
   // nudge อยู่ใต้หัวข้อบรรทัดเดียว: "แบรนด์ใช้ข้อนี้ทำอะไร" + กติกาที่จำเป็นจริง ๆ เท่านั้น
   const STEP_LINE = {
-    socials: 'แบรนด์ดูข้อนี้ก่อน · ผูก 1 ช่องพอ', categories: 'แบรนด์ใช้จับคู่งานให้คุณ · เลือกได้ถึง 5', about: 'แบรนด์อ่านบรรทัดนี้ก่อนทัก',
-    kyc: 'แบรนด์เลือกคนที่ยืนยันแล้ว · ส่งใบสมัครได้ระหว่างรอตรวจ', rate: 'แบรนด์อยากรู้ราคาก่อนทัก · ใส่ราคามาตรฐานให้แล้ว', insight: 'แบรนด์ถามข้อนี้บ่อยสุด · ทำช่องเดียวก็ได้',
-    province: 'แบรนด์ที่มีงานหน้าร้านถามข้อนี้ · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดคน', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
+    socials: 'แบรนด์ดูข้อนี้ก่อนคัดเลือก · ผูก 1 ช่องพอ', categories: 'แบรนด์ใช้จับคู่งานให้คุณ · เลือกได้ถึง 5', about: 'แบรนด์อ่านบรรทัดนี้ก่อนคัดเลือก',
+    kyc: 'แบรนด์คัดเลือกคนที่ยืนยันแล้ว · ส่งใบสมัครได้ระหว่างรอตรวจ', rate: 'แบรนด์ดูราคาก่อนคัดเลือก · ใส่ราคามาตรฐานให้แล้ว', insight: 'แบรนด์ใช้คัดเลือกกลุ่มเป้าหมาย · ทำช่องเดียวก็ได้',
+    province: 'แบรนด์ใช้คัดเลือกงานหน้าร้าน · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดเลือก', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
   };
   function wizard(s, kind) {
     const steps = s.wizSteps || [], i = Math.min(s.wizI || 0, Math.max(0, steps.length - 1)), key = steps[i];
@@ -175,7 +175,7 @@
     return `<div class="wz pk">
       <div class="wz-top">${exitBtn}<span class="wz-ctx">${kind === 'one' ? 'เติม Star Card' : kind === 'apply' ? (hasCard(s) ? `ข้อมูล STAR · ก่อนสมัคร ${c.ep}` : `สมัครเป็น STAR · ${c.ep}`) : `ข้อมูล STAR · ก่อนตอบรับ ${c.ep}`}</span><span class="wz-n">${!intro && total > 1 ? `${n}/${total}` : ''}</span></div>
       ${intro || (kind === 'one' && total < 2) ? '' : `<div class="wz-bar"><i style="width:${(n / total) * 100}%"></i></div>`}
-      <div class="wz-body"><h2 class="wz-h">${st.h}</h2><p class="wz-p">${STEP_LINE[key] || st.p}</p>${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
+      <div class="wz-body"><h2 class="wz-h">${st.h}</h2>${STEP_LINE[key] ? `<div class="wz-nchips">${STEP_LINE[key].split(' · ').map((t, k) => `<span class="nchip ${k ? '' : 'brand'}">${k ? '' : I('eye', 12, 'bold')}${t}</span>`).join('')}</div>` : `<p class="wz-p">${st.p}</p>`}${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
       <div class="wz-foot">${pkBtn(label, { act: 'wizNext' })}${OPTIONAL_STEPS.includes(key) ? `<a class="pk-link" data-do="wizSkip">ข้ามไว้ก่อน</a>` : ''}</div>
     </div>`;
   }
@@ -299,7 +299,7 @@
   // แถว "ข้อมูลของฉัน" แบบ iOS hub: มี = ติ๊กเขียว + ชิปสรุป · ยังไม่มี = บอกประโยชน์ 1 บรรทัด + ปุ่ม "+ เพิ่ม" · แตะแล้วเปิด wizard เฉพาะข้อนั้น แล้วกลับมาหน้านี้
   const REVEAL_ROWS = [
     { key: 'kyc', icon: 'seal-check', t: 'ยืนยันตัวตน', done: s => ['Verified'], why: 'ต้องผ่านก่อนแบรนด์เลือก · ขึ้นป้าย Verified' },
-    { key: 'rate', icon: 'coins', t: 'เรทรับงาน', done: s => ['IG ฿3,000', 'TikTok ฿10,300', '+3 รูปแบบ'], why: 'แบรนด์เห็นราคาก่อนทัก ไม่ต้องต่อรอง' },
+    { key: 'rate', icon: 'coins', t: 'เรทรับงาน', done: s => ['IG ฿3,000', 'TikTok ฿10,300', '+3 รูปแบบ'], why: 'แบรนด์ดูราคาก่อนคัดเลือก' },
     { key: 'about', icon: 'text-align-left', t: 'แนะนำตัว', done: s => ['ชอบพาไปเที่ยว ทานอาหารอร่อยๆ…'], why: '1 บรรทัดใต้ชื่อบนการ์ด' },
     { key: 'insight', icon: 'users-three', t: 'ข้อมูลผู้ติดตาม', done: s => ['หญิง 68%', '25–34 ปี', 'กรุงเทพฯ'], why: 'แบรนด์เห็นว่าคนดูคุณเป็นใคร' },
     { key: 'province', icon: 'map-pin', t: 'พื้นที่รับงาน', done: s => ['กรุงเทพฯ', 'นนทบุรี', '+1'], why: 'งานหน้าร้านใกล้คุณขึ้นก่อน' },
