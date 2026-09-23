@@ -175,7 +175,6 @@
     return `<div class="wz pk">
       <div class="wz-top">${exitBtn}<span class="wz-ctx">${kind === 'one' ? 'เติม Star Card' : kind === 'apply' ? (hasCard(s) ? `ข้อมูล STAR · ก่อนสมัคร ${c.ep}` : `สมัครเป็น STAR · ${c.ep}`) : `ข้อมูล STAR · ก่อนตอบรับ ${c.ep}`}</span><span class="wz-n">${!intro && total > 1 ? `${n}/${total}` : ''}</span></div>
       ${intro || (kind === 'one' && total < 2) ? '' : `<div class="wz-bar"><i style="width:${(n / total) * 100}%"></i></div>`}
-      ${kind === 'one' ? '' : wizStrip(s, key, steps)}
       <div class="wz-body"><h2 class="wz-h">${st.h}</h2><p class="wz-p">${STEP_LINE[key] || st.p}</p>${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
       <div class="wz-foot">${pkBtn(label, { act: 'wizNext' })}${OPTIONAL_STEPS.includes(key) ? `<a class="pk-link" data-do="wizSkip">ข้ามไว้ก่อน</a>` : ''}</div>
     </div>`;
