@@ -1254,3 +1254,14 @@ body.no-panel #panel { width: auto; padding: 8px; }
 .nchip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 13px; background: #F3F4F6; font-size: 12px; font-weight: 600; color: #4F4F4F; }
 .nchip.brand { background: linear-gradient(90deg, #FFF3C9 0%, #FFE39A 55%, #FFD9C2 100%); color: #16181D; border: 1px solid rgba(255,214,110,.6); }
 .nchip.brand svg { color: #B4741A; }
+/* หน้าแรกก่อนสมัคร: บอกว่ามาจากงานไหน + อยู่ขั้นไหนของการสมัคร */
+.wzi-job { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 16px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.95); }
+.wzi-job img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; flex: none; }
+.wzi-job small { display: block; font-size: 11px; font-weight: 600; color: #4F4F4F; }
+.wzi-job b { display: block; font-size: 13.5px; font-weight: 700; color: #16181D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wzi-journey { display: flex; align-items: center; gap: 6px; margin: 14px 0 18px; font-size: 12px; font-weight: 600; color: #9AA0A8; }
+.wzi-journey span { display: inline-flex; align-items: center; gap: 5px; }
+.wzi-journey span i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #D1D5DB; font-style: normal; font-size: 10.5px; font-weight: 800; display: grid; place-items: center; }
+.wzi-journey span.on { color: #16181D; } .wzi-journey span.on i { background: #16181D; border-color: #16181D; color: #fff; }
+.wzi-journey em { flex: 1; height: 1.5px; background: #E5E7EB; min-width: 10px; }
+.wzi .wzi-card { margin-top: 18px; }
