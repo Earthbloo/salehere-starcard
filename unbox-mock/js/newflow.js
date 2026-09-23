@@ -87,8 +87,8 @@
         h: 'เรทรับงานของคุณ 💸', p: 'ใส่ราคามาตรฐานให้แล้ว กดถัดไปได้เลย · อยากแก้ก็แก้ได้',
         body: socs.map(so => `<div class="wz-grp">
           <div class="wz-grp-h">${U.socialIcon(so.type, 24)}<b>${D.SOCIAL_META[so.type].name}</b><span>${U.fmtNum(so.followers)} ผู้ติดตาม</span></div>
-          ${FORMATS[so.type].map(f => `<div class="wz-rate"><div class="lb">${FORMAT_NAME[f]}</div><label class="wz-in"><em>฿</em><input type="tel" value="${(s.form && s.form['rate_' + so.type + '_' + f]) ?? suggestPrice(so, f)}" data-bind="form.rate_${so.type}_${f}"><span class="unit">/โพสต์</span></label></div><div class="wz-sug">${I('check-circle', 13, 'bold')}ราคามาตรฐานจากยอดผู้ติดตาม · ปรับได้</div>`).join('')}
-        </div>`).join('') + `<div class="wz-why"><span>${I('info', 15, 'bold')}ราคามาตรฐานคิดจากยอดผู้ติดตาม ปรับขึ้นลงได้ตลอด</span></div>`,
+          ${FORMATS[so.type].map(f => `<div class="wz-rate"><div class="lb">${FORMAT_NAME[f]}</div><label class="wz-in"><em>฿</em><input type="tel" value="${(s.form && s.form['rate_' + so.type + '_' + f]) ?? suggestPrice(so, f)}" data-bind="form.rate_${so.type}_${f}"><span class="unit">/โพสต์</span></label></div>`).join('')}
+        </div>`).join(''),
       };
     },
     measurements: s => ({ h: 'ขอไซซ์เสื้อผ้าหน่อยน้า 👗', p: 'งานนี้ส่งชุดให้ ต้องตรงไซซ์', body: `<div class="wz-grid">${[['ส่วนสูง', '165', 'ซม.'], ['น้ำหนัก', '50', 'กก.'], ['รอบอก', '32', 'นิ้ว'], ['รอบเอว', '25', 'นิ้ว'], ['สะโพก', '35', 'นิ้ว'], ['รองเท้า', '23', 'ซม.']].map(([l, v, u]) => `<label class="wz-in col"><small>${l}</small><span><input type="tel" placeholder="${v}"><em>${u}</em></span></label>`).join('')}</div>` }),
@@ -100,7 +100,7 @@
     }),
     province: s => ({ h: 'อยู่จังหวัดไหน / ไปถึงไหนได้บ้าง? 📍', p: 'สำหรับงานหน้าร้าน · เลือกได้ถึง 3', body: `<div class="wz-chips">${['กรุงเทพมหานคร', 'นนทบุรี', 'ปทุมธานี', 'สมุทรปราการ', 'ชลบุรี', 'เชียงใหม่', 'ทุกจังหวัด (ออนไลน์)'].map((t, i) => chip(t, i === 0)).join('')}</div>` }),
     address: s => { const a = D.USER.address; return { h: 'ส่งของไปที่ไหน? 📦', p: 'ของรางวัลจะส่งมาที่นี่ · กรอกครั้งเดียว', body: `<label class="wz-in col"><small>ชื่อ–นามสกุล</small><span><input value="${a.name}"></span></label><label class="wz-in col"><small>เบอร์โทรศัพท์</small><span><input type="tel" value="${a.tel}"></span></label><label class="wz-in col"><small>ที่อยู่</small><span><input value="${a.address}"></span></label><div class="wz-grid"><label class="wz-in col"><small>รหัสไปรษณีย์</small><span><input type="tel" value="${a.zipcode}"></span></label><label class="wz-in col sel"><small>ตำบล/แขวง</small><span><input value="${a.subDistrict}"></span></label></div>` }; },
-    bank: s => { const fee = cur(s).fee; return { h: 'รับเงินเข้าบัญชีไหน? 🏦', p: fee ? `ค่าตัวงานนี้ ฿${fee.toLocaleString()} จะโอนเข้าบัญชีนี้ · ใช้กับทุกงาน` : 'ใช้กับทุกงานที่มีค่าตัว · หัก ณ ที่จ่าย 3% ตามกฎหมาย', body: `<label class="wz-in col sel"><small>ธนาคาร</small><span><input value="กสิกรไทย"></span></label><label class="wz-in col"><small>เลขที่บัญชี</small><span><input type="tel" placeholder="xxx-x-xxxxx-x"></span></label><label class="wz-in col"><small>ชื่อบัญชี</small><span><input value="${D.USER.name}"></span></label><div class="wz-hint">${I('check-circle', 14, 'fill')} ชื่อตรงกับบัตรที่ยืนยันแล้ว</div><div class="wz-drop small" data-do="pkToggle">${I('camera', 22, 'bold')}<b>ถ่ายหน้าสมุดบัญชี</b></div>` }; },
+    bank: s => { const fee = cur(s).fee; return { h: 'รับเงินเข้าบัญชีไหน? 🏦', p: fee ? `ค่าตัว ฿${fee.toLocaleString()} โอนเข้าบัญชีนี้` : 'ใช้กับทุกงานที่มีค่าตัว', body: `<label class="wz-in col sel"><small>ธนาคาร</small><span><input value="กสิกรไทย"></span></label><label class="wz-in col"><small>เลขที่บัญชี</small><span><input type="tel" placeholder="xxx-x-xxxxx-x"></span></label><label class="wz-in col"><small>ชื่อบัญชี</small><span><input value="${D.USER.name}"></span></label><div class="wz-hint">${I('check-circle', 14, 'fill')} ชื่อตรงกับบัตรที่ยืนยันแล้ว</div><div class="wz-drop small" data-do="pkToggle">${I('camera', 22, 'bold')}<b>ถ่ายหน้าสมุดบัญชี</b></div>` }; },
     draftRounds: s => ({ h: 'แก้งานให้ได้กี่รอบ?', p: 'ถ้าแบรนด์ขอแก้ · ไม่นับกรณีงานไม่ตรงบรีฟ', body: `<div class="wz-tiles">${[1, 2, 3].map(n => `<span class="wz-tile ${n === 2 ? 'on' : ''}" data-do="pickOne"><b>${n}</b><small>ครั้ง</small></span>`).join('')}</div>` }),
     insight: s => {
       // ข้อมูลผู้ติดตาม = แนบภาพ 3 หมวด (เพศ · ช่วงอายุ · พื้นที่ยอดนิยม) ต่อช่อง แล้วระบบอ่านตัวเลขให้ — ตาม SocialInsight ของ salehere-ios · ไม่บังคับ
@@ -111,7 +111,7 @@
         body: socs.map(so => `<div class="wz-grp">
           <div class="wz-grp-h">${U.socialIcon(so.type, 24)}<b>${D.SOCIAL_META[so.type].name}</b><span>${SLOTS.filter(x => g[so.type + '_' + x.k]).length}/3</span></div>
           <div class="wz-slots">${SLOTS.map(x => { const on = g[so.type + '_' + x.k]; return `<button class="wz-slot ${on ? 'on' : ''}" data-do="pickInsight" data-t="${so.type}" data-k="${x.k}">${on ? `${I('check', 14, 'bold')}<b>${x.t}</b><span>${x.v}</span>` : `${I('plus', 16, 'bold')}<b>${x.t}</b><span>แตะเพื่อแนบ</span>`}</button>`; }).join('')}</div>
-        </div>`).join('') + `<div class="wz-nudge">${I('star', 16, 'fill')}<div><b>มีข้อมูลนี้ โอกาสได้รับเลือกมากขึ้น</b><span>แบรนด์กรองคนจากกลุ่มผู้ติดตามก่อนเสมอ · แคปจากแอปโซเชียลได้เลย</span></div></div>`,
+        </div>`).join(''),
       };
     },
     kyc: s => {
@@ -123,8 +123,8 @@
         body: done
           ? `<div class="wz-row on"><i>${I('check', 16, 'bold')}</i><div><b>Verified by Sale Here</b><span>ขึ้นป้ายบนการ์ดแล้ว</span></div></div>`
           : pending
-            ? `<div class="wz-row wait"><i>${I('clock', 16, 'bold')}</i><div><b>กำลังตรวจข้อมูล</b><span>เราจะแจ้งเตือนเมื่อผ่าน · ระหว่างนี้สมัครงานได้ตามปกติ</span></div></div><div class="wz-why"><span>${I('info', 15, 'bold')}การ์ดจะขึ้นป้าย Verified และเป็น STAR เต็มตัวเมื่อตรวจผ่าน</span></div>`
-            : `<div class="wz-drop" data-do="wizKyc">${I('identification-card', 28, 'bold')}<b>เริ่มยืนยันตัวตน</b></div><div class="wz-why"><span>${I('seal-check', 15, 'bold')}แบรนด์เลือกเฉพาะคนที่ยืนยันตัวตนแล้ว</span><span>${I('shield-check', 15, 'bold')}ข้อมูลบัตรใช้ยืนยันตัวตนเท่านั้น</span></div>`,
+            ? `<div class="wz-row wait"><i>${I('clock', 16, 'bold')}</i><div><b>กำลังตรวจข้อมูล</b><span>เราจะแจ้งเตือนเมื่อผ่าน · ระหว่างนี้สมัครงานได้ตามปกติ</span></div></div>`
+            : `<div class="wz-drop" data-do="wizKyc">${I('identification-card', 28, 'bold')}<b>เริ่มยืนยันตัวตน</b></div>`,
         ok: () => { const v = Store.get().user.verify; return !!v && v !== 'none'; }, err: 'ยืนยันตัวตนก่อน แล้วไปต่อได้เลย',
       };
     },
@@ -156,10 +156,11 @@
     return `<div class="wz-strip"><img src="${D.USER.avatar}" alt=""><div class="wz-strip-slots">${keys.map(k => `<span class="${stripDone(s, k) ? 'on' : k === key ? 'now' : ''}">${stripDone(s, k) ? I('check', 10, 'bold') : ''}${STRIP[k]}</span>`).join('')}</div><em>${done}/${keys.length}</em></div>`;
   }
   // nudge ใต้ปุ่ม: บอกผลทันทีของข้อนี้ (ไม่ใช่กติกา แต่คือสิ่งที่ได้)
-  const STEP_GAIN = {
-    socials: 'สิ่งแรกที่แบรนด์ดู: คุณอยู่ช่องไหน ยอดเท่าไหร่', categories: 'แบรนด์ใช้ข้อนี้จับคู่ว่างานไหนเหมาะกับคุณ', about: 'แบรนด์อ่านบรรทัดนี้เพื่อรู้จักคุณก่อนทัก',
-    rate: 'แบรนด์อยากรู้ราคาก่อนทัก จะได้เสนองานที่จ่ายไหว', province: 'แบรนด์ที่มีงานหน้าร้านถามข้อนี้ทุกครั้ง', availability: 'แบรนด์ดูวันว่างของคุณตอนคัดคน', insight: 'แบรนด์ถามเสมอว่าคนดูคุณเป็นใคร อายุเท่าไหร่ อยู่ไหน',
-    kyc: 'แบรนด์ขอให้ยืนยันตัวตนก่อนจ่ายค่าตัว', bank: 'ค่าตัวโอนเข้าบัญชีนี้ทันทีที่งานจบ', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
+  // nudge อยู่ใต้หัวข้อบรรทัดเดียว: "แบรนด์ใช้ข้อนี้ทำอะไร" + กติกาที่จำเป็นจริง ๆ เท่านั้น
+  const STEP_LINE = {
+    socials: 'แบรนด์ดูข้อนี้ก่อน · ผูก 1 ช่องพอ', categories: 'แบรนด์ใช้จับคู่งานให้คุณ · เลือกได้ถึง 5', about: 'แบรนด์อ่านบรรทัดนี้ก่อนทัก',
+    kyc: 'แบรนด์เลือกคนที่ยืนยันแล้ว · ส่งใบสมัครได้ระหว่างรอตรวจ', rate: 'แบรนด์อยากรู้ราคาก่อนทัก · ใส่ราคามาตรฐานให้แล้ว', insight: 'แบรนด์ถามข้อนี้บ่อยสุด · ทำช่องเดียวก็ได้',
+    province: 'แบรนด์ที่มีงานหน้าร้านถามข้อนี้ · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดคน', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
   };
   function wizard(s, kind) {
     const steps = s.wizSteps || [], i = Math.min(s.wizI || 0, Math.max(0, steps.length - 1)), key = steps[i];
@@ -175,8 +176,8 @@
       <div class="wz-top">${exitBtn}<span class="wz-ctx">${kind === 'one' ? 'เติม Star Card' : kind === 'apply' ? (hasCard(s) ? `ข้อมูล STAR · ก่อนสมัคร ${c.ep}` : `สมัครเป็น STAR · ${c.ep}`) : `ข้อมูล STAR · ก่อนตอบรับ ${c.ep}`}</span><span class="wz-n">${!intro && total > 1 ? `${n}/${total}` : ''}</span></div>
       ${intro || (kind === 'one' && total < 2) ? '' : `<div class="wz-bar"><i style="width:${(n / total) * 100}%"></i></div>`}
       ${kind === 'one' ? '' : wizStrip(s, key, steps)}
-      <div class="wz-body"><h2 class="wz-h">${st.h}</h2><p class="wz-p">${st.p}</p>${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
-      <div class="wz-foot">${last && kind !== 'one' ? `<div class="wz-next">${kind === 'apply' ? 'ข้อสุดท้าย · จบแล้วแบรนด์เห็นการ์ดคุณได้ทันที' : `ข้อสุดท้าย · ต่อไป: ${dest}`}</div>` : STEP_GAIN[key] ? `<div class="wz-next gain">${I('sparkle', 12, 'fill')}${STEP_GAIN[key]}</div>` : ''}${pkBtn(label, { act: 'wizNext' })}${OPTIONAL_STEPS.includes(key) ? `<a class="pk-link" data-do="wizSkip">ข้ามไว้ก่อน · เติมทีหลังได้</a>` : ''}</div>
+      <div class="wz-body"><h2 class="wz-h">${st.h}</h2><p class="wz-p">${STEP_LINE[key] || st.p}</p>${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
+      <div class="wz-foot">${pkBtn(label, { act: 'wizNext' })}${OPTIONAL_STEPS.includes(key) ? `<a class="pk-link" data-do="wizSkip">ข้ามไว้ก่อน</a>` : ''}</div>
     </div>`;
   }
   // หน้าแรกก่อนสมัคร = "สมัครเป็น STAR" (ไม่ใช่ "สร้าง Star Card" — user: มันคือการสมัครเป็น Star) · การ์ดที่ยังว่าง: การ์ดกระจกใบจริง (รูป+ชื่อจากบัญชี) + ช่องประตรงที่ข้อมูลจะไปขึ้น → เห็นทันทีว่ากรอกแล้วได้อะไร
@@ -223,7 +224,6 @@
     if (st && st.ok && !st.ok()) { window.__keepScroll = true; Store.set({ err: st.err }); document.querySelector('.wz-ctl')?.classList.add('shake'); return; }
     if (key === 'intro') { Store.set({ wizI: i + 1, err: null }); return; }
     const patch = { err: null };
-    if (s.wizKind !== 'one' && key !== 'kyc') Store.toast(`✓ ${STRIP[key] || 'ข้อมูล'} ขึ้นการ์ดแล้ว`);
     if (key === 'socials') D.USER.socials.forEach(so => { if (so.type === 'instagram') so.connected = true; });
     if (key === 'area') patch.profile = { province: true, availability: true };
     else if (key === 'insight') { const g = ((s.form || {}).insight) || {}; patch.profile = { insight: Object.keys(g).some(k2 => g[k2]) }; }
