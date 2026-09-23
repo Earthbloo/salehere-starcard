@@ -1252,5 +1252,5 @@ body.no-panel #panel { width: auto; padding: 8px; }
 /* nudge ใต้หัวข้อเป็น chip: ชิ้นแรก = แบรนด์ใช้ทำอะไร · ชิ้นถัดไป = กติกา */
 .wz-nchips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 20px; }
 .nchip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 13px; background: #F3F4F6; font-size: 12px; font-weight: 600; color: #4F4F4F; }
-.nchip.brand { background: #F3F4F6; color: #16181D; }
-.nchip.brand svg { color: #4F4F4F; }
+.nchip.brand { background: linear-gradient(90deg, #FFF3C9 0%, #FFE39A 55%, #FFD9C2 100%); color: #16181D; border: 1px solid rgba(255,214,110,.6); }
+.nchip.brand svg { color: #B4741A; }
