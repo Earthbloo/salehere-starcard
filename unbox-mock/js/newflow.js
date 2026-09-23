@@ -183,26 +183,23 @@
   // หน้าแรกก่อนสมัคร = "สมัครเป็น STAR" (ไม่ใช่ "สร้าง Star Card" — user: มันคือการสมัครเป็น Star) · การ์ดที่ยังว่าง: การ์ดกระจกใบจริง (รูป+ชื่อจากบัญชี) + ช่องประตรงที่ข้อมูลจะไปขึ้น → เห็นทันทีว่ากรอกแล้วได้อะไร
   const SLOT = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว 1 บรรทัด', kyc: 'Verified', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน' };
   function wizIntro(s, rest) {
+    // IA ของหน้านี้ = 1 เหตุผล + 1 ภาพ + 1 ปุ่ม: "งานนี้รับเฉพาะ STAR" → การ์ดที่คุณจะได้ (แบบย่อ) → เริ่ม
+    // ไม่มี breadcrumb/stepper/ป้ายซ้ำ — งานที่กำลังสมัครอยู่ที่บรรทัดบนสุดบรรทัดเดียว
     const c = cur(s), card = hasCard(s), n = rest.length, has = k => rest.includes(k);
-    const slot = (k, cls = '') => has(k) ? `<span class="wzi-slot ${cls}">${I('plus', 12, 'bold')}${SLOT[k]}</span>` : '';
+    const ghost = (k, t) => has(k) ? `<span class="wzi-ghost">${t}</span>` : '';
     return `<div class="wz wzi pk">
       <div class="gl-orbs"><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="wz-top"><button class="pk-circle" data-do="wizExit">${I('x', 18, 'bold')}</button><span class="wz-ctx">สมัคร ${c.ep}</span><span></span></div>
+      <div class="wz-top"><button class="pk-circle" data-do="wizExit">${I('x', 18, 'bold')}</button><span class="wz-ctx">สมัคร ${c.ep} · ${c.brand}</span><span></span></div>
       <div class="wz-body">
-        <div class="wzi-job"><img src="${c.cover}" alt=""><div><small>กำลังสมัคร ${c.ep}</small><b>${c.title.split(' ').slice(0, 5).join(' ')}</b></div></div>
-        <div class="wzi-journey"><span class="on"><i>1</i>ข้อมูลของคุณ</span><em></em><span><i>2</i>ฟอร์มสมัคร</span><em></em><span><i>3</i>ส่งใบสมัคร</span></div>
-        <h2 class="glass-title sm">${card ? `<span class="a">ก่อนส่งใบสมัคร</span>` : `<span class="a">สมัครเป็น</span><span class="b">STAR</span>`}</h2>
-        <p class="wzi-p">${card ? `แบรนด์คัดเลือกจากการ์ดคุณ · ขอเติมอีก ${n} อย่างให้ครบก่อน แล้วค่อยไปฟอร์มสมัคร` : `งาน Sale Here STAR รับเฉพาะครีเอเตอร์ที่เป็น STAR · สมัครครั้งเดียว ใช้ได้ทุกงาน แล้วค่อยไปฟอร์มสมัคร`}</p>
-        <div class="wzi-card">
+        <h2 class="glass-title sm">${card ? `<span class="a">เติมการ์ดก่อนส่ง</span>` : `<span class="a">สมัครเป็น</span><span class="b">STAR</span><span class="a">ก่อน</span>`}</h2>
+        <p class="wzi-p">${card ? `แบรนด์คัดเลือกจากการ์ด · ยังขาด ${n} อย่าง` : 'งานนี้รับเฉพาะ STAR · ทำครั้งเดียว ใช้ได้ทุกงาน'}</p>
+        <div class="wzi-card lite">
           <span class="wzi-star">★ STAR</span>
-          <div class="wzi-top"><img src="${D.USER.avatar}" alt=""><div><b>${D.USER.name}</b><span class="wzi-inline">${slot('categories', 'sm')}${slot('kyc', 'sm')}</span></div></div>
-          ${has('socials') ? `<div class="wzi-row">${slot('socials')}</div>` : ''}
-          ${slot('about', 'wide')}
-          ${has('rate') || has('province') ? `<div class="wzi-row">${slot('rate')}${slot('province')}</div>` : ''}
-          ${has('availability') || has('insight') ? `<div class="wzi-row">${slot('availability')}${slot('insight')}</div>` : ''}
+          <div class="wzi-top"><img src="${D.USER.avatar}" alt=""><div><b>${D.USER.name}</b><div class="wzi-ghosts">${ghost('categories', 'สายที่ใช่')}${ghost('province', 'พื้นที่')}${ghost('availability', 'วันว่าง')}</div></div></div>
+          <div class="wzi-ghosts">${ghost('socials', 'ยอดผู้ติดตาม')}${ghost('rate', 'เรทรับงาน')}${ghost('insight', 'ข้อมูลผู้ติดตาม')}${ghost('about', 'แนะนำตัว')}${ghost('kyc', 'Verified')}</div>
         </div>
       </div>
-      <div class="wz-foot"><div class="wz-next">${n} ข้อ · จบแล้วไปฟอร์มสมัคร ${c.ep} ต่อ</div>${pkBtn(card ? `เติม ${n} อย่างนี้ก่อน` : 'เริ่มสมัครเป็น STAR', { act: 'wizNext' })}</div>
+      <div class="wz-foot">${pkBtn(card ? `เติม ${n} อย่าง` : `สมัครเป็น STAR · ${n} ข้อ`, { act: 'wizNext' })}</div>
     </div>`;
   }
   S.fillProfile = s => wizard(s, 'apply');
