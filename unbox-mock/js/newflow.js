@@ -50,7 +50,7 @@
   S.campaign = s => {
     let html = oldCampaign(s);
     if (s.flow === 'new' && s.campaign === 'registered' && !s.reviewTab) {
-      const left = REVEAL_ROWS.filter(r => PREP_ROWS.includes(r.key) && !rowDone(s, r));
+      const left = REVEAL_ROWS.filter(r => ['kyc', 'rate', 'about', 'insight', 'province', 'availability'].includes(r.key) && !rowDone(s, r));
       const rv = rival(s);
       const line = left.length ? `<span>แบรนด์เปิดดูการ์ดคุณได้แล้ว · ยังขาด${left[0].key === 'kyc' ? 'ยืนยันตัวตน' : left[0].t}ที่แบรนด์มักถาม</span><button class="btn btn-xs" data-do="creatorProfile">เติมเลย</button>` : '<span>แบรนด์เปิดดูการ์ดคุณได้แล้ว · มีครบทุกอย่างที่แบรนด์ขอดู</span>';
       // สถานะ registered ใช้ bar-desc (ไม่มีนาฬิกา) → แทรกต่อท้ายบรรทัดนั้น
@@ -142,14 +142,14 @@
   };
   const OPTIONAL_STEPS = ['insight'];
   const withIntro = st => st.length ? ['intro', ...st] : [];
-  const applySteps = s => ['socials', 'categories'].filter(k => !P(s)[k]);
+  const applySteps = s => ['socials', 'categories', 'about', 'kyc', 'rate', 'insight', 'province', 'availability'].filter(k => k === 'kyc' ? (!s.user.verify || s.user.verify === 'none') : !P(s)[k]);
   const acceptSteps = s => ['bank', 'draftRounds'].filter(k => !P(s)[k]);
   Ac.pickOne = (d, b) => { b.parentElement.querySelectorAll('.wz-tile').forEach(x => x.classList.remove('on')); b.classList.add('on'); };
   Ac.setAvail = d => { window.__keepScroll = true; Store.set({ form: Object.assign({}, Store.get().form || {}, { avail: d.v === '1' }) }); };
 
   // แถบการ์ดย่อบนหัว wizard: ช่องที่เติมแล้ว = ทึบ · ช่องที่กำลังตอบ = กะพริบ · ที่เหลือ = ประ → ทุกคำตอบ "ขึ้นการ์ดทันที"
-  const STRIP = { socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', area: 'พื้นที่·ว่าง', insight: 'ผู้ติดตาม', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
-  const stripDone = (s, k) => k === 'kyc' ? isVerified(s) : k === 'area' ? (P(s).province && P(s).availability) : !!P(s)[k];
+  const STRIP = { socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', insight: 'ผู้ติดตาม', province: 'พื้นที่', availability: 'วันว่าง', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
+  const stripDone = (s, k) => k === 'kyc' ? isVerified(s) : !!P(s)[k];
   function wizStrip(s, key, steps) {
     const keys = [...new Set(['socials', 'categories', ...steps.filter(k => k !== 'intro')])].filter(k => STRIP[k]);
     const done = keys.filter(k => stripDone(s, k)).length;
@@ -158,7 +158,7 @@
   // nudge ใต้ปุ่ม: บอกผลทันทีของข้อนี้ (ไม่ใช่กติกา แต่คือสิ่งที่ได้)
   const STEP_GAIN = {
     socials: 'สิ่งแรกที่แบรนด์ดู: คุณอยู่ช่องไหน ยอดเท่าไหร่', categories: 'แบรนด์ใช้ข้อนี้จับคู่ว่างานไหนเหมาะกับคุณ', about: 'แบรนด์อ่านบรรทัดนี้เพื่อรู้จักคุณก่อนทัก',
-    rate: 'แบรนด์อยากรู้ราคาก่อนทัก จะได้เสนองานที่จ่ายไหว', area: 'แบรนด์ที่มีงานหน้าร้านถามข้อนี้ทุกครั้ง', insight: 'แบรนด์ถามเสมอว่าคนดูคุณเป็นใคร อายุเท่าไหร่ อยู่ไหน',
+    rate: 'แบรนด์อยากรู้ราคาก่อนทัก จะได้เสนองานที่จ่ายไหว', province: 'แบรนด์ที่มีงานหน้าร้านถามข้อนี้ทุกครั้ง', availability: 'แบรนด์ดูวันว่างของคุณตอนคัดคน', insight: 'แบรนด์ถามเสมอว่าคนดูคุณเป็นใคร อายุเท่าไหร่ อยู่ไหน',
     kyc: 'แบรนด์ขอให้ยืนยันตัวตนก่อนจ่ายค่าตัว', bank: 'ค่าตัวโอนเข้าบัญชีนี้ทันทีที่งานจบ', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
   };
   function wizard(s, kind) {
@@ -189,16 +189,16 @@
       <div class="wz-top"><button class="pk-circle" data-do="wizExit">${I('x', 18, 'bold')}</button><span class="wz-ctx">สมัคร ${c.ep}</span><span></span></div>
       <div class="wz-body">
         <h2 class="glass-title sm">${card ? `<span class="a">ข้อมูล</span><span class="b">STAR</span>` : `<span class="a">สมัครเป็น</span><span class="b">STAR</span>`}</h2>
-        <p class="wzi-p">${card ? `แบรนด์งานนี้ขอดูเพิ่มอีก ${n} อย่าง` : `${n} ข้อนี้คือสิ่งแรกที่แบรนด์ขอดูตอนคัดคน`}</p>
+        <p class="wzi-p">${card ? `แบรนด์งานนี้ขอดูเพิ่มอีก ${n} อย่าง` : `${n} ข้อนี้คือสิ่งที่แบรนด์ขอดูตอนคัดคน · กรอกครั้งเดียว ใช้ทุกงาน`}</p>
         <div class="wzi-card">
           <span class="wzi-star">★ STAR</span>
           <div class="wzi-top"><img src="${D.USER.avatar}" alt=""><div><b>${D.USER.name}</b><span class="wzi-inline">${slot('categories', 'sm')}${slot('kyc', 'sm')}</span></div></div>
           ${has('socials') ? `<div class="wzi-row">${slot('socials')}</div>` : ''}
           ${slot('about', 'wide')}
           ${has('rate') || has('province') ? `<div class="wzi-row">${slot('rate')}${slot('province')}</div>` : ''}
-          ${has('availability') ? `<div class="wzi-row">${slot('availability')}</div>` : ''}
+          ${has('availability') || has('insight') ? `<div class="wzi-row">${slot('availability')}${slot('insight')}</div>` : ''}
         </div>
-        <div class="wzi-meta"><span>${I('eye', 14, 'bold')}แบรนด์เห็นการ์ดใบนี้ตอนคัด</span><span>${I('sparkle', 14, 'fill')}ทำครั้งเดียว ใช้ทุกงาน</span></div>
+        <div class="wzi-meta"><span>${I('eye', 14, 'bold')}แบรนด์เห็นการ์ดใบนี้ตอนคัด</span><span>${n} ขั้น</span></div>
       </div>
       <div class="wz-foot">${pkBtn(card ? 'เติมข้อมูล' : 'เริ่มสมัครเป็น STAR', { act: 'wizNext' })}</div>
     </div>`;
@@ -234,8 +234,8 @@
   };
   Ac.wizFinishApply = () => {
     const s = Store.get(), madeCard = (s.wizSteps || []).some(k => ['socials', 'categories', 'about', 'kyc'].includes(k)) && hasCard(s);
-    Store.set({ screen: madeCard ? 'cardReveal' : 'prep', dialog: null, sheet: null, wizSteps: [], wizI: 0 });
-    if (!madeCard) Ac.prepFill();
+    Store.set({ screen: madeCard ? 'cardReveal' : 'register', dialog: null, sheet: null, wizSteps: [], wizI: 0 });
+    if (!madeCard) Store.toast('ข้อมูลเติมให้แล้ว · ต่อที่ฟอร์มสมัคร');
 
   };
   Ac.wizFinishAccept = () => { Store.set({ screen: 'accept', dialog: null, sheet: null, wizSteps: [], wizI: 0 }); Store.toast('ที่อยู่เติมให้แล้ว · ต่อที่หน้าตอบรับ'); };
@@ -265,7 +265,7 @@
       ? (left ? `${fillBtn}<a class="pk-link" data-go="campaign">ไว้ทีหลัง · กลับไปหน้ากิจกรรม</a>` : `<button class="ach2-btn" data-go="campaign"><span>กลับไปหน้ากิจกรรม</span>${I('arrow-right', 18, 'bold')}</button>`)
       : profile
       ? (card ? (left ? `${fillBtn}<a class="pk-link" data-do="share">แชร์การ์ด</a>` : `<button class="ach2-btn" data-do="share"><span>แชร์การ์ด</span>${I('share-network', 18, 'bold')}</button>`) : `<button class="ach2-btn" data-do="profileMakeCard"><span>สมัครเป็น STAR</span>${I('arrow-right', 18, 'bold')}</button>`)
-      : `<button class="ach2-btn" data-do="revealNext"><span>ต่อ: ตรวจข้อมูลก่อนส่ง</span>${I('arrow-right', 18, 'bold')}</button><a class="pk-link" data-do="share">แชร์การ์ดก่อน</a>`;
+      : `<button class="ach2-btn" data-do="revealNext"><span>ต่อ: ฟอร์มสมัคร ${cur(s).ep}</span>${I('arrow-right', 18, 'bold')}</button><a class="pk-link" data-do="share">แชร์การ์ดก่อน</a>`;
     // ทั้ง 2 โหมด (การ์ดเกิด + Star Profile ถาวร) = พื้นสว่าง + แสงเบลอโทนเดียว (champagne) + การ์ด/แถวเป็นกระจก · การ์ดขอบเหลืองนิดๆ ใบเดียว · ไม่มีดาว/ฝุ่น/การ์ดลอย (canvas "Star Profile 2026 Directions" แบบ C)
     return `<div class="ach2 pk ${profile || boost || s.revealSeen ? 'quiet' : ''} glass ${profile || boost ? 'profile' : ''}" id="ach2">
       <div class="gl-orbs"><i></i><i></i><i></i><i></i><i></i></div><div class="ach2-dust" id="ach2-dust"></div>
@@ -282,40 +282,6 @@
     </div>`;
   }
   S.cardReveal = s => starPage(s, 'reveal');
-  // แบรนด์คัดคนทันทีหลังลงทะเบียน → ข้อมูลที่ใช้คัดต้องครบ "ก่อน" ส่งใบสมัคร
-  // วิธีลด drop-off คือไม่ถามทีละหน้า แต่ "ใส่ค่ามาตรฐานให้ แล้วให้ตรวจ" ในหน้าเดียว แก้เฉพาะที่อยากแก้
-  const PREP_ROWS = ['rate', 'area', 'about', 'insight', 'kyc'];
-  // ช่องที่ยังว่างบอก "สิ่งที่เสีย" ไม่ใช่กติกา
-  const PREP_LOSS = { kyc: 'แบรนด์ขอดูข้อนี้ก่อนเลือก', insight: 'แบรนด์ถามข้อนี้บ่อยที่สุด: คนดูคุณเป็นใคร', rate: 'แบรนด์อยากรู้ราคาก่อนทัก', area: 'แบรนด์ที่มีงานหน้าร้านต้องรู้ข้อนี้', about: 'แบรนด์อยากรู้จักคุณจากปากคุณเอง' };
-  S.prep = s => {
-    const rows = REVEAL_ROWS.filter(r => PREP_ROWS.includes(r.key));
-    const kycNone = !s.user.verify || s.user.verify === 'none';
-    const readyN = rows.filter(r => rowDone(s, r)).length, readyPct = Math.round(readyN / rows.length * 100);
-    return `<div class="ach2 pk quiet glass profile" id="ach2">
-      <div class="gl-orbs"><i></i><i></i><i></i><i></i><i></i></div>
-      <button class="ach2-x pk-circle" data-do="wizExit">${I('caret-left', 18, 'bold')}</button>
-      <div class="ach2-body">
-        <h2 class="ach2-h glass-title sm"><span class="a">ข้อมูลที่</span><span class="b">แบรนด์เห็น</span></h2>
-        <p class="ach2-p glass-chip">${I('check-circle', 15, 'bold')}ใส่ค่ามาตรฐานให้แล้ว · แก้เฉพาะที่อยากแก้</p>
-        <div class="prep-ready"><div class="bt-row"><b>สิ่งที่แบรนด์ขอดู</b><em>${readyN}/${rows.length}</em></div><div class="bt-bar ${readyPct === 100 ? 'full' : ''}"><i style="width:${readyPct}%"></i></div><span>${readyPct === 100 ? 'มีครบทุกอย่างที่แบรนด์ขอดูตอนคัด' : `แบรนด์ยังไม่เห็นอีก ${rows.length - readyN} อย่างที่มักถาม · ให้ครบก่อนส่ง แบรนด์ตัดสินใจง่ายขึ้น`}</span></div>
-        <div class="ach2-stage"><div class="ach2-float"><div class="ach2-card" id="ach2-card">${window.cardView(s)}</div></div></div>
-        <div class="ach2-rows" style="margin-top:22px">${rows.map(r => {
-          const ok = rowDone(s, r), opt = r.key === 'insight';
-          const pending = r.key === 'kyc' && !kycNone && !isVerified(s);
-          return `<div class="ach2-row ${ok ? 'ok' : 'todo'}" data-do="revealFill" data-k="${r.key}">
-            <i class="ic">${I(r.icon, 18, ok ? 'fill' : 'bold')}</i>
-            <div class="tx"><b>${r.t}${opt && !ok ? ' <em class="opt">ไม่บังคับ</em>' : ''}</b><span class="sum ${ok || pending ? '' : 'loss'}">${ok ? r.done(s).join(' · ') : pending ? 'ทีมงานตรวจภายใน 1–3 วันทำการ' : (PREP_LOSS[r.key] || r.why)}</span></div>
-            ${ok ? `<span class="edit-link">แก้</span>` : pending ? `<span class="wait-pill">${I('clock', 12, 'bold')}กำลังตรวจ</span>` : `<span class="add">${I('plus', 13, 'bold')}<em>${r.key === 'kyc' ? 'ยืนยัน' : 'เพิ่ม'}</em></span>`}
-          </div>`;
-        }).join('')}</div>
-        ${kycNone ? `<div class="wz-nudge" style="margin-top:14px">${I('seal-check', 16, 'bold')}<div><b>ยืนยันตัวตนก่อนส่งใบสมัคร</b><span>แบรนด์เลือกเฉพาะคนที่ยืนยันแล้ว · ส่งได้เลยไม่ต้องรอผลตรวจ</span></div></div>` : ''}
-      </div>
-      <div class="ach2-foot"><button class="ach2-btn" data-do="prepNext"><span>ส่งใบสมัคร ${cur(s).ep}</span>${I('arrow-right', 18, 'bold')}</button>${readyPct < 100 ? `<a class="pk-link" data-do="fillAllMissing">ให้แบรนด์เห็นครบก่อนส่ง (${rows.length - readyN} อย่าง)</a>` : ''}</div>
-    </div>`;
-  };
-  // เข้าหน้านี้ = เติมค่ามาตรฐานให้ก่อน (เรท · พื้นที่ · วันว่าง · แนะนำตัว) แล้วให้ผู้ใช้ตรวจ
-  Ac.prepFill = () => { const s = Store.get(), p = P(s), patch = {}; ['rate', 'province', 'availability', 'about'].forEach(k => { if (!p[k]) patch[k] = true; }); if (Object.keys(patch).length) Store.set({ profile: patch, autoFilled: true }); };
-  Ac.prepNext = () => Store.set({ screen: 'register', dialog: null, sheet: null });
   // ส่งใบสมัครแล้ว → ที่อยู่มาจากฟอร์มสมัครเดิม (ไม่ต้องถามซ้ำตอนตอบรับ) → หน้าเพิ่มโอกาสถูกเลือก
   const oldSubmit = Ac.submitRegister;
   Ac.submitRegister = () => {
@@ -337,17 +303,18 @@
     { key: 'rate', icon: 'coins', t: 'เรทรับงาน', done: s => ['IG ฿3,000', 'TikTok ฿10,300', '+3 รูปแบบ'], why: 'แบรนด์เห็นราคาก่อนทัก ไม่ต้องต่อรอง' },
     { key: 'about', icon: 'text-align-left', t: 'แนะนำตัว', done: s => ['ชอบพาไปเที่ยว ทานอาหารอร่อยๆ…'], why: '1 บรรทัดใต้ชื่อบนการ์ด' },
     { key: 'insight', icon: 'users-three', t: 'ข้อมูลผู้ติดตาม', done: s => ['หญิง 68%', '25–34 ปี', 'กรุงเทพฯ'], why: 'แบรนด์เห็นว่าคนดูคุณเป็นใคร' },
-    { key: 'area', icon: 'map-pin', t: 'พื้นที่ + วันว่าง', keys: ['province', 'availability'], done: s => ['กรุงเทพฯ +2', 'เสาร์–อาทิตย์'], why: 'งานใกล้คุณและตรงเวลาว่างขึ้นก่อน' },
+    { key: 'province', icon: 'map-pin', t: 'พื้นที่รับงาน', done: s => ['กรุงเทพฯ', 'นนทบุรี', '+1'], why: 'งานหน้าร้านใกล้คุณขึ้นก่อน' },
+    { key: 'availability', icon: 'calendar-dots', t: 'วันเวลาว่างรับงาน', done: s => ['เสาร์–อาทิตย์', 'เย็น'], why: 'แบรนด์ดูวันว่างของคุณตอนคัดคน' },
     { key: 'socials', icon: 'broadcast', t: 'ช่องทางของฉัน', done: s => D.USER.socials.filter(x => x.connected).map(so => `${({ instagram: 'IG', tiktok: 'TikTok', youtube: 'YouTube', facebook: 'FB', x: 'X', lemon8: 'Lemon8' })[so.type] || so.type} ${U.fmtNum(so.followers)}`), why: 'ยอดผู้ติดตามขึ้นการ์ดอัตโนมัติ' },
     { key: 'categories', icon: 'sparkle', t: 'สายที่ใช่', done: s => D.USER.categories, why: 'งานตรงสายขึ้นหน้าแรกให้' },
     { key: 'bank', icon: 'bank', t: 'การรับเงิน', done: s => ['กสิกรไทย', '···7890'], why: 'ค่าตัวเข้าบัญชีทันทีเมื่องานจบ' },
     { key: 'draftRounds', icon: 'arrows-clockwise', t: 'รอบแก้งาน', done: s => ['แก้ 2 รอบ'], why: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน' },
     { key: 'address', icon: 'package', t: 'ที่อยู่รับของ', done: s => ['กรุงเทพฯ 10110'], why: 'ใช้ที่อยู่จากใบสมัคร · แก้ได้' },
   ];
-  const rowsFor = s => s.screen === 'prep' ? REVEAL_ROWS.filter(r => PREP_ROWS.includes(r.key)) : REVEAL_ROWS;
+  const rowsFor = s => REVEAL_ROWS;
   const rowDone = (s, r) => r.key === 'kyc' ? isVerified(s) : (r.keys || [r.key]).every(k => P(s)[k]);
   // ข้อที่ยังขาดขึ้นก่อนเสมอ · ข้อที่ครบรวมเป็นบรรทัดเดียว "ครบแล้ว N อย่าง" กดขยายดูได้
-  const missingSteps = s => rowsFor(s).filter(r => r.key !== 'kyc' && !rowDone(s, r)).flatMap(r => r.key === 'area' ? ['area'] : (r.keys || [r.key]).filter(k => WZ[k] && !P(s)[k]));
+  const missingSteps = s => rowsFor(s).filter(r => r.key !== 'kyc' && !rowDone(s, r)).flatMap(r => (r.keys || [r.key]).filter(k => WZ[k] && !P(s)[k]));
   function revealRows(s) {
     const list = rowsFor(s), done = list.filter(r => rowDone(s, r)), todo = list.filter(r => !rowDone(s, r));
     const doneBar = done.length ? `<div class="ach2-done ${s.doneOpen || !todo.length ? 'open' : ''}" data-do="toggleDone"><i class="tick">${I('check', 12, 'bold')}</i><div class="tx"><b>ครบแล้ว ${done.length} อย่าง</b><span class="sum">${done.map(r => r.t).join(' · ')}</span></div>${I('caret-down', 16, 'bold')}</div>` : '';
@@ -356,7 +323,7 @@
   Ac.toggleDone = () => { window.__keepScroll = true; Store.set({ doneOpen: !Store.get().doneOpen }); };
   Ac.fillAllMissing = () => {
     Store.set({ lastPct: pctDone(Store.get()) });
-    const s = Store.get(), back = ['profileHub', 'prep'].includes(s.screen) ? s.screen : 'cardReveal', steps = missingSteps(s);
+    const s = Store.get(), back = s.screen === 'profileHub' ? 'profileHub' : 'cardReveal', steps = missingSteps(s);
     if (!steps.length) { Store.set({ revealKyc: back, revealSeen: true }); return Ac.openKyc(); }
     Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: back, err: null, revealSeen: true, dialog: null, sheet: null });
   };
@@ -373,9 +340,9 @@
   Ac.revealFill = d => {
     Store.set({ lastPct: pctDone(Store.get()) });
     const s = Store.get(), r = REVEAL_ROWS.find(x => x.key === d.k);
-    const back = ['profileHub', 'prep'].includes(s.screen) ? s.screen : 'cardReveal';
+    const back = s.screen === 'profileHub' ? 'profileHub' : 'cardReveal';
     if (r.key === 'kyc') { Store.set({ revealKyc: back, revealSeen: true }); return Ac.openKyc(); }
-    const steps = r.key === 'area' ? ['area'] : (r.keys || [r.key]).filter(k => WZ[k]);
+    const steps = (r.keys || [r.key]).filter(k => WZ[k]);
     Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: back, err: null, revealSeen: true, dialog: null, sheet: null });
   };
   S.fillOne = s => wizard(s, 'one');
@@ -413,15 +380,14 @@
     root.addEventListener('mouseleave', () => set(0, 0));
     window.addEventListener('deviceorientation', e => { if (e.gamma != null) set(Math.max(-.5, Math.min(.5, e.gamma / 60)), Math.max(-.5, Math.min(.5, (e.beta - 45) / 60))); });
   };
-  Ac.revealNext = () => { Store.set({ screen: 'prep', revealSeen: true, dialog: null, sheet: null }); Ac.prepFill(); };
+  Ac.revealNext = () => Store.set({ screen: 'register', revealSeen: true, dialog: null, sheet: null });
   const acceptMissing = s => ['bank', 'draftRounds'].filter(k => !P(s)[k]);
 
 
   // ---------- Unbox happy case เป็นลำดับเดียว + กติกาติ๊กข้อมูล ----------
   window.STAGES = [
     { t: 'เห็นงาน · หน้ากิจกรรม', set: { campaign: 'register', review: 'none', order: 'preparing', screen: 'campaign', reviewTab: false } },
-    { t: 'แทรก: สร้างการ์ด (โซเชียล + สายที่ใช่)', set: { campaign: 'register', review: 'none', screen: 'fillProfile' } },
-    { t: 'แทรก: ตรวจข้อมูลที่แบรนด์เห็น', set: { campaign: 'register', review: 'none', screen: 'prep' } },
+    { t: 'แทรก: ข้อมูลของคุณ (ก่อนสมัคร)', set: { campaign: 'register', review: 'none', screen: 'fillProfile' } },
     { t: 'ฟอร์มสมัครเดิม (ไม่แก้)', set: { campaign: 'register', review: 'none', screen: 'register' } },
     { t: 'ลงทะเบียนสำเร็จ · dialog เดิม', set: { campaign: 'registered', review: 'none', screen: 'campaign', dialog: 'registerSuccess' } },
     { t: 'แบรนด์คัดคน · รอผล', set: { campaign: 'registered', review: 'none', screen: 'campaign' } },
@@ -437,29 +403,28 @@
   window.DATA_RULES = [
     { key: 'socials', label: 'โซเชียล ≥1 ช่อง + ยอดฟอล', askAt: 1, needFrom: 2 },
     { key: 'categories', label: 'สายที่ใช่', askAt: 1, needFrom: 2 },
-    { key: 'rate', label: 'เรทรับงานต่อรูปแบบคอนเทนต์', askAt: 2, needFrom: 3 },
-    { key: 'about', label: 'แนะนำตัว 1 บรรทัด', askAt: 2, needFrom: 3 },
-    { key: 'province', label: 'จังหวัดที่รับงาน', askAt: 2, needFrom: 3 },
-    { key: 'availability', label: 'วัน/เวลาว่างรับงาน', askAt: 2, needFrom: 3 },
-    { key: 'kyc', label: 'ยืนยันตัวตน (KYC)', askAt: 2, needFrom: 3 },
-    { key: 'address', label: 'ที่อยู่รับของ + เบอร์', askAt: 3, needFrom: 4 },
-    { key: 'bank', label: 'บัญชีรับเงิน', askAt: 7, needFrom: 8 },
-    { key: 'draftRounds', label: 'แก้งานได้กี่รอบ', askAt: 7, needFrom: 8 },
+    { key: 'about', label: 'แนะนำตัว 1 บรรทัด', askAt: 1, needFrom: 2 },
+    { key: 'kyc', label: 'ยืนยันตัวตน (KYC)', askAt: 1, needFrom: 2 },
+    { key: 'rate', label: 'เรทรับงานต่อรูปแบบคอนเทนต์', askAt: 1, needFrom: 2 },
+    { key: 'province', label: 'จังหวัดที่รับงาน', askAt: 1, needFrom: 2 },
+    { key: 'availability', label: 'วัน/เวลาว่างรับงาน', askAt: 1, needFrom: 2 },
+    { key: 'address', label: 'ที่อยู่รับของ + เบอร์', askAt: 2, needFrom: 3 },
+    { key: 'bank', label: 'บัญชีรับเงิน', askAt: 6, needFrom: 7 },
+    { key: 'draftRounds', label: 'แก้งานได้กี่รอบ', askAt: 6, needFrom: 7 },
   ];
   const ruleApplies = (s, r) => true;
   window.stageOf = function (s) {
     const c = s.campaign, r = s.review, sc = s.screen;
-    if (r === 'reviewed') return 13;
-    if (sc === 'link' || r === 'waitingReview' || r === 'notOpenReview') return 12;
-    if (sc === 'preview' || r === 'waitingApproveDraft' || r === 'rejectDraft') return 11;
-    if (sc === 'draft' || r === 'waitingDraft' || r === 'draft') return 10;
-    if (c === 'acceptedQuota') return 9;
-    if (sc === 'accept') return 8;
-    if (sc === 'fillAccept') return 7;
-    if (c === 'waitingAcceptQuota') return 6;
-    if (c === 'registered') return s.dialog === 'registerSuccess' ? 4 : 5;
-    if (sc === 'register') return 3;
-    if (sc === 'prep') return 2;
+    if (r === 'reviewed') return 12;
+    if (sc === 'link' || r === 'waitingReview' || r === 'notOpenReview') return 11;
+    if (sc === 'preview' || r === 'waitingApproveDraft' || r === 'rejectDraft') return 10;
+    if (sc === 'draft' || r === 'waitingDraft' || r === 'draft') return 9;
+    if (c === 'acceptedQuota') return 8;
+    if (sc === 'accept') return 7;
+    if (sc === 'fillAccept') return 6;
+    if (c === 'waitingAcceptQuota') return 5;
+    if (c === 'registered') return s.dialog === 'registerSuccess' ? 3 : 4;
+    if (sc === 'register') return 2;
     if (sc === 'fillProfile' || sc === 'cardReveal' || sc === 'fillOne') return 1;
     return 0;
   };
@@ -470,8 +435,7 @@
     const patch = Object.assign({ dialog: null, sheet: null, err: null, quota: 'primary', reviewTab: false, profile: pf, user: Object.assign({ consent: i >= 2 }, user), form: Object.assign({}, s.form || {}) }, window.STAGES[i].set);
     Store.set(patch);
     const ns = Store.get();
-    if (ns.screen === 'prep') Ac.prepFill();
-    if (ns.screen === 'fillProfile') { const st = withIntro(applySteps(ns)); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'apply' } : { screen: 'prep', wizSteps: [], wizI: 0 }); }
+    if (ns.screen === 'fillProfile') { const st = withIntro(applySteps(ns)); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'apply' } : { screen: 'register', wizSteps: [], wizI: 0 }); }
     if (ns.screen === 'fillAccept') { const st = acceptSteps(ns); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'accept' } : { screen: 'accept', wizSteps: [], wizI: 0 }); }
   };
   Ac.tickData = (key, on) => {
@@ -481,7 +445,7 @@
       Object.assign(patch, window.STAGES[r.askAt].set, { dialog: null, sheet: null, err: null });
       Store.set(patch);
       const ns = Store.get();
-      if (ns.screen === 'fillProfile') { const st = withIntro(applySteps(ns)); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'apply' } : { screen: 'prep', wizSteps: [], wizI: 0 }); }
+      if (ns.screen === 'fillProfile') { const st = withIntro(applySteps(ns)); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'apply' } : { screen: 'register', wizSteps: [], wizI: 0 }); }
       if (ns.screen === 'fillAccept') { const st = acceptSteps(ns); Store.set(st.length ? { wizSteps: st, wizI: 0, wizKind: 'accept' } : { screen: 'accept', wizSteps: [], wizI: 0 }); }
       Store.toast(`ย้อนกลับไป "${window.STAGES[r.askAt].t}" เพราะข้อมูลนี้หายไป`);
       return;
