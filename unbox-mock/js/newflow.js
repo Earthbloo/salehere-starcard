@@ -45,6 +45,17 @@
     </div>`;
   };
 
+  // ---------- ฟอร์มสมัครเดิม: flow ใหม่ตัดช่องที่อยู่ออก (user: ยังไม่เคยได้งาน ไม่ควรถามที่อยู่) → ถามตอนตอบรับแทน ----------
+  const oldRegister = S.register;
+  S.register = s => {
+    let html = oldRegister(s);
+    if (s.flow !== 'new') return html;
+    ['รายละเอียดที่อยู่', 'รหัสไปรษณีย์', 'ตำบล/แขวง', 'อำเภอ/เขต', 'จังหวัด'].forEach(lb => {
+      html = html.replace(new RegExp(`<div class="fld[^"]*">\\s*<label class="fld-lb">(?:<em>\\*</em>)?${lb}</label>[\\s\\S]*?</div>\\s*</div>`), '');
+    });
+    return html.replace('<div class="sec-hdr">ข้อมูลที่อยู่</div>', '<div class="sec-hdr">ข้อมูลติดต่อ</div>');
+  };
+
   // ---------- หน้ากิจกรรม (เดิมทั้งหมด) + บรรทัดบอกว่ามี Star Card หรือยัง ใต้นาฬิกา ----------
   const oldCampaign = S.campaign;
   S.campaign = s => {
@@ -144,7 +155,7 @@
   const OPTIONAL_STEPS = ['insight'];
   const withIntro = st => st.length ? ['intro', ...st] : [];
   const applySteps = s => ['socials', 'categories', 'about', 'kyc', 'rate', 'insight', 'province', 'availability'].filter(k => k === 'kyc' ? (!s.user.verify || s.user.verify === 'none') : !P(s)[k]);
-  const acceptSteps = s => ['bank', 'draftRounds'].filter(k => !P(s)[k]);
+  const acceptSteps = s => ['address', 'bank', 'draftRounds'].filter(k => !P(s)[k]);
   Ac.pickOne = (d, b) => { b.parentElement.querySelectorAll('.wz-tile').forEach(x => x.classList.remove('on')); b.classList.add('on'); };
   Ac.setAvail = d => { window.__keepScroll = true; Store.set({ form: Object.assign({}, Store.get().form || {}, { avail: d.v === '1' }) }); };
 
@@ -286,7 +297,7 @@
     const s = Store.get();
     oldSubmit();
     const ns = Store.get();
-    if (s.flow === 'new' && ns.campaign === 'registered') Store.set({ profile: { address: true } });
+
   };
   // ปุ่ม "โปรไฟล์ครีเอเตอร์" (และทุกทางเข้า profileHub เดิม) ใน flow ใหม่ → Star Profile
   const oldHub = S.profileHub;
@@ -307,7 +318,7 @@
     { key: 'categories', icon: 'sparkle', t: 'สายที่ใช่', done: s => D.USER.categories, why: 'งานตรงสายขึ้นหน้าแรกให้' },
     { key: 'bank', icon: 'bank', t: 'การรับเงิน', done: s => ['กสิกรไทย', '···7890'], why: 'ค่าตัวเข้าบัญชีทันทีเมื่องานจบ' },
     { key: 'draftRounds', icon: 'arrows-clockwise', t: 'รอบแก้งาน', done: s => ['แก้ 2 รอบ'], why: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน' },
-    { key: 'address', icon: 'package', t: 'ที่อยู่รับของ', done: s => ['กรุงเทพฯ 10110'], why: 'ใช้ที่อยู่จากใบสมัคร · แก้ได้' },
+    { key: 'address', icon: 'package', t: 'ที่อยู่รับของ', done: s => ['กรุงเทพฯ 10110'], why: 'ถามตอนได้งานแรก · รับของรีวิวได้เลย' },
   ];
   const rowsFor = s => REVEAL_ROWS;
   const rowDone = (s, r) => r.key === 'kyc' ? isVerified(s) : (r.keys || [r.key]).every(k => P(s)[k]);
@@ -379,7 +390,7 @@
     window.addEventListener('deviceorientation', e => { if (e.gamma != null) set(Math.max(-.5, Math.min(.5, e.gamma / 60)), Math.max(-.5, Math.min(.5, (e.beta - 45) / 60))); });
   };
   Ac.revealNext = () => Store.set({ screen: 'register', revealSeen: true, dialog: null, sheet: null });
-  const acceptMissing = s => ['bank', 'draftRounds'].filter(k => !P(s)[k]);
+  const acceptMissing = s => ['address', 'bank', 'draftRounds'].filter(k => !P(s)[k]);
 
 
   // ---------- Unbox happy case เป็นลำดับเดียว + กติกาติ๊กข้อมูล ----------
@@ -406,7 +417,7 @@
     { key: 'rate', label: 'เรทรับงานต่อรูปแบบคอนเทนต์', askAt: 1, needFrom: 2 },
     { key: 'province', label: 'จังหวัดที่รับงาน', askAt: 1, needFrom: 2 },
     { key: 'availability', label: 'วัน/เวลาว่างรับงาน', askAt: 1, needFrom: 2 },
-    { key: 'address', label: 'ที่อยู่รับของ + เบอร์', askAt: 2, needFrom: 3 },
+    { key: 'address', label: 'ที่อยู่รับของ', askAt: 6, needFrom: 7 },
     { key: 'bank', label: 'บัญชีรับเงิน', askAt: 6, needFrom: 7 },
     { key: 'draftRounds', label: 'แก้งานได้กี่รอบ', askAt: 6, needFrom: 7 },
   ];
