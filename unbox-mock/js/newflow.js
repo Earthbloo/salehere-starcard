@@ -60,8 +60,9 @@
     const missing = applyMissing(s).length;
     const c = cur(s);
     const rv = rival(s);
-    const hint = missing ? `แบรนด์ขอดูการ์ดก่อนคัด · ตอบ ${missing} ข้อที่แบรนด์อยากรู้ แล้วส่งใบสมัครได้เลย` : (isStar(s) ? 'การ์ดคุณมีครบที่แบรนด์ขอดู · ส่งใบสมัครได้เลย' : 'การ์ดพร้อม · แบรนด์ขอให้ยืนยันตัวตนด้วย');
-    return html.replace(/(<div class="bar-clock">[\s\S]*?<\/div>)(\s*<button)/, `$1<div class="bar-desc ink" style="height:auto;padding-bottom:4px;font-size:12px;gap:6px"><span class="lvl-chip">${isStar(s) ? '★ STAR แล้ว' : hasCard(s) ? '☆ มีการ์ดแล้ว · ยังไม่ยืนยันตัวตน' : '☆ ยังไม่มี Star Card'}</span><span>${hint}</span></div>$2`);
+    // บอกเงื่อนไขตรง ๆ ก่อนกดปุ่ม: งานนี้รับเฉพาะ STAR
+    const hint = !hasCard(s) ? `งานนี้รับเฉพาะ STAR · กดลงทะเบียนแล้วสมัครเป็น STAR ก่อน (ครั้งเดียว ใช้ได้ทุกงาน)` : missing ? `แบรนด์คัดเลือกจากการ์ด · ขอเติมอีก ${missing} อย่างก่อนส่งใบสมัคร` : (isStar(s) ? 'การ์ดคุณครบแล้ว · ส่งใบสมัครได้เลย' : 'การ์ดพร้อม · ยืนยันตัวตนด้วย แบรนด์จะคัดเลือกง่ายขึ้น');
+    return html.replace(/(<div class="bar-clock">[\s\S]*?<\/div>)(\s*<button)/, `$1<div class="bar-desc ink" style="height:auto;padding-bottom:4px;font-size:12px;gap:6px"><span class="lvl-chip">${isStar(s) ? '★ STAR แล้ว' : hasCard(s) ? '☆ ยังไม่ยืนยันตัวตน' : '☆ ยังไม่เป็น STAR'}</span><span>${hint}</span></div>$2`);
   };
 
   function applyMissing(s) { return applySteps(s); }
@@ -191,7 +192,7 @@
         <div class="wzi-job"><img src="${c.cover}" alt=""><div><small>กำลังสมัคร ${c.ep}</small><b>${c.title.split(' ').slice(0, 5).join(' ')}</b></div></div>
         <div class="wzi-journey"><span class="on"><i>1</i>ข้อมูลของคุณ</span><em></em><span><i>2</i>ฟอร์มสมัคร</span><em></em><span><i>3</i>ส่งใบสมัคร</span></div>
         <h2 class="glass-title sm">${card ? `<span class="a">ก่อนส่งใบสมัคร</span>` : `<span class="a">สมัครเป็น</span><span class="b">STAR</span>`}</h2>
-        <p class="wzi-p">${card ? `แบรนด์คัดเลือกจากการ์ดคุณ · ขอเติมอีก ${n} อย่างให้ครบก่อน แล้วค่อยไปฟอร์มสมัคร` : `แบรนด์คัดเลือกจากการ์ดใบนี้ · ทำครั้งเดียว ใช้สมัครได้ทุกงาน`}</p>
+        <p class="wzi-p">${card ? `แบรนด์คัดเลือกจากการ์ดคุณ · ขอเติมอีก ${n} อย่างให้ครบก่อน แล้วค่อยไปฟอร์มสมัคร` : `งาน Sale Here STAR รับเฉพาะครีเอเตอร์ที่เป็น STAR · สมัครครั้งเดียว ใช้ได้ทุกงาน แล้วค่อยไปฟอร์มสมัคร`}</p>
         <div class="wzi-card">
           <span class="wzi-star">★ STAR</span>
           <div class="wzi-top"><img src="${D.USER.avatar}" alt=""><div><b>${D.USER.name}</b><span class="wzi-inline">${slot('categories', 'sm')}${slot('kyc', 'sm')}</span></div></div>
