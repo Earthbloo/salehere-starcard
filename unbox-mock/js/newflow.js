@@ -31,6 +31,7 @@
   Ac.pkToggle = (d, b) => b.classList.toggle('on');
 
   // ---------- StarCard (ใบจริงประกอบจากโปรไฟล์ · อัปเดตตามที่กรอก) ----------
+  const contactBits = s => { const f = s.form || {}; return [f.lineId ? 'LINE ' + f.lineId : 'LINE maneerat.j', f.tel ?? D.USER.tel, f.web].filter(Boolean); };
   window.cardView = function (s, { newWork = false, compact = false } = {}) {
     const p = P(s);
     const socs = D.USER.socials.filter(x => x.connected);
@@ -38,9 +39,10 @@
     return `<div class="sc-card">
       ${isStar(s) ? `<span class="sc-level">★ STAR</span>` : ''}
       <div class="sc-top"><img class="sc-ava" src="${D.USER.avatar}"><div><div class="sc-name">${D.USER.name}${isVerified(s) ? `<span class="sc-verified">${I('seal-check', 11, 'fill')} Verified</span>` : ''}</div><div class="sc-handle">@${D.USER.username.toLowerCase()} · ${p.categories ? D.USER.categories.join(' · ') : '<i style="opacity:.6">สายที่ใช่จะขึ้นตรงนี้</i>'}</div></div></div>
-      ${socs.length && p.socials ? `<div class="sc-socials">${socs.map(so => `<span class="sc-soc">${U.socialIcon(so.type, 20)}${U.fmtNum(so.followers)}</span>`).join('')}</div>` : `<div class="sc-empty">ยอดผู้ติดตามจะขึ้นตรงนี้เมื่อผูกโซเชียล</div>`}
+      ${socs.length && p.socials ? `<div class="sc-socials">${socs.map(so => `<span class="sc-soc">${U.socialIcon(so.type, 20)}${U.fmtNum(so.followers)}</span>`).join('')}</div>` : ''}
       ${!compact && p.about ? `<div class="sc-about">ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ</div>` : ''}
       ${!compact && works.length ? `<div class="sc-works">${works.map((w, i) => `<span class="${newWork && i === 0 ? 'new' : ''}"><img src="${w}"></span>`).join('')}</div>` : ''}
+      ${p.contact ? `<div class="sc-contact">${(() => { const f = s.form || {}; return [['chat-circle-text', f.lineId || 'maneerat.j'], ['phone', (f.tel ?? D.USER.tel).replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')], f.web ? ['globe-simple', f.web] : null].filter(Boolean).map(([ic, t]) => `<span>${I(ic, 13, 'bold')}${t}</span>`).join(''); })()}</div>` : ''}
       <div class="sc-foot"><span>ทำงานผ่าน Sale Here <b>${(newWork || s.review === 'reviewed') ? 1 : 0} งาน</b></span>${p.rate ? `<span>เรทเริ่ม <b>฿1,500</b>/โพสต์</span>` : ''}${isVerified(s) ? `<span><b>ยืนยันตัวตนแล้ว</b></span>` : ''}</div>
     </div>`;
   };
@@ -81,6 +83,44 @@
   // ---------- หน้าแทรก = wizard "หนึ่งคำถามต่อหนึ่งหน้า" (minimal) ----------
   // เข้าหน้าแทรก → คำนวณรายการขั้นที่ยังขาด (wizSteps) → แสดงทีละหน้า: หัวข้อ 1 บรรทัด · ช่องกรอก · ปุ่มถัดไป
   // ขั้นที่มีข้อมูลแล้วไม่โผล่เลย · หน้าสุดท้ายปุ่มบอกปลายทาง (ฟอร์มสมัคร / หน้าตอบรับ)
+  // 77 จังหวัด + ออนไลน์ — ช่องค้นหาบนสุด · ยอดนิยมก่อน · ที่เหลือเรียง ก–ฮ · พิมพ์แล้วกรองทันที (รับชื่อเล่น กทม/โคราช/อยุธยา)
+  const PROV_POP = ['กรุงเทพมหานคร', 'ทุกจังหวัด (ออนไลน์)', 'นนทบุรี', 'ปทุมธานี', 'สมุทรปราการ', 'ชลบุรี', 'เชียงใหม่', 'ภูเก็ต', 'ขอนแก่น'];
+  const PROV_ALL = ['กระบี่', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร', 'ขอนแก่น', 'จันทบุรี', 'ฉะเชิงเทรา', 'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่', 'ตรัง', 'ตราด', 'ตาก', 'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน', 'บึงกาฬ', 'บุรีรัมย์', 'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี', 'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่', 'ภูเก็ต', 'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน', 'ยโสธร', 'ยะลา', 'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี', 'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย', 'ศรีสะเกษ', 'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์', 'หนองคาย', 'หนองบัวลำภู', 'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี'];
+  const PROV_ALIAS = { 'กรุงเทพมหานคร': 'กทม กรุงเทพ bangkok bkk', 'นครราชสีมา': 'โคราช', 'พระนครศรีอยุธยา': 'อยุธยา', 'ทุกจังหวัด (ออนไลน์)': 'online', 'ภูเก็ต': 'phuket', 'เชียงใหม่': 'chiang mai', 'ชลบุรี': 'พัทยา pattaya' };
+  const provChip = (t, picked) => `<span class="wz-chip ${picked.includes(t) ? 'on' : ''}" data-do="provToggle" data-k="${t} ${PROV_ALIAS[t] || ''}">${t}</span>`;
+  const provPicker = picked => `<div class="wz-prov">
+    <label class="wz-in wz-search">${I('magnifying-glass', 18, 'bold')}<input type="search" placeholder="ค้นหาจังหวัด" data-filter="provFilter"></label>
+    <div class="wz-sub">ยอดนิยม</div><div class="wz-chips">${PROV_POP.map(t => provChip(t, picked)).join('')}</div>
+    <div class="wz-sub">ทั้งหมด 77 จังหวัด</div><div class="wz-chips">${['กรุงเทพมหานคร', ...PROV_ALL].filter(t => !PROV_POP.includes(t)).map(t => provChip(t, picked)).join('')}</div>
+    <div class="wz-none" hidden>ไม่พบจังหวัดนี้</div></div>`;
+  Ac.provFilter = el => {
+    const box = el.closest('.wz-prov'), q = el.value.trim().toLowerCase();
+    box.classList.toggle('q', !!q);
+    let n = 0; box.querySelectorAll('.wz-chip').forEach(c => { const hit = !q || c.dataset.k.toLowerCase().includes(q); c.hidden = !hit; n += hit; });
+    box.querySelector('.wz-none').hidden = n > 0;
+  };
+  Ac.provToggle = (d, b) => {
+    const box = b.closest('.wz-prov');
+    if (!b.classList.contains('on') && box.querySelectorAll('.wz-chip.on').length >= 3) { b.animate([{ transform: 'translateX(-4px)' }, { transform: 'translateX(4px)' }, { transform: 'none' }], 180); return; }
+    b.classList.toggle('on');
+  };
+  // 7 วันแบบเดิม + ชิปช่วงเวลา · แตะวัน = เลือกวันที่กำลังตั้ง · ติ๊กช่วงเวลา = เปลี่ยนเฉพาะวันนั้น (แต่ละวันต่างกันได้)
+  const WEEK = ['จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส', 'อา'], SLOTS3 = ['เช้า', 'บ่าย', 'เย็น'];
+  const WEEK_FULL = { จ: 'จันทร์', อ: 'อังคาร', พ: 'พุธ', พฤ: 'พฤหัสฯ', ศ: 'ศุกร์', ส: 'เสาร์', อา: 'อาทิตย์' };
+  const wk = { จ: ['เย็น'], อ: ['เย็น'], พ: ['เย็น'], พฤ: ['เย็น'], ศ: ['เย็น'], ส: SLOTS3.slice(), อา: SLOTS3.slice() };
+  let wkActive = 'จ';
+  const week = () => `<div class="wz-wkp">
+    <div class="wz-days">${WEEK.map(d => `<span class="wz-dcol" data-do="wkDay" data-d="${d}"><span class="wz-day ${wk[d].length ? 'on' : ''} ${d === wkActive ? 'cur' : ''}">${d}</span><span class="wz-dots">${SLOTS3.map(t => `<i class="${wk[d].includes(t) ? 'on' : ''}"></i>`).join('')}</span></span>`).join('')}</div>
+    <div class="wz-wkl">ช่วงเวลา · <b>${WEEK_FULL[wkActive]}</b></div>
+    <div class="wz-chips">${[...SLOTS3, 'ตลอดวัน'].map(t => `<span class="wz-chip ${(t === 'ตลอดวัน' ? wk[wkActive].length === 3 : wk[wkActive].includes(t)) ? 'on' : ''}" data-do="wkSlot" data-t="${t}">${t}</span>`).join('')}</div></div>`;
+  const wkPaint = el => { const box = el.closest('.wz-wkp'); box.outerHTML = week(); };
+  Ac.wkDay = (d, b) => { wkActive = d.d; wkPaint(b); };
+  Ac.wkSlot = (d, b) => {
+    const cur = wk[wkActive];
+    if (d.t === 'ตลอดวัน') wk[wkActive] = cur.length === 3 ? [] : SLOTS3.slice();
+    else wk[wkActive] = cur.includes(d.t) ? cur.filter(x => x !== d.t) : SLOTS3.filter(x => x === d.t || cur.includes(x));
+    wkPaint(b);
+  };
   const chip = (t, on, extra = '') => `<span class="wz-chip ${on ? 'on' : ''}" data-do="pkToggle" ${extra}>${t}</span>`;
   const FORMAT_NAME = { shortVideo: 'Short Video', photo: 'Photo', longVideo: 'Long Video', seeding: 'Seeding' };
   const FORMATS = { instagram: ['shortVideo', 'photo'], facebook: ['shortVideo', 'photo'], tiktok: ['shortVideo'], youtube: ['shortVideo', 'longVideo'], x: ['shortVideo', 'seeding'], lemon8: ['photo', 'shortVideo'] };
@@ -106,11 +146,10 @@
     measurements: s => ({ h: 'ขอไซซ์เสื้อผ้าหน่อยน้า 👗', p: 'งานนี้ส่งชุดให้ ต้องตรงไซซ์', body: `<div class="wz-grid">${[['ส่วนสูง', '165', 'ซม.'], ['น้ำหนัก', '50', 'กก.'], ['รอบอก', '32', 'นิ้ว'], ['รอบเอว', '25', 'นิ้ว'], ['สะโพก', '35', 'นิ้ว'], ['รองเท้า', '23', 'ซม.']].map(([l, v, u]) => `<label class="wz-in col"><small>${l}</small><span><input type="tel" placeholder="${v}"><em>${u}</em></span></label>`).join('')}</div>` }),
     area: s => ({
       h: 'รับงานที่ไหน ว่างวันไหน? 📍', p: 'แบรนด์ใช้คัดคนให้ตรงพื้นที่และช่วงเวลา',
-      body: `<div class="wz-lbl">จังหวัดที่รับงาน</div><div class="wz-chips">${['กรุงเทพมหานคร', 'นนทบุรี', 'ปทุมธานี', 'สมุทรปราการ', 'ชลบุรี', 'เชียงใหม่', 'ทุกจังหวัด (ออนไลน์)'].map((t, i) => chip(t, i === 0)).join('')}</div>
-        <div class="wz-lbl" style="margin-top:18px">ว่างรับงาน</div><div class="wz-tiles"><span class="wz-tile on" data-do="pickOne"><b>ทุกวัน</b><small>จ.–อา.</small></span><span class="wz-tile" data-do="pickOne"><b>ส.–อา.</b><small>วันหยุด</small></span><span class="wz-tile" data-do="pickOne"><b>จ.–ศ.</b><small>วันธรรมดา</small></span></div>
-        <div class="wz-chips" style="margin-top:10px">${['เช้า', 'บ่าย', 'เย็น', 'ตลอดวัน'].map((t, i) => chip(t, i === 3)).join('')}</div>`,
+      body: `<div class="wz-lbl">จังหวัดที่รับงาน</div>${provPicker(['กรุงเทพมหานคร'])}
+        <div class="wz-lbl" style="margin-top:18px">ว่างรับงาน</div>${week()}`,
     }),
-    province: s => ({ h: 'อยู่จังหวัดไหน / ไปถึงไหนได้บ้าง? 📍', p: 'สำหรับงานหน้าร้าน · เลือกได้ถึง 3', body: `<div class="wz-chips">${['กรุงเทพมหานคร', 'นนทบุรี', 'ปทุมธานี', 'สมุทรปราการ', 'ชลบุรี', 'เชียงใหม่', 'ทุกจังหวัด (ออนไลน์)'].map((t, i) => chip(t, i === 0)).join('')}</div>` }),
+    province: s => ({ h: 'อยู่จังหวัดไหน / ไปถึงไหนได้บ้าง? 📍', p: 'สำหรับงานหน้าร้าน · เลือกได้ถึง 3', body: provPicker(['กรุงเทพมหานคร']) }),
     address: s => { const a = D.USER.address; return { h: 'ส่งของไปที่ไหน? 📦', p: 'ของรางวัลจะส่งมาที่นี่ · กรอกครั้งเดียว', body: `<label class="wz-in col"><small>ชื่อ–นามสกุล</small><span><input value="${a.name}"></span></label><label class="wz-in col"><small>เบอร์โทรศัพท์</small><span><input type="tel" value="${a.tel}"></span></label><label class="wz-in col"><small>ที่อยู่</small><span><input value="${a.address}"></span></label><div class="wz-grid"><label class="wz-in col"><small>รหัสไปรษณีย์</small><span><input type="tel" value="${a.zipcode}"></span></label><label class="wz-in col sel"><small>ตำบล/แขวง</small><span><input value="${a.subDistrict}"></span></label></div>` }; },
     bank: s => { const fee = cur(s).fee; return { h: 'รับเงินเข้าบัญชีไหน? 🏦', p: fee ? `ค่าตัว ฿${fee.toLocaleString()} โอนเข้าบัญชีนี้` : 'ใช้กับทุกงานที่มีค่าตัว', body: `<label class="wz-in col sel"><small>ธนาคาร</small><span><input value="กสิกรไทย"></span></label><label class="wz-in col"><small>เลขที่บัญชี</small><span><input type="tel" placeholder="xxx-x-xxxxx-x"></span></label><label class="wz-in col"><small>ชื่อบัญชี</small><span><input value="${D.USER.name}"></span></label><div class="wz-hint">${I('check-circle', 14, 'fill')} ชื่อตรงกับบัตรที่ยืนยันแล้ว</div><div class="wz-drop small" data-do="pkToggle">${I('camera', 22, 'bold')}<b>ถ่ายหน้าสมุดบัญชี</b></div>` }; },
     draftRounds: s => ({ h: 'แก้งานให้ได้กี่รอบ?', p: 'ถ้าแบรนด์ขอแก้ · ไม่นับกรณีงานไม่ตรงบรีฟ', body: `<div class="wz-tiles">${[1, 2, 3].map(n => `<span class="wz-tile ${n === 2 ? 'on' : ''}" data-do="pickOne"><b>${n}</b><small>ครั้ง</small></span>`).join('')}</div>` }),
@@ -140,10 +179,20 @@
         ok: () => { const v = Store.get().user.verify; return !!v && v !== 'none'; }, err: 'ยืนยันตัวตนก่อน แล้วไปต่อได้เลย',
       };
     },
-    availability: s => ({ h: 'ว่างรับงานวันไหน? 📅', p: 'แบรนด์ดูวันว่างของคุณตอนคัดคน · ปรับทีหลังได้', body: `<div class="wz-tiles"><span class="wz-tile on" data-do="pickOne"><b>ทุกวัน</b><small>จันทร์–อาทิตย์</small></span><span class="wz-tile" data-do="pickOne"><b>ส.–อา.</b><small>วันหยุด</small></span><span class="wz-tile" data-do="pickOne"><b>จ.–ศ.</b><small>วันธรรมดา</small></span></div><div class="wz-chips" style="margin-top:14px">${['เช้า', 'บ่าย', 'เย็น', 'ตลอดวัน'].map((t, i) => chip(t, i === 3)).join('')}</div>` }),
+    contact: s => {
+      // ช่องทางติดต่อ — ขึ้นบนการ์ด · เบอร์เติมจากฟอร์มสมัคร · เว็บไม่บังคับ
+      const f = s.form || {};
+      const row = (ic, cls, label, bind, val, ph, type = 'text') => `<label class="wz-in col wz-ct"><i class="${cls}">${I(ic, 18, 'fill')}</i><div><small>${label}</small><span><input type="${type}" value="${val}" placeholder="${ph}" data-bind="form.${bind}"></span></div></label>`;
+      return {
+        h: 'ให้แบรนด์ทักทางไหน? 💬', p: 'ขึ้นบนการ์ดของคุณ',
+        body: `<div class="wz-ctl-list">${row('chat-circle-text', 'line', 'LINE ID', 'lineId', f.lineId ?? '', 'เช่น maneerat.j')}${row('phone', '', 'เบอร์โทร', 'tel', f.tel ?? D.USER.tel, '08x-xxx-xxxx', 'tel')}${row('globe-simple', '', 'เว็บไซต์ · ไม่บังคับ', 'web', f.web ?? '', 'yourname.com', 'url')}</div>`,
+        ok: () => !!((Store.get().form || {}).lineId ?? '').trim() || !!((Store.get().form || {}).tel ?? D.USER.tel).trim(), err: 'ใส่ LINE ID หรือเบอร์อย่างน้อย 1 ช่อง',
+      };
+    },
+    availability: s => ({ h: 'ว่างรับงานวันไหน? 📅', p: 'แบรนด์ดูวันว่างของคุณตอนคัดคน · ปรับทีหลังได้', body: `${week()}` }),
   };
   // หน้าแรกของ wizard ก่อนสมัคร: บอกเหตุผลที่อยู่ดีๆ เด้งมา (user: "กดลงทะเบียนแล้วอยู่ดีๆ มันขึ้นอันนี้ งง") · กี่อย่าง · กี่นาที · ทำครั้งเดียว
-  const STEP_NAME = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว', kyc: 'ยืนยันตัวตน', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน' };
+  const STEP_NAME = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว', kyc: 'ยืนยันตัวตน', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
   WZ.intro = s => {
     const rest = (s.wizSteps || []).filter(k => k !== 'intro'), n = rest.length, card = hasCard(s);
     return {
@@ -154,13 +203,13 @@
   };
   const OPTIONAL_STEPS = ['insight'];
   const withIntro = st => st.length ? ['intro', ...st] : [];
-  const applySteps = s => ['socials', 'categories', 'about', 'kyc', 'rate', 'insight', 'province', 'availability'].filter(k => k === 'kyc' ? (!s.user.verify || s.user.verify === 'none') : !P(s)[k]);
+  const applySteps = s => ['socials', 'categories', 'about', 'kyc', 'rate', 'insight', 'province', 'availability', 'contact'].filter(k => k === 'kyc' ? (!s.user.verify || s.user.verify === 'none') : !P(s)[k]);
   const acceptSteps = s => ['address', 'bank', 'draftRounds'].filter(k => !P(s)[k]);
   Ac.pickOne = (d, b) => { b.parentElement.querySelectorAll('.wz-tile').forEach(x => x.classList.remove('on')); b.classList.add('on'); };
   Ac.setAvail = d => { window.__keepScroll = true; Store.set({ form: Object.assign({}, Store.get().form || {}, { avail: d.v === '1' }) }); };
 
   // แถบการ์ดย่อบนหัว wizard: ช่องที่เติมแล้ว = ทึบ · ช่องที่กำลังตอบ = กะพริบ · ที่เหลือ = ประ → ทุกคำตอบ "ขึ้นการ์ดทันที"
-  const STRIP = { socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', insight: 'ผู้ติดตาม', province: 'พื้นที่', availability: 'วันว่าง', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
+  const STRIP = { socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', insight: 'ผู้ติดตาม', province: 'พื้นที่', availability: 'วันว่าง', contact: 'ติดต่อ', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
   const stripDone = (s, k) => k === 'kyc' ? isVerified(s) : !!P(s)[k];
   function wizStrip(s, key, steps) {
     const keys = [...new Set(['socials', 'categories', ...steps.filter(k => k !== 'intro')])].filter(k => STRIP[k]);
@@ -172,7 +221,7 @@
   const STEP_LINE = {
     socials: 'แบรนด์ดูข้อนี้ก่อนคัดเลือก · ผูก 1 ช่องพอ', categories: 'แบรนด์ใช้ตัดสินใจ · เลือกได้ถึง 5', about: 'แบรนด์อ่านความเป็นตัวคุณจากบรรทัดนี้',
     kyc: 'แบรนด์คัดเลือกคนที่ยืนยันแล้ว · ส่งใบสมัครได้ระหว่างรอตรวจ', rate: 'แบรนด์ดูราคาก่อนคัดเลือก · ใส่ราคามาตรฐานให้แล้ว', insight: 'แบรนด์ใช้คัดเลือกกลุ่มเป้าหมาย · ทำช่องเดียวก็ได้',
-    province: 'แบรนด์ใช้คัดเลือกงานหน้าร้าน · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดเลือก', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
+    province: 'แบรนด์ใช้คัดเลือกงานหน้าร้าน · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดเลือก', contact: 'แบรนด์ทักคุณตรงนี้ · ขึ้นบนการ์ด', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
   };
   function wizard(s, kind) {
     const steps = s.wizSteps || [], i = Math.min(s.wizI || 0, Math.max(0, steps.length - 1)), key = steps[i];
@@ -192,7 +241,7 @@
     </div>`;
   }
   // หน้าแรกก่อนสมัคร = "สมัครเป็น STAR" (ไม่ใช่ "สร้าง Star Card" — user: มันคือการสมัครเป็น Star) · การ์ดที่ยังว่าง: การ์ดกระจกใบจริง (รูป+ชื่อจากบัญชี) + ช่องประตรงที่ข้อมูลจะไปขึ้น → เห็นทันทีว่ากรอกแล้วได้อะไร
-  const SLOT = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว 1 บรรทัด', kyc: 'Verified', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน' };
+  const SLOT = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว 1 บรรทัด', kyc: 'Verified', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
   function wizIntro(s, rest) {
     // IA ของหน้านี้ = 1 เหตุผล + 1 ภาพ + 1 ปุ่ม: "งานนี้รับเฉพาะ STAR" → การ์ดที่คุณจะได้ (แบบย่อ) → เริ่ม
     // ไม่มี breadcrumb/stepper/ป้ายซ้ำ — งานที่กำลังสมัครอยู่ที่บรรทัดบนสุดบรรทัดเดียว
@@ -313,7 +362,8 @@
     { key: 'about', icon: 'text-align-left', t: 'แนะนำตัว', done: s => ['ชอบพาไปเที่ยว ทานอาหารอร่อยๆ…'], why: '1 บรรทัดใต้ชื่อบนการ์ด' },
     { key: 'insight', icon: 'users-three', t: 'ข้อมูลผู้ติดตาม', done: s => ['หญิง 68%', '25–34 ปี', 'กรุงเทพฯ'], why: 'แบรนด์เห็นว่าคนดูคุณเป็นใคร' },
     { key: 'province', icon: 'map-pin', t: 'พื้นที่รับงาน', done: s => ['กรุงเทพฯ', 'นนทบุรี', '+1'], why: 'งานหน้าร้านใกล้คุณขึ้นก่อน' },
-    { key: 'availability', icon: 'calendar-dots', t: 'วันเวลาว่างรับงาน', done: s => ['เสาร์–อาทิตย์', 'เย็น'], why: 'แบรนด์ดูวันว่างของคุณตอนคัดคน' },
+    { key: 'availability', icon: 'calendar-dots', t: 'วันเวลาว่างรับงาน', done: s => ['จ–ศ เย็น', 'ส–อา ตลอดวัน'], why: 'แบรนด์ดูวันว่างของคุณตอนคัดคน' },
+    { key: 'contact', icon: 'chat-circle-text', t: 'ช่องทางติดต่อ', done: s => contactBits(s), why: 'แบรนด์ทักคุณตรงนี้ · ขึ้นบนการ์ด' },
     { key: 'socials', icon: 'broadcast', t: 'ช่องทางของฉัน', done: s => D.USER.socials.filter(x => x.connected).map(so => `${({ instagram: 'IG', tiktok: 'TikTok', youtube: 'YouTube', facebook: 'FB', x: 'X', lemon8: 'Lemon8' })[so.type] || so.type} ${U.fmtNum(so.followers)}`), why: 'ยอดผู้ติดตามขึ้นการ์ดอัตโนมัติ' },
     { key: 'categories', icon: 'sparkle', t: 'สายที่ใช่', done: s => D.USER.categories, why: 'งานตรงสายขึ้นหน้าแรกให้' },
     { key: 'bank', icon: 'bank', t: 'การรับเงิน', done: s => ['กสิกรไทย', '···7890'], why: 'ค่าตัวเข้าบัญชีทันทีเมื่องานจบ' },
@@ -417,6 +467,7 @@
     { key: 'rate', label: 'เรทรับงานต่อรูปแบบคอนเทนต์', askAt: 1, needFrom: 2 },
     { key: 'province', label: 'จังหวัดที่รับงาน', askAt: 1, needFrom: 2 },
     { key: 'availability', label: 'วัน/เวลาว่างรับงาน', askAt: 1, needFrom: 2 },
+    { key: 'contact', label: 'LINE ID · เบอร์ · เว็บไซต์', askAt: 1, needFrom: 2 },
     { key: 'address', label: 'ที่อยู่รับของ', askAt: 6, needFrom: 7 },
     { key: 'bank', label: 'บัญชีรับเงิน', askAt: 6, needFrom: 7 },
     { key: 'draftRounds', label: 'แก้งานได้กี่รอบ', askAt: 6, needFrom: 7 },

@@ -32,7 +32,7 @@ struct AudienceSplitWidget: View {
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
 
-    private var a: AudienceInsight { Mock.creator.audience }
+    private var a: AudienceInsight { Profile.me.shownAudience }
     private var parts: [(String, Double, Color)] {
         [("หญิง", a.female, Aud.female),
          ("ชาย", a.male, Aud.male),
@@ -41,7 +41,7 @@ struct AudienceSplitWidget: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 11) {
-            WidgetLabel(text: "สัดส่วนผู้ชม")
+            WidgetLabel(text: "สัดส่วนผู้ชม", trailing: AnyView(ProvenanceTag(kind: .screenshot("12 ก.ย."))))
                 .scrubVeil(scrub.d, lead: 0.38, drop: 20, pull: 6)
 
             bar
@@ -76,7 +76,7 @@ struct AudienceSplitWidget: View {
             ForEach(Array(parts.enumerated()), id: \.offset) { i, p in
                 HStack(spacing: 5) {
                     Circle().fill(p.2).frame(width: 7, height: 7)
-                    Text(Fmt.pct(p.1))
+                    Text(Fmt.pct(p.1)).dataValue()
                         .font(.sh(14, .heavy))
                         .foregroundStyle(ink.text(0.96))
                     Text(p.0)
@@ -106,12 +106,12 @@ struct AudienceAgeWidget: View {
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
 
-    private var bands: [AudienceInsight.AgeBand] { Mock.creator.audience.ages }
+    private var bands: [AudienceInsight.AgeBand] { Profile.me.shownAudience.ages }
     private var top: Double { bands.map(\.share).max() ?? 1 }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ช่วงอายุผู้ชม")
+            WidgetLabel(text: "ช่วงอายุผู้ชม", trailing: AnyView(ProvenanceTag(kind: .screenshot("12 ก.ย."))))
                 .scrubVeil(scrub.d, lead: 0.38, drop: 20, pull: 6)
 
             VStack(spacing: 0) {
@@ -153,7 +153,7 @@ struct AudienceAgeWidget: View {
 
             // ตัวเลขได้ความกว้างตามตัวจริงเสมอ — เดิมล็อกไว้ 36pt ซึ่งพอดีแค่ "8.8%"
             // พอเจอ "22.4%" มันถูกตัดเป็น "22…" คือตัวเลขที่อ่านไม่ได้ ซึ่งแย่กว่าคอลัมน์ไม่ตรงกัน
-            Text(Fmt.pct(b.share))
+            Text(Fmt.pct(b.share)).dataValue()
                 .font(.sh(12.5, .heavy))
                 .foregroundStyle(ink.text(peak ? 0.98 : 0.55))
                 .lineLimit(1).fixedSize()
@@ -176,7 +176,7 @@ struct AudienceMapWidget: View {
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
 
-    private var places: [AudienceInsight.PlaceShare] { Mock.creator.audience.places }
+    private var places: [AudienceInsight.PlaceShare] { Profile.me.shownAudience.places }
     private var top: Double { places.map(\.share).max() ?? 1 }
 
     var body: some View {
@@ -216,7 +216,7 @@ struct AudienceMapWidget: View {
             }
 
             HStack(spacing: 10) {
-                Text(String(format: "%02d", rank))
+                Text(String(format: "%02d", rank)).dataValue()
                     .font(.sh(10, .black))
                     .foregroundStyle(ink.text(0.32))
                 Text(p.name)
@@ -224,7 +224,7 @@ struct AudienceMapWidget: View {
                     .foregroundStyle(ink.text(0.94))
                     .lineLimit(1).minimumScaleFactor(0.7)
                 Spacer(minLength: 4)
-                Text(Fmt.pct(p.share))
+                Text(Fmt.pct(p.share)).dataValue()
                     .font(.sh(13, .heavy))
                     .foregroundStyle(ink.text(0.94))
                     .lineLimit(1)
@@ -252,7 +252,7 @@ struct AudienceLineWidget: View {
     let theme: CardTheme
     let size: CGSize
 
-    private var a: AudienceInsight { Mock.creator.audience }
+    private var a: AudienceInsight { Profile.me.shownAudience }
 
     private var gender: (word: String, share: Double) {
         let all: [(String, Double)] = [("ผู้หญิง", a.female), ("ผู้ชาย", a.male), ("เพศอื่น", a.other)]

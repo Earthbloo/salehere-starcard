@@ -30,7 +30,7 @@ struct WorkFeatured: View {
 
     /// ชิ้นที่ทำยอดสูงสุด — เหลือไว้เพื่อรู้ว่าโลโก้มุมล่างควรเป็นแพลตฟอร์มไหนเท่านั้น
     private var hero: VerifiedWork? {
-        Mock.creator.track.works.max { $0.views < $1.views }
+        Profile.me.creator.track.works.max { $0.views < $1.views }
     }
 
     var body: some View {
@@ -118,7 +118,7 @@ struct WorkReel: View {
     let theme: CardTheme
 
     /// ผูกกับผลงานจริงชิ้นแรก — เหลือไว้เพื่อรู้ว่าโลโก้มุมล่างเป็นแพลตฟอร์มไหน
-    private var work: VerifiedWork? { Mock.creator.track.works.first }
+    private var work: VerifiedWork? { Profile.me.creator.track.works.first }
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 20, style: .continuous)

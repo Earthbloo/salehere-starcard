@@ -24,8 +24,6 @@ struct NicheTags: View {
             FlowLayout(spacing: 7) {
                 ForEach(Array(items.enumerated()), id: \.element) { i, t in
                     Text(t)
-                        .font(.sh(12, .semibold))
-                        .foregroundStyle(ink.text(0.92))
                         .lineLimit(1).truncationMode(.tail)
                         // ลบข้อความจนหมดแล้วปิดช่อง = เอาชิปใบนั้นออก (ดู `Profile.commit`)
                         .editableText(.categories, index: i,

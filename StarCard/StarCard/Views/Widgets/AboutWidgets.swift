@@ -46,8 +46,6 @@ struct AboutText: View {
                 // สายงาน — ฟิลด์ที่สองของสัญญาตระกูล `intro`
                 // ทั้งสองแบบในตระกูลต้องมีเท่ากัน ไม่งั้นสลับแบบแล้วข้อมูลหาย
                 Text(Profile.me.tagline)
-                    .font(.sh(11, .bold))
-                    .foregroundStyle(theme.accent.opacity(0.85))
                     .lineLimit(1).truncationMode(.tail)
                     .padding(.top, 2)
                     .editableText(.tagline, .init(size: 11, weight: .bold,
@@ -71,11 +69,11 @@ struct InterestTags: View {
     let theme: CardTheme
 
     var body: some View {
-        let items = Mock.creator.interests
+        let items = Profile.me.creator.interests
         return VStack(alignment: .leading, spacing: 11) {
+            // หมวดหมู่ทางการมาจากโปรไฟล์ในระบบ — บอกที่มาด้วยป้าย ไม่ใช่ตราติ๊กที่ไม่รู้ว่าใครติ๊ก
             WidgetLabel(text: "หมวดหมู่ที่สนใจ",
-                        trailing: AnyView(SymbolIcon(name: SHIcon.sealCheck, size: 11,
-                                                     tint: theme.accent.opacity(0.8))))
+                        trailing: AnyView(ProvenanceTag(kind: .profile)))
                 .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 6)
 
             FlowLayout(spacing: 7) {

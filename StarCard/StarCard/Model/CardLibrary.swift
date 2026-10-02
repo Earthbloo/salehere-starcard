@@ -23,6 +23,11 @@ struct CardRecord: Codable, Identifiable, Equatable {
 
     var format: CardFormat { CardFormat(rawValue: formatRaw) ?? .portfolio }
 
+    /// เปิดใบนี้เป็นสถานะรันไทม์ — ทางเดียวที่ทุกหน้าใช้ ตรารับรองที่ตรึงไว้จึงมาครบทุกที่ที่วาดการ์ด
+    func restored() -> (pages: [CardPage], theme: CardTheme, index: Int)? {
+        CardStore.restore(snapshot, format: format)
+    }
+
     /// ท้ายลิงก์เฉพาะใบ — สั้นพอพูดต่อโทรศัพท์ได้ ยาวพอไม่ชนกันในคลังเดียว
     var shortID: String { String(id.prefix(6)).lowercased() }
 
@@ -114,6 +119,29 @@ final class CardLibrary {
         return record
     }
 
+    /// การ์ดเปล่า — เริ่มจากหน้าว่างครบจำนวนหน้าของรูปแบบ ธีมตั้งต้น ไม่ต้องผ่านเทมเพลต
+    func createBlank(format: CardFormat) -> CardRecord {
+        let record = Self.record(name: "การ์ดใหม่", format: format,
+                                 pages: (0..<format.pageCount).map { _ in CardPage() },
+                                 theme: CardTheme(), index: 0)
+        records.append(record)
+        if publishedID == nil { publishedID = record.id }
+        persist()
+        return record
+    }
+
+    /// การ์ดตั้งต้นที่ทุกคนมี (ผู้ใช้ 29 ก.ย. 2569) = เทมเพลตออกแบบใบแรก — โชว์บน Star Profile ก่อนมีใบจริง ล่อให้กดเข้าไปดู
+    /// ยังไม่อยู่ในคลัง (id คงที่ ให้รูปอบใช้แคชเดิม) · เป็นแค่ภาพตัวอย่าง — เข้า Star Card ครั้งแรกไปหน้าเลือกเทมเพลต (ผู้ใช้ 1 ต.ค. 2569)
+    /// `createDefault()` ไม่มีใครเรียกแล้ว (เดิมสร้างใบนี้เป็นใบจริงตอนเข้าครั้งแรก)
+    static let defaultTemplate: CardTemplate? = CardTemplate.designed(for: .portfolio).first
+    static let defaultPreview: CardRecord? = defaultTemplate.map { t in
+        CardRecord(id: "default-card", name: t.name, formatRaw: t.format.rawValue,
+                   snapshot: CardStore.snapshot(pages: t.makePages(), theme: t.theme, index: 0),
+                   createdAt: .distantPast, updatedAt: .distantPast)
+    }
+    @discardableResult
+    func createDefault() -> CardRecord? { Self.defaultTemplate.map { create(from: $0) } }
+
     /// สำเนาไว้ลองแก้ — ทางที่ปลอดภัยของ "อยากลองเปลี่ยนโดยไม่แตะใบที่ส่งไปแล้ว"
     @discardableResult
     func duplicate(_ id: String) -> CardRecord? {
@@ -160,6 +188,38 @@ final class CardLibrary {
         records.removeAll { $0.id == id }
         if publishedID == id { publishedID = displayOrder.first?.id }
         persist()
+    }
+
+    // MARK: โหมดลองทำ (ดู `LabSync`)
+
+    /// ให้คลังเหลือใบเดียว = การ์ดกลาง · ใบอื่นไม่หายจริง อยู่ในข้อมูลที่ `LabMode` สำรองไว้
+    func labKeepOnly(_ id: String) {
+        guard records.contains(where: { $0.id == id }) else { return }
+        records.removeAll { $0.id != id }
+        publishedID = id
+        persist()
+    }
+
+    /// ใส่การ์ดกลางที่รับมาจากเครื่องอื่น — มีใบอยู่แล้วทับใบนั้น ไม่มีสร้างใหม่ · คืน id ของใบ
+    @discardableResult
+    func labUpsert(id: String?, name: String, format: CardFormat, snapshot: CardSnapshot) -> String {
+        let keep: String
+        if let id, let i = records.firstIndex(where: { $0.id == id }) {
+            records[i].name = name
+            records[i].formatRaw = format.rawValue
+            records[i].snapshot = snapshot
+            records[i].updatedAt = Date()
+            keep = id
+        } else {
+            let r = CardRecord(id: UUID().uuidString, name: name, formatRaw: format.rawValue,
+                               snapshot: snapshot, createdAt: Date(), updatedAt: Date())
+            records.append(r)
+            keep = r.id
+        }
+        records.removeAll { $0.id != keep }
+        publishedID = keep
+        persist()
+        return keep
     }
 
     // MARK: ลิงก์

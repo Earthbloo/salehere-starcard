@@ -39,6 +39,7 @@
   });
   document.getElementById('phone').addEventListener('input', e => {
     const t = e.target;
+    if (t.dataset.filter) { window.ACTIONS[t.dataset.filter]?.(t); return; }
     if (t.dataset.bind) { window.__keepScroll = true; window.ACTIONS.bind(t.dataset.bind, t.type === 'checkbox' ? t.checked : t.value); }
   });
 

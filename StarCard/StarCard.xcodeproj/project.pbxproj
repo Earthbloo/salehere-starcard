@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		PH0SPH0R00000000000000A3 /* PhosphorSwift in Frameworks */ = {isa = PBXBuildFile; productRef = PH0SPH0R00000000000000A2 /* PhosphorSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		20736ED930393BD100396E2B /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				PH0SPH0R00000000000000A3 /* PhosphorSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +84,7 @@
 			);
 			name = "Sale Here Star Card";
 			packageProductDependencies = (
+				PH0SPH0R00000000000000A2 /* PhosphorSwift */,
 			);
 			productName = StarCard;
 			productReference = 20736EC230393BD100396E2B /* Sale Here Star Card.app */;
@@ -108,6 +114,9 @@
 			);
 			mainGroup = 20736EB930393BD100396E2B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				PH0SPH0R00000000000000A1 /* XCLocalSwiftPackageReference "Packages/PhosphorSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 20736EC330393BD100396E2B /* Products */;
 			projectDirPath = "";
@@ -261,7 +270,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = DF2Q5M8JKW;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -269,6 +278,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sale Here Star Card";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ถ่ายรูปโปรไฟล์ของคุณ";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "บันทึกรูปการ์ดลงคลังรูปของคุณ";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -308,7 +318,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = DF2Q5M8JKW;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -316,6 +326,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sale Here Star Card";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ถ่ายรูปโปรไฟล์ของคุณ";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "บันทึกรูปการ์ดลงคลังรูปของคุณ";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -371,6 +382,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		PH0SPH0R00000000000000A1 /* XCLocalSwiftPackageReference "Packages/PhosphorSwift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/PhosphorSwift;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		PH0SPH0R00000000000000A2 /* PhosphorSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PH0SPH0R00000000000000A1 /* XCLocalSwiftPackageReference "Packages/PhosphorSwift" */;
+			productName = PhosphorSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 20736EBA30393BD100396E2B /* Project object */;
 }

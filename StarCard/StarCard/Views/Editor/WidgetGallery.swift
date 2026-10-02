@@ -23,18 +23,25 @@ import SwiftUI
 struct WidgetGallery: View {
     let theme: CardTheme
     let onAdd: (WidgetKind) -> Void
+    /// ช่องที่ผูกกับหัวข้อ Star Profile ที่ยังไม่ได้กรอก — ผู้เรียกพาไปกรอกข้อนั้น แล้วค่อยเพิ่มใบนี้ให้
+    var onFill: (WidgetKind, StarTopic) -> Void = { _, _ in }
     let onClose: (() -> Void)?
+    /// หัวตู้ (ชื่อ + ปุ่มปิด) — ปิดเมื่อตู้อยู่ในถาดของแถบล่าง ซึ่งมี ‹ กับชื่อโหมดอยู่แล้ว
+    var showsBar = true
     @Environment(PhotoStore.self) private var photos
+    /// อ่านเพื่อให้ตู้วาดใหม่เมื่อกรอกหัวข้อเสร็จ (ช่องที่เคยล็อกเปิดทันที)
+    @State private var flow = StarFlow.shared
 
-    /// หมวดหลักที่เปิดอยู่ — ไม่มีสถานะ "ทั้งหมด" เพราะนั่นคือสิ่งที่ทำให้เลื่อนหาไม่เจอ
-    @State private var group: WidgetGroup = .about
+    /// ชิปที่เลือกล่าสุด — ใช้กระโดดไปหมวดนั้นในรายการยาว (รายการเดียว เลื่อนดูได้ทั้งตู้)
+    @State private var group: TrayGroup = .profile
     /// ความกว้างของหนึ่งคอลัมน์ — วัดจากของจริงครั้งเดียว ค่าตั้งต้นพอให้เฟรมแรกไม่พัง
     @State private var colW: CGFloat = 160
 
     private let gap: CGFloat = 12
 
     private var all: [CatalogEntry] {
-        (Mock.catalog + Mock.lockedTeasers).sorted { a, b in
+        // ก้อนข้อความมีปุ่มของตัวเองบนแถบล่าง — สองทางเข้าสำหรับของชิ้นเดียวคือความงงที่ไม่จำเป็น
+        (Mock.catalog + Mock.lockedTeasers).filter { $0.kind != .textBlock }.sorted { a, b in
             let af = WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0
             let bf = WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0
             if af != bf { return af < bf }
@@ -52,7 +59,12 @@ struct WidgetGallery: View {
 
     private var sections: [Section] {
         var out: [Section] = []
-        for e in all where e.kind.group == group {
+        let ordered = all.sorted { a, b in
+            let ag = TrayGroup.allCases.firstIndex(of: a.kind.family.trayGroup) ?? 0
+            let bg = TrayGroup.allCases.firstIndex(of: b.kind.family.trayGroup) ?? 0
+            return ag != bg ? ag < bg : (WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0) < (WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0)
+        }
+        for e in ordered where e.kind.family.trayGroup == group {
             if let last = out.last, last.id == e.kind.family.rawValue {
                 out[out.count - 1] = Section(id: last.id, label: last.label,
                                              entries: last.entries + [e])
@@ -73,21 +85,29 @@ struct WidgetGallery: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            bar
-            tabs
-                .padding(.bottom, 16)
+            if showsBar { bar }
+            chips
+                .padding(.bottom, 12)
 
+            // แต่ละชิป = รายการของหมวดนั้น (ไม่ใช่กระโดดในรายการยาว — `scrollTo` แบบมี animation
+            // ลงไปหา section ที่ LazyVStack ยังไม่สร้าง ทำแอปค้าง 24 ก.ย. 2569)
+            Group {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(sections) { sec in
-                            sectionHeader(sec.label)
+                            let topic = sec.entries.first?.kind.family.topic
+                            sectionHeader(sec.label, missing: topic.flatMap { $0.filled ? nil : $0 })
+                                .id(sec.id)
                             // `.flexible()` ไม่ใช่ `.fixed()` — ตัวหลังพังทันทีถ้าความกว้างเป็น 0
                             LazyVGrid(columns: [GridItem(.flexible(), spacing: gap, alignment: .top),
                                                 GridItem(.flexible(), spacing: gap, alignment: .top)],
                                       alignment: .leading, spacing: gap) {
                                 ForEach(sec.entries) { e in
-                                    GalleryTile(entry: e, theme: theme, colWidth: colW) {
-                                        onAdd(e.kind)
+                                    let topic = e.kind.family.topic
+                                    let missing = topic.map { !$0.filled } ?? false
+                                    GalleryTile(entry: e, theme: theme, colWidth: colW,
+                                                missingTopic: missing ? topic : nil) {
+                                        if let topic, missing { onFill(e.kind, topic) } else { onAdd(e.kind) }
                                     }
                                 }
                             }
@@ -95,7 +115,7 @@ struct WidgetGallery: View {
                     }
                     .padding(.bottom, 24)
                 }
-                // เปลี่ยนแท็บแล้วต้องกลับไปบนสุดเสมอ ไม่งั้นจะโผล่กลางกองของหมวดใหม่
+                // เปลี่ยนหมวดแล้วกลับไปบนสุดเสมอ (สร้างรายการใหม่ ไม่ cross-fade ของเก่า)
                 .id(group)
                 // วัดความกว้างด้วย `.onGeometryChange` ไม่ใช่ `GeometryReader`
                 //
@@ -105,9 +125,13 @@ struct WidgetGallery: View {
                 .background(alignment: .top) {
                     Color.clear
                         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { w in
-                            if w > 1 { colW = max(120, (w - gap) / 2) }
+                            // อัปเดตเฉพาะเมื่อกว้างต่างจริง — ระหว่างหน้าถูกย่อ/ขยาย (เปิด sheet) ค่าเปลี่ยนทุกเฟรม
+                            // แล้วขนาดช่องเปลี่ยน → วัดใหม่ → วนไม่จบ
+                            let next = max(120, (w - gap) / 2)
+                            if w > 1, abs(next - colW) > 0.5 { colW = next }
                         }
                 }
+            }
         }
         .preferredColorScheme(.dark)
     }
@@ -131,51 +155,58 @@ struct WidgetGallery: View {
         .padding(.bottom, 16)
     }
 
-    /// แท็บสามแท็บแบ่งเต็มความกว้าง — ไม่เลื่อน ไม่มีอะไรซ่อน
+    /// ชิปหมวดเลื่อนแนวนอน = หัวข้อ Star Profile (ลำดับเดียวกับที่การ์ดเล่าเรื่อง)
     ///
-    /// เป็นเส้นใต้ ไม่ใช่แคปซูลทึบ เพราะแคปซูลสามใบเรียงกันอ่านเป็น "ปุ่มสามปุ่ม"
-    /// ส่วนเส้นใต้อ่านเป็น "ตอนนี้อยู่หน้าไหน" ซึ่งตรงกับหน้าที่ของมันจริง ๆ
-    private var tabs: some View {
-        HStack(spacing: 0) {
-            ForEach(WidgetGroup.allCases) { g in
-                let active = group == g
-                Button {
-                    Haptics.impact(.light)
-                    // **ห้ามใส่ `withAnimation` ตรงนี้** — ScrollView ผูก `.id(group)` ไว้
-                    // เปลี่ยนแท็บ = สร้าง view ใหม่ทั้งก้อน ถ้าสั่งอนิเมต SwiftUI จะ cross-fade
-                    // ของเก่ากับของใหม่ แล้วโลโก้แบรนด์จากแท็บก่อนหน้าค้างซ้อนอยู่ (เจอมาแล้ว)
-                    group = g
-                } label: {
-                    VStack(spacing: 9) {
-                        Text(g.label)
-                            .font(.sh(14, active ? .bold : .medium))
-                            .foregroundStyle(.white.opacity(active ? 0.96 : 0.42))
-                            .lineLimit(1)
-                        Capsule()
-                            .fill(active ? Color.white.opacity(0.9) : .clear)
-                            .frame(height: 2)
+    /// หมวดที่ยังไม่มีข้อมูล = ขอบประสีเน้น + จุดเล็ก ให้เห็นตั้งแต่แถวชิปว่าอะไรยังขาด
+    /// แตะชิป = เลื่อนไปหมวดนั้นในรายการเดียวกัน (ไม่ใช่สลับหน้า) ของทั้งตู้ยังเลื่อนดูต่อได้
+    private var chips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(TrayGroup.allCases) { g in
+                    let active = group == g
+                    let missing = g.topic.map { !$0.filled } ?? false
+                    Button {
+                        Haptics.impact(.light)
+                        // **ห้ามใส่ `withAnimation`** — ScrollView ผูก `.id(group)` ไว้ อนิเมตแล้วของเก่าค้างซ้อน
+                        group = g
+                    } label: {
+                        HStack(spacing: 5) {
+                            if missing {
+                                Circle().fill(theme.accent).frame(width: 6, height: 6)
+                            }
+                            Text(g.label).font(.sh(13, active ? .bold : .semibold))
+                        }
+                        .foregroundStyle(active ? .black : .white.opacity(missing ? 0.8 : 0.9))
+                        .padding(.horizontal, 13).frame(height: 34)
+                        .background(Capsule().fill(active ? Color.white : Color.white.opacity(0.1)))
+                        .overlay(Capsule().strokeBorder(missing && !active ? theme.accent.opacity(0.8) : .clear,
+                                                        style: StrokeStyle(lineWidth: 1.2, dash: [4, 3])))
+                        .contentShape(Capsule())
                     }
-                    .frame(maxWidth: .infinity)
-                    .contentShape(Rectangle())
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
-                // อนิเมตเฉพาะเส้นใต้ ไม่ใช่ทั้งรายการ
-                .animation(Motion.snap, value: group)
             }
+            .padding(.horizontal, 2)
         }
-        .overlay(alignment: .bottom) {
-            Rectangle().fill(.white.opacity(0.08)).frame(height: 1)
-        }
+        .animation(Motion.snap, value: group)
     }
 
     /// หัวข้อคั่นตระกูล — เงียบที่สุดเท่าที่ยังอ่านออก
     /// ตู้นี้ "ของ" คือพระเอก หัวข้อมีหน้าที่เดียวคือบอกว่ากองนี้เริ่มตรงไหน
-    private func sectionHeader(_ label: String) -> some View {
-        Text(label)
-            .font(.sh(12, .heavy))
-            .foregroundStyle(.white.opacity(0.4))
-            .padding(.top, 20)
-            .padding(.bottom, 11)
+    private func sectionHeader(_ label: String, missing: StarTopic? = nil) -> some View {
+        HStack(spacing: 8) {
+            Text(label)
+                .font(.sh(12, .heavy))
+                .foregroundStyle(.white.opacity(0.4))
+            if let missing {
+                // ทั้งตระกูลรอหัวข้อเดียวกัน — บอกครั้งเดียวที่หัว ไม่ต้องอ่านซ้ำทุกใบ
+                Text(missing.fillable ? "\(missing.missingLine) · แตะใบไหนก็ได้เพื่อกรอก" : missing.missingLine)
+                    .font(.sh(11, .semibold))
+                    .foregroundStyle(theme.accent.opacity(0.9))
+            }
+        }
+        .padding(.top, 20)
+        .padding(.bottom, 11)
     }
 }
 
@@ -187,6 +218,8 @@ private struct GalleryTile: View {
     let theme: CardTheme
     /// ความกว้างของคอลัมน์ที่ช่องนี้อยู่ — วัดครั้งเดียวที่ระดับกริดแล้วส่งลงมา
     let colWidth: CGFloat
+    /// หัวข้อ Star Profile ที่ใบนี้ต้องใช้แต่ยังไม่ได้กรอก — nil = ใช้ได้เลย
+    var missingTopic: StarTopic? = nil
     let onAdd: () -> Void
 
     @State private var pressed = false
@@ -214,8 +247,12 @@ private struct GalleryTile: View {
     private static let minHeight: CGFloat = 58
 
     /// สเกลจริงที่ใช้ — ตัวเดียวกันทั้งวัดความสูงและวาด จึงไม่มีทางคำนวณเหลื่อมกัน
+    ///
+    /// เพดานสุดท้ายคือ **ความกว้างของคอลัมน์** — ใบที่กว้างเกินหน้าปกติ (แผ่นสติกเกอร์สามช่อง ·
+    /// หน้าต่างช่องทาง กว้าง 504) โดนพื้น 0.45 ดันให้ล้นคอลัมน์ไปถูกตัดขอบทั้งสองข้าง
     private var scale: CGFloat {
-        min(max(colWidth / metrics.w, Self.scaleRange.lowerBound), Self.scaleRange.upperBound)
+        min(max(colWidth / metrics.w, Self.scaleRange.lowerBound), Self.scaleRange.upperBound,
+            colWidth / metrics.w)
     }
 
     var body: some View {
@@ -225,7 +262,10 @@ private struct GalleryTile: View {
         // (ตัวหนังสือล้วน · ชิปลอย · สติกเกอร์) ดูมีกรอบไปหมดทั้งตู้ แล้วผู้ใช้เลือกผิด
         // ตู้ต้องแสดง "ของ" ไม่ใช่ "ของในกล่องของตู้"
         return preview
+            // ยังไม่มีข้อมูลของหัวข้อนี้: พรีวิวยังเป็นใบจริงพร้อมข้อมูลตัวอย่าง (ผู้ใช้ 23 ก.ย.: "ต้อง preview
+            // widget ไปเลย ให้เห็นว่าคือ widget อะไร ถ้าอยากได้ เค้าก็จะกรอก") — แท่งว่างบอกไม่ได้ว่าใบนี้คืออะไร
             .overlay { if !entry.unlocked { lockedVeil(shape) } }
+            .overlay { if let t = missingTopic, entry.unlocked { fillFrame(shape, t) } }
             .scaleEffect(pressed ? 0.96 : 1)
             .animation(Motion.snap, value: pressed)
             .contentShape(Rectangle())
@@ -247,15 +287,24 @@ private struct GalleryTile: View {
         let vh = metrics.h
         // ตัวที่ **รูปคือพื้นผิว** ปล่อยให้เต็มช่อง · ที่เหลือต้องมีขอบหายใจเท่ากับตอนอยู่บนการ์ด
         let inset: CGFloat = entry.kind.isFullBleed || entry.kind.usesPhoto ? 0 : 14
+        // ตัวที่ได้แผ่นจาก chrome ตอนลงการ์ด ต้องเห็นแผ่นนั้นในตู้ด้วย — ไม่งั้นตู้โชว์ตัวหนังสือลอย ๆ
+        // แล้วของที่หยิบลงไปมีกล่อง ซึ่งเป็นคนละใบกับที่เลือก (ดู `WidgetKind.drawsOwnSurface`)
+        let panelled = !entry.kind.drawsOwnSurface
         return WidgetBody(kind: entry.kind, theme: theme,
                           size: CGSize(width: vw - inset * 2, height: vh - inset * 2))
             .padding(inset)
+            // ยังไม่มีข้อมูลของหัวข้อนี้ = เห็นใบเต็ม ๆ ด้วยชุดตัวอย่าง (`Profile.shown…`) — กรอกแล้วจะได้หน้าตานี้
+            // ตระกูลที่ไม่มีชุดตัวอย่าง (ข้อความที่พิมพ์เอง) ค่าของผู้ใช้ยังเป็นขีด "–"
+            .environment(\.ghostData, missingTopic != nil && !Profile.me.lacks(entry.kind.family))
+            .environment(\.sampleData, missingTopic != nil || Profile.me.lacks(entry.kind.family))
+            .modifier(GalleryPanel(on: panelled))
             .frame(width: vw, height: vh, alignment: .topLeading)
             .scaleEffect(scale, anchor: .center)
             // จัดกลางช่อง ไม่ใช่ชิดมุม — ใบที่ถูกกดสเกลลงจะมีที่ว่างรอบตัว
             // ถ้าชิดมุมบนซ้าย ที่ว่างจะไปกองอยู่ข้างเดียวแล้วกริดดูเอียง
             .frame(width: colWidth, height: max(Self.minHeight, vh * scale))
             .allowsHitTesting(false)
+            // ยังใช้ไม่ได้ = ใบเป็นขาวดำและจาง (ผู้ใช้ 24 ก.ย.: "ต้องมี alpha เทา ๆ ว่ายังใช้ไม่ได้ หรือรูปกุญแจ")
             .opacity(entry.unlocked ? 1 : 0.18)
     }
 
@@ -274,5 +323,50 @@ private struct GalleryTile: View {
         .padding(.horizontal, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(shape.fill(.black.opacity(0.25)))
+    }
+
+    /// ใบที่รอหัวข้อ Star Profile: กรอบประสีเน้นของการ์ด + ป้าย "+ กรอก…" คร่อมขอบล่าง
+    ///
+    /// ภาษาเดียวกับช่องประบนหน้า Star Profile (ขาด = เส้นประ · ปุ่มเพิ่มสีถ่าน) ผู้ใช้เจอที่นั่นมาก่อนแล้ว
+    /// ไม่มีม่านทึบทับพรีวิว — พรีวิวคือเหตุผลที่คนอยากกรอก ต้องเห็นชัด
+    private func fillFrame(_ shape: RoundedRectangle, _ t: StarTopic) -> some View {
+        // สีเต็มเหมือนเดิม แค่ม่านจาง ๆ ทับ + กุญแจ (ผู้ใช้ 24 ก.ย.: "ไม่เอาขาวดำ แค่มีม่านจาง ๆ")
+        shape
+            .fill(.black.opacity(0.42))
+            .overlay(shape.strokeBorder(theme.accent.opacity(0.6), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])).padding(-3))
+            .overlay(alignment: .topTrailing) {
+                // กุญแจล็อกมุมขวาบน — เห็นตั้งแต่ไกลว่าใบนี้ยังหยิบไม่ได้
+                Image(systemName: "lock.fill").font(.sh(11, .bold))
+                    .foregroundStyle(.white)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(.black.opacity(0.7)))
+                    .overlay(Circle().strokeBorder(.white.opacity(0.35), lineWidth: 0.8))
+                    .padding(6)
+            }
+            .overlay(alignment: .bottom) {
+                HStack(spacing: 4) {
+                    Image(systemName: t.fillable ? "plus" : "lock.fill").font(.sh(10, .heavy))
+                    Text(t.action).font(.sh(11, .bold))
+                }
+                .foregroundStyle(.black)
+                .padding(.horizontal, 10).frame(height: 26)
+                .background(Capsule().fill(.white))
+                .overlay(Capsule().strokeBorder(theme.accent.opacity(0.9), lineWidth: 1.2))
+                .shadow(color: .black.opacity(0.35), radius: 6, y: 3)
+                .offset(y: 10)
+            }
+    }
+}
+
+/// แผ่นของพรีวิวในตู้ — เปิดเฉพาะชิ้นที่ `WidgetChrome` จะวาดแผ่นให้ตอนอยู่บนการ์ด
+private struct GalleryPanel: ViewModifier {
+    let on: Bool
+
+    func body(content: Content) -> some View {
+        if on {
+            GlassPanel(radius: 18) { content }
+        } else {
+            content
+        }
     }
 }

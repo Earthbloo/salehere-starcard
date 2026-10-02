@@ -50,3 +50,50 @@ final class LinkSlotBox {
         rects[widget]?.last { $0.rect.contains(point) }?.url
     }
 }
+
+// MARK: - ช่องข้อความที่มีปลายทางในตัว
+
+extension ProfileField {
+    /// ช่องที่ "ค่าของมันคือทางติดต่อ" — กดแล้วต้องไปถึงตัวคนได้ทันที ไม่ต้องก็อปไปวางเอง
+    ///
+    /// ประกาศที่นี่ที่เดียวแล้ว `.editableText` ติดลิงก์ให้เอง ทุก widget ที่โชว์ช่องเหล่านี้
+    /// จึงกดได้ครบโดยไม่ต้องไล่ใส่ `.linkSlot` ทีละใบ · ชื่อ = โทรหาเจ้าของการ์ด
+    var contactURL: URL? {
+        let me = Profile.me
+        switch self {
+        case .lineId: return Contact.line(me.lineId)
+        case .phone: return Contact.tel(me.phone)
+        case .website: return Contact.web(me.website)
+        default:                          return nil
+        }
+    }
+}
+
+enum Contact {
+    static func tel(_ raw: String) -> URL? {
+        let digits = raw.filter { $0.isNumber || $0 == "+" }
+        return digits.isEmpty ? nil : URL(string: "tel:\(digits)")
+    }
+
+    /// พิมพ์มาไม่มี https:// ก็เปิดได้ — คนส่วนใหญ่พิมพ์แค่ "yourname.com"
+    static func web(_ raw: String) -> URL? {
+        let s = raw.trimmingCharacters(in: .whitespaces)
+        guard s.contains(".") else { return nil }
+        return URL(string: s.lowercased().hasPrefix("http") ? s : "https://\(s)")
+    }
+
+    static func mail(_ raw: String) -> URL? {
+        let s = raw.trimmingCharacters(in: .whitespaces)
+        return s.contains("@") ? URL(string: "mailto:\(s)") : nil
+    }
+
+    /// ไลน์ไอดีขึ้นต้น @ = บัญชีทางการ (`/R/ti/p/@id`) · ไอดีส่วนตัวต้องมี ~ นำหน้า
+    /// ลิงก์ line.me เป็น universal link — มีแอป LINE ก็เด้งเข้าแอปตรงหน้าเพิ่มเพื่อน
+    static func line(_ raw: String) -> URL? {
+        let s = raw.trimmingCharacters(in: .whitespaces)
+        guard !s.isEmpty else { return nil }
+        let path = s.hasPrefix("@") ? s : "~\(s)"
+        let enc = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? path
+        return URL(string: "https://line.me/R/ti/p/\(enc)")
+    }
+}

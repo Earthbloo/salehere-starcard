@@ -9,6 +9,12 @@ import SwiftUI
 struct GlassPanel<Content: View>: View {
     var tint: Color? = nil
     var tintStrength: Double = 0.16
+    /// ม่านใต้เนื้อหา — ปกติเป็นขาวขุ่น/ดำจางตามหมึกของการ์ด
+    ///
+    /// คู่สีส่งสีเข้มของคู่เข้ามาแทน เพราะการ์ดสองสีต้องไม่มีแผ่นสีที่สามโผล่มา:
+    /// แผ่นทุกแผ่นบนการ์ดใบนั้นเป็นสีเข้มของคู่ ตัวหนังสือบนแผ่นเป็นสีอ่อนของคู่ เหมือนกันทั้งใบ
+    /// กระจกยังเป็นกระจกอยู่ — แสงกับการหักเหยังทำงานบนม่านสีนี้เหมือนเดิม
+    var veil: Color? = nil
     var radius: CGFloat = 28
     var interactive: Bool = false
     @ViewBuilder var content: Content
@@ -24,7 +30,8 @@ struct GlassPanel<Content: View>: View {
             // ฝั่งกระดาษกลับทิศ: ม่านต้องเป็น "ขาวขุ่น" ไม่ใช่ "ดำจาง" — กระจกฝ้าสีขาว
             // คือหน้าตาของ Liquid Glass บนพื้นสว่างจริง ๆ และเป็นตัวที่ทำให้การ์ดอ่านว่า "ใส"
             // ถ้าใช้ดำจางบนกระดาษ แผ่นจะกลายเป็นรอยเปื้อนเทาที่ดูสกปรก
-            .background(shape.fill(ink.isLight ? Color.white.opacity(0.58) : Color.black.opacity(0.16)))
+            .background(shape.fill(veil ?? (ink.isLight ? Color.white.opacity(0.58)
+                                                         : Color.black.opacity(0.16))))
             .glassEffect(glass, in: shape)
             // พื้นมืดยกแผ่นด้วยแสง · พื้นสว่างยกแผ่นด้วยเงา
             .shadow(color: ink.lift, radius: ink.liftRadius, y: ink.isLight ? 6 : 0)
@@ -63,8 +70,14 @@ extension Font {
 /// โลโก้คงสีต้นฉบับเสมอ — ตราที่เปลี่ยนสีตามการ์ดที่มันรับรองอยู่ ไม่ใช่ตรา แต่เป็นของตกแต่ง
 struct VerifiedBadge: View {
     @Environment(\.cardInk) private var ink
+    /// ใบนี้มีแสตมป์ Sale Here แล้ว — ไม่รับรองซ้ำในหัวข้อ
+    @Environment(\.saleHereStamped) private var stamped
 
     var body: some View {
+        if stamped { SaleHereByline(tint: ink.text(0.82)) } else { badge }
+    }
+
+    private var badge: some View {
         // ตราปิดท้ายบรรทัด ไม่ใช่นำหน้า — ประโยคอ่านจบแล้วสายตาไปหยุดที่ *ใครเป็นคนยืนยัน*
         // ซึ่งคือข้อมูลที่มีค่าที่สุดในป้ายนี้ ถ้าเอาตราขึ้นก่อน มันกลายเป็นแค่ไอคอนนำบรรทัด
         HStack(spacing: 5) {
@@ -78,6 +91,8 @@ struct VerifiedBadge: View {
         .padding(.leading, 8).padding(.trailing, 4).padding(.vertical, 3)
         .background(Capsule().fill(ink.fill(0.16)))
         .overlay(Capsule().strokeBorder(ink.line(0.22), lineWidth: 0.5))
+        // แตะป้ายแล้วต้องมีคำตอบ — เปิดแผ่นตรวจสอบเดียวกับตราทุกดวง (ดู `verifySlot`)
+        .verifySlot()
     }
 }
 

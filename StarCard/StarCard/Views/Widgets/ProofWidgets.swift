@@ -7,76 +7,6 @@ import SwiftUI
 // เพราะมันคือสิ่งที่ทำให้การ์ดใบนี้ต่างจาก media kit ทั่วไป ถ้ามันหายพร้อมของอื่น
 // ทั้ง widget จะละลายเป็นก้อนเดียวจนไม่เหลือจุดให้ตาเกาะ
 
-/// โลโก้แบรนด์ที่เคยร่วมงาน
-///
-/// # ท่าเปลี่ยนหน้า — "บานพับเรียงแถว"
-/// แผ่นโลโก้พลิกอยู่ในช่องของตัวเองไล่กันตามทิศนิ้ว ชื่อใต้แผ่นมุดตามทีหลังครึ่งจังหวะ
-struct ProofBrands: View {
-    @Environment(\.pageScrub) private var scrub
-    @Environment(\.cardInk) private var ink
-    let theme: CardTheme
-    private var t: TrackRecord { Mock.creator.track }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ร่วมงานกับ \(t.brandCount) แบรนด์", trailing: AnyView(VerifiedBadge()))
-                .scrubVeil(scrub.d, lead: 0.36, drop: 22, pull: 6)
-
-            // โชว์ 4 แบรนด์ในขนาดที่อ่านชื่อออก แล้วสรุปที่เหลือเป็นแผ่นเดียว
-            // เดิมยัด 6 แผ่นจนชื่อเหลือ 8pt ซึ่งเล็กเกินกว่าจะอ่าน — แผ่นเยอะไม่ได้แปลว่าสื่อได้มากกว่า
-            GeometryReader { geo in
-                let n = min(t.brands.count, 4)
-                let gap: CGFloat = 10
-                let extra = t.brandCount > n
-                let slots = CGFloat(n + (extra ? 1 : 0))
-                let d = min((geo.size.width - gap * (slots - 1)) / slots, geo.size.height * 0.68)
-                let total = n + (extra ? 1 : 0)
-
-                HStack(alignment: .top, spacing: gap) {
-                    ForEach(Array(t.brands.prefix(n).enumerated()), id: \.element.id) { i, brand in
-                        let lead = Scrub.lead(i, of: total, d: scrub.d, step: 0.1)
-                        VStack(spacing: 7) {
-                            BrandPlate(brand: brand, side: d)
-                                .scrubLouver(scrub.d, lead: lead, angle: 66, shrink: 0.14)
-                            Text(brand.name)
-                                .font(.sh(9.5, .medium))
-                                .foregroundStyle(ink.text(0.5))
-                                .lineLimit(1).minimumScaleFactor(0.6)
-                                .frame(width: d + gap * 0.6)
-                                .scrubVeil(scrub.d, lead: lead + 0.06, drop: 18, pull: 8)
-                        }
-                    }
-                    if extra {
-                        let lead = Scrub.lead(n, of: total, d: scrub.d, step: 0.1)
-                        VStack(spacing: 7) {
-                            RoundedRectangle(cornerRadius: d * 0.26, style: .continuous)
-                                .fill(ink.fill(0.07))
-                                .overlay(RoundedRectangle(cornerRadius: d * 0.26, style: .continuous)
-                                    .strokeBorder(ink.line(0.16), lineWidth: 0.8))
-                                .overlay {
-                                    Text("+\(t.brandCount - n)")
-                                        .font(.sh(d * 0.3, .bold))
-                                        .foregroundStyle(ink.text(0.7))
-                                }
-                                .frame(width: d, height: d)
-                                .scrubLouver(scrub.d, lead: lead, angle: 66, shrink: 0.14)
-                            Text("อื่น ๆ")
-                                .font(.sh(9.5, .medium))
-                                .foregroundStyle(ink.text(0.32))
-                                .lineLimit(1).minimumScaleFactor(0.6)
-                                // กรอบเดียวกับชื่อแบรนด์ตัวอื่น ไม่งั้นบรรทัดนี้ไม่ถูกบีบ
-                                // แล้วอ่านออกมาใหญ่กว่าเพื่อนทั้งแถว
-                                .frame(width: d + gap * 0.6)
-                                .scrubVeil(scrub.d, lead: lead + 0.06, drop: 18, pull: 8)
-                        }
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-        }
-    }
-}
-
 /// ผลงานที่ระบบยืนยันตัวเลขให้
 ///
 /// ต่างจาก widget ผลงานทั่วไปตรงที่ตัวเลขวิว/engagement ดึงมาจากโพสต์จริง ไม่ใช่ creator พิมพ์เอง
@@ -91,6 +21,18 @@ struct ProofBrands: View {
 /// - ตัวหนังสือไม่จางทิ้ง แต่มุดลงใต้ขอบกล่องตัวเองทีละบรรทัด
 /// - **ตัวเลขวิวถูกถอดออกทีละหลัก** ไม่ใช่จางหาย เพราะมันคือค่าที่นับได้ ไม่ใช่คำโปรย
 /// - ลำดับมีความหมาย: ชื่อแบรนด์ไปก่อน · แคมเปญตาม · ตัวเลขไปท้ายสุดและกลับมาก่อนใคร
+/// รูปของผลงาน — รูปปกแคมเปญ (asset) เมื่อผลงานมาจากแคมเปญใน Sale Here · ไม่งั้นรูปในช่องของเจ้าของการ์ด
+struct WorkPicture: View {
+    let work: VerifiedWork
+    var body: some View {
+        if let cover = work.cover {
+            Image(cover).resizable()
+        } else {
+            WidgetPhoto(index: work.photo)
+        }
+    }
+}
+
 struct ProofWork: View {
     @Environment(PhotoStore.self) private var photos
     /// ระยะหน้าที่ส่งมาจาก tile — ตัวขับท่าบานเกล็ดทั้งหมด
@@ -98,11 +40,11 @@ struct ProofWork: View {
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
 
-    private var works: [VerifiedWork] { Mock.creator.track.works }
+    private var works: [VerifiedWork] { Profile.me.shownTrack(.verified).works }
 
     /// หาแบรนด์จากชื่อในผลงาน — ชื่อต้องตรงกับรายการ `brands` ถึงจะได้โลโก้มาแสดง
     private func brand(_ name: String) -> Brand? {
-        Mock.creator.track.brands.first { $0.name == name }
+        Profile.me.shownTrack(.verified).brands.first { $0.name == name }
     }
 
     var body: some View {
@@ -148,7 +90,7 @@ struct ProofWork: View {
                 .frame(width: w)
                 .frame(maxHeight: .infinity)
                 .overlay {
-                    WidgetPhoto(index: work.photo)
+                    WorkPicture(work: work)
                         .aspectRatio(contentMode: .fill)
                         // ถ่วงสวนทางหน้า · zoom ต้องคุ้ม shift (0.16 ≥ 2 × 0.07) ไม่งั้นเห็นขอบว่าง
                         .scrubDolly(scrub.d, shift: w * 0.07, zoom: 0.16)
@@ -170,6 +112,12 @@ struct ProofWork: View {
                             .scrubVeil(scrub.d, lead: 0.2, drop: 16, pull: 8)
                     }
                 }
+                // ซีเรียลของงาน — เลขตอนที่ระบบออกให้ อยู่มุมล่างของรูปทุกชิ้นทุกแบบ
+                .overlay(alignment: .bottomTrailing) {
+                    EPChip(ep: work.ep, tone: .ink, size: 7.5)
+                        .padding(6)
+                        .scrubVeil(scrub.d, lead: 0.22, drop: 14, pull: 8)
+                }
                 .photoSlot(work.photo)
 
             // แบรนด์เจ้าของงาน — โลโก้จริงคู่ชื่อ อ่านได้ทั้งคนที่จำโลโก้และคนที่จำชื่อ
@@ -190,7 +138,7 @@ struct ProofWork: View {
             // หลักฐานไปท้ายสุด กลับมาก่อนใคร — และไปแบบ "ถอดทีละหลัก" ไม่ใช่จางหาย
             // เหลือยอดวิวค่าเดียว ER ถูกถอดออกทั้งชั้นแล้ว (ยังอยู่ในโมเดลถ้าจะเอากลับมา)
             HStack(alignment: .firstTextBaseline, spacing: 4) {
-                ScrubDigits(text: Fmt.compact(work.views), d: scrub.d,
+                ScrubDigits(text: work.views > 0 ? Fmt.compact(work.views) : "–", d: scrub.d,
                             lead: 0.3, step: 0.05, drop: 20)
                     .font(.sh(19, .heavy))
                     .foregroundStyle(ink.text(0.98))
@@ -209,8 +157,8 @@ struct ProofWork: View {
 
 // MARK: - แบรนด์: หลายหน้าตาให้เลือก
 //
-// แต่ละตัวเล่นคนละจังหวะ: แถว+ชื่อ (อ่านง่าย) · กำแพง (โลโก้ล้วน แน่น) ·
-// ราง (เลื่อนเอง ได้ความเคลื่อนไหว) · รายชื่อ (ตัวหนังสือล้วน ไม่มีโลโก้)
+// แต่ละตัวเล่นคนละจังหวะ: แผงครบ (เห็นทุกแบรนด์) · ราง (เลื่อนเอง ได้ความเคลื่อนไหว) ·
+// เหรียญ (แถวเดียว อ่านจบในจังหวะเดียว)
 
 /// โลโก้แบรนด์ล้วน ๆ — ไม่มีแผ่นรองและไม่มีกรอบ
 ///
@@ -228,6 +176,12 @@ struct BrandPlate: View {
         Group {
             if let logo = brand.logo {
                 RemoteLogo(url: logo)
+                    .dataValue()
+                    .clipShape(shape)
+            } else if let asset = brand.asset {
+                // โลโก้แคมเปญจาก asset ในแอป (แบรนด์ที่ร่วมแคมเปญผ่าน Sale Here)
+                Image(asset).resizable().aspectRatio(contentMode: .fill)
+                    .frame(width: side, height: side)
                     .clipShape(shape)
             } else {
                 // ไม่มีไฟล์โลโก้ถึงจะเหลือแผ่นโมโนแกรมไว้ ไม่งั้นช่องนั้นว่างเปล่า
@@ -249,71 +203,6 @@ struct BrandPlate: View {
     }
 }
 
-/// กำแพงโลโก้ — กริดเต็มพื้นที่ ไม่มีชื่อ เหมาะกับคนที่ร่วมงานมาเยอะ
-///
-/// # ท่าเปลี่ยนหน้า — "กำแพงพลิกทีละแผ่น"
-/// แผ่นพระเอกพลิกช้าและองศาน้อย (ของหนัก) · แผ่นเล็กพลิกไวและองศาชัด (ของเบา)
-struct ProofBrandWall: View {
-    @Environment(\.pageScrub) private var scrub
-    @Environment(\.cardInk) private var ink
-    let theme: CardTheme
-    private var t: TrackRecord { Mock.creator.track }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ร่วมงานกับ \(t.brandCount) แบรนด์", trailing: AnyView(VerifiedBadge()))
-                .scrubVeil(scrub.d, lead: 0.36, drop: 22, pull: 6)
-
-            // เทรนด์ 2026 · Bento Grid — แบรนด์แรกได้ช่องใหญ่สองเท่า ที่เหลือเป็นช่องเล็ก
-            GeometryReader { geo in
-                let gap: CGFloat = 8
-                let side = (geo.size.width - gap * 3) / 4
-                let big = side * 2 + gap
-                let rest = Array(t.brands.dropFirst().prefix(4))
-                // นับจากยอดแบรนด์จริงในระบบ ไม่ใช่จำนวนโลโก้ที่มีไฟล์ — ตัวเลขต้องตรงกับหัวข้อ
-                let extra = max(0, t.brandCount - 5)
-
-                HStack(spacing: gap) {
-                    if let hero = t.brands.first {
-                        BrandPlate(brand: hero, side: big)
-                            .scrubLouver(scrub.d, lead: Scrub.lead(0, of: 5, d: scrub.d, step: 0.1),
-                                         angle: 44, shrink: 0.08)
-                    }
-                    ForEach(0..<2, id: \.self) { c in
-                        VStack(spacing: gap) {
-                            ForEach(0..<2, id: \.self) { r in
-                                let i = c * 2 + r
-                                let lead = Scrub.lead(i + 1, of: 5, d: scrub.d, step: 0.1)
-                                ZStack {
-                                    if i < rest.count {
-                                        BrandPlate(brand: rest[i], side: side)
-                                    }
-                                    // ช่องสุดท้ายบอกจำนวนที่เหลือ แทนที่จะตัดหายไปเงียบ ๆ
-                                    if i == rest.count - 1, extra > 0 {
-                                        RoundedRectangle(cornerRadius: side * 0.26, style: .continuous)
-                                            .fill(.black.opacity(0.62))
-                                            .overlay {
-                                                ScrubDigits(text: "+\(extra)", d: scrub.d,
-                                                            lead: lead + 0.1, step: 0.05,
-                                                            drop: side * 0.4)
-                                                    .font(.sh(side * 0.3, .bold))
-                                                    .foregroundStyle(.white.opacity(0.95))
-                                            }
-                                            .frame(width: side, height: side)
-                                    }
-                                }
-                                .scrubLouver(scrub.d, lead: lead, angle: 70, shrink: 0.16)
-                            }
-                        }
-                    }
-                    Spacer(minLength: 0)
-                }
-                .frame(height: big, alignment: .top)
-            }
-        }
-    }
-}
-
 /// แผงโลโก้ครบทุกใบ — **แบบเดียวในตระกูลที่ไม่มี "+N"**
 ///
 /// สามแบบเดิมเลือกโชว์ 4–5 ใบแล้วสรุปที่เหลือเป็นตัวเลข ซึ่งดีเวลาอยากได้ความสะอาด
@@ -331,7 +220,7 @@ struct ProofBrandGrid: View {
     @Environment(\.pageScrub) private var scrub
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
-    private var t: TrackRecord { Mock.creator.track }
+    private var t: TrackRecord { Profile.me.shownTrack(.brand) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -400,7 +289,7 @@ struct ProofBrandGrid: View {
 struct ProofBrandRail: View {
     @Environment(\.pageScrub) private var scrub
     let theme: CardTheme
-    private var t: TrackRecord { Mock.creator.track }
+    private var t: TrackRecord { Profile.me.shownTrack(.brand) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -444,41 +333,150 @@ struct ProofBrandRail: View {
     }
 }
 
-/// รายชื่อแบรนด์ — ตัวหนังสือล้วน ไม่มีโลโก้เลย · มินิมอลสุดในชุด
+/// เหรียญโลโก้ — วงกลมมีขอบ เรียงเป็นแถวเดียวแนวนอน
 ///
-/// # ท่าเปลี่ยนหน้า — "เครดิตไหลทีละชื่อ"
-/// ชื่อแต่ละแบรนด์มุดใต้บรรทัดของตัวเองไล่กัน ไม่ใช่ทั้งบล็อกเลื่อนพร้อมกัน
-struct ProofBrandList: View {
+/// ต่างจากอีกสี่ใบในตระกูลตรงที่มันตัดทุกอย่างทิ้งเหลือ **วงกลมขนาดเท่ากันเรียงกัน** —
+/// ไม่มีชื่อใต้แผ่น ไม่มีแผ่นพระเอก ไม่มีตาราง เพราะของที่ขนาดเท่ากันทั้งแถวอ่านเป็น
+/// *รายชื่อ* ไม่ใช่ *ผัง* ตาจึงกวาดจบในจังหวะเดียวแล้วไปต่อ ซึ่งคือสิ่งที่แถบ
+/// "trusted by" ของเว็บแบรนด์ทำกันทั้งวงการ
+///
+/// # ทำไมวงกลมต้องมีพื้นขาว ไม่ใช่โลโก้ลอย ๆ แบบ `BrandPlate`
+///
+/// โลโก้ถูกออกแบบมาให้ยืนบนขาว — ไฟล์ PNG โปร่งที่ใช้หมึกเข้มวางบนการ์ดพื้นมืดแล้ว
+/// **หายไปทั้งใบ** ส่วนไฟล์ JPG พื้นขาวจะกลายเป็นสี่เหลี่ยมขาวโด่อยู่กลางแถว
+/// วงขาว + ขอบจึงแก้ทั้งสองข้อพร้อมกัน: ทุกแบรนด์ได้พื้นเดียวกัน และขอบคือสิ่งที่
+/// บอกว่าวงจบตรงไหนเมื่อโลโก้เองก็พื้นขาว
+///
+/// # ท่าเปลี่ยนหน้า — "เหรียญพลิกไล่แถว"
+/// พลิกทีละเหรียญตามทิศนิ้ว เหรียญที่พลิกก่อนคือเหรียญที่กลับมาทีหลัง
+struct ProofBrandCoins: View {
     @Environment(\.pageScrub) private var scrub
     @Environment(\.cardInk) private var ink
     let theme: CardTheme
-    private var t: TrackRecord { Mock.creator.track }
+    private var t: TrackRecord { Profile.me.shownTrack(.brand) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ร่วมงานกับ \(t.brandCount) แบรนด์", trailing: AnyView(VerifiedBadge()))
-                .scrubVeil(scrub.d, lead: 0.36, drop: 22, pull: 6)
+        VStack(spacing: 8) {
+            caption
 
-            // เทรนด์ 2026 · Oversized editorial type — ชื่อแบรนด์ตัวหนาใหญ่คั่นด้วยจุดสีธีม
-            // ต้องใช้ FlowLayout ตรง ๆ ไม่ใช่ FlowChips เพราะท่านี้ต้องรู้ลำดับของแต่ละชื่อ
-            FlowLayout(spacing: 10) {
-                ForEach(Array(t.brands.enumerated()), id: \.element.id) { i, brand in
-                    HStack(spacing: 10) {
-                        Text(brand.name)
-                            .font(.sh(17, .bold))
-                            .tracking(-0.3)
-                            .foregroundStyle(ink.text(0.92))
-                            .lineLimit(1)
-                        Circle()
-                            .fill(theme.accent)
-                            .frame(width: 4, height: 4)
+            GeometryReader { geo in
+                // เหรียญคือวงกลม — รูปทรงไม่เปลี่ยนตามกรอบ ที่เปลี่ยนคือ *จำนวนที่ลงในแถว*
+                // (กติกาการย่อ-ขยายของตู้: กรอบคือกล่องจัดแถว ไม่ใช่ตัวยืดของข้างใน)
+                // แคบมากก็ยังต้องเหลือที่ให้เหรียญหนึ่งใบ + วง "+N" — ไม่งั้นวงท้ายถูกตัดหาย
+                // แล้วแถบที่เหลือจะโกหกว่านี่คือแบรนด์ทั้งหมด
+                let cap = min(geo.size.height, 58)
+                let d = max(18, min(cap, (geo.size.width - cap * 0.11) / 2))
+                let gap = max(4, d * 0.11)
+                // จำนวนวงที่ลงในความกว้างนี้จริง ๆ — เหลือที่ไม่พอก็ตัด ไม่บีบวงให้เล็กลง
+                let fit = max(1, Int((geo.size.width + gap) / (d + gap)))
+                let overflow = t.brands.count > fit
+                // เหลือที่ให้วง "+N" หนึ่งช่องเสมอเมื่อโชว์ไม่ครบ — ไม่งั้นแถวจบแบบเงียบ ๆ
+                // แล้วคนอ่านจะนึกว่านี่คือแบรนด์ทั้งหมดที่มี
+                let shown = Array(t.brands.prefix(overflow ? max(1, fit - 1) : fit))
+                let extra = t.brandCount - shown.count
+                let slots = shown.count + (extra > 0 ? 1 : 0)
+                // ถ่างให้เต็มความกว้างเมื่อของน้อย แต่ไม่เกินระยะที่ยังอ่านเป็นแถวเดียวกัน
+                // แถวกินเต็มความกว้างเสมอ — เหรียญคือเนื้อหาของใบนี้ ไม่ใช่ของประดับที่เกาะกลาง
+                let spread = slots > 1
+                    ? min(d * 0.7, max(gap, (geo.size.width - d * CGFloat(slots)) / CGFloat(slots - 1)))
+                    : gap
+
+                HStack(spacing: spread) {
+                    ForEach(Array(shown.enumerated()), id: \.element.id) { i, brand in
+                        coin(brand, d: d)
+                            .scrubLouver(scrub.d,
+                                         lead: Scrub.lead(i, of: slots, d: scrub.d, step: 0.09),
+                                         angle: 66, shrink: 0.14)
                     }
-                    .scrubVeil(scrub.d,
-                               lead: Scrub.lead(i, of: t.brands.count, d: scrub.d, step: 0.07),
-                               drop: 28, pull: 14)
+                    if extra > 0 {
+                        more(extra, d: d)
+                            .scrubLouver(scrub.d,
+                                         lead: Scrub.lead(shown.count, of: slots, d: scrub.d, step: 0.09),
+                                         angle: 66, shrink: 0.14)
+                    }
+                }
+                // แถวอยู่กลางกรอบทั้งสองแกน — หัวเรื่องเป็นบล็อกกลาง แถวที่ชิดซ้ายจะทำให้
+                // ทั้งใบอ่านเป็นสองชิ้นที่วางคนละระบบ
+                .frame(width: geo.size.width, height: geo.size.height)
+            }
+        }
+    }
+
+    /// บรรทัดกำกับ — **เล็กและเงียบโดยตั้งใจ**
+    ///
+    /// # ลำดับความดังของใบนี้
+    ///
+    /// คนที่เปิดการ์ดมาหาแถบนี้กวาดตาหา *โลโก้ที่เขารู้จัก* — แบรนด์คู่แข่งของตัวเอง
+    /// แบรนด์ระดับเดียวกัน แบรนด์ที่แปลว่าคนนี้ผ่านงานจริงมาแล้ว · การจำโลโก้เกิดก่อน
+    /// การอ่านตัวหนังสือเสมอ คำถามที่เขาถือมาคือ "**ใครบ้าง**" ไม่ใช่ "กี่เจ้า"
+    ///
+    /// "6 แบรนด์" จึงเป็น *คำกำกับของแถว* ไม่ใช่เนื้อหาของแถว — ตัวเลขจำนวนตอบได้แค่
+    /// "เยอะไหม" ซึ่งเป็นคำถามรอง เคยทำเป็นคำหนา 25pt อยู่รอบหนึ่ง แล้วมันกลายเป็น
+    /// ป้ายชื่อตู้ที่ดังกว่าของในตู้ · ที่นี่จึงย่อลงมาเป็นบรรทัดเดียวขนาดคำบรรยาย
+    /// แล้วยกน้ำหนักทั้งหมดคืนให้เหรียญ
+    private var caption: some View {
+        HStack(spacing: 5) {
+            Text("Trusted by")
+                .font(CardFont.serif.font(10.5, .regular).italic())
+                .foregroundStyle(ink.text(0.48))
+            // ตัวเลขยังถอดทีละหลัก — มันคือค่าที่นับได้ ต่อให้ตัวเล็กลงก็ยังเป็นค่า ไม่ใช่คำโปรย
+            ScrubDigits(text: "\(t.brandCount)", d: scrub.d, lead: 0.34, step: 0.04, drop: 12)
+            Text("แบรนด์")
+        }
+        .font(.sh(10.5, .bold))
+        .foregroundStyle(ink.text(0.72))
+        .lineLimit(1)
+        .scrubVeil(scrub.d, lead: 0.38, drop: 14, pull: 6)
+        .padding(.horizontal, 74)
+        .frame(maxWidth: .infinity)
+        .overlay(alignment: .trailing) {
+            VerifiedBadge()
+                .scrubVeil(scrub.d, lead: 0.44, drop: 14, pull: 6)
+        }
+    }
+
+    /// เหรียญหนึ่งใบ — พื้นขาว · โลโก้เว้นขอบใน · วงขอบไล่เฉดจากสีธีมไปหาเส้นผม
+    private func coin(_ brand: Brand, d: CGFloat) -> some View {
+        Circle()
+            // พื้นมืดลดความขาวลงนิดเดียวให้วงไม่แผดกว่าตัวการ์ด · พื้นกระดาษใช้ขาวเต็ม
+            // แล้วให้ขอบเป็นตัวบอกว่าวงจบตรงไหน
+            .fill(ink.isLight ? Color.white : Color.white.opacity(0.93))
+            .overlay {
+                if let logo = brand.logo {
+                    // เว้นขอบในบางที่สุดที่ยังไม่ชนขอบวง — โลโก้คือเนื้อหา ขาวรอบ ๆ คือที่ว่าง
+                    RemoteLogo(url: logo)
+                        .dataValue()
+                        .padding(d * 0.07)
+                } else if let asset = brand.asset {
+                    Image(asset).resizable().aspectRatio(contentMode: .fill)
+                        .frame(width: d, height: d).clipShape(Circle())
+                } else {
+                    Text(brand.monogram)
+                        .dataValue()
+                        .font(.sh(d * 0.3, .heavy))
+                        .foregroundStyle(.black.opacity(0.5))
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        }
+            .clipShape(Circle())
+            .overlay {
+                Circle().strokeBorder(
+                    LinearGradient(colors: [theme.accent.opacity(0.75), ink.line(0.22)],
+                                   startPoint: .topLeading, endPoint: .bottomTrailing),
+                    lineWidth: max(1.2, d * 0.042))
+            }
+            .frame(width: d, height: d)
+    }
+
+    /// วงปิดท้าย — ไม่ใช่เหรียญ จึงไม่ได้พื้นขาว ต่างกันชัดว่านี่คือ *จำนวนที่เหลือ* ไม่ใช่แบรนด์อีกใบ
+    private func more(_ extra: Int, d: CGFloat) -> some View {
+        Circle()
+            .fill(ink.fill(0.08))
+            .overlay(Circle().strokeBorder(ink.line(0.2), lineWidth: max(1, d * 0.03)))
+            .overlay {
+                Text("+\(extra)")
+                    .font(.sh(d * 0.3, .bold))
+                    .foregroundStyle(ink.text(0.68))
+            }
+            .frame(width: d, height: d)
     }
 }

@@ -46,6 +46,8 @@ enum SHIcon {
     static let lemon8    = "about-social-lemon8"
 
     static let sealCheck = "ic-seal-check"
+    /// ป้าย "VERIFIED BY SALE HERE" ตัวจริงของแอปหลัก (StarCardView เดิม · หน้าโปรไฟล์ครีเอเตอร์) — คงสีต้นฉบับ ไม่ย้อม
+    static let verifiedPill = "ic-verified-sale-here"
     static let star      = "ic-salehere-star-outline"
     static let wordmark  = "ic-salehere-text"
     static let watermark = "ic-salehere-watermark"

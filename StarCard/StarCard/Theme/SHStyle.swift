@@ -17,6 +17,9 @@ enum SHColor {
     static let redPressed = Color(red: 200 / 255, green: 16 / 255, blue: 23 / 255)
     /// #FDE8E9 · พื้นแดงอ่อน — ใช้ได้กับ Badge เท่านั้น (สเปก 2.0 เลิกใช้กับปุ่มมี text)
     static let redSoft = Color(red: 253 / 255, green: 232 / 255, blue: 233 / 255)
+    /// เขียว "ลงทะเบียนแล้ว" / "ผูกบัญชีแล้ว" ของแอปหลัก
+    static let green = Color(red: 18 / 255, green: 183 / 255, blue: 106 / 255)
+    static let greenSoft = Color(red: 231 / 255, green: 246 / 255, blue: 239 / 255)
 
     // MARK: ตัวหนังสือ
     /// #16181D · text-primary

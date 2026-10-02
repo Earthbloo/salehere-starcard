@@ -2,10 +2,10 @@ import SwiftUI
 
 // MARK: - สำรับ Gen Z
 //
-// ห้าแบบในไฟล์นี้ไม่ได้เพิ่ม "ข้อมูลใหม่" เลยสักตัว — ทุกตัวเล่าเรื่องเดียวกับแบบที่มีอยู่แล้ว
-// ในตระกูลของมัน (โปรไฟล์ · แนะนำตัว · ผู้ติดตาม · รูปผลงาน · หมวดหมู่)
+// สามแบบในไฟล์นี้ไม่ได้เพิ่ม "ข้อมูลใหม่" เลยสักตัว — ทุกตัวเล่าเรื่องเดียวกับแบบที่มีอยู่แล้ว
+// ในตระกูลของมัน (ผู้ติดตาม · รูปผลงาน · หมวดหมู่) · ใบที่สี่ (ออร่า) ถูกถอดออก 29 ก.ย. 2569
 // ที่ต่างคือ **สำเนียง**: ของพวกนี้พูดด้วยภาษาที่คนอายุ 18–27 ใช้กันอยู่ทุกวัน
-// ออร่า · โน้ตแปะ · การ์ดสรุปยอดปลายปี · สติปรูดจากตู้ถ่ายรูป · สติกเกอร์นูน
+// การ์ดสรุปยอดปลายปี · สติปรูดจากตู้ถ่ายรูป · สติกเกอร์นูน
 //
 // กติกาสองข้อที่คุมทั้งไฟล์ ไม่ให้ "ว้าว" กลายเป็น "รก":
 //
@@ -33,232 +33,7 @@ private enum Vinyl {
     static let marker = Color(red: 0.62, green: 0.96, blue: 0.72)
 }
 
-// MARK: - 01 · ออร่า
-
-/// รูปโปรไฟล์ในซุ้มโค้ง ลอยอยู่กลางดวงแสงสามดวงที่เป็นสีของธีม
-///
-/// เทรนด์ 2026 · Aura photo — แสงรอบตัวคือบุคลิก ไม่ใช่ฉากหลัง คนรุ่นนี้อ่าน "ออร่าสีม่วง"
-/// ออกมาเป็นคำอธิบายตัวตนได้ทันทีโดยไม่ต้องมีคำบรรยาย จึงเป็น hero ที่ใช้ตัวหนังสือน้อยที่สุดในชุด
-///
-/// # ท่าเปลี่ยนหน้า — "ออร่าหมุนสวนตัวคน"
-///
-/// ดวงแสงหมุนรอบซุ้มไปทางเดียวกับที่หน้ากำลังไปและบานออก ส่วนตัวคนถ่วงตัวสวนทาง
-/// ความลึกจึงมาจาก **ทิศที่ต่างกันของสองชั้น** ไม่ใช่จากเงาหรือความจาง
-struct HeroAura: View {
-    @Environment(PhotoStore.self) private var photos
-    @Environment(\.pageScrub) private var scrub
-    @Environment(\.cardInk) private var ink
-    let theme: CardTheme
-    let size: CGSize
-
-    var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width
-            let h = geo.size.height
-            // แถบชื่อกินที่คงที่ ที่เหลือเป็นของภาพทั้งหมด — ภาพคือพระเอกของ hero ทุกตัว
-            let footer = min(78, h * 0.26)
-            let stage = max(60, h - footer)
-            let archW = min(w * 0.68, stage * 0.82)
-
-            VStack(spacing: 0) {
-                ZStack {
-                    aura(w: w, h: stage)
-                    arch(width: archW, height: stage)
-                }
-                .frame(width: w, height: stage)
-
-                nameBlock(w: w)
-                    .frame(width: w, height: footer, alignment: .topLeading)
-            }
-        }
-    }
-
-    /// ดวงแสงสามดวง — สีธีมดิบสองดวง ขาวหนึ่งดวง
-    /// ใช้สีดิบ (`rawAccent`) เพราะดวงแสงคือ *แหล่งกำเนิดแสง* ไม่ใช่หมึกที่เขียนบนการ์ด
-    private func aura(w: CGFloat, h: CGFloat) -> some View {
-        let r = min(w, h)
-        return ScrubReader(d: scrub.d) { d in
-            let t = Scrub.ease(Scrub.t(d))
-            let s = Double(Scrub.dir(d))
-            ZStack {
-                Circle().fill(theme.rawAccent.opacity(0.95))
-                    .frame(width: r * 0.78, height: r * 0.78)
-                    .offset(x: -r * 0.3, y: -r * 0.2)
-                Circle().fill(theme.rawAccentSoft.opacity(0.9))
-                    .frame(width: r * 0.68, height: r * 0.68)
-                    .offset(x: r * 0.32, y: r * 0.02)
-                Circle().fill(Color.white.opacity(0.45))
-                    .frame(width: r * 0.42, height: r * 0.42)
-                    .offset(x: 0, y: r * 0.3)
-            }
-            // ฟุ้งแรงพอให้ไม่เห็นขอบวงกลม แต่ไม่แรงจนสามดวงละลายเป็นดวงเดียว
-            // (ที่ r * 0.17 มันกลายเป็นแสงขาวก้อนเดียว สีของธีมหายไปหมด)
-            .blur(radius: r * 0.13)
-            .rotationEffect(.degrees(s * 34 * t))
-            .scaleEffect(1 + 0.22 * t)
-            .opacity(0.9 * Scrub.fade(t, after: 0.72))
-        }
-        .frame(width: w, height: h)
-    }
-
-    /// ตัวคนในซุ้มโค้ง — ทรงเดียวกับที่งานพอร์ตสายแฟชั่นใช้ ไม่ใช่วงกลม avatar
-    private func arch(width: CGFloat, height: CGFloat) -> some View {
-        let shape = ArchShape(footRadius: 14)
-        return Color.clear
-            .frame(width: width, height: height * 0.92)
-            .overlay {
-                WidgetPhoto(index: 1)
-                    .aspectRatio(contentMode: .fill)
-                    .scrubDolly(scrub.d, shift: width * 0.09, zoom: 0.2)
-            }
-            .clipShape(shape)
-            .overlay(shape.stroke(.white.opacity(0.55), lineWidth: 1))
-            .photoSlot(1)
-            .overlay(alignment: .topTrailing) { sparkle(size: 15, at: 0.06) }
-            .overlay(alignment: .bottomLeading) { sparkle(size: 11, at: 0.2) }
-            .shadow(color: theme.rawAccent.opacity(0.45), radius: 22, y: 8)
-    }
-
-    /// ประกายที่มุมซุ้ม — หมุนสวนทางกันคนละดวงเพื่อไม่ให้อ่านเป็นไอคอนคู่แฝด
-    private func sparkle(size s: CGFloat, at lead: Double) -> some View {
-        ScrubReader(d: scrub.d) { d in
-            let t = Scrub.ease(Scrub.t(d, lead: lead))
-            SymbolIcon(name: SHIcon.sparkle, size: s, tint: .white)
-                .rotationEffect(.degrees(Double(Scrub.dir(d)) * 90 * Double(t)))
-                .scaleEffect(1 - 0.6 * t)
-                .opacity(Scrub.fade(t, after: 0.5))
-        }
-        .frame(width: s, height: s)
-        .padding(6)
-    }
-
-    private func nameBlock(w: CGFloat) -> some View {
-        VStack(alignment: .leading, spacing: 7) {
-            HStack(spacing: 6) {
-                Text(Profile.me.name)
-                    .font(.sh(min(28, w * 0.105), .black))
-                    // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
-                    .kerning(-0.7)
-                    .foregroundStyle(
-                        LinearGradient(colors: [ink.text(0.98), theme.accent],
-                                       startPoint: .leading, endPoint: .trailing)
-                    )
-                    .lineLimit(1).truncationMode(.tail)
-                    // ช่องพิมพ์รับสีเดียวได้ ไม่ใช่ไล่เฉด — ใช้สีต้นทางของเฉด
-                    // ตอนพิมพ์จึงอ่านออกเท่าเดิม แล้วกลับเป็นไล่เฉดทันทีที่ปิดช่อง
-                    .editableText(.name, .init(size: min(28, w * 0.105), weight: .black,
-                                               color: ink.text(0.98), tracking: -0.7))
-                if Mock.creator.verified {
-                    SymbolIcon(name: SHIcon.sealCheck, size: 12, tint: theme.accent)
-                }
-                Spacer(minLength: 0)
-            }
-            .scrubVeil(scrub.d, lead: 0.24, drop: 34, pull: 8)
-
-            // เคยมีชิปยอดผู้ติดตามต่อท้าย — ถอดออกแล้ว
-            // hero ตอบคำถาม "นี่คือใคร" ส่วนยอดผู้ติดตามตอบ "ใหญ่แค่ไหน" ซึ่งมี widget ของตัวเอง
-            Text(Profile.me.tagline.uppercased())
-                .font(.sh(9, .semibold)).tracking(1.8)
-                .foregroundStyle(ink.text(0.45))
-                .lineLimit(1).truncationMode(.tail)
-                .editableText(.tagline, .init(size: 9, weight: .semibold,
-                                              color: ink.text(0.45), tracking: 1.8,
-                                              uppercase: true))
-                .scrubVeil(scrub.d, lead: 0.06, drop: 24, pull: 16)
-        }
-        .padding(.top, 10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
-// MARK: - 02 · โน้ตแปะ
-
-/// ย่อหน้าแนะนำตัวที่ไม่ได้อ่านเหมือน "ข้อความในโปรไฟล์" แต่อ่านเหมือน **โน้ตที่เขียนแปะไว้**
-///
-/// คนรุ่นนี้โพสต์คำอธิบายตัวเองเป็นสกรีนช็อตแอปโน้ตกันจนเป็นภาษากลาง เพราะกระดาษหนึ่งแผ่น
-/// บอกว่า "นี่คือเสียงของฉัน ไม่ใช่ก๊อปปี้ที่ใครเขียนให้" — ซึ่งตรงกับหน้าที่ของ widget ตัวนี้พอดี
-///
-/// # ท่าเปลี่ยนหน้า — "ถูกดึงออกจากกระดาน"
-///
-/// แผ่นเอียงเพิ่มขึ้นแล้วลอยขึ้นตามทิศนิ้ว ส่วนเทปกาวที่หัวแผ่น **เอียงสวนทาง** เหมือนยังเกาะกระดานอยู่
-/// ตาจึงอ่านว่ากระดาษถูกดึง ไม่ใช่ทั้งภาพถูกเลื่อน
-struct AboutNote: View {
-    @Environment(\.pageScrub) private var scrub
-    let theme: CardTheme
-
-    var body: some View {
-        ScrubReader(d: scrub.d) { d in
-            let t = Scrub.ease(Scrub.t(d))
-            let s = Double(Scrub.dir(d))
-            note
-                .rotationEffect(.degrees(-1.4 + s * 6 * Double(t)), anchor: .top)
-                .offset(y: -22 * t)
-                .scaleEffect(1 - 0.06 * t, anchor: .top)
-                .opacity(Scrub.fade(t, after: 0.74))
-        }
-        .padding(.horizontal, 4)
-        .padding(.top, 7)
-    }
-
-    private var note: some View {
-        VStack(alignment: .leading, spacing: 9) {
-            HStack(spacing: 6) {
-                Text("โน้ตจากฉัน")
-                    .font(.sh(10, .heavy)).tracking(0.6)
-                    .foregroundStyle(Vinyl.ink.opacity(0.55))
-                Spacer(minLength: 4)
-            }
-            .scrubVeil(scrub.d, lead: 0.3, drop: 18, pull: 6)
-
-            Rectangle().fill(Vinyl.ink.opacity(0.14)).frame(height: 0.8)
-
-            // เว้นที่ท้ายย่อหน้าไว้ให้บรรทัดไฮไลต์ที่ต้องอยู่ใต้มันเสมอ
-            // ไม่งั้นย่อหน้ากินทั้งแผ่นแล้วบรรทัดปิดท้ายหลุดออกนอกกระดาษ
-            EditableParagraph(field: .about,
-                              style: .init(size: 13.5, weight: .medium,
-                                           color: Vinyl.ink, lineSpacing: 6),
-                              reserve: 8)
-                .scrubVeil(scrub.d, lead: 0.1, drop: 30, pull: 14)
-
-            // ปากกาไฮไลต์ปิดท้าย — บรรทัดเดียวที่ตาเห็นก่อนอ่านย่อหน้า
-            Text(Profile.me.tagline)
-                .font(.sh(11, .heavy))
-                .foregroundStyle(Vinyl.ink)
-                .lineLimit(1).truncationMode(.tail)
-                .editableText(.tagline, .init(size: 11, weight: .heavy, color: Vinyl.ink))
-                .padding(.horizontal, 4).padding(.vertical, 1)
-                .background(Vinyl.marker)
-                .scrubVeil(scrub.d, lead: 0.02, drop: 22, pull: 18)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(
-            LinearGradient(colors: [Vinyl.sticky, Vinyl.stickyDeep],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
-        .shadow(color: .black.opacity(0.35), radius: 10, y: 6)
-        .overlay(alignment: .top) { tape }
-    }
-
-    /// เทปกาว — เอียงสวนทางแผ่นตอนถูกดึง คือสิ่งเดียวที่ทำให้ท่าอ่านออกว่า "ลอก"
-    private var tape: some View {
-        ScrubReader(d: scrub.d) { d in
-            let t = Scrub.ease(Scrub.t(d))
-            let s = Double(Scrub.dir(d))
-            Rectangle()
-                .fill(.white.opacity(0.5))
-                .overlay(Rectangle().strokeBorder(.white.opacity(0.4), lineWidth: 0.5))
-                .frame(width: 58, height: 17)
-                .rotationEffect(.degrees(-5 - s * 10 * Double(t)))
-                .offset(y: -8)
-                .shadow(color: .black.opacity(0.2), radius: 2, y: 1)
-        }
-        .frame(width: 58, height: 17)
-    }
-}
-
-// MARK: - 03 · การ์ดสรุปยอด
+// MARK: - 02 · การ์ดสรุปยอด
 
 /// ยอดผู้ติดตามในหน้าตาของ "สรุปประจำปี" — บล็อกสีทึบ ตัวเลขยักษ์ อันดับเรียงลงมา
 ///
@@ -272,13 +47,15 @@ struct AboutNote: View {
 /// ปีที่เป็นเงาอยู่ข้างหลังไถลสวนทาง — ชั้นที่ใกล้ตาที่สุดเคลื่อนเร็วที่สุด กติกาเดิมของทั้งการ์ด
 struct StatWrapped: View {
     @Environment(\.pageScrub) private var scrub
+    @Environment(\.widgetEmboss) private var embossed
+    @Environment(\.widgetEmbossBlind) private var embossBlind
     let theme: CardTheme
     let size: CGSize
 
     private var ranked: [SocialProfile] {
-        Mock.creator.socials.sorted { $0.followerCount > $1.followerCount }
+        Profile.me.shownSocials.sorted { $0.followerCount > $1.followerCount }
     }
-    private var total: Int { Mock.creator.socials.reduce(0) { $0 + $1.followerCount } }
+    private var total: Int { Profile.me.shownSocials.reduce(0) { $0 + $1.followerCount } }
 
     var body: some View {
         GeometryReader { geo in
@@ -327,6 +104,16 @@ struct StatWrapped: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+
+                // ตราปั๊มนูนบนบล็อกสี — "สรุปที่ระบบคำนวณให้" ต้องมีชื่อผู้คำนวณ · ขึ้นเมื่อยอดมาจากแพลตฟอร์มจริงเท่านั้น
+                // อยู่ขวากลาง ใต้เลขปีที่เป็นเงา เหนือแถวอันดับ — ที่เดียวของใบนี้ที่ไม่มีตัวอักษรให้ชน
+                if embossed, VerifiedFacts.numbersVerified {
+                    EmbossedLockup(height: embossBlind ? 20 : 22, light: true, foil: !embossBlind, tint: Vinyl.ink.opacity(0.8))
+                        .padding(.trailing, 16)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                        .offset(y: -16)
+                        .allowsHitTesting(false)
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         }
@@ -362,7 +149,7 @@ struct StatWrapped: View {
 
     private func row(_ s: SocialProfile, rank: Int, lead: Double) -> some View {
         HStack(spacing: 9) {
-            Text(String(format: "%02d", rank))
+            Text(String(format: "%02d", rank)).dataValue()
                 .font(.sh(11, .black))
                 .foregroundStyle(Vinyl.ink.opacity(0.4))
             BrandIcon(name: s.type.icon, size: 14)
@@ -371,7 +158,7 @@ struct StatWrapped: View {
                 .foregroundStyle(Vinyl.ink)
                 .lineLimit(1).minimumScaleFactor(0.6)
             Spacer(minLength: 4)
-            Text(Fmt.compact(s.followerCount))
+            Text(Fmt.compact(s.followerCount)).dataValue()
                 .font(.sh(12.5, .heavy))
                 .foregroundStyle(Vinyl.ink)
                 .lineLimit(1)
@@ -384,7 +171,7 @@ struct StatWrapped: View {
     }
 }
 
-// MARK: - 04 · ตู้ถ่ายรูป
+// MARK: - 03 · ตู้ถ่ายรูป
 
 /// สี่เฟรมบนกระดาษแผ่นเดียว — สติปรูดจากตู้ถ่ายรูป
 ///
@@ -480,7 +267,7 @@ struct ArtPhotobooth: View {
     }
 }
 
-// MARK: - 05 · สติกเกอร์สายงาน
+// MARK: - 04 · สติกเกอร์สายงาน
 
 /// สายงานเดิม แต่เป็นสติกเกอร์ไวนิลนูน — ขอบขาวหนา เงาจริง เอียงคนละองศา
 ///
@@ -534,8 +321,6 @@ struct StickerTags: View {
                     SymbolIcon(name: SHIcon.starFill, size: 9, tint: Vinyl.ink.opacity(0.7))
                 }
                 Text(name)
-                    .font(.sh(13, .heavy))
-                    .foregroundStyle(Vinyl.ink)
                     .lineLimit(1).truncationMode(.tail)
                     // ลบข้อความจนหมดแล้วปิดช่อง = ลอกสติกเกอร์ใบนั้นทิ้ง (ดู `Profile.commit`)
                     .editableText(.categories, index: i,

@@ -36,3 +36,7 @@ playground.xcworkspace
 *.mobileprovision
 Secrets.plist
 GoogleService-Info.plist
+
+# Xcode build output (xcodebuild -derivedDataPath build)
+StarCard/build/
+StarCard/Packages/PhosphorSwift/build/

@@ -28,7 +28,9 @@ struct CardSharePreview: View {
 
     var body: some View {
         ZStack {
-            Color(white: 0.07).ignoresSafeArea()
+            // เวทีของแบรนด์ — มืด + ลายน้ำจาง (วงกลางของกติกาลายเซ็น ดู `Signature`)
+            Signature.stage.ignoresSafeArea()
+            SignaturePattern(opacity: 0.05).ignoresSafeArea()
 
             VStack(spacing: 0) {
                 topBar
@@ -65,8 +67,8 @@ struct CardSharePreview: View {
 
             Spacer()
             VStack(spacing: 1) {
-                Text("ตัวอย่าง").font(.sh(16, .semibold)).foregroundStyle(.white)
-                Text(format == .story ? "หน้าเดียว · 9:16" : "3 หน้า · แผ่นเดียว")
+                Text("ฉบับที่จะส่งออก").font(.sh(16, .semibold)).foregroundStyle(.white)
+                Text(format == .story ? "สตอรี่ 1080×1920 · มี QR กลับมาที่การ์ด" : "3 หน้า · แผ่นเดียว · มี QR กลับมาที่การ์ด")
                     .font(.sh(10.5, .medium))
                     .foregroundStyle(.white.opacity(0.42))
             }
@@ -166,7 +168,7 @@ struct CardSharePreview: View {
         let label = actionLabel("แชร์รูป", "square.and.arrow.up", prominent: true)
         if let image, let fileURL {
             ShareLink(item: fileURL,
-                      preview: SharePreview("Star Card @\(invocation.slug)",
+                      preview: SharePreview("Sale Here STAR · @\(invocation.slug)",
                                             image: Image(uiImage: image))) {
                 label
             }

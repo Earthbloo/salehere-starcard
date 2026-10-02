@@ -33,7 +33,7 @@ window.Store = (function () {
     // flow ใหม่ (แทรก StarCard เข้า Unbox) — 'old' | 'new' · new.html ตั้ง window.DEFAULT_FLOW = 'new'
     flow: (window.DEFAULT_FLOW || 'old'),
     // ข้อมูลที่กรอกไว้ใน Star Profile แล้ว — ติ๊กในแผง: มี = เติมให้/ข้าม · ไม่มี = ถามตรงขั้นที่ใช้
-    profile: { socials: false, categories: false, about: false, rate: false, insight: false, consent: false, address: false, draftRounds: false, availability: false, bank: false, measurements: false, province: false, video: false },
+    profile: { socials: false, categories: false, about: false, rate: false, insight: false, consent: false, address: false, draftRounds: false, availability: false, contact: false, bank: false, measurements: false, province: false, video: false },
     myTab: 'all',
   };
 

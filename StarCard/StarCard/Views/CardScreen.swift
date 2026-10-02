@@ -5,6 +5,11 @@ import UIKit
 struct CardScreen: View {
     /// คลิปเปิดมาดูอย่างเดียว — ห้ามเข้าโหมดแต่ง / ตู้ widget / ลากวาง
     var viewOnly = false
+    /// ปิดหน้าดู — มีเฉพาะตอนเปิดจากคลังเพื่อ "ดูแบบที่แบรนด์เห็น" (คลิปจริงไม่มีทางกลับ)
+    var onClose: (() -> Void)? = nil
+    /// พิธีเปิดของหน้าดู — การ์ดถูก "แจก" ลงบนเวที แล้วแถบผู้ออกบัตรปรากฏเป็นอย่างสุดท้าย
+    @State private var dealt = false
+    @State private var stripIn = false
     /// รูปแบบการ์ด — เลือกมาแล้วจากหน้าแรก และ **ห้ามเปลี่ยนระหว่างทาง**
     ///
     /// ทุกอย่างที่ผูกกับ "กี่หน้า" อ่านค่าจากตัวนี้ที่เดียว: ขนาดหน้า · จุดบอกหน้า ·
@@ -25,14 +30,27 @@ struct CardScreen: View {
 
     @State private var pages: [CardPage]
     @State private var theme = CardTheme()
-    @State private var showHire = false
 
-    /// โหมดแต่ง — เปิดจากปุ่ม "แต่ง" ซ้ายบน · เข้ามาแล้วยังไม่มีชีต แคนวาสเต็มจอ
-    @State private var isEditing = false
-    /// สวิตช์ชีตเครื่องมือ — ปุ่มพาเลตข้าง "เสร็จ" · เปิดคือมีชีตทั้งใบ ปิดคือไม่มีชีตเลย
-    @State private var showTools = false
-    /// ตู้ widget — เปิดจากปุ่ม + ขวาบน
-    @State private var showGallery = false
+    /// การ์ดของตัวเองแต่งได้ตลอด — ไม่มีโหมด "ดู" แยกอีกแล้ว (คลิปเท่านั้นที่ดูอย่างเดียว)
+    ///
+    /// เคยมีปุ่ม "แต่ง" เป็นประตูก่อนถึงเครื่องมือ ผลคือทุกคนต้องผ่านสองชั้นก่อนแตะอะไรได้
+    /// ทั้งที่การ "ดูผลจริง" มีหน้าแชร์ทำหน้าที่นั้นอยู่แล้ว
+    private var isEditing: Bool { !viewOnly }
+    /// แถบล่างอยู่ที่ไหน — ค่าเดียวที่บอกว่าตอนนี้กำลังทำอะไรอยู่ (ดู `DockMode`)
+    @State private var dock: DockMode = .main
+    /// ความสูงของของที่อยู่ขอบล่าง (แถบ + ถาด หรือแผ่นพิมพ์ + คีย์บอร์ด) — วัดจากของจริงทุกเฟรม
+    ///
+    /// การ์ดย่อ/ดันตามค่านี้ **ทันที ไม่ผ่านสปริงอีกชั้น** — ถาดที่กำลังไหลขึ้นด้วยสปริงคือ
+    /// ตัวขับ การ์ดจึงขยับพร้อมถาดเป็นการเคลื่อนไหวเดียว ไม่ใช่สองอย่างที่วิ่งตามกัน
+    @State private var bottomUI: CGFloat = 0
+    /// ความสูงของสองแถวเหนือแป้นพิมพ์ตอนพิมพ์ — วัดครั้งเดียว ค่าคงที่ (ดู `bottomCover`)
+    @State private var toolsH: CGFloat = 118
+    /// ประวัติแก้ไขสำหรับ ↶ ↷ — ทุกตัวเลือกมีผลทันที นี่คือทางกลับทางเดียว
+    @State private var history = EditHistory()
+    /// ภาพนิ่งที่เพิ่งกู้คืนจากประวัติ — `onChange` ต้องไม่บันทึกมันซ้ำเป็นจังหวะใหม่
+    @State private var applied: EditHistory.Snapshot?
+    /// สีพื้นที่ผู้ใช้เคยตั้งเองล่าสุด — แตะสีสำเร็จรูปดูเล่นแล้วต้องกลับมาสีนี้ได้ ไม่ใช่หายถาวร
+    @State private var myColor: (h: Double, s: Double, b: Double)?
     /// จังหวะ "เปิดไฟ" ตอนเพิ่งเข้าโหมดแต่ง — กรอบประทุกชิ้นเข้มขึ้นชั่วครู่แล้วค่อยจางลงพอดี
     ///
     /// เข้าโหมดแต่งแล้วหน้าตาการ์ดเหมือนเดิมเป๊ะ คือเหตุผลที่คนหาไม่เจอว่าอะไรแก้ได้
@@ -40,8 +58,8 @@ struct CardScreen: View {
     /// การกวาดสายตาครั้งแรกจึงต้องได้คำตอบว่า "ของบนหน้านี้แตะได้ทุกชิ้น" โดยไม่ต้องอ่านอะไร
     @State private var editReveal = false
     @State private var revealTask: Task<Void, Never>?
-    @State private var selected: UUID?
-    @State private var sheetDetent: PresentationDetent = SheetStop.normal
+    /// ชิ้นที่เลือกอยู่ — อ่านจาก dock ไม่มีสถานะแยก (เลือก = อยู่ในโหมดของชิ้นนั้น)
+    private var selected: UUID? { dock.selectedID }
 
     /// ตัวเลือกสีพื้นกางอยู่ไหม — หุบไว้ตั้งต้น เม็ดสีเม็ดเดียวตอบได้แล้วว่าตอนนี้พื้นสีอะไร
     @State private var colorOpen = false
@@ -84,28 +102,15 @@ struct CardScreen: View {
             .fill(Color.white.opacity(0.08)))
     }
 
-    /// ระดับชีตที่ **พอดีกับแผงตอนนี้**
-    ///
-    /// ไม่ใช่เรื่องความสวย — แผงที่ยาวเกินกรอบชีตทำให้พื้นที่รับทัชเลื่อนออกจากที่วาดจริง
-    /// ราวห้าสิบพอยต์ทั้งแผง (เหตุผลเต็มอยู่ที่ `SheetStop.tall`) สองสถานะที่ยาวคือ
-    /// ตอนกางตัวเลือกสี กับตอนพื้นหลังเป็นรูปแล้วมีแถวเอฟเฟกต์กับแถบความจางเพิ่มมา
-    private var fittingDetent: PresentationDetent {
-        guard selectedItem == nil else { return SheetStop.normal }
-        if theme.backdrop == .photo { return photos.background != nil ? SheetStop.tall : SheetStop.normal }
-        return colorOpen ? SheetStop.tall : SheetStop.normal
-    }
-
-    /// ปรับระดับชีตให้พอดีแผง — เรียกหลังทุกอย่างที่เปลี่ยนความสูงของแผง
-    /// ไม่แตะเมื่อผู้ใช้ดันชีตขึ้นสุดเอง ตรงนั้นเขาเลือกแล้วว่าจะดูทั้งแผงเต็ม ๆ
-    private func fitSheet() {
-        guard sheetDetent != .large else { return }
-        sheetDetent = fittingDetent
-    }
-
     /// หน้าที่กำลังดูอยู่
     @State private var index = 0
     /// ความคืบหน้าของการปัด -1…1 · ขับ crossfade เอง ไม่ใช้ ScrollView เพราะ ScrollView สไลด์เสมอ
     @State private var swipe: CGFloat = 0
+    /// การปัดครั้งนี้ **เป็นแนวนอนจริง** — ตัดสินตอนนิ้วขยับ แล้วปล่อยนิ้วค่อยอ่าน
+    ///
+    /// ตอนปล่อยนิ้วเคยดูแค่ความเร็วแนวนอน — ลากชิ้นเฉียง ๆ หรือปัดลงเร็ว ๆ ก็มีความเร็วแนวนอนติดมา
+    /// แล้วช่องพลิกทั้งที่นิ้วไม่ได้ปัดซ้ายขวาเลย (ชีตที่เปิดอยู่ปิดตามไปด้วย) — ต้องผ่านด่านแนวนอนก่อนเท่านั้น
+    @State private var swipeArmed = false
 
     /// ผังที่แคชไว้ของหน้าปัจจุบัน — ห้าม solve ใหม่ทุก touch event
     @State private var placed: [Placed] = []
@@ -146,33 +151,28 @@ struct CardScreen: View {
     @State private var dragGripX: CGFloat = 0
     /// ความสูงจอ — ใช้คำนวณสเกลแคนวาสตอนแต่ง
     @State private var viewportH: CGFloat = 874
+    /// แถบระบบด้านล่าง — กรอบคีย์บอร์ดวัดจากก้นหน้าต่าง แต่ก้อนขอบล่างนั่งอยู่เหนือแถบนี้แล้ว
+    @State private var safeBottom: CGFloat = 0
 
-    /// **เจตนา**ที่จะเปิดเครื่องมืออยู่ — ค้างไว้ตลอดชั้น ไม่หายไปเพราะชีตหลบคีย์บอร์ดชั่วคราว
-    ///
-    /// แยกจาก `showsToolSheet` (ชีตขึ้นอยู่จริงไหม) เพราะสองอย่างนี้ไม่ใช่เรื่องเดียวกัน:
-    /// ระหว่างพิมพ์ ชีตต้องลง แต่ผู้ใช้ยัง "อยู่ในเครื่องมือ" อยู่ กด เสร็จ แล้วต้องได้ชีตคืน
-    private var toolsOpen: Bool { isEditing && showTools }
-
-    /// ชีตเครื่องมือกำลังขึ้นอยู่ไหม
-    ///
-    /// ชีตกับคีย์บอร์ดแย่งครึ่งล่างของจอกันตรง ๆ ชีตจึงหลบให้ระหว่างพิมพ์ —
-    /// แต่ **หลบโดยไม่ทิ้งเจตนา** `showTools` ยังเป็น true อยู่ พอปิดช่องพิมพ์ชีตจึงกลับขึ้นมาเอง
-    /// (เดิมสั่ง `showTools = false` ตอนเริ่มพิมพ์ ผลคือกด เสร็จ ทีเดียวหลุดออกมาทั้งสองชั้นรวด)
-    private var showsToolSheet: Bool { toolsOpen && Profile.me.editing == nil }
-
-    /// ความสูงของสิ่งที่บังจอด้านล่างอยู่ตอนนี้ — ชีตเครื่องมือ **หรือ** คีย์บอร์ด+แถบพิมพ์
-    /// สองอย่างนี้ไม่มีวันบังพร้อมกัน (ชีตหลบให้คีย์บอร์ดเสมอ) จึงยุบเหลือตัวเลขเดียว
+    /// ความสูงของสิ่งที่บังจอด้านล่างอยู่ตอนนี้ — แถบ+ถาด **หรือ** แผ่นพิมพ์+คีย์บอร์ด
+    /// ทั้งหมดอยู่ในก้อนเดียวที่ขอบล่าง (ดู `bottomChrome`) วัดครั้งเดียวได้ตัวเลขเดียว
     /// ทุกที่ที่ต้องรู้ว่า "เหลือที่ว่างเท่าไหร่" จึงอ่านจากที่เดียว ไม่มีทางคิดคนละแบบ
     private var bottomCover: CGFloat {
-        if Profile.me.editing != nil { return keyboard + Self.editBarHeight }
-        guard showsToolSheet else { return 0 }
-        if sheetDetent == SheetStop.compact { return 84 }
-        if sheetDetent == .large { return viewportH * 0.72 }
-        if sheetDetent == SheetStop.tall { return 560 }
-        return 340
+        guard isEditing else { return 0 }
+        // ตอนพิมพ์คิดจาก **ความสูงปลายทาง** ของแป้นพิมพ์ (ระบบบอกตั้งแต่เริ่มเลื่อนขึ้น) ไม่ใช่ค่าที่วัดสด
+        // ค่าที่วัดสดเปลี่ยนทุกเฟรมระหว่างแป้นพิมพ์เลื่อน — ก้อนข้อความที่กำลังไหลไปกลางจอ
+        // จะถูกเขียนเป้าหมายทับทุกเฟรมจนสปริงถูกยกเลิก กลายเป็นกระโดดแทนที่จะลอย
+        if dock.isText { return max(0, keyboard - safeBottom) + toolsH + 8 }
+        return bottomUI
     }
 
-    /// สเกลตอนแต่ง — ย่อเท่าที่จำเป็นหลังดันขึ้นแล้ว ไม่ล็อกเพดาน 0.82 ที่เคยให้ชีตทับการ์ด
+    /// สเกลของการ์ด — ย่อเท่าที่จำเป็นให้ทั้งหน้าอยู่เหนือของที่บังอยู่ข้างล่าง
+    ///
+    /// ไม่มีกติกา "ใกล้ 1 ให้ปัดเป็น 1" แล้ว — แถบล่างมีอยู่ตลอด การ์ดจึงย่อลงราว 0.93
+    /// เสมอในโหมดหลัก ดีกว่าให้แถบทับก้นการ์ดแล้วชิ้นล่างสุดแตะไม่ได้
+    ///
+    /// **ย่ออย่างเดียว ไม่ดัน** — ยึดหัวการ์ดไว้กับที่เสมอ (`anchor: .top`) การ์ดจึงไม่เคย
+    /// เลื่อนไปหาชิ้นที่กำลังแก้ · ของที่บังอยู่ข้างล่างสูงขึ้นเท่าไหร่ ทั้งใบก็แค่เล็กลงเท่านั้น
     private var editScale: CGFloat {
         // โชว์รูมโชว์ชิ้นเดียว จึงไม่ต้องย่อทั้งหน้าให้พอดีช่องว่าง — `showroom` จัดขนาดของชิ้นนั้นเอง
         // ถ้ายังย่อซ้ำ ของที่ยกขึ้นมาโชว์จะเล็กกว่าตอนอยู่บนการ์ดจริง ซึ่งกลับหัวกลับหางกับคำว่าโชว์รูม
@@ -180,37 +180,30 @@ struct CardScreen: View {
         let visible = viewportH - bottomCover - 74 - 8
         // เทียบกับความสูง **ที่วาดออกมาจริงบนจอ** ไม่ใช่ความสูงในหน่วยออกแบบ
         let fit = visible / max(pageSize.height * pageFit, 1)
-        return fit > 0.92 ? 1 : min(1, max(0.62, fit))
+        // ไม่มีชิ้นที่เลือก (พื้นหลัง · ตู้) = กำลังดู **ทั้งใบ** ยอมย่อลึกกว่าเพื่อให้เห็นครบ
+        // มีชิ้นที่เลือกค่อยรักษาขนาดให้หมุดยังจับได้
+        //
+        // แผ่นหลายช่องบนแถบหลักย่อไว้ไม่เกิน 0.9 เสมอ — ขอบของช่องข้าง ๆ จะได้โผล่ราว 20pt ทั้งสองข้าง
+        // นี่คือสิ่งที่บอกว่า "กระดาษยาวกว่าจอ" โดยไม่ต้องมีตัวหนังสือ (ดู `deck`)
+        let cap: CGFloat = multiPage && dock.isMain ? 0.9 : 1
+        return min(cap, max(selected == nil ? 0.48 : 0.62, fit))
     }
     /// สเกลรวมจากหน่วยออกแบบถึงหน่วยจอ — ย่อให้พอดีจอ **คูณ** ย่อเพื่อหลบชีตตอนแต่ง
-    private var canvasScale: CGFloat { (isEditing ? editScale : 1) * pageFit }
+    private var canvasScale: CGFloat { (isEditing ? editScale : viewScale) * pageFit }
 
-    /// ดันแคนวาสขึ้นให้ widget ที่เลือก (หรือท้ายหน้า) อยู่ในช่องว่างเหนือชีต
-    private var canvasLift: CGFloat {
-        // โชว์รูมพา widget ไปยืนกลางช่องว่างเองแล้ว — และ "ช่องว่าง" นับคีย์บอร์ดไว้ด้วย
-        // (ดู `bottomCover`) จึงไม่ต้องดันทั้งแคนวาสซ้ำแม้ตอนกำลังพิมพ์
-        //
-        // เดิมมีสาขาแยกที่ดันแคนวาสตามบรรทัดที่พิมพ์อยู่ — จำเป็นตอนที่พิมพ์ได้จากทั้งหน้า
-        // ตอนนี้พิมพ์ได้เฉพาะในโชว์รูม ซึ่งจัดตำแหน่งเองอยู่แล้ว สาขานั้นจึงเป็นโค้ดที่ไม่มีทางถึง
-        if showroomID != nil { return 0 }
-        let cover = bottomCover
-        guard isEditing, cover > 0 else { return 0 }
-        let top: CGFloat = 74
-        let visibleBottom = viewportH - cover
-        let s = canvasScale
-        // ระหว่างลาก ผังขยับทุกครั้งที่สลับที่ — ถ้าให้ระยะดันวิ่งตามตัวที่เลือก
-        // แคนวาสจะกระตุกใต้นิ้วจนลากลงท้ายหน้าไม่ได้ · ตอนลากจึงยึดท้ายหน้าเป็นหลักซึ่งนิ่งเสมอ
-        // ระหว่างยืดก็ยึดท้ายหน้าเหมือนกัน — ถ้าให้ระยะดันวิ่งตามขอบล่างของตัวที่ยืด
-        // แคนวาสจะเลื่อนขึ้นทุกครั้งที่สูงขึ้นหนึ่งแถว นิ้ว (ซึ่งนิ่งอยู่กับที่บนจอ)
-        // จะกลายเป็นอยู่ต่ำลงในพิกัดหน้า → สูงขึ้นอีกแถว → วนยืดไม่หยุด
-        if dragID == nil, resizeID == nil, let id = selected, let p = placed.first(where: { $0.id == id }) {
-            let widgetBottom = top + p.frame.maxY * s
-            let overflow = widgetBottom + 20 - visibleBottom
-            return max(0, overflow)
-        }
-        let pageBottom = top + pageSize.height * s
-        return max(0, pageBottom + 12 - visibleBottom)
+    /// หน้าดู: ย่อการ์ดลงพอให้ท้ายหน้า (`viewerFooter`) ไม่ทับขอบล่างของการ์ด
+    /// ยึดหัวไว้ ย่อลงเท่าที่ท้ายหน้าต้องการ — แถบผู้ออกบัตรที่ขอบล่างต้องเห็นเสมอ
+    private var viewScale: CGFloat {
+        guard viewOnly else { return 1 }
+        let shown = pageSize.height * pageFit
+        return max(0.6, 1 - (52 + verifyBandSpace) / max(shown, 1))
     }
+
+    /// ที่ว่างใต้แถบบนสำหรับแถบ Verified ของหน้าดู — มีเฉพาะการ์ดที่ได้ตราแล้ว
+    private var verifyBandSpace: CGFloat {
+        viewOnly && VerifiedFacts.current.verified ? VerifiedBand.height + 8 : 0
+    }
+
     /// สำเนา widget ที่กำลังลาก — ใช้วาดชั้นลอยที่ระดับ deck ให้อยู่รอดข้ามการสลับหน้า
     @State private var dragItem: WidgetInstance?
     /// หน้าบ้านเดิมของตัวที่ลาก — ไว้พากลับเมื่อปล่อยในที่ที่วางไม่ได้
@@ -223,13 +216,17 @@ struct CardScreen: View {
     /// ถ้าให้ทั้งสามช่วงของ gesture อ่านสด ๆ ท่าเดียวจะกลายเป็นคนละท่ากลางคัน แล้ว `endDrag`
     /// จะไม่มีวันถูกเรียก — `dragID` ค้างตลอดไป ซึ่งแปลว่ากรอบเลือกไม่ขึ้น หมุดปรับขนาดหาย
     /// และกดอะไรบนการ์ดก็ไม่ติดอีกเลยจนกว่าจะปิดแอป
-    @State private var pressMode: (id: UUID, showroom: Bool)?
+    @State private var pressMode: UUID?
     /// จุดที่นิ้วแตะบน widget ตัวที่กำลังกด — ขับการเอียง 3 มิติ
     @State private var pressPoint: (id: UUID, at: CGPoint)?
     /// ให้กรอบเลือกไหลจาก widget เดิมไปตัวใหม่ แทนที่จะกระพริบหายแล้วโผล่
     @Namespace private var selectionNS
     /// หน้าตัวอย่างก่อนแชร์รูป / คัดลอกลิงก์
     @State private var showPreview = false
+    /// ตู้ widget ขอให้กรอกหัวข้อ Star Profile ก่อนวางใบนี้ (ดู `WidgetFamily.topic`)
+    @State private var topicFill: TopicFillRequest?
+    /// ใบแบรนด์/ผลงานยืนยันยังล็อก — ถามว่าจะไปดูงานไหม
+    @State private var askJobs = false
 
     // การแก้ข้อความบนตัว widget
     /// กรอบของช่องข้อความทุกช่องบนหน้า แยกตาม widget
@@ -241,18 +238,17 @@ struct CardScreen: View {
     @State private var linkBox = LinkSlotBox()
     /// ลิงก์ที่กำลังเปิดอยู่ในเบราว์เซอร์ในแอป — ช่องโซเชียลพาไปหน้าโปรไฟล์ ผลงานพาไปโพสต์จริง
     @State private var link: LinkTarget?
+    /// ชีต "ติดต่อ" ของหน้าดู — ปุ่มล่างสุดเปิด (ชุดเดียวกับหน้าโปรไฟล์ครีเอเตอร์ใน salehere-ios)
+    @State private var showContact = false
+    /// แผ่นตรวจสอบ "Verified by Sale Here" — เปิดจากแถบหน้าดู หรือจากการแตะ widget ตรารับรอง
+    @State private var showVerify = false
     /// ทางออกสำรองสำหรับลิงก์ที่ `SFSafariViewController` เปิดไม่ได้ (ไม่ใช่ http/https)
     @Environment(\.openURL) private var openURL
     /// ความสูงของคีย์บอร์ดที่บังจออยู่
     @State private var keyboard: CGFloat = 0
-    /// ระยะที่นิ้วลากชิ้นงานลงในโชว์รูม — ปล่อยเกินระยะแล้วออกจากโชว์รูม
-    @State private var showroomDrag: CGFloat = 0
 
     // การปรับขนาด
     @State private var resizeID: UUID?
-    /// ความสูงจริงที่เนื้อหาของตัวที่เลือกต้องการ — วัดจากของจริง ไม่ใช่ตัวเลขที่ตั้งด้วยมือ
-    /// nil = ยังวัดไม่ได้ (หรือเป็น widget ที่ยืดหดได้อิสระอย่างรูป) → ใช้เพดานล่างของกริดแทน
-    @State private var contentH: CGFloat?
     /// ระยะที่ลากเลยขีดจำกัดไปแล้ว — **ขยับแค่กรอบ ไม่ขยับตัว widget**
     /// ปล่อยนิ้วแล้วสปริงกลับเป็นศูนย์ ผู้ใช้จึงรู้ว่า "สุดแล้ว" โดยไม่ต้องมีข้อความบอก
     @State private var overshoot: CGSize = .zero
@@ -265,12 +261,13 @@ struct CardScreen: View {
     /// เพราะสเกลโชว์รูมคำนวณจากขนาดของชิ้นงาน ถ้าอ่านสดจะกลายเป็นวงป้อนกลับ
     /// (โต→สเกลลด→ระยะที่หารได้เพิ่ม→โตอีก)
     @State private var resizeScale: CGFloat = 1
+    /// ขนาดตัวอักษรตอนเริ่มลากหมุดมุมของก้อนข้อความ — ลากคิดเป็นสัดส่วนจากค่านี้
+    @State private var resizePoints: CGFloat = 0
+    /// ข้ามการบันทึกประวัติหนึ่งรอบ — ใช้ตอน เสร็จ ซึ่งบันทึกไว้แล้วตั้งแต่ตอนเข้าโหมดพิมพ์
+    @State private var skipHistory = false
 
     /// ความสูงของหน้าต่างที่แอปอยู่ — กรอบคีย์บอร์ดที่ระบบส่งมาอยู่ในพิกัดจอ
     /// ต้องเทียบกับความสูงจริงของหน้าต่าง ไม่ใช่ `viewportH` ที่หักแถบระบบไปแล้ว
-    /// ความสูงโดยประมาณของแถบพิมพ์ — ใช้กันไม่ให้บรรทัดที่กำลังแก้มุดไปอยู่ใต้มัน
-    private static let editBarHeight: CGFloat = 66
-
     private static func windowHeight() -> CGFloat {
         UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
@@ -279,19 +276,14 @@ struct CardScreen: View {
             .frame.height ?? 0
     }
 
-    /// โหมดโชว์รูม — เปิดแผงเครื่องมือของ widget ตัวใดตัวหนึ่งอยู่
+    /// โหมดโชว์รูม — **เฉพาะตอนพิมพ์ก้อนข้อความ**
     ///
-    /// ระหว่างแต่งชิ้นเดียว ของที่เหลือบนหน้าคือสิ่งรบกวนล้วน ๆ — มันแย่งสายตาและทำให้ตัดสินใจยาก
-    /// ว่าที่เพิ่งเปลี่ยนไปคืออะไร · ซ่อนที่เหลือแล้วยกตัวเดียวขึ้นกลางที่ว่าง เหลือของให้ดูชิ้นเดียว
+    /// เคยใช้กับทุกชิ้นที่กำลังแต่ง (ซ่อนที่เหลือ ยกตัวเดียวขึ้นกลางจอ) แล้วมันขัดกับ
+    /// หมุดปรับขนาดและการลาก ซึ่งต้องเห็นเพื่อนบ้าน · ตอนนี้แตะชิ้น = ทุกอย่างอยู่ที่เดิม
+    /// เหลือโชว์รูมไว้ที่เดียวคือตอนคีย์บอร์ดขึ้น — ก้อนที่พิมพ์อยู่ต้องมายืนกลางที่ว่างเหนือคีย์บอร์ด
     private var showroomID: UUID? {
-        // ระหว่างลากย้ายที่ **ห้ามเข้าโชว์รูม** — `beginDrag` ตั้งตัวที่จับขึ้นมาให้เป็นตัวที่เลือก
-        // ถ้าชีตเปิดค้างอยู่ (เช่นแผงธีมซึ่งยังไม่มีตัวไหนถูกเลือก) ตัวที่เพิ่งถูกจับจะกลายเป็น
-        // ตัวในโชว์รูมทันทีตั้งแต่นิ้วยังไม่ขยับ — ที่เหลือทั้งหน้าหายไปกลางการลาก
-        // และท่าที่กำลังทำอยู่เปลี่ยนความหมายกลางคันจาก "ย้ายที่" เป็น "ลากเก็บออกจากเครื่องมือ"
-        guard dragID == nil else { return nil }
-        // อ่านจาก `toolsOpen` ไม่ใช่ `showsToolSheet` — ระหว่างพิมพ์ชีตลงไปแล้ว
-        // แต่ยังต้องอยู่ในโชว์รูม ไม่งั้นตัวที่กำลังแก้ข้อความจะวิ่งกลับเข้าผังทันทีที่คีย์บอร์ดขึ้น
-        return toolsOpen && selectedItem != nil ? selected : nil
+        guard dragID == nil, case .text(let id) = dock else { return nil }
+        return id
     }
 
     /// ท่าที่พา widget ตัวที่กำลังแต่งไปยืนกลางช่องว่างเหนือชีต
@@ -303,33 +295,61 @@ struct CardScreen: View {
         let s = max(canvasScale, 0.01)
         // ช่องว่างที่เหลือระหว่างแถบบนกับหลังคาชีต แปลงเป็นหน่วยของหน้ากระดาษ
         let band = max(140, (viewportH - bottomCover - 74 - 16) / s)
-        let fit = min((band - 28) / max(p.frame.height, 1),
-                      (pageSize.width - 8) / max(p.frame.width, 1))
-        // ไม่ขยายเกิน 1.35 เท่า — ใหญ่กว่านั้นตัวอักษรเริ่มแตกและอ่านเป็นพรีวิว ไม่ใช่ของจริง
-        //
-        // ต้องกลางทั้งสองแกน: ตัวที่กว้างไม่เต็มหน้าอยู่ตรงไหนของผังก็ค้างอยู่ตรงนั้น
-        // พอขยายขึ้นแล้วมันล้นออกนอกจอด้านที่มันชิดอยู่ ซึ่งอ่านเป็น layout พังมากกว่าโชว์รูม
-        return (min(1.35, max(0.5, fit)),
-                pageSize.width / 2 - p.frame.midX,
-                band / 2 - p.frame.midY)
+        // **ไม่ใช้ scale** — ตอนพิมพ์กล่องถูกวาดที่ขนาดแก้ไขตรง ๆ (ดู `drawnSize`) ตัวอักษรจึงคม
+        // ไม่ใช่ตัวเล็กที่ถูกขยายด้วย transform จนเบลอ · กลางทั้งสองแกนของ **กล่องที่วาดจริง**
+        let d = drawnSize(p)
+        return (1,
+                pageSize.width / 2 - (p.frame.minX + d.width / 2),
+                band / 2 - (p.frame.minY + d.height / 2))
+    }
+
+    /// ขนาดที่วาดจริงของ tile — ก้อนข้อความที่กำลังพิมพ์ใช้กล่องขนาดแก้ไข ที่เหลือใช้กรอบจากผัง
+    private func drawnSize(_ p: Placed) -> CGSize {
+        dock == .text(p.id) ? editBox(p).box : p.frame.size
+    }
+
+    /// กล่องตอนพิมพ์ — ตัวอักษรที่ **ขนาดแก้ไขมาตรฐานเดียวกันทุกก้อน** (`TextFit.editSize`)
+    ///
+    /// บน Story แตะข้อความไหนก็ได้ขนาดแก้ไขเท่ากันหมด — ก้อนที่ย่อไว้จิ๋วบนการ์ดไม่ต้องมาพิมพ์ตัวจิ๋ว
+    /// ขนาดที่ตั้งไว้ (`points`) มีผลบนการ์ดเท่านั้น กด เสร็จ แล้วค่อยกลับไปขนาดนั้น
+    /// บรรทัดยาวเกินหน้าหดให้ชั่วคราวเหมือนบนการ์ด · กล่องหุ้มตัวอักษรพอดีด้วยขอบเท่ากับบนการ์ด
+    /// อ่าน `Profile.me.note` สด ๆ — พิมพ์ตัวอักษรใหม่กล่องจึงโตตามในเฟรมเดียวกัน
+    private func editBox(_ p: Placed) -> (points: CGFloat, box: CGSize, m: TextFit.Metrics) {
+        let st = p.item.textStyle
+        let raw = Profile.me.note(p.item.id)
+        let text = raw.isEmpty || raw == Profile.notePlaceholder ? "พิมพ์ข้อความ" : raw
+        let maxW = PageLayout.content(pageSize).width - TextBlock.inset * 2
+        let pts = TextFit.capped(TextFit.editSize, text, face: st.face, weight: TextBlock.weight, maxWidth: maxW)
+        let m = TextFit.metrics(text, face: st.face, weight: TextBlock.weight, size: pts, align: st.align)
+        return (pts, CGSize(width: min(m.ink.width, maxW) + TextBlock.inset * 2,
+                            height: m.ink.height + TextBlock.inset * 2), m)
+    }
+
+    /// มุมของกรอบชิ้น — ก้อนข้อความมุมเล็ก (กล่องหุ้มตัวอักษรพอดี มุมมนใหญ่จะกินมุมตัวอักษร)
+    private func chromeRadius(_ kind: WidgetKind) -> CGFloat {
+        kind == .textBlock ? min(theme.radius, TextBlock.radius) : theme.radius
     }
 
     init(viewOnly: Bool = false, cardID: String? = nil, discardIfUntouched: Bool = false,
-         format: CardFormat = .portfolio, onChangeFormat: (() -> Void)? = nil) {
+         format: CardFormat = .portfolio, onChangeFormat: (() -> Void)? = nil,
+         onClose: (() -> Void)? = nil) {
         self.viewOnly = viewOnly
+        self.onClose = onClose
         self.cardID = cardID
         self.discardIfUntouched = discardIfUntouched
         self.onChangeFormat = onChangeFormat
         // เปิดจากคลัง = โหลดใบนั้นทั้งดุ้นตั้งแต่ init — ไม่มีจังหวะที่หน้าตั้งต้นแวบขึ้นก่อน
         if let cardID, let record = CardLibrary.shared.card(id: cardID),
-           let restored = CardStore.restore(record.snapshot) {
+           let restored = record.restored() {
             self.format = record.format
             _pages = State(initialValue: restored.pages)
             _theme = State(initialValue: restored.theme)
             _index = State(initialValue: restored.index)
         } else {
             self.format = format
-            _pages = State(initialValue: format.starterPages)
+            var starter = format.starterPages
+            PinnedSeal.ensure(&starter, format: format)
+            _pages = State(initialValue: starter)
         }
     }
 
@@ -343,10 +363,14 @@ struct CardScreen: View {
 
     var body: some View {
         GeometryReader { geo in
-            // พื้นที่ที่เหลือหลังเว้นแถบบนกับแถวจุดบอกหน้า
+            // พื้นที่ที่เหลือหลังเว้นแถบบนกับแถวล่าง
             //
             // พอร์ตเอาขนาดนี้ไปใช้ตรง ๆ · สตอรี่ไม่สนใจมันเลย (หน้าเป็น 540×960 เสมอ)
             // แล้วใช้กล่องนี้แค่คำนวณว่าต้องย่อเท่าไหร่ถึงจะพอดีจอเครื่องนี้
+            //
+            // **ห้ามหักความสูงของแถบล่างออกจากกล่องนี้** — ความสูงหน้าพอร์ตในหน่วยออกแบบ
+            // มาจากกล่องนี้โดยตรง หักเมื่อไหร่หน้าจะสั้นลงแล้วของ 36 แถวของหน้าตั้งต้นล้นทันที
+            // แถบล่างจัดการด้วยการ **ย่อ** (`editScale`) ไม่ใช่การเปลี่ยนขนาดหน้า
             let box = CGSize(width: geo.size.width,
                              height: geo.size.height - 74 - 34)
             let size: CGSize = format.pageSize(in: box)
@@ -357,103 +381,177 @@ struct CardScreen: View {
                 // ต้องอ่านออกว่า **นอกเฟรม** ไม่ใช่ส่วนของการ์ดที่ยังว่างอยู่
                 // ฉากหลังของธีมจึงถูกหุบเข้าไปในหน้า (ดู `.background` ของ deck)
                 // แล้วรอบนอกเป็นเวทีมืดเหมือนหน้าตัวอย่างก่อนแชร์
-                Color(white: 0.06).ignoresSafeArea()
+                // เวทีมืดของแบรนด์ — ลายน้ำลายจาง ๆ คือลายเซ็นของสถานที่ ไม่ใช่ของการ์ด (ดู `Signature`)
+                ZStack {
+                    Color(white: 0.06)
+                    SignaturePattern(opacity: viewOnly ? 0.065 : 0.04)
+                }
+                .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    Color.clear.frame(height: 74)
-                    // กริดเป็น "พื้นของหน้ากระดาษ" ไม่ใช่ชั้นลอยแยก — จุดจึงอยู่พิกัดเดียวกับ widget เป๊ะ
-                    // เคยเป็นชั้นแยกที่ ignoresSafeArea แล้วพิกัดมันเลื่อนขึ้นไปเท่าแถบบนของจอ
-                    // จุดจึงลอยเหนือกรอบและวาดไม่ถึงท้ายหน้า
-                    deck(size: size, fit: fit, viewport: geo.size)
-                    Color.clear.frame(height: 34)
+                    // ช่องว่างใต้แถบบน **อยู่นอกก้อนที่ถูกย่อ** — ถ้าย่อไปด้วย หัวการ์ดจะขยับขึ้น
+                    // ไปมุดใต้แถบบนทุกครั้งที่ถาดเปิด (74 × 0.5 = เหลือแค่ 37pt)
+                    Color.clear.frame(height: 74 + verifyBandSpace)
+                    VStack(spacing: 0) {
+                        // กริดเป็น "พื้นของหน้ากระดาษ" ไม่ใช่ชั้นลอยแยก — จุดจึงอยู่พิกัดเดียวกับ widget เป๊ะ
+                        deck(size: size, fit: fit, viewport: geo.size)
+                        Color.clear.frame(height: 34)
+                    }
+                    // ย่อให้พอดีช่องเหนือแถบล่าง — **ย่ออย่างเดียว ไม่มีการดันขึ้น**
+                    // หัวการ์ดอยู่ที่เดิมตลอด ไม่ว่าจะเลือกชิ้นไหนหรือถาดสูงแค่ไหน
+                    //
+                    // ใช้ `editScale` ล้วน ไม่ใช่ `canvasScale` — การย่อจากหน่วยออกแบบลงหน่วยจอ
+                    // `deck` ทำไปแล้วข้างใน ถ้าคูณซ้ำตรงนี้การ์ดจะเล็กลงสองรอบ
+                    .scaleEffect(isEditing ? editScale : viewScale, anchor: .top)
+                    // พิธีเปิดของหน้าดู — การ์ดเลื่อนขึ้นมาวางบนเวทีด้วยสปริงเดียวกับที่มันถูกยกตอนลาก
+                    .scaleEffect(viewOnly && !dealt ? 0.94 : 1, anchor: .center)
+                    .offset(y: viewOnly && !dealt ? 44 : 0)
+                    .opacity(viewOnly && !dealt ? 0 : 1)
+                    // เปลี่ยนโหมด = การ์ดย่อ/ขยายด้วยสปริงเดียวกับถาด · ส่วนค่าที่วัดจากถาด (`bottomUI`)
+                    // ไม่ต้องอนิเมตซ้ำ มันเดินตามถาดเฟรมต่อเฟรมอยู่แล้ว
+                    .animation(Motion.settle, value: dock)
+                    .animation(Motion.settle, value: keyboard)
                 }
-                // โหมดแต่ง: ย่อให้พอดีช่องเหนือชีต แล้วดันของที่โฟกัสขึ้นมาให้เห็น
-                //
-                // ใช้ `editScale` ล้วน ไม่ใช่ `canvasScale` — การย่อจากหน่วยออกแบบลงหน่วยจอ
-                // `deck` ทำไปแล้วข้างใน ถ้าคูณซ้ำตรงนี้การ์ดจะเล็กลงสองรอบ
-                .scaleEffect(isEditing ? editScale : 1, anchor: .top)
-                .offset(y: -canvasLift)
 
-                topBar
-                // จุดบอกหน้าหลบให้แถบพิมพ์ — มันนั่งที่เดียวกันพอดี และระหว่างพิมพ์ก็เปลี่ยนหน้าไม่ได้อยู่แล้ว
-                if multiPage, Profile.me.editing == nil, showroomID == nil { pageRail }
+                // เงาไล่ใต้แถบบน — การ์ดที่ถูกดันขึ้นไปมุดใต้แถบบน (ตอนชิ้นที่เลือกอยู่ล่าง ๆ)
+                // ต้องอ่านเป็น "เลื่อนพ้นขอบ" ไม่ใช่ "ซ้อนกับปุ่ม"
+                VStack(spacing: 0) {
+                    LinearGradient(colors: [Color(white: 0.06), Color(white: 0.06).opacity(0)],
+                                   startPoint: .top, endPoint: .bottom)
+                        .frame(height: 118)
+                        .ignoresSafeArea(edges: .top)
+                        .allowsHitTesting(false)
+                    Spacer(minLength: 0)
+                }
 
-                noticeBar
+                // ตอนพิมพ์ แถบบนหลบ — ↶ ↷ แชร์ ไม่ใช่ของที่ใครกดระหว่างพิมพ์ และตาต้องอยู่ที่ตัวอักษร
+                // เหลือ "เสร็จ" มุมขวาบนตัวเดียว ที่เดียวกับ Done ของ IG
+                if dock.isText { textTopBar.transition(.opacity) } else { topBar.transition(.opacity) }
 
-                // แถบพิมพ์ลอยเหนือคีย์บอร์ด — อยู่นอกแคนวาสที่ถูกย่อ/ดัน จึงไม่ขยับตามการ์ด
-                if let id = Profile.me.editing {
+                // ข้อความบอกเหตุหลบตอนพิมพ์ด้วย — บนหน้าที่หรี่ทั้งหน้า มันคือของชิ้นเดียวที่สว่างแข่งกับตัวอักษร
+                if !dock.isText { noticeBar }
+
+                // แถบล่างทั้งก้อน — dock + ถาด หรือแผ่นพิมพ์เหนือคีย์บอร์ด
+                // อยู่นอกแคนวาสที่ถูกย่อ/ดัน จึงไม่ขยับตามการ์ด
+                if isEditing {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
-                        TextEditBar(id: id, theme: theme, onDone: endTextEdit)
-                            .padding(.bottom, keyboard)
+                        bottomChrome
                     }
-                    .transition(.move(edge: .bottom))
+                }
+
+                // โหมดจัดรูป: ทั้งจอคือที่จับรูป — ทับถาดด้วย (ช่วงนี้มีท่าเดียวคือเล็งรูป)
+                if isEditing, photos.framing != nil {
+                    PhotoFitCatcher(theme: theme, scale: canvasScale)
+                        .transition(.opacity)
+                }
+
+                // แถบ Verified ของหน้าดู — ใต้แถบบน นอกตัวการ์ด (ดู `VerifiedBand`)
+                if verifyBandSpace > 0 {
+                    VStack(spacing: 0) {
+                        VerifiedBand { showVerify = true }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 66)
+                        Spacer(minLength: 0)
+                    }
+                    .opacity(stripIn ? 1 : 0)
+                    .offset(y: stripIn ? 0 : -10)
+                }
+
+                // ท้ายหน้าดู — โครงของเวที (ดู `viewerFooter`)
+                if viewOnly {
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 0)
+                        viewerFooter
+                    }
+                    .opacity(stripIn ? 1 : 0)
+                    .offset(y: stripIn ? 0 : 16)
                 }
             }
             .animation(Motion.settle, value: keyboard)
-            .animation(Motion.settle, value: sheetDetent)
-            .animation(Motion.settle, value: canvasLift)
-            .animation(Motion.settle, value: showTools)
-            .onAppear { viewportH = geo.size.height }
+            .onAppear { viewportH = geo.size.height; safeBottom = geo.safeAreaInsets.bottom }
             .onChange(of: geo.size.height) { _, h in viewportH = h }
-            .onAppear { pageSize = size; pageFit = fit; viewportW = geo.size.width; resolve() }
+            .onAppear {
+                pageSize = size; pageFit = fit; viewportW = geo.size.width
+                // ก้อนข้อความจากไฟล์รุ่นก่อนยังมีกล่องขนาดตามใจ — จัดให้พอดีตัวอักษรตั้งแต่เปิด
+                // (ไม่นับเป็นจังหวะแก้ไข — ผู้ใช้ยังไม่ได้ทำอะไร ↶ ต้องไม่มีอะไรให้ย้อน)
+                if isEditing {
+                    skipHistory = true
+                    for id in pages.flatMap(\.items).filter({ $0.kind == .textBlock }).map(\.id) {
+                        fitTextBlock(id)
+                    }
+                    DispatchQueue.main.async { skipHistory = false }
+                }
+                resolve()
+            }
             .onChange(of: size) { _, s in pageSize = s; resolve() }
             .onChange(of: fit) { _, f in pageFit = f }
             .onChange(of: geo.size.width) { _, w in viewportW = w }
-            // ทางออกของการยืดที่ไม่ได้มาจากการปล่อยนิ้ว — ดู `endResize`
-            .onChange(of: selected) { _, _ in endResize() }
-            .onChange(of: isEditing) { _, editing in
-                // เข้าโหมดแต่ง = ตั้งใจใช้ใบนี้แล้ว — ต่อให้ยังไม่ขยับอะไรก็ไม่ใช่การ "ดูเฉย ๆ"
-                if editing {
-                    touched = true
-                    hintOnce("edit", "กดค้างที่ชิ้นแล้วลากเพื่อย้าย · แตะหนึ่งครั้งเพื่อเลือก แล้วจะมีหมุดปรับขนาดกับปุ่มเปลี่ยนรูปโผล่มา")
-                    // กรอบเส้นประเข้มขึ้นตอนเข้า แล้วคลายลงเองใน 1.4 วิ
-                    // จังหวะเข้าคือจังหวะเดียวที่สายตายังไม่รู้ว่าต้องมองอะไร ต้องดังตรงนั้น
-                    // แล้วเบาลง ไม่งั้นเส้นประเข้ม ๆ รอบทุกชิ้นจะแย่งความสนใจกับงานที่กำลังแต่ง
-                    editReveal = true
-                    revealTask?.cancel()
-                    revealTask = Task { @MainActor in
-                        try? await Task.sleep(for: .seconds(1.4))
-                        guard !Task.isCancelled else { return }
-                        withAnimation(Motion.settle) { editReveal = false }
-                    }
-                } else {
-                    // ออกจากโหมดแต่งแล้วข้อความที่พูดถึงท่าในโหมดนั้นก็หมดหน้าที่
-                    clearNotice()
-                    revealTask?.cancel()
-                    editReveal = false
+            .onAppear {
+                guard isEditing else { return }
+                // เขียนใบกลับทันทีที่เปิด — ใบจากไฟล์รุ่นก่อนไม่มี id ของชิ้น (ดู `CardSnapshot.Item.id`)
+                // ต้องได้ id ลงไฟล์ก่อนที่ผู้ใช้จะพิมพ์อะไรผูกกับมัน
+                persist()
+                if let c = theme.customColor { myColor = c }
+                hintOnce("dock", "แตะชิ้นบนการ์ดเพื่อแก้ · ปุ่มข้างล่างไว้เปลี่ยนพื้นหลังหรือเพิ่มของ")
+                // กรอบเส้นประเข้มขึ้นตอนเข้า แล้วคลายลงเองใน 1.6 วิ
+                // จังหวะเข้าคือจังหวะเดียวที่สายตายังไม่รู้ว่าต้องมองอะไร ต้องดังตรงนั้น
+                // แล้วเบาลง ไม่งั้นเส้นประเข้ม ๆ รอบทุกชิ้นจะแย่งความสนใจกับงานที่กำลังแต่ง
+                editReveal = true
+                revealTask?.cancel()
+                revealTask = Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(1.6))
+                    guard !Task.isCancelled else { return }
+                    withAnimation(Motion.settle) { editReveal = false }
                 }
+            }
+            .onChange(of: dock) { _, d in
+                // ทางออกของการยืดที่ไม่ได้มาจากการปล่อยนิ้ว — ดู `endResize`
                 endResize()
+                // กติกาเหล็ก: **ช่องพิมพ์มีอยู่ได้เฉพาะตอนมีชิ้นที่เลือกอยู่**
+                //
+                // ทางออกจากชิ้นมีหลายทาง (‹ · แตะที่ว่าง · ลบ · เปลี่ยนหน้า) ถ้าให้แต่ละทางจำเอง
+                // ว่าต้องเก็บช่องพิมพ์ด้วย สักวันจะมีทางที่ลืม แล้วคีย์บอร์ดค้างทับการ์ด
+                if d.selectedID == nil { endTextEdit() }
             }
             .onChange(of: index) { _, _ in
                 // เปลี่ยนหน้าเพราะลาก widget ข้ามหน้า — ตัวที่ลากยังต้องถูกเลือกอยู่
-                if dragID == nil { selected = nil }
-                endTextEdit()
+                if dragID == nil {
+                    switch dock {
+                    case .text: exitTextMode()
+                    case .piece: withAnimation(Motion.settle) { dock = .main }
+                    default: break
+                    }
+                }
                 resolve()
                 persist()
             }
-            .onChange(of: theme) { _, _ in
+            .onChange(of: theme) { old, new in
                 touched = true
+                remember(pages: pages, theme: old, changedTheme: new)
                 persist()
             }
-            .onChange(of: pages) { _, _ in
+            .onChange(of: pages) { old, new in
                 touched = true
+                remember(pages: old, theme: theme, changedPages: new)
                 persist()
                 // ระหว่างยืดขนาด ใช้สปริงที่ตอบไว — Motion.flow นุ่มเกินไป
                 // ขอบ widget จะรั้งอยู่หลังนิ้วครึ่งวินาที อ่านออกมาเป็น "ไม่ติดนิ้ว"
                 withAnimation(resizeID == nil ? Motion.flow : Motion.snap) { resolve() }
             }
-            .animation(Motion.settle, value: isEditing)
+            .onChange(of: LabSync.shared.remoteStamp) { _, _ in reloadFromLab() }
             .animation(Motion.settle, value: editReveal)
-            // กติกาเหล็กของสามชั้น: **ช่องพิมพ์มีอยู่ได้เฉพาะข้างในโชว์รูม**
-            //
-            // ทางออกจากโชว์รูมมีหลายทาง (ปุ่มพาเลต · ปุ่ม เสร็จ บนแถบบน · ลบ widget · เปลี่ยนหน้า)
-            // ถ้าให้แต่ละทางจำเองว่าต้องเก็บช่องพิมพ์ด้วย สักวันจะมีทางที่ลืม แล้วคีย์บอร์ดค้าง
-            // ทับการ์ดโดยไม่มีอะไรชี้ว่ากำลังแก้อะไรอยู่ · บังคับที่เดียวตรงนี้แทน
-            .onChange(of: showroomID) { _, room in if room == nil { endTextEdit() } }
+            .onAppear {
+                guard viewOnly else { return }
+                // แจกการ์ดลงเวที แล้วค่อยให้แถบผู้ออกบัตรกับท้ายหน้าตามมา — ลำดับเดียวกันทุกใบ
+                withAnimation(Motion.settle.delay(0.08)) { dealt = true }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+                    withAnimation(Motion.settle) { stripIn = true }
+                }
+            }
         }
         // ปิดการหลบคีย์บอร์ดอัตโนมัติของ SwiftUI — มันดันทั้งจอขึ้นรวมแถบบนกับจุดบอกหน้า
-        // การ์ดจึงถูกยกออกนอกจอครึ่งใบ · เราดันเองที่ `canvasLift` โดยดูจากบรรทัดที่กำลังพิมพ์
+        // การ์ดจึงถูกยกออกนอกจอครึ่งใบ · ก้อนที่พิมพ์อยู่ถูกพาขึ้นมาเองที่ `showroom` แทน
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onReceive(NotificationCenter.default.publisher(
             for: UIResponder.keyboardWillChangeFrameNotification)) { note in
@@ -468,77 +566,39 @@ struct CardScreen: View {
         // ให้ระบบรู้ว่าพื้นสว่างหรือมืด — แถบสถานะกับ affordance ของ OS จะได้อ่านออก
         // สิ่งที่อยู่หลังแถบสถานะคือเวทีมืด ไม่ใช่หน้าการ์ด จึงตรึงเป็นมืดเสมอ
         .preferredColorScheme(.dark)
-        // ชีตใบเดียวมีเครื่องมือครบ — ขึ้นเมื่อกดพาเลต หรือเมื่อเลือก widget · ปิดแล้วหายทั้งใบ
-        // ปิดชีตแล้ว **ยังเลือกค้างไว้** — ออกจากโชว์รูมกลับมาเห็นทั้งหน้า แต่ยังแต่งตัวเดิมต่อได้ทันที
-        // (เดิมล้างการเลือกทิ้งด้วย ต้องไปหาแล้วแตะใหม่ทุกครั้งที่เผลอปิดชีต)
-        // ตัวเซ็ตเตอร์ไม่ยอมรับ "ปิด" ระหว่างพิมพ์ — ตอนนั้นชีตลงเพราะ `showsToolSheet` เป็น false
-        // ซึ่งเป็นการ**หลบ** ไม่ใช่การปิด ถ้าปล่อยให้มันเขียน `showTools = false` ตามไปด้วย
-        // เจตนาก็หายไปพร้อมกัน แล้วกด เสร็จ ก็ไม่เหลืออะไรให้กลับมา (นี่คืออาการเดิม)
-        .sheet(isPresented: Binding(get: { showsToolSheet },
-                                    set: { if !$0, Profile.me.editing == nil {
-                                        withAnimation(Motion.settle) { showTools = false }
-                                    } })) {
-            VStack(spacing: 0) {
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 16) {
-                        if let sel = selectedItem {
-                            widgetPanel(sel)
-                            variantPicker(sel)
-                        } else {
-                            themePanel
-                        }
-                    }
-                    .padding(.horizontal, 18)
-                    .padding(.top, selectedItem == nil ? 12 : 16)
-                    .padding(.bottom, 28)
-                }
+        // พิมพ์ผิดแล้วดีดกลับไปสีจริง — ตรงกว่าการขึ้นข้อความเตือนที่ต้องอ่านแล้วแก้เอง
+        .alert("สีพื้น", isPresented: $hexPrompt) {
+            TextField(theme.backdropHex, text: $hexDraft)
+                .textInputAutocapitalization(.characters)
+                .autocorrectionDisabled()
+            // พิมพ์ผิดแล้วไม่มีอะไรเกิดขึ้น สีเดิมอยู่ครบ — ไม่ต้องมีข้อความเตือนให้ต้องปิดอีกชั้น
+            Button("ใช้สีนี้") {
+                if theme.setBackdropHex(hexDraft) { myColor = theme.customColor }
             }
-            .environment(photos)
-            // แผงของ widget ไม่มีระดับ "หุบเป็นแถบ" — ลากลงคือปิด แล้วออกจากโชว์รูมกลับไปเห็นทั้งหน้า
-            //
-            // ถ้ายังมีระดับนั้น การลากลงจะได้แถบเตี้ย ๆ ค้างไว้ พร้อมโชว์รูมที่ยังเปิดอยู่
-            // — สถานะที่ไม่มีใครตั้งใจจะไปถึง และออกจากมันได้ยากกว่าเข้า
-            // ส่วนแผงธีมของทั้งการ์ดยังมีครบ เพราะมันคือแผงที่ต้องเปิดค้างไว้ดูการ์ดไปปรับไป
-            .presentationDetents(selectedItem == nil
-                                 ? [SheetStop.compact, SheetStop.normal, SheetStop.tall, .large]
-                                 : [SheetStop.normal, .large],
-                                 selection: $sheetDetent)
-            .presentationDragIndicator(.visible)
-            .environment(\.colorScheme, .dark)
-            .presentationBackground {
-                Rectangle().fill(.ultraThinMaterial)
-                    .overlay(Color(white: 0.07).opacity(theme.activeInk.isLight ? 0.86 : 0))
-            }
-            .presentationBackgroundInteraction(.enabled(upThrough: SheetStop.normal))
-            .interactiveDismissDisabled()
-            // พิมพ์ผิดแล้วดีดกลับไปสีจริง — ตรงกว่าการขึ้นข้อความเตือนที่ต้องอ่านแล้วแก้เอง
-            .alert("สีพื้น", isPresented: $hexPrompt) {
-                TextField(theme.backdropHex, text: $hexDraft)
-                    .textInputAutocapitalization(.characters)
-                    .autocorrectionDisabled()
-                // พิมพ์ผิดแล้วไม่มีอะไรเกิดขึ้น สีเดิมอยู่ครบ — ไม่ต้องมีข้อความเตือนให้ต้องปิดอีกชั้น
-                Button("ใช้สีนี้") { _ = theme.setBackdropHex(hexDraft) }
-                Button("ยกเลิก", role: .cancel) {}
-            } message: {
-                Text("พิมพ์รหัสสีหกหลัก เช่น #F11717")
-            }
-            // ตู้ widget ต้องซ้อนอยู่บนชีตที่เปิดค้าง — ถ้าไปเปิดที่ราก ชีตล่างจะถูกหุบทิ้งก่อน
-            .sheet(isPresented: Binding(get: { showGallery && showsToolSheet },
-                                        set: { if !$0 { showGallery = false } })) {
-                gallerySheet
-            }
-        }
-        .sheet(isPresented: Binding(get: { showGallery && !showsToolSheet },
-                                    set: { if !$0 { showGallery = false } })) {
-            gallerySheet
-        }
-        .alert("ส่งคำขอแล้ว", isPresented: $showHire) {
-            Button("OK", role: .cancel) {}
+            Button("ยกเลิก", role: .cancel) {}
         } message: {
-            Text("ในคลิปนี้ยังเป็น mock — ของจริงจะพาไป inbox ของ @\(invocation.slug)")
+            Text("พิมพ์รหัสสีหกหลัก เช่น #F11717")
         }
         // เบราว์เซอร์ในแอป — ทั้งใบเต็มจอเหมือน Safari ที่ผู้ใช้คุ้นอยู่แล้ว
         // ไม่ทำเป็นชีตครึ่งจอเพราะหน้าโปรไฟล์กับหน้ารีวิวคือของที่ต้อง "อ่าน" ไม่ใช่ของที่แค่ชำเลือง
+        .sheet(isPresented: $showContact) {
+            ContactSheet { url in
+                showContact = false
+                // รอชีตลงก่อน — เบราว์เซอร์ในแอปเปิดทับชีตที่กำลังปิดไม่ขึ้น
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { open(url) }
+            }
+            .presentationDetents([.height(214)])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(Color(white: 0.09))
+            .preferredColorScheme(.dark)
+        }
+        .sheet(isPresented: $showVerify) {
+            VerifySheet(slug: invocation.slug)
+                .presentationDetents([.height(VerifySheet.height)])
+                .presentationDragIndicator(.visible)
+                .presentationBackground(Color(white: 0.09))
+                .preferredColorScheme(.dark)
+        }
         .fullScreenCover(item: $link) { target in
             SafariSheet(url: target.url, tint: theme.accent)
                 .ignoresSafeArea()
@@ -548,38 +608,98 @@ struct CardScreen: View {
                 .environment(photos)
                 .environment(invocation)
         }
+        .alert("ใบนี้ปลดล็อกเมื่อทำงานกับ Sale Here", isPresented: $askJobs) {
+            Button("ดูงานที่เปิดรับ") { StarFlow.shared.jobsRequested = true }
+            Button("ไว้ก่อน", role: .cancel) {}
+        } message: {
+            Text("โลโก้แบรนด์และผลงานยืนยันมาจากงานที่ทำจบผ่าน Sale Here เท่านั้น รับงานแรกแล้วใบพวกนี้จะเปิดเอง")
+        }
+        .fullScreenCover(item: $topicFill) { req in
+            StarTopicFill(steps: [req.topic.step]) { done in
+                topicFill = nil
+                guard done, req.topic.filled, req.place else { return }
+                // กรอกครบแล้ว = ใบที่แตะไว้ใช้ได้ทันที วางลงการ์ดให้เลย ไม่ต้องกลับไปหาในตู้อีก
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { _ = addWidget(req.kind) }
+            }
+            .environment(photos)
+        }
     }
 
-    private var gallerySheet: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 14) {
-                // บอกตั้งแต่เปิดตู้ ไม่ใช่รอให้เลือกจนจบแล้วค่อยปฏิเสธ — คนเลื่อนหาของในตู้นี้
-                // เป็นนาที การให้เขาทำงานจนจบแล้วบอกว่า "ไม่ได้" คือการเสียเวลาที่กันได้ตั้งแต่ต้น
-                if cardIsFull { galleryFullBanner }
-                WidgetGallery(theme: theme.toolTheme, onAdd: { kind in
-                    addWidget(kind)
-                    showGallery = false
-                }, onClose: { showGallery = false })
-            }
-            .padding(.horizontal, 18)
-            .padding(.top, 16)
-            .padding(.bottom, 28)
+    // MARK: - ประวัติ ↶ ↷
+
+    /// บันทึกจังหวะแก้ไขลงประวัติ — ข้ามค่าที่เพิ่งกู้คืนมาเอง (ไม่งั้น ↶ จะสร้างจังหวะใหม่ซ้อน)
+    private func remember(pages: [CardPage], theme: CardTheme,
+                          changedPages: [CardPage]? = nil, changedTheme: CardTheme? = nil) {
+        // ระหว่างพิมพ์กล่องขยับทุกตัวอักษร — ทั้งรอบนับเป็นจังหวะเดียว (บันทึกไว้แล้วที่ `enterTextMode`)
+        if dock.isText || skipHistory { return }
+        if let a = applied {
+            if let p = changedPages, p == a.pages { return }
+            if let t = changedTheme, t == a.theme { return }
         }
-        .environment(photos)
-        .presentationDetents([.large])
-        .presentationDragIndicator(.visible)
-        // ตู้ widget ก็ทึมมืดเช่นกัน — พรีวิวข้างในต้องเด่นกว่าฉากหลัง
-        // เครื่องมือมืดเสมอ ไม่ว่าการ์ดจะใช้หมึกอะไร — ตาต้องแยกออกทันทีว่า
-            // อะไรคือ "ชิ้นงานที่กำลังออกแบบ" อะไรคือ "ปุ่มที่ใช้ออกแบบมัน"
-            // (แบบเดียวกับแคนวาสขาวบนหน้าจอมืดของ Figma)
-            .environment(\.colorScheme, .dark)
-            .presentationBackground {
-                // `.ultraThinMaterial` อ่าน colorScheme ของ presentation ซึ่งตอนนี้ล้อหมึกของการ์ด
-                // พอเลือกกระดาษ ชีตจะพลิกเป็นแผ่นขาว แล้วปุ่มทั้งแผงที่เขียนด้วยสีขาวหายไปกับพื้น
-                // ความมืดของเครื่องมือจึงต้องทาเอง ไม่ฝากไว้กับ colorScheme
-                Rectangle().fill(.ultraThinMaterial)
-                    .overlay(Color(white: 0.07).opacity(theme.activeInk.isLight ? 0.86 : 0))
+        history.record(.init(pages: pages, theme: theme))
+    }
+
+    private func undo() {
+        guard let s = history.undo(current: .init(pages: pages, theme: theme)) else { Haptics.rigid(); return }
+        apply(s)
+    }
+
+    private func redo() {
+        guard let s = history.redo(current: .init(pages: pages, theme: theme)) else { Haptics.rigid(); return }
+        apply(s)
+    }
+
+    /// กู้คืนภาพนิ่ง — ของบนการ์ดไหลกลับด้วย `flow` ผู้ใช้จึงเห็นว่าอะไรเปลี่ยน ไม่ใช่กระพริบเป็นภาพใหม่
+    private func apply(_ s: EditHistory.Snapshot) {
+        applied = s
+        endTextEdit()
+        withAnimation(Motion.flow) {
+            pages = s.pages
+            theme = s.theme
+            index = min(index, max(0, s.pages.count - 1))
+            // ชิ้นที่เลือกอยู่อาจไม่มีในภาพนิ่งนั้น (ย้อนการเพิ่ม) — แถบล่างต้องไม่ชี้ไปที่ของที่หายไป
+            if let id = selected, !s.pages.contains(where: { $0.items.contains { $0.id == id } }) {
+                dock = .main
             }
+        }
+        Haptics.impact(.light)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { applied = nil }
+    }
+
+    /// โหมดลองทำ: อีกเครื่องแก้การ์ดใบนี้ — โหลดผังใหม่จากคลัง ไม่นับเป็นงานแก้ของเครื่องนี้ (ไม่เข้า undo)
+    private func reloadFromLab() {
+        guard let cardID, cardID == LabSync.shared.cardID,
+              let record = CardLibrary.shared.card(id: cardID),
+              let r = record.restored() else { return }
+        skipHistory = true
+        endTextEdit()
+        withAnimation(Motion.flow) {
+            pages = r.pages
+            theme = r.theme
+            index = min(index, max(0, r.pages.count - 1))
+            if let id = selected, !r.pages.contains(where: { $0.items.contains { $0.id == id } }) {
+                dock = .main
+            }
+        }
+        DispatchQueue.main.async { skipHistory = false }
+    }
+
+    /// ตู้วิดเจ็ตในถาด — ความสูงมาจากระดับของชีต (ลากได้ ตั้งต้นครึ่งจอ) ตัวตู้เลื่อนเองข้างใน
+    private var galleryTray: some View {
+        VStack(spacing: 12) {
+            // บอกตั้งแต่เปิดตู้ ไม่ใช่รอให้เลือกจนจบแล้วค่อยปฏิเสธ — คนเลื่อนหาของในตู้นี้
+            // เป็นนาที การให้เขาทำงานจนจบแล้วบอกว่า "ไม่ได้" คือการเสียเวลาที่กันได้ตั้งแต่ต้น
+            if cardIsFull { galleryFullBanner }
+            WidgetGallery(theme: theme.toolTheme, onAdd: { kind in
+                _ = addWidget(kind)
+            }, onFill: { kind, topic in
+                // ยังไม่มีข้อมูลของหัวข้อนั้น → พาไปกรอกข้อเดียว กรอกเสร็จค่อยวางใบที่เลือกไว้ให้
+                // ยกเว้นผลงานกับ Sale Here: กรอกเองไม่ได้ ต้องไปรับงาน
+                if topic.fillable { topicFill = TopicFillRequest(kind: kind, topic: topic) } else { askJobs = true }
+            }, onClose: nil, showsBar: false)
+        }
+        .frame(maxHeight: .infinity, alignment: .top)
+        .environment(photos)
     }
 
     @Environment(PhotoStore.self) private var photos
@@ -587,68 +707,95 @@ struct CardScreen: View {
 
     // MARK: - Deck
 
-    /// เพจเจอร์แบบเลื่อนภาพ — ดันซ้ายขวาเต็มความกว้าง ไม่มีการจางหาย
+    /// สำรับ = **กระดาษแผ่นเดียวยาว 3 ช่อง** — ปัดแล้วทั้งแผ่นเลื่อน ไม่ใช่การ์ดสามใบสไลด์แยกกัน
     ///
-    /// ตัวที่ทำให้ไม่ใช่แค่ "สไลด์ธรรมดา" คือ **พารัลแลกซ์ในหน้า**:
-    /// widget ข้างในเลื่อนช้ากว่าตัวหน้าเล็กน้อย และตัวที่กินเต็มความกว้างเลื่อนช้ากว่าตัวแคบ
-    /// สมองจึงอ่านว่าเป็นชั้นลึกซ้อนกัน ไม่ใช่ภาพแบนแผ่นเดียวที่ถูกดันไปมา
+    /// # ทำไมเลิกทำเป็นสไลด์
+    ///
+    /// เดิมแต่ละหน้าเป็นแผ่นของตัวเอง มีร่อง 26pt คั่น บีบ/พารัลแลกซ์ตอนปัด — สวยแต่มันบอกผู้ใช้ว่า
+    /// "นี่คือการ์ดสามใบ" ทั้งที่รูปที่แชร์ออกไปคือแถบยาวใบเดียว (ดู `CardA4Export`) คนจึงจัดหน้าแรก
+    /// จนจบในตัว แล้วงงว่าทำไมรูปแชร์มีที่ว่างอีกสองช่อง
+    ///
+    /// ตอนนี้ฉากหลังวาดครั้งเดียวคลุมทั้งแผ่นเหมือนรูปที่แชร์ ช่องต่อกันไม่มีร่อง · ปัดแล้วแผ่นเลื่อน
+    /// เป็นชิ้นเดียวด้วยสปริง `Motion.page` — ซ้ายสุด → กลาง → ขวาสุดของกระดาษ แล้วชนขอบ (หน่วงยาง)
+    /// ตอนแต่งแผ่นถูกย่อลงนิดหนึ่ง (ดู `editScale`) ขอบของช่องข้าง ๆ จึงโผล่ให้เห็นตลอดว่ามันต่อกันอยู่
+    /// และแตะขอบที่โผล่นั้นได้ = เลื่อนไปช่องนั้น
     private func deck(size: CGSize, fit: CGFloat, viewport: CGSize) -> some View {
         let shown = CGSize(width: size.width * fit, height: size.height * fit)
         let inv: CGFloat = 1 / max(fit, 0.01)
-        return ZStack {
+        let strip = CGSize(width: size.width * CGFloat(max(pages.count, 1)), height: size.height)
+        let paper = RoundedRectangle(cornerRadius: 22 * inv, style: .continuous)
+        return ZStack(alignment: .topLeading) {
+            // ชั้นรับ "แตะที่ว่าง" อยู่ **หลัง** ทุกชิ้น ไม่ใช่ท่าแตะบนตัวห่อทั้งสำรับ
+            //
+            // ท่าแตะบนตัวห่อ (ancestor) ยิงทุกครั้งที่นิ้วแตะชิ้นด้วย — ยิงก่อนตัวจับทัชของชิ้นเสียอีก
+            // ผลคือทุกแตะบนชิ้นกลายเป็น "ยกเลิกเลือก แล้วเลือกใหม่" · แตะซ้ำเพื่อพิมพ์จึงไม่มีวันถึง
+            // ชั้นที่อยู่ข้างหลังได้ทัชเฉพาะจุดที่ไม่มีชิ้นไหนรับ ซึ่งคือความหมายของ "ที่ว่าง" พอดี
+            emptyTapLayer.frame(width: strip.width, height: strip.height)
+
+            // ทุกช่องอยู่ในต้นไม้ view ตลอด — แผ่นเดียวต้องครบทุกส่วนระหว่างเลื่อน
+            // (และ gesture ที่ถือการลากข้ามช่องอยู่ก็ไม่ตายกลางทางเพราะช่องต้นทางถูกถอด)
             ForEach(Array(pages.enumerated()), id: \.element.id) { i, page in
-                let d = CGFloat(i) - (CGFloat(index) + swipe)
-                // ระหว่างลากข้ามหน้า ต้องคงทุกหน้าไว้ในต้นไม้ view — ถ้าหน้าต้นทางถูกถอด
-                // gesture recognizer ที่ถือการลากอยู่จะตายไปด้วย แล้วจะไม่มีวันได้ event ปล่อยนิ้ว
-                if abs(d) < 1.35 || dragID != nil {
-                    // `current` = หน้านี้คือหน้าปัจจุบัน (ใช้คุมการเข้าฉาก — ห้ามผูกกับ swipe)
-                    // `interactive` = รับ touch ได้ (ปิดระหว่างปัด กันไปโดน widget)
-                    sheet(page, size: size,
-                          current: i == index,
-                          // ระยะหน้า — ตัวขับท่าเข้า/ออกของทุก widget ให้สครับตามนิ้ว
-                          dist: d,
-                          interactive: i == index && abs(swipe) < 0.02,
-                          // พารัลแลกซ์ต้องเป็นศูนย์ทั้งตอนอยู่กลางจอและตอนออกไปสุด
-                          // ถ้าค้างค่าไว้ที่ปลาย หน้าที่ออกไปแล้วจะเลื่อนไม่พ้นจอ เหลือเศษค้างขอบ
-                          parallax: d * max(0, 1 - abs(d)))
-                        // บีบแนวนอนนิดหน่อยตอนถูกดันออก ให้รู้สึกว่ามีแรง ไม่ใช่แผ่นแข็ง
-                        // (เคยเอียงหน้า 3 มิติด้วย แต่ 3D transform ทำให้ Liquid Glass
-                        //  หยุด sample พื้นหลังแล้วตกเป็นแผ่นเข้มทั้งหน้าตลอดการปัด — ตัดทิ้ง)
-                        .scaleEffect(x: 1 - abs(d) * 0.05, y: 1 - abs(d) * 0.08)
-                        .offset(x: d * (size.width + 26))
-                        .zIndex(Double(-abs(d)))
-                        .allowsHitTesting(i == index)
-                }
+                // `current` = ช่องนี้คือช่องปัจจุบัน · `interactive` = รับ touch ได้ (ปิดระหว่างปัด กันไปโดน widget)
+                // ไม่มีระยะหน้า/พารัลแลกซ์อีกแล้ว — กระดาษแผ่นเดียวเลื่อนทั้งแผ่น ของบนแผ่นไม่ขยับแยกกัน
+                sheet(page, size: size,
+                      current: i == index,
+                      dist: 0,
+                      interactive: i == index && abs(swipe) < 0.02,
+                      parallax: 0)
+                    .background {
+                        // กริดต่อช่อง — ตอนพิมพ์ (โชว์รูม) กริดคือบริบทของ "ทั้งแผ่น" ซึ่งตอนนั้นซ่อนอยู่
+                        if isEditing, showroomID == nil {
+                            CanvasGrid(theme: theme, ink: theme.inkStyle, page: size)
+                                .frame(width: size.width, height: size.height)
+                        }
+                    }
+                    // ช่องข้าง ๆ ที่โผล่ให้เห็น แตะแล้วเลื่อนไปช่องนั้น — ของที่เห็นต้องไปถึงได้ ไม่ใช่แค่ดู
+                    .overlay {
+                        if i != index {
+                            Color.clear.contentShape(Rectangle())
+                                .onTapGesture {
+                                    guard dragID == nil else { return }
+                                    Haptics.impact(.light)
+                                    withAnimation(Motion.page) { index = i }
+                                }
+                        }
+                    }
+                    .frame(width: size.width, height: size.height)
+                    .offset(x: CGFloat(i) * size.width)
+                    // ช่องปัจจุบันอยู่บนสุด — หมุดกับปุ่มมุมที่ยื่นพ้นขอบช่องต้องไม่มุดใต้ช่องถัดไป
+                    .zIndex(i == index ? 1 : 0)
             }
         }
-        // กรอบชั้นในเท่า **หน้า** พอดี ไม่ใช่เท่าพื้นที่ว่างทั้งก้อน
+        .frame(width: strip.width, height: strip.height, alignment: .topLeading)
+        // ฉากหลัง **ผืนเดียวคลุมทั้งแผ่น** — ไล่เฉด/ดวงแสง/รูป ต่อเนื่องข้ามช่องเหมือนรูปที่แชร์
+        // มุมและเงาถูกวาดในหน่วยออกแบบแล้วย่อลงพร้อมทั้งผืน — หารกลับด้วย fit
+        // เพื่อให้ **ที่ตาเห็นบนจอ** คงที่ ไม่ใช่โตขึ้นตามพื้นที่ออกแบบ
+        .background {
+            CardBackdrop(theme: theme, ignoreSafeArea: false, signed: true)
+                .frame(width: strip.width, height: strip.height)
+                .clipShape(paper)
+                .shadow(color: .black.opacity(0.5), radius: 26 * inv, y: 12 * inv)
+        }
+        // ตราปั๊มนูนกดลงบนแผ่นที่พิมพ์เสร็จแล้ว — เหนือ widget ทุกชิ้น ไม่กินทัช (ดู `SignatureEmboss`)
+        .overlay {
+            if theme.strip.isStamp {
+                SignatureEmboss(light: theme.inkStyle.isLight, foil: theme.strip == .foil,
+                                tint: theme.inkStyle.base, pages: pages, pageSize: size)
+                    .frame(width: strip.width, height: strip.height)
+            }
+        }
+        // เลื่อนทั้งแผ่นให้ช่องปัจจุบันมาอยู่ในหน้าต่าง — `swipe` คือเศษระหว่างทางตอนนิ้วยังลากอยู่
+        .offset(x: -(CGFloat(index) + swipe) * size.width)
+        // หน้าต่างเท่า **หนึ่งช่อง** พอดี — ไม่ clip แผ่นที่ยาวเกิน ส่วนที่ล้นคือขอบช่องข้าง ๆ ที่ตั้งใจให้เห็น
         //
-        // ชั้นลอยข้างล่างอ้างมุมบนซ้ายของกรอบนี้ และ `dragStart` เป็นพิกัดในหน้ากระดาษ —
-        // ถ้ามุมนี้ไม่ใช่มุมหน้า ตัวที่ลากจะลอยเยื้องจากนิ้ว
-        .frame(width: size.width, height: size.height)
+        // ชั้นลอยข้างล่างอ้างมุมบนซ้ายของหน้าต่างนี้ และ `dragStart` เป็นพิกัดในช่อง —
+        // ถ้ามุมนี้ไม่ใช่มุมช่อง ตัวที่ลากจะลอยเยื้องจากนิ้ว
+        .frame(width: size.width, height: size.height, alignment: .topLeading)
         .overlay(alignment: .topLeading) {
-            // ชั้นลอยของตัวที่ลาก — อยู่ระดับ deck ไม่ผูกกับหน้าใดหน้าหนึ่ง จึงลอยข้ามหน้าได้
+            // ชั้นลอยของตัวที่ลาก — อยู่ระดับหน้าต่าง ไม่ผูกกับช่องใดช่องหนึ่ง จึงลอยข้ามช่องได้
             if dragID != nil, let item = dragItem {
                 dragLayer(Placed(item: item, frame: dragStart))
             }
-        }
-        // กริดกับฉากหลังอยู่ **ในหน่วยออกแบบเดียวกับ widget** จึงต้องอยู่ในก้อนที่ถูกย่อด้วย
-        // ถ้าไปแขวนไว้ข้างนอก จุดกริดจะไม่ตรงกับขอบ widget ทันทีที่ fit ไม่ใช่ 1
-        .background {
-            // โชว์รูมเหลือของให้ดูชิ้นเดียว — กริดคือบริบทของ "ทั้งหน้า"
-            // ปล่อยไว้แล้วมันจะชี้ไปยังผังที่ตอนนี้มองไม่เห็น
-            if isEditing, showroomID == nil {
-                CanvasGrid(theme: theme, ink: theme.inkStyle, page: size)
-                    .frame(width: size.width, height: size.height)
-            }
-        }
-        .background {
-            // มุมและเงาถูกวาดในหน่วยออกแบบแล้วย่อลงพร้อมทั้งผืน — หารกลับด้วย fit
-            // เพื่อให้ **ที่ตาเห็นบนจอ** คงที่ ไม่ใช่โตขึ้นตามพื้นที่ออกแบบ
-            CardBackdrop(theme: theme, ignoreSafeArea: false)
-                .frame(width: size.width, height: size.height)
-                .clipShape(RoundedRectangle(cornerRadius: 22 * inv, style: .continuous))
-                .shadow(color: .black.opacity(0.5), radius: 26 * inv, y: 12 * inv)
         }
         // ย่อพื้นที่ออกแบบทั้งผืนลงหน่วยจอ
         //
@@ -658,24 +805,27 @@ struct CardScreen: View {
         .scaleEffect(fit)
         // บอกขนาด **ที่ตาเห็น** เอง ไม่งั้นก้อนนี้ดันทุกอย่างรอบตัวออกนอกจอ
         .frame(width: shown.width, height: shown.height)
-        // ชั้นนอกกินเต็มพื้นที่ เพื่อให้แตะที่ว่างรอบหน้าแล้วยกเลิกการเลือกได้
+        // ชั้นนอกกินเต็มพื้นที่ — เวทีมืดรอบหน้าก็นับเป็นที่ว่าง (ชั้นรับแตะอีกใบอยู่ข้างหลังหน้า)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .contentShape(Rectangle())
+        .background { emptyTapLayer }
         // หมึกของการ์ดครอบทั้งสำรับ — ทั้ง widget · เปลือกแผ่น · เส้นเลือก
         // ไม่ครอบไปถึงแถบเครื่องมือกับชีตแต่ง เพราะนั่นคือ "เครื่องมือ" ไม่ใช่ "ชิ้นงาน"
         // (แคนวาสขาวบนหน้าจอมืดแบบ Figma — ตาจะแยกออกทันทีว่าอะไรคืองาน อะไรคือปุ่ม)
         .environment(\.cardInk, theme.inkStyle)
+        // ก้อนข้อความต้องรู้ว่าหน้ากว้างเท่าไหร่ — บรรทัดที่ยาวเกินนั้นหดขนาดให้เอง
+        .environment(\.pageContentWidth, PageLayout.content(size).width)
         .simultaneousGesture(pageSwipe(width: size.width))
-        // ในโชว์รูมพื้นหลังคือที่ว่างรอบชิ้นงาน ไม่ใช่ "ที่ว่างของหน้า" — แตะแล้วไม่ต้องยกเลิกการเลือก
-        // แต่ถ้ากำลังพิมพ์อยู่ การแตะออกนอกชิ้นงานคือท่าปิดคีย์บอร์ดที่ทุกคนคาดหวัง
-        .onTapGesture {
-            guard isEditing else { return }
-            if showroomID != nil {
-                if Profile.me.editing != nil { endTextEdit() }
-            } else {
-                select(nil)
+    }
+
+    /// กติกาข้อ 4: **แตะที่ว่าง = ‹** ปิดสิ่งที่เปิดอยู่ กลับแถบหลัก
+    /// ตอนพิมพ์ = เสร็จ (ท่าปิดคีย์บอร์ดที่ทุกคนคาดหวัง) — ความหมายเดียวกันคือ "จบสิ่งที่ทำอยู่"
+    private var emptyTapLayer: some View {
+        Color.clear
+            .contentShape(Rectangle())
+            .onTapGesture {
+                guard isEditing else { return }
+                if dock.isText { exitTextMode() } else { goMain() }
             }
-        }
     }
 
     private func pageSwipe(width: CGFloat) -> some Gesture {
@@ -684,7 +834,11 @@ struct CardScreen: View {
                 // การ์ดหน้าเดียวไม่มีหน้าให้ไป — ถ้าไม่กันตรงนี้ การปัดจะได้แค่
                 // หน่วงยางที่เด้งกลับ ซึ่งอ่านออกว่า "มีหน้าถัดไปแต่ไปไม่ได้"
                 guard multiPage, dragID == nil, resizeID == nil else { return }
-                guard abs(g.translation.width) > abs(g.translation.height) else { return }
+                // ยังไม่ติดแนวนอน = ต้องชัดว่าปัดซ้ายขวา ไม่ใช่แค่เอียงนิดหน่อยระหว่างลากลง
+                if !swipeArmed {
+                    guard abs(g.translation.width) > abs(g.translation.height) * 1.2 else { return }
+                    swipeArmed = true
+                }
                 // หักระยะ dead zone ออก ไม่งั้นพอ gesture ติดครั้งแรกหน้าจะกระโดดไป 12pt ทันที
                 let raw = -g.translation.width
                 let dead: CGFloat = 12
@@ -695,7 +849,12 @@ struct CardScreen: View {
                 swipe = max(-1, min(1, p))
             }
             .onEnded { g in
-                guard multiPage, dragID == nil, resizeID == nil else { swipe = 0; return }
+                let armed = swipeArmed
+                swipeArmed = false
+                guard armed, multiPage, dragID == nil, resizeID == nil else {
+                    withAnimation(Motion.page) { swipe = 0 }
+                    return
+                }
                 let velocity = -g.predictedEndTranslation.width / max(width, 1)
                 let target = (swipe > 0.28 || velocity > 0.75) ? index + 1
                            : (swipe < -0.28 || velocity < -0.75) ? index - 1
@@ -743,6 +902,7 @@ struct CardScreen: View {
                     .strokeBorder(style: StrokeStyle(lineWidth: 0.8, dash: [5, 5]))
                     .foregroundStyle(theme.inkStyle.line(0.16))
                     .frame(width: size.width, height: size.height)
+                    .allowsHitTesting(false)
             }
 
             ForEach(solved) { p in
@@ -750,24 +910,38 @@ struct CardScreen: View {
                      parallax: parallax, pageWidth: size.width)
             }
 
+            // แถบผู้ออกบัตรถูกถอดออกจากการ์ดแล้ว (ตัววิว `IssuerStrip` ยังอยู่ในโค้ด)
+            // ก้นหน้าที่เคยกันไว้ให้มัน 30pt กลายเป็นพื้นที่วางของตามปกติ (ดู `PageLayout.content`)
+
+            // ม่านกระจกตอนพิมพ์ — ทั้งหน้ากลายเป็นกระจกฝ้า เหลือก้อนที่พิมพ์อยู่ชิ้นเดียวที่คมชัด
+            //
+            // เดิมแค่หรี่ชิ้นอื่นลง แต่ฉากหลังของการ์ด (รูป · ไล่เฉด) ยังอยู่เต็ม ๆ ใต้ตัวอักษร
+            // ตัวอักษรขาวบนรูปที่หรี่ครึ่งหนึ่งอ่านยากกว่าบนกระจก — และมันอ่านเป็น "การ์ดพัง" ไม่ใช่ "โหมดพิมพ์"
+            // กระจกอยู่ **ใต้** ก้อนที่พิมพ์ (zIndex 300 < 400) แต่ **เหนือ** ทุกอย่างที่เหลือ
+            if current, showroomID != nil {
+                typingVeil
+                    .frame(width: size.width, height: size.height)
+                    .zIndex(300)
+                    .transition(.opacity)
+            }
+
             // กรอบเลือกอยู่ชั้นบนสุดของหน้า ไม่ใช่ติดไปกับตัว widget
             // ของทับกันได้แล้ว ถ้าวาดตามชั้นซ้อนจริง หมุดปรับขนาดจะถูกตัวที่อยู่หน้ากว่าทับจนกดไม่ได้
-            if isEditing, current, dragID == nil,
+            // ตอนพิมพ์ (โชว์รูม) ไม่มีกรอบกับหมุด — ก้อนถูกยกขึ้นกลางจอ กรอบจะอ่านเป็นของที่ต้องลาก
+            if isEditing, current, dragID == nil, showroomID == nil,
                let sel = solved.first(where: { $0.id == selected }) {
                 selectionLayer(sel, interactive: interactive)
                     // ยืดเฉพาะกรอบ ไม่แตะตัว widget — นี่คือ "ไปแค่กรอบ" ที่ตั้งใจ
                     .frame(width: sel.frame.width + (resizeID == sel.id ? overshoot.width : 0),
                            height: sel.frame.height + (resizeID == sel.id ? overshoot.height : 0),
                            alignment: .topLeading)
-                    .background { contentProbe(sel) }
                     // กรอบเลือก/หมุด/ปุ่มประแจ ต้องถูกท่าโชว์รูมพาไปพร้อมตัว widget
                     // ไม่งั้นมันค้างอยู่ที่ตำแหน่งเดิมแล้วชี้ไปยังที่ว่าง
                     .scaleEffect(showroomScale(sel), anchor: .center)
                     .offset(x: sel.frame.minX - parallaxShift(sel.item, parallax: parallax,
                                                               pageWidth: size.width)
                                + showroom(sel).dx,
-                            y: sel.frame.minY + showroom(sel).dy
-                               + (showroomID == sel.id ? showroomDrag : 0))
+                            y: sel.frame.minY + showroom(sel).dy)
                     .zIndex(500)
                     .animation(Motion.settle, value: showroomID)
             }
@@ -792,10 +966,16 @@ struct CardScreen: View {
         // ไม่ผูกกับ current — ระหว่างลากข้ามหน้า tile ต้นทางต้องซ่อนอยู่แม้หน้ามันไม่ใช่หน้าปัจจุบัน
         let isDrag = dragID == p.id
         let order = page.items.firstIndex { $0.id == p.id } ?? 0
-        let touch = (pressPoint?.id == p.id && dragID == nil) ? pressPoint?.at : nil
+        // โหมดดู: widget นิ่งสนิท กดแล้วไปปลายทางอย่างเดียว — ไม่เอียงตามนิ้ว ไม่เรืองแสง
+        let touch = (isEditing && pressPoint?.id == p.id && dragID == nil) ? pressPoint?.at : nil
 
-        WidgetChrome(placed: p, theme: theme)
-            .frame(width: p.frame.width, height: p.frame.height)
+        // ก้อนข้อความที่กำลังพิมพ์วาดที่ **ขนาดแก้ไขมาตรฐาน** ไม่ใช่ขนาดบนการ์ด (ดู `editBox`)
+        // กรอบจากผังยังเป็นของเดิม — มันคือที่ที่กล่องจะไหลกลับไปตอนกด เสร็จ
+        let drawn = drawnSize(p)
+        let pd = drawn == p.frame.size ? p : Placed(item: p.item, frame: CGRect(origin: p.frame.origin, size: drawn))
+
+        WidgetChrome(placed: pd, theme: theme, lockBadge: isEditing && interactive)
+            .frame(width: drawn.width, height: drawn.height)
             // เส้นประรอบข้อความที่แก้ได้ขึ้นเฉพาะบนแคนวาสในโหมดแต่ง
             // พรีวิวในตู้ widget กับรูปที่เรนเดอร์ตอนแชร์อ่านค่าตั้งต้น false จึงสะอาดตามเดิม
             .environment(\.textEditMode, isEditing && interactive)
@@ -803,31 +983,27 @@ struct CardScreen: View {
             // ผลงานที่ยืนยันแล้ว) จะเล่นจังหวะของมันเองแทนที่จะถูกกรอบลากไปทั้งแผ่น
             .environment(\.pageScrub, PageScrub(d: dist, order: order,
                                                 flat: p.item.surface == .glass))
-            .pressTilt(touch, size: p.frame.size, glow: theme.accent)
+            .pressTilt(touch, size: drawn, glow: theme.accent)
             .overlay {
                 // คง catcher ไว้ขณะที่มันถือการลากอยู่ — หลัง flip หน้า interactive ของหน้าต้นทาง
                 // กลายเป็น false ถ้าถอดตรงนี้ recognizer ตายกลาง gesture แล้ว event ปล่อยนิ้วหาย
                 if interactive || dragID == p.id {
                     PressDragCatcher(
-                        // ในโชว์รูมชิ้นงานลากย้ายที่ไม่ได้ (ผังถูกซ่อนอยู่) — ท่าลากจึงว่าง
-                        // เอามาใช้เป็นทางออก: ลากลงคือเก็บของกลับเข้าที่ ภาษาเดียวกับการปัดชีตลง
+                        // ชิ้นที่เลือกอยู่ลากได้ทันที (ตอนพิมพ์ไม่มีผังให้ย้าย จึงไม่เปิด)
+                        immediate: isSel && !dock.isText && !p.item.pinned,
                         onBegan: {
-                            let inShowroom = showroomID == p.id
-                            pressMode = (p.id, inShowroom)
-                            if inShowroom {
-                                // กดค้างบนชิ้นที่กำลังแต่งอยู่ = จะลากเก็บ ไม่ใช่จะพิมพ์ — หุบคีย์บอร์ดก่อน
-                                if Profile.me.editing != nil { endTextEdit() }
-                                showroomDrag = 0
-                            } else {
-                                beginDrag(p)
-                            }
-                        },
-                        onChanged: { t in
-                            if pressMode?.id == p.id, pressMode?.showroom == true {
-                                // ลากขึ้นหนืดกว่าลากลงสามเท่า — ทางออกมีทางเดียวคือลง
-                                showroomDrag = t.height > 0 ? t.height : t.height / 3
+                            // ตอนพิมพ์ก้อนนี้อยู่ไม่มีผังให้ย้าย — กดค้างไม่ทำอะไร
+                            guard isEditing, showroomID == nil else { return }
+                            // ตรารับรองตรึงอยู่กับที่ — กดค้างแล้วบอกเหตุ ไม่ใช่เงียบเหมือนแอปค้าง
+                            if p.item.pinned {
+                                Haptics.rigid()
+                                flash("ตรารับรอง Sale Here อยู่ตรงนี้ทุกการ์ด · ย้ายไม่ได้")
                                 return
                             }
+                            pressMode = p.id
+                            beginDrag(p)
+                        },
+                        onChanged: { t in
                             guard dragID == p.id else { return }
                             // นิ้ววัดบนจอ แต่หน้าแสดงแบบย่อ — หารสเกลให้ widget วิ่งเท่านิ้วจริง
                             let s = max(canvasScale, 0.01)
@@ -837,37 +1013,43 @@ struct CardScreen: View {
                             checkEdgeFlip(p, scaled)
                         },
                         onEnded: {
-                            let mode = pressMode
-                            if mode?.id == p.id { pressMode = nil }
-                            if mode?.id == p.id, mode?.showroom == true {
-                                let far = showroomDrag > 70
-                                withAnimation(Motion.settle) { showroomDrag = 0 }
-                                if far { closeTools() }
-                                return
-                            }
+                            if pressMode == p.id { pressMode = nil }
                             endDrag(p)
                         },
                         onTap: { at in
-                            // โหมดดู = การ์ดทำตัวเป็นการ์ดจริง — แตะช่องโซเชียลไปหน้าโปรไฟล์
-                            // แตะผลงานไปโพสต์นั้น · แตะที่ว่างไม่ทำอะไร (ยังไม่ใช่โหมดแต่ง)
+                            // คลิป = การ์ดทำตัวเป็นการ์ดจริง — แตะช่องโซเชียลไปหน้าโปรไฟล์ แตะผลงานไปโพสต์นั้น
                             guard isEditing else {
                                 if let url = linkBox.hit(at, in: p.item.id) { open(url) }
                                 return
                             }
-                            // **สามชั้น ชั้นละความตั้งใจ** — บนตัว widget ทำได้แค่สองชั้นแรก
+                            // **สองชั้น ชั้นละความตั้งใจ**
                             //
-                            // 1. แตะ = โฟกัส (ได้กรอบ + หมุดปรับขนาด + ปุ่มประแจ) · กดค้าง = ลากย้าย
-                            // 2. กดประแจ = เข้าเครื่องมือ (โชว์รูม) — ตรงนี้เท่านั้นที่ข้อความแก้ได้
+                            // 1. แตะ = เลือก (กรอบ + หมุด + ถาดของชิ้น) · กดค้าง = ลากย้าย
+                            // 2. แตะซ้ำบนชิ้นที่เลือกอยู่ = ลงมือกับข้อความ: ก้อนข้อความเข้าโหมดพิมพ์ทั้งก้อน
+                            //    ชิ้นอื่นแตะกรอบเส้นประของช่องนั้น ๆ
                             //
                             // ที่ต้องแยกเพราะการ์ดหนึ่งหน้ามีข้อความเต็มไปหมด ถ้าแตะข้อความแล้วพิมพ์ได้
-                            // ตั้งแต่ชั้นโฟกัส คีย์บอร์ดจะเด้งขึ้นทุกครั้งที่ผู้ใช้แค่จะเลือกหรือจะลาก
-                            // แล้วสองท่าที่ใช้บ่อยที่สุดก็ใช้ไม่ได้ทั้งคู่
-                            guard showroomID == p.id else {
+                            // ตั้งแต่แตะแรก คีย์บอร์ดจะเด้งขึ้นทุกครั้งที่ผู้ใช้แค่จะเลือกหรือจะลาก
+                            // ก้อนข้อความ: แตะแรก = เลือก (ได้หมุดมุมย่อขยาย · ลากย้ายได้) · แตะซ้ำ = พิมพ์
+                            // ถ้าแตะแล้วขึ้นแป้นพิมพ์ทันทีทุกครั้ง จะไม่มีจังหวะไหนได้จับหมุดเลย
+                            if p.item.kind == .textBlock {
+                                if selected == p.id { enterTextMode(p.id) } else { select(p.id) }
+                                return
+                            }
+                            // ใบที่ล็อก: แตะ **ปุ่มปลดล็อก** = กรอกข้อมูลนั้น (กรอกเสร็จใบปลดล็อกในที่เดิม)
+                            // แตะส่วนอื่นของใบ = เลือก/ลาก/ลบ ตามปกติ (ผู้ใช้ 29 ก.ย. 2569)
+                            // ตรารับรองล็อกตาม "ยืนยันตัวตนผ่านแล้วหรือยัง" ไม่ใช่ตามว่าหัวข้อถูกกรอก (ดู `WidgetChrome`)
+                            let sealLocked = p.item.kind == .proofSeal && !VerifiedFacts.sealed
+                            if let t = p.item.kind.family.topic, !t.filled || sealLocked,
+                               WidgetChrome.lockHitRect(in: drawn).contains(at) {
+                                Haptics.impact(.light)
+                                if t.fillable { topicFill = TopicFillRequest(kind: p.item.kind, topic: t, place: false) } else { askJobs = true }
+                                return
+                            }
+                            guard selected == p.id else {
                                 select(p.id)
                                 return
                             }
-                            // ในโชว์รูม: แตะกรอบเส้นประ = พิมพ์ช่องนั้น · แตะที่ว่าง = ปิดคีย์บอร์ด
-                            // (ปิดแค่คีย์บอร์ด ยังอยู่ในเครื่องมือ — ออกจากเครื่องมือคือลากชิ้นงานลง)
                             if let hit = slotBox.hit(at, in: p.item.id) {
                                 beginTextEdit(hit, on: p)
                             } else if Profile.me.editing != nil {
@@ -901,29 +1083,58 @@ struct CardScreen: View {
             // ช่องพิมพ์ต้องอยู่เหนือ catcher เหมือนปุ่มเปลี่ยนรูป ไม่งั้นเคอร์เซอร์/การเลือกข้อความกดไม่ติด
             .overlayPreferenceValue(TextSlotKey.self) { slots in
                 if isEditing, interactive {
-                    textSlotLayer(slots, on: p, focused: showroomID == p.id)
+                    // ก้อนข้อความไม่มีเส้นประชั้นใน — ทั้งก้อนคือช่องเดียว กรอบเลือกบอกอยู่แล้ว
+                    textSlotLayer(slots, on: p, focused: selected == p.id && p.item.kind != .textBlock)
                 }
             }
+            // ช่องพิมพ์บนการ์ด — ทับตำแหน่งก้อนพอดี อยู่เหนือ catcher จึงรับทัชวางเคอร์เซอร์ได้
+            .overlay(alignment: .topLeading) {
+                if dock == .text(p.id) { canvasEditor(p) }
+            }
+            .environment(\.canvasTyping, dock == .text(p.id))
             .opacity(isDrag ? 0 : 1)
             .pageChoreo(p.item.kind, order, d: dist, flat: p.item.surface == .glass)
-            // โชว์รูม: ตัวที่กำลังแต่งถูกยกขึ้นกลางจอ · ที่เหลือถอยออกแล้วละลายหายไป
+            // ตอนพิมพ์: ก้อนที่พิมพ์ถูกยกขึ้นกลางที่ว่าง · ที่เหลือถอยออกแล้วหรี่ลง
             // หรี่ด้วย opacity + ย่อ ไม่ใช่ถอดออกจากต้นไม้ view — ผังต้องนิ่งอยู่ที่เดิม
-            // ไม่งั้นพอปิดชีต ของทั้งหน้าจะกระโดดกลับมาแทนที่จะไหลกลับ
+            // ไม่งั้นพอกด เสร็จ ของทั้งหน้าจะกระโดดกลับมาแทนที่จะไหลกลับ
+            // **ไม่เบลอ** — เบลอกระจกซ้อนกระจกทั้งหน้าทั้งกระพริบและตาล้า หรี่อย่างเดียวพอ
             .scaleEffect(showroomScale(p), anchor: .center)
             .opacity(showroomDim(p))
-            .blur(radius: showroomID != nil && showroomID != p.id ? 4 : 0)
-            // ตัวที่ถูกหรี่หายในโชว์รูมยังอยู่ในต้นไม้ view (ผังต้องนิ่ง) — แต่ต้องไม่รับทัช
-            // ไม่งั้นแตะที่ว่างรอบชิ้นงานแล้วไปโดนตัวที่มองไม่เห็นซึ่งบังเอิญวางทับอยู่ตรงนั้น
+            // ตัวที่ถูกหรี่ในโชว์รูมยังอยู่ในต้นไม้ view (ผังต้องนิ่ง) — แต่ต้องไม่รับทัช
+            // ไม่งั้นแตะที่ว่างรอบชิ้นงานแล้วไปโดนตัวที่หรี่อยู่ซึ่งบังเอิญวางทับอยู่ตรงนั้น
             .allowsHitTesting(showroomID == nil || showroomID == p.id)
             .offset(x: p.frame.minX - parallaxShift(p.item, parallax: parallax, pageWidth: pageWidth)
                        + showroom(p).dx,
-                    y: p.frame.minY + showroom(p).dy
-                       + (showroomID == p.id ? showroomDrag : 0))
+                    y: p.frame.minY + showroom(p).dy)
             // ลำดับในลิสต์คือชั้นซ้อนจริง — ห้ามยกตัวที่เลือกขึ้นหน้า
             // ไม่งั้นกดปุ่มสลับชั้นแล้วจะไม่เห็นอะไรเกิดขึ้นเลยตอนมันยังถูกเลือกอยู่
             // ยกเว้นในโชว์รูม ซึ่งตัวที่แต่งอยู่ต้องอยู่หน้าสุดตามนิยาม
-            .zIndex(showroomID == p.id ? 400 : Double(order))
+            // ชิ้นที่ตรึง (ตรารับรอง) อยู่เหนือของทุกชิ้นบนหน้า แต่ใต้ชั้นลอยตอนลาก (200)
+            .zIndex(showroomID == p.id ? 400 : p.item.pinned ? 150 : Double(order))
             .animation(Motion.settle, value: showroomID)
+            // เป้าหมายกลางจอขยับตามความสูงแป้นพิมพ์ — เปลี่ยนเมื่อไหร่ต้องไหลตาม ไม่ใช่กระโดด
+            .animation(Motion.settle, value: keyboard)
+            .animation(Motion.settle, value: toolsH)
+    }
+
+    /// กระจกฝ้าคลุมทั้งหน้าตอนพิมพ์ — มืดสำหรับหมึกกลางคืน สว่างสำหรับกระดาษ ตัวอักษรที่พิมพ์จึงตัดกับพื้นเสมอ
+    ///
+    /// วัสดุของระบบเบลอทุกอย่างที่อยู่ข้างหลังในหน้าต่างเดียวกัน (ฉากหลัง · ชิ้นอื่น) ไม่ต้องเบลอทีละชิ้น
+    /// มุมเท่าการ์ด (ในหน่วยออกแบบ — หารสเกลกลับเหมือน `CardBackdrop`) จะได้อ่านเป็น "การ์ดกลายเป็นกระจก"
+    private var typingVeil: some View {
+        let light = theme.inkStyle.isLight
+        // มุมมนเฉพาะปลายกระดาษ — ช่องกลางของแผ่นต่อเนื่องไม่มีมุม ถ้ามนที่รอยต่อจะเห็นฉากหลังโผล่ตรงมุม
+        let r = 22 / max(pageFit, 0.01)
+        let lead: CGFloat = index == 0 ? r : 0
+        let trail: CGFloat = index == pages.count - 1 ? r : 0
+        let shape = UnevenRoundedRectangle(topLeadingRadius: lead, bottomLeadingRadius: lead,
+                                           bottomTrailingRadius: trail, topTrailingRadius: trail,
+                                           style: .continuous)
+        return shape.fill(.thinMaterial)
+            .overlay(shape.fill(light ? Color.white.opacity(0.28) : Color.black.opacity(0.30)))
+            .environment(\.colorScheme, light ? .light : .dark)
+            // แตะบนกระจก = แตะที่ว่าง (เสร็จ) — ปล่อยให้ทัชตกไปถึงตัวรับของทั้งสำรับ
+            .allowsHitTesting(false)
     }
 
     /// ตัวที่กำลังแต่งขยายขึ้น · ตัวอื่นถอยลงเล็กน้อยให้อ่านเป็น "ถอยออกไปข้างหลัง"
@@ -932,9 +1143,60 @@ struct CardScreen: View {
         return id == p.id ? showroom(p).scale : 0.92
     }
 
+    /// ชิ้นอื่นตอนพิมพ์ — หรี่แค่พอให้ยังเห็นเงาผ่านกระจกว่าก้อนจะกลับไปลงตรงไหน (กระจกทำงานที่เหลือ)
     private func showroomDim(_ p: Placed) -> Double {
         guard let id = showroomID else { return 1 }
-        return id == p.id ? 1 : 0
+        return id == p.id ? 1 : 0.6
+    }
+
+    /// ช่องพิมพ์ทับก้อนข้อความ — ขนาดเท่ากล่องแก้ไข (ดู `editBox`) วางกลาง tile ที่ถูกวาดขนาดเดียวกัน
+    ///
+    /// ขนาดตายตัว ไม่ยืดตาม tile: ระหว่างที่กล่องสปริงจากขนาดบนการ์ดมาเป็นขนาดแก้ไข
+    /// ช่องพิมพ์ต้องไม่ยืดตาม ไม่งั้นตัวอักษรถูกตัดขอบไปตลอดขาเข้า
+    private func canvasEditor(_ p: Placed) -> some View {
+        let e = editBox(p)
+        return CanvasTextField(id: TextSlotID(field: .note, widget: p.item.id),
+                               style: p.item.textStyle,
+                               ink: theme.inkStyle, accent: theme.accent,
+                               size: e.points)
+            // ช่องพิมพ์ใหญ่เท่า line box แล้วเลื่อนให้ **หมึก** ชิดมุมบนซ้ายของกล่อง (หักขอบ)
+            // — จุดเดียวกับที่ตัวอักษรบนการ์ดนั่ง (ดู `TextBlock`) กด เสร็จ แล้วจึงไม่มีอะไรขยับ
+            .frame(width: e.m.typo.width, height: e.m.typo.height)
+            .offset(x: TextBlock.inset - e.m.ink.minX, y: TextBlock.inset - e.m.ink.minY)
+    }
+
+    /// กล่องของก้อนข้อความ **คือตัวอักษรพอดี** — กว้างเท่าบรรทัดที่ยาวที่สุด สูงเท่าจำนวนบรรทัด
+    ///
+    /// เรียกทุกครั้งที่ข้อความหรือขนาดเปลี่ยน (พิมพ์ · Return · ลากหมุดมุม) ไม่มีจังหวะไหนที่กล่องกับตัวอักษร
+    /// ไม่ตรงกัน · ยึดขอบตามการจัดวางเวลาพิมพ์ (ชิดซ้ายยึดซ้าย · กลางยึดกลาง · ชิดขวายึดขวา)
+    /// ส่วนตอนลากหมุดมุมยึดมุมบนซ้ายเสมอ — มุมตรงข้ามกับหมุดต้องนิ่ง ไม่งั้นหมุดหนีนิ้ว
+    private func fitTextBlock(_ id: UUID, keepTopLeft: Bool = false) {
+        guard let pi = pages.firstIndex(where: { $0.items.contains { $0.id == id } }),
+              let i = pages[pi].items.firstIndex(where: { $0.id == id }) else { return }
+        var w = pages[pi].items[i]
+        let inset = TextBlock.inset
+        let content = PageLayout.content(pageSize)
+        let text = Profile.me.note(id)
+        let size = TextFit.capped(w.textStyle.points, text, face: w.textStyle.face,
+                                  weight: TextBlock.weight, maxWidth: content.width - inset * 2)
+        let m = TextFit.metrics(text, face: w.textStyle.face, weight: TextBlock.weight,
+                                size: size, align: w.textStyle.align)
+        // พอดี **หมึก** ถึงพอยต์ — ไม่ปัดเข้ากริด 6pt ไม่งั้นได้ขอบว่างข้างละ 0–3pt ที่ไม่มีใครขอ
+        let newW = min(m.ink.width + inset * 2, content.width)
+        let newH = m.ink.height + inset * 2
+        let old = w.rect
+        if !keepTopLeft {
+            switch w.textStyle.align {
+            case .leading:  break
+            case .center:   w.x = PageLayout.snap(old.midX - newW / 2)
+            case .trailing: w.x = PageLayout.snap(old.maxX - newW)
+            }
+        }
+        w.w = newW
+        w.h = newH
+        w.rect = PageLayout.clamp(w.rect, page: pageSize, min: PageLayout.minSize(for: .textBlock))
+        guard w != pages[pi].items[i] else { return }
+        pages[pi].items[i] = w
     }
 
     /// ปุ่มเปลี่ยนรูปหนึ่งปุ่มต่อหนึ่งช่องรูป — อ่านตำแหน่งช่องจาก anchor ที่ตัว widget ประกาศไว้
@@ -962,7 +1224,8 @@ struct CardScreen: View {
                 } else {
                     // ป้ายใต้ปุ่มกินความกว้างราว 130pt ทั้งแถว — ช่องที่แคบกว่านั้นให้เหลือแค่ไอคอน
                     PhotoSlotButton(theme: theme, widgetID: p.item.id, slot: slot.index,
-                                    order: order, labelled: r.width >= 132)
+                                    order: order, labelled: r.width >= 132,
+                                    scale: canvasScale)
                         // ชิดขวาบนของช่อง — คู่ปุ่ม (เปลี่ยน + ถอย) จึงงอกไปทางซ้าย ไม่ล้นออกนอกรูป
                         // .frame ไม่กินทัชในพื้นที่ว่าง ทัชนอกตัวปุ่มจึงตกไปถึง catcher ตามเดิม
                         .padding(5)
@@ -977,10 +1240,21 @@ struct CardScreen: View {
     ///
     /// `SFSafariViewController` รับเฉพาะ http/https · สคีมอื่น (deep link ของแอป) ต้องส่งให้ระบบ
     /// ไม่งั้นมันจะ crash ตอนสร้าง ไม่ใช่แค่เปิดไม่ขึ้น
+    ///
+    /// เว็บลิงก์ลองเปิด **แอปเจ้าของลิงก์ก่อน** (universal link — IG · TikTok · YouTube · LINE · FB)
+    /// ถ้าเครื่องไม่มีแอปนั้น ระบบตอบ false แล้วค่อยเปิดเบราว์เซอร์ในแอปแทน
+    /// คนดูการ์ดกดช่องโซเชียลเพราะอยากไปกดติดตามในแอป ไม่ใช่อยากอ่านหน้าเว็บ
     private func open(_ url: URL) {
         switch url.scheme?.lowercased() {
-        case "http", "https": link = LinkTarget(url: url)
-        default:              openURL(url)
+        // ปลายทางภายในแอป — widget ตรารับรองชี้มาที่แผ่นตรวจสอบ (ดู `VerifiedFacts.sheetURL`)
+        case "starcard":
+            if url.host == "verified" { showVerify = true }
+        case "http", "https":
+            UIApplication.shared.open(url, options: [.universalLinksOnly: true]) { opened in
+                if !opened { link = LinkTarget(url: url) }
+            }
+        default:
+            openURL(url)
         }
     }
 
@@ -1022,8 +1296,10 @@ struct CardScreen: View {
                 // ผูกกับโชว์รูมแล้วเส้นประแปลว่า "แตะได้เดี๋ยวนี้" ตรง ๆ — ตรงกับสิ่งที่กดแล้วเกิดขึ้นจริง
                 if focused {
                     ForEach(resolved.filter { $0.id != active?.id }, id: \.id) { slot in
+                        let box = Self.upright(slot.rect.size, tilt: slot.style.tilt)
                         TextSlotDashes(style: slot.style, accent: theme.accent)
-                            .frame(width: slot.rect.width + 6, height: slot.rect.height + 6)
+                            .frame(width: box.width + 6, height: box.height + 6)
+                            .rotationEffect(.degrees(slot.style.tilt))
                             .position(x: slot.rect.midX, y: slot.rect.midY)
                     }
                 }
@@ -1031,13 +1307,15 @@ struct CardScreen: View {
                 // ช่องที่กำลังพิมพ์ — กรอบทึบ + พื้นจาง บอกว่าตัวอักษรที่วิ่งอยู่คือก้อนนี้
                 // (ตัวพิมพ์จริงอยู่บนแถบเหนือคีย์บอร์ด ที่นี่เหลือแค่ "ชี้ว่าอันไหน")
                 if let active {
+                    let box = Self.upright(active.rect.size, tilt: active.style.tilt)
                     ZStack {
                         RoundedRectangle(cornerRadius: active.style.corner + 3, style: .continuous)
                             .fill(theme.accent.opacity(0.18))
                         RoundedRectangle(cornerRadius: active.style.corner + 3, style: .continuous)
                             .strokeBorder(theme.accent, lineWidth: 1.2)
                     }
-                    .frame(width: active.rect.width + 8, height: active.rect.height + 8)
+                    .frame(width: box.width + 8, height: box.height + 8)
+                    .rotationEffect(.degrees(active.style.tilt))
                     .position(x: active.rect.midX, y: active.rect.midY)
                     .allowsHitTesting(false)
                 }
@@ -1048,6 +1326,22 @@ struct CardScreen: View {
         }
     }
 
+    /// ขนาดจริงของกล่องที่ถูกหมุนไป `tilt` องศา — ย้อนจากกรอบตรงที่ anchor ให้มา
+    ///
+    /// anchor ของของที่หมุนอยู่ได้กรอบตรงที่ครอบมุมทั้งสี่ ซึ่งใหญ่กว่ากล่องจริง
+    /// แก้สมการกรอบครอบกลับ: W = w·cos + h·sin · H = w·sin + h·cos
+    /// (จุดกลางไม่ขยับตอนหมุน วางด้วย `midX/midY` ของกรอบครอบได้ตรง ๆ)
+    private static func upright(_ bound: CGSize, tilt: Double) -> CGSize {
+        guard tilt != 0 else { return bound }
+        let t = abs(tilt) * .pi / 180
+        let c = cos(t), s = sin(t)
+        // cos 2θ — แผ่นที่แปะเอียงไม่มีทางถึง 45° ถ้าถึงก็คืนกรอบครอบไปตามเดิม
+        let d = c * c - s * s
+        guard d > 0.1 else { return bound }
+        return CGSize(width: max(0, (bound.width * c - bound.height * s) / d),
+                      height: max(0, (bound.height * c - bound.width * s) / d))
+    }
+
     /// เส้นบาง ๆ บอกขอบเขตของทุกตัวในโหมดแต่ง — ตัวที่ถูกเลือกใช้กรอบเต็มในชั้นบนแทน
     /// กรอบประจำชิ้นในโหมดแต่ง — **เส้นประ ไม่ใช่เส้นจาง**
     ///
@@ -1055,7 +1349,7 @@ struct CardScreen: View {
     /// ผลคือโหมดแต่งกับโหมดดูหน้าตาเหมือนกันทุกประการ · เส้นประอ่านออกทันทีว่า
     /// "นี่คือขอบของชิ้นงาน" ไม่ใช่เส้นตกแต่ง และไม่ไปแข่งกับกรอบทึบของตัวที่ถูกเลือกอยู่
     private func editHairline(_ p: Placed) -> some View {
-        RoundedRectangle(cornerRadius: theme.radius, style: .continuous)
+        RoundedRectangle(cornerRadius: chromeRadius(p.item.kind), style: .continuous)
             .strokeBorder(theme.accent.opacity(editReveal ? 0.85 : 0.42),
                           style: StrokeStyle(lineWidth: editReveal ? 1.4 : 1,
                                              dash: [4.5, 3.5]))
@@ -1064,77 +1358,192 @@ struct CardScreen: View {
 
     /// กรอบเลือก + หมุดปรับขนาด — วาดที่ชั้นบนสุดของหน้า จึงไม่ถูก widget ที่ทับอยู่กลืน
     private func selectionLayer(_ p: Placed, interactive: Bool) -> some View {
-        let shape = RoundedRectangle(cornerRadius: theme.radius, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: chromeRadius(p.item.kind), style: .continuous)
         return ZStack {
             shape.strokeBorder(theme.accent, lineWidth: 1.5)
             shape.strokeBorder(theme.accent.opacity(0.18), lineWidth: 7).blur(radius: 5)
                 .matchedGeometryEffect(id: "selectionGlow", in: selectionNS)
-            ForEach(0..<4, id: \.self) { i in
-                Circle().fill(.white).frame(width: 8, height: 8)
-                    .overlay(Circle().strokeBorder(theme.accent, lineWidth: 1.6))
-                    .shadow(color: .black.opacity(0.4), radius: 3)
-                    .position(x: i % 2 == 0 ? 0 : p.frame.width,
-                              y: i < 2 ? 0 : p.frame.height)
+            // จุดมุมสี่จุดบอกว่า "ขอบลากได้" — ก้อนข้อความไม่มีหมุดขอบ และกล่องเล็กเท่าตัวอักษร
+            // จุดจะไปนั่งทับตัวแรกกับตัวสุดท้าย · มีแค่กรอบกับปุ่มมุมพอ
+            // ชิ้นที่ตรึงก็ไม่มีจุด — จุดแปลว่า "ลากขอบได้" ซึ่งมันทำไม่ได้
+            if p.item.kind != .textBlock, !p.item.pinned {
+                ForEach(0..<4, id: \.self) { i in
+                    Circle().fill(.white).frame(width: 8, height: 8)
+                        .overlay(Circle().strokeBorder(theme.accent, lineWidth: 1.6))
+                        .shadow(color: .black.opacity(0.4), radius: 3)
+                        .position(x: i % 2 == 0 ? 0 : p.frame.width,
+                                  y: i < 2 ? 0 : p.frame.height)
+                }
             }
         }
         .frame(width: p.frame.width, height: p.frame.height)
         // ปิดทัชแค่ตัวกรอบ — หมุดที่ครอบทีหลังยังกดได้ตามปกติ
         .allowsHitTesting(false)
+        // **สามหมุด หนึ่งความหมายต่อหมุด** — ขอบขวา = กว้าง · ขอบล่าง = สูง · มุม = ทั้งชิ้น
+        //
+        // **สองหมุด ไม่ใช่สาม** — ขอบขวา = กว้าง · ขอบล่าง = สูง · ไม่มีหมุดมุมอีกแล้ว
+        //
+        // หมุดมุมเคยแปลว่า "ทำให้ใหญ่ขึ้นทั้งใบตามสัดส่วนเดิม" ซึ่งเป็นท่าที่จำเป็นตอนที่ยังมีใบ
+        // ที่จัดหน้ามาตายตัว (โปสเตอร์) แล้วกรอบสัดส่วนอื่นทำให้มันเหลือที่ว่าง · พอทุกใบ
+        // จัดตัวเองได้ทั้งสองแกน ท่านั้นก็ไม่เหลือความหมาย: มันคือสองหมุดที่ลากพร้อมกัน
+        // แต่ *ห้าม* ผู้ใช้เลือกสัดส่วนเอง ซึ่งเป็นสิ่งเดียวที่การยืดกรอบมีไว้ให้ทำ
         .overlay(alignment: .trailing) {
-            if interactive, p.item.kind.canResizeWidth { widthHandle(p) }
+            if interactive, p.item.kind.canResize, !p.item.pinned { widthHandle(p) }
         }
         .overlay(alignment: .bottom) {
-            if interactive, p.item.kind.canResizeHeight { heightHandle(p) }
+            if interactive, p.item.kind.canResize, !p.item.pinned { heightHandle(p) }
         }
-        // ปุ่มประแจ — ทางเข้าเดียวของแผงเครื่องมือ
-        //
-        // อยู่บนตัว widget ไม่ใช่ในแถบบน เพราะมันคือคำสั่งที่มีเป้าหมายชัดเจน ("แต่งตัวนี้")
-        // ปุ่มในแถบบนต้องอธิบายเองว่าหมายถึงตัวไหน ส่วนปุ่มที่เกาะอยู่กับของไม่ต้องอธิบายเลย
-        //
-        // มุมขวาล่าง: มุมขวาบนเป็นที่ของปุ่มเปลี่ยนรูปแล้ว และหมุดปรับขนาดอยู่กึ่งกลางขอบ
+        // ก้อนข้อความยังมีหมุดมุม — แต่ของมันไม่ใช่การยืดกรอบ มันปรับ *ขนาดตัวอักษร*
+        // แล้วกล่องวิ่งตามตัวอักษร (ใบเดียวในตู้ที่กรอบเป็นผลลัพธ์ ไม่ใช่ตัวตั้ง)
         .overlay(alignment: .bottomTrailing) {
-            if interactive, showroomID == nil { toolButton() }
+            if interactive, p.item.kind == .textBlock { cornerHandle(p) }
         }
     }
 
-    /// ปุ่มเข้าแผงเครื่องมือของชิ้นที่เลือก — **มีคำ ไม่ใช่ไอคอนเปล่า**
+    /// หมุดขอบขวา — **ความกว้างอย่างเดียว** ความสูงไม่ขยับ
+    private func widthHandle(_ p: Placed) -> some View {
+        HandleGrip(theme: theme, axis: .horizontal)
+            // นั่งนอกกรอบ ไม่ใช่คร่อมขอบ — ดูเหตุผลที่ `HandleGrip`
+            .offset(x: 11)
+            .gesture(
+                // วัดใน space ของหน้า ไม่ใช่ของหมุด — หมุดเกาะขอบขวาของตัวที่กำลังยืด
+                // พอความกว้างเปลี่ยน หมุดขยับตาม ระยะลากใน local space จะถูกหักออกเท่านั้นพอดี
+                // กลายเป็นวงป้อนกลับ โต→ระยะลดลงต่ำกว่าเกณฑ์→หด→ระยะเด้งขึ้น→โต วนไม่จบ
+                DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
+                    .onChanged { g in
+                        guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
+                        if resizeID != p.id {
+                            resizeID = p.id
+                            resizeW = pages[index].items[i].w
+                            resizeScale = max(showroomScale(p), 0.01)
+                        }
+                        // เพดานคือขอบขวาของหน้า — ยืดเลยขอบไปก็ไม่มีที่ให้วาด
+                        let room = PageLayout.roomWidth(from: pages[index].items[i].x, page: pageSize)
+                        let want = resizeW + g.translation.width / resizeScale
+                        let cur = pages[index].items[i].w
+                        // ฮิสเทอรีซิส — ต้องลากพ้นครึ่งขั้นไปอีกหน่อยจึงเปลี่ยน
+                        // กันนิ้วสั่นคาเส้นแบ่งแล้วขนาดวูบไปมา
+                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
+                        let next = PageLayout.snap(min(max(want, PageLayout.minSize.width), room))
+                        if abs(next - cur) > 0.5 {
+                            pages[index].items[i].w = next
+                            Haptics.impact(.light)
+                        }
+                        // ลากเลยขีดแล้ว — ให้ "กรอบ" ยืดตามนิ้วแบบหนืด ตัว widget ไม่ขยับ
+                        let over = want - next
+                        overshoot.width = abs(over) < 0.5 ? 0 : rubber(over)
+                    }
+                    .onEnded { _ in
+                        endResize()
+                        Haptics.impact(.medium)
+                    }
+            )
+    }
+
+    /// หมุดขอบล่าง — **ความสูงอย่างเดียว**
     ///
-    /// ของเดิมเป็นวงกลมรูปประแจ ซึ่งอ่านไม่ออกว่าทำอะไร (ตอนเทสมีคนอ่านว่า
-    /// "เครื่องมือช่าง ฟังดูน่ากลัว" แล้วไม่กล้ากด) ไอคอนตัวนี้ไม่มีความหมายที่ใครรู้ร่วมกัน
-    /// ต่างจากลูกศรย้อนกลับหรือรูปถ่าย จึงต้องมีคำกำกับ ไม่ใช่หวังให้เดาถูก
-    ///
-    /// ย้ายลงมาห้อยใต้กรอบด้วย — ของเดิมนั่งคร่อมมุมกรอบพอดี ทัชที่พลาดขอบปุ่มจึงตกไปโดน
-    /// ชิ้นที่อยู่ข้างล่างแทน กลายเป็น "กดประแจแล้วการเลือกกระโดดไปชิ้นอื่น"
-    private func toolButton() -> some View {
-        Button(action: openTools) {
-            HStack(spacing: 4) {
-                Image(systemName: "wrench.and.screwdriver.fill")
-                    .font(.system(size: 10, weight: .semibold))
-                Text("แต่งชิ้นนี้").font(.sh(10, .semibold))
-            }
-            .foregroundStyle(.black.opacity(0.88))
-            .padding(.horizontal, 9)
-            .frame(height: 26)
-            .background(Capsule().fill(LinearGradient(
-                colors: [theme.accentSoft, theme.accent],
-                startPoint: .topLeading, endPoint: .bottomTrailing)))
-            .overlay(Capsule().strokeBorder(.white.opacity(0.32), lineWidth: 0.6))
-            .shadow(color: .black.opacity(0.42), radius: 7, y: 3)
+    /// ไม่มีเพดานล่างจากเนื้อหาอีกแล้ว (เคยมี `minHeight` ที่วัดความสูงที่เนื้อหาขอจริง)
+    /// เพราะการโชว์สเกลด้วยแกนที่คับที่สุดเสมอ — บีบเตี้ยลงได้เนื้อหาที่เล็กลงทั้งก้อน
+    /// ไม่ใช่เนื้อหาที่ถูกตัดครึ่ง จึงไม่มีอะไรให้ต้องกัน
+    private func heightHandle(_ p: Placed) -> some View {
+        HandleGrip(theme: theme, axis: .vertical)
+            .offset(y: 11)
+            .gesture(
+                // ดูเหตุผลที่ใช้ space ของหน้าใน `widthHandle`
+                DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
+                    .onChanged { g in
+                        guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
+                        if resizeID != p.id {
+                            resizeID = p.id
+                            resizeH = pages[index].items[i].h
+                            resizeScale = max(showroomScale(p), 0.01)
+                        }
+                        let room = PageLayout.roomHeight(from: pages[index].items[i].y, page: pageSize)
+                        let want = resizeH + g.translation.height / resizeScale
+                        let cur = pages[index].items[i].h
+                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
+                        let next = PageLayout.snap(min(max(want, PageLayout.minSize.height), room))
+                        if abs(next - cur) > 0.5 {
+                            pages[index].items[i].h = next
+                            Haptics.impact(.light)
+                        }
+                        let over = want - next
+                        overshoot.height = abs(over) < 0.5 ? 0 : rubber(over)
+                    }
+                    .onEnded { _ in
+                        endResize()
+                        Haptics.impact(.medium)
+                    }
+            )
+    }
+
+    /// หน้าตาของหมุดมุม — วงขาวกับลูกศรทแยง อ่านออกทันทีว่า "ลากแล้วทั้งชิ้นใหญ่ขึ้น"
+    private var cornerGrip: some View {
+        ZStack {
+            Circle().fill(.white).frame(width: 22, height: 22)
+                .overlay(Circle().strokeBorder(theme.accent, lineWidth: 1.6))
+                .shadow(color: .black.opacity(0.4), radius: 3)
+            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(theme.accent)
         }
-        .buttonStyle(.plain)
-        // ห้อยพ้นขอบล่างทั้งตัว — ไม่ทับเนื้อหา ไม่คร่อมขอบ และเยื้องขวาพ้นหมุดปรับความสูง
-        // ที่อยู่กึ่งกลางขอบล่าง
-        .offset(x: 6, y: 22)
-        .transition(.scale.combined(with: .opacity))
+        .frame(width: 44, height: 44)
+        .contentShape(Circle())
+    }
+
+    /// หมุดมุมของก้อนข้อความ — ปรับ **ขนาดตัวอักษร** ไม่ใช่ขนาดกล่อง
+    ///
+    /// ลากตามแนวทแยง: ออกจากมุมบนซ้าย = โต · เข้าหา = เล็ก · มุมบนซ้ายนิ่ง (ดู `fitTextBlock`)
+    /// ไม่มีหมุดกว้าง/สูง เพราะกล่องที่ดันตัวอักษรจนตัดบรรทัดคือการขึ้นบรรทัดใหม่แทนคนเขียน
+    private func cornerHandle(_ p: Placed) -> some View {
+        cornerGrip
+        // นั่ง **นอก** มุมกล่อง (ศูนย์กลางเลยมุมออกไป 8pt) — กล่องเล็กเท่าตัวอักษร ถ้าปุ่มอยู่ในมุม
+        // มันจะทับตัวอักษรที่ผู้ใช้กำลังจะย่อขยาย แล้วมองไม่เห็นผล
+        .offset(x: 30, y: 30)
+        .gesture(
+            // วัดใน space ของหน้า — เหตุผลเดียวกับ `scaleHandle`
+            DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
+                .onChanged { g in
+                    guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
+                    if resizeID != p.id {
+                        resizeID = p.id
+                        resizeW = pages[index].items[i].w
+                        resizeH = pages[index].items[i].h
+                        resizePoints = pages[index].items[i].textStyle.points
+                        resizeScale = max(showroomScale(p), 0.01)
+                    }
+                    // สัดส่วน = ระยะที่นิ้วเดินตามแนวทแยงของกล่องเดิม เทียบกับความยาวแนวทแยงนั้น
+                    let dx = g.translation.width / resizeScale
+                    let dy = g.translation.height / resizeScale
+                    let diag = max(hypot(resizeW, resizeH), 1)
+                    let along = (dx * resizeW + dy * resizeH) / diag
+                    let k = max(0.15, (diag + along) / diag)
+                    var want = min(max(resizePoints * k, TextFit.minSize), TextFit.maxSize)
+                    // ห้ามโตจนบรรทัดล้นหน้า — ตัวอักษรต้องเห็นครบเสมอ
+                    let item = pages[index].items[i]
+                    want = TextFit.capped(want, Profile.me.note(p.id), face: item.textStyle.face,
+                                          weight: TextBlock.weight,
+                                          maxWidth: PageLayout.content(pageSize).width - TextBlock.inset * 2)
+                    let cur = item.textStyle.points
+                    guard abs(want.rounded() - cur) >= 1 else { return }
+                    pages[index].items[i].textStyle.points = want.rounded()
+                    fitTextBlock(p.id, keepTopLeft: true)
+                }
+                .onEnded { _ in
+                    endResize()
+                    Haptics.impact(.medium)
+                }
+        )
     }
 
     private func dragLayer(_ p: Placed) -> some View {
-        WidgetChrome(placed: p, theme: theme)
+        // ใบที่ล็อกต้องหน้าตาเดิมตอนถูกยกขึ้นลาก (ตัวอย่าง + ชั้นเทา) — ไม่ใช่กลายเป็นป้ายรอข้อมูลกลางนิ้ว
+        WidgetChrome(placed: p, theme: theme, lockBadge: true)
             .frame(width: p.frame.width, height: p.frame.height)
             .scaleEffect(lifted ? 1.05 : 1.0)
             .shadow(color: .black.opacity(lifted ? 0.55 : 0), radius: lifted ? 30 : 0, y: lifted ? 16 : 0)
             .overlay {
-                RoundedRectangle(cornerRadius: theme.radius, style: .continuous)
+                RoundedRectangle(cornerRadius: chromeRadius(p.item.kind), style: .continuous)
                     .strokeBorder(theme.accent, lineWidth: 1.5)
             }
             .offset(x: dragStart.minX + dragTranslation.width,
@@ -1187,21 +1596,24 @@ struct CardScreen: View {
         guard pageSize.width > 0, let page = current else { return nil }
         // คิดจาก "ความกว้างจริงตอนนี้" ไม่ใช่ความกว้างเดิม ไม่งั้นตัวที่ถูกย่อไปแล้ว
         // จะถูกรูดกลับไปชิดซ้ายทุกครั้งที่ขยับนิ้ว
-        let liveW = dragWidth ?? p.item.w
         let at = PageLayout.snap(CGPoint(x: dragStart.minX + dragTranslation.width,
                                          y: dragStart.minY + dragTranslation.height))
-        var r = PageLayout.clamp(CGRect(origin: at,
-                                        size: CGSize(width: liveW, height: p.item.h)),
-                                 page: pageSize)
+        var probe = p.item
+        probe.w = dragWidth ?? p.item.w
+        probe.x = at.x
+        probe.y = at.y
+        probe.rect = PageLayout.clamp(probe, page: pageSize)
 
-        // ที่ว่างตรงนี้แคบกว่าตัวเอง → ย่อให้พอดีที่ แทนที่จะถูกดันลงไปข้างล่าง
+        // ที่ว่างตรงนี้แคบกว่าตัวเอง → **ย่อทั้งชิ้น** ให้พอดีที่ แทนที่จะถูกดันลงไปข้างล่าง
         // นี่คือสิ่งที่ทำให้ "ลากไปแทรกข้าง ๆ ตัวที่ย่อไว้" ทำได้จริง
-        let room = PageLayout.freeWidth(from: r.minX, y: r.minY, height: r.height,
+        // ยกเว้นก้อนข้อความ — ความกว้างของมันคือตัวอักษร ย่อเมื่อไหร่ตัวอักษรโดนตัด
+        let room = PageLayout.freeWidth(from: probe.x, y: probe.y, height: probe.h,
                                         page: pageSize, avoiding: page.items, excluding: p.id)
-        if room >= PageLayout.minSize.width {
-            r.size.width = min(p.item.w, max(PageLayout.minSize.width, PageLayout.snap(room)))
+        let floor = PageLayout.minSize.width
+        if p.item.kind != .textBlock, room >= floor {
+            probe.w = min(p.item.w, max(floor, PageLayout.snap(room)))
         }
-        return PageLayout.clamp(r, page: pageSize)
+        return PageLayout.clamp(probe, page: pageSize)
     }
 
     /// ช่องว่างขั้นต่ำระหว่างการจัดผังใหม่สองครั้งระหว่างลาก
@@ -1259,10 +1671,10 @@ struct CardScreen: View {
 
     /// เริ่มพิมพ์ช่องหนึ่ง — เรียกได้เฉพาะตอนอยู่ในโชว์รูมของ widget ตัวนั้น
     ///
-    /// **ไม่แตะ `showTools`** ชีตจะหลบให้คีย์บอร์ดเองผ่าน `showsToolSheet` โดยเจตนายังค้างอยู่
-    /// นี่คือสิ่งที่ทำให้กด เสร็จ แล้วได้เครื่องมือคืน แทนที่จะหลุดออกมาทั้งชั้น
+    /// **ไม่แตะ `dock`** — ชิ้นยังถูกเลือกอยู่ แถบล่างแค่หลบให้คีย์บอร์ดชั่วคราว
+    /// กด เสร็จ แล้วถาดของชิ้นจึงกลับมา แทนที่จะหลุดออกมาทั้งชั้น
     private func beginTextEdit(_ slot: TextSlotRect, on p: Placed) {
-        guard showroomID == p.id else { return }
+        guard selected == p.id else { return }
         guard Profile.me.editing != slot.id else { return }
         // ย้ายไปช่องใหม่ต้องเก็บค่าช่องเดิมก่อนเสมอ — แต่ปล่อยคีย์บอร์ดค้างไว้ ไม่ต้องหุบ
         commitTextEdit()
@@ -1293,35 +1705,78 @@ struct CardScreen: View {
         Profile.me.commit(id)
     }
 
+    /// เลือกชิ้น = เข้าโหมดของชิ้นนั้น (กติกาข้อ 3) · nil = กลับแถบหลัก (กติกาข้อ 4)
+    ///
+    /// **เลือกแล้วทุกอย่างยังอยู่ที่เดิม** — ไม่มีโชว์รูม ไม่มีปุ่มประแจอีกชั้น
+    /// ถาดของชิ้นโผล่ทันที · การ์ดย่อลงให้ทั้งใบอยู่เหนือถาด (ดู `editScale`) แต่ไม่เลื่อนไปหาชิ้นที่เลือก
     private func select(_ id: UUID?) {
         // แตะที่อื่นเมื่อไหร่คือจบการพิมพ์ — อยู่ก่อน guard เพราะแตะข้อความอีกช่องบน widget ตัวเดิม
         // จะไม่เปลี่ยนตัวที่เลือก แต่ยังต้องเก็บค่าของช่องเดิมก่อนย้ายไปช่องใหม่
         endTextEdit()
         // เลือกตัวอื่นคือจบการเล็งรูปด้วย — แผ่นลากที่ค้างอยู่บน widget ตัวเก่าจะกินทัชต่อไปเรื่อย ๆ
         photos.framing = nil
-        guard selected != id else { return }
-        withAnimation(Motion.snap) { selected = id }
-        // **เลือกแล้วไม่เปิดชีต** — เลือกกับแต่งเป็นคนละความตั้งใจ
-        //
-        // เดิมเลือกปุ๊บชีตขึ้นปั๊บ ผลคือทุกครั้งที่แค่อยากลาก/ย้าย/แตะข้อความ ชีตก็เด้งมาบังครึ่งจอ
-        // แล้วแคนวาสถูกย่อ+ดันขึ้นตามไปด้วย ทั้งที่ยังไม่ได้จะแต่งอะไรเลย
-        // ตอนนี้ต้องกดปุ่มประแจบนตัว widget ถึงจะเข้าโหมดแต่ง — ดู `toolButton`
+        let target: DockMode = id.map { .piece($0) } ?? .main
+        guard dock != target else { return }
+        withAnimation(Motion.settle) { dock = target }
         if id != nil { Haptics.impact(.light) }
     }
 
-    /// ปิดแผงเครื่องมือ — ของทั้งหน้าไหลกลับเข้าที่ ตัวที่เลือกยังเลือกอยู่
-    private func closeTools() {
-        endTextEdit()
-        withAnimation(Motion.settle) { showTools = false }
+    /// กลับแถบหลัก — ‹ · แตะที่ว่าง · เปลี่ยนหน้า ล้วนมาลงที่นี่
+    private func goMain() {
+        if dock.isText { exitTextMode(); return }
+        guard !dock.isMain else { return }
+        select(nil)
         Haptics.impact(.light)
     }
 
-    /// เปิดแผงเครื่องมือของ widget ที่เลือกอยู่ พร้อมเข้าโหมดโชว์รูม
-    private func openTools() {
+    /// เข้าโหมดพิมพ์ก้อนข้อความ — ก้อนยกขึ้นกลางที่ว่าง แป้นพิมพ์ขึ้นพร้อมแถวฟอนต์ (ดู `TextTools` · พิมพ์บนการ์ดผ่าน `CanvasTextField`)
+    private func enterTextMode(_ id: UUID) {
+        guard pages.contains(where: { $0.items.contains { $0.id == id && $0.kind == .textBlock } })
+        else { return }
+        photos.framing = nil
+        // หนึ่งรอบพิมพ์ = หนึ่งจังหวะใน ↶ — บันทึกก่อนเข้า แล้วไม่บันทึกทุกครั้งที่กล่องขยับตามตัวอักษร
+        history.record(.init(pages: pages, theme: theme))
+        withAnimation(Motion.settle) {
+            dock = .text(id)
+            Profile.me.editing = TextSlotID(field: .note, widget: id)
+        }
+        Haptics.impact(.light)
+    }
+
+    /// เสร็จ — เก็บข้อความ หุบคีย์บอร์ด ก้อนไหลกลับเข้าที่ของมัน แล้วกลับแถบหลัก (ท่าเดียวกับ IG)
+    private func exitTextMode() {
+        guard case .text(let id) = dock else { return }
         endTextEdit()
-        sheetDetent = SheetStop.normal
-        withAnimation(Motion.settle) { showTools = true }
-        Haptics.impact(.medium)
+        // ก้อนที่ว่างเปล่าตอนเสร็จหายไปเอง (สติกเกอร์ข้อความเปล่าของ IG ก็หาย) — ไม่ว่าจะเพิ่งสร้าง
+        // หรือลบตัวอักษรจนหมด · อยากได้คืนมี ↶
+        let empty = Profile.me.note(id) == Profile.notePlaceholder
+        skipHistory = true
+        DispatchQueue.main.async { skipHistory = false }
+        withAnimation(Motion.settle) {
+            if empty {
+                for pi in pages.indices { pages[pi].items.removeAll { $0.id == id } }
+            } else {
+                fitTextBlock(id)
+            }
+            dock = .main
+        }
+        // ข้อความอยู่ใน `Profile` ไม่ใช่ใน `pages` — บันทึกใบเองตรงนี้ ให้ id ของก้อนลงไฟล์คู่กับข้อความ
+        // ไม่งั้นใบที่กู้มาจากไฟล์เก่า (ยังไม่มี id) จะไม่ถูกเขียนใหม่ แล้วเปิดแอปรอบหน้าข้อความหาย
+        persist()
+        Haptics.impact(.light)
+    }
+
+    /// ปุ่ม "ข้อความ" บนแถบหลัก — วางก้อนใหม่แล้วเข้าโหมดพิมพ์ทันที ไม่มีขั้นเลือกแบบคั่นกลาง
+    private func addText() {
+        guard let id = addWidget(.textBlock) else { return }
+        // ก้อนใหม่จัดกลางเหมือนข้อความบน Story — ตอนยกขึ้นพิมพ์กลางจอ ตัวอักษรชิดซ้ายจะดูหลุดกรอบ
+        for pi in pages.indices {
+            if let i = pages[pi].items.firstIndex(where: { $0.id == id }) {
+                pages[pi].items[i].textStyle.align = .center
+            }
+        }
+        // `addWidget` เลือกชิ้นใหม่แบบเลื่อนไปหนึ่งรอบ (เผื่อเปลี่ยนหน้า) — เข้าโหมดพิมพ์ต่อจากนั้น
+        DispatchQueue.main.async { enterTextMode(id) }
     }
 
     /// หยิบของออกจากตู้ → หา **หน้าที่ยังมีที่ว่างจริง** ให้มัน
@@ -1338,8 +1793,9 @@ struct CardScreen: View {
     /// ตอนนี้จึงไล่หาหน้าที่รับได้ (หน้าปัจจุบันก่อน แล้ววนไปหน้าถัดไป) แล้วพาผู้ใช้ไปหน้านั้น
     /// ไม่มีหน้าไหนรับได้เลยก็ **เปิดหน้าใหม่** — พอร์ตที่ของล้นหน้าคือพอร์ตที่ต้องมีหน้าเพิ่ม
     /// ไม่ใช่พอร์ตที่ต้องเอาของมากองทับกัน
-    private func addWidget(_ kind: WidgetKind) {
-        guard pages.indices.contains(index) else { return }
+    @discardableResult
+    private func addWidget(_ kind: WidgetKind) -> UUID? {
+        guard pages.indices.contains(index) else { return nil }
         var w = WidgetInstance(kind)
 
         // ไล่จากหน้าที่เปิดอยู่ → ท้ายเล่ม → วนกลับมาหน้าแรก
@@ -1365,20 +1821,22 @@ struct CardScreen: View {
         // และย่อลงหน้าที่ **กำลังดูอยู่** เท่านั้น เพราะขนาดเต็มถูกลองครบทุกหน้าไปแล้วข้างบน
         var shrunk = false
         if dest == nil, pages.count >= format.pageCount {
-            let floor = max(PageLayout.minSize.height, PageLayout.snap(w.h * 0.6))
-            var h = w.h - PageLayout.step
-            while h >= floor {
-                if let at = PageLayout.freeSpot(size: CGSize(width: w.w, height: h),
-                                                page: pageSize,
+            // ย่อ **ทั้งชิ้น** ทีละขั้น — สัดส่วนล็อก การย่อจึงมีปุ่มเดียวคือความกว้าง
+            // (ของเดิมหั่นความสูงอย่างเดียวจนได้ชิ้นที่ผังเพี้ยน แล้วอ่านเป็น "แอปวางผิด")
+            let floor = max(PageLayout.minSize.width, PageLayout.snap(w.w * 0.6))
+            var width = w.w - PageLayout.step
+            while width >= floor {
+                let size = CGSize(width: width, height: w.h * width / max(w.w, 1))
+                if let at = PageLayout.freeSpot(size: size, page: pageSize,
                                                 avoiding: pages[index].items) {
-                    w.h = h
+                    w.scale(toWidth: width)
                     w.x = at.x
                     w.y = at.y
                     dest = index
                     shrunk = true
                     break
                 }
-                h -= PageLayout.step
+                width -= PageLayout.step
             }
         }
 
@@ -1392,9 +1850,10 @@ struct CardScreen: View {
             warn(format.pageCount == 1
                  ? "เพิ่มไม่ได้ · หน้าเต็มแล้ว — ย่อหรือเอาของออกก่อน"
                  : "เพิ่ม\(kind.title)ไม่ได้ · ครบ \(format.pageCount) หน้าและเต็มทุกหน้าแล้ว")
-            return
+            return nil
         }
 
+        let moved = dest.map { $0 != index } ?? true
         withAnimation(Motion.flow) {
             if let d = dest {
                 // ต่อท้ายลิสต์ = ได้สิทธิ์ที่นั่งทีหลังสุดเวลาชนกัน ของใหม่จึงเป็นฝ่ายหลบ
@@ -1412,23 +1871,24 @@ struct CardScreen: View {
         DispatchQueue.main.async { select(w.id) }
         Haptics.impact(.medium)
         // ของที่โผล่มาเล็กกว่าที่เห็นในตู้ต้องมีคำอธิบาย ไม่งั้นอ่านเป็น "แอปวางผิด"
-        if shrunk { flash("ที่ว่างไม่พอขนาดเต็ม — ย่อให้พอดีแล้ว ลากขอบปรับต่อได้") }
+        if shrunk {
+            flash("ที่ว่างไม่พอขนาดเต็ม — ย่อให้พอดีแล้ว ลากหมุดมุมปรับต่อได้")
+        } else if moved, kind != .textBlock {
+            // ลงหน้าอื่นเพราะหน้านี้เต็ม — หน้าปัดไปแล้วแต่ต้องบอกด้วยว่าทำไม ไม่งั้นอ่านเป็นแอปเปลี่ยนหน้าเอง
+            flash("หน้านี้เต็ม — เพิ่มไว้หน้า \(index + 1) แล้ว")
+        }
+        return w.id
     }
 
     // MARK: - Drag
 
     private func beginDrag(_ p: Placed) {
-        // คลิปเป็นตัวเปิดการ์ด — กดค้างแล้วห้ามหลุดเข้าโหมดแต่ง
-        if viewOnly { return }
+        // คลิปเป็นตัวเปิดการ์ด — กดค้างแล้วห้ามลาก · ชิ้นที่ตรึงก็เช่นกัน
+        if viewOnly || p.item.pinned { return }
         endTextEdit()
-        // กดค้างจากโหมดดู = เข้าโหมดแต่งแล้วลากต่อได้ทันที (แบบ home screen ของ iOS)
-        // ชีตขึ้นแบบหุบเป็นแถบเตี้ย ๆ — แคนวาสยังใหญ่เกือบเต็ม
-        if !isEditing {
-            withAnimation(Motion.settle) { isEditing = true }
-            sheetDetent = SheetStop.compact
-        }
         guard dragID == nil, let live = placed.first(where: { $0.id == p.id }) else { return }
-        select(p.id)
+        // **ไม่เลือกชิ้นตอนเริ่มลาก** — เลือก = ถาดของชิ้นโผล่ = การ์ดย่อใต้นิ้วกลางการลาก
+        // ชั้นลอยมีกรอบสีเน้นของตัวเองอยู่แล้ว · อยากแต่งค่อยแตะหลังวาง (ดู `endDrag`)
         withAnimation(Motion.snap) { swipe = 0 }
         dragID = p.id
         dragItem = p.item
@@ -1463,7 +1923,7 @@ struct CardScreen: View {
         // ค่าที่คอมมิตมาจาก `hover` ซึ่งหน่วง 170ms ก่อนเซ็ต ถ้าผู้ใช้ลากแล้วปล่อยเร็วกว่านั้น
         // งานที่รออยู่จะถูกยกเลิกใน `endDrag` แล้ว `dragSlot` ยังเป็นช่อง**เดิมตอนยกขึ้น**
         // ผลคือของเด้งกลับที่เดิมทุกครั้งที่ลากเร็ว ซึ่งอ่านออกมาเป็น "วางไม่ติด"
-        let drop = target(p) ?? PageLayout.clamp(p.item.rect, page: pageSize)
+        let drop = target(p) ?? PageLayout.clamp(p.item, page: pageSize)
 
         // ปล่อยนิ้วบนหน้าอื่นที่ไม่ใช่หน้าต้นทาง — ย้าย item จริงตอนนี้ ต่อท้าย = ขึ้นชั้นบนสุด
         if let src = pages.firstIndex(where: { pg in pg.items.contains { $0.id == p.id } }),
@@ -1503,6 +1963,8 @@ struct CardScreen: View {
             dragOrigin = nil
             dragWidth = nil
         }
+        // **วางแล้วแถบล่างอยู่ในสถานะเดิม** — ลากคือย้ายที่ ไม่ใช่เลือก
+        // (เคยสลับถาดมาชี้ชิ้นที่เพิ่งวาง ซึ่งอ่านเป็น "ปล่อยนิ้วแล้วชีตเด้ง" · อยากแต่งค่อยแตะ)
     }
 
     /// วางไม่ได้ — คืนของกลับตำแหน่งเดิม แล้วให้ชั้นลอย "สปริงเด้งกลับ" ไปที่บ้านของมัน
@@ -1574,41 +2036,6 @@ struct CardScreen: View {
         Haptics.impact(.medium)
     }
 
-    /// แถวต่ำสุดที่เนื้อหาของตัวนี้ยังไม่เละ
-    ///
-    /// # ทำไมวัดแทนที่จะตั้งเป็นตัวเลข
-    ///
-    /// ค่าที่ตั้งด้วยมือผิดเสมอ — ตั้งสูงไปผู้ใช้ย่อไม่ได้ ตั้งต่ำไปเนื้อหาถูกตัด
-    /// และพอแก้เนื้อหาใน widget ทีหลัง ตัวเลขที่ตั้งไว้ก็ไม่ตามไปด้วย (เพิ่งเจอกับ `ผู้ติดตาม`)
-    ///
-    /// ตัวนี้วัดความสูงที่เนื้อหา *ขอ* จริงตอนไม่ถูกบีบ แล้วคืนเป็น pt ตรง ๆ
-    ///
-    /// widget ที่วางผังด้วย `GeometryReader` (รูป · กริด · แถบวิ่ง) จะขอความสูงน้อยมาก
-    /// เพราะมันยืดหดตามกรอบได้อยู่แล้ว — ซึ่งถูกต้อง พวกนี้ควรย่อได้ลึกกว่าตัวที่เป็นตัวหนังสือ
-    private func minHeight(for p: Placed) -> CGFloat {
-        guard let h = contentH, h > 1 else { return PageLayout.minSize.height }
-        let inset: CGFloat = p.item.kind.isFullBleed || !p.item.border ? 0 : 12
-        let need = PageLayout.snap((h + inset * 2).rounded(.up))
-        return min(max(need, PageLayout.minSize.height),
-                   PageLayout.content(pageSize).height)
-    }
-
-    /// สำเนาที่ซ่อนไว้สำหรับวัดความสูงของเนื้อหา — วัดเฉพาะตัวที่เลือกอยู่ตัวเดียว
-    /// (วัดทุกตัวตลอดเวลาแปลว่าวาด widget ซ้ำสองชุดทั้งหน้า ซึ่งไม่คุ้ม)
-    private func contentProbe(_ p: Placed) -> some View {
-        let inset: CGFloat = p.item.kind.isFullBleed || !p.item.border ? 0 : 12
-        let w = max(1, p.frame.width - inset * 2)
-        return WidgetBody(kind: p.item.kind, theme: theme,
-                          size: CGSize(width: w, height: 2000))
-            .frame(width: w)
-            .fixedSize(horizontal: false, vertical: true)
-            .hidden()
-            .allowsHitTesting(false)
-            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { h in
-                contentH = h
-            }
-    }
-
     /// แรงต้านตอนลากเลยขีด — ยิ่งลากไกลยิ่งขยับน้อยลง แล้วตันที่ ~26pt
     /// สูตรเดียวกับ overscroll ของ UIScrollView: ผู้ใช้รู้ทันทีว่า "ยังลากได้ แต่ไม่ไปแล้ว"
     private func rubber(_ d: CGFloat) -> CGFloat {
@@ -1630,168 +2057,41 @@ struct CardScreen: View {
         withAnimation(.interpolatingSpring(stiffness: 300, damping: 20)) { overshoot = .zero }
     }
 
-    private func widthHandle(_ p: Placed) -> some View {
-        HandleGrip(theme: theme, axis: .horizontal)
-            // นั่งนอกกรอบ ไม่ใช่คร่อมขอบ — ดูเหตุผลที่ `HandleGrip`
-            .offset(x: 11)
-            .gesture(
-                // วัดใน space ของหน้า ไม่ใช่ของหมุด — หมุดเกาะขอบขวาของตัวที่กำลังยืด
-                // พอความกว้างเปลี่ยน หมุดขยับตาม ระยะลากใน local space จะถูกหักออกเท่านั้นพอดี
-                // กลายเป็นวงป้อนกลับ โต→ระยะลดลงต่ำกว่าเกณฑ์→หด→ระยะเด้งขึ้น→โต วนไม่จบ
-                // (.global ก็ใช้ไม่ได้ เพราะแคนวาสถูก .scaleEffect ย่อในโหมดแต่ง หน่วยจะไม่ตรงกับผัง)
-                DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
-                    .onChanged { g in
-                        guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
-                        if resizeID != p.id {
-                            resizeID = p.id
-                            resizeW = pages[index].items[i].w
-                            resizeScale = max(showroomScale(p), 0.01)
-                        }
-                        // เพดานคือขอบขวาของหน้า — ยืดเลยขอบไปก็ไม่มีที่ให้วาด
-                        let room = PageLayout.roomWidth(from: pages[index].items[i].x, page: pageSize)
-                        let want = resizeW + g.translation.width / resizeScale
-                        let cur = pages[index].items[i].w
-                        // ฮิสเทอรีซิส — ต้องลากพ้นครึ่งขั้นไปอีกหน่อยจึงเปลี่ยน
-                        // กันนิ้วสั่นคาเส้นแบ่งแล้วขนาดวูบไปมา
-                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
-                        let next = PageLayout.snap(min(max(want, PageLayout.minSize.width), room))
-                        if abs(next - cur) > 0.5 {
-                            pages[index].items[i].w = next
-                            Haptics.impact(.light)
-                        }
-                        // ลากเลยขีดแล้ว — ให้ "กรอบ" ยืดตามนิ้วแบบหนืด ตัว widget ไม่ขยับ
-                        // ผู้ใช้จึงรู้ว่าสุดแล้วจากแรงต้าน ไม่ใช่จากการที่จู่ ๆ นิ้วไม่มีผล
-                        let over = want - next
-                        overshoot.width = abs(over) < 0.5 ? 0 : rubber(over)
-                    }
-                    .onEnded { _ in
-                        endResize()
-                        Haptics.impact(.medium)
-                    }
-            )
-    }
-
-    private func heightHandle(_ p: Placed) -> some View {
-        HandleGrip(theme: theme, axis: .vertical)
-            .offset(y: 11)
-            .gesture(
-                // ดูเหตุผลที่ใช้ space ของหน้าใน `widthHandle`
-                DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
-                    .onChanged { g in
-                        guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
-                        if resizeID != p.id {
-                            resizeID = p.id
-                            resizeH = pages[index].items[i].h
-                            resizeScale = max(showroomScale(p), 0.01)
-                        }
-                        let room = PageLayout.roomHeight(from: pages[index].items[i].y, page: pageSize)
-                        let want = resizeH + g.translation.height / resizeScale
-                        let cur = pages[index].items[i].h
-                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
-                        // เพดานล่างมาจาก **ความสูงที่เนื้อหาขอจริง** ไม่ใช่ตัวเลขที่ตั้งด้วยมือ
-                        // ย่อต่ำกว่านี้เมื่อไหร่เนื้อหาถูกตัด ซึ่งเป็นสิ่งที่ผู้ใช้ไม่ควรทำได้โดยบังเอิญ
-                        let floor = minHeight(for: p)
-                        let next = PageLayout.snap(min(max(want, floor), room))
-                        if abs(next - cur) > 0.5 {
-                            pages[index].items[i].h = next
-                            Haptics.impact(.light)
-                        }
-                        let over = want - next
-                        overshoot.height = abs(over) < 0.5 ? 0 : rubber(over)
-                    }
-                    .onEnded { _ in
-                        endResize()
-                        Haptics.impact(.medium)
-                    }
-            )
-    }
-
     // MARK: - Chrome
 
+    /// แถบบน — **สามคอลัมน์กว้างเท่ากัน** ตัวบอกช่องจึงอยู่กลางจอเป๊ะ ไม่ว่าสองข้างจะมีปุ่มกี่ปุ่ม
+    ///
+    /// # สมดุล
+    ///
+    /// เดิมตัวบอกช่องถูกวางทับกลางแถบ แต่ข้างขวามีของสามชิ้น (↶ ↷ + ป้าย "แชร์") ข้างซ้ายชิ้นเดียว
+    /// น้ำหนักสายตาเทไปขวาทั้งแถบ ตัวบอกช่องเลยดูถูกเบียด
+    ///
+    /// ตอนนี้: ซ้าย = ของรอง (กลับคลัง · ↶ ↷) เป็นกระจกใส · ขวา = **ปุ่มเดียว** คือแชร์ เป็นวงกลมทึบสีเน้น
+    /// วงทึบสีเดียวหนักเท่ากับกระจกใสสองชิ้น สองข้างจึงถ่วงกันพอดี และมุมทั้งสองเป็นวงกลม 40pt เท่ากัน
+    /// ปุ่มหลักอยู่มุมขวาบนคนเดียวตามธรรมเนียม iOS — สายตาไม่ต้องเลือกว่าจะกดอะไร
     private var topBar: some View {
         VStack {
             GlassEffectContainer(spacing: 14) {
-                HStack(spacing: 10) {
-                    if viewOnly {
-                        shareButton
-                    } else {
-                        // ทางกลับไปเลือกแบบ — โผล่เฉพาะตอนไม่ได้แต่งอยู่
-                        //
-                        // ระหว่างแต่งมีของค้างมือเสมอ (ตัวที่เลือก · ชีต · คีย์บอร์ด)
-                        // ปุ่มพาออกจากทั้งหน้าจอที่นั่งอยู่ข้าง ๆ ปุ่ม "เสร็จ" คือปุ่มที่รอถูกกดผิด
-                        if !isEditing, let onChangeFormat {
-                            Button {
-                                Haptics.impact(.light)
-                                // ดูเฉย ๆ แล้วออก = ไม่เกิดการ์ด — คลังเก็บเฉพาะของที่ตั้งใจทำ
-                                if discardIfUntouched, !touched, let cardID {
-                                    CardLibrary.shared.delete(cardID)
-                                }
-                                onChangeFormat()
-                            } label: {
-                                Image(systemName: "chevron.left")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .frame(width: 30, height: 22)
-                            }
-                            .buttonStyle(.glass)
-                            .accessibilityLabel("เปลี่ยนแบบการ์ด")
+                HStack(spacing: 8) {
+                    HStack(spacing: 8) {
+                        if viewOnly {
+                            if let onClose { closeButton(onClose) }
+                            stageMark
+                        } else {
+                            if dock.isMain, let onChangeFormat { libraryButton(onChangeFormat) }
+                            undoRedo
                         }
-
-                        // แต่ง — ซ้ายบน · ทางเข้าชีตควบคุมล่าง
-                        Button {
-                            withAnimation(Motion.settle) {
-                                isEditing.toggle()
-                                if !isEditing {
-                                    endTextEdit()
-                                    photos.framing = nil
-                                    selected = nil
-                                    showTools = false
-                                }
-                            }
-                            Haptics.impact(.medium)
-                        } label: {
-                            Text(isEditing ? "เสร็จ" : "แต่ง")
-                                .font(.sh(13, .semibold)).frame(minWidth: 34)
-                        }
-                        .buttonStyle(.glassProminent)
-                        .tint(theme.accent)
-
-                        if isEditing { toolsButton }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Spacer()
+                    if multiPage { pageDots }
 
-                    if viewOnly {
-                        Button {
-                            showHire = true
-                            Haptics.impact(.medium)
-                        } label: {
-                            Text("คุยงาน")
-                                .font(.sh(13, .semibold)).frame(minWidth: 34)
-                        }
-                        .buttonStyle(.glassProminent)
-                        .tint(theme.accent)
-                    } else {
-                        shareButton
-                        // เพิ่ม widget — ขวาบน · เปิดตู้อย่างเดียว ไม่เด้งชีตแต่ง
-                        Button {
-                            endTextEdit()
-                            selected = nil
-                            clearNotice()
-                            // เข้าโหมดแต่งไปเลย — ของที่เพิ่งเพิ่มจะโผล่มาพร้อมหมุดและถูกเลือกไว้
-                            // เพิ่มจากโหมดดูแล้วมันจะลงไปเงียบ ๆ โดยไม่มีอะไรบนจอเปลี่ยนสักอย่าง
-                            // (`addWidget` สั่ง `select` ไว้แล้ว แต่การเลือกมองเห็นได้เฉพาะตอนแต่ง)
-                            if !isEditing { withAnimation(Motion.settle) { isEditing = true } }
-                            showGallery = true
-                            Haptics.impact(.light)
-                        } label: {
-                            // SF Symbol ตรง ๆ — SHIcon เป็น asset ของแบรนด์ ไม่มี glyph บวก
-                            Image(systemName: "plus")
-                                .font(.system(size: 15, weight: .semibold))
-                                .frame(width: 34, height: 22)
-                        }
-                        .buttonStyle(.glass)
-                        .accessibilityLabel("เพิ่ม widget")
+                    HStack(spacing: 8) {
+                        // โหมดดูไม่มีปุ่มขอใบเสนอราคา — คนดูติดต่อผ่านช่องบนการ์ดเอง (เบอร์ · ไลน์ · อีเมล)
+                        // แชร์ย้ายมาขวาแทน ให้มุมขวายังมีปุ่มถ่วงกับฝั่งซ้าย
+                        shareButton(prominent: !viewOnly)
                     }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .padding(.horizontal, 14).padding(.vertical, 9)
             }
@@ -1800,57 +2100,309 @@ struct CardScreen: View {
         }
     }
 
-    /// สวิตช์ชีตเครื่องมือ — ติดสีเมื่อเปิด เพราะมันเป็นปุ่มค้างสถานะ ไม่ใช่ปุ่มสั่งงานครั้งเดียว
-    @ViewBuilder
-    private var toolsButton: some View {
-        let btn = Button {
-            showGallery = false
-            endTextEdit()
-            withAnimation(Motion.settle) {
-                showTools.toggle()
-                // ปิดแล้วต้องไม่เหลือชีตค้างเพราะ widget ที่เลือกไว้ — ปุ่มนี้คือสวิตช์ของชีตทั้งใบ
-                selected = nil
-            }
-            if showTools { sheetDetent = fittingDetent }
+    /// ทางกลับคลัง — โผล่เฉพาะแถบหลัก และเป็นไอคอนคลัง ไม่ใช่ ‹
+    ///
+    /// ‹ บนจอต้องมีตัวเดียวคือตัวที่หัวชีต — ถ้าซ้ายบนก็เป็น ‹ ด้วย
+    /// ความเคยชินของ iOS จะพานิ้วมากดตัวนี้เวลาแค่อยากปิดชีต แล้วหลุดออกจากการ์ดทั้งใบ
+    private func libraryButton(_ onChangeFormat: @escaping () -> Void) -> some View {
+        Button {
             Haptics.impact(.light)
+            // ดูเฉย ๆ แล้วออก = ไม่เกิดการ์ด — คลังเก็บเฉพาะของที่ตั้งใจทำ
+            if discardIfUntouched, !touched, let cardID {
+                CardLibrary.shared.delete(cardID)
+            }
+            onChangeFormat()
         } label: {
-            Image(systemName: "paintpalette.fill")
-                .font(.system(size: 14, weight: .semibold))
-                .frame(width: 34, height: 22)
+            Image(systemName: "square.grid.2x2")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.92))
+                .frame(width: 40, height: 40)
+                .contentShape(Circle())
         }
-        .accessibilityLabel("เครื่องมือแต่งการ์ด")
+        .buttonStyle(DockPress())
+        .glassEffect(.regular.interactive(), in: Circle())
+        .accessibilityLabel("กลับคลังการ์ด")
+        .transition(.opacity.combined(with: .scale(scale: 0.8)))
+    }
 
-        if showTools {
-            btn.buttonStyle(.glassProminent).tint(theme.accent)
-        } else {
-            btn.buttonStyle(.glass)
+    /// ปิดหน้าดู — โผล่เฉพาะตอนเปิดจากคลัง ("ดูแบบที่แบรนด์เห็น")
+    private func closeButton(_ action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.impact(.light)
+            action()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.92))
+                .frame(width: 40, height: 40)
+                .contentShape(Circle())
         }
+        .buttonStyle(DockPress())
+        .glassEffect(.regular.interactive(), in: Circle())
+        .accessibilityLabel("ปิด")
+    }
+
+    /// ตราของเวที — มุมซ้ายบนของหน้าดู ที่เดิมทุกครั้ง เหมือนดอกจันของ Linktree
+    /// เล็ก ย้อมขาว และไม่อยู่บนการ์ด — มันบอกว่า "ที่นี่คือ Sale Here" ไม่ได้บอกว่าการ์ดเป็นของใคร
+    private var stageMark: some View {
+        StarLockup(height: 13, tint: .white.opacity(0.92))
+            .padding(.horizontal, 13)
+            .frame(height: 40)
+            .glassEffect(.regular, in: Capsule())
+    }
+
+    /// ท้ายหน้าดู — ปุ่ม "ติดต่อ" ปุ่มเดียว (flow เดียวกับหน้าโปรไฟล์ครีเอเตอร์ใน salehere-ios)
+    /// หน้าตาเป็นภาษาของเวทีนี้: แคปซูลกระจกสูง 54 ชุดเดียวกับปุ่มแถบบน ไม่ใช่ปุ่มแดงทึบของแอปหลัก
+    private var viewerFooter: some View {
+        Button {
+            Haptics.impact(.medium)
+            showContact = true
+        } label: {
+            HStack(spacing: 8) {
+                SymbolIcon(name: "ic-addressbook-outline", size: 18, tint: .white)
+                Text("ติดต่อ").font(.sh(15, .semibold)).foregroundStyle(.white)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 54)
+            .contentShape(Capsule())
+        }
+        .buttonStyle(DockPress())
+        .glassEffect(.regular.interactive(), in: Capsule())
+        .padding(.horizontal, 20)
+        .padding(.bottom, 10)
+        .accessibilityLabel("ติดต่อ")
+    }
+
+    /// มุมขวาบนตอนพิมพ์ — คำเดียว ไม่มีกระจก ไม่มีอะไรแย่งตาจากตัวอักษร
+    private var textTopBar: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: exitTextMode) {
+                    Text("เสร็จ")
+                        .font(.sh(16, .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 14).padding(.vertical, 10)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(DockPress())
+            }
+            .padding(.horizontal, 10).padding(.top, 4)
+            Spacer()
+        }
+    }
+
+    /// ↶ ↷ ในแคปซูลเดียว — ทางกลับทางเดียวของทุกตัวเลือกที่มีผลทันที
+    ///
+    /// ปุ่มที่ย้อนไม่ได้ไม่ได้หายไป แค่จาง — ปุ่มที่โผล่ ๆ หาย ๆ ทำให้ปุ่มข้าง ๆ ขยับที่ทุกครั้ง
+    private var undoRedo: some View {
+        HStack(spacing: 0) {
+            Button(action: undo) {
+                Image(systemName: "arrow.uturn.backward")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 38, height: 40)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .opacity(history.canUndo ? 1 : 0.32)
+            .accessibilityLabel("เลิกทำ")
+            Rectangle().fill(.white.opacity(0.18)).frame(width: 1, height: 14)
+            Button(action: redo) {
+                Image(systemName: "arrow.uturn.forward")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 38, height: 40)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .opacity(history.canRedo ? 1 : 0.32)
+            .accessibilityLabel("ทำซ้ำ")
+        }
+        .foregroundStyle(.white.opacity(0.9))
+        .padding(.horizontal, 2)
+        .glassEffect(.regular.interactive(), in: Capsule())
+        .animation(Motion.snap, value: history.canUndo)
+        .animation(Motion.snap, value: history.canRedo)
+    }
+
+    /// ตัวบอกช่อง — **สามช่องติดกันเป็นแถบเดียว** ไม่ใช่จุดสามจุด
+    ///
+    /// จุดสามจุดทุกคนอ่านเป็น "สไลด์สามใบ" (หน้า home ของ iPhone) · สี่เหลี่ยมสามช่องที่ชนกันอ่านเป็น
+    /// "แผ่นเดียวที่มีสามส่วน" ซึ่งคือความจริงของการ์ดใบนี้ · แตะช่องไหนเลื่อนไปช่องนั้น
+    private var pageDots: some View {
+        HStack(spacing: 1) {
+            ForEach(Array(pages.enumerated()), id: \.element.id) { i, _ in
+                let on = i == index
+                let first = i == 0, last = i == pages.count - 1
+                UnevenRoundedRectangle(topLeadingRadius: first ? 3 : 0, bottomLeadingRadius: first ? 3 : 0,
+                                       bottomTrailingRadius: last ? 3 : 0, topTrailingRadius: last ? 3 : 0,
+                                       style: .continuous)
+                    .fill(on ? Color.white.opacity(0.95) : Color.white.opacity(0.2))
+                    .overlay(
+                        UnevenRoundedRectangle(topLeadingRadius: first ? 3 : 0, bottomLeadingRadius: first ? 3 : 0,
+                                               bottomTrailingRadius: last ? 3 : 0, topTrailingRadius: last ? 3 : 0,
+                                               style: .continuous)
+                            .strokeBorder(.white.opacity(on ? 0 : 0.4), lineWidth: 0.6)
+                    )
+                    .frame(width: 11, height: 18)
+                    .frame(width: 12, height: 30)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation(Motion.page) { index = i }
+                        Haptics.impact(.light)
+                    }
+            }
+        }
+        .animation(Motion.snap, value: index)
+        .accessibilityLabel("ช่อง \(index + 1) จาก \(pages.count)")
     }
 
     /// เปิดหน้าตัวอย่าง 3 หน้าต่อกัน แล้วค่อยแชร์รูปหรือคัดลอกลิงก์
-    private var shareButton: some View {
+    ///
+    /// ปุ่มเด่นปุ่มเดียวบนแถบบน — แชร์คือเป้าหมายของทั้งหน้า ↶ ↷ เป็นเครื่องมือรอง
+    @ViewBuilder
+    private func shareButton(prominent: Bool) -> some View {
         Button {
-            // ชีตแต่งถ้าเปิดค้างจะบัง fullScreenCover — หุบก่อนแล้วค่อยพาไปหน้าตัวอย่าง
-            if isEditing {
-                endTextEdit()
-                photos.framing = nil
-                withAnimation(Motion.settle) {
-                    isEditing = false
-                    selected = nil
-                    showTools = false
-                }
-            }
+            // ชีตที่เปิดค้างจะบัง fullScreenCover — หุบก่อนแล้วค่อยพาไปหน้าตัวอย่าง
+            endTextEdit()
+            photos.framing = nil
+            withAnimation(Motion.settle) { dock = .main }
             showPreview = true
             Haptics.impact(.light)
         } label: {
-            Text("แชร์")
-                .font(.sh(13, .semibold)).frame(minWidth: 34)
+            // ไอคอนแชร์ของ iOS — ทุกคนรู้จักโดยไม่ต้องมีคำ · ยกขึ้นหนึ่งพอยต์เพราะน้ำหนักของรูปอยู่ด้านล่าง
+            Image(systemName: "square.and.arrow.up")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(prominent ? Color.black.opacity(0.85) : Color.white.opacity(0.92))
+                .offset(y: -1)
+                .frame(width: 40, height: 40)
+                .contentShape(Circle())
         }
-        .buttonStyle(.glass)
+        .buttonStyle(DockPress())
+        .glassEffect(prominent ? .regular.tint(theme.rawAccent).interactive() : .regular.interactive(),
+                     in: Circle())
         .accessibilityLabel("แชร์การ์ด")
     }
 
-    /// แถบบอกหน้า — แตะกระโดดข้ามหน้าได้ ไม่ต้องปัดทีละหน้า
+    // MARK: - แถบล่าง
+
+    /// ก้อนขอบล่างทั้งก้อน — dock + ถาด หรือแผ่นพิมพ์เหนือคีย์บอร์ด · ความสูงส่งให้ `bottomUI`
+    ///
+    /// ทั้งสองอย่างไม่มีวันอยู่พร้อมกัน (คีย์บอร์ดขึ้น = แถบล่างหลบให้ทั้งก้อน) จึงวัดที่เดียวได้เลขเดียว
+    private var bottomChrome: some View {
+        // ซ้อนใน ZStack — สลับแถบหลัก ↔ ชีต หรือชีต ↔ ชีต แล้วของเก่าจางออก ของใหม่จางเข้า **ทับกัน**
+        // ถ้าเรียงใน VStack ระหว่างเปลี่ยนจะมีสองใบซ้อนกันชั่วครู่แล้วทั้งก้อนกระโดด
+        ZStack(alignment: .bottom) {
+            if dock.isText, let sel = selectedItem {
+                TextTools(theme: theme, style: sel.textStyle,
+                          onStyle: { change in setTextStyle(sel, change) },
+                          onDelete: {
+                              endTextEdit()
+                              deleteWidget(sel)
+                          })
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { toolsH = $0 }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            } else if let id = Profile.me.editing {
+                // เครื่องมือของ **ช่องที่กำลังแก้** — ฟอนต์ สี ขนาด เก็บที่ชิ้นที่ถูกเลือกอยู่
+                // (พิมพ์ได้เฉพาะช่องของชิ้นที่เลือก ดู `beginTextEdit` ตัวชิ้นจึงมีเสมอ)
+                TextEditBar(id: id, theme: theme,
+                            style: selectedItem?.textStyle,
+                            onStyle: selectedItem.map { sel in
+                                { change in setTextStyle(sel, change) }
+                            },
+                            onDone: endTextEdit)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            } else if dock.isMain {
+                EditorDock(dimmed: cardIsFull ? [.text, .widget] : [], onMain: mainAction)
+                    .transition(chromeTransition)
+            } else {
+                sheet
+            }
+        }
+        // แผ่นพิมพ์ต้องนั่งบนคีย์บอร์ดพอดี — กรอบคีย์บอร์ดวัดจากก้นหน้าต่าง แต่ก้อนนี้อยู่เหนือแถบระบบแล้ว
+        .padding(.bottom, Profile.me.editing != nil || dock.isText ? max(0, keyboard - safeBottom) : 6)
+        .frame(maxWidth: .infinity)
+        // ความสูงเปลี่ยนเป็นขั้น (ชีตโผล่ทั้งใบ) — ให้การ์ดไหลตามด้วยสปริงเดียวกับชีต ไม่ใช่กระโดด
+        // ส่วนตอนที่ผังของชีตค่อย ๆ โตอยู่แล้ว (สปริงของ layout) ค่านี้ก็แค่ตามไปทีละเฟรมเหมือนเดิม
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { h in
+            withAnimation(Motion.settle) { bottomUI = h }
+        }
+    }
+
+    /// ชีตของเรื่องที่เปิดอยู่ — มาแทนแถบหลัก (ขยับ 28pt + จาง) ไม่ใช่เลื่อนมาทั้งความสูง
+    @ViewBuilder
+    private var sheet: some View {
+        switch dock {
+        case .backdrop:
+            DockSheet(title: dockTitle, symbol: dockSymbol, viewport: viewportH, onBack: goMain) { backdropTray }
+                .transition(sheetTransition)
+        case .gallery:
+            DockSheet(title: dockTitle, symbol: dockSymbol, viewport: viewportH, fill: true, onBack: goMain) { galleryTray }
+                .transition(sheetTransition)
+        case .piece:
+            if let sel = selectedItem {
+                DockSheet(title: dockTitle, symbol: dockSymbol, viewport: viewportH, onBack: goMain) { pieceTray(sel) }
+                    .transition(sheetTransition)
+            }
+        default:
+            EmptyView()
+        }
+    }
+
+    /// แถบหลักเข้า/ออก — ขยับนิดเดียวพอ มันคือของที่ "หลบ" ให้ชีต ไม่ใช่ตัวเอกของจังหวะนี้
+    private var chromeTransition: AnyTransition {
+        .offset(y: 24).combined(with: .opacity)
+    }
+
+    /// ชีตเข้า/ออก — **ไหลขึ้นมาจากขอบล่างทั้งใบ** เหมือน bottom sheet จริง (ขาออกจมกลับลงไปทางเดิม)
+    ///
+    /// การ์ดย่อตัวไปพร้อมกันเพราะ `bottomUI` วัดจากความสูงของก้อนนี้ทุกเฟรมระหว่างที่มันโต (ดู `bottomChrome`)
+    /// — สองอย่างจึงเป็นการเคลื่อนไหวเดียว ไม่ใช่ชีตขึ้นแล้วการ์ดค่อยกระโดดตาม
+    private var sheetTransition: AnyTransition {
+        .move(edge: .bottom).combined(with: .opacity)
+    }
+
+    /// หัวชีต — ชื่อ **เรื่อง** ที่เปิดอยู่: โหมดที่กดจากแถบหลัก หรือหมวดของชิ้นที่เลือก (ไม่ใช่ชื่อแบบ)
+    private var dockTitle: String {
+        switch dock {
+        case .backdrop:     return "พื้นหลัง"
+        case .gallery:      return "เพิ่มวิดเจ็ต"
+        case .piece, .text: return selectedItem?.kind.family.label ?? ""
+        case .main:         return ""
+        }
+    }
+
+    private var dockSymbol: String {
+        switch dock {
+        case .backdrop:     return "paintpalette.fill"
+        case .gallery:      return "plus.square.on.square"
+        case .piece, .text: return selectedItem?.kind.symbol ?? "square"
+        case .main:         return ""
+        }
+    }
+
+    private func mainAction(_ item: DockMainItem) {
+        switch item {
+        case .backdrop:
+            withAnimation(Motion.settle) { dock = .backdrop }
+            Haptics.impact(.light)
+        case .text:
+            guard !cardIsFull else { warnFull(); return }
+            addText()
+        case .widget:
+            guard !cardIsFull else { warnFull(); return }
+            withAnimation(Motion.settle) { dock = .gallery }
+            Haptics.impact(.light)
+        }
+    }
+
+    /// ปุ่มเพิ่มจางอยู่แล้ว — แตะแล้วต้องได้คำอธิบาย ไม่ใช่ปุ่มตาย
+    private func warnFull() {
+        warn(format.pageCount == 1
+             ? "หน้าเต็มแล้ว — เอาของออกหรือย่อของเดิมก่อนถึงจะเพิ่มได้"
+             : "ครบ \(format.pageCount) หน้าและเต็มทุกหน้า — เอาของออกก่อนถึงจะเพิ่มได้")
+    }
+
+    /// แถบข้อความชั่วคราวเหนือขอบล่าง    /// แถบบอกหน้า — แตะกระโดดข้ามหน้าได้ ไม่ต้องปัดทีละหน้า
     /// แถบข้อความชั่วคราวเหนือขอบล่าง — ไม่รับสัมผัส และหายเองใน 2.4 วิ
     @ViewBuilder
     private var noticeBar: some View {
@@ -1886,7 +2438,7 @@ struct CardScreen: View {
                 .padding(.vertical, 10)
                 .background(Capsule().fill(Color.black.opacity(0.72)))
                 .padding(.horizontal, 24)
-                .padding(.bottom, multiPage ? 40 : 22)
+                .padding(.bottom, (isEditing ? bottomUI : 0) + 12)
                 // ข้อความบอกสถานะต้องไม่ขวางการ์ดที่อยู่ข้างหลัง · ส่วนสองชนิดที่มีปุ่ม
                 // ต้องรับทัชได้ ไม่งั้นปุ่มที่วาดไว้ก็กดไม่ได้
                 .allowsHitTesting(n.kind != .status)
@@ -1943,27 +2495,6 @@ struct CardScreen: View {
         withAnimation(Motion.snap) { notice = nil }
     }
 
-    private var pageRail: some View {
-        VStack {
-            Spacer()
-            HStack(spacing: 6) {
-                ForEach(Array(pages.enumerated()), id: \.element.id) { i, _ in
-                    Capsule()
-                        .fill(i == index ? theme.accent : Color.white.opacity(0.22))
-                        .frame(width: i == index ? 22 : 7, height: 7)
-                        .onTapGesture {
-                            withAnimation(Motion.page) { index = i }
-                        }
-                }
-                Text("\(index + 1) / \(pages.count)")
-                    .font(.sh(9.5, .semibold)).tracking(0.6)
-                    .foregroundStyle(theme.inkStyle.text(0.4))
-                    .padding(.leading, 6)
-            }
-            .padding(.bottom, 14)
-        }
-    }
-
     /// หัวข้อของแต่ละเรื่องในชีต — **จัดกลาง ตัวใหญ่ ทุกเรื่องใช้ตัวเดียวกัน**
     ///
     /// ของเดิมเป็นป้ายจิ๋ว 9.5pt ในคอลัมน์ซ้ายกว้าง 46pt: มันเบียดกับแถวปุ่มจนอ่านเป็นส่วนหนึ่งของปุ่ม
@@ -2008,122 +2539,166 @@ struct CardScreen: View {
             .fill(on ? Color.white.opacity(0.92) : Color.white.opacity(0.08)))
     }
 
-    private var themePanel: some View {
-        VStack(spacing: 18) {
-            // ── พื้นหลัง ───────────────────────────────────────────────
-            // เรื่องแรกของแผง เพราะมันเปลี่ยนความหมายของทุกเรื่องที่อยู่ใต้มัน:
-            // เลือกรูปเมื่อไหร่ สีพื้นหมดความหมายและหมึกถูกล็อก · เรื่องที่คุมเรื่องอื่นต้องมาก่อน
-            //
-            // และตอบคำถามเดียวจบ — "พื้นแบบไหน" ตอบแล้วค่อยเห็นลูกบิดของแบบนั้น
-            // ไม่ใช่กองลูกบิดของทุกแบบวางรวมกันแล้วให้เดาว่าอันไหนใช้กับอันไหน
-            section("พื้นหลัง") {
-                HStack(spacing: 7) {
-                    ForEach(BackdropStyle.allCases) { st in
-                        Button {
-                            withAnimation(Motion.flow) { theme.backdrop = st }
-                            fitSheet()
-                            Haptics.impact(.light)
-                        } label: {
-                            optionChip(st.name, on: theme.backdrop == st) {
-                                BackdropSwatch(theme: theme, style: st)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
+    // MARK: - ถาดพื้นหลัง
 
-            // ── ลูกบิดของชนิดพื้นที่เลือกอยู่ ──────────────────────────
-            if theme.backdrop == .photo {
-                backdropPhotoPanel
-            } else {
-                backdropColorPanel
-                // ซ่อนเรื่องโทนเมื่อพื้นหลังเป็นรูป — รูปคุมความสว่างไม่ได้ หมึกเลยถูกล็อกเป็น
-                // กลางคืน (ดู `CardTheme.activeInk`) ตัวเลือกที่กดแล้วไม่มีอะไรเกิดขึ้นแย่กว่าไม่มีตัวเลือก
-                tonePanel
-            }
-
-            // ── มุม ────────────────────────────────────────────────────
-            section("มุม") {
-                HStack(spacing: 7) {
-                    ForEach(CornerStyle.allCases) { c in
-                        Button {
-                            withAnimation(Motion.snap) { theme.corner = c }
-                        } label: {
-                            Text(c.name).font(.sh(11, .semibold))
-                                .foregroundStyle(theme.corner == c ? .black.opacity(0.85) : .white.opacity(0.7))
-                                .padding(.horizontal, 13).padding(.vertical, 6)
-                                .background(Capsule().fill(theme.corner == c ? Color.white.opacity(0.92) : Color.white.opacity(0.08)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-        }
-    }
-
-    // MARK: สีพื้น
-
-    /// สีของพื้นหลัง — **ทางเข้าเดียว**
+    /// ถาดพื้นหลัง — เห็นครบไม่ต้องเลื่อน: แบบพื้น · สี (หรือรูป) · โทน
     ///
-    /// เดิมมีสามทางที่เขียนค่าเดียวกัน: วงกลมพาเลตต์ · แถบสเปกตรัมที่ปักอยู่หัวชีตตลอดเวลา ·
-    /// และโทนที่ดูดมาจากรูปที่อัปโหลด — สามอย่างเขียนลง `customHue`/`customSat` เหมือนกัน
-    /// โดยไม่มีอะไรบนจอบอกว่าตอนนี้พื้นสีอะไรอยู่ · เม็ดเดียวที่โชว์สีจริงกับเลข hex จริง
-    /// ตอบคำถามนั้นได้ตลอดเวลา แล้วของที่ใช้แก้ค่อยกางออกมาเมื่อขอ
-    private var backdropColorPanel: some View {
-        section("สีพื้น") {
-            VStack(alignment: .leading, spacing: 11) {
-                Button {
-                    colorOpen.toggle()
-                    fitSheet()
-                    Haptics.impact(.light)
-                } label: {
-                    HStack(spacing: 8) {
-                        RoundedRectangle(cornerRadius: 5, style: .continuous)
-                            .fill(theme.backdropColors.top)
-                            .frame(width: 18, height: 18)
-                            .overlay(RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .strokeBorder(.white.opacity(0.25), lineWidth: 0.5))
-                        Text(theme.backdropHex)
-                            .font(.system(size: 11.5, weight: .semibold, design: .monospaced))
-                            .foregroundStyle(.white)
-                        Spacer(minLength: 8)
-                        Image(systemName: colorOpen ? "chevron.up" : "chevron.down")
-                            .font(.sh(9, .bold))
-                            .foregroundStyle(.white.opacity(0.45))
+    /// เรื่องแรกคือ "พื้นแบบไหน" เพราะมันเปลี่ยนความหมายของแถวใต้มัน: เลือกรูปเมื่อไหร่
+    /// แถวสีกลายเป็นแถวรูป และโทนถูกล็อก (ดู `CardTheme.activeInk`) — แถวโทนไม่หาย แค่จางลง
+    /// พร้อมบอกเหตุผลเมื่อแตะ · ซ่อนแล้วผังกระโดดและคนจะถามว่าปุ่มหายไปไหน
+    private var backdropTray: some View {
+        VStack(spacing: 12) {
+            // ขึ้นบรรทัดเองเมื่อชิปเต็มแถว — หกแบบไม่ลงในบรรทัดเดียวบนเครื่องเล็ก
+            // แต่ถาดนี้ห้ามเลื่อน: แบบพื้นที่มองไม่เห็นคือแบบที่ไม่มีใครกด
+            FlowLayout(spacing: 7) {
+                ForEach(BackdropStyle.allCases) { st in
+                    Button {
+                        withAnimation(Motion.flow) {
+                            theme.backdrop = st
+                            // หมึกของพื้นรูปตัดสินจากรูปจริง — วัดในจังหวะเดียวกับที่สลับ (↶ ครั้งเดียวย้อนได้ทั้งคู่)
+                            if st == .photo { theme.photoLean = photos.luma(theme.photoEffect)?.lean }
+                        }
+                        Haptics.impact(.light)
+                    } label: {
+                        optionChip(st.name, on: theme.backdrop == st) {
+                            BackdropSwatch(theme: theme, style: st)
+                        }
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 8)
-                    .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color.white.opacity(0.08)))
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("สีพื้น \(theme.backdropHex)")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
+            if theme.backdrop == .photo {
+                backdropPhotoSource
+                // เอฟเฟกต์กับความจางมีความหมายก็ต่อเมื่อมีรูปของผู้ใช้อยู่จริง —
+                // รูปสำรองของระบบเป็นตัวยืนแทนชั่วคราว ไม่ใช่ของที่ครีเอเตอร์ตั้งใจเอามาแต่ง
+                if photos.background != nil {
+                    DockRow(label: "เอฟเฟกต์") {
+                        DockSegment(options: BackdropEffect.allCases.map { .init(value: $0, title: $0.name) },
+                                    selection: theme.photoEffect) { fx in
+                            withAnimation(Motion.flow) {
+                                theme.photoEffect = fx
+                                // เบลอ/จุดปะเปลี่ยนความสว่างของรูปจริง — หมึกที่เหมาะอาจเปลี่ยนฝั่งตาม
+                                theme.photoLean = photos.luma(fx)?.lean
+                            }
+                            Haptics.impact(.light)
+                        }
+                    }
+                    DockRow(label: "ความจาง") {
+                        TrackSlider(value: theme.photoDim / 0.8, tint: theme.rawAccent) {
+                            theme.photoDim = min(0.8, max(0, $0 * 0.8))
+                        }
+                    }
+                }
+            } else {
+                colorRow
                 if colorOpen {
-                    palettePresets
                     SpectrumPicker(hue: theme.backdropHSB.h,
                                    sat: theme.backdropHSB.s,
                                    bri: theme.backdropHSB.b) { h, s, b in
                         theme.setBackdropColor(h: h, s: s, b: b)
+                        myColor = (h, s, b)
                     }
+                    .transition(.opacity.combined(with: .offset(y: -8)))
                     hexField
+                        .transition(.opacity.combined(with: .offset(y: -8)))
                 }
             }
+
+            // มุมกับแถบผู้ออกบัตรไม่ใช่ของที่ต้องถาม — ค่าตั้งต้นของธีมตัดสินให้ (ดู `CardTheme.corner` · `strip`)
+            toneRow
+            signatureRow
+        }
+        .animation(Motion.settle, value: colorOpen)
+        .animation(Motion.settle, value: theme.backdrop == .photo)
+        .animation(Motion.settle, value: photos.background != nil)
+    }
+
+    /// แถวสี — "สีของฉัน" ซ้าย (ตัวเลือกสีเอง + สีที่เคยตั้ง) · "สำเร็จรูป" ขวา
+    ///
+    /// แตะสีสำเร็จรูปดูเล่นแล้วสีแบรนด์ที่พิมพ์ไว้ต้องยังอยู่ให้กดกลับ — ไม่ใช่หายถาวร
+    private var colorRow: some View {
+        HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("สีของฉัน").font(.sh(10.5, .semibold)).foregroundStyle(.white.opacity(0.45))
+                HStack(spacing: 9) {
+                    // ตัวเลือกสีเอง — กางแถบสเปกตรัมใต้แถวนี้ (ถาดยืด ไม่ใช่สลับหน้า)
+                    Button {
+                        colorOpen.toggle()
+                        Haptics.impact(.light)
+                    } label: {
+                        Circle()
+                            .strokeBorder(.white.opacity(0.55),
+                                          style: StrokeStyle(lineWidth: 1, dash: [3, 2.5]))
+                            .frame(width: 30, height: 30)
+                            .overlay(Image(systemName: "eyedropper")
+                                .font(.sh(11, .semibold))
+                                .foregroundStyle(.white.opacity(0.85)))
+                            .background(Circle().fill(Color.white.opacity(colorOpen ? 0.2 : 0.04)))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("เลือกสีเอง")
+
+                    if let c = myColor {
+                        let active = theme.hasCustomColor
+                        Button {
+                            withAnimation(Motion.flow) {
+                                theme.setBackdropColor(h: c.h, s: c.s, b: c.b)
+                            }
+                            Haptics.impact(.light)
+                        } label: {
+                            Circle()
+                                .fill(Color(hue: c.h, saturation: c.s, brightness: c.b))
+                                .frame(width: 30, height: 30)
+                                .overlay(Circle().strokeBorder(.white.opacity(active ? 0.95 : 0.25),
+                                                               lineWidth: active ? 2 : 0.5))
+                                .scaleEffect(active ? 1.1 : 1)
+                        }
+                        .buttonStyle(.plain)
+                        .animation(Motion.snap, value: active)
+                        .accessibilityLabel("สีของฉัน")
+                    }
+                }
+            }
+            Rectangle().fill(.white.opacity(0.14)).frame(width: 1, height: 30).padding(.top, 20)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("สำเร็จรูป").font(.sh(10.5, .semibold)).foregroundStyle(.white.opacity(0.45))
+                palettePresets
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
+    /// เม็ดสีสำเร็จรูป — **คู่สีมาก่อน แล้วค่อยเป็นสีเดี่ยว** อยู่ในแถวเดียวกัน
+    ///
+    /// ทั้งสองอย่างตอบคำถามเดียวกัน ("เอาสีสำเร็จอันไหน") ต่างกันแค่คู่สีตั้งสีหมึกให้ด้วย
+    /// แยกเป็นคนละแถวเมื่อไหร่ ผู้ใช้ต้องอ่านสองหัวข้อก่อนถึงจะรู้ว่าต้องเลือกจากแถวไหน
+    /// เม็ดผ่าครึ่งบอกความต่างนั้นได้ในตัวมันเองอยู่แล้ว — สองสีในเม็ดเดียว
     private var palettePresets: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 9) {
-                ForEach(Palette.allCases) { p in
-                    let active = theme.palette == p && !theme.hasCustomColor
+                ForEach(ColorDuo.all) { d in
+                    let on = theme.duoID == d.id
                     Button {
+                        // สีที่ตั้งเองต้องยังกดกลับได้ เหมือนตอนแตะสีเดี่ยว — คู่สีก็คือการลองดู
+                        if let c = theme.customColor { myColor = c }
+                        withAnimation(Motion.flow) { theme.setDuo(d) }
+                        Haptics.impact(.light)
+                    } label: {
+                        DuoDot(duo: d, flipped: on && theme.duoFlipped, on: on)
+                    }
+                    .buttonStyle(.plain)
+                    .animation(Motion.snap, value: on)
+                    .accessibilityLabel("\(d.darkName) กับ \(d.lightName)")
+                }
+                ForEach(Palette.allCases) { p in
+                    let active = theme.palette == p && !theme.hasCustomColor && theme.duoID == nil
+                    Button {
+                        // จำสีที่ตั้งเองไว้ก่อน — สีสำเร็จรูปคือการลองดู ไม่ใช่การทิ้งของเดิม
+                        if let c = theme.customColor { myColor = c }
                         withAnimation(Motion.flow) {
                             theme.palette = p
-                            // เลือกสีสำเร็จรูป = ตั้งใจเลิกใช้สีที่เลือกเอง/สีจากรูปพื้นหลัง
                             theme.clearBackdropColor()
                         }
                         Haptics.impact(.light)
@@ -2134,25 +2709,20 @@ struct CardScreen: View {
                             .frame(width: 30, height: 30)
                             .overlay(Circle().strokeBorder(.white.opacity(active ? 0.95 : 0.2),
                                                            lineWidth: active ? 2 : 0.5))
-                            .scaleEffect(active ? 1.12 : 1)
+                            .scaleEffect(active ? 1.1 : 1)
                     }
                     .buttonStyle(.plain)
+                    .animation(Motion.snap, value: active)
                 }
             }
             .padding(.vertical, 3).padding(.horizontal, 2)
         }
     }
 
-    /// ช่องพิมพ์รหัสสี — แตะแล้วขึ้นกล่องถาม ไม่ใช่ช่องพิมพ์ที่ฝังอยู่ในแผง
+    /// ช่องพิมพ์รหัสสี — แตะแล้วขึ้นกล่องถาม ไม่ใช่ช่องพิมพ์ที่ฝังอยู่ในถาด
     ///
-    /// # ทำไมไม่ฝังช่องพิมพ์ไว้ตรงนี้
-    ///
-    /// คีย์บอร์ดสูงเกินครึ่งจอ ฝังไว้ในแผงเมื่อไหร่มันขึ้นมาทับแถบสีสามแถบที่เพิ่งใช้เลือกสีอยู่
-    /// แล้วชีตต้องหลบทั้งใบ — กลายเป็นว่าเปิดตัวเลือกสีมาแต่มองไม่เห็นสีที่กำลังเลือก
+    /// คีย์บอร์ดสูงเกินครึ่งจอ ฝังไว้ในถาดเมื่อไหร่มันขึ้นมาทับแถบสีสามแถบที่เพิ่งใช้เลือกสีอยู่
     /// กล่องถามขึ้นคนละชั้น ปิดแล้วทุกอย่างยังอยู่ที่เดิม
-    ///
-    /// (เคยลองแบบฝังก่อน แล้วกดยังไงก็ไม่ติด — ตอนนั้นเข้าใจผิดว่าเป็นเรื่องโฟกัส
-    /// ที่จริงคือทัชไม่เคยไปถึงมันเลยเพราะผังของชีตล้นกรอบ ดู `SheetStop.tall`)
     private var hexField: some View {
         Button {
             // เปิดมาเป็นช่องว่าง โดยเอาสีปัจจุบันไปเป็นตัวอย่างในช่องแทน — เปิดมาพร้อมค่าเดิม
@@ -2178,92 +2748,60 @@ struct CardScreen: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: โทน
+    private enum ToneChoice: Hashable { case dark, light }
 
-    /// โทนหมึก — อัตโนมัติเป็นค่าตั้งต้น แถวชิปข้างล่างคือการขอคุมเอง
-    ///
-    /// แถวชิปโชว์หมึกที่ **ใช้อยู่จริง** เสมอ ไม่ว่าใครเป็นคนเลือก — สวิตช์ข้างหัวข้อคือที่เดียว
-    /// ที่บอกว่าใครตัดสิน · ถ้าแยกเป็น "ไม่มีอันไหนถูกเลือก ตอนโหมดอัตโนมัติ" แถวนั้นจะอ่านว่า
-    /// การ์ดยังไม่มีโทน ทั้งที่มันมีอยู่และเห็นอยู่ตรงหน้า
-    private var tonePanel: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
-                sectionTitle("โทน")
-                Button {
-                    withAnimation(Motion.flow) { theme.inkAuto = true }
-                    Haptics.impact(.light)
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: theme.inkAuto ? "checkmark" : "wand.and.sparkles")
-                            .font(.sh(8, .bold))
-                        Text("อัตโนมัติ").font(.sh(10, .semibold))
-                    }
-                    .fixedSize()
-                    .foregroundStyle(theme.inkAuto ? .black.opacity(0.85) : .white.opacity(0.6))
-                    .padding(.horizontal, 9).padding(.vertical, 5)
-                    .background(Capsule().fill(theme.inkAuto
-                                               ? Color.white.opacity(0.92)
-                                               : Color.white.opacity(0.08)))
-                }
-                .buttonStyle(.plain)
-            }
-            HStack(spacing: 7) {
-                ForEach(CardInk.allCases) { i in
-                    Button {
-                        withAnimation(Motion.flow) {
-                            theme.inkAuto = false
-                            theme.ink = i
-                        }
-                        Haptics.impact(.light)
-                    } label: {
-                        optionChip(i.name, on: theme.activeInk == i) {
-                            InkSwatch(theme: theme, ink: i)
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
-                Spacer(minLength: 0)
+    /// ลายเซ็น Sale Here บนตัวการ์ด — ถอดไม่ได้ แต่เลือกได้ว่าเป็นตัวเขียนจางหรือตราปั๊มนูน
+    /// (ทั้งสองแบบใช้หมึกของการ์ดใบนั้น ไม่มีแบบไหนเอาสีแบรนด์มาวางทับงานของเจ้าของ)
+    private var signatureRow: some View {
+        let opts: [DockSegment<StripStyle>.Option] = [.init(value: .line, title: "ตัวเขียน"),
+                                                      .init(value: .foil, title: "พิมพ์"),
+                                                      .init(value: .emboss, title: "ปั๊มนูน")]
+        return DockRow(label: "ลายเซ็น") {
+            DockSegment(options: opts, selection: theme.strip.isStamp ? theme.strip : .line) { c in
+                withAnimation(Motion.flow) { theme.strip = c }
+                Haptics.impact(.light)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// โทนหมึก — เหลือสองฝั่ง: มืด · สว่าง
+    ///
+    /// "กระดาษ" กับ "ใสใส" เป็นคนละหน้าตาก็จริง แต่การเลือกระหว่างสองอันนั้นคือคำถามของ
+    /// **ความสดของพื้น** ไม่ใช่รสนิยม — ระบบตอบเองได้ (ดู `CardTheme.lightInk`) ส่วน "อัตโนมัติ"
+    /// ไม่ใช่โทน มันคือสถานะตั้งต้นที่เงียบอยู่แล้ว · แถวนี้จึงชี้ค่าที่ใช้อยู่จริงเสมอ
+    /// พื้นเป็นรูป = ล็อกกลางคืน (ดู `CardTheme.activeInk`) แถวยังอยู่แต่จาง แตะแล้วบอกเหตุผล
+    private var toneRow: some View {
+        let locked = theme.backdrop == .photo
+        let sel: ToneChoice = theme.activeInk.isLight ? .light : .dark
+        let opts: [DockSegment<ToneChoice>.Option] = [.init(value: .dark, title: "มืด"),
+                                                      .init(value: .light, title: "สว่าง")]
+        return DockRow(label: "โทน", dim: locked) {
+            DockSegment(options: opts, selection: locked ? .dark : sel, dim: locked) { c in
+                if locked {
+                    flash("พื้นเป็นรูป — โทนล็อกเป็นกลางคืนให้ตัวหนังสืออ่านออกบนรูปทุกแบบ")
+                    Haptics.rigid()
+                    return
+                }
+                // คู่สีมีสองสีอยู่แล้ว — "สว่าง" จึงแปลว่ายกสีอ่อนของคู่ขึ้นมาเป็นพื้น
+                // ไม่ใช่เปลี่ยนหมึกเป็นถ่านแล้วทิ้งสีที่สองไป · ปุ่มสลับข้างจึงไม่ต้องมีเพิ่ม
+                if theme.duoColors != nil {
+                    withAnimation(Motion.flow) { theme.duoFlipped = c == .light }
+                    Haptics.impact(.light)
+                    return
+                }
+                withAnimation(Motion.flow) {
+                    theme.inkAuto = false
+                    theme.ink = c == .dark ? .night : theme.lightInk
+                }
+                Haptics.impact(.light)
+            }
+        }
     }
 
     // MARK: รูปพื้นหลัง
 
-    private var backdropPhotoPanel: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            backdropPhotoSource
-            // เอฟเฟกต์กับความจางมีความหมายก็ต่อเมื่อมีรูปของผู้ใช้อยู่จริง —
-            // รูปสำรองของระบบเป็นตัวยืนแทนชั่วคราว ไม่ใช่ของที่ครีเอเตอร์ตั้งใจเอามาแต่ง
-            if photos.background != nil {
-                section("เอฟเฟกต์") {
-                    HStack(spacing: 7) {
-                        ForEach(BackdropEffect.allCases) { fx in
-                            Button {
-                                withAnimation(Motion.flow) { theme.photoEffect = fx }
-                                Haptics.impact(.light)
-                            } label: {
-                                optionChip(fx.name, on: theme.photoEffect == fx) {
-                                    PhotoEffectSwatch(theme: theme, effect: fx)
-                                }
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        Spacer(minLength: 0)
-                    }
-                }
-                section("ความจางของรูป") {
-                    TrackSlider(value: theme.photoDim / 0.8, tint: theme.rawAccent) {
-                        theme.photoDim = min(0.8, max(0, $0 * 0.8))
-                    }
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
     private var backdropPhotoSource: some View {
-        section("รูปพื้นหลัง") {
+        DockRow(label: "รูป") {
             HStack(spacing: 9) {
                 RoundedRectangle(cornerRadius: 7, style: .continuous)
                     .fill(Color.white.opacity(0.08))
@@ -2289,8 +2827,6 @@ struct CardScreen: View {
                         // ไม่งั้นเปลี่ยนกลับไปพื้นสีทีหลังจะได้สีเก่าผสมเฉดใหม่ ซึ่งไม่ใช่ทั้งสองอย่าง
                         theme.customBri = nil
                     }
-                    // รูปใบแรกพาแถวเอฟเฟกต์กับแถบความจางเข้ามาด้วย — แผงยาวขึ้นทันที
-                    fitSheet()
                 }
 
                 // ทางออกที่ Linktree ไม่มี — ใส่รูปแล้วไม่ชอบต้องมีทางกลับที่เห็นอยู่ตรงนั้น
@@ -2304,7 +2840,6 @@ struct CardScreen: View {
                             theme.clearBackdropColor()
                             theme.photoEffect = .none
                         }
-                        fitSheet()
                         Haptics.impact(.medium)
                     } label: {
                         Text("เอาออก").font(.sh(9.5, .semibold))
@@ -2320,216 +2855,147 @@ struct CardScreen: View {
         }
     }
 
-    @ViewBuilder
-    private func widgetPanel(_ sel: WidgetInstance) -> some View {
-        let kind = sel.kind
-        VStack(alignment: .leading, spacing: 16) {
-            // ชื่อ widget คือหัวเรื่องของทั้งชีต — จัดกลางและใหญ่ที่สุดในแผง
-            // ปุ่มปิดวางทับด้านขวาแทนที่จะอยู่ในแถวเดียวกัน ไม่งั้นชื่อจะถูกดันออกจากกึ่งกลางจริง
-            HStack(spacing: 7) {
-                Image(systemName: kind.symbol).font(.sh(13))
-                    .foregroundStyle(kind.tier == .verified ? theme.rawAccent : .white.opacity(0.75))
-                Text(kind.title).font(.sh(16, .semibold)).foregroundStyle(.white)
-                    .lineLimit(1).minimumScaleFactor(0.7)
-                Spacer(minLength: 8)
-                // ปิดแผง = ออกจากโชว์รูม แต่ยังเลือก widget ตัวเดิมค้างไว้
-                // (เดิมสั่ง `select(nil)` แล้วชีตกลายเป็นแผงธีมของทั้งการ์ดแทนที่จะหายไป)
-                Button { closeTools() } label: {
-                    Image(systemName: "xmark").font(.sh(10, .bold))
-                        .foregroundStyle(.white.opacity(0.6)).frame(width: 24, height: 24)
-                        .background(Circle().fill(.white.opacity(0.1)))
-                }
-                .buttonStyle(.plain)
-            }
+    // MARK: - ถาดของชิ้น
 
-            // ไม่มีสเต็ปเปอร์ขนาด/ระยะแล้ว — ปรับบนการ์ดโดยตรง
-            // (ลากหมุดที่ขอบเพื่อย่อขยาย · ลากตัว widget เพื่อจัดตำแหน่งและระยะห่าง)
+    /// เนื้อในชีตของชิ้นที่เลือก — แบบอื่น (ถ้ามี) · กล่อง · ขอบ · แถวท้ายเป็นวิธีใช้กับปุ่มลบ
+    ///
+    /// หัวชีต (‹ + หมวดของชิ้น) อยู่ที่ `DockSheet` · ทุกอย่างในนี้คือของที่กดแล้วเกิดผลทันที
+    /// ก้อนข้อความไม่มีกล่อง/ขอบ (แตะซ้ำแล้วทุกอย่างอยู่เหนือแป้นพิมพ์แบบ IG) เหลือแค่แถวท้าย
+    private func pieceTray(_ sel: WidgetInstance) -> some View {
+        let isText = sel.kind == .textBlock
+        let resizable = sel.kind.canResize
+        let hint = sel.pinned ? "Sale Here วางให้ทุกการ์ด · ย้ายหรือลบไม่ได้"
+                 : isText ? "แตะซ้ำเพื่อพิมพ์ · ลากเพื่อย้าย · หมุดมุมย่อขยาย"
+                 : resizable ? "หมุดข้างยืดกว้าง/สูง · หมุดมุมย่อขยายทั้งชิ้น · แตะตัวอักษรเพื่อแก้"
+                 : "ลากเพื่อย้าย · ขนาดล็อก หลักฐานต้องเทียบกันได้"
+        return VStack(spacing: 10) {
+            if !isText {
+                // ตรารับรองที่ตรึงไว้ไม่มีแบบอื่นให้สลับ — ขนาดกับที่ของมันคิดจากแบบนี้แบบเดียว
+                if !sel.pinned { variantsRow(sel) }
+                // กล่องเหลือสองแบบ: เข้ม หรือ กระจก — "ไม่มีพื้น" ไม่ใช่ตัวเลือกอีกแล้ว
+                // ชิ้นที่วาดวัสดุของตัวเอง (กระดาษ · ฟิล์ม · ป้ายไฟ · รูปเต็มกรอบ) ไม่มีแถวนี้
+                // เพราะพื้นของมันคือวัสดุนั้น ไม่ใช่แผ่นที่ chrome วาดให้
+                if sel.kind.usesSurfaceChoice {
+                    DockRow(label: "กล่อง") {
+                        DockSegment(options: sel.kind.surfaceOptions.map {
+                                        .init(value: $0, title: sel.kind.surfaceName($0)) },
+                                    selection: sel.surface) { setSurface(sel, $0) }
+                    }
+                }
+                // ลายทางบนแผ่น — มีเฉพาะตอนแผ่นของมันยังอยู่ (กระจก/ไม่มีพื้นไม่มีแผ่นให้ลาย)
+                if sel.kind.takesPattern && sel.surface == .glass {
+                    DockRow(label: "ลาย") {
+                        DockSegment(options: PlatePattern.allCases.map { .init(value: $0, title: $0.name) },
+                                    selection: sel.pattern) { setPattern(sel, $0) }
+                    }
+                }
+                // หน้าต่างช่องทาง: โชว์ช่องไหน — ตั้งต้นคือช่องที่ยอดเยอะสุด (ดู `WindowChannel`)
+                if sel.kind.picksChannel, Profile.me.creator.socials.count > 1 {
+                    DockRow(label: "ช่องทาง") {
+                        DockSegment(options: Profile.me.creator.socials.map {
+                                        .init(value: $0.type, title: $0.type.shortName) },
+                                    selection: WindowChannel.current(sel.id)?.type ?? .tiktok) {
+                            WindowChannel.pick($0, for: sel.id)
+                            Haptics.impact(.light)
+                        }
+                    }
+                }
+                // รูปคน: ลบพื้นหลังให้เอง (ตั้งต้น) หรือคงรูปเต็มไว้ในกรอบ
+                if sel.kind.liftsSubject {
+                    DockRow(label: "พื้นหลังรูป") {
+                        DockSegment(options: [.init(value: true, title: "ลบออก"),
+                                              .init(value: false, title: "คงไว้")],
+                                    selection: sel.liftPhoto) { setLiftPhoto(sel, $0) }
+                    }
+                }
+                // ตรารับรอง: หน้าตาสามแบบ เลือกรายชิ้น (ผู้ใช้เลือกจากผังตัวเลือก 1 ต.ค. 2569)
+                if sel.kind == .proofSeal {
+                    DockRow(label: "แบบ") {
+                        DockSegment(options: SealStyle.allCases.map { .init(value: $0, title: $0.name) },
+                                    selection: sel.sealStyle) { setSealStyle(sel, $0) }
+                    }
+                }
+                // ตราปั๊มนูน Sale Here STAR บนแผ่นของใบนี้ — สีเดียวกับแผ่น ปิดได้รายชิ้น
+                if sel.kind.takesEmboss {
+                    DockRow(label: "ตรา") {
+                        DockSegment(options: [.init(value: 0, title: "พิมพ์"),
+                                              .init(value: 1, title: "ปั๊มนูน"),
+                                              .init(value: 2, title: "ไม่มี")],
+                                    selection: !sel.emboss ? 2 : (sel.embossBlind ? 1 : 0)) { setEmboss(sel, $0) }
+                    }
+                }
+                DockRow(label: "ขอบ") {
+                    DockSegment(options: [.init(value: true, title: "มีขอบ"),
+                                          .init(value: false, title: "ไม่มีขอบ")],
+                                selection: sel.border) { setBorder(sel, $0) }
+                }
+            }
+            // แถวท้าย: ท่าที่ใช้กับชิ้นนี้ (เงียบ ๆ) + ลบ — ลบเป็นตัวหนังสือแดงในแคปซูลจาง
+            // ไม่ใช่ปุ่มแดงทึบ ไม่งั้นมันดังกว่าทุกอย่างในถาดทั้งที่เป็นสิ่งที่กดน้อยที่สุด
             HStack(spacing: 8) {
                 HStack(spacing: 5) {
-                    Image(systemName: kind.canResizeWidth || kind.canResizeHeight
-                          ? "hand.draw.fill" : "lock.fill")
-                        .font(.sh(9))
-                    Text(kind.canResizeWidth || kind.canResizeHeight
-                         ? "ลากหมุดที่ขอบเพื่อปรับขนาด"
-                         : "ขนาดล็อก · หลักฐานต้องเทียบกันได้")
+                    Image(systemName: sel.pinned ? "lock.fill" : isText ? "hand.tap" : (resizable ? "hand.draw" : "lock"))
+                        .font(.sh(9.5))
+                    Text(hint)
                         .font(.sh(10.5, .medium))
                         .lineLimit(1).minimumScaleFactor(0.65)
                 }
-                .foregroundStyle(.white.opacity(0.42))
-
-                Spacer(minLength: 0)
-                Button {
-                    deleteWidget(sel)
-                } label: {
-                    Image(systemName: "trash.fill").font(.sh(12))
-                        .foregroundStyle(.white.opacity(0.85))
-                        .frame(width: 32, height: 30)
-                        .background(RoundedRectangle(cornerRadius: 9, style: .continuous)
-                            .fill(Color.red.opacity(0.42)))
-                }
-                .buttonStyle(.plain)
-            }
-
-            // เคยมีปุ่ม "ขึ้นหน้า / ลงหลัง" ตรงนี้ — ถอดออกแล้ว
-            //
-            // ชั้นซ้อนมีความหมายเฉพาะตอนของทับกันได้ พอผังบังคับว่าห้ามทับ
-            // (`PageLayout.solve` ดันตัวที่มาทีหลังลงจนมีที่ว่าง) ปุ่มคู่นี้ก็กดแล้วไม่มีอะไรเกิดขึ้น
-            // ปุ่มที่กดแล้วไม่มีอะไรเกิดขึ้นแย่กว่าปุ่มที่ไม่มี เพราะผู้ใช้จะเดาว่าแอปพัง
-
-            // พื้นผิว — เลือกได้ทุก widget: กระจก · เข้ม · จาง · โปร่ง
-            section("พื้น") {
-                HStack(spacing: 7) {
-                    ForEach(WidgetSurface.allCases) { s in
-                        let active = sel.surface == s
-                        Button {
-                            setSurface(sel, s)
-                        } label: {
-                            Text(s.name).font(.sh(11, .semibold))
-                                .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.65))
-                                .padding(.horizontal, 13).padding(.vertical, 6)
-                                .background(Capsule().fill(active ? Color.white.opacity(0.9) : Color.white.opacity(0.08)))
+                .foregroundStyle(.white.opacity(0.4))
+                Spacer(minLength: 8)
+                // ตรารับรองที่ตรึงไว้ไม่มีปุ่มลบ — คำยืนยันของ Sale Here ไม่ใช่ของที่เจ้าของการ์ดถอดได้
+                if !sel.pinned {
+                    Button { deleteWidget(sel) } label: {
+                        HStack(spacing: 5) {
+                            Image(systemName: "trash").font(.system(size: 12, weight: .semibold))
+                            Text("ลบ").font(.sh(12, .semibold))
                         }
-                        .buttonStyle(.plain)
+                        .foregroundStyle(Color(red: 1, green: 0.5, blue: 0.45))
+                        .padding(.horizontal, 12)
+                        .frame(height: 34)
+                        .background(Capsule().fill(Color.white.opacity(0.08)))
+                        .contentShape(Capsule())
                     }
-                    Spacer(minLength: 0)
+                    .buttonStyle(DockPress())
+                    .accessibilityLabel("ลบ\(sel.kind.title)")
                 }
             }
-
-            // ขอบ — แยกจากพื้น เพราะบางแบบอยากได้แค่เส้นกรอบโดยไม่เอาพื้น
-            section("ขอบ") {
-                HStack(spacing: 7) {
-                    ForEach([true, false], id: \.self) { on in
-                        let active = sel.border == on
-                        Button {
-                            setBorder(sel, on)
-                        } label: {
-                            Text(on ? "มีขอบ" : "ไม่มีขอบ").font(.sh(11, .semibold))
-                                .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.65))
-                                .padding(.horizontal, 13).padding(.vertical, 6)
-                                .background(Capsule().fill(active ? Color.white.opacity(0.9) : Color.white.opacity(0.08)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-
-            // ตัวอักษร — ขึ้นเฉพาะใบที่ทั้งใบเป็นตัวอักษรที่พิมพ์เอง (ดู `WidgetKind.usesTextStyle`)
-            if kind.usesTextStyle { textStyleSections(sel) }
+            .frame(minHeight: 34)
         }
     }
 
-    /// สี่เรื่องของตัวอักษร — ฟอนต์ · สี · ขนาด · การจัดวาง
-    ///
-    /// อยู่ในแผงของ *ชิ้น* ไม่ใช่แผงธีมของทั้งการ์ด เพราะค่าพวกนี้เก็บต่อชิ้น
-    /// (วางข้อความสองก้อนบนหน้าเดียวแล้วอยากได้คนละหน้าตาเป็นเรื่องปกติของการจัดหน้า)
+    /// แบบอื่นในตระกูลเดียวกัน — สิ่งแรกที่คนอยากรู้เวลาแตะชิ้นคือ "มันมีหน้าตาแบบอื่นไหม"
+    /// ชิ้นที่มีแบบเดียวไม่มีแถวนี้เลย ไม่ใช่แถวว่าง
     @ViewBuilder
-    private func textStyleSections(_ sel: WidgetInstance) -> some View {
-        let st = sel.textStyle
-
-        // ── ฟอนต์ ──────────────────────────────────────────────────
-        // ตัวอย่างเขียนด้วยฟอนต์นั้นจริง ๆ ทั้งไทยและละติน — ชื่อฟอนต์บอกอะไรไม่ได้เท่าตัวอักษร
-        // และคนไทยเลือกฟอนต์จาก *หัวสระกับหาง* ซึ่งจะเห็นก็ต่อเมื่อมีตัวไทยให้ดู
-        section("ฟอนต์") {
+    private func variantsRow(_ sel: WidgetInstance) -> some View {
+        let siblings = WidgetKind.allCases.filter { $0.family == sel.kind.family }
+        if siblings.count > 1 {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(CardFont.allCases) { f in
-                        let active = st.face == f
-                        Button { setTextStyle(sel) { $0.face = f } } label: {
-                            VStack(spacing: 3) {
-                                Text("ก่ำ Ag")
-                                    .font(f.font(16, .semibold))
-                                    .lineLimit(1)
-                                Text(f.name)
-                                    .font(.sh(8.5, .medium))
-                                    .opacity(0.7)
+                HStack(alignment: .top, spacing: 10) {
+                    ForEach(siblings) { k in
+                        let active = k == sel.kind
+                        Button { swap(sel, to: k) } label: {
+                            VStack(spacing: 5) {
+                                WidgetThumb(kind: k, theme: theme.toolTheme, width: 92)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                            .strokeBorder(active ? theme.rawAccent : .white.opacity(0.14),
+                                                          lineWidth: active ? 2 : 0.6)
+                                    )
+                                Text(k.title)
+                                    .font(.sh(9.5, active ? .semibold : .regular))
+                                    .foregroundStyle(active ? .white : .white.opacity(0.5))
+                                    .lineLimit(1).minimumScaleFactor(0.7)
+                                    .frame(width: 92)
                             }
-                            .foregroundStyle(active ? .black.opacity(0.88) : .white.opacity(0.72))
-                            .frame(width: 64, height: 48)
-                            .background(RoundedRectangle(cornerRadius: 11, style: .continuous)
-                                .fill(active ? Color.white.opacity(0.92) : Color.white.opacity(0.08)))
+                            // พรีวิวปิด hit testing ไว้ (กันไม่ให้ widget ข้างในกินทัช)
+                            // ถ้าไม่ประกาศ contentShape ปุ่มจะกดติดแค่ตรงข้อความใต้รูป
+                            .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
+                        .animation(Motion.snap, value: active)
                     }
                 }
-                .padding(.vertical, 2)
-            }
-        }
-
-        // ── สี ─────────────────────────────────────────────────────
-        // สามตัวแรกไม่มีสีของตัวเอง (มันคือ "ตามการ์ด") จึงเป็นชิปมีชื่อ ไม่ใช่วงกลม —
-        // วงกลมขาวสองใบที่แปลว่าคนละอย่างเป็นตัวเลือกที่เดาไม่ออกว่าต่างกันตรงไหน
-        section("สีตัวอักษร") {
-            VStack(alignment: .leading, spacing: 9) {
-                HStack(spacing: 7) {
-                    ForEach([TextTint.ink, .soft, .accent]) { t in
-                        let active = st.tint == t
-                        Button { setTextStyle(sel) { $0.tint = t } } label: {
-                            Text(t.name).font(.sh(11, .semibold))
-                                .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.65))
-                                .padding(.horizontal, 13).padding(.vertical, 6)
-                                .background(Capsule().fill(active ? Color.white.opacity(0.9)
-                                                                  : Color.white.opacity(0.08)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    Spacer(minLength: 0)
-                }
-
-                HStack(spacing: 9) {
-                    ForEach([TextTint.white, .black, .rose, .coral, .gold, .mint, .sky, .lavender]) { t in
-                        let active = st.tint == t
-                        Button { setTextStyle(sel) { $0.tint = t } } label: {
-                            Circle()
-                                .fill(t.swatch(accent: theme.rawAccent))
-                                .frame(width: 26, height: 26)
-                                .overlay(Circle().strokeBorder(.white.opacity(active ? 0.95 : 0.22),
-                                                               lineWidth: active ? 2 : 0.6))
-                                .scaleEffect(active ? 1.1 : 1)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(t.name)
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-        }
-
-        // ── ขนาด ───────────────────────────────────────────────────
-        section("ขนาด") {
-            HStack(spacing: 7) {
-                ForEach(TextScale.allCases) { sc in
-                    let active = st.scale == sc
-                    Button { setTextStyle(sel) { $0.scale = sc } } label: {
-                        Text(sc.name).font(.sh(11, .semibold))
-                            .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.65))
-                            .padding(.horizontal, 13).padding(.vertical, 6)
-                            .background(Capsule().fill(active ? Color.white.opacity(0.9)
-                                                              : Color.white.opacity(0.08)))
-                    }
-                    .buttonStyle(.plain)
-                }
-                Spacer(minLength: 0)
-            }
-        }
-
-        // ── จัดวาง ─────────────────────────────────────────────────
-        section("จัดวาง") {
-            HStack(spacing: 7) {
-                ForEach(TextAlign.allCases) { a in
-                    let active = st.align == a
-                    Button { setTextStyle(sel) { $0.align = a } } label: {
-                        Image(systemName: a.icon)
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(active ? .black.opacity(0.85) : .white.opacity(0.65))
-                            .frame(width: 40, height: 28)
-                            .background(RoundedRectangle(cornerRadius: 9, style: .continuous)
-                                .fill(active ? Color.white.opacity(0.9) : Color.white.opacity(0.08)))
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(a.name)
-                }
-                Spacer(minLength: 0)
+                .padding(.vertical, 2).padding(.horizontal, 1)
             }
         }
     }
@@ -2539,7 +3005,47 @@ struct CardScreen: View {
                               _ change: (inout WidgetTextStyle) -> Void) {
         for pi in pages.indices {
             guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            // ไม่สั่นตรงนี้ — ชิปที่เรียกมา (`FontChip` ฯลฯ) สั่นเองแล้ว สองที่จะกลายเป็นสั่นซ้อน
             withAnimation(Motion.flow) { change(&pages[pi].items[i].textStyle) }
+            return
+        }
+    }
+
+    private func setPattern(_ sel: WidgetInstance, _ on: PlatePattern) {
+        for pi in pages.indices {
+            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            withAnimation(Motion.flow) { pages[pi].items[i].pattern = on }
+            Haptics.impact(.light)
+            return
+        }
+    }
+
+    private func setSealStyle(_ sel: WidgetInstance, _ style: SealStyle) {
+        for pi in pages.indices {
+            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            withAnimation(Motion.flow) { pages[pi].items[i].sealStyle = style }
+            Haptics.impact(.light)
+            return
+        }
+    }
+
+    /// 0 = ฟอยล์ · 1 = ปั๊มนูน · 2 = ไม่มี
+    private func setEmboss(_ sel: WidgetInstance, _ mode: Int) {
+        for pi in pages.indices {
+            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            withAnimation(Motion.flow) {
+                pages[pi].items[i].emboss = mode != 2
+                pages[pi].items[i].embossBlind = mode == 1
+            }
+            Haptics.impact(.light)
+            return
+        }
+    }
+
+    private func setLiftPhoto(_ sel: WidgetInstance, _ on: Bool) {
+        for pi in pages.indices {
+            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            withAnimation(Motion.flow) { pages[pi].items[i].liftPhoto = on }
             Haptics.impact(.light)
             return
         }
@@ -2563,48 +3069,6 @@ struct CardScreen: View {
         }
     }
 
-    /// แถวสลับแบบภายในหมวดเดียวกัน
-    ///
-    /// วางไว้ตรงนี้แทนที่จะต้องไปเปิด gallery ใหม่ เพราะเวลาผู้ใช้แตะ widget
-    /// สิ่งที่เขาอยากรู้อันดับแรกคือ "มันมีหน้าตาแบบอื่นไหม" ไม่ใช่ "จะเพิ่มตัวใหม่"
-    @ViewBuilder
-    private func variantPicker(_ sel: WidgetInstance) -> some View {
-        let siblings = WidgetKind.allCases.filter { $0.family == sel.kind.family }
-        if siblings.count > 1 {
-            VStack(alignment: .leading, spacing: 9) {
-                sectionTitle("แบบอื่นของ \(sel.kind.family.label)")
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: 10) {
-                        ForEach(siblings) { k in
-                            let active = k == sel.kind
-                            Button { swap(sel, to: k) } label: {
-                                VStack(spacing: 6) {
-                                    WidgetThumb(kind: k, theme: theme.toolTheme)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                                .strokeBorder(active ? theme.rawAccent : .white.opacity(0.12),
-                                                              lineWidth: active ? 2 : 0.6)
-                                        )
-                                    Text(k.title)
-                                        .font(.sh(9.5, active ? .semibold : .regular))
-                                        .foregroundStyle(active ? .white : .white.opacity(0.5))
-                                        .lineLimit(1).minimumScaleFactor(0.7)
-                                        .frame(width: 104)
-                                }
-                                // พรีวิวปิด hit testing ไว้ (กันไม่ให้ widget ข้างในกินทัช)
-                                // ถ้าไม่ประกาศ contentShape ปุ่มจะกดติดแค่ตรงข้อความใต้รูป
-                                .contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.vertical, 2)
-                }
-            }
-        }
-    }
-
     /// ลบ widget พร้อมยื่นทางกลับให้ห้าวินาที
     ///
     /// # ทำไมเป็น "เลิกทำ" ไม่ใช่ "ยืนยันว่าจะลบ"
@@ -2616,17 +3080,17 @@ struct CardScreen: View {
     /// เก็บทั้งตัวและ **ที่นั่งเดิม** ไว้ — รูปกับข้อความของ widget ผูกกับ `id` ที่คงไว้
     /// (ดู `PhotoStore.perWidget`) ของจึงกลับมาครบ ไม่ใช่กลับมาเป็นตัวเปล่า
     private func deleteWidget(_ sel: WidgetInstance) {
+        guard !sel.pinned else { return }
         guard let pi = pages.firstIndex(where: { $0.items.contains { $0.id == sel.id } }),
               let ii = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { return }
         let removed = pages[pi].items[ii]
         withAnimation(Motion.flow) {
             pages[pi].items.remove(at: ii)
-            selected = nil
         }
         // ปิดชีตด้วย — สองเหตุผล: แผงที่เปิดค้างอยู่เป็นแผงของของที่ไม่มีอยู่แล้ว (ตอนนี้มันเด้ง
         // ไปเป็นแผงธีมของทั้งการ์ดแทน ซึ่งไม่มีใครขอ) และชีตบังขอบล่างของจอพอดี — ที่ที่แถบ
         // "เลิกทำ" ยืนอยู่ · ไม่ปิดก็เท่ากับยื่นทางกลับให้แล้วเอาไปซ่อนไว้หลังชีต
-        withAnimation(Motion.settle) { showTools = false }
+        withAnimation(Motion.settle) { dock = .main }
         Haptics.impact(.medium)
         offer("ลบ\(sel.kind.title)แล้ว", "เลิกทำ") {
             withAnimation(Motion.flow) {
@@ -2635,7 +3099,7 @@ struct CardScreen: View {
                 // พากลับไปหน้าที่มันเคยอยู่ด้วย — ระหว่างห้าวินาทีนั้นผู้ใช้ปัดไปหน้าอื่นได้
                 // แล้วของที่คืนมาจะโผล่นอกสายตาโดยไม่มีอะไรบอกว่ามันกลับมาแล้ว
                 index = p
-                selected = removed.id
+                dock = .piece(removed.id)
             }
             Haptics.impact(.light)
         }
@@ -2643,16 +3107,18 @@ struct CardScreen: View {
 
     /// สลับแบบโดยคงตำแหน่งเดิมไว้ · บีบขนาดให้เข้ากรอบของแบบใหม่
     private func swap(_ sel: WidgetInstance, to kind: WidgetKind) {
-        guard kind != sel.kind else { return }
+        guard kind != sel.kind, !sel.pinned else { return }
         for pi in pages.indices {
             guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
             var w = pages[pi].items[i]
             w.kind = kind
+            // แบบใหม่มีสัดส่วนของตัวเอง — คงความกว้างไว้ แล้วให้ความสูงมาจากผังของแบบใหม่
+            w.resetAspect()
             // แบบใหม่อาจล้นหน้าถ้าเดิมถูกยืดไว้สุด — รูดกลับเข้าหน้า ตำแหน่งเดิมคงไว้เท่าที่ทำได้
-            w.rect = PageLayout.clamp(w.rect, page: pageSize)
+            w.rect = PageLayout.clamp(w, page: pageSize)
             // แบบใหม่บุคลิกต่างจากเดิม — กลับไปใช้พื้นตั้งต้นของมัน
-            w.surface = kind.isPlain ? .plain : .glass
-            w.border = !kind.isPlain
+            w.surface = kind.defaultSurface
+            w.border = kind.defaultBorder
             withAnimation(Motion.flow) {
                 pages[pi].items[i] = w
             }
@@ -2953,6 +3419,29 @@ private struct InkSwatch: View {
     }
 }
 
+/// เม็ดสีของคู่สีหนึ่งคู่ — วงกลมขนาดเดียวกับสีเดี่ยว ผ่าครึ่งเป็นสองสีของคู่
+///
+/// ซีกซ้ายคือสีพื้น ซีกขวาคือสีหมึก — สลับข้างที่แถวโทนเมื่อไหร่ สองซีกสลับตาม
+/// เม็ดจึงบอกได้เสมอว่ากดแล้วการ์ดจะออกมาหน้าไหน ไม่ใช่แค่ "คู่นี้มีสีอะไรบ้าง"
+private struct DuoDot: View {
+    let duo: ColorDuo
+    let flipped: Bool
+    let on: Bool
+
+    var body: some View {
+        let bg = flipped ? duo.light : duo.dark
+        let ink = flipped ? duo.dark : duo.light
+        Circle()
+            .fill(ink)
+            .overlay(alignment: .leading) { Rectangle().fill(bg).frame(width: 15) }
+            .clipShape(Circle())
+            .frame(width: 30, height: 30)
+            .overlay(Circle().strokeBorder(.white.opacity(on ? 0.95 : 0.2),
+                                           lineWidth: on ? 2 : 0.5))
+            .scaleEffect(on ? 1.1 : 1)
+    }
+}
+
 /// ตัวอย่างย่อของ "ฉากหลัง" หนึ่งแบบ — ใช้สีและชั้นเดียวกับ `CardBackdrop`
 private struct BackdropSwatch: View {
     let theme: CardTheme
@@ -2968,6 +3457,15 @@ private struct BackdropSwatch: View {
             switch style {
             case .gradient:
                 LinearGradient(colors: [c.top, c.bottom], startPoint: .top, endPoint: .bottom)
+            case .grid:
+                LinearGradient(colors: [c.top, c.bottom], startPoint: .top, endPoint: .bottom)
+                BackdropGrid(line: .white.opacity(t.activeInk.isLight ? 0.6 : 0.12), step: 6)
+            case .stripe:
+                c.top
+                BackdropStripes(band: t.stripeInk, width: 3)
+            case .diamond:
+                c.top
+                BackdropDiamonds(band: t.stripeInk, width: 8)
             case .glow:
                 c.bottom
                 // ดวงแสงย่อ — ต้องเบลอน้อยกว่าของจริงตามสัดส่วน ไม่งั้นเละเป็นสีเดียว
@@ -2977,6 +3475,11 @@ private struct BackdropSwatch: View {
                     .blur(radius: 6).offset(x: 7, y: 6)
             case .solid:
                 c.top
+            case .marble:
+                LinearGradient(colors: [c.top, c.bottom],
+                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                // ลายเดียวกับของจริงแต่ต้องดันความหนาขึ้น — ที่ 24×17pt เส้นตามสัดส่วนจริงบางจนหายไปหมด
+                MarbleVeins(vein: t.marbleInk.vein, bleed: t.marbleInk.bleed, lineScale: 3.6)
             case .photo:
                 c.bottom
                 if let bg = photos?.background {
@@ -2990,4 +3493,14 @@ private struct BackdropSwatch: View {
             }
         }
     }
+}
+
+
+/// คำขอจากตู้ widget: ใบ `kind` ต้องการหัวข้อ `topic` ที่ยังว่าง
+struct TopicFillRequest: Identifiable {
+    let kind: WidgetKind
+    let topic: StarTopic
+    /// true = ขอจากตู้ (กรอกเสร็จวางใบให้) · false = แตะใบที่วางอยู่แล้วบนการ์ด (กรอกเสร็จใบปลดล็อกเอง)
+    var place = true
+    var id: String { kind.rawValue }
 }

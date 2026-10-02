@@ -1,4 +1,5 @@
 import SwiftUI
+import PhosphorSwift
 
 // MARK: - Photos
 
@@ -15,6 +16,8 @@ enum PhotoLib {
     ]
 
     static let count = 12
+    /// ช่องรูปครีเอเตอร์ (1–3) — รูปโปรไฟล์ที่อัปโหลดจากหน้า "ข้อมูลของฉัน" จะมาแทนช่องพวกนี้
+    static func isProfileSlot(_ i: Int) -> Bool { (1...3).contains(i % count) }
     /// index 1–3 = รูปครีเอเตอร์ (hero/avatar/polaroid) · ที่เหลือวนรูปผลงาน
     static func url(_ i: Int) -> URL {
         let n = i % count
@@ -198,7 +201,7 @@ struct WorkDeepStats: View {
         HStack(spacing: 3.5) {
             Image(systemName: icon)
                 .font(.system(size: size * 0.92, weight: .semibold))
-            Text(Fmt.compact(value))
+            Text(Fmt.compact(value)).dataValue()
                 .font(.sh(size, .bold))
         }
         .foregroundStyle(tint)
@@ -209,33 +212,135 @@ struct WorkDeepStats: View {
 
 // MARK: - Dispatcher
 
+/// แผ่นโปสเตอร์สีธีม — **สูตรเดียวของทั้งตู้**
+///
+/// ใบที่เป็น "แผ่นพิมพ์" (โปสเตอร์สายงาน · แผ่นโชว์คลิป) ไม่ได้ครอบกระจกของ `WidgetChrome`
+/// แต่วาดแผ่นของตัวเอง — ซึ่งแปลว่าถ้าต่างคนต่างคิดสีเอง การ์ดใบเดียวจะมีแผ่นสีเลือดหมู
+/// สองเฉดที่ไม่ตรงกันวางซ้อนกันอยู่ · สีจึงมาจากที่นี่ที่เดียว
+///
+/// **เฉดมาจากสีที่เจ้าของการ์ดเลือก** (`backdropHue` — พาเลตต์ หรือสีที่เขาตั้งเอง)
+/// ส่วนความสด/ความสว่างถูกตรึงไว้ที่ค่าของ *แผ่นพิมพ์*: เข้มพอให้ตัวหนังสือครีมอ่านออกเสมอ
+/// ไม่ว่าเขาจะเลือกสีไหน — นี่คือสิ่งเดียวที่วิดเจ็ตตัดสินใจเอง ที่เหลือเป็นของเขาทั้งหมด
+enum PosterPlate {
+    /// แผ่นเข้มอิ่มสีตามเฉดของการ์ด
+    static func plate(_ theme: CardTheme) -> Color {
+        // คู่สีมีสีเข้มของมันเองอยู่แล้ว — คิดใหม่จากเฉดเมื่อไหร่ แผ่นจะเป็นสีที่ไม่มีอยู่ในคู่
+        if let d = theme.duoDark { return d }
+        return Color(hue: theme.backdropHue, saturation: 0.60, brightness: 0.255)
+    }
+
+    /// ครีมที่อมเฉดเดียวกับแผ่น — ขาวสนิทบนแผ่นเข้มอ่านเป็นตัวอักษรของระบบ ไม่ใช่หมึกของงาน
+    static func cream(_ theme: CardTheme) -> Color {
+        if let l = theme.duoLight { return l }
+        return Color(hue: theme.backdropHue, saturation: 0.085, brightness: 0.95)
+    }
+}
+
+/// # แผ่นที่จัดหน้ามาแล้ว — **พื้นเต็มกรอบเสมอ ทุกเคส ไม่มีข้อยกเว้น**
+///
+/// สำรับโปสเตอร์ (`WidgetKind.keepsDesignAspect`) วาดผังของตัวเองที่ขนาดออกแบบตายตัว
+/// แล้วสเกลทั้งก้อน — ซึ่งเคยแปลว่า **ลากกรอบให้กว้างขึ้นแล้วแผ่นไม่ขยับ** เพราะสเกลถูกล็อก
+/// ด้วยความสูง ที่ว่างด้านขวาจึงเป็นการ์ดเปล่าโผล่ออกมาข้าง ๆ แผ่น ซึ่งอ่านเป็นของที่พัง
+///
+/// ที่นี่แยกสองเรื่องออกจากกันเด็ดขาด:
+/// - **สเกล** (`k`) มาจากแกนที่คับที่สุด — ของข้างในจึงไม่ถูกบีบสักแกน
+/// - **ผัง** (`size`) ยืดในหน่วยออกแบบจนคูณ `k` แล้วเท่ากรอบเป๊ะ *ทั้งสองแกน*
+///
+/// ผลคือ `size.width * k == frame.width` และ `size.height * k == frame.height` เสมอ
+/// (ทั้งตอนกว้างกว่าผัง เตี้ยกว่าผัง หรือสัดส่วนเพี้ยนไปทางไหนก็ตาม) — แผ่นเต็มกรอบทุกกรณี
+/// ส่วนที่ได้เพิ่มมาเป็น *พื้นที่ของผัง* ที่ใบนั้นเอาไปกระจายเอง (ปีกถอยออกหาขอบ · แถวกระจาย ·
+/// คนยังยืนกลางช่องเดิม) ไม่ใช่รูปที่ถูกดึงให้ยาว — ดู `WidgetChrome` "กรอบคือคอนเทนเนอร์"
+struct PosterSheet<Content: View>: View {
+    /// ขนาดอ้างอิงของผัง — ความกว้าง/สูงต่ำสุดในหน่วยออกแบบ
+    let design: CGSize
+    /// กรอบจริงที่ชิ้นนี้ได้รับ (`WidgetBody.size`)
+    let frame: CGSize
+    /// ผังในหน่วยออกแบบที่ยืดแล้ว — ใบนั้นต้องวาดให้เต็มขนาดนี้ ไม่ใช่เต็ม `design`
+    @ViewBuilder var content: (CGSize) -> Content
+
+    var body: some View {
+        let fw = max(frame.width, 1), fh = max(frame.height, 1)
+        let k = max(min(fw / max(design.width, 1), fh / max(design.height, 1)), 0.01)
+        let box = CGSize(width: max(design.width, fw / k), height: max(design.height, fh / k))
+        content(box)
+            .frame(width: box.width, height: box.height, alignment: .topLeading)
+            .scaleEffect(k, anchor: .topLeading)
+            .frame(width: fw, height: fh, alignment: .topLeading)
+    }
+}
+
 struct WidgetBody: View {
     let kind: WidgetKind
     let theme: CardTheme
     let size: CGSize
 
+    /// หมึกของ *พื้นที่ชิ้นนี้นั่งอยู่จริง* — ไม่ใช่ของการ์ดทั้งใบ
+    /// ชิ้นที่อยู่บนแผ่นเข้มทึบได้เวทีมืดของตัวเอง แม้การ์ดจะเป็นกระดาษ (ดู `WidgetChrome`)
+    @Environment(\.cardInk) private var ink
+
+    /// ตู้ widget วาดใบเต็ม ๆ ด้วยข้อมูลตัวอย่างเสมอ (ค่าเป็นแท่งว่างถ้ายังไม่กรอก) — ไม่ขึ้นป้ายรอกรอกแทนใบ
+    @Environment(\.sampleData) private var sampleOK
+
+    /// ตระกูลที่ต้องใช้ข้อมูลจากระบบ (แคมเปญ · OAuth) หรือข้อมูลที่ยังไม่ได้กรอก — ว่าง = บอกตรง ๆ ไม่วาดของปลอม
+    private var pending: String? {
+        if sampleOK { return nil }
+        let c = Profile.me.creator
+        let sample = Profile.me.sampleFamilies
+        // เว้นวรรคเมื่อชื่อแหล่งขึ้นต้นด้วยตัวละติน ("รอ OAuth …") — ตัวไทยติดกันได้ ("รอประวัติแคมเปญ…")
+        let src = kind.family.contract.source.rawValue
+        let source = (src.first?.isASCII ?? false) ? " " + src : src
+        switch kind.family {
+        case .brand:     return c.track.brands.isEmpty ? "แบรนด์ที่เคยร่วมงาน — รอ\(source)" : nil
+        case .verified:  return c.track.works.isEmpty ? "ผลงานยืนยัน — รอ\(source)" : nil
+        case .audience:  return c.audience.isEmpty ? "ข้อมูลผู้ชม — รอ\(source)" : nil
+        case .followers: return sample.contains(.followers) ? "ยังไม่ใส่ช่องทาง — กรอกใน Star Profile" : nil
+        case .rate:      return sample.contains(.rate) ? "ยังไม่ตั้งเรท — กรอกใน Star Profile" : nil
+        default:         return nil
+        }
+    }
+
     var body: some View {
         Group {
+            if let pending {
+                SystemPending(text: pending, family: kind.family)
+            } else {
             switch kind {
-            case .artPortrait: ArtPortrait(theme: theme, size: size)
             case .artTypeOver: ArtTypeOver(theme: theme, size: size)
-            case .artPolaroid: ArtPolaroid(theme: theme)
+            case .artPortfolio: ArtPortfolioPoster(theme: theme, size: size)
+            // สำรับหน้าต่าง — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
+            case .portfolioWindow: PortfolioWindowWidget(theme: theme, size: size)
+            case .socialWindow: SocialWindowWidget(theme: theme, size: size)
+            // สำรับผ้าปิกนิก — ผังของมันเป็น *แผ่น* เหมือนกัน
+            case .portfolioGingham: PortfolioGinghamWidget(theme: theme, size: size)
+            case .socialGingham: SocialGinghamWidget(theme: theme, size: size)
+            // สำรับสมุดสแครปบุ๊ก — ผังของมันเป็น *แผ่น* เหมือนกัน
+            case .scrapFolder: ScrapFolderWidget(theme: theme, size: size)
+            case .scrapBadge: ScrapBadgeWidget(theme: theme, size: size)
+            case .scrapKeyTab: ScrapKeyTabWidget(theme: theme, size: size)
+            case .scrapFeed: ScrapFeedWidget(theme: theme, size: size)
+            case .scrapTags: ScrapTagsWidget(theme: theme, size: size)
+            case .scrapAbout: ScrapAboutWidget(theme: theme, size: size)
+            case .scrapInfo: ScrapInfoWidget(theme: theme, size: size)
+            case .scrapReceipt: ScrapReceiptWidget(theme: theme, size: size)
+            case .scrapStats: ScrapStatsWidget(theme: theme, size: size)
+            case .scrapStamp: ScrapStampWidget(theme: theme, size: size)
+            case .scrapPhones: ScrapPhonesWidget(theme: theme, size: size)
+            case .scrapChat: ScrapChatWidget(theme: theme, size: size)
+            case .scrapNote: ScrapNoteWidget(theme: theme, size: size)
+            case .scrapLabel: ScrapLabelWidget(theme: theme, size: size)
             case .heroMinimal: HeroMinimal(theme: theme, size: size)
             case .aboutText: AboutText(theme: theme)
             case .interestTags: InterestTags(theme: theme)
-            case .proofBrands: ProofBrands(theme: theme)
-            case .proofBrandWall: ProofBrandWall(theme: theme)
             case .proofBrandGrid: ProofBrandGrid(theme: theme)
             case .proofBrandRail: ProofBrandRail(theme: theme)
-            case .proofBrandList: ProofBrandList(theme: theme)
+            case .proofBrandCoins: ProofBrandCoins(theme: theme)
             case .proofWork: ProofWork(theme: theme)
             case .proofTicket: ProofTicket(theme: theme)
-            case .proofHolo: ProofHolo(theme: theme)
-            case .proofShelf: ProofShelf(theme: theme)
-            case .proofZine: ProofZine(theme: theme)
             case .statGiant: StatGiant(theme: theme, size: size)
             case .socialChips: SocialChips(theme: theme, width: size.width)
             case .socialTiles: SocialTiles(theme: theme, width: size.width)
+            // โปสเตอร์ผู้ติดตาม — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
+            case .statPoster: StatPosterWidget(theme: theme, size: size)
             case .artFilmstrip: ArtFilmstrip(theme: theme)
             case .artDuo: ArtDuo(theme: theme)
             case .artPair: ArtPair(theme: theme)
@@ -250,39 +355,65 @@ struct WidgetBody: View {
             case .galleryStory: GalleryStory(theme: theme)
             case .galleryFilm: GalleryFilm(theme: theme)
             case .galleryTape: GalleryTape(theme: theme)
+            // แผ่นโชว์คลิป — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
+            case .reelShowcase: ReelShowcase(theme: theme, size: size)
             case .typeMarquee: TypeMarquee(theme: theme)
-            case .typeQuote: TypeQuote(theme: theme, size: size)
             case .textBlock: TextBlock(theme: theme, size: size)
             case .nicheTags: NicheTags(theme: theme)
-            case .heroAura: HeroAura(theme: theme, size: size)
-            case .aboutNote: AboutNote(theme: theme)
+            // โปสเตอร์สายงาน — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
+            case .nichePoster: NichePosterWidget(theme: theme, size: size)
             case .statWrapped: StatWrapped(theme: theme, size: size)
             case .artPhotobooth: ArtPhotobooth(theme: theme)
             case .stickerTags: StickerTags(theme: theme)
             // สำรับรอบสอง — เรตราคาและช่องทางติดต่อ
-            case .rateMenu: RateMenuWidget(theme: theme)
             case .rateTags: RateTagsWidget(theme: theme)
             // สำรับเรตแบบศิลป์
-            case .rateReceipt: RateReceiptWidget(theme: theme)
             case .rateNeon: RateNeonWidget(theme: theme)
-            case .rateStamp: RateStampWidget(theme: theme)
-            case .rateBlock: RateBlockWidget(theme: theme)
             case .contactCard: ContactCardWidget(theme: theme)
             case .contactQR: ContactQRWidget(theme: theme)
             case .contactBar: ContactBarWidget(theme: theme)
             case .contactStack: ContactStackWidget(theme: theme)
             case .contactLine: ContactLineWidget(theme: theme, size: size)
             case .contactChips: ContactChipsWidget(theme: theme)
+            // โปสเตอร์ติดต่อ — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
+            case .contactPoster: ContactPosterWidget(theme: theme, size: size)
+            case .proofSeal: VerifiedSealWidget(theme: theme, size: size)
             // ประชากรผู้ติดตาม
             case .audienceLine: AudienceLineWidget(theme: theme, size: size)
             case .audienceSplit: AudienceSplitWidget(theme: theme)
             case .audienceAge: AudienceAgeWidget(theme: theme)
+            case .audiencePoster: InsightPosterWidget(theme: theme, size: size)
             case .audienceMap: AudienceMapWidget(theme: theme)
+            // สำรับแผ่นสติกเกอร์
+            // วัสดุไม่ได้อยู่ในตัววิว — ส่งลงไปทาง environment (ดู `popSkin` ท้ายฟังก์ชันนี้)
+            case .popHeroPaper, .popHeroGlass: PopHero(theme: theme, size: size)
+            case .popVideoPaper, .popVideoGlass: PopVideo(theme: theme)
+            case .popStatsGlass: PopStats(theme: theme)
+            case .popWorkPaper, .popWorkGlass: PopWork(theme: theme)
+            case .popRatePaper, .popRateGlass: PopRate(theme: theme)
+            case .popNichePaper, .popNicheGlass: PopNiche(theme: theme)
+            case .popContactPaper, .popContactGlass: PopContact(theme: theme)
+            // สำรับบรรณาธิการ
+            case .wallPolaroid: WallPolaroid(theme: theme, size: size)
+            case .wallMemory: WallMemory(theme: theme, size: size)
+            case .zineCover: ZineCover(theme: theme, size: size)
+            case .aboutEditorial: AboutEditorial(theme: theme, size: size)
+            case .aboutBehind: AboutBehind(theme: theme, size: size)
+            case .flowCards: FlowCards(theme: theme, size: size)
+            }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         // ส่งสีธีมลงไปให้ชิ้นส่วนย่อยใช้ได้โดยไม่ต้องรับ theme เป็นพารามิเตอร์ทุกชั้น
-        .environment(\.cardAccent, theme.accent)
+        //
+        // สีเน้นคิดจากพื้นที่ชิ้นนี้นั่งอยู่ ไม่ใช่จากหมึกของการ์ด — บนแผ่นเข้มทึบที่วางบนการ์ดกระดาษ
+        // สีเน้นแบบ "ย้อมให้เข้มพอสำหรับพื้นขาว" จะจมหายไปกับแผ่น ต้องใช้ตัวดิบที่จูนมาสำหรับพื้นมืด
+        .environment(\.cardAccent, ink.isLight ? theme.rawAccent.onLightSurface() : theme.rawAccent)
+        // วัสดุของแผ่นสติกเกอร์ — ชิ้นส่วนร่วม (ป้ายหัวข้อ · แผ่น · เทป) อยู่ลึกหลายชั้น
+        // ส่งเป็นพารามิเตอร์แปลว่าต้องไล่ทุกตัวเรียก ส่งทาง environment แล้วทั้งกิ่งได้พร้อมกัน
+        .environment(\.popSkin, kind.popSkin)
+        // สำรับสแครปบุ๊ก — สีของแผ่นมาจากธีมของการ์ด (เฉด + มืด/สว่าง) คิดครั้งเดียวต่อชิ้น
+        .environment(\.scrapTone, kind.isScrap ? ScrapTone(theme) : .fallback)
     }
 }
 
@@ -327,7 +458,7 @@ struct StatColumn: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(value)
+            Text(value).dataValue()
                 .font(.statNumber(compact ? 20 : 23))
                 .foregroundStyle(tint ?? ink.text(0.98))
                 .lineLimit(1).minimumScaleFactor(0.55)
@@ -348,10 +479,10 @@ struct FollowerPills: View {
 
     var body: some View {
         HStack(spacing: 7) {
-            ForEach(Mock.creator.socials.prefix(limit)) { s in
+            ForEach(Profile.me.creator.socials.prefix(limit)) { s in
                 HStack(spacing: 5) {
                     BrandIcon(name: s.type.icon, size: 9.5 * 1.15)
-                    Text(Fmt.compact(s.followerCount)).font(.sh(11, .bold))
+                    Text(Fmt.compact(s.followerCount)).dataValue().font(.sh(11, .bold))
                 }
                 .foregroundStyle(ink.text(0.9))
                 .padding(.horizontal, 8).padding(.vertical, 4.5)
@@ -362,5 +493,47 @@ struct FollowerPills: View {
             }
             Spacer(minLength: 0)
         }
+    }
+}
+
+
+// MARK: - ช่องที่รอข้อมูล
+
+/// แทนที่ widget ทั้งชิ้นเมื่อข้อมูลของตระกูลนั้นยังไม่มี — กรอบประ ไอคอนตระกูล และบอกว่ารออะไร
+/// (ไม่วาดเลข 0 หรือแบรนด์ตัวอย่าง: การ์ดที่โชว์ของปลอมคือการ์ดโกหก)
+struct SystemPending: View {
+    let text: String
+    let family: WidgetFamily
+    @Environment(\.cardInk) private var ink
+
+    var body: some View {
+        VStack(spacing: 8) {
+            PIcon(.hourglass, size: 16)
+                .foregroundStyle(ink.text(0.35))
+            Text(text)
+                .font(.sh(10.5, .semibold))
+                .foregroundStyle(ink.text(0.45))
+                .multilineTextAlignment(.center)
+                .lineLimit(3).minimumScaleFactor(0.8)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .strokeBorder(ink.text(0.18), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
+        )
+    }
+}
+
+
+/// ตู้ widget: วาดด้วยข้อมูลตัวอย่างแม้ยังไม่กรอก — ให้เห็นว่ามีข้อมูลแล้วใบจะหน้าตายังไง
+private struct SampleDataKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    var sampleData: Bool {
+        get { self[SampleDataKey.self] }
+        set { self[SampleDataKey.self] = newValue }
     }
 }

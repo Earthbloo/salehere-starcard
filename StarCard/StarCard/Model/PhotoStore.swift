@@ -19,7 +19,7 @@ import CoreImage.CIFilterBuiltins
 ///
 /// `dx`/`dy` คือสัดส่วนของ **ขนาดภาพที่เรนเดอร์จริง** ไม่ใช่จำนวนพอยต์ —
 /// ผู้ใช้ยืดกรอบ widget ทีหลัง จุดที่เลือกไว้จึงยังอยู่ตรงเดิม ไม่เลื่อนตามขนาดกรอบ
-struct PhotoFit: Equatable {
+struct PhotoFit: Equatable, Codable {
     var dx: CGFloat = 0
     var dy: CGFloat = 0
     /// ซูมเข้าอย่างเดียว (≥ 1) — ต่ำกว่า 1 เมื่อไหร่ภาพหดจนเห็นพื้นว่างในกรอบ
@@ -38,8 +38,17 @@ struct PhotoSlotRef: Hashable {
 @Observable
 final class PhotoStore {
     private(set) var uploaded: [UIImage] = []
+    /// ชื่อไฟล์ของรูปในคลังรวม เรียงคู่กับ `uploaded` — รูปไม่มีตัวตนในตัว ต้องมีชื่อไว้ลบถูกใบ
+    @ObservationIgnored private var uploadedIDs: [UUID] = []
     /// รูปพื้นหลังการ์ดที่ผู้ใช้อัปโหลดเอง — แยกจากคลังรูปเนื้อหา
     private(set) var background: UIImage?
+    /// รูปโปรไฟล์จากหน้า "ข้อมูลของฉัน" — ใช้แทนรูปครีเอเตอร์ตั้งต้นในช่อง 1–3 ของทุก widget
+    /// (ดู `PhotoLib.isProfileSlot`) และหัวหน้าคลัง · เก็บลงดิสก์เหมือนรูปพื้นหลัง
+    private(set) var profile: UIImage? { didSet { profileRevision &+= 1 } }
+    /// นับทุกครั้งที่รูปโปรไฟล์เปลี่ยน — ดู `TemplateThumbs.stamp`
+    @ObservationIgnored private(set) var profileRevision = 0
+    /// รูปหน้าสมุดบัญชีจากส่วน "การรับเงิน" — เอกสาร ไม่ใช่รูปการ์ด · เก็บลงดิสก์เหมือนรูปโปรไฟล์
+    private(set) var bookBank: UIImage?
     /// รูปเฉพาะของ widget แต่ละตัว — ทับคลังรวมและรูปตั้งต้นของระบบ
     ///
     /// เก็บเป็น "ช่องที่เท่าไหร่ของ widget ไหน" ไม่ใช่กองรวมต่อ widget
@@ -47,11 +56,20 @@ final class PhotoStore {
     private(set) var perWidget: [UUID: [Int: UIImage]] = [:]
     /// การจัดกรอบของแต่ละช่อง — ว่างไว้แปลว่ายังเป็นครอปกลางเฟรมตามเดิม
     private(set) var fits: [UUID: [Int: PhotoFit]] = [:]
+    /// ช่องที่ถูก **ลบพื้นหลัง** แล้ว — เก็บผลไว้ต่างหาก ไม่ทับรูปต้นฉบับ
+    ///
+    /// เก็บแยกเพราะปุ่มนี้ต้องกดคืนได้ทันทีโดยไม่ต้องอัปโหลดใหม่ (ดู `PhotoLift`)
+    /// และเพราะรูปต้นฉบับยังเป็นของที่ผู้ใช้เลือกมา — การกดปุ่มหนึ่งครั้งไม่ควรทำลายมันทิ้ง
+    private(set) var lifted: [UUID: [Int: UIImage]] = [:]
+    /// ช่องที่กำลังคำนวณหน้ากากอยู่ — ปุ่มหมุนรอระหว่างนี้ และกดซ้ำไม่ได้
+    private(set) var lifting: Set<PhotoSlotRef> = []
     /// ช่องที่กำลังถูกจัดกรอบอยู่ · nil = ไม่มีใครถูกจัด
     ///
     /// อยู่ในสโตร์ ไม่ใช่ใน `CardScreen` เพราะทั้งปุ่มบนตัวรูปและชั้นการ์ดที่วางแผ่นลากทับ
     /// ต้องอ่านค่าเดียวกัน (เหตุผลเดียวกับ `Profile.editing`)
     var framing: PhotoSlotRef?
+    /// ขนาดของช่องที่กำลังจัด (หน่วยการ์ด) — `PhotoFitSurface` รายงาน `PhotoFitCatcher` อ่าน
+    @ObservationIgnored var framingSize: CGSize = .zero
 
     /// วางรูปลงช่อง `slot` แล้วไหลต่อไปช่องถัดไปตามลำดับที่ widget วางไว้
     /// เลือกมาใบเดียว = เปลี่ยนเฉพาะช่องนั้น · เลือกมาหลายใบ = ไล่เติมช่องที่เหลือให้ในทีเดียว
@@ -60,18 +78,34 @@ final class PhotoStore {
         for (k, image) in images.enumerated() where order.indices.contains(start + k) {
             let s = order[start + k]
             perWidget[id, default: [:]][s] = image
+            write(image, to: Self.slotURL(id, s))
             // รูปใหม่ = กรอบใหม่ · การเก็บค่าเลื่อนของรูปเก่าไว้ทำให้รูปที่เพิ่งวางเข้าไปเบี้ยวทันที
             fits[id]?[s] = nil
+            // และหน้ากากของรูปเก่าก็ใช้กับรูปใหม่ไม่ได้ — ต้องกดลบพื้นหลังใหม่ถ้าต้องการ
+            if lifted[id]?[s] != nil {
+                lifted[id]?[s] = nil
+                write(nil, to: Self.liftURL(id, s))
+            }
         }
+        saveManifest()
     }
     func clear(_ id: UUID) {
+        for s in (perWidget[id] ?? [:]).keys { write(nil, to: Self.slotURL(id, s)) }
+        for s in (lifted[id] ?? [:]).keys { write(nil, to: Self.liftURL(id, s)) }
         perWidget[id] = nil
         fits[id] = nil
+        lifted[id] = nil
+        saveManifest()
     }
     func clear(slot: Int, for id: UUID) {
         perWidget[id]?[slot] = nil
         // คืนรูประบบ = คืนกรอบตั้งต้นด้วย ไม่งั้นรูปใหม่โผล่มาพร้อมกรอบของรูปเก่า
         fits[id]?[slot] = nil
+        // พื้นหลังที่ลบไว้เป็นของ *รูปใบนั้น* — คืนรูปเดิมแล้วหน้ากากของใบเก่าใช้ต่อไม่ได้
+        lifted[id]?[slot] = nil
+        write(nil, to: Self.slotURL(id, slot))
+        write(nil, to: Self.liftURL(id, slot))
+        saveManifest()
         if framing == PhotoSlotRef(widget: id, slot: slot) { framing = nil }
     }
     func has(slot: Int, for id: UUID) -> Bool { perWidget[id]?[slot] != nil }
@@ -84,19 +118,65 @@ final class PhotoStore {
     }
     func setFit(_ f: PhotoFit, slot: Int, for id: UUID) {
         fits[id, default: [:]][slot] = f
+        // ถูกเรียกทุกเฟรมระหว่างลาก — รอให้นิ้วหยุดก่อนค่อยเขียน
+        saveManifest(debounced: true)
     }
-    func resetFit(slot: Int, for id: UUID) { fits[id]?[slot] = nil }
+    func resetFit(slot: Int, for id: UUID) {
+        fits[id]?[slot] = nil
+        saveManifest()
+    }
     /// รูปจริงในช่อง — ตัวจัดกรอบต้องรู้สัดส่วนของภาพถึงจะคำนวณขอบเขตการเลื่อนได้
     ///
     /// ไล่ลำดับเดียวกับ `image(_:for:)` เป๊ะ ๆ รวมถึงรูประบบที่แคชไว้แล้ว —
     /// ถ้าตัวนี้ตอบไม่ตรงกับที่วาดจริง ขอบเขตการเลื่อนจะคำนวณจากสัดส่วนของภาพอื่น
     @MainActor
     func uiImage(slot i: Int, for id: UUID) -> UIImage? {
+        if let cut = lifted[id]?[i] { return cut }
         if let own = perWidget[id]?[i] { return own }
-        if !uploaded.isEmpty { return uploaded[i % uploaded.count] }
+        if let own = library(i) { return own }
         return ImageCache.shared.cached(PhotoLib.url(i))
     }
     func count(for id: UUID) -> Int { perWidget[id]?.count ?? 0 }
+
+    // MARK: ลบพื้นหลัง
+
+    func hasLift(slot: Int, for id: UUID) -> Bool { lifted[id]?[slot] != nil }
+    func isLifting(slot: Int, for id: UUID) -> Bool {
+        lifting.contains(PhotoSlotRef(widget: id, slot: slot))
+    }
+
+    /// รูปต้นฉบับของช่อง — **ไม่นับใบที่ลบพื้นหลังไปแล้ว** (ตัวที่ส่งเข้า Vision ต้องมีพื้นหลัง)
+    @MainActor
+    private func sourceImage(slot i: Int, for id: UUID) -> UIImage? {
+        if let own = perWidget[id]?[i] { return own }
+        if let own = library(i) { return own }
+        return ImageCache.shared.cached(PhotoLib.url(i))
+    }
+
+    /// ยกตัวแบบออกจากพื้นหลังของช่องนี้ — คืน `false` เมื่อในรูปไม่มีวัตถุที่แยกได้
+    ///
+    /// รูปต้นฉบับไม่ถูกแตะเลย กดคืนพื้นหลังได้ตลอดเวลาด้วย `dropLift`
+    @MainActor
+    @discardableResult
+    func liftBackground(slot i: Int, for id: UUID) async -> Bool {
+        let ref = PhotoSlotRef(widget: id, slot: i)
+        guard !lifting.contains(ref), let source = sourceImage(slot: i, for: id) else { return false }
+        lifting.insert(ref)
+        let out = await PhotoLift.lift(source)
+        lifting.remove(ref)
+        guard let out else { return false }
+        lifted[id, default: [:]][i] = out
+        write(out, to: Self.liftURL(id, i), png: true)
+        saveManifest()
+        return true
+    }
+
+    /// คืนพื้นหลังให้ช่องนี้
+    func dropLift(slot i: Int, for id: UUID) {
+        lifted[id]?[i] = nil
+        write(nil, to: Self.liftURL(id, i))
+        saveManifest()
+    }
 
     var hasUploads: Bool { !uploaded.isEmpty }
     var count: Int { max(uploaded.count, PhotoLib.count) }
@@ -105,34 +185,162 @@ final class PhotoStore {
 
     /// รูปพื้นหลังอยู่บนดิสก์ ไม่ใช่แค่ในหน่วยความจำ
     ///
-    /// # ทำไมตัวนี้ตัวเดียวถึงถูกเซฟ
-    ///
-    /// รูปในคลังกับรูปต่อ widget เป็น **เนื้อหา** ซึ่งของจริงต้องไปอยู่บน API พร้อมกับ
-    /// ตัวการ์ด (ดู `WidgetContent.swift`) ยัดลงเครื่องตอนนี้เท่ากับสร้างที่เก็บซ้อนที่ต้องรื้อทีหลัง
-    /// ส่วนรูปพื้นหลังเป็น **ธีม** — มันถูกอ้างจาก `CardTheme.backdrop == .photo` ที่เซฟลง
-    /// `UserDefaults` ไปแล้ว ถ้าไม่เก็บตัวรูปไว้ด้วย การเปิดแอปครั้งถัดไปจะได้การ์ดที่บอกว่า
-    /// "พื้นหลังเป็นรูป" แต่ไม่มีรูป แล้วตกไปใช้รูประบบเบลอ ๆ แทนโดยไม่มีใครสั่ง
+    /// มันถูกอ้างจาก `CardTheme.backdrop == .photo` ที่เซฟลง `UserDefaults` ไปแล้ว
+    /// ถ้าไม่เก็บตัวรูปไว้ด้วย การเปิดแอปครั้งถัดไปจะได้การ์ดที่บอกว่า "พื้นหลังเป็นรูป"
+    /// แต่ไม่มีรูป แล้วตกไปใช้รูประบบเบลอ ๆ แทนโดยไม่มีใครสั่ง
     private static var backgroundURL: URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
             .appendingPathComponent("starcard-backdrop.jpg")
+    }
+
+    private static var profileURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
+            .appendingPathComponent("starcard-profile.jpg")
+    }
+
+    private static var bookBankURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
+            .appendingPathComponent("starcard-bookbank.jpg")
+    }
+
+    // MARK: รูปในช่อง widget และคลังรวม
+    //
+    // รูปที่ผู้ใช้วางเองต้องอยู่รอดข้ามการเปิดแอป — ไม่งั้นการ์ดที่ `CardStore` จำโครงไว้
+    // จะกลับมาพร้อมรูปตัวอย่างของระบบแทนรูปของเขา · ของจริงย้ายไป API พร้อมตัวการ์ดทีหลัง
+    // (ดู `WidgetContent.swift`) แต่ถึงวันนั้นชั้นนี้เปลี่ยนแค่ที่เก็บ ไม่ต้องเปลี่ยนคนเรียก
+    //
+    // ผูกกับ widget ด้วย `WidgetInstance.id` ซึ่ง `CardStore` เซฟไว้คงที่ข้ามการเปิดแอปแล้ว
+
+    private struct Manifest: Codable {
+        var slots: [String: [Int]] = [:]
+        var lifts: [String: [Int]] = [:]
+        var fits: [String: [Int: PhotoFit]] = [:]
+        var library: [UUID] = []
+    }
+
+    private static var photoDir: URL? {
+        guard let base = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { return nil }
+        let d = base.appendingPathComponent("starcard-photos", isDirectory: true)
+        try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
+        return d
+    }
+    private static func slotURL(_ id: UUID, _ s: Int) -> URL? {
+        photoDir?.appendingPathComponent("slot-\(id.uuidString)-\(s).jpg")
+    }
+    /// PNG ไม่ใช่ JPEG — รูปที่ลบพื้นหลังแล้วต้องเก็บความโปร่งใสไว้
+    private static func liftURL(_ id: UUID, _ s: Int) -> URL? {
+        photoDir?.appendingPathComponent("lift-\(id.uuidString)-\(s).png")
+    }
+    private static func libraryURL(_ id: UUID) -> URL? {
+        photoDir?.appendingPathComponent("lib-\(id.uuidString).jpg")
+    }
+    private static var manifestURL: URL? { photoDir?.appendingPathComponent("manifest.json") }
+
+    @ObservationIgnored private var pendingSave: DispatchWorkItem?
+
+    private func saveManifest(debounced: Bool = false) {
+        pendingSave?.cancel()
+        let job = DispatchWorkItem { [weak self] in self?.writeManifest() }
+        pendingSave = job
+        if debounced {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: job)
+        } else {
+            job.perform()
+        }
+    }
+
+    private func writeManifest() {
+        guard let url = Self.manifestURL else { return }
+        var m = Manifest()
+        for (id, slots) in perWidget where !slots.isEmpty { m.slots[id.uuidString] = Array(slots.keys) }
+        for (id, slots) in lifted where !slots.isEmpty { m.lifts[id.uuidString] = Array(slots.keys) }
+        for (id, slots) in fits where !slots.isEmpty { m.fits[id.uuidString] = slots }
+        m.library = uploadedIDs
+        guard let data = try? JSONEncoder().encode(m) else { return }
+        // คิวเดียวกับไฟล์รูป — manifest ต้องไม่แซงหน้ารูปที่มันอ้างถึง
+        Self.io.async { try? data.write(to: url, options: .atomic) }
+    }
+
+    private func loadWidgetPhotos() {
+        guard let url = Self.manifestURL,
+              let data = try? Data(contentsOf: url),
+              let m = try? JSONDecoder().decode(Manifest.self, from: data) else { return }
+        for (key, slots) in m.slots {
+            guard let id = UUID(uuidString: key) else { continue }
+            for s in slots {
+                if let path = Self.slotURL(id, s)?.path, let img = UIImage(contentsOfFile: path) {
+                    perWidget[id, default: [:]][s] = img
+                }
+            }
+        }
+        for (key, slots) in m.lifts {
+            guard let id = UUID(uuidString: key) else { continue }
+            for s in slots {
+                if let path = Self.liftURL(id, s)?.path, let img = UIImage(contentsOfFile: path) {
+                    lifted[id, default: [:]][s] = img
+                }
+            }
+        }
+        for (key, slots) in m.fits {
+            guard let id = UUID(uuidString: key) else { continue }
+            fits[id] = slots
+        }
+        for id in m.library {
+            if let path = Self.libraryURL(id)?.path, let img = UIImage(contentsOfFile: path) {
+                uploaded.append(img)
+                uploadedIDs.append(id)
+            }
+        }
     }
 
     init() {
         // อ่านตอนเกิดเลย ไม่รอ `.task` — `CardBackdrop` วาดในเฟรมแรกที่การ์ดขึ้น
         // ถ้าโหลดทีหลังผู้ใช้จะเห็นพื้นกระพริบจากรูปสำรองไปเป็นรูปตัวเองทุกครั้งที่เปิดแอป
         if let url = Self.backgroundURL { background = UIImage(contentsOfFile: url.path) }
+        if let url = Self.profileURL { profile = UIImage(contentsOfFile: url.path) }
+        if let url = Self.bookBankURL { bookBank = UIImage(contentsOfFile: url.path) }
+        loadWidgetPhotos()
+    }
+
+    // MARK: รูปโปรไฟล์
+
+    func setProfile(_ image: UIImage) {
+        profile = image
+        write(image, to: Self.profileURL)
+    }
+
+    func clearProfile() {
+        profile = nil
+        write(nil, to: Self.profileURL)
+    }
+
+    // MARK: หน้าสมุดบัญชี
+
+    func setBookBank(_ image: UIImage) {
+        bookBank = image
+        write(image, to: Self.bookBankURL)
+    }
+
+    func clearBookBank() {
+        bookBank = nil
+        write(nil, to: Self.bookBankURL)
     }
 
     func setBackground(_ image: UIImage) {
         background = image
         baked.removeAll()
-        write(image)
+        lumas.removeAll()
+        veils.removeAll()
+        write(image, to: Self.backgroundURL)
     }
 
     func clearBackground() {
         background = nil
         baked.removeAll()
-        write(nil)
+        lumas.removeAll()
+        veils.removeAll()
+        write(nil, to: Self.backgroundURL)
     }
 
     /// รูปพื้นหลังที่ผ่านเอฟเฟกต์แล้ว
@@ -154,6 +362,41 @@ final class PhotoStore {
     @ObservationIgnored private var baked: [String: UIImage] = [:]
     @ObservationIgnored private static let ciContext = CIContext()
 
+    // MARK: ม่านกันตัวหนังสือจม (ดู `PhotoLuma`)
+
+    /// แผนที่ความสว่างของรูปพื้นหลังต่อเอฟเฟกต์ — วัดครั้งเดียวต่อรูปต่อเอฟเฟกต์
+    /// (เบลอกับจุดปะเปลี่ยนความสว่างของรูปจริง · ขาวดำแทบไม่เปลี่ยน แต่แยกกฎไว้ก็ไม่ได้ถูกลง)
+    @ObservationIgnored private var lumas: [BackdropEffect: PhotoLuma] = [:]
+    /// ม่านที่วาดแล้ว — ห้ามให้ระบบ observation เห็นด้วยเหตุผลเดียวกับ `baked`
+    @ObservationIgnored private var veils: [VeilKey: UIImage] = [:]
+
+    private struct VeilKey: Hashable {
+        let effect: BackdropEffect
+        let spec: PhotoVeil
+    }
+
+    func luma(_ effect: BackdropEffect) -> PhotoLuma? {
+        if let hit = lumas[effect] { return hit }
+        guard let image = background(effect),
+              let made = PhotoLuma.measure(image, blurred: effect == .blur) else { return nil }
+        lumas[effect] = made
+        return made
+    }
+
+    /// ม่านของรูปพื้นหลังตามธีม — nil เมื่อยังไม่มีรูปของผู้ใช้
+    ///
+    /// ลากแถบความจางทีไรได้กุญแจใหม่ทุกเฟรม — ม่านหนึ่งผืนคือกริดสองร้อยกว่าช่องกับภาพเล็ก ๆ หนึ่งใบ
+    /// ทำใหม่ได้ทุกเฟรม ที่จำไว้มีไว้ให้การ์ดหลายใบที่ใช้ธีมเดียวกัน (คลัง · หน้าแชร์) ไม่ต้องทำซ้ำ
+    func veil(_ effect: BackdropEffect, _ spec: PhotoVeil) -> UIImage? {
+        let key = VeilKey(effect: effect, spec: spec)
+        if let hit = veils[key] { return hit }
+        guard let luma = luma(effect), let made = luma.veilImage(luma.veil(spec), color: spec.color)
+        else { return nil }
+        if veils.count > 12 { veils.removeAll() }
+        veils[key] = made
+        return made
+    }
+
     private static func bake(_ effect: BackdropEffect, _ image: UIImage) -> UIImage? {
         guard effect == .halftone, let cg = image.cgImage else { return nil }
         let ci = CIImage(cgImage: cg)
@@ -173,42 +416,98 @@ final class PhotoStore {
         return UIImage(cgImage: made)
     }
 
+    /// คิวเขียนไฟล์ตัวเดียวแบบเรียงลำดับ — วางรูปแล้วกดคืนทันที การลบต้องไม่วิ่งแซงการเขียน
+    private static let io = DispatchQueue(label: "starcard.photos.io", qos: .utility)
+
     /// บีบอัดและเขียนนอกเธรดหลัก — รูปจากกล้องใบหนึ่งใช้เวลานานพอให้จังหวะที่แตะเลือกรูปสะดุด
-    private func write(_ image: UIImage?) {
-        guard let url = Self.backgroundURL else { return }
-        DispatchQueue.global(qos: .utility).async {
+    private func write(_ image: UIImage?, to url: URL?, png: Bool = false) {
+        guard let url else { return }
+        Self.io.async {
             guard let image else {
                 try? FileManager.default.removeItem(at: url)
                 return
             }
-            guard let data = image.jpegData(compressionQuality: 0.9) else { return }
+            guard let data = png ? image.pngData() : image.diskData(quality: 0.9) else { return }
             try? data.write(to: url, options: .atomic)
         }
     }
 
     func add(_ images: [UIImage]) {
-        uploaded.append(contentsOf: images)
+        for image in images {
+            let id = UUID()
+            uploaded.append(image)
+            uploadedIDs.append(id)
+            write(image, to: Self.libraryURL(id))
+        }
+        saveManifest()
     }
 
     func remove(at index: Int) {
         guard uploaded.indices.contains(index) else { return }
         uploaded.remove(at: index)
+        write(nil, to: Self.libraryURL(uploadedIDs.remove(at: index)))
+        saveManifest()
     }
 
-    func clear() { uploaded.removeAll() }
+    func clear() {
+        uploadedIDs.forEach { write(nil, to: Self.libraryURL($0)) }
+        uploaded.removeAll()
+        uploadedIDs.removeAll()
+        saveManifest()
+    }
 
     /// รูปลำดับที่ i — วนซ้ำถ้าขอเกินจำนวนที่มี
     ///
     /// ลำดับความสำคัญ: รูปที่วางไว้ในช่องนี้ของ widget ตัวนั้น → คลังรวมของการ์ด → รูปตั้งต้นจากระบบ
     /// ตกท้ายที่รูประบบเสมอ การ์ดจึงไม่มีวันว่างเปล่าตั้งแต่เปิดแอป
+    /// รูป **ของผู้ใช้** ในช่องนี้ — ไม่รวมรูปตัวอย่างของระบบ
+    ///
+    /// ต่างจาก `uiImage(slot:for:)` ตรงท้ายสุด: ตัวนั้นตกไปที่รูประบบเสมอเพราะตัวจัดกรอบ
+    /// ต้องรู้สัดส่วนของสิ่งที่วาดอยู่จริง ส่วนตัวนี้ตอบคำถามคนละข้อ — "เจ้าของการ์ดใส่รูปมาหรือยัง"
+    /// ซึ่งเป็นคำถามที่ตระกูลคัตเอาต์ใช้แยกระหว่าง *รูปตัวอย่างที่เราแถมให้ดูท่า* กับ *รูปจริงของเขา*
+    func userImage(slot i: Int, for id: UUID?) -> UIImage? {
+        if let id, let own = perWidget[id]?[i] { return own }
+        return library(i)
+    }
+
+    /// รูปของเจ้าของการ์ดสำหรับช่องนี้ (ยังไม่นับรูปที่วางเฉพาะชิ้น)
+    ///
+    /// ช่องรูปครีเอเตอร์ (1–3): รูปโปรไฟล์ครีเอเตอร์ → รูปโปรไฟล์วงกลม
+    /// ช่องอื่น / ช่องครีเอเตอร์ที่ยังไม่มีรูป: คลังที่อัปโหลดตอนแต่ง → รูปผลงานจากหน้าแก้ไขโปรไฟล์
+    /// nil = ยังไม่มีรูปของเจ้าของเลย ผู้เรียกตกไปใช้รูปตัวอย่าง
+    func library(_ i: Int) -> UIImage? {
+        let folio = Portfolio.shared
+        if PhotoLib.isProfileSlot(i) {
+            if let c = folio.creatorImage(slot: i) { return c }
+            if let profile { return profile }
+        }
+        if !uploaded.isEmpty { return uploaded[i % uploaded.count] }
+        return folio.workImage(slot: i)
+    }
+
+    /// รูปวงกลมข้างชื่อ — รูปโปรไฟล์ก่อน ไม่มีค่อยใช้รูปช่องครีเอเตอร์แรก
+    @ViewBuilder
+    func avatar() -> some View {
+        if let profile {
+            Image(uiImage: profile).resizable().unredacted()
+        } else {
+            image(1)
+        }
+    }
+
+    /// รูปไม่ถูก redact — ตู้ widget วาดใบที่ "ยังไม่มีข้อมูล" ด้วย `.redacted(.placeholder)`
+    /// ให้ตัวหนังสือกลายเป็นแท่ง แต่รูปต้องยังเป็นรูป ไม่งั้นพรีวิวกลายเป็นก้อนเทาทั้งใบ
     @ViewBuilder
     func image(_ i: Int, for id: UUID? = nil) -> some View {
-        if let id, let own = perWidget[id]?[i] {
-            Image(uiImage: own).resizable()
-        } else if !uploaded.isEmpty {
-            Image(uiImage: uploaded[i % uploaded.count]).resizable()
+        if let id, let cut = lifted[id]?[i] {
+            // รูปที่ลบพื้นหลังแล้วมาก่อนเสมอ — ขนาดเท่าต้นฉบับ ช่องจึงครอปเหมือนเดิมทุกประการ
+            Image(uiImage: cut).resizable().unredacted()
+        } else if let id, let own = perWidget[id]?[i] {
+            Image(uiImage: own).resizable().unredacted()
+        } else if let own = library(i) {
+            Image(uiImage: own).resizable().unredacted()
         } else {
-            RemotePhoto(url: PhotoLib.url(i))
+            RemotePhoto(url: PhotoLib.url(i)).unredacted()
         }
     }
 }
@@ -278,6 +577,17 @@ struct WidgetPhoto: View {
 // MARK: - โทนสีเด่นของภาพ
 
 extension UIImage {
+    /// รูปที่มีพื้นโปร่งเก็บเป็น PNG · ที่เหลือเป็น JPEG
+    ///
+    /// JPEG ไม่มีช่องโปร่ง — PNG ตัดพื้นที่ผู้ใช้เตรียมมาเอง (ตระกูลคัตเอาต์) เซฟเป็น JPEG แล้ว
+    /// เปิดแอปรอบหน้าจะได้พื้นทึบกลับมาแทน · ชื่อไฟล์ยังลงท้าย .jpg ได้ `UIImage(contentsOfFile:)`
+    /// ดูชนิดจากเนื้อไฟล์ ไม่ได้ดูจากนามสกุล
+    func diskData(quality: CGFloat) -> Data? {
+        switch cgImage?.alphaInfo {
+        case .none?, .noneSkipFirst?, .noneSkipLast?: return jpegData(compressionQuality: quality)
+        default: return pngData() ?? jpegData(compressionQuality: quality)
+        }
+    }
     /// หาโทนสีเด่นของภาพ — คืน (hue, saturation) ให้ธีมทั้งการ์ดล้อตามพื้นหลัง
     ///
     /// ย่อเหลือ 32×32 แล้วโหวตเป็นถัง hue 24 ช่อง ถ่วงน้ำหนักด้วยความสด×ความสว่าง
@@ -324,8 +634,10 @@ extension UIImage {
 /// หนึ่งปุ่มต่อหนึ่งรูป ไม่ใช่หนึ่งปุ่มต่อ widget เพราะเบนโตะ/แถบภาพมีรูปหลายใบ
 /// ปุ่มเดียวจะตอบไม่ได้ว่ากำลังจะเปลี่ยนใบไหน · แตะที่ใบไหนก็ได้ใบนั้น
 ///
-/// ต้องเป็น `PhotosPicker` ทรงปุ่มตรง ๆ เท่านั้น ห้ามใช้ `.photosPicker(isPresented:)`
-/// เพราะการ์ดเป็นตัวเปิดชีตแต่งอยู่แล้ว สั่งเปิดชีตซ้อนจากตัวเดิมระบบจะเงียบไปเฉย ๆ
+/// ปุ่มเปลี่ยนรูปเป็น `Button` ธรรมดา + `.photosPicker(isPresented:)` — **ไม่ใช่** `PhotosPicker` ทรงปุ่ม
+/// ตัวนั้นวางบนการ์ดที่มีตัวรับนิ้วของ UIKit อยู่ข้างใต้ (`PressDragCatcher`) แล้วกดไม่ติดบ่อยมาก
+/// ขณะที่ `Button` ข้าง ๆ ที่ตำแหน่งเดียวกันกดติดทุกครั้ง (ถาดแต่งเป็น `EditorDock` ไม่ใช่ชีตแล้ว
+/// จึงไม่มีปัญหาเปิดชีตซ้อน)
 struct PhotoSlotButton: View {
     @Environment(PhotoStore.self) private var store
     let theme: CardTheme
@@ -336,8 +648,17 @@ struct PhotoSlotButton: View {
     let order: [Int]
     /// ช่องกว้างพอให้มีคำกำกับใต้ปุ่มไหม — ช่องเล็ก ๆ ในเบนโตะใส่ไม่ลง
     var labelled: Bool = true
+    /// สเกลของการ์ดบนจอ — ใช้ขยาย **พื้นที่กด** ให้ได้ขนาดนิ้วบนจอเสมอ
+    ///
+    /// ปุ่มอยู่ในการ์ด การ์ดย่อลงราว 0.6 ทุกครั้งที่เลือกชิ้น (ดู `CardScreen.editScale`)
+    /// วงกลม 25pt จึงเหลือราว 15pt บนจอ — เล็กกว่านิ้วมาก กดแล้วพลาดไปโดนการ์ดแทน
+    ///
+    /// ขยายแค่พื้นที่กด ไม่ขยายตัวปุ่ม — ลองหารสเกลกลับทั้งปุ่มแล้ว ปุ่มสามชุดในแถบภาพ
+    /// บังรูปที่มันควรจะให้ดูจนมิด
+    var scale: CGFloat = 1
 
     @State private var picks: [PhotosPickerItem] = []
+    @State private var picking = false
 
     private var isCustom: Bool { store.has(slot: slot, for: widgetID) }
     /// เลือกได้มากสุดเท่าจำนวนช่องที่เหลือนับจากช่องนี้ไป — เกินกว่านั้นก็ไม่มีที่ให้ลง
@@ -347,33 +668,20 @@ struct PhotoSlotButton: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 4) {
-            // ช่องที่เปลี่ยนรูปไปแล้วค่อยมีปุ่มถอย — ช่องที่ยังเป็นรูประบบไม่มีอะไรให้คืน
-            if isCustom {
-                Button {
-                    store.clear(slot: slot, for: widgetID)
-                    Haptics.impact(.light)
-                } label: {
-                    orb("arrow.counterclockwise", "รูปเดิม", tinted: false)
+        // **ช่องแคบเรียงสองแถว** — ปุ่มทั้งแถวในแถวเดียวกว้าง ซึ่งกว้างกว่าช่องเล็ก
+        // ในเบนโตะทั้งช่อง แถวที่ล้นจะไปทับปุ่มของช่องข้าง ๆ แล้วนิ้วกดโดนใบที่ไม่ได้ตั้งใจ
+        Group {
+            if labelled {
+                HStack(alignment: .top, spacing: 4) { buttons }
+            } else {
+                VStack(alignment: .trailing, spacing: 4) {
+                    undoButton
+                    HStack(alignment: .top, spacing: 4) { framingButton; pickerButton }
                 }
-                .buttonStyle(.plain)
-
-            }
-
-            // จัดกรอบ — มีทุกช่องที่มีรูป ไม่ใช่เฉพาะรูปที่อัปโหลดเอง
-            // รูปตั้งต้นก็ถูกครอปจากกึ่งกลางเหมือนกัน และคนแต่งการ์ดควรเล็งได้ตั้งแต่ก่อนเปลี่ยนรูป
-            Button {
-                store.framing = PhotoSlotRef(widget: widgetID, slot: slot)
-                Haptics.impact(.light)
-            } label: {
-                orb("arrow.up.and.down.and.arrow.left.and.right", "จัดรูป", tinted: false)
-            }
-            .buttonStyle(.plain)
-
-            PhotosPicker(selection: $picks, maxSelectionCount: room, matching: .images) {
-                orb("photo.badge.plus.fill", "เปลี่ยนรูป", tinted: true)
             }
         }
+        .photosPicker(isPresented: $picking, selection: $picks,
+                      maxSelectionCount: room, matching: .images)
         .onChange(of: picks) { _, new in
             guard !new.isEmpty else { return }
             Task {
@@ -391,6 +699,53 @@ struct PhotoSlotButton: View {
         }
     }
 
+    @ViewBuilder
+    private var buttons: some View {
+        undoButton
+        framingButton
+        pickerButton
+    }
+
+    /// ช่องที่เปลี่ยนรูปไปแล้วค่อยมีปุ่มถอย — ช่องที่ยังเป็นรูประบบไม่มีอะไรให้คืน
+    @ViewBuilder
+    private var undoButton: some View {
+        Group {
+            if isCustom {
+                Button {
+                    store.clear(slot: slot, for: widgetID)
+                    Haptics.impact(.light)
+                } label: {
+                    orb("arrow.counterclockwise", "รูปเดิม", tinted: false, reach: [.top, .leading])
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    /// จัดกรอบ — มีทุกช่องที่มีรูป ไม่ใช่เฉพาะรูปที่อัปโหลดเอง
+    /// รูปตั้งต้นก็ถูกครอปจากกึ่งกลางเหมือนกัน และคนแต่งการ์ดควรเล็งได้ตั้งแต่ก่อนเปลี่ยนรูป
+    private var framingButton: some View {
+        Button {
+            store.framing = PhotoSlotRef(widget: widgetID, slot: slot)
+            Haptics.impact(.light)
+        } label: {
+            orb("arrow.up.and.down.and.arrow.left.and.right", "จัดรูป", tinted: false,
+                // มีปุ่มถอยอยู่ซ้าย (แถวมีป้าย) = ยื่นไปทางซ้ายไม่ได้
+                reach: isCustom && labelled ? [.bottom] : [.leading, .bottom])
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var pickerButton: some View {
+        Button {
+            picking = true
+        } label: {
+            orb("photo.badge.plus.fill", "เปลี่ยนรูป", tinted: true,
+                // มีปุ่มถอยอยู่บน (ช่องแคบเรียงสองแถว) = ยื่นขึ้นไม่ได้
+                reach: isCustom && !labelled ? [.trailing, .bottom] : [.top, .trailing, .bottom])
+        }
+        .buttonStyle(.plain)
+    }
     /// วงกลมเล็กพอให้ลงช่องเบนโตะช่องจิ๋วได้ แต่ยังกดติดด้วยนิ้ว
     /// ปุ่มกลม + คำกำกับใต้ปุ่ม
     ///
@@ -400,7 +755,13 @@ struct PhotoSlotButton: View {
     /// ต้อง undo และถูกกว่ากล่องสอนวิธีใช้ที่ไม่มีใครอ่าน
     ///
     /// คำถูกซ่อนเมื่อช่องแคบ (`labelled == false`) — ป้ายที่ล้นออกนอกรูปอ่านยากกว่าไม่มีป้าย
-    private func orb(_ symbol: String, _ label: String, tinted: Bool) -> some View {
+    /// ขอบกดรอบวงกลม 25pt ในหน่วยการ์ด — ให้รวมกันได้ 44pt บนจอ
+    private var hitPad: CGFloat { max(4, (44 / max(scale, 0.01) - 25) / 2) }
+
+    ///
+    /// `reach` = ด้านที่พื้นที่กดยื่นออกไปได้ — ห้ามยื่นเข้าหาปุ่มข้าง ๆ ที่ห่างกันแค่ 4pt
+    /// ไม่งั้นพื้นที่กดทับกัน แตะ "เปลี่ยนรูป" แล้วได้ "จัดรูป" · ปุ่มหลักจึงได้ด้านที่โล่งมากที่สุด
+    private func orb(_ symbol: String, _ label: String, tinted: Bool, reach: Edge.Set) -> some View {
         VStack(spacing: 2.5) {
             Image(systemName: symbol)
                 .font(.system(size: 10, weight: .semibold))
@@ -416,6 +777,8 @@ struct PhotoSlotButton: View {
                 }
                 .overlay(Circle().strokeBorder(.white.opacity(0.28), lineWidth: 0.5))
                 .shadow(color: .black.opacity(0.35), radius: 5, y: 2)
+                // ตาเห็นเท่าเดิม แต่นิ้วโดนเท่าปุ่มมาตรฐาน 44pt **บนจอ**
+                .contentShape(HitArea(pad: hitPad, reach: reach))
 
             if labelled {
                 Text(label)
@@ -429,6 +792,21 @@ struct PhotoSlotButton: View {
                     .shadow(color: .black.opacity(0.35), radius: 3, y: 1)
             }
         }
+    }
+}
+
+/// สี่เหลี่ยมที่ยื่นออกจากกรอบเฉพาะด้านที่สั่ง — พื้นที่กดของปุ่มกลมบนรูป
+private struct HitArea: Shape {
+    let pad: CGFloat
+    let reach: Edge.Set
+    /// ด้านที่ไม่ยื่นยังได้นิดหนึ่ง — ครึ่งหนึ่งของช่องไฟ 4pt ระหว่างปุ่ม
+    private let gap: CGFloat = 2
+
+    func path(in rect: CGRect) -> Path {
+        func d(_ e: Edge.Set) -> CGFloat { reach.contains(e) ? pad : gap }
+        return Path(CGRect(x: rect.minX - d(.leading), y: rect.minY - d(.top),
+                           width: rect.width + d(.leading) + d(.trailing),
+                           height: rect.height + d(.top) + d(.bottom)))
     }
 }
 
@@ -543,84 +921,20 @@ struct PhotoUploadButton: View {
 ///
 /// เลื่อนได้ไกลสุดเท่าที่ **ภาพยังคลุมกรอบอยู่** — ปล่อยให้เลื่อนจนเห็นพื้นว่างเมื่อไหร่
 /// ผู้ใช้จะได้ช่องรูปที่มีขอบดำโดยไม่ตั้งใจ ซึ่งอ่านเป็นงานพัง ไม่ใช่งานที่ตั้งใจเว้น
+/// กรอบของช่องที่กำลังจัดอยู่ — **แค่หน้าตา** (เส้นสามส่วน + ขอบสีธีม) ไม่รับทัช
+///
+/// ท่าลาก/ถ่างอยู่ที่ `PhotoFitCatcher` ซึ่งคลุมทั้งจอ — เคยอยู่ที่แผ่นนี้แล้วนิ้วต้องอยู่ *ในช่อง* เท่านั้น
+/// ช่องคนของโปสเตอร์บนการ์ดที่ถูกย่อเหลือนิ้วกว่า ๆ ถ่างสองนิ้วลงไปไม่ได้ด้วยซ้ำ
+/// แผ่นนี้จึงเหลือหน้าที่เดียว: รายงานขนาดช่องให้ตัวคลุมจอเอาไปแปลงระยะนิ้วเป็นสัดส่วนของภาพ
 struct PhotoFitSurface: View {
     @Environment(PhotoStore.self) private var store
     let theme: CardTheme
     let widgetID: UUID
     let slot: Int
-    /// ขนาดของช่องบนจอ — ใช้แปลงระยะนิ้วเป็นสัดส่วนของภาพ
+    /// ขนาดของช่องในหน่วยการ์ด
     let size: CGSize
 
-    /// ค่าเริ่มต้นของท่าที่กำลังทำอยู่ — ท่าลากคืน translation สะสม จึงต้องบวกจากค่าตอนเริ่ม
-    @State private var base: PhotoFit?
-
-    private var fit: PhotoFit { store.fit(slot: slot, for: widgetID) }
-
-    /// ขนาดที่ภาพถูกวาดจริงในกรอบ (ก่อนซูม) — คำนวณจากสัดส่วนของภาพกับกฎ `.fill`
-    private var rendered: CGSize {
-        guard let img = store.uiImage(slot: slot, for: widgetID),
-              img.size.width > 0, img.size.height > 0,
-              size.width > 0, size.height > 0 else { return size }
-        let ia = img.size.width / img.size.height
-        let sa = size.width / size.height
-        return ia > sa ? CGSize(width: size.height * ia, height: size.height)
-                       : CGSize(width: size.width, height: size.width / ia)
-    }
-
     var body: some View {
-        Rectangle()
-            .fill(.white.opacity(0.001))     // โปร่งแต่ยังกินทัช
-            .contentShape(Rectangle())
-            .gesture(drag)
-            .simultaneousGesture(zoom)
-            .overlay { frameHint }
-            .overlay(alignment: .bottom) { bar }
-    }
-
-    // MARK: ท่า
-
-    private var drag: some Gesture {
-        DragGesture(minimumDistance: 0)
-            .onChanged { g in
-                let start = base ?? fit
-                if base == nil { base = start }
-                var f = start
-                f.dx = start.dx + g.translation.width / max(1, rendered.width)
-                f.dy = start.dy + g.translation.height / max(1, rendered.height)
-                store.setFit(clamped(f), slot: slot, for: widgetID)
-            }
-            .onEnded { _ in
-                base = nil
-                Haptics.impact(.light)
-            }
-    }
-
-    private var zoom: some Gesture {
-        MagnifyGesture()
-            .onChanged { g in
-                let start = base ?? fit
-                if base == nil { base = start }
-                var f = start
-                f.zoom = min(3, max(1, start.zoom * g.magnification))
-                store.setFit(clamped(f), slot: slot, for: widgetID)
-            }
-            .onEnded { _ in base = nil }
-    }
-
-    /// หนีบให้ภาพคลุมกรอบเสมอ — คิดเป็นสัดส่วนของภาพ เพราะ `dx`/`dy` เก็บหน่วยนั้น
-    private func clamped(_ f: PhotoFit) -> PhotoFit {
-        var out = f
-        let limX = max(0, (f.zoom - size.width / max(1, rendered.width)) / 2)
-        let limY = max(0, (f.zoom - size.height / max(1, rendered.height)) / 2)
-        out.dx = min(limX, max(-limX, f.dx))
-        out.dy = min(limY, max(-limY, f.dy))
-        return out
-    }
-
-    // MARK: หน้าตา
-
-    /// เส้นตัดสามส่วน — บอกว่าตอนนี้ "กำลังเล็งกรอบ" ไม่ใช่กำลังลากตัว widget
-    private var frameHint: some View {
         ZStack {
             ForEach(1..<3, id: \.self) { i in
                 Rectangle().fill(.white.opacity(0.35)).frame(width: 0.6)
@@ -631,20 +945,136 @@ struct PhotoFitSurface: View {
             Rectangle().strokeBorder(theme.accent, lineWidth: 1.5)
         }
         .allowsHitTesting(false)
+        .onChange(of: size, initial: true) { _, s in store.framingSize = s }
+    }
+}
+
+/// ตัวรับนิ้วของโหมดจัดรูป — **คลุมทั้งจอ** ลากหรือถ่างตรงไหนก็ได้
+///
+/// ระยะนิ้ววัดบนจอ แต่ช่องรูปอยู่ในการ์ดที่ถูกย่อ (`scale`) — หารกลับก่อนแปลงเป็นสัดส่วนของภาพ
+/// ไม่งั้นรูปวิ่งเร็วกว่านิ้วเท่ากับที่การ์ดถูกย่อ · แถบ "เสร็จ" อยู่ในชั้นนี้ด้วย เพราะชั้นนี้ทับทุกอย่าง
+struct PhotoFitCatcher: View {
+    @Environment(PhotoStore.self) private var store
+    let theme: CardTheme
+    /// สเกลการ์ด → จอ
+    let scale: CGFloat
+
+    /// ซูมได้มากแค่ไหน — ใหญ่เท่าที่ผู้ใช้อยากได้ ไม่ใช่ 3× ที่คิดแทนเขา
+    static let maxZoom: CGFloat = 8
+
+    @State private var base: PhotoFit?
+
+    private var ref: PhotoSlotRef? { store.framing }
+    private var size: CGSize { store.framingSize }
+    private var fit: PhotoFit {
+        guard let ref else { return .identity }
+        return store.fit(slot: ref.slot, for: ref.widget)
     }
 
+    /// ช่องนี้เป็น **คนที่ตัดพื้นแล้ว** ไหม — ตัวคนไม่มีกรอบให้ต้องคลุม
+    ///
+    /// รูปในกรอบต้องคลุมกรอบเสมอ (ซูมไม่ต่ำกว่า 1 · เลื่อนได้แค่ส่วนที่ล้น) แต่ตัวคัตเอาต์
+    /// ถูกวาด *พอดีกรอบ* อยู่แล้ว ส่วนล้นเป็นศูนย์ — กฎเดียวกันจึงล็อกมันตายอยู่กับที่ทั้งตัว
+    @MainActor private var isCutout: Bool {
+        guard let ref else { return false }
+        guard let img = store.userImage(slot: ref.slot, for: ref.widget) else { return true }
+        if CutoutCache.shared.result(for: img).isCutout { return true }
+        return SubjectLift.shared.result(for: img)?.isCutout == true
+    }
+
+    /// ขนาดที่ภาพถูกวาดจริงในกรอบ (ก่อนซูม) — คำนวณจากสัดส่วนของภาพกับกฎ `.fill`
+    @MainActor private var rendered: CGSize {
+        guard let ref, !isCutout,
+              let img = store.uiImage(slot: ref.slot, for: ref.widget),
+              img.size.width > 0, img.size.height > 0,
+              size.width > 0, size.height > 0 else { return size }
+        let ia = img.size.width / img.size.height
+        let sa = size.width / size.height
+        return ia > sa ? CGSize(width: size.height * ia, height: size.height)
+                       : CGSize(width: size.width, height: size.width / ia)
+    }
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Rectangle()
+                .fill(.white.opacity(0.001))     // โปร่งแต่ยังกินทัช
+                .contentShape(Rectangle())
+                .gesture(drag)
+                .simultaneousGesture(zoom)
+                .ignoresSafeArea()
+            bar
+        }
+    }
+
+    // MARK: ท่า
+
+    private var drag: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { g in
+                guard let ref else { return }
+                let start = base ?? fit
+                if base == nil { base = start }
+                let s = max(scale, 0.01)
+                var f = start
+                f.dx = start.dx + g.translation.width / s / max(1, rendered.width)
+                f.dy = start.dy + g.translation.height / s / max(1, rendered.height)
+                store.setFit(clamped(f), slot: ref.slot, for: ref.widget)
+            }
+            .onEnded { _ in
+                base = nil
+                Haptics.impact(.light)
+            }
+    }
+
+    private var zoom: some Gesture {
+        MagnifyGesture()
+            .onChanged { g in
+                guard let ref else { return }
+                let start = base ?? fit
+                if base == nil { base = start }
+                var f = start
+                f.zoom = min(Self.maxZoom, max(isCutout ? 0.4 : 1, start.zoom * g.magnification))
+                store.setFit(clamped(f), slot: ref.slot, for: ref.widget)
+            }
+            .onEnded { _ in base = nil }
+    }
+
+    /// หนีบค่า — คิดเป็นสัดส่วนของภาพ เพราะ `dx`/`dy` เก็บหน่วยนั้น
+    @MainActor private func clamped(_ f: PhotoFit) -> PhotoFit {
+        var out = f
+        // ตัวคัตเอาต์: เลื่อนได้อิสระครึ่งกรอบทุกทิศ (ยิ่งซูยิ่งไปได้ไกล) — ไกลกว่านั้นคนหลุดออกนอกใบ
+        if isCutout {
+            let lim = 0.5 * max(1, f.zoom)
+            out.dx = min(lim, max(-lim, f.dx))
+            out.dy = min(lim, max(-lim, f.dy))
+            return out
+        }
+        // รูปในกรอบ: ภาพต้องคลุมกรอบเสมอ
+        let limX = max(0, (f.zoom - size.width / max(1, rendered.width)) / 2)
+        let limY = max(0, (f.zoom - size.height / max(1, rendered.height)) / 2)
+        out.dx = min(limX, max(-limX, f.dx))
+        out.dy = min(limY, max(-limY, f.dy))
+        return out
+    }
+
+    // MARK: หน้าตา
+
     private var bar: some View {
-        HStack(spacing: 6) {
-            if !fit.isIdentity {
+        HStack(spacing: 8) {
+            Text("ลากหรือถ่างนิ้วตรงไหนก็ได้")
+                .font(.sh(11.5, .medium))
+                .foregroundStyle(.white.opacity(0.75))
+            Spacer(minLength: 6)
+            if !fit.isIdentity, let ref {
                 Button {
-                    store.resetFit(slot: slot, for: widgetID)
+                    store.resetFit(slot: ref.slot, for: ref.widget)
                     Haptics.impact(.light)
                 } label: {
                     Image(systemName: "arrow.counterclockwise")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.9))
-                        .frame(width: 25, height: 25)
-                        .background(Circle().fill(.black.opacity(0.55)))
+                        .frame(width: 38, height: 38)
+                        .background(Circle().fill(.white.opacity(0.12)))
                 }
                 .buttonStyle(.plain)
             }
@@ -653,16 +1083,18 @@ struct PhotoFitSurface: View {
                 Haptics.impact(.medium)
             } label: {
                 Text("เสร็จ")
-                    .font(.sh(11, .semibold))
+                    .font(.sh(14, .semibold))
                     .foregroundStyle(.black.opacity(0.85))
-                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .padding(.horizontal, 20).frame(height: 38)
                     .background(Capsule().fill(LinearGradient(
                         colors: [theme.accentSoft, theme.accent],
                         startPoint: .leading, endPoint: .trailing)))
             }
             .buttonStyle(.plain)
         }
-        .shadow(color: .black.opacity(0.35), radius: 5, y: 2)
-        .padding(6)
+        .padding(.horizontal, 16).padding(.vertical, 10)
+        .background(Capsule().fill(Color(white: 0.09)))
+        .overlay(Capsule().strokeBorder(.white.opacity(0.1), lineWidth: 0.6))
+        .padding(.horizontal, 16).padding(.bottom, 8)
     }
 }

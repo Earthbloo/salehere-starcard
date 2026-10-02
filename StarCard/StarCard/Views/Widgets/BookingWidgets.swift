@@ -10,8 +10,8 @@ import CoreImage.CIFilterBuiltins
 // *ทำอะไรได้* การ์ดจึงจบลงโดยไม่มีปลายทางให้แบรนด์เดินต่อ — ไฟล์นี้คือปลายทางนั้น
 //
 // กติกาสองข้อยกมาจากสำรับ Gen Z ชุดแรกทั้งดุ้น:
-// 1. **หนึ่งแบบ หนึ่งวัสดุ** — เมนูร้าน · นามบัตรกระจก · บัตรกระดาษ
-// 2. **ท่าเปลี่ยนหน้าต้องมาจากวัสดุนั้น** — เมนูต้องถูกขีดออกทีละบรรทัด
+// 1. **หนึ่งแบบ หนึ่งวัสดุ** — ป้ายห้อยราคา · นามบัตรกระจก · บัตรกระดาษ
+// 2. **ท่าเปลี่ยนหน้าต้องมาจากวัสดุนั้น** — ป้ายต้องแกว่งรอบรูเจาะ
 //    บัตรต้องถูกพลิกเก็บ
 //
 // ข้อสามที่เพิ่มมาเฉพาะไฟล์นี้ เพราะมันคือหมวดที่เกี่ยวกับเงิน:
@@ -28,108 +28,7 @@ enum Deal {
     static let card = Color(red: 0.98, green: 0.98, blue: 0.97)
 }
 
-// MARK: - 01 · เมนูราคา
-
-/// เรตการ์ดในหน้าตาของ **เมนูร้าน** — ชื่อรายการซ้าย ราคาขวา คั่นด้วยเส้นประ
-///
-/// เลือกอุปมานี้เพราะเมนูคือเอกสารเดียวที่ทุกคนอ่านออกโดยไม่ต้องมีหัวข้อกำกับ
-/// และมันสื่อสิ่งที่เรตการ์ดต้องสื่อพอดี: **ราคานี้คือของที่ตั้งไว้แล้ว ไม่ใช่ของที่ต่อรองกันหน้างาน**
-///
-/// เดิมมีบรรทัดจิ๋วใต้ราคาบอก "ราคาที่ตลาดจ่าย" (`Mock.creator.marketRate`) และมีชิปที่หัว
-/// widget กำกับว่าราคาชุดนี้มีค่าที่ระบบแนะนำเทียบอยู่ — **ถอดออกทั้งคู่แล้ว** ราคาบนใบนี้
-/// จึงเป็นราคาที่เจ้าตัวตั้งล้วน ๆ (ฟังก์ชันคำนวณยังอยู่ในโมเดล ไม่มีวิวไหนเรียกใช้)
-///
-/// # ท่าเปลี่ยนหน้า — "เมนูถูกขีดออกทีละบรรทัด"
-///
-/// เส้นประหดกลับเข้าหาชื่อรายการก่อน แล้วบรรทัดถึงมุดใต้ขอบตามไป ไล่จากฝั่งที่หน้ากำลังไป
-/// ราคาไม่จาง แต่ถูกถอดทีละหลัก
-struct RateMenuWidget: View {
-    @Environment(\.pageScrub) private var scrub
-    @Environment(\.cardInk) private var ink
-    let theme: CardTheme
-
-    private var rates: [RateItem] { Mock.creator.rates }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "เรตราคา")
-                .scrubVeil(scrub.d, lead: 0.38, drop: 20, pull: 6)
-
-            VStack(spacing: 0) {
-                ForEach(Array(rates.enumerated()), id: \.element.id) { i, r in
-                    row(r, i: i, lead: Scrub.lead(i, of: rates.count, d: scrub.d, step: 0.08))
-                        .frame(maxHeight: .infinity)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-
-    private func row(_ r: RateItem, i: Int, lead: Double) -> some View {
-        let price = Profile.me.ratePrice(i)
-        return HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(Profile.me.rateLabel(i))
-                .font(.sh(12.5, .semibold))
-                .foregroundStyle(ink.text(0.9))
-                .lineLimit(1).fixedSize()
-                .editableText(.rateLabels, index: i,
-                              .init(size: 12.5, weight: .semibold, color: ink.text(0.9)))
-
-            // เส้นประ — หดกลับเข้าหาชื่อรายการตามนิ้ว
-            ScrubReader(d: scrub.d) { d in
-                let t = Scrub.ease(Scrub.t(d, lead: lead))
-                Rectangle()
-                    .fill(ink.line(0.22))
-                    .frame(height: 0.8)
-                    .mask {
-                        HStack(spacing: 3) {
-                            ForEach(0..<40, id: \.self) { _ in
-                                Rectangle().frame(width: 2)
-                            }
-                            Spacer(minLength: 0)
-                        }
-                    }
-                    .scaleEffect(x: max(0, 1 - t), anchor: .leading)
-            }
-            .frame(height: 1)
-            .offset(y: -3)
-
-            VStack(alignment: .trailing, spacing: 0) {
-                HStack(alignment: .firstTextBaseline, spacing: 3) {
-                    // ฿ แยกออกจากช่องที่แก้ได้ — ไม่งั้นพิมพ์ราคาใหม่แล้วได้ "฿฿35000"
-                    // (ท่าเดียวกับตัว @ ในคิวอาร์การ์ด)
-                    HStack(alignment: .firstTextBaseline, spacing: 0) {
-                        // fixedSize บังคับไว้ — ตัวเดียวในแถวที่ยืดหดได้จะถูกบีบจนหายไป
-                        // เมื่อชื่อรายการ+ราคา+หน่วยรวมกันเบียดความกว้าง (SwiftUI ตัด Text
-                        // ที่เหลือ 0pt ทิ้งทั้งตัวโดยไม่เตือน — เห็นเป็นราคาที่ไม่มีสัญลักษณ์เงิน)
-                        Text("฿")
-                            .font(.sh(14.5, .heavy))
-                            .foregroundStyle(ink.text(0.98))
-                            .lineLimit(1).fixedSize()
-                            .scrubVeil(scrub.d, lead: lead + 0.04, drop: 20, pull: 0)
-                        ScrubDigits(text: Fmt.baht(price), d: scrub.d,
-                                    lead: lead + 0.04, step: 0.04, drop: 20)
-                            .font(.sh(14.5, .heavy))
-                            .foregroundStyle(ink.text(0.98))
-                    }
-                    // ช่องพิมพ์ประกาศที่กล่องรวม ไม่ใช่ที่มิเตอร์ตัวเลข — มิเตอร์แตกตัวอักษร
-                    // เป็นชิ้นละตัวและมีหน้ากากของตัวเอง กรอบที่ได้จึงเล็กเกินกว่าจะแตะโดนจริง
-                    // (ค่าที่แก้ยังเป็นตัวเลขล้วน ฿ แค่อยู่ในกรอบเดียวกัน)
-                    .editableText(.ratePrices, index: i,
-                                  .init(size: 14.5, weight: .heavy, color: ink.text(0.98)))
-                    Text("/\(r.unit)")
-                        .font(.sh(9.5, .medium))
-                        .foregroundStyle(ink.text(0.4))
-                        .scrubVeil(scrub.d, lead: lead, drop: 14, pull: 4)
-                }
-            }
-            .fixedSize()
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-// MARK: - 02 · ป้ายราคา
+// MARK: - 01 · ป้ายราคา
 
 /// เรตราคาชุดเดียวกับเมนู แต่เป็น **ป้ายห้อยราคาในร้าน** — กระดาษแข็งใบละหนึ่งเรต
 /// หัวป้ายสีสด ตัวเลขยักษ์เต็มใบ เอียงคนละองศาเหมือนป้ายที่ห้อยอยู่จริง
@@ -141,7 +40,7 @@ struct RateMenuWidget: View {
 /// และมันยังพูดสิ่งเดียวกับที่เมนูพูด — **ราคานี้ติดไว้แล้ว ไม่ใช่ของที่ต่อรองกันหน้างาน**
 /// ป้ายในร้านคือวัตถุที่สื่อความนี้แรงที่สุดเท่าที่มี จึงไม่ได้แลกความหมายทิ้งเพื่อความสนุก
 ///
-/// ฟิลด์ครบชุดเดียวกับ `RateMenuWidget` ทุกตัว (สัญญาของตระกูล `rate`):
+/// ฟิลด์ครบชุดตามสัญญาของตระกูล `rate`:
 /// ชื่อรายการ · ราคา · หน่วย · ราคาที่ตลาดจ่าย — สลับแบบแล้วไม่มีอะไรหายไป
 ///
 /// # ท่าเปลี่ยนหน้า — "ป้ายแกว่งรอบรูเจาะแล้วร่วง"
@@ -151,14 +50,17 @@ struct RateMenuWidget: View {
 /// ราคาไม่จางตามใบ แต่ถูกถอดทีละหลักด้วยมิเตอร์ (กติกาข้อ 3 ของไฟล์นี้)
 struct RateTagsWidget: View {
     @Environment(\.pageScrub) private var scrub
+    /// ราคาบนป้ายเป็นกล่องรวมสองก้อน (฿ + มิเตอร์) — เหตุผลเดียวกับ `DealPrice`
+    @Environment(\.widgetTextStyle) private var tune
+    @Environment(\.cardInk) private var slotInk
+    @Environment(\.cardAccent) private var accent
     let theme: CardTheme
 
     /// **สองใบเท่านั้น** — ป้ายคือของที่ตาจับทีละใบ ไม่ใช่ตารางที่ไล่อ่านจนจบ
     ///
-    /// สี่ใบเมื่อไหร่มันกลายเป็นกริดราคา ซึ่งเมนู (`RateMenuWidget`) ทำได้ดีกว่าอยู่แล้ว
-    /// และตัวเลขทั้งสี่แย่งความเด่นกันเองจนไม่เหลือใบไหนที่ตาไปหยุด
-    /// การ์ดที่ต้องโชว์เรตครบทุกรายการให้สลับไปใช้เมนู — payload ก้อนเดียวกัน ไม่มีอะไรหาย
-    private var rates: [RateItem] { Array(Mock.creator.rates.prefix(2)) }
+    /// สี่ใบเมื่อไหร่มันกลายเป็นกริดราคา และตัวเลขทั้งสี่แย่งความเด่นกันเอง
+    /// จนไม่เหลือใบไหนที่ตาไปหยุด — เรตที่เหลือยังอยู่ในโปรไฟล์ครบ
+    private var rates: [RateItem] { Array(Profile.me.shownRates.prefix(2)) }
 
     /// องศาเอียงตั้งต้น — คงที่ ไม่สุ่ม การ์ดใบเดิมต้องหน้าตาเหมือนเดิมทุกครั้งที่เปิด
     /// (กติกาเดียวกับ `StickerTags`)
@@ -222,6 +124,8 @@ struct RateTagsWidget: View {
         // ตัวเลขโตตามใบ แต่มีเพดานทั้งบนและล่าง — ป้ายที่ตัวเลขล้นขอบอ่านเป็นงานพัง ไม่ใช่งานกล้า
         let priceSize = min(30, max(13, width * 0.16))
         let price = Profile.me.ratePrice(i)
+        let priceInk = tune.color(Deal.ink, for: .ratePrices, i,
+                                  ink: slotInk, accent: accent) ?? Deal.ink
 
         return VStack(alignment: .leading, spacing: 0) {
             head(r, i: i)
@@ -233,14 +137,14 @@ struct RateTagsWidget: View {
                     // ฿ อยู่นอกช่องที่แก้ได้ — ค่าที่เก็บคือตัวเลขล้วน (ดู `Profile.ratePrice`)
                     HStack(alignment: .firstTextBaseline, spacing: 0) {
                         Text("฿")
-                            .font(.sh(priceSize, .black))
-                            .foregroundStyle(Deal.ink)
+                            .font(tune.font(priceSize, .black, for: .ratePrices, i))
+                            .foregroundStyle(priceInk)
                             .lineLimit(1).fixedSize()
                             .scrubVeil(scrub.d, lead: lead + 0.05, drop: 22, pull: 0)
                         ScrubDigits(text: Fmt.baht(price), d: scrub.d,
                                     lead: lead + 0.05, step: 0.035, drop: 22)
-                            .font(.sh(priceSize, .black))
-                            .foregroundStyle(Deal.ink)
+                            .font(tune.font(priceSize, .black, for: .ratePrices, i))
+                            .foregroundStyle(priceInk)
                     }
                     .editableText(.ratePrices, index: i,
                                   .init(size: priceSize, weight: .black,
@@ -280,8 +184,7 @@ struct RateTagsWidget: View {
             // ชื่อรายการยาวเกินหัวป้าย **ย่อลง ไม่ตัดด้วย …** — ชื่องานที่ถูกตัดกลางคำ
             // ทำให้ป้ายทั้งใบตอบไม่ได้ว่าราคานี้คือราคาของอะไร
             Text(Profile.me.rateLabel(i).uppercased())
-                .font(.sh(9, .heavy)).tracking(0.8)
-                .foregroundStyle(Deal.ink.opacity(0.88))
+                .tracking(0.8)
                 .lineLimit(1).minimumScaleFactor(0.5)
                 .editableText(.rateLabels, index: i,
                               .init(size: 9, weight: .heavy, color: Deal.ink.opacity(0.88),
@@ -319,10 +222,11 @@ struct ContactLine {
     let icon: String
     let field: ProfileField
 
+    // = ขั้น "ช่องทางติดต่อ" ของ Star Profile: LINE · เบอร์ · เว็บไซต์ (2 ต.ค. 2569) · อีเมลไม่ถาม จึงไม่อยู่บนการ์ด
     static let all: [ContactLine] = [
-        .init(label: "โทร",  icon: "phone.fill",   field: .phone),
-        .init(label: "อีเมล", icon: "envelope.fill", field: .email),
         .init(label: "LINE", icon: "message.fill",  field: .lineId),
+        .init(label: "โทร",  icon: "phone.fill",    field: .phone),
+        .init(label: "เว็บ",  icon: "globe",         field: .website),
     ]
 }
 
@@ -341,14 +245,14 @@ struct ContactCardWidget: View {
                             .foregroundStyle(ink.text(0.42))
                             .frame(width: 38, alignment: .leading)
                         Text(Profile.me.text(l.field))
-                            .font(.sh(13, .bold))
-                            .foregroundStyle(ink.text(0.95))
                             .lineLimit(1).truncationMode(.tail)
                             .editableText(l.field, .init(size: 13, weight: .bold,
                                                          color: ink.text(0.95)))
                         Spacer(minLength: 0)
                     }
                     .frame(maxHeight: .infinity)
+                    .contentShape(Rectangle())
+                    .linkSlot(l.field.contactURL)
                     .scrubVeil(scrub.d,
                                lead: Scrub.lead(i, of: ContactLine.all.count, d: scrub.d, step: 0.08),
                                drop: 22, pull: 12)
@@ -402,15 +306,19 @@ struct ContactQRWidget: View {
                 HStack(spacing: 0) {
                     Text("@").font(.sh(11.5, .heavy)).foregroundStyle(Deal.ink)
                     Text(Profile.me.handle)
-                        .font(.sh(11.5, .heavy))
-                        .foregroundStyle(Deal.ink)
                         .lineLimit(1).truncationMode(.tail)
                         .editableText(.handle, .init(size: 11.5, weight: .heavy, color: Deal.ink))
                 }
-                Text("สแกนเพื่อดูการ์ดเต็ม")
-                    .font(.sh(8.5, .semibold))
-                    .foregroundStyle(Deal.inkSoft)
-                    .lineLimit(1).minimumScaleFactor(0.7)
+                // ไวยากรณ์เดียวกับ QR บนสลิปโอนเงิน — สแกนแล้วได้คำตอบว่าการ์ดใบนี้ของจริงไหม (ลิงก์เดิม ไม่ต้องเปลี่ยน)
+                HStack(spacing: 3.5) {
+                    if VerifiedFacts.current.verified {
+                        VerifiedSeal(radius: 5, punch: Deal.card, tint: Deal.inkSoft, compact: true)
+                    }
+                    Text(VerifiedFacts.current.verified ? "สแกนเพื่อตรวจสอบ" : "สแกนเพื่อดูการ์ดเต็ม")
+                        .font(.sh(8.5, .semibold))
+                        .foregroundStyle(Deal.inkSoft)
+                        .lineLimit(1).minimumScaleFactor(0.7)
+                }
             }
             .scrubVeil(scrub.d, lead: 0.28, drop: 16, pull: 6)
 
@@ -500,8 +408,6 @@ struct ContactBarWidget: View {
                     Circle().fill(ink.text(0.22)).frame(width: 2.5, height: 2.5)
                 }
                 Text(Profile.me.text(l.field))
-                    .font(.sh(12, .semibold))
-                    .foregroundStyle(ink.text(0.78))
                     .lineLimit(1).truncationMode(.tail)
                     .editableText(l.field, .init(size: 12, weight: .semibold,
                                                  color: ink.text(0.78)))
@@ -537,8 +443,6 @@ struct ContactStackWidget: View {
                         .foregroundStyle(ink.text(0.4))
                         .frame(width: 40, alignment: .leading)
                     Text(Profile.me.text(l.field))
-                        .font(.sh(14, .bold))
-                        .foregroundStyle(ink.text(0.94))
                         .lineLimit(1).truncationMode(.tail)
                         .editableText(l.field, .init(size: 14, weight: .bold,
                                                      color: ink.text(0.94)))
@@ -574,7 +478,7 @@ struct ContactLineWidget: View {
     let theme: CardTheme
     let size: CGSize
 
-    private var c: ContactInfo { Mock.creator.contact }
+    private var c: ContactInfo { Profile.me.creator.contact }
     private var lineSize: CGFloat { min(32, size.width * 0.1) }
 
     var body: some View {
@@ -588,31 +492,14 @@ struct ContactLineWidget: View {
             ScrubReader(d: scrub.d) { d in
                 let t = Scrub.ease(Scrub.t(d, lead: 0.16))
                 Text(Profile.me.lineId)
-                    .font(.sh(lineSize, .black))
                     // บีบอยู่ตอนนิ่ง แล้วคลายออกตอนจากไป
                     .tracking(-0.8 + 8 * t)
-                    .foregroundStyle(ink.text(0.97))
                     .lineLimit(1).truncationMode(.tail)
                     .editableText(.lineId, .init(size: lineSize, weight: .black,
                                                  color: ink.text(0.97), tracking: -0.8))
             }
             .scrubVeil(scrub.d, lead: 0.24, drop: 40, pull: 8)
 
-            Spacer(minLength: 4)
-
-            // เวลาตอบกลับมาจากอินบ็อกซ์จริง แก้ไม่ได้ · สถานะผู้รับงานพิมพ์เองได้ — แยกเป็นสองก้อน
-            HStack(spacing: 4) {
-                Text("ตอบกลับ \(c.responseTime) ·")
-                    .font(.sh(10.5, .medium))
-                    .foregroundStyle(ink.text(0.42))
-                    .lineLimit(1).fixedSize()
-                Text(Profile.me.role)
-                    .font(.sh(10.5, .medium))
-                    .foregroundStyle(ink.text(0.42))
-                    .lineLimit(1).truncationMode(.tail)
-                    .editableText(.role, .init(size: 10.5, weight: .medium, color: ink.text(0.42)))
-            }
-            .scrubVeil(scrub.d, lead: 0, drop: 20, pull: 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -639,8 +526,6 @@ struct ContactChipsWidget: View {
                         .font(.system(size: 10, weight: .semibold))
                         .foregroundStyle(theme.accent)
                     Text(Profile.me.text(l.field))
-                        .font(.sh(12, .semibold))
-                        .foregroundStyle(ink.text(0.9))
                         .lineLimit(1).truncationMode(.tail)
                         .editableText(l.field, .init(size: 12, weight: .semibold,
                                                      color: ink.text(0.9), corner: 10))

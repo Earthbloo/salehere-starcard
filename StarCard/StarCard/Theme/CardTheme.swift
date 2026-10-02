@@ -59,37 +59,70 @@ struct InkStyle: Equatable {
     /// สีหมึก — ฝั่งสว่างเป็นถ่านที่อาบเฉดของธีมไว้นิดหน่อย ไม่ใช่ดำสนิท
     /// (ดำสนิทบนการ์ดที่มีสีธีมจะอ่านเป็น "ยังไม่ได้ออกแบบ")
     let base: Color
+    /// พื้นใต้ตัวหนังสือ — ตัวหนังสือทุกระดับถูกยันให้อ่านออกบนพื้นช่วงนี้ (ดู `text`)
+    private(set) var ground: InkGround
+    /// ความสว่างของหมึกเต็มแรง — คิดครั้งเดียวตอนสร้าง ไม่ใช่ทุกครั้งที่ขอสีตัวหนังสือ
+    private let baseLuminance: Double
+
+    init(ink: CardInk, base: Color, ground: InkGround = .stage) {
+        self.ink = ink
+        self.base = base
+        self.ground = ground
+        self.baseLuminance = RGB(base).luminance
+    }
 
     var isLight: Bool { ink.isLight }
 
     /// ตัวหนังสือ — `l` คือน้ำหนักชุดเดียวกับที่เคยเขียน `.white.opacity(l)`
+    ///
+    /// ความทึบที่ออกแบบไว้คือ **ขั้นต่ำของหน้าตา** ไม่ใช่ค่าตายตัว: บนเวทีมืดกับกระดาษขาว ค่าที่ออกแบบไว้
+    /// ผ่านเกณฑ์อยู่แล้วเกือบทุกระดับ ตัวเลขแทบไม่ขยับ · แต่บนพื้นกลาง ๆ (แดงสดที่พิมพ์ hex มา · รูป)
+    /// หมึกโปร่งครึ่งหนึ่งจมไปกับพื้น ตรงนั้นความทึบถูกดันขึ้นจนได้เกณฑ์ของระดับนั้น (ดู `Legibility.target`)
+    /// — ลำดับชั้นของตัวหนังสือแคบลงบนพื้นแบบนั้น แต่ไม่มีบรรทัดไหนหาย
     func text(_ l: Double) -> Color {
-        guard isLight else { return .white.opacity(l) }
-        return base.opacity(min(0.94, pow(max(0, l), 0.85)))
+        let designed = isLight ? min(0.94, pow(max(0, l), 0.85)) : l
+        let needed = Legibility.alpha(ink: baseLuminance, over: isLight ? ground.lo : ground.hi,
+                                      target: Legibility.target(emphasis: l))
+        return base.opacity(min(1, max(designed, needed)))
     }
+
+    /// หมึกชุดเดียวกันบนแผ่นของ widget — แผ่นเปลี่ยนพื้นใต้ตัวหนังสือ (กระจกกดพื้นลง · แผ่นจางยกพื้นขึ้น)
+    /// - Parameters:
+    ///   - panel: ความสว่างของสีแผ่น
+    ///   - alpha: ความทึบของแผ่น
+    func covered(by panel: Double, alpha: Double) -> InkStyle {
+        var s = self
+        s.ground = ground.covered(by: panel, alpha: alpha)
+        return s
+    }
+
+    /// แผ่นที่ย้อมด้วยหมึกของการ์ดเอง (แผ่นเข้มบนกระดาษ)
+    func coveredByInk(alpha: Double) -> InkStyle { covered(by: baseLuminance, alpha: alpha) }
 
     /// ตัวอักษร/สัญลักษณ์ที่ตั้งใจให้เป็นเงา — พื้นสว่างต้องจางกว่าพื้นมืดมาก
     /// ไม่งั้น "เงา" จะกลายเป็นเนื้อหาที่แย่งสายตา
     func ghost(_ l: Double) -> Color {
-        guard isLight else { return .white.opacity(l) }
+        guard isLight else { return base.opacity(l) }
         return base.opacity(l * 0.5)
     }
 
     /// เส้นผม · ขอบ
     func line(_ l: Double) -> Color {
-        guard isLight else { return .white.opacity(l) }
+        guard isLight else { return base.opacity(l) }
         return base.opacity(min(0.6, l * 0.8))
     }
 
     /// พื้นแผ่นบาง ๆ ที่ต้องแยกตัวจากฉากหลัง
     /// พื้นมืดแยกตัวด้วยการ "สว่างขึ้น" · พื้นสว่างแยกตัวด้วยการ "เข้มลง" — ความหมายเดียวกัน คนละทิศ
     func fill(_ l: Double) -> Color {
-        guard isLight else { return .white.opacity(l) }
+        guard isLight else { return base.opacity(l) }
         return base.opacity(min(0.5, l * 0.8))
     }
 
     /// ชั้นความสูง — พื้นมืดใช้แสง (เงาดำมองไม่เห็น) · พื้นสว่างใช้เงา (แสงมองไม่เห็น)
-    var lift: Color { isLight ? base.opacity(0.18) : .clear }
+    /// เงาเป็น **ดำเสมอ** ไม่ใช่หมึกย้อมเฉด — หมึกของคู่สีเป็นสีจริง (กรมท่า · เลือดหมู)
+    /// เงาที่ย้อมสีนั้นอ่านเป็นแสงสีที่สาดอยู่ใต้แผ่น ไม่ใช่ความสูงของแผ่น
+    var lift: Color { isLight ? Color.black.opacity(0.18) : .clear }
     var liftRadius: CGFloat { isLight ? 14 : 0 }
 
     static let night = InkStyle(ink: .night, base: .white)
@@ -231,22 +264,30 @@ enum CornerStyle: String, CaseIterable, Identifiable {
 enum BackdropStyle: String, CaseIterable, Identifiable {
     /// เรียงจากพื้นแบนไปหาพื้นที่มีของเยอะสุด — แถวชิปในแผงอ่านตามลำดับนี้
     /// คนที่อยากได้พื้นเรียบ ๆ เจอคำตอบที่ชิปแรกโดยไม่ต้องอ่านจนจบแถว
-    case solid, gradient, glow, photo
+    case solid, gradient, grid, stripe, diamond, glow, marble, photo
     var id: String { rawValue }
 
     var name: String {
         switch self {
         case .gradient: return "ไล่เฉด"
+        case .grid:     return "ตาราง"
+        case .stripe:   return "ลายทาง"
+        case .diamond:  return "ข้าวหลามตัด"
         case .glow:     return "ดวงแสง"
         case .solid:    return "สีเดียว"
+        case .marble:   return "หินอ่อน"
         case .photo:    return "รูป"
         }
     }
     var icon: String {
         switch self {
         case .gradient: return "square.filled.and.line.vertical.and.square"
+        case .grid:     return "grid"
+        case .stripe:   return "rectangle.split.3x1.fill"
+        case .diamond:  return "diamond.fill"
         case .glow:     return "sun.max.fill"
         case .solid:    return "square.fill"
+        case .marble:   return "swirl.circle.righthalf.filled"
         case .photo:    return "photo.fill"
         }
     }
@@ -284,9 +325,17 @@ struct CardTheme: Equatable {
     /// เปิดช่อง hex ให้พิมพ์สีอะไรก็ได้เมื่อไหร่ "เลือกหมึกเอง" กลายเป็นกับดักทันที —
     /// พิมพ์ `#101010` ทับตอนที่หมึกเป็นกระดาษแล้วตัวหนังสือหายทั้งใบโดยไม่มีอะไรเตือน
     /// ค่าเริ่มต้นจึงเป็นอัตโนมัติ · แตะชิปโทนเมื่อไหร่คือผู้ใช้ขอคุมเอง แล้วค่านี้ถูกปิด
+    /// (ไม่มีชิป "อัตโนมัติ" ในแผงแล้ว — มันเป็นสถานะตั้งต้นที่เงียบอยู่จนกว่าจะมีคนเลือกฝั่ง)
     var inkAuto: Bool = true
     var corner: CornerStyle = .round
+    /// หน้าตาของแถบผู้ออกบัตรที่ขอบล่าง (ดู `IssuerStrip`) — ถอดไม่ได้ เลือกได้แค่แบบ
+    var strip: StripStyle = .line
     var backdrop: BackdropStyle = .gradient
+    /// คู่สีที่เลือกไว้ (ดู `ColorDuo`) — มีค่าเมื่อไหร่ **สีพื้นและสีหมึกมาจากคู่นี้ทั้งคู่**
+    /// เก็บเป็นรหัสไม่ใช่สองสี เพราะคู่สีเป็นของที่ตั้งชื่อไว้แล้ว การ์ดจึงอ้างถึงมันได้ในหน้าอื่น
+    var duoID: String? = nil
+    /// สีไหนขึ้นเป็นพื้น — false = สีเข้มเป็นพื้น (ค่าตั้งต้น) · true = สีอ่อนเป็นพื้น
+    var duoFlipped: Bool = false
     /// 0 = เข้มเกือบดำ · 1 = สว่าง
     var brightness: Double = 0.30
     /// เลื่อนเฉดพื้นหลังออกจากสีธีม −0.5…0.5 รอบวงล้อสี
@@ -310,6 +359,14 @@ struct CardTheme: Equatable {
     /// เดิมตรึงไว้ที่ 0.42 ซึ่งหนักพอที่ใส่เอฟเฟกต์ไปแล้วแทบไม่เห็นความต่าง — และมันเป็น
     /// การตัดสินใจแทนครีเอเตอร์ว่า "รูปของคุณสำคัญเท่านี้" ทั้งที่บางใบรูปคือพระเอก
     var photoDim: Double = 0.42
+    /// รูปพื้นหลังเอียงไปทางสว่างแค่ไหน ในสายตาของตัวหนังสือ (−1…1) — บวก = หมึกเข้มเสียรูปน้อยกว่า
+    ///
+    /// วัดตอนเลือกรูปและตอนเปลี่ยนเอฟเฟกต์ (ดู `PhotoLuma.lean`) แล้วเก็บไว้กับธีม เพราะหมึกของทั้งการ์ด
+    /// ต้องตัดสินได้จากธีมอย่างเดียว — widget ทุกตัว รูปที่ส่งออก รูปย่อในคลัง ไม่มีใครถือรูปพื้นหลังอยู่ในมือ
+    /// nil = ยังไม่เคยวัด (ไฟล์รุ่นก่อน) ถือเป็นรูปมืดแบบเดิม
+    var photoLean: Double? = nil
+    /// ธีมนี้ถูกวาดบนแผงเครื่องมือ (พื้นมืดคงที่) ไม่ใช่บนการ์ด — ดู `toolTheme` · ไม่ถูกเซฟ
+    var onStage = false
 
     /// สีพื้นที่ผู้ใช้เลือกเอง แยกเป็นสามค่า — nil เมื่อสียังมาจากพาเลตต์หรือโทนของรูป
     ///
@@ -322,6 +379,45 @@ struct CardTheme: Equatable {
 
     /// มีสีพื้นที่ผู้ใช้เลือกเองอยู่ไหม
     var hasCustomColor: Bool { customParts != nil }
+
+    /// คู่สีที่เลือกไว้ — nil เมื่อการ์ดใบนี้ยังใช้พาเลตต์หรือสีที่ตั้งเอง
+    var duo: ColorDuo? { duoID.flatMap(ColorDuo.find) }
+
+    /// สองสีที่ **มีผลจริง** ตอนนี้ — พื้นเป็นรูปเมื่อไหร่คู่สีถอยให้รูปทั้งคู่
+    ///
+    /// รูปที่อัปโหลดมาสว่างตรงไหนมืดตรงไหนคุมไม่ได้ หมึกสีครีมบนรูปจึงไม่มีอะไรรับประกันว่าอ่านออก
+    /// เหมือนกับที่ `activeInk` บังคับกลางคืนตรงนั้น — คู่สีไม่หาย แค่รอจนกว่าพื้นจะกลับมาเป็นสี
+    var duoColors: (bg: Color, ink: Color)? {
+        guard let d = activeDuo else { return nil }
+        return duoFlipped ? (d.light, d.dark) : (d.dark, d.light)
+    }
+
+    /// คู่สีที่มีผลจริงตอนนี้ (ดู `duoColors` สำหรับเหตุผลเรื่องพื้นรูป)
+    var activeDuo: ColorDuo? { backdrop == .photo ? nil : duo }
+
+    /// สองสีของคู่ **ตามบทบาทถาวร** ไม่ขึ้นกับว่าฝั่งไหนขึ้นเป็นพื้นอยู่
+    ///
+    /// แผ่นทึบของ widget ต้องเข้มเสมอและหมึกบนแผ่นต้องสว่างเสมอ ไม่ว่าการ์ดจะพลิกข้างไปทางไหน —
+    /// ถ้าผูกกับ `duoColors` แผ่นจะกลายเป็นครีมบนการ์ดครีมแล้วหายไปทั้งใบ
+    var duoDark: Color? { activeDuo?.dark }
+    var duoLight: Color? { activeDuo?.light }
+
+    /// เลือกคู่สี — ล้างสีที่ตั้งเองทิ้ง เพราะสองอย่างนี้ตอบคำถามเดียวกัน (พื้นสีอะไร) คนละคำตอบ
+    ///
+    /// ขึ้นข้างที่ตรงกับโทนของการ์ดตอนนั้น: การ์ดกระดาษที่ลองคู่สีดูต้องได้พื้นสีอ่อนของคู่นั้น
+    /// ไม่ใช่กระโดดเป็นพื้นมืดแล้วให้ผู้ใช้ไปหาทางกดกลับเอง — เขาเปลี่ยนแค่ "สีอะไร" ไม่ได้เปลี่ยน
+    /// ว่าการ์ดใบนี้มืดหรือสว่าง · อยากสลับข้างค่อยใช้แถวโทนซึ่งอยู่ใต้แถวคู่สีอยู่แล้ว
+    mutating func setDuo(_ d: ColorDuo) {
+        let wasLight = activeInk.isLight
+        customHue = nil
+        customSat = nil
+        customBri = nil
+        duoID = d.id
+        duoFlipped = wasLight
+    }
+
+    /// สีที่ผู้ใช้เลือกเองตอนนี้ (HSB) — แผงใช้จำไว้เป็น "สีของฉัน" ก่อนสลับไปสีสำเร็จรูป
+    var customColor: (h: Double, s: Double, b: Double)? { customParts }
 
     /// ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG) — nil เมื่อยังไม่มีสีที่เลือกเอง
     private var customLuminance: Double? {
@@ -347,15 +443,23 @@ struct CardTheme: Equatable {
     /// ตายตัวตัดสินผิดบ่อยที่สุด เพราะมันไม่สว่างพอจะเป็นกระดาษและไม่มืดพอจะเป็นเวทีมืด
     var activeInk: CardInk {
         if backdrop == .photo { return .night }
-        guard inkAuto else { return ink }
+        // คู่สีตอบคำถามนี้ไปแล้วในตัวมันเอง: พื้นสว่างกว่าหมึก = ฝั่งสว่าง · ไม่ต้องเดาจากเกณฑ์ไหน
+        if let c = duoColors {
+            return RGB(c.bg).luminance > RGB(c.ink).luminance ? lightInk : .night
+        }
+        // ผู้ใช้เลือกได้แค่สองฝั่ง (มืด · สว่าง) — ฝั่งสว่างยังแยกกระดาษ/ใสใสตามความสดของพื้นเอง
+        guard inkAuto else { return ink.isLight ? lightInk : .night }
         guard let l = customLuminance else { return .night }
         let withWhiteInk = 1.05 / (l + 0.05)
         // หมึกฝั่งสว่างเป็นถ่านที่อาบสีธีม ไม่ใช่ดำสนิท — ความสว่างของมันราว 0.02
         let withDarkInk = (l + 0.05) / 0.07
         guard withDarkInk > withWhiteInk else { return .night }
-        // พื้นที่ยังมีสีอยู่มากต้องได้ถ่านที่อาบเฉดเดียวกัน ไม่งั้นตัวหนังสือลอยหลุดออกจากพื้น
-        return (customSat ?? 0) >= 0.35 ? .mist : .paper
+        return lightInk
     }
+
+    /// หน้าตาของฝั่งสว่าง — พื้นที่ยังมีสีอยู่มากต้องได้ถ่านที่อาบเฉดเดียวกัน
+    /// ไม่งั้นตัวหนังสือลอยหลุดออกจากพื้น · แถวโทนจึงไม่ต้องถามคำถามนี้กับผู้ใช้
+    var lightInk: CardInk { (customSat ?? 0) >= 0.35 ? .mist : .paper }
 
     var backdropHue: Double {
         let raw = (customHue ?? palette.backdropHue) + hueShift
@@ -374,6 +478,13 @@ struct CardTheme: Equatable {
     var backdropColors: (top: Color, bottom: Color) {
         // สีที่ผู้ใช้เลือกเองไม่ผ่านสูตรของหมึก — ผ่านเมื่อไหร่ `#101010` จะถูกดันขึ้นมาเป็นเทา
         // และเม็ดสีในแผงกับพื้นการ์ดจะบอกคนละสีกัน ซึ่งเป็นจุดที่คนเลิกเชื่อช่อง hex
+        // คู่สีคือสีจริงที่เลือกมาแล้ว ห้ามผ่านสูตรไหนทั้งนั้น — ปลายล่างจึงเป็นแค่เงาของสีเดียวกัน
+        // เข้มลงเสมอ ไม่ใช่ผสมหมึกเข้าไป ไม่งั้นคู่สีสองสีจะกลายเป็นสามสีบนการ์ดใบเดียว
+        if let c = duoColors {
+            let inkDarker = RGB(c.ink).luminance < RGB(c.bg).luminance
+            return (c.bg, inkDarker ? c.bg.mixed(with: c.ink, by: 0.10)
+                                    : c.bg.mixed(with: .black, by: 0.26))
+        }
         if let p = customParts {
             return (Color(hue: p.h, saturation: p.s, brightness: p.b),
                     // ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
@@ -401,8 +512,27 @@ struct CardTheme: Equatable {
         }
     }
 
+    /// สีของแถบในฉากหลังแบบ "ลายทาง" — เฉดเดียวกับพื้น ต่างกันแค่หนึ่งขั้นความสว่าง
+    ///
+    /// พื้นเข้มได้แถบที่สว่างขึ้นในเฉดเดิม (เบอร์กันดีบนเบอร์กันดี) ไม่ใช่ขาวโปร่งที่ทำให้สีหม่น
+    /// พื้นสว่างได้แถบที่เข้มลงในเฉดเดิม (ครีมบนขาว · ฟ้าบนฟ้าอ่อน)
+    var stripeInk: Color {
+        if let c = duoColors { return c.ink.opacity(0.10) }
+        let h = backdropHue
+        switch activeInk {
+        case .night:
+            return Color(hue: h, saturation: min(1, backdropSat + 0.1), brightness: 0.85).opacity(0.10)
+        case .paper:
+            return Color(hue: h, saturation: 0.22, brightness: 0.58).opacity(0.13)
+        case .mist:
+            return Color(hue: h, saturation: 0.40, brightness: 0.55).opacity(0.14)
+        }
+    }
+
     /// สีหมึกและโทเคนทั้งชุดของการ์ดใบนี้
     var inkStyle: InkStyle {
+        // หมึกของคู่สีคือสีที่สองของคู่ตรง ๆ — ทั้งตัวหนังสือ เส้น แผ่น ใช้สีนี้หมดทั้งใบ
+        if let c = duoColors { return InkStyle(ink: activeInk, base: c.ink) }
         guard activeInk.isLight else { return .night }
         // ถ่านที่อาบเฉดของธีมไว้ — mist อาบเข้มกว่าเพราะพื้นมันมีสีมากกว่า
         let charcoal = Color(hue: backdropHue,
@@ -412,18 +542,32 @@ struct CardTheme: Equatable {
     }
 
     /// สีเน้นบนพื้นการ์ด — ปรับตามหมึกเสมอ
-    var accent: Color { activeInk.isLight ? rawAccent.onLightSurface() : rawAccent }
+    /// สีเน้นบนพื้นการ์ด — ปรับตามหมึกเสมอ
+    ///
+    /// คู่สีไม่มี "สีที่สาม" ให้เน้น — งานสองสีเน้นด้วยหมึกสีเดียวกับตัวหนังสือ แล้วไปเล่นที่ขนาด
+    /// กับน้ำหนักแทน · ใส่สีเน้นของพาเลตต์เข้าไปเมื่อไหร่ คู่สีที่อุตส่าห์จับมาก็พังตรงนั้น
+    var accent: Color {
+        if let c = duoColors { return c.ink }
+        return activeInk.isLight ? rawAccent.onLightSurface() : rawAccent
+    }
     var accentSoft: Color {
-        activeInk.isLight ? rawAccent.onLightSurface(depth: 0.35) : rawAccentSoft
+        if let c = duoColors { return c.ink.mixed(with: c.bg, by: 0.34) }
+        return activeInk.isLight ? rawAccent.onLightSurface(depth: 0.35) : rawAccentSoft
     }
 
     /// สีเน้นดิบของพาเลตต์ — จูนไว้สำหรับพื้นมืด
     /// ใช้ตรง ๆ ได้เฉพาะของที่วางบน "รูป" (มี scrim ดำรองอยู่แล้ว) เท่านั้น
     var rawAccent: Color {
+        // คู่สี: ตัวดิบคือ **สีอ่อนของคู่เสมอ** ไม่ใช่หมึกของการ์ด
+        //
+        // ของที่เรียกตัวนี้นั่งอยู่บนรูปที่มี scrim ดำ หรือบนแผ่นเข้มของ widget — สองที่ที่มืดแน่นอน
+        // ส่งหมึกของการ์ดไปเมื่อไหร่ การ์ดโทนสว่างจะได้ตัวเข้มไปวางบนแผ่นเข้ม แล้วมันหายไปทั้งบรรทัด
+        if let d = activeDuo { return d.light }
         guard let h = customHue else { return palette.accent }
         return Color(hue: h, saturation: min(0.72, max(0.35, (customSat ?? 0.5) + 0.1)), brightness: 0.96)
     }
     var rawAccentSoft: Color {
+        if let d = activeDuo { return d.light.mixed(with: d.dark, by: 0.30) }
         guard let h = customHue else { return palette.accentSoft }
         let shifted = (h + 0.04) - floor(h + 0.04)
         return Color(hue: shifted, saturation: min(0.5, max(0.25, customSat ?? 0.4)), brightness: 1.0)
@@ -440,6 +584,11 @@ struct CardTheme: Equatable {
         // ต้องปิดโหมดอัตโนมัติด้วย ไม่งั้นการ์ดที่ตั้งสีพื้นสว่างไว้จะลากหมึกกระดาษเข้ามาในชีต
         // ทั้งที่ชีตนั่งอยู่บนพื้นมืดคงที่ — บรรทัดบนจะถูกคำนวณทับทันทีที่อ่านค่า
         t.inkAuto = false
+        // คู่สีที่วางสีอ่อนไว้เป็นพื้นจะลากหมึกเข้มเข้ามาในชีตที่พื้นมืดคงที่ — สลับข้างให้เฉพาะในชีต
+        // (ไม่ล้างคู่สีทิ้ง ไม่งั้นพรีวิว widget ในตู้จะกลับไปเป็นสีพาเลตต์ ไม่ใช่สีของการ์ดใบนี้)
+        if let c = t.duoColors, RGB(c.bg).luminance > RGB(c.ink).luminance {
+            t.duoFlipped.toggle()
+        }
         return t
     }
 
@@ -477,6 +626,7 @@ extension CardTheme {
     /// เขียน `customHue` โดยหัก `hueShift` ออกก่อน เพราะ `backdropHue` จะบวกกลับเข้าไปทีหลัง
     /// ถ้าไม่หัก การ์ดที่มาจากเทมเพลตซึ่งตั้ง `hueShift` ไว้จะได้สีเพี้ยนไปจากที่พิมพ์
     mutating func setBackdropColor(h: Double, s: Double, b: Double) {
+        duoID = nil
         customHue = (h - hueShift) - floor(h - hueShift)
         customSat = min(1, max(0, s))
         customBri = min(1, max(0, b))
@@ -484,6 +634,7 @@ extension CardTheme {
 
     /// ล้างสีที่เลือกเอง กลับไปใช้สีของพาเลตต์
     mutating func clearBackdropColor() {
+        duoID = nil
         customHue = nil
         customSat = nil
         customBri = nil
@@ -524,6 +675,11 @@ struct CardBackdrop: View {
     let theme: CardTheme
     /// ตอนเรนเดอร์รูปแถบ 3 หน้า ไม่มี safe area ของจอ — อย่า ignore ไม่งั้นแผ่นจะไม่มีขนาด
     var ignoreSafeArea: Bool = true
+    /// เซ็นมุมขวาล่างด้วยโลโก้ Sale Here ตัวโต (ดู `SignatureCorner`)
+    ///
+    /// **เปิดเฉพาะตอนเป็นฉากหลังของตัวการ์ด** — ฉากหลังตัวเดียวกันนี้ถูกใช้เป็นเวทีเต็มจอด้วย
+    /// (คลัง · หน้าเลือกแบบ) เวทีมีลายน้ำลายซ้ำของมันเองอยู่แล้ว เซ็นซ้ำจะได้โลโก้สองขนาดในเฟรมเดียว
+    var signed: Bool = false
     @Environment(PhotoStore.self) private var photos: PhotoStore?
 
     var body: some View {
@@ -542,12 +698,47 @@ struct CardBackdrop: View {
 
     @ViewBuilder
     private var layers: some View {
+        ZStack {
+            fills
+            // ชั้นบนสุดของ "พื้น" — ใต้ widget ทุกชิ้นเสมอ · ล้นขอบแผ่นแล้วโดน `.clipped()` ตัด
+            // แบบปั๊มนูนวาดเหนือ widget (ดู `SignatureEmboss`) — ที่นี่จึงเว้นไว้ ไม่เซ็นสองครั้ง
+            if signed, !theme.strip.isStamp {
+                let ink = theme.inkStyle
+                SignatureCorner(tint: ink.base, light: ink.isLight)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var fills: some View {
         let c = theme.backdropColors
         ZStack {
             switch theme.backdrop {
             case .gradient:
                 LinearGradient(colors: [c.top, c.bottom], startPoint: .top, endPoint: .bottom)
                 orbs(0.5)
+
+            case .grid:
+                // ไล่เฉดเดิม + เส้นตารางจาง ๆ แบบกระดาษกราฟ — พื้นของแผ่นสติกเกอร์ในไฟล์ดีไซน์
+                // เส้นเป็นขาวโปร่งบนพื้นสว่าง / ขาวจางกว่าบนเวทีมืด ให้กระจกโปร่งของ widget มีอะไรให้เห็นทะลุ
+                LinearGradient(colors: [c.top, c.bottom], startPoint: .top, endPoint: .bottom)
+                BackdropGrid(line: .white.opacity(theme.activeInk.isLight ? 0.55 : 0.09))
+                orbs(0.35)
+
+            case .stripe:
+                // ลายทางสีเดียวกันสองเฉด (tone-on-tone) — วอลเปเปอร์/ผ้า ไม่ใช่ลายลูกกวาดตัดสี
+                // ต่างกันแค่เฉดเดียว widget จึงยังเป็นพระเอก · เกล็ดกระดาษทำให้อ่านเป็นวัสดุ ไม่ใช่เวกเตอร์
+                c.top
+                BackdropStripes(band: theme.stripeInk)
+                EdGrain(count: 2400, opacity: theme.activeInk.isLight ? 0.05 : 0.09,
+                        tint: theme.activeInk.isLight ? .black : .white)
+
+            case .diamond:
+                // ข้าวหลามตัด (harlequin) — สูตรสีเดียวกับลายทาง: สองเฉดของสีเดียว
+                c.top
+                BackdropDiamonds(band: theme.stripeInk)
+                EdGrain(count: 2400, opacity: theme.activeInk.isLight ? 0.05 : 0.09,
+                        tint: theme.activeInk.isLight ? .black : .white)
 
             case .glow:
                 // ฝั่งสว่างต้องไล่จากบนลงล่าง ไม่ใช่พื้นเดียวทับดวงแสง
@@ -561,6 +752,15 @@ struct CardBackdrop: View {
 
             case .solid:
                 c.top
+
+            case .marble:
+                // แผ่นหินเอียงเฉียง ไม่ใช่ไล่บนลงล่าง — หินขัดเป็นแผ่นที่แสงตกเฉียง
+                // ไล่ตรง ๆ จะอ่านเป็นฉากหลังของแอปที่บังเอิญมีเส้น ไม่ใช่แผ่นหินที่วางอยู่
+                LinearGradient(colors: [c.top, c.bottom],
+                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                MarbleVeins(vein: theme.marbleInk.vein, bleed: theme.marbleInk.bleed)
+                    .equatable()
+                orbs(0.24)
 
             case .photo:
                 c.bottom
@@ -607,5 +807,91 @@ struct CardBackdrop: View {
                 .blur(radius: 150)
                 .offset(x: 160, y: 280)
         }
+    }
+}
+
+/// แถบตั้งของฉากหลังแบบ "ลายทาง" — กว้างเท่ากันทั้งแถบสีและช่องว่าง
+struct BackdropStripes: View {
+    let band: Color
+    var width: CGFloat = 15
+
+    var body: some View {
+        Canvas { ctx, size in
+            var p = Path()
+            var x: CGFloat = width * 0.5
+            while x < size.width {
+                p.addRect(CGRect(x: x, y: 0, width: width, height: size.height))
+                x += width * 2
+            }
+            ctx.fill(p, with: .color(band))
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+/// ลายบน **แผ่นทึบของ widget** — ผู้ใช้เลือกรายชิ้นในถาด (`WidgetInstance.pattern`)
+///
+/// ลายเป็น **เฉดเข้มของแผ่นเอง** ทึบทั้งชิ้น — tone-on-tone แบบวอลเปเปอร์ ไม่ใช่เส้นขาวจาง ๆ
+/// ที่ทำให้แผ่นดูซีด · แผ่นใส (`.clear`) ไม่วาด เพราะไม่มีแผ่นให้ลาย
+struct PlatePatternLayer: View {
+    let sheet: Color
+    @Environment(\.widgetPattern) private var pattern
+
+    var body: some View {
+        let band = sheet.mixed(with: .black, by: 0.5)
+        if sheet != .clear {
+            switch pattern {
+            case .plain:   EmptyView()
+            case .stripe:  BackdropStripes(band: band)
+            case .diamond: BackdropDiamonds(band: band)
+            }
+        }
+    }
+}
+
+/// ข้าวหลามตัดแบบ harlequin — ข้าวหลามตัดทึบวางบนตาราง แล้วช่องว่างระหว่างมันคือข้าวหลามตัดสีพื้น
+/// สัดส่วนสูง:กว้าง ≈ 1.75 ตามลายตัวตลก/ไพ่ ที่แบนกว่านี้อ่านเป็นตารางเอียง
+struct BackdropDiamonds: View {
+    let band: Color
+    var width: CGFloat = 42
+
+    var body: some View {
+        Canvas { ctx, size in
+            let w = width, h = width * 1.75
+            var p = Path()
+            var y: CGFloat = 0
+            while y <= size.height + h / 2 {
+                var x: CGFloat = 0
+                while x <= size.width + w / 2 {
+                    p.move(to: CGPoint(x: x, y: y - h / 2))
+                    p.addLine(to: CGPoint(x: x + w / 2, y: y))
+                    p.addLine(to: CGPoint(x: x, y: y + h / 2))
+                    p.addLine(to: CGPoint(x: x - w / 2, y: y))
+                    p.closeSubpath()
+                    x += w
+                }
+                y += h
+            }
+            ctx.fill(p, with: .color(band))
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+/// เส้นตารางของฉากหลังแบบ "ตาราง" — ระยะคงที่ในหน่วยออกแบบ ทุกเครื่องและไฟล์ที่ส่งออกได้ตารางถี่เท่ากัน
+struct BackdropGrid: View {
+    let line: Color
+    var step: CGFloat = 22
+
+    var body: some View {
+        Canvas { ctx, size in
+            var p = Path()
+            var x: CGFloat = 0
+            while x <= size.width { p.move(to: CGPoint(x: x, y: 0)); p.addLine(to: CGPoint(x: x, y: size.height)); x += step }
+            var y: CGFloat = 0
+            while y <= size.height { p.move(to: CGPoint(x: 0, y: y)); p.addLine(to: CGPoint(x: size.width, y: y)); y += step }
+            ctx.stroke(p, with: .color(line), lineWidth: 0.8)
+        }
+        .allowsHitTesting(false)
     }
 }

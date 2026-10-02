@@ -19,13 +19,13 @@ struct SocialChips: View {
     let theme: CardTheme
     let width: CGFloat
 
-    private var socials: [SocialProfile] { Mock.creator.socials }
+    private var socials: [SocialProfile] { Profile.me.shownSocials }
     /// แคบมากถึงจะยอมตัดค่ารองทิ้ง — ที่ความกว้างครึ่งการ์ดยังใส่ได้ครบ
     private var tight: Bool { width < 190 }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ผู้ติดตาม")
+            WidgetLabel(text: "ผู้ติดตาม", trailing: AnyView(ProvenanceTag(kind: socials.provenance)))
                 .scrubVeil(scrub.d, lead: 0.36, drop: 20, pull: 6)
 
             VStack(spacing: 8) {
@@ -65,7 +65,7 @@ struct SocialChips: View {
 
             Spacer(minLength: 6)
 
-            if !tight {
+            if !tight, s.source.isVerified, s.avgViewCount > 0 {
                 // ค่าที่บอก "คุณภาพของช่อง" — ไอคอนนำหน้าทุกตัว
                 // เลขลอย ๆ สองตัวติดกันไม่มีทางรู้ว่าตัวไหนคือวิว ตัวไหนคือ engagement
                 HStack(spacing: 11) {
@@ -74,6 +74,13 @@ struct SocialChips: View {
                     // และไม่มีไอคอนตัวไหนในโลกที่แปลว่า engagement rate ได้โดยไม่ต้องสอน
                     tagged("ER", Fmt.pct(s.engagementRate), s.type.tint, lead: lead + 0.03)
                 }
+            } else if !tight {
+                // ยอดที่กรอกเองไม่มีวิว/ER จริง · เชื่อมแล้วแต่ยังไม่ซิงก์ก็ยังไม่มี — บอกตรง ๆ ว่ารออะไรอยู่ ไม่ใช่โชว์ 0
+                Text(s.source.isVerified ? "รอซิงก์ข้อมูล" : "รอเชื่อมบัญชี")
+                    .font(.sh(10, .semibold))
+                    .foregroundStyle(ink.text(0.42))
+                    .lineLimit(1).fixedSize()
+                    .scrubVeil(scrub.d, lead: lead, drop: 18, pull: 10)
             }
         }
         // เทรนด์ 2026 · Surface elevation ในธีมมืด — ใช้ "ผิวสว่างขึ้น + เรืองแสงประจำแพลตฟอร์ม"
@@ -104,7 +111,7 @@ struct SocialChips: View {
             Text(label)
                 .font(.sh(9.5, .black)).tracking(0.3)
                 .foregroundStyle(tint.opacity(0.9))
-            Text(value)
+            Text(value).dataValue()
                 .font(.sh(12, .bold))
                 .foregroundStyle(ink.text(0.88))
         }
@@ -118,7 +125,7 @@ struct SocialChips: View {
             Image(systemName: icon)
                 .font(.system(size: 9, weight: .semibold))
                 .foregroundStyle(tint.opacity(0.85))
-            Text(value)
+            Text(value).dataValue()
                 .font(.sh(12, .bold))
                 .foregroundStyle(ink.text(0.88))
         }
@@ -146,11 +153,11 @@ struct SocialTiles: View {
     let theme: CardTheme
     let width: CGFloat
 
-    private var socials: [SocialProfile] { Mock.creator.socials }
+    private var socials: [SocialProfile] { Profile.me.shownSocials }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            WidgetLabel(text: "ผู้ติดตาม")
+            WidgetLabel(text: "ผู้ติดตาม", trailing: AnyView(ProvenanceTag(kind: socials.provenance)))
                 .scrubVeil(scrub.d, lead: 0.36, drop: 20, pull: 6)
 
             HStack(alignment: .center, spacing: 8) {
@@ -206,5 +213,18 @@ struct SocialTiles: View {
         .shadow(color: ink.lift.opacity(0.5), radius: ink.liftRadius * 0.6, y: 4)
         // กล่องไปทีหลังของข้างในเสมอ
         .scrubVeil(scrub.d, lead: lead + 0.16, drop: 34, pull: 12)
+    }
+}
+
+// MARK: - ที่มาของยอดทั้งชุด
+
+extension Array where Element == SocialProfile {
+    /// ป้ายที่มาของ widget ผู้ติดตาม — ทุกช่องยืนยันแล้วถึงจะได้ป้ายเขียว
+    /// มีช่องที่กรอกเองปนอยู่แม้ช่องเดียว ป้ายต้องบอกว่า "รอตรวจสอบ" (ป้ายเขียวคลุมเลขที่ยังไม่ตรวจ = การ์ดโกหก)
+    var provenance: Provenance {
+        // โต๊ะตรวจงานบังคับสถานะ "ยอดจากแพลตฟอร์ม" ได้ (ดู `VerifiedFacts.labForce`)
+        if VerifiedFacts.labForce, !isEmpty { return .connected(first?.syncedAgo ?? "2 ชม.") }
+        guard !isEmpty, allSatisfy(\.source.isVerified) else { return .manual }
+        return .connected(first?.syncedAgo ?? "วันนี้")
     }
 }

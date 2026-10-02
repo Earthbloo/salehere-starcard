@@ -161,17 +161,39 @@ enum TextTint: String, CaseIterable, Identifiable {
         }
     }
 
-    func color(ink: InkStyle, accent: Color) -> Color {
+    /// สีที่วาดจริงบนการ์ด — **อ่านออกบนพื้นเสมอ** (ดู `Legibility.swift`)
+    ///
+    /// สีคงที่ถูกขยับความสว่างจนตัดกับพื้น เฉดเดิมอยู่ครบ: ทองบนพื้นแชมเปญกลายเป็นทองเข้ม ไม่ใช่หายไปกับพื้น
+    /// และเปลี่ยนสีพื้นทีหลังเมื่อไหร่ ตัวหนังสือที่เลือกสีไว้ก็ตามไปเอง ไม่ต้องกลับมาไล่แก้ทีละก้อน
+    /// - Parameter large: ตัวอักษรใหญ่พอให้ใช้เกณฑ์ตัวใหญ่ (3:1) — ก้อนข้อความรู้ขนาดจริงของตัวเอง
+    func color(ink: InkStyle, accent: Color, large: Bool = false) -> Color {
+        let target = large ? Legibility.large : Legibility.body
         switch self {
         case .ink:    return ink.text(0.92)
         case .soft:   return ink.text(0.55)
-        case .accent: return accent
+        case .accent: return accent.legible(on: ink.ground, target: target, prefersLight: !ink.isLight)
         default:
             guard let c = raw else { return ink.text(0.92) }
-            // ขาว/ดำเลือกมาเพื่อ "ขาว" หรือ "ดำ" จริง ๆ — ห้ามปรับตามพื้น ไม่งั้นตัวเลือกนี้ก็หายไป
+            // ขาว/ดำเลือกมาเพื่อ "ขาว" หรือ "ดำ" จริง ๆ — ห้ามขยับสี ไม่งั้นตัวเลือกนี้ก็หายไป
+            // อ่านออกได้ด้วยเงากันจมแทน (ดู `halo`)
             if self == .white || self == .black { return c }
-            return ink.isLight ? c.onLightSurface() : c
+            return (ink.isLight ? c.onLightSurface() : c)
+                .legible(on: ink.ground, target: target, prefersLight: !ink.isLight)
         }
+    }
+
+    /// เงากันจมของขาว/ดำที่ผู้ใช้เลือกเจาะจง — nil เมื่ออ่านออกอยู่แล้ว
+    ///
+    /// ขาวบนการ์ดสว่าง (หรือดำบนการ์ดมืด) ไม่มีทางอ่านออกด้วยตัวสีเอง และขยับสีก็ไม่ได้ —
+    /// เงาสีตรงข้ามรอบตัวอักษรคือวิธีเดียวที่ได้ทั้ง "สีที่เลือก" และ "อ่านออก" (ท่าของหน้าล็อก iOS)
+    /// ยิ่งจมมากเงายิ่งเข้ม · อ่านออกอยู่แล้วไม่มีเงา การ์ดพื้นมืดที่ใช้ตัวขาวจึงหน้าตาเหมือนเดิมทุกประการ
+    func halo(ink: InkStyle, large: Bool = false) -> Color? {
+        guard self == .white || self == .black, let c = raw else { return nil }
+        let target = large ? Legibility.large : Legibility.body
+        let have = ink.ground.contrast(of: RGB(c).luminance)
+        guard have < target else { return nil }
+        let short = min(1, (target - have) / (target - 1))
+        return (self == .white ? Color.black : Color.white).opacity(0.3 + 0.45 * short)
     }
 
     /// สีที่โชว์ในแผงเครื่องมือ (พื้นมืดคงที่) — สามตัวแรกไม่มีสีของตัวเอง จึงต้องยืมของธีมมา
@@ -271,11 +293,116 @@ enum TextAlign: String, CaseIterable, Identifiable {
 }
 
 /// หน้าตาตัวอักษรของ widget หนึ่งชิ้น — เก็บอยู่ใน `WidgetInstance` คู่กับ `surface`/`border`
+/// ขั้นขนาดตัวอักษร **ของช่องหนึ่งช่อง** — คูณกับขนาดที่ดีไซน์ตั้งไว้ให้ช่องนั้น
+///
+/// # ทำไมเป็นตัวคูณ ไม่ใช่ขนาด pt
+///
+/// เพราะ `M` ต้องแปลว่า *ขนาดที่ดีไซน์ตั้งใจ* เสมอ ไม่ว่าจะเป็นชื่อ 28pt หรือสายงาน 9.5pt —
+/// ถ้าขั้นเป็น pt ตายตัว การกด `M` ที่สองช่องนั้นจะทำให้มันเท่ากัน แล้วลำดับชั้นหายไป
+/// ตัวคูณทำให้ทุกขั้นเป็น "เทียบกับที่ออกแบบไว้" ซึ่งเป็นภาษาที่คนแต่งการ์ดคิดอยู่แล้ว
+///
+/// ช่วงของตัวคูณอยู่ที่ `factor` ข้างล่าง (0.60–2.20) — กรอบของชิ้นถูกล็อกสัดส่วนไว้
+/// ตัวอักษรที่โตเกินกรอบไม่ได้ทำให้กรอบโตตาม
+/// มันจะถูกตัดหรือถูกย่อลงเอง ซึ่งเป็นพฤติกรรมที่ยอมรับได้ ต่างจากขั้นที่กดแล้วไม่เห็นผล
+enum WidgetTextSize: String, CaseIterable, Identifiable, Equatable {
+    case xs, s, m, l, xl, xxl
+
+    var id: String { rawValue }
+    /// ป้ายบนถาด — สั้นพอให้หกขั้นอยู่ในแถวเดียว
+    var label: String { rawValue.uppercased() }
+
+    /// ช่วงกว้างจริง — จากเล็กกว่าที่ออกแบบไว้เกือบครึ่ง ไปจนใหญ่กว่าสองเท่า
+    ///
+    /// ของเดิมอยู่ที่ 0.80–1.36 ซึ่งกด XS กับ XXL แล้วแทบไม่ต่างกัน — ขั้นที่ไม่เห็นผล
+    /// คือขั้นที่ไม่มีอยู่จริง · ตอนนี้ไล่แบบเรขาคณิต (คูณ ~1.3 ต่อขั้น) สายตาจึงอ่านออกว่า
+    /// **ทุกขั้นเป็นคนละขนาด** ไม่ใช่ตัวเลขหกตัวที่ให้ผลใกล้กันสี่ตัว
+    ///
+    /// ขนาดที่ได้ถูกคุมปลายทั้งสองข้างอีกชั้นที่ `WidgetTextStyle.scaled` — ตัวคูณเดียวกัน
+    /// เจอกับคำบรรยาย 6.4pt กับชื่อ 28pt คนละเรื่องกัน ปลายล่างจึงต้องมีพื้นที่อ่านออกเสมอ
+    var factor: CGFloat {
+        switch self {
+        case .xs:  return 0.60
+        case .s:   return 0.78
+        case .m:   return 1.00
+        case .l:   return 1.30
+        case .xl:  return 1.70
+        case .xxl: return 2.20
+        }
+    }
+}
+
 struct WidgetTextStyle: Equatable {
     var face: CardFont = .noto
     var tint: TextTint = .ink
+    /// ขั้นขนาดแบบเก่า — เหลือไว้อ่านไฟล์รุ่นก่อน (ดู `CardStore`) ตัววาดไม่ใช้แล้ว
     var scale: TextScale = .medium
     var align: TextAlign = .leading
+    /// ขนาดตัวอักษรของก้อนข้อความ (pt) — ปรับต่อเนื่องด้วยหมุดมุม ไม่ใช่ขั้นบันได
+    ///
+    /// ต่างจาก `TextScale` โดยตั้งใจ: ก้อนข้อความคือหัวเรื่อง/ป้าย ที่ผู้ใช้จูนขนาดด้วยตาเทียบกับของข้าง ๆ
+    /// การบังคับสี่ขั้นทำให้ "พอดี" หาไม่เจอบ่อยกว่าที่มันช่วยคุมสัดส่วน
+    var points: CGFloat = 28
+
+    /// # หน้าตาของ **แต่ละช่องข้อความ** ในชิ้นนี้ — ฟอนต์ · สี · ขนาด
+    ///
+    /// สามชุดนี้เก็บ "เฉพาะช่องที่ถูกสั่งทับ" — ไม่มีคีย์ = **ตามที่ดีไซน์เลือกไว้**
+    /// ซึ่งต้องเป็นค่าตั้งต้นเสมอ ไม่งั้นหยิบชิ้นออกจากตู้แล้วเซริฟของหัวเรื่องนิตยสาร
+    /// หรือครีมบนแผ่นเข้มจะถูกกลบด้วยค่ามาตรฐานทันทีโดยไม่มีใครสั่ง
+    ///
+    /// เก็บที่ *ชิ้น* ไม่ใช่ที่ *ข้อความ* — วางฮีโร่สองตัวบนการ์ดเดียวกัน ชื่อเดียวกัน
+    /// แต่แต่งคนละแบบได้ เพราะนี่คือหน้าตาของชิ้นนั้น ไม่ใช่ข้อเท็จจริงของเจ้าของการ์ด
+    var slotFaces: [String: CardFont] = [:]
+    var slotTints: [String: TextTint] = [:]
+    /// ขั้นขนาด **ของแต่ละช่อง** — คีย์คือช่องนั้น (ดู `slotKey`) · ไม่มีคีย์ = `m` (ขนาดที่ดีไซน์ตั้งไว้)
+    ///
+    /// # ทำไมเป็นรายช่อง ไม่ใช่ขั้นเดียวทั้งชิ้น
+    ///
+    /// ขั้นเดียวทั้งชิ้นขยายทุกบรรทัดพร้อมกัน ซึ่งแก้ปัญหา "ทั้งใบเล็กไป" ได้ แต่ไม่ได้แก้
+    /// ปัญหาที่คนแต่งเจอจริงกว่า: **ชื่อควรใหญ่กว่านี้ แต่คำบรรยายกำลังดีแล้ว**
+    /// พอขยายทั้งชิ้น คำบรรยายก็ล้นตามไปด้วย แล้วต้องย้อนกลับมาขั้นเดิมทั้งใบ
+    ///
+    /// เก็บที่ *ชิ้น* ไม่ใช่ที่ *ข้อความ* — วางฮีโร่สองตัวบนการ์ดเดียวกัน ชื่อเดียวกัน
+    /// แต่ตั้งขนาดคนละขั้นได้ เพราะขนาดคือหน้าตาของชิ้นนั้น ไม่ใช่ข้อเท็จจริงของเจ้าของการ์ด
+    var slotSizes: [String: WidgetTextSize] = [:]
+
+    /// คีย์ของช่องหนึ่งช่องในชิ้น — ฟิลด์ + ลำดับ (ชิ้นไหนดูจากตัว `WidgetInstance` ที่ถือค่านี้อยู่)
+    static func slotKey(_ field: ProfileField, _ index: Int? = nil) -> String {
+        index.map { "\(field.rawValue)#\($0)" } ?? field.rawValue
+    }
+
+    func size(for field: ProfileField, _ index: Int? = nil) -> WidgetTextSize {
+        slotSizes[Self.slotKey(field, index)] ?? .m
+    }
+    /// `nil` = ตามดีไซน์
+    func face(for field: ProfileField, _ index: Int? = nil) -> CardFont? {
+        slotFaces[Self.slotKey(field, index)]
+    }
+    /// `nil` = ตามดีไซน์
+    func tint(for field: ProfileField, _ index: Int? = nil) -> TextTint? {
+        slotTints[Self.slotKey(field, index)]
+    }
+
+    /// ฟอนต์จริงของช่องที่ดีไซน์สั่งมาเป็น `size`/`weight` — ผ่านฟอนต์และขั้นขนาดของช่องนั้นแล้ว
+    func font(_ size: CGFloat, _ weight: Font.Weight = .regular,
+              for field: ProfileField, _ index: Int? = nil) -> Font {
+        (face(for: field, index) ?? .noto).font(scaled(size, for: field, index), weight)
+    }
+
+    /// สีของช่องนั้น — คืนสีที่ดีไซน์ตั้งไว้ถ้าเจ้าของการ์ดยังไม่ได้เลือกสีให้ช่องนี้
+    ///
+    /// ใช้กับใบที่ตั้งสีเองไม่ได้ผ่านตัวประกาศช่อง (ตัวอักษรไล่เฉด · กล่องที่มีหลายก้อน)
+    func color(_ design: Color, for field: ProfileField, _ index: Int? = nil,
+               ink: InkStyle, accent: Color) -> Color? {
+        tint(for: field, index)?.color(ink: ink, accent: accent)
+    }
+
+    /// ขนาดหลังคูณขั้นของช่องนั้น — คุมปลายทั้งสองข้างไว้
+    ///
+    /// ล่าง 6pt: เล็กกว่านี้อ่านไม่ออกบนกระดาษที่พิมพ์จริง (คำบรรยาย 6.4pt × XS = 3.8pt)
+    /// บน 160pt: ใหญ่กว่านี้ไม่มีกรอบไหนในตู้รับไหว มันกลายเป็นตัวอักษรที่ถูกตัดทิ้งครึ่งตัว
+    func scaled(_ size: CGFloat, for field: ProfileField, _ index: Int? = nil) -> CGFloat {
+        min(max(size * self.size(for: field, index).factor, 6), 160)
+    }
 }
 
 private struct WidgetTextStyleKey: EnvironmentKey {
@@ -288,5 +415,114 @@ extension EnvironmentValues {
     var widgetTextStyle: WidgetTextStyle {
         get { self[WidgetTextStyleKey.self] }
         set { self[WidgetTextStyleKey.self] = newValue }
+    }
+}
+
+// MARK: - ตัวอักษรขยายเต็มกล่อง
+
+extension TextAlign {
+    /// จุดยึดในกล่อง — กลางแนวตั้งเสมอ (กล่องที่สูงกว่าข้อความต้องอ่านเป็น "จงใจเว้น" ไม่ใช่ข้อความหล่นไปติดหัว)
+    var centered: Alignment {
+        switch self {
+        case .leading:  return .leading
+        case .center:   return .center
+        case .trailing: return .trailing
+        }
+    }
+
+    var ns: NSTextAlignment {
+        switch self {
+        case .leading:  return .left
+        case .center:   return .center
+        case .trailing: return .right
+        }
+    }
+}
+
+/// วัดก้อนข้อความ — **ไม่ตัดบรรทัดเอง** บรรทัดใหม่มีเฉพาะที่ผู้ใช้กด Return
+///
+/// กล่องของก้อนข้อความคือตัวอักษรพอดี: กว้างเท่าบรรทัดที่ยาวที่สุด สูงเท่าจำนวนบรรทัด
+/// ขนาดปรับด้วยหมุดมุมอย่างเดียว (ดู `cornerHandle`) — ไม่มีหมุดกว้าง/สูงให้ดันข้อความจนตัดบรรทัด
+/// เพราะการขึ้นบรรทัดใหม่คือการตัดสินใจของคนเขียน ไม่ใช่ผลข้างเคียงของกล่อง
+///
+/// วัดด้วย TextKit (`boundingRect`) — ช่องพิมพ์ (`UITextView`) วางบรรทัดด้วยตัวเดียวกัน จึงตรงกันเป๊ะ
+enum TextFit {
+    /// ช่องไฟระหว่างบรรทัดเป็นสัดส่วนของขนาด — ค่าคงที่เดียวใช้ไม่ได้เมื่อขนาดวิ่งตั้งแต่ 9 ถึง 200
+    static let spacing: CGFloat = 0.10
+    static let minSize: CGFloat = 9
+    static let maxSize: CGFloat = 200
+    /// ขนาดตอนพิมพ์ — **เท่ากันทุกก้อน** ไม่ว่าบนการ์ดจะย่อไว้จิ๋วหรือขยายไว้ยักษ์ (ท่าเดียวกับ Story)
+    /// เท่ากับขนาดตั้งต้นของก้อนใหม่ ก้อนที่เพิ่งสร้างจึงไม่เปลี่ยนขนาดตอนกด เสร็จ
+    static let editSize: CGFloat = 28
+
+    struct Metrics {
+        /// กล่องตามตัวพิมพ์ (line box) — สูงตามฟอนต์ เผื่อสระบน/ล่างไว้เสมอแม้ไม่มี
+        var typo: CGSize
+        /// กล่องตาม **หมึก** ที่วาดจริง ในพิกัดของ `typo` (จุดกำเนิดมุมบนซ้าย · ค่าลบได้ถ้าหมึกล้น line box)
+        var ink: CGRect
+    }
+
+    /// วัดสองกล่อง — กล่องบนการ์ดใช้ **หมึก** ไม่ใช่ line box
+    ///
+    /// ผู้ใช้เห็นตัวอักษร ไม่ได้เห็น line box: ฟอนต์ไทยเผื่อที่ให้สระบน/วรรณยุกต์/สระล่างไว้ตลอด
+    /// บรรทัดที่ไม่มีของพวกนั้นจึงมีที่ว่างเหนือ-ใต้ตัวอักษรราวสามสิบเปอร์เซ็นต์ ซึ่งในสายตาเขาคือ padding
+    ///
+    /// วัดด้วย CoreText ทีละบรรทัด — `boundingRect(.usesDeviceMetrics)` ให้แค่ขนาดหมึก ไม่ให้ตำแหน่ง
+    /// (origin.y เป็นศูนย์เสมอ) และหลายบรรทัดคืน line box ทั้งก้อน ใช้ไม่ได้
+    /// วางบรรทัดแบบเดียวกับที่ SwiftUI/TextKit วาง: สูง = ascent+descent+leading · คั่นด้วย `spacing`
+    /// บรรทัดสั้นเลื่อนตามการจัดวางในความกว้างของบรรทัดที่ยาวที่สุด
+    static func metrics(_ text: String, face: CardFont, weight: Font.Weight, size: CGFloat,
+                        align: TextAlign) -> Metrics {
+        let font = face.uiFont(size, weight)
+        let gap = size * spacing
+        let lines = text.isEmpty ? [" "] : text.components(separatedBy: "\n")
+        var rows: [(w: CGFloat, h: CGFloat, asc: CGFloat, ink: CGRect)] = []
+        var maxW: CGFloat = 0
+        for l in lines {
+            let ct = CTLineCreateWithAttributedString(
+                NSAttributedString(string: l.isEmpty ? " " : l, attributes: [.font: font]))
+            var asc: CGFloat = 0, desc: CGFloat = 0, lead: CGFloat = 0
+            let w = CGFloat(CTLineGetTypographicBounds(ct, &asc, &desc, &lead))
+            // พิกัด CoreText คือฐานบรรทัด แกน y ชี้ขึ้น — แปลงเป็นมุมบนซ้ายทีหลัง
+            rows.append((w, asc + desc + lead, asc, CTLineGetImageBounds(ct, nil)))
+            maxW = max(maxW, w)
+        }
+        let typoW = maxW.rounded(.up)
+        var y: CGFloat = 0
+        var ink: CGRect? = nil
+        for (i, r) in rows.enumerated() {
+            let x0: CGFloat
+            switch align {
+            case .leading:  x0 = 0
+            case .center:   x0 = (typoW - r.w) / 2
+            case .trailing: x0 = typoW - r.w
+            }
+            if r.ink.width > 0, r.ink.height > 0 {
+                let rect = CGRect(x: x0 + r.ink.minX, y: y + r.asc - r.ink.maxY,
+                                  width: r.ink.width, height: r.ink.height)
+                ink = ink.map { $0.union(rect) } ?? rect
+            }
+            y += r.h + (i < rows.count - 1 ? gap : 0)
+        }
+        let typo = CGSize(width: typoW, height: y.rounded(.up))
+        // ช่องว่างล้วนไม่มีหมึก — ตกไปใช้ line box ไม่งั้นกล่องยุบเหลือศูนย์
+        return Metrics(typo: typo, ink: (ink ?? CGRect(origin: .zero, size: typo)).integral)
+    }
+
+    /// ขนาดธรรมชาติของข้อความที่ขนาดฟอนต์หนึ่ง — ไม่จำกัดความกว้าง ไม่ตัดบรรทัด (line box)
+    static func natural(_ text: String, face: CardFont, weight: Font.Weight, size: CGFloat) -> CGSize {
+        metrics(text, face: face, weight: weight, size: size, align: .leading).typo
+    }
+
+    /// ขนาดที่ใช้จริง — เท่าที่ตั้งไว้ เว้นแต่บรรทัดที่ยาวที่สุดจะล้น `maxWidth` แล้วจึงหดลงพอดี
+    ///
+    /// ล้นหน้าคือกรณีเดียวที่ระบบแตะขนาดแทนผู้ใช้ — และแตะแค่ชั่วคราว: ตัดคำให้สั้นลงเมื่อไหร่ก็ได้ขนาดเดิมคืน
+    static func capped(_ points: CGFloat, _ text: String, face: CardFont, weight: Font.Weight,
+                       maxWidth: CGFloat) -> CGFloat {
+        let p = min(max(points, minSize), maxSize)
+        guard maxWidth > 4 else { return p }
+        let w = natural(text, face: face, weight: weight, size: p).width
+        guard w > maxWidth else { return p }
+        return max(minSize, (p * maxWidth / w).rounded(.down))
     }
 }

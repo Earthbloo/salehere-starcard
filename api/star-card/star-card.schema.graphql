@@ -1,0 +1,116 @@
+# ตัวอย่าง — วางที่ gateway/src/schema/star-card.schema.graphql
+#
+# doc ส่งเป็น String (ข้อความ JSON) ไม่ใช่ type ที่แตกทุกฟิลด์ เพราะ
+#  1) gateway ยังไม่มี scalar JSON
+#  2) ถ้าแตกเป็น input type แอปเวอร์ชันใหม่ที่มี kind/ฟิลด์ใหม่จะโดน GraphQL ปฏิเสธทันที
+#     ส่งเป็นข้อความทำให้ของที่ server ไม่รู้จักผ่านไปถึง DB ครบ — ตรวจด้วย yup ใน resolver แทน
+
+enum StarCardFormat {
+  portfolio
+  story
+}
+
+enum StarPlatform {
+  ios
+  android
+  web
+}
+
+type StarCard {
+  id: Int!
+  shortId: String!
+  format: StarCardFormat!
+  name: String!
+  isPrimary: Boolean!
+  templateId: String
+  schemaVersion: Int!
+  "ผังการ์ดฉบับร่าง (ข้อความ JSON) — เห็นเฉพาะเจ้าของ"
+  draftDoc: String
+  draftRev: Int!
+  "รูปทุกใบที่ doc อ้างถึง — แอปหา imageId ในนี้แล้วใช้ path ตามขนาดที่ต้องการ"
+  images: [StarCardImage!]!
+  published: StarCardVersion
+  "เจ้าของการ์ด — ชื่อ ผู้ติดตาม หมวดหมู่ ฯลฯ ใช้ field เดิมของ User ทั้งหมด ไม่เก็บซ้ำในการ์ด"
+  owner: User!
+  updatedAt: Date
+}
+
+type StarCardVersion {
+  version: Int!
+  "ผังการ์ดที่เผยแพร่ (ข้อความ JSON)"
+  doc: String!
+  "PNG ทั้งหน้า เรียงตามหน้า — ใช้เมื่อแอปไม่รู้จัก kind ใดใน kinds"
+  pageImages: [Image!]!
+  ogImage: Image
+  kinds: [String!]!
+  publishedAt: Date!
+}
+
+type StarCardImage {
+  image: Image!
+  role: String!
+}
+
+"ข้อเท็จจริงที่ระบบรับรอง — ผู้ใช้แก้เองไม่ได้ widget ตระกูล verified/brand/seal อ่านจากตรงนี้"
+type StarTrackRecord {
+  isVerified: Boolean!
+  completedCampaigns: Int!
+  onTimeCampaigns: Int!
+  brands: [StarTrackRecordBrand!]!
+}
+
+type StarTrackRecordBrand {
+  brandId: Int!
+  name: String!
+  logo: Image
+  campaigns: Int!
+}
+
+type StarCardImageResponse {
+  successful: Boolean!
+  entity: Image
+  errors: [Error!]
+}
+
+type StarCardResponse {
+  successful: Boolean!
+  entity: StarCard
+  errors: [Error!]
+}
+
+extend type User {
+  "การ์ดหลักของคนนี้ (ฉบับเผยแพร่) — null ถ้ายังไม่เคยเผยแพร่"
+  primaryStarCard: StarCard
+  starTrackRecord: StarTrackRecord!
+}
+
+extend type Slug {
+  "salehere.co.th/star/{slug} — ไม่ต้องล็อกอิน ได้เฉพาะ published ไม่มี draftDoc"
+  starCard(shortId: String): StarCard
+}
+
+extend type Query {
+  myStarCards: [StarCard!]!
+  myStarCard(id: Int!): StarCard
+  "kind ที่แอปเวอร์ชันนี้วางได้ในถาด (อ่านจาก Firebase Remote Config key star_widget_catalog)"
+  starWidgetCatalog(platform: StarPlatform!, appVersion: String!): [String!]!
+}
+
+extend type Mutation {
+  createStarCard(format: StarCardFormat!, templateId: String): StarCardResponse!
+  "บันทึกร่าง — rev ไม่ตรง = successful false, errors[0].path 'baseRev' พร้อม entity ฉบับล่าสุดให้แอปรวมงาน"
+  saveStarCardDraft(id: Int!, doc: String!, baseRev: Int!): StarCardResponse!
+  "อัป S3 ผ่าน generatePreSignedUrl เสร็จแล้วส่ง key มาเป็น imgPath — server สร้าง Image ใน image-service แล้วคืน imageId ไปใส่ใน doc"
+  addStarCardImage(id: Int!, image: InputImage!, role: String!): StarCardImageResponse!
+  publishStarCard(
+    id: Int!
+    rev: Int!
+    pageImageIds: [Int!]!
+    ogImageId: Int
+    platform: StarPlatform!
+    appVersion: String!
+  ): StarCardResponse!
+  setPrimaryStarCard(id: Int!): VoidResponse!
+  renameStarCard(id: Int!, name: String!): VoidResponse!
+  deleteStarCard(id: Int!): VoidResponse!
+}

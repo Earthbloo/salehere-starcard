@@ -11,8 +11,9 @@ import SwiftUI
 // ฟิลด์ไหนที่ครีเอเตอร์กรอกเองแล้วเสียน้ำหนักทันที (engagement · ยอดขาย · เวลาตอบกลับ · รีวิว)
 // ถูกทำเครื่องหมายไว้ว่าต้องมาจากระบบเท่านั้น — วันต่อ backend ห้ามเปิดเป็นฟอร์มให้พิมพ์
 
-enum SocialType: String, CaseIterable, Identifiable {
-    case instagram, tiktok, youtube, facebook
+enum SocialType: String, CaseIterable, Identifiable, Codable {
+    // สองตัวท้ายมาจากฟอร์มสมัคร — ไม่มี API ให้ดึงยอด (ดู `SocialType.fetch` ใน `Intake.swift`)
+    case instagram, tiktok, youtube, facebook, lemon8, x
     var id: String { rawValue }
 
     var name: String {
@@ -21,6 +22,8 @@ enum SocialType: String, CaseIterable, Identifiable {
         case .tiktok:    return "TikTok"
         case .youtube:   return "YouTube"
         case .facebook:  return "Facebook"
+        case .lemon8:    return "Lemon8"
+        case .x:         return "X (Twitter)"
         }
     }
     /// โลโก้แบรนด์ของจริง ยกมาจาก asset ของแอปหลัก
@@ -30,6 +33,8 @@ enum SocialType: String, CaseIterable, Identifiable {
         case .tiktok:    return SHIcon.tiktok
         case .youtube:   return SHIcon.youtube
         case .facebook:  return SHIcon.facebook
+        case .lemon8:    return SHIcon.lemon8
+        case .x:         return SHIcon.x
         }
     }
     var tint: Color {
@@ -38,6 +43,8 @@ enum SocialType: String, CaseIterable, Identifiable {
         case .tiktok:    return Color(red: 0.20, green: 0.94, blue: 0.92)
         case .youtube:   return Color(red: 1.00, green: 0.32, blue: 0.30)
         case .facebook:  return Color(red: 0.36, green: 0.56, blue: 0.98)
+        case .lemon8:    return Color(red: 1.00, green: 0.84, blue: 0.25)
+        case .x:         return Color(red: 0.85, green: 0.85, blue: 0.88)
         }
     }
 }
@@ -65,6 +72,8 @@ extension SocialType {
         case .tiktok:    return Web.url("www.tiktok.com/@\(h)")
         case .youtube:   return Web.url("www.youtube.com/@\(h)")
         case .facebook:  return Web.url("www.facebook.com/\(h)")
+        case .lemon8:    return Web.url("www.lemon8-app.com/@\(h)")
+        case .x:         return Web.url("x.com/\(h)")
         }
     }
 }
@@ -99,13 +108,18 @@ struct SocialProfile: Identifiable {
     /// สเปก 2.1 — ลิงก์ตรงไปหน้าโปรไฟล์ของช่องนั้น
     /// ว่างได้ · ว่างเมื่อไหร่จะประกอบจาก handle ให้แทน ดีกว่ากดแล้วไม่มีอะไรเกิดขึ้น
     var profileUrl: String = ""
+    /// ยอดนี้มาจากไหน — ของ mock คือเชื่อมบัญชีแล้วทั้งหมด · ของจากฟอร์มอาจเป็น "กรอกเอง"
+    /// widget ที่โชว์ค่ารอง (วิว · ER) ต้องเช็คก่อน เพราะช่องที่กรอกเองไม่มีค่าพวกนั้นจริง
+    var source: FollowerSource = .connected
 
     /// ปลายทางที่ widget เอาไปผูกกับพื้นที่กด
     var profileURL: URL? { Web.url(profileUrl) ?? type.profileURL(handle: handle) }
 }
 
 struct RateItem: Identifiable {
-    let id = UUID()
+    /// คงที่ต่อ "ช่องในตาราง" (แพลตฟอร์ม×รูปแบบ) — ไม่ใช่ UUID สุ่ม
+    /// เพราะรายการถูกประกอบใหม่ทุกครั้งที่โปรไฟล์เปลี่ยน ถ้า id เปลี่ยนตาม `ForEach` จะสร้างแถวใหม่ทุกคีย์ที่พิมพ์
+    var id: String { platform.rawValue + "." + (key.isEmpty ? format.rawValue : key) }
     let label: String
     /// ราคาที่ครีเอเตอร์ตั้งเอง
     let price: Int
@@ -114,6 +128,8 @@ struct RateItem: Identifiable {
     /// ช่องที่งานชิ้นนี้ลง — ใช้หายอดผู้ติดตามที่ถูกต้องมาคิดราคาตลาด
     /// (ราคา IG Reel ต้องคิดจากยอด IG ไม่ใช่ยอดรวมทุกช่อง)
     let platform: SocialType
+    /// คีย์รูปแบบตามแพลตฟอร์ม (จากฟอร์ม) — ว่าง = รายการตัวอย่างที่ยังใช้รูปแบบกลาง
+    var key: String = ""
 }
 
 // MARK: - เรตตลาด
@@ -284,6 +300,23 @@ struct AudienceInsight {
     let ages: [AgeBand]
     /// Top Locations พร้อมสัดส่วน
     let places: [PlaceShare]
+    /// การเข้าถึงของช่วงเวลาเดียวกัน — ฐานที่ทำให้เปอร์เซ็นต์ข้างบนมีน้ำหนัก
+    /// (**mock** — รอ OAuth Insights จริง)
+    var reach: Reach = .none
+
+    struct Reach {
+        let platform: SocialType
+        /// ช่วงเวลาที่นับ เช่น "30 วัน"
+        let window: String
+        /// Accounts Reached
+        let accounts: Int
+        /// เทียบช่วงก่อนหน้า (%)
+        let delta: Double
+        /// สัดส่วนคนที่ยังไม่ได้ติดตาม — "คนใหม่" ที่แบรนด์อยากได้
+        let newShare: Double
+
+        static let none = Reach(platform: .instagram, window: "", accounts: 0, delta: 0, newShare: 0)
+    }
 
     struct AgeBand: Identifiable {
         var id: String { label }
@@ -333,7 +366,7 @@ struct ClientReview: Identifiable {
 }
 
 /// ประเภทคอนเทนต์ที่รับทำ — ชุดเดียวกับตัวเลือกในหน้าตั้งค่าโปรไฟล์
-enum ContentFormat: String, CaseIterable, Identifiable {
+enum ContentFormat: String, CaseIterable, Identifiable, Codable {
     case photo, shortVideo, longVideo, seeding
     var id: String { rawValue }
 
@@ -405,6 +438,8 @@ struct Brand: Identifiable {
     let logo: String?
     /// สเปก 4.1 Brand Industry Tag — เพิ่มเป็นฟิลด์ ไม่ใช่ widget แยก
     var industry: String = "Beauty"
+    /// โลโก้จาก asset ในแอป (แคมเปญ mock) — ใช้เมื่อไม่มี `logo` URL
+    var asset: String? = nil
 
     /// ตัวย่อสำหรับแบรนด์ที่ยังไม่มีโลโก้
     var monogram: String {
@@ -438,8 +473,13 @@ struct VerifiedWork: Identifiable {
     /// สเปก 3.2 Deep-dive Performance
     var saves: Int = 0
     var shares: Int = 0
+    /// ยอดไลก์/คอมเมนต์ของโพสต์นั้น — คู่กับแชร์คือสามตัวที่คนอ่านการ์ดคุ้นจากใต้โพสต์
+    var likes: Int = 0
+    var comments: Int = 0
     /// สเปก 3.2 Viral Tag — nil เมื่อยังไม่ถึงเกณฑ์
     var viralTag: String? = nil
+    /// รูปปกจาก asset ในแอป (รูปปกแคมเปญ) — ใช้แทน `photo` เมื่อมี
+    var cover: String? = nil
     /// สเปก 3.2 Concept Breakdown
     var concept: String = ""
 
@@ -542,10 +582,11 @@ enum Mock {
         name: "นิรา ภัทรวดี",
         handle: "nira.beauty",
         tagline: "Beauty & Skincare Creator",
-        location: "กรุงเทพฯ",
+        location: "กรุงเทพมหานคร",
         about: "รีวิวสกินแคร์และเมคอัพแบบตรงไปตรงมา เน้นผิวแพ้ง่าย ถ่ายเองตัดเองทุกคลิป",
         verified: true,
-        categories: ["บิวตี้", "สกินแคร์", "เมคอัพ", "ผิวแพ้ง่าย"],
+        // สายงานชุดเดียวกับเทมเพลต STAR CARD_1/_2 — แต่ละหมวดมีไอคอนประจำ (ดู `Pop.nicheIcon`)
+        categories: ["บิวตี้", "ไลฟ์สไตล์", "ออกกำลังกาย", "คาเฟ่"],
         interests: ["ความงามและสุขภาพ", "แฟชั่นและช้อปปิ้ง", "แม่และเด็ก", "ท่องเที่ยว"],
         styleTags: ["อ้างอิงวิจัย", "รีวิวยาว 30 วัน", "How-to", "ก่อน–หลัง", "โทนใส สว่าง"],
         formats: [.photo, .shortVideo, .seeding],
@@ -615,7 +656,9 @@ enum Mock {
                 .init(name: "ชลบุรี",    share: 9),
                 .init(name: "เชียงใหม่", share: 7),
                 .init(name: "ขอนแก่น",   share: 5),
-            ]
+            ],
+            reach: .init(platform: .instagram, window: "30 วัน",
+                         accounts: 184_200, delta: 14.4, newShare: 93.4)
         ),
         track: TrackRecord(
             delivered: 24, accepted: 24, brandCount: 6,
@@ -634,18 +677,30 @@ enum Mock {
                 .init(brand: "Sivanna Colors", ep: "EP.1335", campaign: "Ballet Dream",
                       platform: .tiktok,    format: "คลิปยาว", views: 1_240_000, engagementRate: 6.8, photo: 0,
                       postUrl: "https://salehere.co.th/review/374da1f0df0a4adab668431cc5f4206a",
-                      saves: 42_600, shares: 18_900, viralTag: "1M+ Views",
+                      saves: 42_600, shares: 18_900, likes: 84_200, comments: 1_930, viralTag: "1M+ Views",
                       concept: "เปิดด้วยผิวจริงวันแพ้ ไม่รีทัช แล้วค่อยเข้าสินค้าในวินาทีที่ 8"),
                 .init(brand: "Cathy Doll",     ep: "EP.1206", campaign: "Glow Serum Launch",
                       platform: .instagram, format: "Reel",    views: 820_000,   engagementRate: 7.4, photo: 4,
                       postUrl: "https://salehere.co.th/review/374da1f0df0a4adab668431cc5f4206a",
-                      saves: 31_200, shares: 9_400, viralTag: "High Conversion",
+                      saves: 31_200, shares: 9_400, likes: 52_600, comments: 1_240, viralTag: "High Conversion",
                       concept: "ถ่ายก่อน–หลัง 14 วันในแสงเดียวกันทุกเฟรม ตัดสลับให้เห็นผลในคลิปเดียว"),
                 .init(brand: "Srichand",       ep: "EP.1189", campaign: "Oil Control Challenge",
                       platform: .youtube,   format: "Short",   views: 615_000,   engagementRate: 5.9, photo: 5,
                       postUrl: "https://salehere.co.th/review/374da1f0df0a4adab668431cc5f4206a",
-                      saves: 18_700, shares: 6_100, viralTag: nil,
+                      saves: 18_700, shares: 6_100, likes: 31_800, comments: 760, viralTag: nil,
                       concept: "ทดสอบคุมมันกลางแดด 8 ชม. ถ่ายทุกชั่วโมงด้วยกล้องตัวเดิม"),
+                // สองชิ้นนี้เติมเข้ามาให้ครบห้า — ใบที่วางผลงานเป็น "กอง" (กำแพงโพลารอยด์ ·
+                // ชั้นวาง · ซีน) ออกแบบผังไว้ห้าช่อง สามชิ้นทำให้เห็นแค่ครึ่งผัง
+                .init(brand: "Mistine",        ep: "EP.1142", campaign: "Sunscreen Everyday",
+                      platform: .tiktok,    format: "คลิปสั้น", views: 486_000,   engagementRate: 6.2, photo: 6,
+                      postUrl: "https://salehere.co.th/review/374da1f0df0a4adab668431cc5f4206a",
+                      saves: 14_300, shares: 5_400, likes: 27_900, comments: 640, viralTag: nil,
+                      concept: "ทากันแดดซ้ำระหว่างวันจริงในออฟฟิศ ไม่จัดฉาก ถ่ายด้วยมือถือ"),
+                .init(brand: "Scotch",         ep: "EP.1098", campaign: "Collagen 30 Days",
+                      platform: .instagram, format: "Reel",    views: 352_000,   engagementRate: 8.1, photo: 7,
+                      postUrl: "https://salehere.co.th/review/374da1f0df0a4adab668431cc5f4206a",
+                      saves: 21_500, shares: 4_200, likes: 24_100, comments: 1_080, viralTag: "High Save Rate",
+                      concept: "ไดอารี่ 30 วัน ถ่ายหน้าเปล่าเวลาเดิมทุกเช้า ตัดรวมเป็นคลิปเดียว"),
             ],
             sales: SalesRecord(
                 code: "NIRA10",
@@ -677,22 +732,22 @@ enum Mock {
     /// การ์ดเริ่มต้น — พอร์ต 3 หน้า: ตัวตน · ขนาดและผู้ชม · ราคาและติดต่อ
     ///
     /// หน่วยพิกัด = **pt บนพื้นที่ออกแบบกว้าง 402** · `y` คือขอบบนของตัวนั้น
-    /// ตัวเลขชุดนี้คือผังเดิมก่อนย้ายมาเป็นพิกเซล แปลงตรง ๆ ไม่ได้ปรับอะไร
-    /// (x ตกไปที่ขอบกระดาษ 24 เอง · w 492 = เต็มความกว้างหน้า)
+    /// ผังบอกแค่ `x`, `y`, `w` — **ความสูงมาจากสัดส่วนของชนิด** (ดู `WidgetKind.aspect`)
+    /// จำนวนชิ้นต่อหน้าจึงถูกกำหนดด้วยความสูงที่ชิ้นเหล่านั้นกินจริง ไม่ใช่ด้วยการบีบให้พอ
     static let starterPages: [CardPage] = [
         CardPage([
-            WidgetInstance(.artTypeOver, y: 18, w: 366, h: 295),
-            WidgetInstance(.typeMarquee, y: 321, w: 366, h: 46),
-            WidgetInstance(.proofWork,   y: 374, w: 366, h: 277),
+            WidgetInstance(.artTypeOver,  x:  18, y:  18, w: 366),
+            WidgetInstance(.typeMarquee,  x:  18, y: 426, w: 366),
+            WidgetInstance(.artFilmstrip, x:  18, y: 513, w: 366),
         ]),
         CardPage([
-            WidgetInstance(.statGiant,    y: 18, w: 366, h: 224),
-            WidgetInstance(.audienceLine, y: 250, w: 366, h: 153),
-            WidgetInstance(.socialChips,  y: 410, w: 366, h: 224),
+            WidgetInstance(.proofWork, x:  18, y:  36, w: 366),
+            WidgetInstance(.statGiant, x:  18, y: 387, w: 366),
         ]),
         CardPage([
-            WidgetInstance(.rateMenu,    y: 18, w: 366, h: 242),
-            WidgetInstance(.contactCard, y: 268, w: 366, h: 153),
+            WidgetInstance(.rateTags,    x:  18, y:  18, w: 366),
+            WidgetInstance(.contactCard, x:  18, y: 310, w: 366),
+            WidgetInstance(.socialTiles, x:  18, y: 495, w: 366),
         ]),
     ]
 
@@ -700,21 +755,21 @@ enum Mock {
     ///
     /// # ทำไม widget ขนาดเท่ากับบนพอร์ตเป๊ะ
     ///
-    /// ขนาดเป็น **พิกเซล** ไม่ใช่สัดส่วนของหน้า — ฮีโร่กว้าง 366 สูง 295 เท่ากันทั้งสองแบบ
-    /// รูปที่ถูกครอปจึงได้สัดส่วนเดียวกัน ไม่ใช่ยืดกว้างขึ้นเพราะไปอยู่บน canvas ที่กว้างกว่า
-    ///
-    /// สิ่งที่สตอรี่ได้เพิ่มคือ **ความสูง** (960 เทียบ 670 = +43%) นั่นคือที่มาของ 6 ชิ้น
-    /// ส่วนความกว้างที่เกินมา 174pt กลายเป็นขอบข้างละ 87 — ของจึงวางกลางหน้า
+    /// สตอรี่มีแคนวาสกว้างกว่าพอร์ต 34% (540 เทียบ 402) — และเพราะสัดส่วนของทุกชิ้นล็อก
+    /// ชิ้นที่กว้างขึ้นก็ **ใหญ่ขึ้นทั้งใบ** ไม่ใช่แค่ถ่างออก ผังของสตอรี่จึงเป็นของตัวเอง:
+    /// ฮีโร่คู่กับเฟรมสตอรี่แนวตั้ง แล้วไล่ตัวเลข/ราคา/ช่องทางเป็นสองคอลัมน์
     ///
     /// เรียงตามลำดับที่คนอ่านตัดสินใจ: **นี่ใคร → ทำแนวไหน → ตัวใหญ่แค่ไหน →
     /// อยู่ช่องทางไหน → ใครเคยจ้าง → เริ่มที่เท่าไหร่**
     static let storyPage = CardPage([
-        WidgetInstance(.artTypeOver,    x: 87, y: 18, w: 366, h: 295),
-        WidgetInstance(.typeMarquee,    x: 87, y: 321, w: 366, h: 46),
-        WidgetInstance(.statGiant,      x: 87, y: 375, w: 366, h: 224),
-        WidgetInstance(.socialTiles,    x: 87, y: 607, w: 366, h: 117),
-        WidgetInstance(.proofBrandRail, x: 87, y: 732, w: 366, h: 81),
-        WidgetInstance(.rateTags,       x: 87, y: 821, w: 366, h: 117),
+        WidgetInstance(.artTypeOver,    x:  18, y:  18, w: 360),
+        WidgetInstance(.galleryStory,   x: 392, y:  18, w: 130),
+        WidgetInstance(.typeMarquee,    x:  18, y: 425, w: 504),
+        WidgetInstance(.statGiant,      x:  18, y: 534, w: 245),
+        WidgetInstance(.rateTags,       x: 277, y: 534, w: 245),
+        WidgetInstance(.proofBrandRail, x:  18, y: 718, w: 245),
+        WidgetInstance(.socialTiles,    x: 277, y: 718, w: 245),
+        WidgetInstance(.contactBar,     x:  18, y: 842, w: 504),
     ])
 
     /// ตู้รางวัล — ทุก widget ที่เพิ่มได้

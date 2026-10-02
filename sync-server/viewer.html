@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star Card Sync</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F7F9; --panel: #FFFFFF; --line: #E4E7EC; --ink: #111418; --sub: #5B6472; --faint: #8B93A1;
+    --ios: #111418; --ios-ink: #FFFFFF; --and: #1F9D55; --and-ink: #FFFFFF;
+    --ok: #1F9D55; --ok-bg: #E8F6EE; --bad: #D92D20; --bad-bg: #FDECEA; --warn: #B54708; --warn-bg: #FEF4E6;
+    --code: #F2F4F7; --hl: #FFF6D6; --accent: #E0262F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1014; --panel: #161A20; --line: #262C35; --ink: #EEF1F5; --sub: #A3ACB9; --faint: #6D7685;
+      --ios: #EEF1F5; --ios-ink: #0E1014; --and: #34C77B; --and-ink: #0E1014;
+      --ok: #34C77B; --ok-bg: #11291C; --bad: #FF6B5E; --bad-bg: #331714; --warn: #F5A04A; --warn-bg: #33230F;
+      --code: #1D222A; --hl: #3A3217;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "IBM Plex Sans Thai", system-ui, sans-serif; }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px; }
+  header { position: sticky; top: 0; z-index: 2; background: var(--panel); border-bottom: 1px solid var(--line); }
+  .bar { max-width: 1280px; margin: 0 auto; padding: 14px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  h1 { font-size: 16px; margin: 0; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  h1 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 12.5px; color: var(--sub); background: var(--panel); white-space: nowrap; }
+  .chip b { color: var(--ink); font-weight: 600; }
+  .grow { flex: 1; }
+  @media (max-width: 720px) { .addr { display: none; } }
+  button { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  button:hover { border-color: var(--sub); }
+  main { max-width: 1280px; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+  section > h2 { margin: 0; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--sub); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+  .empty { padding: 32px 16px; color: var(--sub); text-align: center; }
+  .empty ol { text-align: left; display: inline-block; margin: 12px 0 0; padding-left: 20px; }
+  .rev { padding: 12px 16px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .rev:last-child { border-bottom: 0; }
+  .rev.sel { background: var(--hl); }
+  .rev-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .num { font-weight: 600; min-width: 48px; }
+  .pf { font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 6px; letter-spacing: .02em; }
+  .pf.ios { background: var(--ios); color: var(--ios-ink); }
+  .pf.android { background: var(--and); color: var(--and-ink); }
+  .pf.other { background: var(--code); color: var(--sub); }
+  .when { color: var(--faint); font-size: 12.5px; }
+  .count { color: var(--sub); font-size: 12.5px; margin-left: auto; }
+  .changes { margin: 8px 0 0; display: grid; gap: 3px; }
+  .ch { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 12px; }
+  .ch .path { flex: 1 1 220px; min-width: 0; color: var(--sub); overflow-wrap: anywhere; }
+  .ch .val { flex: 0 1 auto; max-width: 100%; margin-left: auto; text-align: right; overflow-wrap: anywhere; }
+  .from { color: var(--faint); text-decoration: line-through; }
+  .to { color: var(--ink); }
+  .more { color: var(--faint); font-size: 12.5px; }
+  .echo { margin-top: 8px; padding: 8px 10px; border-radius: 8px; font-size: 13px; }
+  .echo.ok { background: var(--ok-bg); color: var(--ok); }
+  .echo.bad { background: var(--bad-bg); color: var(--bad); }
+  .echo.wait { background: var(--code); color: var(--sub); }
+  .echo .changes { color: var(--ink); }
+  .tag { font-size: 11px; padding: 0 6px; border-radius: 4px; background: var(--warn-bg); color: var(--warn); margin-left: 6px; white-space: nowrap; }
+  pre.json { margin: 0; padding: 14px 16px; overflow: auto; max-height: calc(100vh - 220px); background: var(--code); border-radius: 0 0 12px 12px; white-space: pre; }
+  .thumbs { display: flex; gap: 8px; padding: 12px 16px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+  .thumbs figure { margin: 0; width: 72px; }
+  .thumbs img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; background: var(--code); }
+  .thumbs figcaption { font-size: 10.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend { padding: 10px 16px; color: var(--sub); font-size: 12.5px; border-bottom: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span class="dot"></span>การ์ดกลาง · โหมดลองทำ</h1>
+    <span class="chip">rev <b id="rev">0</b></span>
+    <span class="chip" id="last">ยังไม่มีใครเขียน</span>
+    <span class="grow"></span>
+    <span class="chip mono addr">iOS 127.0.0.1:8787</span>
+    <span class="chip mono addr">Android 10.0.2.2:8787</span>
+    <button id="reset" title="ล้างการ์ดกลางและประวัติ — แอปที่เปิดอยู่จะส่งการ์ดของตัวเองขึ้นมาใหม่">ล้างการ์ดกลาง</button>
+  </div>
+</header>
+<main>
+  <section>
+    <h2>ประวัติการเขียน · และผล "อ่านแล้วค่าเปลี่ยนไหม"</h2>
+    <div class="legend">ทุกครั้งที่อีกแพลตฟอร์มรับ rev ใหม่ไป มันจะส่ง JSON ที่ตัวเองสร้างจากของที่เพิ่งโหลดกลับมาเทียบ
+      <b style="color:var(--ok)">เขียว</b> = ค่าตรงทุกจุด · <b style="color:var(--bad)">แดง</b> = มีค่าที่เพี้ยนหรือหาย</div>
+    <div id="list"></div>
+  </section>
+  <section>
+    <h2 id="docTitle">JSON ล่าสุด</h2>
+    <div id="thumbs"></div>
+    <pre class="json" id="doc">—</pre>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id)
+let data = null, selected = null, stamp = ''
+
+const PF = { ios: 'iOS', android: 'Android' }
+const pf = (by) => `<span class="pf ${PF[by?.platform] ? by.platform : 'other'}">${PF[by?.platform] || by?.platform || '?'}</span>`
+const time = (iso) => new Date(iso).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+
+function fmt(v) {
+  if (v === undefined) return '<span class="more">(ไม่มี)</span>'
+  if (v !== null && typeof v === 'object') {
+    const s = JSON.stringify(v)
+    return esc(s.length > 60 ? s.slice(0, 57) + '…' : s)
+  }
+  return esc(JSON.stringify(v))
+}
+
+function changeRows(list, max = 12) {
+  const rows = list.slice(0, max).map((c) => {
+    const drift = typeof c.from === 'number' && typeof c.to === 'number' && Math.abs(c.from - c.to) < 1e-3
+    const typeFlip = c.from !== undefined && c.to !== undefined && typeof c.from !== typeof c.to
+    const tag = drift ? '<span class="tag">ทศนิยมเพี้ยน</span>' : typeFlip ? '<span class="tag">ชนิดข้อมูลเปลี่ยน</span>' : ''
+    return `<div class="ch mono"><span class="path">${esc(c.path)}${tag}</span>
+      <span class="val"><span class="from">${fmt(c.from)}</span> → <span class="to">${fmt(c.to)}</span></span></div>`
+  })
+  if (list.length > max) rows.push(`<div class="more">…อีก ${list.length - max} จุด</div>`)
+  return `<div class="changes">${rows.join('')}</div>`
+}
+
+function echoBlock(h) {
+  const echoes = data.echoes.filter((e) => e.rev === h.rev)
+  const other = h.by?.platform === 'ios' ? 'android' : h.by?.platform === 'android' ? 'ios' : null
+  const out = echoes.map((e) => e.diffs.length
+    ? `<div class="echo bad">${pf(e.by)} อ่าน rev ${h.rev} แล้ว <b>ค่าเปลี่ยน ${e.diffs.length} จุด</b>${changeRows(e.diffs)}</div>`
+    : `<div class="echo ok">${pf(e.by)} อ่าน rev ${h.rev} แล้ว ค่าตรงกันทุกจุด ✓</div>`)
+  if (other && h.rev === data.rev && !echoes.some((e) => e.by?.platform === other)) out.push(`<div class="echo wait">รอ ${PF[other]} เปิดโหมดลองทำแล้วรับ rev นี้…</div>`)
+  return out.join('')
+}
+
+function render() {
+  $('rev').textContent = data.rev
+  const cur = data.current
+  $('last').innerHTML = cur ? `ล่าสุดโดย ${pf(cur.by)} <span class="when">${time(cur.at)}</span>` : 'ยังไม่มีใครเขียน'
+  if (!data.history.length) {
+    $('list').innerHTML = `<div class="empty">ยังไม่มีการ์ดกลาง
+      <ol><li>เปิดแอป iOS หรือ Android แล้วเปิด “โหมดลองทำ”</li>
+      <li>เครื่องแรกที่เปิดจะส่งการ์ดใบหลักของตัวเองขึ้นมาเป็นการ์ดกลาง</li>
+      <li>เปิดอีกเครื่อง มันจะโหลดใบนี้ แล้วรายงานว่าค่าเปลี่ยนไหม</li></ol></div>`
+    $('doc').textContent = '—'; $('thumbs').innerHTML = ''
+    return
+  }
+  $('list').innerHTML = [...data.history].reverse().map((h) => `
+    <div class="rev ${selected === h.rev ? 'sel' : ''}" data-rev="${h.rev}">
+      <div class="rev-head"><span class="num">rev ${h.rev}</span>${pf(h.by)}
+        <span class="when">${time(h.at)}${h.by?.device ? ' · ' + esc(h.by.device) : ''}</span>
+        <span class="count">${h.rev === 1 ? 'การ์ดตั้งต้น' : `แก้ ${h.changes.length} จุด`}</span></div>
+      ${h.rev === 1 ? '' : changeRows(h.changes, 8)}
+      ${echoBlock(h)}
+    </div>`).join('')
+  document.querySelectorAll('.rev').forEach((el) => el.onclick = () => showRev(Number(el.dataset.rev)))
+  if (selected === null) showDoc(cur, false)
+}
+
+function showDoc(h, picked) {
+  $('docTitle').textContent = picked ? `JSON ของ rev ${h.rev}` : `JSON ล่าสุด · rev ${h.rev}`
+  $('doc').textContent = JSON.stringify(h.doc, null, 2)
+  const ids = []
+  for (const [k, v] of Object.entries(h.doc.photos || {})) if (v.imageId) ids.push([k.split('#')[1] ? 'ช่อง ' + k.split('#')[1] : k.slice(0, 6), v.imageId])
+  if (h.doc.backgroundImageId) ids.unshift(['พื้นหลัง', h.doc.backgroundImageId])
+  const o = h.doc.owner || {}
+  if (o.avatarImageId) ids.push(['โปรไฟล์', o.avatarImageId]);
+  (o.creatorImageIds || []).forEach((id, i) => id && ids.push([`ครีเอเตอร์ ${i + 1}`, id]));
+  (o.workImageIds || []).forEach((id, i) => ids.push([`ผลงาน ${i + 1}`, id]));
+  (o.libraryImageIds || []).forEach((id, i) => ids.push([`คลัง ${i + 1}`, id]))
+  $('thumbs').innerHTML = ids.length ? `<div class="thumbs">${ids.map(([cap, id]) =>
+    `<figure><img src="/api/images/${id}" alt=""><figcaption>${esc(cap)}</figcaption></figure>`).join('')}</div>` : ''
+}
+
+async function showRev(rev) {
+  selected = selected === rev ? null : rev
+  if (selected === null) { render(); return }
+  const h = await (await fetch('/api/rev/' + rev)).json()
+  showDoc(h, true); render()
+}
+
+async function tick() {
+  try {
+    const d = await (await fetch('/api/history')).json()
+    const s = d.rev + ':' + d.echoes.length + ':' + d.echoes.map((e) => e.at).join()
+    if (s !== stamp) {
+      // history ในนี้ตัด doc ออกแล้ว (เบา) · ตัว current ยังมี doc เต็มไว้โชว์ด้านขวา
+      stamp = s; data = d
+      render()
+    }
+  } catch {}
+  setTimeout(tick, 1000)
+}
+
+$('reset').onclick = async () => {
+  if (!confirm('ล้างการ์ดกลางและประวัติทั้งหมด? (ข้อมูลในแอปแต่ละเครื่องไม่หาย)')) return
+  await fetch('/api/reset', { method: 'POST' }); selected = null; stamp = ''
+}
+tick()
+</script>
+</body>
+</html>

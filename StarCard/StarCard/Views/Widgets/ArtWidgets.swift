@@ -1,236 +1,7 @@
 import SwiftUI
 
-// widget ชุดนี้วาดพื้นหลังเอง ไม่ใช้กรอบกระจกกลาง (chrome = .plain)
+// widget ชุดนี้วาดพื้นหลังเอง ไม่ใช้กรอบกระจกกลาง (`WidgetKind.drawsOwnSurface`)
 // เพื่อให้การ์ดไม่กลายเป็นตารางสี่เหลี่ยมมนเรียงกันทั้งหน้า
-
-// MARK: - ภาพเต็มแบบนิตยสาร ชื่อล้นออกนอกกรอบภาพ
-
-/// # ท่าเปลี่ยนหน้า — "สามระนาบในกล่องเดียว"
-///
-/// รูป · คำผี · ชื่อ เดินคนละอัตรา: รูปถ่วงตัวช้าที่สุด (อยู่ไกลสุด) · คำผีวิ่งสวนทาง
-/// เร็วที่สุด (อยู่ใกล้กระจกที่สุด) · ชื่อกับสายงานมุดใต้ขอบตัวเอง
-/// ตาอ่านความลึกจาก **ความต่างของอัตรา** ไม่ใช่จากเงาหรือความจาง
-struct ArtPortrait: View {
-    @Environment(PhotoStore.self) private var photos
-    @Environment(\.pageScrub) private var scrub
-    let theme: CardTheme
-    let size: CGSize
-
-    // เทรนด์ 2026 · Kinetic Typography — ตัวอักษรเป็นโครงสร้างของหน้า ไม่ใช่คำบรรยายใต้ภาพ
-    var body: some View {
-        let shape = RoundedRectangle(cornerRadius: 22, style: .continuous)
-        let ghost = min(66, size.height * 0.26)
-        return ZStack(alignment: .bottomLeading) {
-            Color.clear
-                .overlay {
-                    WidgetPhoto(index: 1)
-                        .aspectRatio(contentMode: .fill)
-                        .scrubDolly(scrub.d, shift: size.width * 0.06, zoom: 0.16)
-                }
-                .photoSlot(1)
-
-            // ม่านมืดหนาขึ้นช่วงท้าย — ของเดินเข้าเงาข้างเวทีก่อนออกจากฉาก
-            ScrubReader(d: scrub.d) { d in
-                let t = Scrub.ease(Scrub.t(d))
-                LinearGradient(colors: [.clear,
-                                        .black.opacity(0.2 + 0.25 * Double(t)),
-                                        .black.opacity(0.86 + 0.14 * Double(t))],
-                               startPoint: UnitPoint(x: 0.5, y: 0.5 - 0.3 * Double(t)),
-                               endPoint: .bottom)
-            }
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text("STARCARD")
-                    .font(.sh(ghost, .black))
-                    .tracking(-ghost * 0.055)
-                    .foregroundStyle(.white.opacity(0.13))
-                    .lineLimit(1).fixedSize()
-                    .offset(x: -ghost * 0.06)
-                    // วิ่งสวนทางรูป — ชั้นที่ใกล้ตาที่สุดต้องเคลื่อนเร็วที่สุด
-                    .scrubSlide(scrub.d, travel: -size.width * 0.34, fade: 0.75, eased: false)
-
-                // ชื่อคือสมอ — หายทีหลังสุด กลับมาก่อนใคร
-                HStack(spacing: 6) {
-                    Text(Profile.me.name)
-                        .font(.sh(min(34, size.height * 0.145), .bold))
-                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
-                        .kerning(-0.6)
-                        .foregroundStyle(.white)
-                        .lineLimit(1).truncationMode(.tail)
-                        .editableText(.name, .init(size: min(34, size.height * 0.145),
-                                                   weight: .bold, color: .white, tracking: -0.6))
-                    if Mock.creator.verified {
-                        SymbolIcon(name: SHIcon.sealCheck, size: 12, tint: .white.opacity(0.9))
-                    }
-                    Spacer(minLength: 0)
-                }
-                // ดึงขึ้นชนคำผี **หลัง** veil — veil ปิดท้ายด้วย mask ที่กรอบของตัวเอง
-                // ถ้า padding ติดลบมาก่อน กรอบจะเตี้ยลง 17pt แล้ว mask ตัดหัวบรรทัดทิ้ง
-                // ซึ่งเป็นที่อยู่ของสระบน/วรรณยุกต์ไทยพอดี — ชื่อเลยขึ้นเป็น "นรา ภทรวด"
-                .scrubVeil(scrub.d, lead: 0.22, drop: 38, pull: 10)
-                .padding(.top, -ghost * 0.26)
-
-                HStack(spacing: 8) {
-                    // สีเน้นดิบ — ขีดนี้อยู่บนรูป ไม่ใช่บนพื้นการ์ด
-                    Capsule().fill(theme.rawAccent).frame(width: 16, height: 2)
-                    Text(Profile.me.tagline.uppercased())
-                        .font(.sh(9, .semibold)).tracking(2.2)
-                        .foregroundStyle(.white.opacity(0.72))
-                        .lineLimit(1).truncationMode(.tail)
-                        .editableText(.tagline, .init(size: 9, weight: .semibold,
-                                                      color: .white.opacity(0.72),
-                                                      tracking: 2.2, uppercase: true))
-                }
-                .padding(.top, 9)
-                .scrubVeil(scrub.d, lead: 0.05, drop: 24, pull: 22)
-            }
-            .padding(18)
-        }
-        .clipShape(shape)
-    }
-}
-
-// MARK: - โพลารอยด์
-
-/// ฟิล์มสำเร็จรูปหนึ่งใบ — ไม่ใช่ "กรอบสี่เหลี่ยมที่มีรูปอยู่ข้างใน"
-///
-/// # สี่ข้อที่แบบเดิมพัง (วัดจากของจริงบนการ์ด ไม่ใช่จากพรีวิวในตู้)
-///
-/// 1. **บล็อกเงาสีธีมไม่ได้กอดการ์ด** — มันเป็น `Rectangle` ใน `ZStack` จึงกินพื้นที่ทั้ง widget
-///    ส่วนการ์ดสูงตามเนื้อหา ผลคือครึ่งล่างของ widget กลายเป็นแผ่นสีน้ำเงินโล้น ๆ
-///    ซึ่งไม่ได้อ่านเป็นเงา แต่อ่านเป็น "พื้นหลังที่ลืมใส่ของ"
-/// 2. **ช่องรูปถูกล็อก 1:1** การ์ดจึงไม่มีทางสูงเท่า widget ที่ผู้ใช้ตั้งไว้ ที่ว่างข้างล่างเป็นค่าคงที่
-///    ของแบบนี้ ไม่ใช่กรณีขอบ — ยิ่งลากให้สูงยิ่งโล่ง
-/// 3. **ขอบขาวเท่ากันสี่ด้าน + เส้นขอบดำหนา** = กรอบรูปสาย brutalist ไม่ใช่โพลารอยด์
-///    ของจริงขอบบน-ซ้าย-ขวาบาง **คางล่างหนา** (ประมาณ 5 เท่าของขอบบน) และไม่มีเส้นขอบดำ
-///    คางคือที่ที่คนเขียนอะไรลงไป — มันคือทั้งหมดที่ทำให้ฟิล์มใบหนึ่งเป็นของส่วนตัว
-/// 4. **ชื่อเป็นตัวหนาชิดซ้ายในคาง** อ่านเป็นแคปชันของระบบ ไม่ใช่ของที่เจ้าของรูปเขียนเอง
-///
-/// แบบใหม่แก้ทั้งสี่ข้อ: การ์ดกินพื้นที่ทั้ง widget เสมอ · รูปยืดตามที่เหลือ ·
-/// คางหนาตามสัดส่วนของใบ · เงาเป็นเงานุ่มจริงพร้อมองศาเอียงเล็กน้อย ไม่มีบล็อกสีอีกแล้ว
-///
-/// # ท่าเปลี่ยนหน้า — "ภาพยังไม่ขึ้น"
-///
-/// นี่คือท่าที่มีได้แบบเดียวในสำรับ เพราะมีแบบเดียวที่เป็นฟิล์มสำเร็จรูป:
-/// ตอนหน้าเดินจากไป **สีถูกถอนออกจากภาพ** จนเหลือแผ่นฟิล์มขาวนวลที่ยังไม่ขึ้น
-/// ปัดกลับมามันก็ **ขึ้นภาพ** ให้ดูใหม่ทุกครั้ง — ของอย่างอื่นบนการ์ดจางหายหรือเลื่อนออกไป
-/// แต่โพลารอยด์ไม่ได้หายไปไหน มันแค่ยังไม่พร้อมให้ดู
-struct ArtPolaroid: View {
-    @Environment(PhotoStore.self) private var photos
-    @Environment(\.pageScrub) private var scrub
-    let theme: CardTheme
-
-    /// กระดาษฟิล์ม — อุ่นกว่าขาวโรงพิมพ์นิดหนึ่ง ขาวสนิทอ่านเป็นพลาสติก ไม่ใช่ฟิล์ม
-    private let paper = Color(red: 0.97, green: 0.965, blue: 0.95)
-    private let paperEdge = Color(red: 0.91, green: 0.90, blue: 0.88)
-    private let filmInk = Color(red: 0.13, green: 0.12, blue: 0.15)
-
-    var body: some View {
-        GeometryReader { geo in
-            ScrubReader(d: scrub.d) { d in
-                let t = Scrub.ease(Scrub.t(d))
-                let s = Double(Scrub.dir(d))
-                card(size: geo.size, t: t)
-                    // เอียงตั้งต้นเล็กน้อยแล้วเอียงเพิ่มตามนิ้ว — ของที่วางบนโต๊ะไม่มีทางตรงเป๊ะ
-                    .rotationEffect(.degrees(-1.8 + s * 4.5 * Double(t)), anchor: .center)
-                    .scaleEffect(1 - 0.05 * t)
-                    .offset(y: -8 * t)
-                    .opacity(Scrub.fade(t, after: 0.82))
-            }
-            .frame(width: geo.size.width, height: geo.size.height)
-        }
-        // เว้นที่ให้เงาและองศาเอียง — ไม่เว้นแล้วมุมการ์ดจะโดนขอบ widget ตัด
-        .padding(.horizontal, 8)
-        .padding(.vertical, 7)
-    }
-
-    private func card(size: CGSize, t: CGFloat) -> some View {
-        // คางหนาตามสัดส่วนของใบ แต่มีเพดานทั้งสองทาง — ใบเตี้ยคางต้องไม่กินรูป
-        // ใบสูงคางต้องไม่ยืดจนกลายเป็นแผ่นเปล่า
-        let chin = min(64, max(34, size.height * 0.19))
-        let rim: CGFloat = max(7, size.width * 0.045)
-
-        return VStack(spacing: 0) {
-            window(t: t)
-                .padding(.horizontal, rim)
-                .padding(.top, rim)
-                .frame(maxHeight: .infinity)
-
-            chinBlock(height: chin, rim: rim)
-        }
-        .frame(width: size.width, height: size.height)
-        .background(
-            LinearGradient(colors: [paper, paperEdge],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
-        // เงานุ่มจริง ไม่ใช่บล็อกสี — ฟิล์มใบหนึ่งวางอยู่บนการ์ด ไม่ได้ถูกพิมพ์ลงไป
-        .shadow(color: .black.opacity(0.45), radius: 16, y: 9)
-        .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
-    }
-
-    /// ช่องฟิล์ม — ยืดเต็มที่ที่เหลือเสมอ ไม่ล็อกสัดส่วน
-    private func window(t: CGFloat) -> some View {
-        Color.clear
-            .overlay {
-                WidgetPhoto(index: 2)
-                    .aspectRatio(contentMode: .fill)
-                    .scrubDolly(scrub.d, shift: 14, zoom: 0.18)
-                    // ถอนสีออกจนเหลือฟิล์มเปล่า — ค่าทั้งสามต้องเดินพร้อมกัน
-                    // ลดแค่ saturation ภาพจะกลายเป็นขาวดำ ซึ่งอ่านเป็น "ฟิลเตอร์" ไม่ใช่ "ยังไม่ขึ้น"
-                    .saturation(1 - 0.95 * Double(t))
-                    .contrast(1 - 0.35 * Double(t))
-            }
-            .overlay { Color(white: 0.94).opacity(0.72 * Double(t)) }
-            // ประกายพลาสติกบนผิวฟิล์ม — เส้นเดียวพาดเฉียง อ่อนมากจนเห็นเฉพาะตอนตาไล่ผ่าน
-            .overlay {
-                LinearGradient(stops: [.init(color: .white.opacity(0.14), location: 0),
-                                       .init(color: .clear, location: 0.42),
-                                       .init(color: .clear, location: 1)],
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .allowsHitTesting(false)
-            }
-            .clipped()
-            // ช่องฟิล์มจมลงไปในกระดาษเล็กน้อย — เส้นเข้มบาง ๆ รอบช่องคือสิ่งที่บอกความลึกนั้น
-            .overlay(Rectangle().strokeBorder(filmInk.opacity(0.16), lineWidth: 0.8))
-            .photoSlot(2)
-    }
-
-    /// คาง — ที่สำหรับ "ลายมือ" ของเจ้าของรูป
-    private func chinBlock(height: CGFloat, rim: CGFloat) -> some View {
-        HStack(alignment: .bottom, spacing: 8) {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
-                    Text(Profile.me.name)
-                        // น้ำหนักกลาง ตัวใหญ่กว่าแคปชัน — คนเขียนชื่อลงบนคางด้วยลายมือ ไม่ได้พิมพ์ฉลาก
-                        .font(.sh(min(15, height * 0.34), .medium))
-                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
-                        .kerning(0.2)
-                        .foregroundStyle(filmInk.opacity(0.9))
-                        .lineLimit(1).truncationMode(.tail)
-                        .editableText(.name, .init(size: min(15, height * 0.34), weight: .medium,
-                                                   color: filmInk.opacity(0.9), tracking: 0.2))
-                    if Mock.creator.verified {
-                        SymbolIcon(name: SHIcon.sealCheck, size: min(11, height * 0.25),
-                                   tint: theme.rawAccent.onLightSurface(depth: 0.9))
-                    }
-                }
-                Text(Profile.me.tagline)
-                    .font(.sh(min(9.5, height * 0.22), .medium))
-                    .foregroundStyle(theme.rawAccent.onLightSurface(depth: 0.9))
-                    .lineLimit(1).truncationMode(.tail)
-                    .editableText(.tagline, .init(size: min(9.5, height * 0.22), weight: .medium,
-                                                  color: theme.rawAccent.onLightSurface(depth: 0.9)))
-            }
-            Spacer(minLength: 0)
-            SymbolIcon(name: SHIcon.star, size: min(13, height * 0.3),
-                       tint: filmInk.opacity(0.28))
-        }
-        .padding(.horizontal, rim)
-        .frame(height: height, alignment: .center)
-        .scrubVeil(scrub.d, lead: 0.24, drop: 26, pull: 8)
-    }
-}
 
 // MARK: - เซลล์รูปมาตรฐานของกลุ่มผลงาน
 
@@ -311,7 +82,7 @@ struct ArtFilmstrip: View {
 /// # ท่าเปลี่ยนหน้า — "สองบานหุบสวนกัน"
 ///
 /// หน้าต่างสองบานหุบไล่กันตามทิศนิ้ว และภาพข้างในถ่วงตัว **คนละทาง** —
-/// ความลึกจึงมาจากทิศที่ต่างกันของสองชั้น ไม่ใช่จากเงาหรือความจาง (กฎเดียวกับ `HeroAura`)
+/// ความลึกจึงมาจากทิศที่ต่างกันของสองชั้น ไม่ใช่จากเงาหรือความจาง (กฎเดียวกับใบออร่าที่ถอดออกไปแล้ว)
 struct ArtPair: View {
     @Environment(\.pageScrub) private var scrub
     let theme: CardTheme
@@ -418,7 +189,7 @@ struct TypeMarquee: View {
     /// เฉพาะชื่อแบรนด์ — เดิมต่อท้ายด้วยสายงานที่พิมพ์เอง ซึ่งเป็นข้อมูลของตระกูล `tags`
     /// แถบนี้อยู่ตระกูล `brand` จึงต้องอ่านเฉพาะสัญญาของตระกูลตัวเอง
     /// (ไม่งั้นสลับจากแถบวิ่งไปเป็นกำแพงโลโก้แล้วสายงานหายไปเฉย ๆ)
-    private var words: [String] { Mock.creator.track.brands.map(\.name) }
+    private var words: [String] { Profile.me.shownTrack(.brand).brands.map(\.name) }
 
     private var row: some View {
         HStack(spacing: 22) {
@@ -462,79 +233,6 @@ struct TypeMarquee: View {
     }
 }
 
-// MARK: - คำพูดตัวใหญ่
-
-/// # ท่าเปลี่ยนหน้า — "แสงกวาด"
-///
-/// ตัวหนังสือไม่ได้ถูกดันออกไป แต่ **ขอบแสงเดินผ่านมันไป** ตามทิศนิ้ว
-/// อ่านออกมาเป็นสปอตไลต์ที่กวาดข้ามเวที ไม่ใช่สไลด์ที่ถูกเปลี่ยน
-struct TypeQuote: View {
-    @Environment(PhotoStore.self) private var photos
-    @Environment(\.pageScrub) private var scrub
-    let theme: CardTheme
-    let size: CGSize
-
-    var body: some View {
-        let shape = RoundedRectangle(cornerRadius: 22, style: .continuous)
-        ZStack(alignment: .leading) {
-            Color.clear
-                .overlay {
-                    WidgetPhoto(index: 1)
-                        .aspectRatio(contentMode: .fill)
-                        .scrubDolly(scrub.d, shift: size.width * 0.06, zoom: 0.16)
-                }
-                .clipShape(shape)
-                .overlay {
-                    ScrubReader(d: scrub.d) { d in
-                        let t = Scrub.ease(Scrub.t(d))
-                        let s = Double(Scrub.dir(d))
-                        // ขอบแสงเริ่มที่ตำแหน่งเดิมเสมอตอน t = 0 (ทั้งสองทิศ)
-                        // แล้วเดินออกไปตามทิศ — ถ้าผูก s กับพจน์ที่ไม่คูณ t จะกระตุกที่ d = 0
-                        let head = 0.86 - s * 1.55 * Double(t)
-                        LinearGradient(stops: [
-                            .init(color: .black.opacity(0.84), location: 0),
-                            .init(color: .black.opacity(0.84),
-                                  location: CGFloat(max(0, min(1, head - 0.34)))),
-                            .init(color: .black.opacity(0.12),
-                                  location: CGFloat(max(0, min(1, head + 0.34)))),
-                            .init(color: .black.opacity(0.12), location: 1),
-                        ], startPoint: .leading, endPoint: .trailing)
-                        .overlay(Color.black.opacity(0.5 * Double(max(0, t - 0.6) / 0.4)))
-                    }
-                    .clipShape(shape)
-                }
-                .photoSlot(1)
-
-            VStack(alignment: .leading, spacing: 10) {
-                Image(systemName: "quote.opening")
-                    .font(.system(size: 22)).foregroundStyle(theme.rawAccent)
-                    .scrubVeil(scrub.d, lead: 0.02, drop: 22, pull: 20)
-                // คำพูดกินความสูงที่เหลือแล้วตัดท้ายด้วย … — กรอบเป็นคนบอกว่าอ่านได้กี่บรรทัด
-                EditableParagraph(field: .quote,
-                                  style: .init(size: min(24, size.width * 0.072),
-                                               weight: .semibold, color: .white, lineSpacing: 5))
-                    .scrubVeil(scrub.d, lead: 0.14, drop: 40, pull: 12)
-                // ขีดนำหน้าเป็นเครื่องหมายอ้างคำพูด ไม่ใช่ส่วนหนึ่งของชื่อ — แยกออกจากช่องที่แก้ได้
-                HStack(spacing: 4) {
-                    Text("—")
-                        .font(.sh(10.5, .medium))
-                        .foregroundStyle(theme.rawAccent)
-                    Text(Profile.me.name)
-                        // kerning ไม่ใช่ tracking — tracking ตัดสระบน/วรรณยุกต์ไทยหลุดจากฐาน
-                        .font(.sh(10.5, .medium)).kerning(1.2)
-                        .foregroundStyle(theme.rawAccent)
-                        .lineLimit(1).truncationMode(.tail)
-                        .editableText(.name, .init(size: 10.5, weight: .medium,
-                                                   color: theme.rawAccent, tracking: 1.2))
-                }
-                .scrubVeil(scrub.d, lead: 0.3, drop: 22, pull: 6)
-            }
-            .padding(20)
-            .frame(maxWidth: size.width * 0.68, alignment: .leading)
-        }
-    }
-}
-
 // MARK: - ตัวเลขยักษ์ ไม่มีกรอบ
 
 /// # ท่าเปลี่ยนหน้า — "มิเตอร์"
@@ -548,7 +246,7 @@ struct StatGiant: View {
     let theme: CardTheme
     let size: CGSize
 
-    private var total: Int { Mock.creator.socials.reduce(0) { $0 + $1.followerCount } }
+    private var total: Int { Profile.me.shownSocials.reduce(0) { $0 + $1.followerCount } }
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 22, style: .continuous)
@@ -579,11 +277,16 @@ struct StatGiant: View {
                 // ตัวเลขยักษ์ที่ยังไม่มีคำกำกับ อ่านออกมาเป็นตัวเลขลอย ๆ อยู่หนึ่งจังหวะ
                 // ตาต้องกวาดลงไปอ่านคำข้างล่างแล้วย้อนขึ้นมาอ่านเลขใหม่ — สองรอบเพื่อค่าเดียว
                 // เอาคำขึ้นก่อนแล้วตาอ่านรอบเดียวจบ
-                Text("ผู้ติดตามรวมทุกช่องทาง")
-                    .font(.sh(11, .bold)).tracking(0.6)
-                    .foregroundStyle(.white.opacity(0.72))
-                    .lineLimit(1).minimumScaleFactor(0.6)
-                    .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 8)
+                HStack(spacing: 8) {
+                    Text("ผู้ติดตามรวมทุกช่องทาง")
+                        .font(.sh(11, .bold)).tracking(0.6)
+                        .foregroundStyle(.white.opacity(0.72))
+                        .lineLimit(1).minimumScaleFactor(0.6)
+                    Spacer(minLength: 0)
+                    // ใบนี้เคยเป็นตัวเลขลอย ๆ บนรูป ไม่มีอะไรบอกที่มา — ป้ายเดียวกับ `ผู้ติดตามแบบแถว` ฉบับบนรูปถ่าย
+                    ProvenanceTag(kind: Profile.me.shownSocials.provenance, onPhoto: true)
+                }
+                .scrubVeil(scrub.d, lead: 0.34, drop: 20, pull: 8)
 
                 ScrubDigits(text: Fmt.compact(total), d: scrub.d,
                             lead: 0.24, step: 0.06, drop: fs * 1.15)
@@ -599,10 +302,10 @@ struct StatGiant: View {
                 // แต่ละช่องเป็นชิปของตัวเอง ไม่ใช่ไอคอนกับเลขลอย ๆ ต่อกัน
                 // ที่ขนาดเดิม (ไอคอน 13 · เลข 11) สามช่องอ่านออกมาเป็นแถบเดียว แยกกันไม่ออก
                 HStack(spacing: 8) {
-                    ForEach(Array(Mock.creator.socials.enumerated()), id: \.element.id) { i, s in
+                    ForEach(Array(Profile.me.shownSocials.enumerated()), id: \.element.id) { i, s in
                         HStack(spacing: 6) {
                             BrandIcon(name: s.type.icon, size: 17)
-                            Text(Fmt.compact(s.followerCount))
+                            Text(Fmt.compact(s.followerCount)).dataValue()
                                 .font(.sh(14, .heavy))
                                 .foregroundStyle(.white)
                         }
@@ -615,7 +318,7 @@ struct StatGiant: View {
                         .background(Capsule().fill(.black.opacity(0.2)))
                         .glassEffect(.clear, in: Capsule())
                         .scrubVeil(scrub.d,
-                                   lead: Scrub.lead(i, of: Mock.creator.socials.count,
+                                   lead: Scrub.lead(i, of: Profile.me.shownSocials.count,
                                                     d: scrub.d, step: 0.06),
                                    drop: 26, pull: 10)
                         .linkSlot(s.profileURL)
@@ -642,6 +345,10 @@ struct ArtTypeOver: View {
     @Environment(PhotoStore.self) private var photos
     @Environment(\.pageScrub) private var scrub
     @Environment(\.cardInk) private var ink
+    /// ชื่อยักษ์ถูกวาดสองชั้น (ตัวขาวทับภาพ + เงาสีธีมที่พ้นภาพ) จึงต้องตั้งฟอนต์/สีเอง
+    /// ไม่ใช่รอให้ตัวประกาศช่องใส่ให้ — ดู `EditableTextModifier`
+    @Environment(\.widgetTextStyle) private var tune
+    @Environment(\.cardAccent) private var accent
     let theme: CardTheme
     let size: CGSize
 
@@ -673,8 +380,8 @@ struct ArtTypeOver: View {
             // จึงจับใส่กรอบกว้างเท่าที่มีจริง แล้วปล่อยให้ฟอนต์หดเอง
             let markW = w * 0.94
             let giant = Text(mark)
-                .font(.sh(fs, .bold))
-                .kerning(-fs * 0.02)
+                .font(tune.font(fs, .bold, for: .nickname))
+                .kerning(-tune.scaled(fs, for: .nickname) * 0.02)
                 .lineLimit(1)
                 .minimumScaleFactor(0.28)
                 .frame(width: markW, alignment: .leading)
@@ -709,7 +416,8 @@ struct ArtTypeOver: View {
                         // ชั้นบน: ส่วนที่ทับอยู่บนภาพ — ตัดด้วยเส้นแบ่งที่เคลื่อนได้
                         // ช่องพิมพ์ประกาศที่ชั้นนี้ชั้นเดียว (อีกชั้นเป็นเงาสีธีมของตัวเดียวกัน)
                         giant
-                            .foregroundStyle(.white)
+                            .foregroundStyle(tune.color(.white, for: .nickname,
+                                                        ink: ink, accent: accent) ?? .white)
                             .editableText(.nickname, .init(size: fs, weight: .bold,
                                                            color: .white, tracking: -fs * 0.02,
                                                            corner: 6))
@@ -723,14 +431,12 @@ struct ArtTypeOver: View {
                     // บล็อกนี้อยู่ "ใต้" รูป จึงนั่งบนพื้นการ์ด ไม่ใช่บน scrim — ต้องพลิกตามหมึก
                     HStack(spacing: 5) {
                         Text(Profile.me.name)
-                            .font(.sh(14, .semibold))
-                            .foregroundStyle(ink.text(0.9))
                             .lineLimit(1).truncationMode(.tail)
                             .editableText(.name, .init(size: 14, weight: .semibold,
                                                        color: ink.text(0.9)))
                         // ตรายืนยันเกาะชื่อ ไม่ใช่ widget แยก — ตราที่วางเองได้คือตราที่จัดฉากได้
-                        if Mock.creator.verified {
-                            SymbolIcon(name: SHIcon.sealCheck, size: 10, tint: theme.accent)
+                        if Profile.me.creator.verified {
+                            StarSeal(size: 10, tint: ink.text(0.9), punch: ink.isLight ? Color(white: 0.97) : Color(white: 0.10))
                         }
                         Spacer(minLength: 0)
                     }
@@ -739,8 +445,7 @@ struct ArtTypeOver: View {
                     // hero บอกแค่ "นี่คือใคร" — ยอดผู้ติดตามกับพื้นที่รับงานเป็นคนละคำถาม
                     // และมี widget ของตัวเองอยู่แล้ว เอามาใส่ที่นี่คือการตอบคำถามที่ยังไม่มีใครถาม
                     Text(Profile.me.tagline.uppercased())
-                        .font(.sh(8.5, .semibold)).tracking(2)
-                        .foregroundStyle(ink.text(0.45))
+                        .tracking(2)
                         .lineLimit(1).truncationMode(.tail)
                         .editableText(.tagline, .init(size: 8.5, weight: .semibold,
                                                       color: ink.text(0.45), tracking: 2,

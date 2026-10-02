@@ -8,7 +8,7 @@ import SwiftUI
 // คำถามคือเก็บที่ระดับไหน — ถ้าเก็บต่อ "แบบ" (variant) จะเจอปัญหาสามข้อทันที:
 //
 // 1. สลับแบบแล้วข้อมูลหาย — ผู้ใช้พิมพ์คำโปรยไว้ใน `แนะนำตัว` แล้วกด "แบบอื่น" ไปเป็น
-//    `โน้ตแปะ` ถ้าสองแบบเก็บคนละที่ คำโปรยที่พิมพ์ไว้จะหายไปเงียบ ๆ
+//    `หน้าแนะนำตัว` ถ้าสองแบบเก็บคนละที่ คำโปรยที่พิมพ์ไว้จะหายไปเงียบ ๆ
 // 2. schema บานตามจำนวนแบบ — 40 แบบ = 40 ก้อนข้อมูล ทั้งที่เนื้อหาจริงมีไม่กี่ชุด
 // 3. เทียบการ์ดข้ามใบไม่ได้ — แบรนด์เปิดการ์ด 30 ใบเพื่อเลือก 5 คน ถ้าการ์ด A ใช้แบบที่มี
 //    สายงาน แต่การ์ด B ใช้แบบที่ไม่มี เขาเทียบสองใบนี้ไม่ได้เลย
@@ -128,10 +128,6 @@ extension WidgetFamily {
             return .init(editable: [.init("categories", "สายงานที่พิมพ์เอง", .list, limit: 8)],
                          system: ["interests"], source: .profile)
 
-        case .words:
-            return .init(editable: [.init("quote", "คำพูด", .line, limit: 120)],
-                         system: [], source: .none)
-
         case .text:
             // **ข้อยกเว้นข้อเดียวของกติกา "เก็บต่อตระกูล"**
             //
@@ -146,13 +142,13 @@ extension WidgetFamily {
                          system: [], source: .none)
 
         case .contact:
+            // ช่องทางติดต่อที่ Star Profile มี = ชื่อ + LINE ID (จากฟอร์มสมัคร) · เบอร์/อีเมล/สถานะผู้รับงาน/เวลาตอบกลับ
+            // ไม่มีใน Star Profile จึงไม่อยู่บนการ์ด (30 ก.ย. 2569: ข้อมูลบนการ์ดต้องมีใน Star Profile ทั้งหมด)
             return .init(editable: [.init("contactName", "ชื่อผู้รับงาน", .line, limit: 40),
-                                    .init("role", "สถานะผู้รับงาน", .line, limit: 60),
-                                    .init("phone", "เบอร์โทร", .phone),
-                                    .init("email", "อีเมล", .email),
-                                    .init("lineId", "ไลน์ไอดี", .line, limit: 40)],
-                         // เวลาตอบกลับต้องคำนวณจากอินบ็อกซ์จริง ให้กรอกเองเมื่อไหร่มันคือคำโฆษณา
-                         system: ["responseTime"], source: .inbox)
+                                    .init("lineId", "ไลน์ไอดี", .line, limit: 40),
+                                    .init("phone", "เบอร์โทร", .line, limit: 20),
+                                    .init("website", "เว็บไซต์", .line, limit: 60)],
+                         system: [], source: .profile)
 
         case .rate:
             // ราคาผู้ใช้ตั้งเอง แต่ "ราคาที่ตลาดจ่าย" มาจากระบบ — สองค่านี้ต้องอยู่คู่กันเสมอ
@@ -185,7 +181,15 @@ extension WidgetFamily {
 
         case .brand:
             return .init(editable: [],
+                         // แบรนด์ = แคมเปญที่ตอบรับงานใน Sale Here · ผลงาน = งานที่ส่งลิงก์รีวิวแล้ว (ดู `TrackRecord.fromCampaigns`)
                          system: ["track.brands", "track.brandCount"], source: .campaign)
+
+        case .seal:
+            // ทั้งใบเป็นของระบบ — คำรับรองที่เจ้าของพิมพ์เองได้คือคำโฆษณา
+            return .init(editable: [],
+                         system: ["verify.identity", "verify.identityDate",
+                                  "socials.source", "socials.syncedAgo", "card.serial"],
+                         source: .profile)
 
         case .verified:
             return .init(editable: [],
@@ -198,6 +202,17 @@ extension WidgetFamily {
             // รูปเก็บเป็น asset id ต่อ "ช่อง" ของ widget — ดูรายละเอียดที่ `PhotoStore`
             return .init(editable: [.init("photos", "รูปผลงาน", .list)],
                          system: [], source: .none)
+
+        case .showcase:
+            // **เก็บต่อชิ้น เหมือนตระกูล `text`** — หัวเรื่องกับคำบรรยายใต้คลิปแต่ละใบ
+            // ไม่ใช่ข้อเท็จจริงของเจ้าของการ์ด (ชื่อ/เบอร์มีคำตอบเดียวต่อใบ) แต่เป็น
+            // *คำที่เขียนถึงงานชิ้นนั้น* — วางแผ่นนี้สองแผ่นเพื่อเล่าคนละชุดงานเป็นเรื่องปกติ
+            // รูปเก็บเป็น asset id ต่อช่องเหมือนตระกูล `photo` (ดู `PhotoStore`)
+            return .init(editable: [.init("note", "หัวเรื่อง · ชื่อลูกค้า · สรุปงาน",
+                                          .paragraph, limit: 200),
+                                    .init("photos", "รูปปกคลิป", .list)],
+                         system: [], source: .none)
+
         }
     }
 }

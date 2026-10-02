@@ -26,15 +26,14 @@ struct HeroMinimal: View {
                         .frame(width: max(0, 14 * (1 - t)), height: 2)
                 }
                 .frame(width: 14, height: 2, alignment: .leading)
-                Text("STARCARD")
-                    .font(.sh(8.5, .bold)).tracking(2.6)
-                    .foregroundStyle(theme.accent.opacity(0.92))
+                // ชื่อโปรแกรมตัวจริง ไม่ใช่คำว่า STARCARD — บรรทัดนี้คือที่ที่การ์ดบอกว่าใครออกให้
+                StarLockup(height: 12, tint: theme.accent.opacity(0.95))
                     .scrubVeil(scrub.d, lead: 0.06, drop: 16, pull: 14)
 
                 // ตรายืนยันตัวตนติดมากับชื่อเสมอ ไม่ใช่ widget แยก
                 // ตราที่ผู้ใช้เลือกวางเองได้ อ่านออกมาเป็นตราที่จัดฉากได้
-                if Mock.creator.verified {
-                    SymbolIcon(name: SHIcon.sealCheck, size: 11, tint: theme.accent)
+                if Profile.me.creator.verified {
+                    StarSeal(size: 11, tint: theme.accent.opacity(0.95))
                         .scrubVeil(scrub.d, lead: 0.04, drop: 14, pull: 10)
                 }
             }
@@ -42,12 +41,10 @@ struct HeroMinimal: View {
             ScrubReader(d: scrub.d) { d in
                 let t = Scrub.ease(Scrub.t(d, lead: 0.1))
                 Text(Profile.me.name)
-                    .font(.sh(nameSize, .black))
                     // บีบอยู่ตอนนิ่ง แล้วคลายออกตอนจากไป
                     // ต้อง kerning ไม่ใช่ tracking — tracking แทรกช่องไฟ "หลังทุกตัวอักษร"
                     // รวมถึงระหว่างพยัญชนะกับสระบน/วรรณยุกต์ ทำให้เครื่องหมายไทยหลุดหาย
                     .kerning(-1 + 9 * t)
-                    .foregroundStyle(ink.text(0.98))
                     // ยาวเกินสองบรรทัดตัดด้วย … ไม่ดัน widget ให้สูงขึ้น
                     // (เดิม `fixedSize` ให้ข้อความเป็นคนกำหนดความสูง พิมพ์ยาวแล้วล้นกรอบที่วางไว้)
                     .lineLimit(2).truncationMode(.tail)
@@ -58,8 +55,8 @@ struct HeroMinimal: View {
             .scrubVeil(scrub.d, lead: 0.24, drop: 44, pull: 8)
 
             Text(Profile.me.tagline.uppercased())
-                .font(.sh(9.5, .semibold)).tracking(2)
-                .foregroundStyle(ink.text(0.45)).lineLimit(1)
+                .tracking(2)
+                .lineLimit(1)
                 .truncationMode(.tail)
                 .editableText(.tagline, .init(size: 9.5, weight: .semibold,
                                               color: ink.text(0.45), tracking: 2,

@@ -75,7 +75,7 @@ private struct SnapCell: View {
 }
 
 /// ผลงานชิ้นแรก — ใช้เป็นแหล่งตัวเลขของแบบที่จำลอง "หน้าตาตอนลงจริง"
-private var firstWork: VerifiedWork? { Mock.creator.track.works.first }
+private var firstWork: VerifiedWork? { Profile.me.creator.track.works.first }
 
 // MARK: - 01 · บอร์ดพิน
 
@@ -279,6 +279,7 @@ struct GalleryPost: View {
                 .scrubAperture(scrub.d, lead: 0.16, feather: 0.2, dim: 0.5)
             footer
         }
+        .linkSlot(work.flatMap(\.postURL))
     }
 
     /// หัวโพสต์ — รูปโปรไฟล์กลม + โลโก้แพลตฟอร์ม
