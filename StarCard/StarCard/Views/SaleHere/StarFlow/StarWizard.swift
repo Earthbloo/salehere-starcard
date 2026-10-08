@@ -21,6 +21,8 @@ struct StarWizard: View {
     let onExit: (_ done: Int, _ total: Int) -> Void
     /// ออกไปยืนยันตัวตนจริง แล้วเรียก completion ตอนกลับมา
     let onKyc: (@escaping () -> Void) -> Void
+    /// ข้อนี้ทำให้ครบ 8 ข้อพอดี = ได้เป็น STAR กลางทาง — shell เล่น motion "คุณเป็น STAR แล้ว" แล้ว wizard ค่อยไปข้อถัดไปใต้ motion
+    let onStar: () -> Void
     /// toast ของผู้เรียก
     let toast: (String) -> Void
 
@@ -28,15 +30,28 @@ struct StarWizard: View {
     /// แผงล่างของหน้าช่องทาง (แก้เรท / แนบ insight) — วาดเองใน wizard เพราะ `.sheet` ไม่เปิดในหน้าที่ shell สลับ `.id`
     @State private var editing: StarSocial?
     @State private var insightFor: StarSocial?
+    /// ช่องสัดส่วนที่กำลังหมุนเลือก (wheel picker ค่า + หน่วย ต่อช่อง = MultiWheelPickerModal ของ salehere-ios)
+    @State private var bodyPick: BodyField?
     @State private var err: String?
     @State private var shakes = 0
+    /// ค่าช่องพิมพ์ตอนเปิด wizard (ก่อนกรอกตัวอย่าง) — เป็น STAR แล้วบันทึกช่องที่เคยกรอกเป็นค่าว่างไม่ได้ (`StarFlow.keepsData`)
+    @State private var before: [String: String] = [:]
+    /// error ที่ช่อง (ไม่ใช่หัวหน้า) + ช่องที่ต้องเลื่อนไปให้เห็น
+    @State private var errors = WzErrors()
+    @State private var scrollTo: String?
+    /// สภาพตอนเปิด wizard (= `initialSnapshot` ของ salehere-ios): เป็น STAR อยู่แล้วไหม · ข้อไหนใน 8 ข้อที่ขาดอยู่
+    @State private var startStar = StarFlow.shared.isStar
+    @State private var startMissing = StarFlow.shared.starMissing
 
     init(kind: WizKind, campaign: StarCampaign, steps: [WizStep],
          onFinish: @escaping (Bool) -> Void, onExit: @escaping (Int, Int) -> Void,
-         onKyc: @escaping (@escaping () -> Void) -> Void, toast: @escaping (String) -> Void) {
+         onKyc: @escaping (@escaping () -> Void) -> Void, onStar: @escaping () -> Void = {}, toast: @escaping (String) -> Void,
+         start: Int = 0) {
         self.kind = kind; self.campaign = campaign; _steps = State(initialValue: WizStep.pages(steps))
+        // เปิดที่ข้อ `start` — ใช้แค่ทางลัดแคปจอ (`-shot wiz:…`)
+        _i = State(initialValue: start)
         self.asked = Set(steps)
-        self.onFinish = onFinish; self.onExit = onExit; self.onKyc = onKyc; self.toast = toast
+        self.onFinish = onFinish; self.onExit = onExit; self.onKyc = onKyc; self.onStar = onStar; self.toast = toast
     }
 
     private var real: [WizStep] { steps.filter { $0 != .intro } }
@@ -67,25 +82,35 @@ struct StarWizard: View {
                 BottomPanel(close: { closePanel() }) { InsightPanel(social: s) { closePanel() } }
                     .zIndex(2)
             }
+            if let f = bodyPick {
+                BottomPanel(close: { bodyPick = nil }) { BodyWheelSheet(field: f) { bodyPick = nil } }
+                    .zIndex(2)
+            }
         }
         .animation(Motion.settle, value: editing)
         .animation(Motion.settle, value: insightFor)
+        .animation(Motion.settle, value: bodyPick)
         .preferredColorScheme(.light)
-        .onAppear { flow.autofill(Array(asked)) }
+        .onAppear {
+            before = Dictionary(Self.kept(flow).values.joined().map { ($0.key, $0.value) }, uniquingKeysWith: { a, _ in a })
+            flow.autofill(Array(asked))
+        }
     }
 
     // MARK: หน้าแรกก่อนสมัคร = "สมัครเป็น STAR" (1 เหตุผล + 1 ภาพ + 1 ปุ่ม) (= `wizIntro`)
 
     private var intro: some View {
-        let rest = real, card = flow.hasCard
+        // ยังไม่เป็น STAR (ยังไม่ครบ 8 ข้อ) = หัว "สมัครเป็น STAR ก่อน" เสมอ — ไม่ใช่แค่ยังไม่มีการ์ด (ผู้ใช้ 6 ต.ค. 2569)
+        let rest = real, card = flow.isStar
         return ZStack {
             GlassOrbs()
             VStack(spacing: 0) {
                 HStack {
-                    GlassCircleButton(symbol: .x, size: 40) { onExit(0, rest.count) }
+                    // ✕ หน้า intro = ออกเงียบ ๆ (ยังไม่ได้ทำอะไร ไม่ถาม "เก็บไว้ทำต่อไหม") — salehere-ios
+                    GlassCircleButton(symbol: .x, size: 40) { onExit(0, 0) }
                     Spacer()
-                    // ชื่อแบรนด์อยู่ในกล่อง "ขอดูก่อนคัดเลือก" แล้ว — บนหัวเหลือแค่ EP
-                    Text(card ? "สมัคร \(campaign.episode)" : "สมัคร \(campaign.episode) · \(campaign.brand)").font(.sh(12.5, .semibold)).foregroundStyle(PK.hint)
+                    // "สมัคร {ชื่อกิจกรรม}" ทั้งสถานะ A และ C (= `STAR_INTRO_CONTEXT`)
+                    Text("สมัคร \(campaign.title)").font(.sh(12.5, .semibold)).foregroundStyle(PK.hint).lineLimit(1)
                     Spacer()
                     Color.clear.frame(width: 40, height: 40)
                 }
@@ -98,7 +123,8 @@ struct StarWizard: View {
                             Text("ใช้คัดเลือกผู้สมัคร · ส่งครบแล้วค่อยไปฟอร์มสมัคร")
                                 .font(.sh(14)).foregroundStyle(GL.muted).multilineTextAlignment(.center)
                                 .padding(.top, 10)
-                            BrandAsk(campaign: campaign, steps: rest)
+                            // การ์ดเดียวกับสถานะ A + ช่องประ 1 ช่องต่อ 1 ข้อที่ขาด (salehere-ios) — ต่างแค่หัวกับปุ่ม
+                            StarGlassCard(compact: true, ghosts: rest)
                                 .padding(.top, 26)
                                 .modifier(PKReveal(index: 1))
                         } else {
@@ -112,7 +138,7 @@ struct StarWizard: View {
                     }
                     .padding(.horizontal, 20).padding(.top, 30).padding(.bottom, 16)
                 }
-                PKPrimaryButton(title: card ? "เติมข้อมูล \(rest.count) อย่าง" : "สมัครเป็น STAR · \(rest.count) ข้อ", symbol: .arrowRight) { next() }
+                PKPrimaryButton(title: card ? "เติมข้อมูล · \(rest.count) ข้อ" : "สมัครเป็น STAR · \(rest.count) ข้อ", symbol: .arrowRight) { next() }
                     .padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 20)
             }
         }
@@ -125,7 +151,7 @@ struct StarWizard: View {
         return VStack(spacing: 0) {
             HStack {
                 PKCircleButton(symbol: i > 0 ? .caretLeft : .x, label: i > 0 ? "ย้อนกลับ" : "ปิด") {
-                    if i > 0 { withAnimation(Motion.snap) { i -= 1; err = nil } }
+                    if i > 0 { withAnimation(Motion.snap) { i -= 1; err = nil; errors.reset() } }
                     else { onExit(real.filter(stepDone).count, total) }
                 }
                 Spacer()
@@ -151,6 +177,7 @@ struct StarWizard: View {
                 }
                 .frame(height: 3).padding(.horizontal, 20).padding(.top, 10)
             }
+            ScrollViewReader { proxy in
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(heading(step)).font(.sh(24, .heavy)).foregroundStyle(GL.ink).lineSpacing(4)
@@ -164,6 +191,7 @@ struct StarWizard: View {
                             .transition(.opacity)
                     }
                     control(step)
+                        .environment(errors)
                         .modifier(WzShake(trigger: shakes))
                 }
                 .padding(.horizontal, 20).padding(.top, 28).padding(.bottom, 16)
@@ -171,6 +199,13 @@ struct StarWizard: View {
                 .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity), removal: .opacity))
             }
             .scrollDismissesKeyboard(.interactively)
+            // ช่องแรกที่ผิดเลื่อนมากลางจอ
+            .onChange(of: scrollTo) { _, k in
+                guard let k else { return }
+                withAnimation(Motion.settle) { proxy.scrollTo("wz:" + k, anchor: .center) }
+                scrollTo = nil
+            }
+            }
             VStack(spacing: 8) {
                 PKPrimaryButton(title: buttonLabel, symbol: .arrowRight) { next() }
                 if step.optional {
@@ -184,6 +219,7 @@ struct StarWizard: View {
     /// ผูกช่องใหม่เสร็จ → พาไปแนบข้อมูลผู้ติดตามของช่องนั้นต่อทันที (ผู้ใช้ 1 ต.ค. 2569: "insight ดูไม่สำคัญ ผูกเสร็จพาไปต่อเลย")
     private func afterChannel(_ s: StarSocial, fresh: Bool) {
         closePanel()
+        if flow.connected.isEmpty { return }
         guard fresh, s.supportsInsight else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { insightFor = s }
     }
@@ -206,18 +242,20 @@ struct StarWizard: View {
 
     private var context: String {
         switch kind {
-        case .one: return flow.hasCard ? "เติมข้อมูล" : "สมัครเป็น STAR"
-        case .apply: return flow.hasCard ? "ข้อมูล STAR · ก่อนสมัคร \(campaign.episode)" : "สมัครเป็น STAR · \(campaign.episode)"
+        case .one: return flow.isStar ? "เติมข้อมูล" : "สมัครเป็น STAR"
+        case .apply: return flow.isStar ? "ข้อมูล STAR · ก่อนสมัคร \(campaign.episode)" : "สมัครเป็น STAR · \(campaign.episode)"
         case .accept: return "ข้อมูล STAR · ก่อนตอบรับ \(campaign.episode)"
         }
     }
 
     private var buttonLabel: String {
         // เป็นเรื่องข้อมูล ไม่ใช่การ์ด (ผู้ใช้ 29 ก.ย. 2569) — บางข้อไม่ขึ้นการ์ดด้วยซ้ำ
+        // ติดด่านยืนยันตัวตน (รอตรวจ/ตีกลับ) = ไปต่อไม่ได้ ปิดเก็บคำตอบไว้ก่อน — มาก่อน "บันทึก" ของ wizard ข้อเดียว
+        if step == .kyc, flow.verify == .waiting || flow.verify == .rejected { return "ปิดไว้ก่อน" }
         if kind == .one && isLast { return "บันทึก" }
         if isLast {
             switch kind {
-            case .apply: return "ไปฟอร์มสมัคร \(campaign.episode)"
+            case .apply: return "ไปฟอร์มสมัคร"
             case .accept: return "ไปหน้าตอบรับ"
             case .one: return "ไปการ์ดของคุณ"
             }
@@ -233,9 +271,7 @@ struct StarWizard: View {
         case .socials: return "แปะวาร์ปช่องของคุณเลย 📱"
         case .categories: return "คุณเป็นครีเอเตอร์สายไหน? 🎨"
         case .about: return "แนะนำตัวสั้น ๆ ✍️"
-        case .media where !asked.contains(.media): return "แนะนำตัวสั้น ๆ ✍️"
-        case .media where !showAbout: return "รูปและผลงานของคุณ 📸"
-        case .media: return "แนะนำตัวและผลงาน 📸"
+        case .media: return "เกี่ยวกับคุณ 📸"
         case .rate: return "เรทรับงานของคุณ 💸"
         case .insight: return "ข้อมูลผู้ติดตามของคุณ 📊"
         case .province: return "อยู่จังหวัดไหน / ไปถึงไหนได้บ้าง? 📍"
@@ -246,7 +282,14 @@ struct StarWizard: View {
         case .draftRounds: return "แก้งานให้ได้กี่รอบ?"
         case .limits: return "มีงานแนวไหนที่ขอผ่านไหม? 🙅‍♀️"
         case .religion: return "นับถือศาสนาอะไร?"
-        case .kyc: return flow.isVerified ? "ยืนยันตัวตนแล้ว 🪪" : flow.verify == .waiting ? "ส่งยืนยันตัวตนแล้ว 🪪" : "ยืนยันตัวตนก่อนเป็น STAR 🪪"
+        case .body: return "สัดส่วนของคุณ 📏"
+        case .kyc:
+            switch flow.verify {
+            case .approved: return "ยืนยันตัวตนแล้ว 🪪"
+            case .waiting: return "ทีมงานกำลังตรวจเอกสาร 🪪"
+            case .rejected: return "เอกสารยังไม่ผ่าน 🪪"
+            case .none: return "ยืนยันตัวตนก่อนสมัคร 🪪"
+            }
         case .intro: return ""
         }
     }
@@ -255,8 +298,14 @@ struct StarWizard: View {
         switch s {
         case .address: return "ของรางวัลจะส่งมาที่นี่ · กรอกครั้งเดียว"
         // จาก Star Profile (`.one`) ไม่ได้ผูกกับงานไหน — ไม่อ้างค่าตัวของงาน
-        case .bank: return kind != .one && campaign.fee > 0 ? "ค่าตัว ฿\(campaign.fee.formatted()) โอนเข้าบัญชีนี้" : "ใช้กับทุกงานที่มีค่าตัว"
-        case .kyc: return flow.isVerified ? "ป้าย Verified จะขึ้นบนการ์ดของคุณ" : flow.verify == .waiting ? "ทีมงานตรวจภายใน 1–3 วันทำการ · สมัครงานต่อได้เลย" : "ถ่ายบัตรประชาชน + ใบหน้า · ทำครั้งเดียว ใช้ได้ทุกงาน"
+        case .bank: return "ใช้กับทุกงานที่มีค่าตัว"
+        case .kyc:
+            switch flow.verify {
+            case .approved: return "ป้าย Verified จะขึ้นบนการ์ดของคุณ"
+            case .waiting: return "ทีมงานแจ้งผลภายใน 3 วันทำการ · ผ่านแล้วเราจะเตือนให้กลับมาสมัครต่อ"
+            case .rejected: return "ส่งใหม่ได้เลย · ผ่านแล้วค่อยสมัครต่อ"
+            case .none: return "ต้องผ่านก่อนส่งใบสมัคร · ถ่ายบัตรประชาชน + ใบหน้า ทำครั้งเดียวใช้ได้ทุกงาน"
+            }
         default: return ""
         }
     }
@@ -264,12 +313,18 @@ struct StarWizard: View {
     /// ชิปใต้หัวข้อ — หน้ารวมที่มาเติมแค่บางส่วน ใช้ชิปของส่วนนั้น
     private func lines(_ s: WizStep) -> [String] {
         if s == .socials && !asked.contains(.socials) { return (asked.contains(.rate) ? WizStep.rate : .insight).line }
-        if s == .media && !asked.contains(.media) { return WizStep.about.line }
+        // ขั้น KYC ตอนรอตรวจ/ตีกลับ = ชิปชุดเดียวกับหน้าสถานะ
+        if s == .kyc, flow.verify == .waiting { return ["แจ้งผลภายใน 3 วันทำการ", "คำตอบที่กรอกไว้ยังอยู่ครบ"] }
+        if s == .kyc, flow.verify == .rejected { return ["ส่งใหม่ได้เลย ไม่ต้องรอ", "คำตอบที่กรอกไว้ยังอยู่ครบ"] }
         return s.line
     }
 
     /// แนะนำตัวขึ้นเมื่อขอข้อนี้ หรือยังไม่เคยกรอก (ขั้นสมัครส่งมาแค่ `.media` แต่ยังถามแนะนำตัวในหน้าเดียวกัน)
-    private var showAbout: Bool { asked.contains(.about) || !flow.has(.about) }
+    /// เข้าจากแถวใน Star Profile (`.one`) = หน้าเต็มเสมอ: แนะนำตัว + รูป · ผลงาน · คลิป ไม่ว่าจะแตะแถว "แนะนำตัว" หรือ "รูปและผลงาน"
+    /// (ผู้ใช้ 7 ต.ค. 2569: "อยู่ใน UI เดียวกัน แต่พอเข้าจากหัวข้อมันแยกกันทำไม")
+    /// หน้า "เกี่ยวกับคุณ" = แนะนำตัว + รูป · ผลงาน · คลิป ครบเสมอ ไม่ว่าเข้าจากทางไหน (salehere-ios `showAbout` = true)
+    private let showAbout = true
+    private let withMedia = true
 
     @ViewBuilder
     private func control(_ s: WizStep) -> some View {
@@ -283,7 +338,7 @@ struct StarWizard: View {
             VStack(alignment: .leading, spacing: 22) {
                 if showAbout {
                     VStack(alignment: .leading, spacing: 10) {
-                        if asked.contains(.media) {
+                        if withMedia {
                             HStack(spacing: 6) {
                                 Text("แนะนำตัว").font(.sh(15, .bold)).foregroundStyle(GL.ink)
                                 Text("ไม่บังคับ").font(.sh(11, .semibold)).foregroundStyle(PK.muted)
@@ -293,9 +348,9 @@ struct StarWizard: View {
                         WzAbout(minHeight: 84)
                     }
                 }
-                if asked.contains(.media) { WzMediaAll(onError: fail) }
+                if withMedia { WzMediaAll(onError: fail) }
             }
-        case .kyc: WzKyc(start: startKyc)
+        case .kyc: WzKyc(start: startKyc, toast: toast)
         case .province: WzProvince()
         case .availability: WzAvailability()
         case .contact: WzContact()
@@ -304,6 +359,7 @@ struct StarWizard: View {
         case .draftRounds: WzDraftRounds()
         case .limits: WzLimits()
         case .religion: WzReligion()
+        case .body: WzBody(pick: $bodyPick)
         case .intro: EmptyView()
         }
     }
@@ -312,25 +368,73 @@ struct StarWizard: View {
 
     private func next() {
         guard let step else { finish(); return }
-        if step == .socials, flow.connected.isEmpty { fail("เชื่อมอย่างน้อย 1 ช่อง"); return }
-        if step == .kyc, flow.verify == .none { fail("ยืนยันตัวตนก่อน แล้วไปต่อได้เลย"); return }
-        if step == .media, let lack = WzMediaAll.missing() { fail("ยังขาด " + lack); return }
+        let wasStar = flow.isStar
+        if step == .socials, flow.connected.isEmpty {
+            // เป็น STAR แล้วเอาช่องทางออกได้หมด (ผู้ใช้ 7 ต.ค. 2569) — บันทึกได้เลย ลงทะเบียนงานถัดไปค่อยถามใหม่
+            // เอาออกจนหมดได้เฉพาะตอนแก้ · เข้ามาเพราะข้อนี้ขาด (รวม STAR เก่าที่ถูกบังคับเติม) = ต้องเชื่อมก่อน (salehere-ios)
+            guard flow.keepsData, !startMissing.contains(.socials) else { fail("เชื่อมอย่างน้อย 1 ช่อง"); return }
+            flow.have.subtract([.socials, .rate, .insight])
+            err = nil; advance(); return
+        }
+        if flow.keepsData, let gone = Self.kept(flow)[step]?.first(where: { k in
+            !(before[k.key] ?? "").trimmingCharacters(in: .whitespaces).isEmpty && k.value.trimmingCharacters(in: .whitespaces).isEmpty
+        }) {
+            failAt([(gone.key, "\(gone.name)ลบไม่ได้ · แก้เป็นข้อมูลใหม่ได้")]); return
+        }
+        // ด่านแข็ง (ผู้ใช้ 6 ต.ค. 2569): ต้อง "ผ่าน" ก่อนถึงไปฟอร์มได้ · รอตรวจ/ตีกลับ = ปุ่มกลายเป็น "ปิดไว้ก่อน" เก็บคำตอบไว้ครบ
+        if step == .kyc, !flow.isVerified {
+            // "ปิดไว้ก่อน" = ปิดเงียบ ๆ กลับหน้าเดิม (ส่ง done = total → Shell ออกเลย ไม่ถาม "เก็บไว้ทำต่อไหม" เพราะไม่มีอะไรให้ทำต่อระหว่างรอ)
+            if flow.verify == .waiting || flow.verify == .rejected { onExit(steps.count, steps.count); return }
+            fail("ยืนยันตัวตนก่อน แล้วไปต่อได้เลย"); return
+        }
+        if step == .media, withMedia, !WzMediaAll.lack().isEmpty { failAt(WzMediaAll.lack().map { ("media:\($0.kind)", "ยังขาด \($0.text)") }); return }
         if step == .media, !flow.about.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { flow.have.insert(.about) }
-        if step == .categories, flow.categories.isEmpty { fail("เลือกอย่างน้อย 1 สาย"); return }
+        // ขั้นต่ำ 3 = กติกา welcome step ของ salehere-ios (`CategoriesSelectorPageViewController`) — ใช้เท่ากันจะได้ไม่ต้องแก้ด่านเดิม
+        if step == .categories, flow.categories.count < 3 { fail("เลือกอย่างน้อย 3 สาย"); return }
         if step == .province, flow.provinces.isEmpty { fail("เลือกอย่างน้อย 1 จังหวัด"); return }
         if step == .availability, flow.availDays.isEmpty { fail("เลือกช่วงที่ว่างอย่างน้อย 1 ช่อง"); return }
-        if step == .contact, [flow.lineID, flow.phone].allSatisfy({ $0.trimmingCharacters(in: .whitespaces).isEmpty }) { fail("ใส่ LINE ID หรือเบอร์อย่างน้อย 1 ช่อง"); return }
-        if step == .address, !flow.addressInfo.complete { fail("กรอกชื่อ เบอร์ ที่อยู่ และรหัสไปรษณีย์"); return }
-        if step == .bank, !flow.bankInfo.complete(company: flow.payKind == "company") { fail("กรอกธนาคาร เลขบัญชี และชื่อบัญชีให้ครบ"); return }
+        if step == .contact {
+            // ตรวจทั้ง 3 ช่องรอบเดียว error ขึ้นใต้ช่อง · ว่างทั้งคู่ = LINE ขอบแดง + ข้อความใต้ช่องเบอร์ · แก้ช่องไหนหายเฉพาะช่องนั้น (salehere-ios)
+            let line = flow.lineID.trimmingCharacters(in: .whitespaces), tel = flow.phone.trimmingCharacters(in: .whitespaces)
+            if line.isEmpty && tel.isEmpty { failAt([("LINE ID", ""), ("เบอร์โทร", "ใส่ LINE ID หรือเบอร์อย่างน้อย 1 ช่อง")]); return }
+            let web = StarFlow.normalizedWebsite(flow.website)
+            var bad: [(String, String)] = []
+            if !line.isEmpty, !StarFlow.validLine(line) { bad.append(("LINE ID", "LINE ID ไม่ถูกต้อง")) }
+            if !tel.isEmpty, !StarFlow.validPhone(tel) { bad.append(("เบอร์โทร", "เบอร์โทรศัพท์ไม่ถูกต้อง")) }
+            if !web.isEmpty, !StarFlow.validURL(web) { bad.append(("เว็บไซต์ · ไม่บังคับ", "เว็บไซต์ไม่ถูกต้อง")) }
+            guard bad.isEmpty else { failAt(bad); return }
+            flow.website = web
+        }
+        if step == .address {
+            // ครบ 7 ช่องแบบที่ `createUserAddress` บังคับ · รหัสไปรษณีย์ต้อง 5 หลัก (salehere-ios)
+            let a = flow.addressInfo
+            var bad = Self.empty([("ชื่อ–นามสกุล", a.name), ("เบอร์โทรศัพท์", a.tel), ("ที่อยู่", a.address)])
+            if a.zip.count != 5 { bad.append(("รหัสไปรษณีย์", a.zip.isEmpty ? "ยังไม่ได้กรอก" : "รหัสไปรษณีย์ต้องมี 5 หลัก")) }
+            bad += Self.empty([("ตำบล/แขวง", a.sub), ("อำเภอ/เขต", a.district), ("จังหวัด", a.province)])
+            guard bad.isEmpty else { failAt(bad); return }
+        }
+        if step == .bank, !flow.bankInfo.complete(company: flow.payKind == "company") {
+            let b = flow.bankInfo, co = flow.payKind == "company"
+            failAt(Self.empty((co ? [("ชื่อนิติบุคคล", b.coName), ("เลขประจำตัวผู้เสียภาษี (13 หลัก)", b.taxID)] : [])
+                              + [("ธนาคาร", b.bank), ("เลขที่บัญชี", b.no), ("ชื่อบัญชี", b.name)])); return
+        }
         if step == .limits, flow.limits.isEmpty, flow.limitOther.trimmingCharacters(in: .whitespaces).isEmpty { fail("เลือกอย่างน้อย 1 ข้อ"); return }
         if step == .religion, flow.religion.isEmpty { fail("เลือก 1 ข้อ"); return }
-        err = nil
+        err = nil; errors.reset()
         if step == .intro { withAnimation(Motion.settle) { i += 1 }; return }
+        if step == .body {
+            // ไม่บังคับ: กรอกอย่างน้อย 1 ช่อง = มีแล้ว · ล้างหมดแล้วบันทึก = กลับเป็นยังไม่มี
+            if flow.bodyInfo.filled { flow.have.insert(.body) } else { flow.have.remove(.body) }
+            advance(); return
+        }
         if step == .socials {
             // หน้าเดียว = ช่องทาง + เรท (ใส่ราคามาตรฐานให้แล้ว) + ข้อมูลผู้ติดตาม (ไม่บังคับ)
             flow.have.formUnion([.socials, .rate])
             if !flow.insightSlots.isEmpty { flow.have.insert(.insight) }
         } else if let k = step.dataKey { flow.have.insert(k) }
+        // ข้อนี้ปิด 8 ข้อพอดี = เพิ่งเป็น STAR → motion ทับ wizard แล้วข้อถัดไปโผล่ใต้ motion (salehere-ios `celebrateIfJustBecameStar`)
+        // ทางสมัครกิจกรรมได้หน้า "คุณเป็น STAR แล้ว" แทน · เป็นข้อสุดท้าย = หน้า Star Profile ฉลองตอนกลับไป
+        if !wasStar && flow.isStar && kind != .apply && !isLast { onStar() }
         advance()
     }
 
@@ -339,18 +443,42 @@ struct StarWizard: View {
         advance()
     }
 
+    /// ช่องพิมพ์ที่กันไม่ให้ล้างทิ้งหลังเป็น STAR ต่อขั้น — key = คีย์ error ของช่อง (ป้าย) · name = ชื่อในข้อความ · = `KEPT` ของ desktop
+    private static func kept(_ f: StarFlow) -> [WizStep: [(key: String, name: String, value: String)]] {
+        // เฉพาะแนะนำตัว + ช่องทางติดต่อ (salehere-ios) — สัดส่วนไม่บังคับ ล้างได้
+        [.media: [("แนะนำตัว", "แนะนำตัว", f.about)],
+         .contact: [("LINE ID", "LINE ID ", f.lineID), ("เบอร์โทร", "เบอร์โทร", f.phone), ("เว็บไซต์ · ไม่บังคับ", "เว็บไซต์", f.website)]]
+    }
+
     private func advance() {
+        errors.reset()
         if i < steps.count - 1 { withAnimation(Motion.settle) { i += 1 } } else { finish() }
     }
 
+    /// error ที่ช่อง — คู่ (คีย์ช่อง, ข้อความ) เรียงตามที่เห็นบนจอ · เลื่อนไปช่องแรก
+    private func failAt(_ items: [(String, String)], link: [String] = []) {
+        guard !items.isEmpty else { return }
+        withAnimation(Motion.snap) { err = nil; errors.set(items, link: link) }
+        scrollTo = items[0].0
+        shakes += 1
+        Haptics.rigid()
+    }
+
+    /// ช่องที่ยังว่าง → (ป้ายช่อง, "ยังไม่ได้กรอก")
+    private static func empty(_ fields: [(String, String)]) -> [(String, String)] {
+        fields.filter { $0.1.trimmingCharacters(in: .whitespaces).isEmpty }.map { ($0.0, "ยังไม่ได้กรอก") }
+    }
+
     private func fail(_ msg: String) {
+        errors.reset()
         withAnimation(Motion.snap) { err = msg }
         shakes += 1
         Haptics.rigid()
     }
 
     private func finish() {
-        let madeCard = kind == .apply && steps.contains { [.socials, .categories, .media, .kyc].contains($0) } && flow.hasCard
+        // หน้า "คุณเป็น STAR แล้ว" เฉพาะคนที่เพิ่งเป็น STAR ใน wizard รอบนี้ (ทางสมัครกิจกรรม) — STAR เก่าที่เติมครบไม่มีหน้านี้
+        let madeCard = kind == .apply && !startStar && flow.isStar
         onFinish(madeCard)
     }
 
@@ -358,10 +486,16 @@ struct StarWizard: View {
     /// ไม่ตัดขั้นทิ้ง (1 ต.ค. 2569): ตัวนับเดินต่อ 5/12 → 6/12 · เป็นข้อสุดท้ายก็จบ wizard เลย
     /// (เดิมตัดขั้นแล้วตัวนับหด 5/12 → 5/11 และข้อสุดท้ายเด้งกลับไปหน้าก่อนหน้า)
     private func startKyc() {
+        let wasStar = flow.isStar
         onKyc {
             guard flow.verify != .none else { return }
             err = nil
-            if !isLast { toast(flow.isVerified ? "ยืนยันตัวตนแล้ว · ไปต่อได้เลย" : "ส่งคำขอยืนยันตัวตนแล้ว · สมัครงานต่อได้เลย") }
+            // ผ่านทันที = ไปต่อ · ส่งทีมงานตรวจ = ค้างที่ขั้นนี้ให้เห็นการ์ดรอผล (ปุ่มกลายเป็น "ปิดไว้ก่อน")
+            guard flow.isVerified else { return }
+            // ยืนยันตัวตนปิด 8 ข้อพอดี = เป็น STAR แล้ว → motion ก่อน (ปิดจอทึบ) แล้วข้อถัดไป/หน้าถัดไปค่อยโผล่
+            // (เดิมฉลองเฉพาะตอน KYC เป็นข้อสุดท้ายผ่าน `finishWizard` — ทางโปรไฟล์ที่ยังมีที่อยู่/บัญชี/สัดส่วนต่อจึงไม่เคยเล่น)
+            if !wasStar && flow.isStar && kind != .apply && !isLast { onStar() }
+            if !isLast { toast("ยืนยันตัวตนแล้ว · ไปต่อได้เลย") }
             advance()
         }
     }
@@ -378,6 +512,8 @@ private struct WzChannels: View {
     @Binding var insightFor: StarSocial?
     /// false = โชว์เฉพาะช่องที่เชื่อมแล้ว (มาเติมเรท/ข้อมูลผู้ติดตาม ไม่ได้มาเชื่อมช่องใหม่)
     var connectable = true
+    /// ช่องที่กด "เอาออก" — รอยืนยัน "ยกเลิกการผูกบัญชี"
+    @State private var removing: StarSocial?
 
     /// ทุกช่องมีที่ของตัวเองบนหน้า ลำดับคงที่ — ยังไม่เชื่อม = แถวสั้นพร้อมปุ่มเชื่อม · เชื่อมแล้วขยายเป็นการ์ดเต็มตรงที่เดิม (ผู้ใช้ 29 ก.ย. 2569)
     var body: some View {
@@ -385,6 +521,18 @@ private struct WzChannels: View {
             ForEach(StarSocial.allCases) { s in
                 if flow.connected.contains(s) { card(s) } else if connectable { connectRow(s) }
             }
+        }
+        .confirmationDialog("ยกเลิกการผูกบัญชี", isPresented: Binding(get: { removing != nil }, set: { if !$0 { removing = nil } }),
+                            titleVisibility: .visible) {
+            Button("ยืนยัน", role: .destructive) {
+                if let s = removing {
+                    withAnimation(Motion.settle) { _ = flow.connected.remove(s) }
+                    // ไม่มีช่องทาง = ข้อ "ช่องทางของฉัน" กลับเป็นยังไม่มี
+                    if flow.connected.isEmpty { flow.have.subtract([.socials, .rate, .insight]) }
+                }
+                removing = nil
+            }
+            Button("ยกเลิก", role: .cancel) { removing = nil }
         }
     }
 
@@ -417,25 +565,51 @@ private struct WzChannels: View {
         .buttonStyle(.plain)
     }
 
+    /// บน = ยอด + สรุปเรท + ยกเลิกผูกบัญชี (แทน >) · ล่าง = ปรับราคา (ผู้ใช้ 8 ต.ค. 2569 · salehere-ios)
     private func card(_ s: StarSocial) -> some View {
         VStack(spacing: 0) {
-            Button {
-                Haptics.impact(.light)
-                editing = s
-            } label: {
-                HStack(spacing: 12) {
-                    Image(s.icon).resizable().aspectRatio(contentMode: .fit).frame(width: 36, height: 36).clipShape(Circle())
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("\(s.name) · \(StarFlow.fmt(flow.followers(s)))").font(.sh(15, .bold)).foregroundStyle(GL.ink).lineLimit(1)
-                        Text(summary(s)).font(.sh(12.5)).foregroundStyle(PK.muted).lineLimit(1)
+            HStack(spacing: 6) {
+                Button {
+                    Haptics.impact(.light)
+                    editing = s
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(s.icon).resizable().aspectRatio(contentMode: .fit).frame(width: 36, height: 36).clipShape(Circle())
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(s.name) · \(StarFlow.fmt(flow.followers(s)))").font(.sh(15, .bold)).foregroundStyle(GL.ink).lineLimit(1)
+                            Text(summary(s)).font(.sh(12.5)).foregroundStyle(PK.muted).lineLimit(1)
+                        }
+                        Spacer(minLength: 0)
                     }
-                    Spacer(minLength: 6)
-                    PIcon(.caretRight, size: 14).foregroundStyle(PK.hint)
+                    .contentShape(Rectangle())
                 }
-                .padding(.horizontal, 14).padding(.vertical, 12)
-                .contentShape(Rectangle())
+                .buttonStyle(.plain)
+                // ก่อนเป็น STAR ต้องเหลืออย่างน้อย 1 ช่อง · เป็นแล้วเอาออกได้จนหมด — salehere-ios
+                if flow.connected.count > 1 || flow.keepsData {
+                    Button {
+                        Haptics.impact(.light)
+                        removing = s
+                    } label: {
+                        Text("ยกเลิกผูกบัญชี").font(.sh(12, .semibold)).foregroundStyle(PK.muted).underline()
+                            .lineLimit(1).fixedSize()
+                            .padding(.vertical, 4).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                }
             }
-            .buttonStyle(.plain)
+            .padding(.horizontal, 14).padding(.vertical, 12)
+            HStack {
+                Spacer()
+                Button {
+                    Haptics.impact(.light)
+                    editing = s
+                } label: {
+                    Text("ปรับราคา").font(.sh(12.5, .semibold)).foregroundStyle(GL.ink).underline()
+                        .padding(.vertical, 4).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal, 14).padding(.bottom, 8)
             if s.supportsInsight { insightStrip(s) }
         }
         .background(PK.shape(16).fill(.white))
@@ -610,16 +784,7 @@ private struct ChannelSheet: View {
                     }
                     .buttonStyle(.plain)
                     Spacer()
-                    if !isNew && flow.connected.count > 1 {
-                        Button {
-                            Haptics.impact(.light)
-                            flow.connected.remove(s)
-                            done(false)
-                        } label: {
-                            Text("เอาช่องนี้ออก").font(.sh(13, .semibold)).foregroundStyle(PK.muted).padding(.vertical, 8)
-                        }
-                        .buttonStyle(.plain)
-                    }
+                    // เอาช่องออก ย้ายไปลิงก์ "เอาออก" ใต้การ์ดช่อง (salehere-ios)
                 }
                 .padding(.top, 6)
             }
@@ -922,7 +1087,7 @@ private struct InsightPanel: View {
         MediaPicker.present(videos: false, limit: 1) { results in
             guard let r = results.first else { return }
             Task { @MainActor in
-                guard let img = await MediaPicker.image(r) else { failed[id] = "โหลดรูปไม่สำเร็จ ลองเลือกใหม่"; return }
+                guard let img = await MediaPicker.image(r) else { failed[id] = "อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง"; return }
                 failed[id] = nil
                 withAnimation(Motion.snap) { shots[id] = img; reading.insert(id) }
                 let segs = await InsightReader.read(img, slot: slot.key)
@@ -1016,11 +1181,21 @@ private struct WzCategories: View {
 
 private struct WzAbout: View {
     @Environment(StarFlow.self) private var flow
+    @Environment(WzErrors.self) private var errors: WzErrors?
     var minHeight: CGFloat = 120
     @FocusState private var focused: Bool
+    private var error: String? { errors?.map["แนะนำตัว"] }
     var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            editor
+            if let error { WzFieldError(text: error) }
+        }
+        .id("wz:แนะนำตัว")
+        .onChange(of: flow.about) { _, _ in errors?.clear("แนะนำตัว") }
+    }
+    private var editor: some View {
         @Bindable var f = flow
-        TextEditor(text: $f.about)
+        return TextEditor(text: $f.about)
             .font(.sh(17)).foregroundStyle(GL.ink).tint(GL.ink)
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 12).padding(.vertical, 10)
@@ -1034,20 +1209,55 @@ private struct WzAbout: View {
             }
             .frame(minHeight: minHeight)
             .background(PK.shape(16).fill(.white))
-            .overlay(PK.shape(16).strokeBorder(focused ? GL.ink : PK.line, lineWidth: 1))
+            .overlay(PK.shape(16).strokeBorder(error != nil ? PK.red : focused ? GL.ink : PK.line, lineWidth: error != nil ? 1.5 : 1))
             .focused($focused)
     }
 }
 
+/// ขั้นยืนยันตัวตนใน wizard — 4 สถานะ (ผ่าน · รอตรวจ · ตีกลับ · ยังไม่ทำ) รอตรวจ/ตีกลับใช้ `KycHeroCard` ชุดเดียวกับหน้าสถานะ
 private struct WzKyc: View {
     @Environment(StarFlow.self) private var flow
     let start: () -> Void
+    let toast: (String) -> Void
+    /// ยกเลิกคำขอ: แตะครั้งแรก = ขอยืนยัน · ครั้งที่สอง = ยกเลิกจริง (แบบเดียวกับหน้าสถานะ — salehere-ios)
+    @State private var confirmCancel = false
     var body: some View {
         switch flow.verify {
         case .approved:
             row(icon: .check, on: true, title: "Verified by Sale Here", sub: "ขึ้นป้ายบนการ์ดแล้ว")
-        case .waiting:
-            row(icon: .clock, on: false, title: "กำลังตรวจข้อมูล", sub: "เราจะแจ้งเตือนเมื่อผ่าน · ระหว่างนี้สมัครงานได้ตามปกติ")
+        case .waiting, .rejected:
+            // UI เดียวกับหน้าสถานะ (ผู้ใช้ 6 ต.ค. 2569) — หัวข้อ/ชิปอยู่ที่ heading/lines ของ wizard
+            VStack(spacing: 12) {
+                KycHeroCard(waiting: flow.verify == .waiting, reason: flow.verifyReason)
+                if flow.verify == .rejected {
+                    Button { Haptics.impact(.medium); start() } label: {
+                        Text("ส่งยืนยันตัวตนใหม่").font(.sh(15, .bold)).foregroundStyle(.white)
+                            .frame(maxWidth: .infinity).frame(height: 48)
+                            .background(PK.shape(14).fill(GL.ink))
+                    }
+                    .buttonStyle(.plain)
+                } else {
+                    Button {
+                        Haptics.impact(.light)
+                        guard confirmCancel else { withAnimation(Motion.snap) { confirmCancel = true }; return }
+                        confirmCancel = false
+                        flow.verify = .none; flow.kycSentAt = nil
+                        toast("ยกเลิกการส่งข้อมูลแล้ว")
+                    } label: {
+                        Text(confirmCancel ? "แตะอีกครั้งเพื่อยกเลิกคำขอ · ต้องถ่ายใหม่ทั้งหมด" : "ยกเลิกคำขอยืนยันตัวตน")
+                            .font(.sh(13, .semibold)).foregroundStyle(confirmCancel ? PK.red : PK.muted)
+                            .frame(maxWidth: .infinity).frame(height: 30)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    // Lab ทดสอบ: จำลองผลจาก staff ระหว่างรอ (salehere-ios Dev/SIT)
+                    Button { Haptics.impact(.light); start() } label: {
+                        Text("Lab · เลือกผลยืนยันตัวตน").font(.sh(12.5, .semibold)).foregroundStyle(PK.hint).underline()
+                            .frame(maxWidth: .infinity).frame(height: 28)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
         case .none:
             Button {
                 Haptics.impact(.medium)
@@ -1105,27 +1315,29 @@ private struct RateInput: View {
 }
 
 /// ยอดนิยมขึ้นก่อน · ที่เหลือคือ 77 จังหวัดเรียง ก–ฮ (จาก `IntakeCatalog.provinces`)
-private let popularProvinces = ["กรุงเทพมหานคร", "ทุกจังหวัด (งานออนไลน์)", "นนทบุรี", "ปทุมธานี", "สมุทรปราการ",
-                                "ชลบุรี", "เชียงใหม่", "ภูเก็ต", "ขอนแก่น"]
-/// ชื่อเล่นที่คนพิมพ์หา — "โคราช" ต้องเจอนครราชสีมา
 private let provinceAlias = ["กรุงเทพมหานคร": "กทม กรุงเทพ bangkok bkk", "นครราชสีมา": "โคราช",
-                             "พระนครศรีอยุธยา": "อยุธยา", "ทุกจังหวัด (งานออนไลน์)": "ออนไลน์ online",
+                             "พระนครศรีอยุธยา": "อยุธยา",
                              "ภูเก็ต": "phuket", "เชียงใหม่": "chiang mai", "ชลบุรี": "พัทยา pattaya"]
 
+/// จังหวัดที่สะดวกรับงาน = หน้า CreatorProfileAvailabilityProvince ของ salehere-ios ตัวต่อตัว (ผู้ใช้ 6 ต.ค. 2569: "เอา ยอดนิยมออก และ ใช้ UI แบบเดิม")
+/// ช่องค้นหา · บรรทัด "เลือกแล้ว N จังหวัด" · ชิป 44pt ขอบกลม ไอคอน ⊕ / ✓แดง ตัวแดงเมื่อเลือก · จางเมื่อครบ 3 · ไม่มีหมวดยอดนิยม รายการเดียวเรียงตามตัวอักษร
 private struct WzProvince: View {
     @Environment(StarFlow.self) private var flow
     @State private var query = ""
     @FocusState private var focused: Bool
+    private static let max = 3
 
     private var q: String { query.trimmingCharacters(in: .whitespaces).lowercased() }
     private func hit(_ p: String) -> Bool { q.isEmpty || (p + " " + (provinceAlias[p] ?? "")).lowercased().contains(q) }
 
     var body: some View {
+        let found = IntakeCatalog.provinces.filter(hit)
         VStack(alignment: .leading, spacing: 0) {
+            // ช่องค้นหา (= searchView: radius 10 · ขอบ Gray300 · placeholder "ค้นหาจังหวัด" 14 medium · clear button)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass").font(.system(size: 16, weight: .semibold)).foregroundStyle(PK.hint)
-                TextField("", text: $query, prompt: Text("ค้นหาจังหวัด").foregroundStyle(PK.hint.opacity(0.8)))
-                    .font(.sh(16)).foregroundStyle(GL.ink).tint(GL.ink)
+                TextField("", text: $query, prompt: Text("ค้นหาจังหวัด").foregroundStyle(PK.hint))
+                    .font(.sh(14, .medium)).foregroundStyle(GL.ink).tint(GL.ink)
                     .focused($focused).submitLabel(.done)
                 if !query.isEmpty {
                     Button { query = "" } label: {
@@ -1133,55 +1345,74 @@ private struct WzProvince: View {
                     }.buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 16).frame(height: 48)
-            .background(PK.shape(16).fill(.white))
-            .overlay(PK.shape(16).strokeBorder(focused ? GL.ink : PK.line, lineWidth: 1))
+            .padding(.horizontal, 14).frame(height: 44)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white))
+            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(focused ? GL.ink : PK.line2, lineWidth: 1))
             .contentShape(Rectangle())
             .onTapGesture { focused = true }
 
-            if q.isEmpty {
-                section("ยอดนิยม", popularProvinces)
-                section("ทั้งหมด 77 จังหวัด", IntakeCatalog.provinces.filter { !popularProvinces.contains($0) })
+            // (= categoriesHeaderTitle: "เลือกแล้ว %@ จังหวัด" 16 semibold)
+            Text("เลือกแล้ว \(flow.provinces.count) จังหวัด").font(.sh(16, .semibold)).foregroundStyle(GL.ink)
+                .padding(.top, 16).padding(.bottom, 12)
+
+            if found.isEmpty {
+                // (= emptyContentView)
+                Text("ไม่พบข้อมูลการค้นหา \"\(query)\"").font(.sh(14)).foregroundStyle(PK.hint)
+                    .frame(maxWidth: .infinity).padding(.vertical, 24)
             } else {
-                let found = IntakeCatalog.provinces.filter(hit)
-                if found.isEmpty {
-                    Text("ไม่พบจังหวัดนี้").font(.sh(14)).foregroundStyle(PK.hint)
-                        .frame(maxWidth: .infinity).padding(.vertical, 20)
-                } else {
-                    chips(found).padding(.top, 12)
-                }
-            }
-        }
-        .animation(Motion.snap, value: q.isEmpty)
-    }
-
-    private func section(_ title: String, _ list: [String]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.sh(12.5, .bold)).foregroundStyle(PK.hint)
-            chips(list)
-        }
-        .padding(.top, 14)
-    }
-
-    private func chips(_ list: [String]) -> some View {
-        PKWrap(spacing: 8) {
-            ForEach(list, id: \.self) { p in
-                let on = flow.provinces.contains(p)
-                WzChip(text: p, on: on) {
-                    if on { flow.provinces.removeAll { $0 == p } }
-                    else if flow.provinces.count < 3 { flow.provinces.append(p) }
-                    else { Haptics.rigid() }
+                PKWrap(spacing: 12) {
+                    ForEach(found, id: \.self) { p in
+                        let on = flow.provinces.contains(p)
+                        ProvinceChip(title: p, on: on, disabled: !on && flow.provinces.count >= Self.max) {
+                            if on { flow.provinces.removeAll { $0 == p } }
+                            else if flow.provinces.count < Self.max { flow.provinces.append(p) }
+                            else { Haptics.rigid() }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+/// = ProvinceOptionViewCell ของ salehere-ios: 44pt · radius 22 · ขอบ Gray200 · ไอคอน 20 (ic-plusCircle-outline / ic-checkCircle-red) + ชื่อ 14 medium Gray600
+/// เลือก = ตัวแดง ขอบแดง ✓แดง · ครบจำนวน = ตัว/ไอคอน Gray300 ขอบ Gray50
+private struct ProvinceChip: View {
+    let title: String
+    let on: Bool
+    let disabled: Bool
+    let action: () -> Void
+    private static let gray600 = Color(red: 102 / 255, green: 102 / 255, blue: 102 / 255)
+    private static let gray300 = Color(red: 209 / 255, green: 213 / 255, blue: 219 / 255)
+    private static let gray200 = Color(red: 229 / 255, green: 231 / 255, blue: 235 / 255)
+    private static let gray50 = Color(red: 243 / 255, green: 244 / 255, blue: 246 / 255)
+
+    var body: some View {
+        let ink: Color = on ? SH.red : disabled ? Self.gray300 : Self.gray600
+        Button {
+            Haptics.impact(.light)
+            action()
+        } label: {
+            HStack(spacing: 6) {
+                PIcon(on ? .checkCircle : .plusCircle, size: 20, weight: on ? .fill : .regular).foregroundStyle(ink)
+                Text(title).font(.sh(14, .medium)).foregroundStyle(ink).lineLimit(1)
+            }
+            .padding(.horizontal, 12).frame(height: 44)
+            .background(Capsule().fill(.white))
+            .overlay(Capsule().strokeBorder(on ? SH.red : disabled ? Self.gray50 : Self.gray200, lineWidth: 1))
+            .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .animation(Motion.snap, value: on)
+    }
+}
+
 /// 7 วัน + ชิปช่วงเวลา — แตะวัน = เลือกวันที่กำลังตั้ง · ติ๊กช่วงเวลา = เปลี่ยนเฉพาะวันนั้น (ผู้ใช้ 2 ต.ค. 2569)
-/// วงดำ = วันที่กำลังตั้ง · วงเทาขอบดำ = มีช่วงแล้ว · จุด 3 จุดใต้วง = เช้า/บ่าย/เย็นของวันนั้น
+/// วงดำ = วันที่กำลังตั้ง · วงเทาขอบดำ = มีช่วงแล้ว · จุด 4 จุดใต้วง = 4 ช่วงนาฬิกาของวันนั้น (ช่วงเดียวกับหน้า "วันและเวลาที่สะดวกรับงาน" ของ salehere-ios)
 private struct WzAvailability: View {
     @Environment(StarFlow.self) private var flow
-    @State private var day = "จ"
+    /// วันที่เลือกอยู่ — จำข้ามการกดย้อน/ถัดไป (salehere-ios เก็บใน presenter)
+    @AppStorage("starflow.availDay") private var day = "จ"
     private let days = IntakeCatalog.weekShort
     private let slots = StarFlow.daySlots
     private static let full = ["จ": "จันทร์", "อ": "อังคาร", "พ": "พุธ", "พฤ": "พฤหัสฯ", "ศ": "ศุกร์", "ส": "เสาร์", "อา": "อาทิตย์"]
@@ -1223,7 +1454,7 @@ private struct WzAvailability: View {
                 .padding(.top, 14).padding(.bottom, 8)
             PKWrap(spacing: 8) {
                 ForEach(slots, id: \.self) { t in
-                    WzChip(text: t, on: cur.contains(t)) {
+                    WzChip(text: StarFlow.slotLabel(t), on: cur.contains(t)) {
                         setCur(cur.contains(t) ? cur.filter { $0 != t } : cur + [t])
                     }
                 }
@@ -1245,7 +1476,215 @@ private struct WzContact: View {
             WzInput(label: "เบอร์โทร", text: $f.phone, placeholder: "08x-xxx-xxxx", keyboard: .phonePad, digits: 10)
             WzInput(label: "เว็บไซต์ · ไม่บังคับ", text: $f.website, placeholder: "yourname.com", keyboard: .URL)
         }
-        .onAppear { if flow.phone.isEmpty, !flow.addressInfo.tel.isEmpty { flow.phone = flow.addressInfo.tel } }
+        // เติมให้ล่วงหน้าเมื่อยังว่าง (salehere-ios): เบอร์จากบัญชี → ไม่มีเอาจากที่อยู่รับของ · LINE จากบัญชี · ต้องผ่าน format ก่อน ไม่ผ่านเว้นว่าง
+        // แค่เติมให้ ยังไม่นับว่าครบจนกว่าจะกดถัดไป
+        .onAppear {
+            if flow.phone.isEmpty, let t = StarFlow.prefillPhone(SHMockUser.accountTel) ?? StarFlow.prefillPhone(flow.addressInfo.tel) { flow.phone = t }
+            if flow.lineID.isEmpty, StarFlow.validLine(SHMockUser.accountLine) { flow.lineID = SHMockUser.accountLine }
+        }
+    }
+}
+
+/// สัดส่วน = หน้า "สัดส่วน" ของ salehere-ios (CreatorBodyFormPage) ตัวต่อตัว: 6 ช่อง 2 คอลัมน์ · แตะช่อง = wheel picker ค่า + หน่วยของช่องนั้น
+/// แต่ละช่องมีหน่วยของตัวเอง (รอบอก/เอว/สะโพก นิ้วหรือซม. · รองเท้า EU ครึ่งเบอร์) — ผู้ใช้ 6 ต.ค. 2569: "แต่ละอันมันมี unit ของตัวเอง ลองดูใน salehere-ios"
+/// (ก่อนหน้า: ปุ่มสลับในช่อง → "ux ไม่ดี" · segmented ชุดเดียว → ไม่ตรงแอปหลัก)
+private struct WzBody: View {
+    @Environment(StarFlow.self) private var flow
+    @Environment(WzErrors.self) private var errors: WzErrors?
+    @Binding var pick: BodyField?
+    @State private var guide = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) { cell(.weight); cell(.height) }
+            HStack(spacing: 10) { cell(.chest); cell(.waist) }
+            HStack(spacing: 10) { cell(.hip); cell(.shoe) }
+            Button {
+                Haptics.impact(.light)
+                withAnimation(Motion.snap) { guide.toggle() }
+            } label: {
+                HStack(spacing: 4) {
+                    Text("วิธีการวัดขนาด").font(.sh(13.5, .bold))
+                    PIcon(.info, size: 15)
+                }
+                .foregroundStyle(SH.blue)
+                .frame(height: 32)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            if guide {
+                Image("ic-body-Info")
+                    .resizable().scaledToFit()
+                    .padding(14)
+                    .background(PK.shape(16).fill(.white))
+                    .overlay(PK.shape(16).strokeBorder(PK.line, lineWidth: 1))
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+    }
+
+    /// ช่องอ่านอย่างเดียว หน้าตาเดียวกับ `WzInput` — แตะแล้วเปิด wheel (แอปหลัก: BaseInputTextFieldView disabled + onTapGesture)
+    private func cell(_ f: BodyField) -> some View {
+        let value = f.value(in: flow.bodyInfo), error = errors?.map[f.label]
+        return VStack(alignment: .leading, spacing: 5) {
+        Button {
+            Haptics.impact(.light)
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            pick = f
+        } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(f.label).font(.sh(11.5, .semibold)).foregroundStyle(PK.hint)
+                HStack(spacing: 6) {
+                    Text(value.isEmpty ? f.placeholder : value).font(.sh(17))
+                        .foregroundStyle(value.isEmpty ? PK.hint.opacity(0.7) : GL.ink)
+                    Spacer(minLength: 0)
+                    Text(f.unit(in: flow.bodyInfo)).font(.sh(15, .semibold)).foregroundStyle(PK.hint)
+                }
+                .frame(height: 30)
+            }
+            .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 6)
+            .background(PK.shape(16).fill(.white))
+            .overlay(PK.shape(16).strokeBorder(error != nil ? PK.red : pick == f ? GL.ink : PK.line, lineWidth: error != nil ? 1.5 : 1))
+            .contentShape(PK.shape(16))
+        }
+        .buttonStyle(.plain)
+            if let error { WzFieldError(text: error) }
+        }
+        .id("wz:" + f.label)
+        .onChange(of: value) { _, _ in errors?.clear(f.label) }
+    }
+}
+
+/// ช่องสัดส่วน + ช่วงค่าและหน่วยของ wheel (= `inputFields` ใน CreatorBodyFormPageMainPresenter ของ salehere-ios)
+enum BodyField: String, CaseIterable, Identifiable {
+    case weight, height, chest, waist, hip, shoe
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .weight: return "น้ำหนัก"
+        case .height: return "ส่วนสูง"
+        case .chest: return "รอบอก"
+        case .waist: return "รอบเอว"
+        case .hip: return "สะโพก"
+        case .shoe: return "ขนาดรองเท้า"
+        }
+    }
+    /// หัว sheet = PROFILE_CREATOR_*_PICKER_TITLE
+    var title: String { self == .height ? "เลือกส่วนสูง" : self == .weight ? "เลือกน้ำหนัก" : "เลือก\(label)" }
+    var placeholder: String { "ระบุ\(label)" }
+    /// ช่วงตัวเลขบนวงล้อ (ค่าเดียวกับแอปหลัก)
+    var range: ClosedRange<Int> {
+        switch self {
+        case .weight: return 0...200
+        case .height: return 50...250
+        case .chest, .waist, .hip: return 20...150
+        case .shoe: return 10...60
+        }
+    }
+    var defaultValue: Int {
+        switch self {
+        case .weight: return 50
+        case .height: return 150
+        case .chest, .hip: return 32
+        case .waist: return 28
+        case .shoe: return 37
+        }
+    }
+    /// หน่วยที่เลือกได้ของช่องนี้ — รอบตัวเลือกได้ นอกนั้นคงที่
+    var units: [String] {
+        switch self {
+        case .weight: return ["กก."]
+        case .height: return [StarBody.cm]
+        case .chest, .waist, .hip: return StarBody.girthUnits
+        case .shoe: return ["EU"]
+        }
+    }
+    var isGirth: Bool { units.count > 1 }
+    func value(in b: StarBody) -> String {
+        switch self {
+        case .weight: return b.weight
+        case .height: return b.height
+        case .chest: return b.chest
+        case .waist: return b.waist
+        case .hip: return b.hip
+        case .shoe: return b.shoe
+        }
+    }
+    func unit(in b: StarBody) -> String {
+        switch self {
+        case .chest: return b.chestUnit
+        case .waist: return b.waistUnit
+        case .hip: return b.hipUnit
+        default: return units[0]
+        }
+    }
+    func write(_ value: String, unit: String, to b: inout StarBody) {
+        switch self {
+        case .weight: b.weight = value
+        case .height: b.height = value
+        case .chest: b.chest = value; b.chestUnit = unit
+        case .waist: b.waist = value; b.waistUnit = unit
+        case .hip: b.hip = value; b.hipUnit = unit
+        case .shoe: b.shoe = value
+        }
+    }
+}
+
+/// วงล้อเลือกค่า + หน่วย ของช่องเดียว (= MultiWheelPickerModal ของ salehere-ios: หัวข้อ · วงล้อเรียงกัน · ปุ่มตกลง) · รองเท้ามีวงล้อ .0/.5 เพิ่ม
+private struct BodyWheelSheet: View {
+    @Environment(StarFlow.self) private var flow
+    let field: BodyField
+    let done: () -> Void
+    @State private var whole = 0
+    @State private var half = 0
+    @State private var unit = ""
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(field.title).font(.sh(18, .heavy)).foregroundStyle(GL.ink)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 4)
+            HStack(spacing: 0) {
+                Picker("", selection: $whole) {
+                    ForEach(Array(field.range), id: \.self) { Text(String($0)).font(.sh(18, .semibold)).tag($0) }
+                }
+                .pickerStyle(.wheel).frame(maxWidth: .infinity).clipped()
+                if field == .shoe {
+                    Picker("", selection: $half) {
+                        Text(".0").font(.sh(18, .semibold)).tag(0)
+                        Text(".5").font(.sh(18, .semibold)).tag(5)
+                    }
+                    .pickerStyle(.wheel).frame(width: 80).clipped()
+                }
+                // วงล้อหน่วยเฉพาะรอบอก/เอว/สะโพก · น้ำหนัก ส่วนสูง รองเท้า = ป้ายหน่วยคงที่ (salehere-ios `WzBottomPanel`)
+                if field.isGirth {
+                    Picker("", selection: $unit) {
+                        ForEach(field.units, id: \.self) { Text($0).font(.sh(18, .semibold)).tag($0) }
+                    }
+                    .pickerStyle(.wheel).frame(width: 110).clipped()
+                } else {
+                    Text(field.units[0]).font(.sh(18, .semibold)).foregroundStyle(GL.ink).frame(width: 110)
+                }
+            }
+            .frame(height: 190)
+            PKPrimaryButton(title: "ตกลง") {
+                var b = flow.bodyInfo
+                let text = field == .shoe && half == 5 ? "\(whole).5" : String(whole)
+                field.write(text, unit: unit, to: &b)
+                flow.bodyInfo = b
+                Haptics.impact(.light)
+                done()
+            }
+            .padding(.top, 8)
+        }
+        .onAppear {
+            let b = flow.bodyInfo
+            let cur = field.value(in: b)
+            let parts = cur.split(separator: ".")
+            whole = parts.first.flatMap { Int($0) } ?? field.defaultValue
+            half = parts.count > 1 && parts[1].hasPrefix("5") ? 5 : 0
+            unit = field.unit(in: b)
+        }
     }
 }
 
@@ -1255,11 +1694,22 @@ private struct WzAddress: View {
         @Bindable var f = flow
         VStack(spacing: 10) {
             WzInput(label: "ชื่อ–นามสกุล", text: $f.addressInfo.name)
-            WzInput(label: "เบอร์โทรศัพท์", text: $f.addressInfo.tel, keyboard: .phonePad)
+            WzInput(label: "เบอร์โทรศัพท์", text: $f.addressInfo.tel, keyboard: .phonePad, digits: 10)
             WzInput(label: "ที่อยู่", text: $f.addressInfo.address, placeholder: "เลขที่ อาคาร ซอย ถนน")
             HStack(spacing: 10) {
-                WzInput(label: "รหัสไปรษณีย์", text: $f.addressInfo.zip, keyboard: .numberPad, digits: 5)
-                WzInput(label: "ตำบล/แขวง", text: $f.addressInfo.sub, select: true)
+                WzInput(label: "รหัสไปรษณีย์", text: Binding(get: { flow.addressInfo.zip }, set: { z in
+                    guard z != flow.addressInfo.zip else { return }
+                    flow.addressInfo.zip = z; flow.addressInfo.sub = ""; flow.addressInfo.district = ""; flow.addressInfo.province = ""
+                }), keyboard: .numberPad, digits: 5)
+                // ตำบลจาก `ZipBook` (= `getSubDistricts`) → อำเภอ/จังหวัดเติมให้ (= `getDistrictProvince`) ชุดเดียวกับฟอร์มสมัคร
+                WzInput(label: "ตำบล/แขวง", text: Binding(get: { flow.addressInfo.sub }, set: { s in
+                    flow.addressInfo.sub = s
+                    if let p = ZipBook.place(flow.addressInfo.zip, s) { flow.addressInfo.district = p.district; flow.addressInfo.province = p.province }
+                }), select: true, options: ZipBook.subs(flow.addressInfo.zip))
+            }
+            HStack(spacing: 10) {
+                WzInput(label: "อำเภอ/เขต", text: $f.addressInfo.district)
+                WzInput(label: "จังหวัด", text: $f.addressInfo.province)
             }
         }
     }
@@ -1287,33 +1737,13 @@ private struct WzBank: View {
                 WzInput(label: "เลขประจำตัวผู้เสียภาษี (13 หลัก)", text: $f.bankInfo.taxID, placeholder: "0xxxxxxxxxxxx", keyboard: .numberPad, digits: 13)
                 WzInput(label: "สำนักงานใหญ่ / สาขา", text: $f.bankInfo.branch, select: true, options: ["สำนักงานใหญ่", "สาขา"])
                 WzInput(label: "ที่อยู่ตามหนังสือรับรอง", text: $f.bankInfo.address, placeholder: "เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์")
-                WzInput(label: "ชื่อกรรมการผู้มีอำนาจลงนาม", text: $f.bankInfo.signer, placeholder: "ชื่อ–นามสกุล ตามหนังสือรับรอง")
+                // ชื่อกรรมการผู้มีอำนาจลงนาม ตัดออก 6 ต.ค. 2569 — `CampaignPayoutSubmit` ไม่มีช่อง (OCR อ่านจากหนังสือรับรองแทน)
                 WzInput(label: "จดทะเบียน VAT หรือไม่", text: $f.bankInfo.vat, select: true, options: ["จดทะเบียน VAT", "ไม่ได้จดทะเบียน VAT"])
             }
             WzInput(label: "ธนาคาร", text: $f.bankInfo.bank, select: true, options: StarBank.banks)
             WzInput(label: "เลขที่บัญชี", text: $f.bankInfo.no, placeholder: "xxxxxxxxxx", keyboard: .numberPad, digits: 15)
             WzInput(label: "ชื่อบัญชี", text: $f.bankInfo.name, placeholder: company ? "ตามชื่อนิติบุคคล" : "ตามหน้าสมุดบัญชี")
-            if !company {
-                HStack(spacing: 4) {
-                    PIcon(.checkCircle, size: 14, weight: .fill)
-                    Text("ชื่อตรงกับบัตรที่ยืนยันแล้ว").font(.sh(12.5, .semibold))
-                }
-                .foregroundStyle(GL.green)
-            }
-            Button {
-                Haptics.impact(.light)
-                withAnimation(Motion.snap) { flow.bankInfo.shot.toggle() }
-            } label: {
-                HStack(spacing: 8) {
-                    PIcon(flow.bankInfo.shot ? .check : .camera, size: 22).foregroundStyle(GL.ink)
-                    Text(flow.bankInfo.shot ? "แนบหน้าสมุดบัญชีแล้ว" : (company ? "ถ่ายหน้าสมุดบัญชีบริษัท" : "ถ่ายหน้าสมุดบัญชี")).font(.sh(15, .bold)).foregroundStyle(GL.ink)
-                }
-                .frame(maxWidth: .infinity).frame(height: 88)
-                .background(PK.shape(16).fill(flow.bankInfo.shot ? PK.pick : .white))
-                .overlay(PK.shape(16).strokeBorder(flow.bankInfo.shot ? GL.ink : PK.line2, style: StrokeStyle(lineWidth: 1.5, dash: flow.bankInfo.shot ? [] : [6, 4])))
-                .contentShape(PK.shape(16))
-            }
-            .buttonStyle(.plain)
+            // ไม่มีบรรทัด "ชื่อตรงกับบัตร" และปุ่มถ่ายสมุดบัญชี (salehere-ios ไม่มี — ฟอร์ม payout เดิมขอเอกสารตอนจ่ายจริง)
             Text(company ? "ขอทีหลัง: หนังสือรับรองบริษัท (ไม่เกิน 6 เดือน) · ภ.พ.20 ถ้าจด VAT" : "ขอทีหลัง: สำเนาบัตรประชาชน เซ็นรับรองสำเนาถูกต้อง")
                 .font(.sh(11.5)).foregroundStyle(PK.hint)
         }
@@ -1461,18 +1891,21 @@ private struct WzKind: View {
 private struct WzMediaAll: View {
     let onError: (String) -> Void
     private var folio: Portfolio { Portfolio.shared }
-    /// ส่วนที่ยังไม่ถึงขั้นต่ำตอนเปิดหน้า — เติมต่อเห็นแค่ส่วนที่ขาด · ครบหมดแล้ว (มาแก้) = เห็นทุกส่วน
-    /// จำไว้ตอนเปิด ไม่ใช่สด ๆ — ใส่ครบแล้วส่วนนั้นไม่หายไปต่อหน้า
-    @State private var shown: Set<WzMedia.Kind>
+    /// โชว์ครบ 3 หมวดเสมอ — หมวดที่ครบมีติ๊กเขียว ห้ามซ่อน (salehere-ios STAR-FLOW-RULES ข้อ 4)
+    private let shown: Set<WzMedia.Kind> = [.photos, .works, .videos]
+    @Environment(PhotoStore.self) private var photos: PhotoStore?
 
-    init(onError: @escaping (String) -> Void) {
-        self.onError = onError
+    /// หมวดที่ยังไม่ถึงขั้นต่ำ → (คีย์หมวด, "1 คลิป") · error ขึ้นใต้หมวดนั้น (คีย์ "media:videos")
+    static func lack() -> [(kind: String, text: String)] {
         let f = Portfolio.shared
-        var lack: Set<WzMedia.Kind> = []
-        if f.creatorImages.count < StarFlow.minPhotos { lack.insert(.photos) }
-        if f.works.count < StarFlow.minWorks { lack.insert(.works) }
-        if f.videos.count < StarFlow.minVideos { lack.insert(.videos) }
-        _shown = State(initialValue: lack.isEmpty ? [.photos, .works, .videos] : lack)
+        return [("photos", f.creatorImages.count, StarFlow.minPhotos, "รูป"), ("works", f.works.count, StarFlow.minWorks, "รูป"), ("videos", f.videos.count, StarFlow.minVideos, "คลิป")]
+            .filter { $0.1 < $0.2 }.map { (kind: $0.0, text: "\($0.2 - $0.1) \($0.3)") }
+    }
+    @Environment(WzErrors.self) private var errors: WzErrors?
+    /// error ของหมวด — โชว์เฉพาะตอนยังขาดจริง (ใส่ครบแล้วหายเอง)
+    private func sectionError(_ kind: String) -> String? {
+        guard errors?.map["media:" + kind] != nil, let l = Self.lack().first(where: { $0.kind == kind }) else { return nil }
+        return "ยังขาด " + l.text
     }
 
     /// ข้อที่ยังไม่ถึงขั้นต่ำ (nil = ครบ) — ข้อความบอกว่าขาดอะไรเท่าไร
@@ -1488,25 +1921,33 @@ private struct WzMediaAll: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
             if shown.contains(.photos) {
-                section("รูปของคุณ", have: folio.creatorImages.count, min: StarFlow.minPhotos, note: nil) {
+                section("รูปของคุณ", key: "photos", have: folio.creatorImages.count, min: StarFlow.minPhotos, note: "\(StarFlow.minPhotos)–\(Portfolio.creatorSlots) รูป") {
                     WzMedia(kind: .photos, onError: onError)
                 }
             }
             if shown.contains(.works) {
-                section("รูปผลงาน", have: folio.works.count, min: StarFlow.minWorks, note: "อย่างน้อย \(StarFlow.minWorks)") {
+                section("รูปผลงาน", key: "works", have: folio.works.count, min: StarFlow.minWorks, note: "\(StarFlow.minWorks)–\(Portfolio.workMax) รูป") {
                     WzMedia(kind: .works, onError: onError)
                 }
             }
             if shown.contains(.videos) {
-                section("วิดีโอผลงาน", have: folio.videos.count, min: StarFlow.minVideos, note: "อย่างน้อย \(StarFlow.minVideos) · ไฟล์ละไม่เกิน \(Portfolio.videoMaxMB) MB") {
+                section("วิดีโอผลงาน", key: "videos", have: folio.videos.count, min: StarFlow.minVideos, note: "\(StarFlow.minVideos)–\(Portfolio.videoMax) คลิป") {
                     WzMedia(kind: .videos, onError: onError)
                 }
             }
+            if StarFlow.shared.keepsData {
+                Text("เป็น STAR แล้ว เปลี่ยนได้ ลบไม่ได้").font(.sh(12.5)).foregroundStyle(PK.hint)
+            }
+        }
+        // ช่องรูปที่ 1 ใช้รูปโปรไฟล์ให้ (salehere-ios) — ยังไม่มีรูปของคุณเลยเท่านั้น
+        .onAppear {
+            if folio.creatorImages.isEmpty, let p = photos?.profile { folio.setCreator(p, at: 0) }
         }
     }
 
-    private func section<C: View>(_ title: String, have: Int, min: Int, note: String?, @ViewBuilder _ content: () -> C) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+    private func section<C: View>(_ title: String, key: String, have: Int, min: Int, note: String?, @ViewBuilder _ content: () -> C) -> some View {
+        let error = sectionError(key)
+        return VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 6) {
                 Text(title).font(.sh(15, .bold)).foregroundStyle(GL.ink)
                 if let note { Text(note).font(.sh(12)).foregroundStyle(PK.hint).lineLimit(1) }
@@ -1514,11 +1955,14 @@ private struct WzMediaAll: View {
                 if have >= min {
                     PIcon(.checkCircle, size: 16, weight: .fill).foregroundStyle(GL.green)
                 } else {
-                    Text("\(have)/\(min)").font(.sh(12.5, .bold)).monospacedDigit().foregroundStyle(PK.hint)
+                    Text("\(have)/\(min)").font(.sh(12.5, .bold)).monospacedDigit().foregroundStyle(error != nil ? PK.red : PK.hint)
                 }
             }
             content()
+            if let error { WzFieldError(text: error) }
         }
+        .id("wz:media:" + key)
+        .animation(Motion.snap, value: error)
     }
 }
 //
@@ -1530,9 +1974,16 @@ private struct WzMedia: View {
     let onError: (String) -> Void
 
     private var folio: Portfolio { Portfolio.shared }
+    /// เป็น STAR แล้ว = ปุ่มมุมเป็น "เปลี่ยน" (เลือกไฟล์ใหม่มาแทนช่องเดิม) ไม่มีลบ
+    private var swaps: Bool { StarFlow.shared.keepsData }
+    @Environment(WzErrors.self) private var errors: WzErrors?
+    private var key: String { kind == .photos ? "photos" : kind == .works ? "works" : "videos" }
+    private var minimum: Int { kind == .photos ? StarFlow.minPhotos : kind == .works ? StarFlow.minWorks : StarFlow.minVideos }
     @State private var importing = 0
     @State private var removal: Removal?
     @State private var playing: Portfolio.Video?
+    /// ช่องที่กำลังโหลดไฟล์ใหม่มาแทน
+    @State private var swapping: String?
 
     private enum Removal: Identifiable {
         case creator(Int), work(UUID), video(UUID)
@@ -1546,6 +1997,8 @@ private struct WzMedia: View {
     }
 
     private var grid: [GridItem] { Array(repeating: GridItem(.flexible(), spacing: 10), count: 3) }
+    /// รูปของคุณ + รูปผลงาน = 3:4 แนวตั้ง (ผู้ใช้ 7 ต.ค. 2569 · ตรงกับช่องรูปบนการ์ด) · คลิปยังจัตุรัส
+    private var ratio: CGFloat { kind == .videos ? 1 : 3 / 4 }
     private var max: Int { kind == .photos ? Portfolio.creatorSlots : kind == .works ? Portfolio.workMax : Portfolio.videoMax }
     private var have: Int { kind == .photos ? folio.creatorImages.count : kind == .works ? folio.works.count : folio.videos.count }
     private var left: Int { Swift.max(0, max - have - importing) }
@@ -1557,24 +2010,25 @@ private struct WzMedia: View {
                 case .photos:
                     ForEach(0..<Portfolio.creatorSlots, id: \.self) { i in
                         if let img = folio.creators[i] {
-                            MediaTile(image: img, ratio: 1, onTap: {},
-                                      onRemove: { removal = .creator(i) })
+                            // แตะช่อง = เลือกรูปใหม่มาแทน · ไม่มีปุ่มมุม (salehere-ios)
+                            MediaTile(image: img, ratio: ratio, loading: swapping == "c\(i)", onTap: { replace(.creator(i)) },
+                                      onRemove: {}, swaps: swaps, showsCorner: false)
                         } else if folio.creators.prefix(i).filter({ $0 == nil }).count < importing {
-                            PendingTile(ratio: 1)
+                            PendingTile(ratio: ratio)
                         } else {
                             adder("รูปที่ \(i + 1)")
                         }
                     }
                 case .works:
                     ForEach(folio.works) { w in
-                        MediaTile(image: w.image, ratio: 1, onTap: {}, onRemove: { removal = .work(w.id) })
+                        MediaTile(image: w.image, ratio: ratio, loading: swapping == "w\(w.id)", onTap: {}, onRemove: { corner(.work(w.id)) }, swaps: swaps)
                     }
-                    ForEach(0..<importing, id: \.self) { _ in PendingTile(ratio: 1) }
+                    ForEach(0..<importing, id: \.self) { _ in PendingTile(ratio: ratio) }
                     if left > 0 { adder("เพิ่มรูป") }
                 case .videos:
                     ForEach(folio.videos) { v in
-                        MediaTile(image: v.thumb, duration: v.duration, ratio: 1, onTap: { playing = v },
-                                  onRemove: { removal = .video(v.id) })
+                        MediaTile(image: v.thumb, duration: v.duration, ratio: 1, loading: swapping == "v\(v.id)", onTap: { playing = v },
+                                  onRemove: { corner(.video(v.id)) }, swaps: swaps)
                     }
                     ForEach(0..<importing, id: \.self) { _ in PendingTile(ratio: 1) }
                     if left > 0 { adder("เพิ่มคลิป") }
@@ -1599,11 +2053,46 @@ private struct WzMedia: View {
         .fullScreenCover(item: $playing) { v in VideoSheet(url: v.file) { playing = nil } }
     }
 
+    /// ปุ่มมุมของช่อง: ยังไม่เป็น STAR = ถามลบ · เป็นแล้ว = เลือกไฟล์ใหม่มาแทนที่ช่องเดิม
+    private func corner(_ t: Removal) {
+        guard swaps else { removal = t; return }
+        replace(t)
+    }
+
+    /// เลือกไฟล์ใหม่มาแทนที่ช่องเดิม
+    private func replace(_ t: Removal) {
+        Haptics.impact(.light)
+        MediaPicker.present(videos: kind == .videos, limit: 1) { items in
+            guard let item = items.first else { return }
+            swapping = t.id
+            Task { @MainActor in
+                defer { swapping = nil }
+                switch t {
+                case .creator(let i):
+                    guard let ui = await MediaPicker.image(item) else { onError("อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง"); return }
+                    withAnimation(Motion.settle) { folio.setCreator(ui, at: i) }
+                case .work(let id):
+                    guard let ui = await MediaPicker.image(item) else { onError("อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง"); return }
+                    withAnimation(Motion.settle) { folio.replaceWork(id, with: ui) }
+                case .video(let id):
+                    guard let url = await MediaPicker.movie(item) else { onError("อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง"); return }
+                    switch await folio.replaceVideo(id, from: url) {
+                    case .added: break
+                    case .tooBig: onError("คลิปใหญ่เกินไป — ตัดให้สั้นลงแล้วลองใหม่"); return
+                    case .failed: onError("อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง"); return
+                    }
+                }
+                Haptics.impact(.medium)
+            }
+        }
+    }
+
     private func adder(_ label: String) -> some View {
         Button {
             Haptics.impact(.light)
-            MediaPicker.present(videos: kind == .videos, limit: Swift.max(1, left)) { load($0) }
-        } label: { AddTile(label: label, ratio: 1) }
+            // รูปของคุณ = ทีละรูปต่อช่อง (salehere-ios)
+            MediaPicker.present(videos: kind == .videos, limit: kind == .photos ? 1 : Swift.max(1, left)) { load($0) }
+        } label: { AddTile(label: label, ratio: ratio, invalid: errors?.map["media:" + key] != nil && have < minimum) }
         .buttonStyle(DockPress())
     }
 
@@ -1634,8 +2123,8 @@ private struct WzMedia: View {
                 withAnimation(Motion.settle) { importing -= 1 }
             }
             importing = 0
-            if tooBig > 0 { onError("คลิปใหญ่เกิน \(Portfolio.videoMaxMB) MB — ตัดให้สั้นลงแล้วลองใหม่") }
-            else if failed > 0 { onError(kind == .videos ? "โหลดคลิปไม่สำเร็จ ลองเลือกใหม่อีกครั้ง" : "โหลดรูปไม่สำเร็จ \(failed) รูป ลองเลือกใหม่") }
+            if tooBig > 0 { onError("คลิปใหญ่เกินไป — ตัดให้สั้นลงแล้วลองใหม่") }
+            else if failed > 0 { onError("อัปโหลดไม่สำเร็จ ลองใหม่อีกครั้ง") }
             else { Haptics.impact(.medium) }
         }
     }
@@ -1687,60 +2176,5 @@ enum MediaPicker {
             picker.dismiss(animated: true)
             done(results)
         }
-    }
-}
-
-/// "แบรนด์ขอดู" — กล่องคำขอจากแบรนด์ของงานนี้ (หน้า intro ตอนเป็น STAR แล้วแต่ข้อมูลยังขาด)
-/// โลโก้ + ชื่อแบรนด์ แล้วทีละแถว: ข้อที่ขาด + แบรนด์ใช้ข้อนี้ทำอะไร · ไม่มีเลขลำดับ ไม่ใช่ภาพการ์ด
-private struct BrandAsk: View {
-    let campaign: StarCampaign
-    let steps: [WizStep]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 10) {
-                StarBrandLogo(name: campaign.logo, size: 34)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(campaign.brand).font(.sh(14.5, .bold)).foregroundStyle(GL.ink).lineLimit(1)
-                    Text("ขอดูก่อนคัดเลือก").font(.sh(12.5)).foregroundStyle(GL.muted)
-                }
-                Spacer()
-                PIcon(.eye, size: 16).foregroundStyle(GL.goldInk)
-            }
-            .padding(.bottom, 12)
-            ForEach(steps, id: \.self) { st in
-                HStack(spacing: 12) {
-                    PIcon(icon(st), size: 18).foregroundStyle(GL.ink)
-                        .frame(width: 38, height: 38)
-                        .background(RoundedRectangle(cornerRadius: 11, style: .continuous).fill(.white.opacity(0.7)))
-                        .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous)
-                            .strokeBorder(GL.ink.opacity(0.22), style: StrokeStyle(lineWidth: 1, dash: [3, 3])))
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(st.name).font(.sh(15, .bold)).foregroundStyle(GL.ink)
-                        if let why = st.line.first {
-                            Text(why).font(.sh(12.5)).foregroundStyle(GL.muted).lineLimit(1)
-                        }
-                    }
-                    Spacer(minLength: 0)
-                }
-                .padding(.vertical, 9)
-                .overlay(alignment: .top) { GL.ink.opacity(0.07).frame(height: 1) }
-            }
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .fill(.white.opacity(0.55))
-                .glassEffect(.regular.tint(.white.opacity(0.4)), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-        )
-        .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(.white.opacity(0.9), lineWidth: 1))
-        .shadow(color: GL.ink.opacity(0.07), radius: 18, y: 12)
-    }
-
-    private func icon(_ s: WizStep) -> Ph {
-        if s == .kyc { return .sealCheck }
-        if s == .kind { return .user }
-        return StarRow.all.first { $0.key == s.dataKey }?.icon ?? .circleDashed
     }
 }

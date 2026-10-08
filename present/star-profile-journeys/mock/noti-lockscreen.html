@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- หน้าล็อกสกรีน iOS 26 จำลอง — ภาพประกอบหัวข้อ Insight ของ present (ยังไม่ได้สร้างในแอป)
+     ขนาดจอ iPhone 17 Pro 402×874pt · ถ่ายเป็นภาพด้วย Chrome headless ที่ 3x → shots/in-01-noti.jpg (ดู mock/README)
+     ขนาดแบนเนอร์วัดจากภาพหน้าจอ iOS 26 จริง: กว้าง 374 ขอบ 14 · มุม 23 · ไอคอน 38 · ตัวหนังสือ 15 · เวลา 13 -->
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=402,initial-scale=1">
+<title>Noti — แบรนด์ดูการ์ด</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:402px;height:874px;overflow:hidden;background:#000}
+  body{position:relative;font-family:-apple-system,"SF Pro Text","Helvetica Neue","Thonburi",sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+  /* วอลเปเปอร์มืด แสงอุ่นจากล่างขวา — เข้าชุดกับหน้า Insight พื้นดำ */
+  .wall{position:absolute;inset:0;background:
+    radial-gradient(120% 70% at 85% 108%, #B5473A 0%, rgba(181,71,58,0) 58%),
+    radial-gradient(90% 60% at 8% 96%, #3A2A6B 0%, rgba(58,42,107,0) 62%),
+    radial-gradient(80% 50% at 60% 40%, rgba(120,60,80,.35) 0%, rgba(120,60,80,0) 70%),
+    linear-gradient(180deg,#07070B 0%,#0D0B14 46%,#1A1018 100%)}
+  .island{position:absolute;top:14px;left:50%;width:124px;height:36px;margin-left:-62px;border-radius:20px;background:#000}
+  .status{position:absolute;top:21px;right:31px;display:flex;align-items:center;gap:6px}
+  .lock{position:absolute;top:62px;left:50%;margin-left:-8px;opacity:.86}
+  .date{position:absolute;top:84px;left:0;right:0;text-align:center;font-size:22px;font-weight:600;letter-spacing:-.2px;color:rgba(255,255,255,.86)}
+  .clock{position:absolute;top:104px;left:0;right:0;text-align:center;font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;font-size:112px;line-height:112px;font-weight:600;letter-spacing:-3px;color:rgba(255,255,255,.9)}
+  /* แบนเนอร์: กระจกบนวอลเปเปอร์ + ขอบสว่าง 1px */
+  .noti{position:absolute;left:14px;width:374px;bottom:132px;border-radius:23px;padding:12px 18px 14px 14px;display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(30px) saturate(1.6);backdrop-filter:blur(30px) saturate(1.6);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 10px 30px rgba(0,0,0,.25)}
+  .noti img{flex:none;width:38px;height:38px;border-radius:10px;display:block}
+  .noti .txt{flex:1;min-width:0}
+  .noti .row{display:flex;align-items:baseline;gap:8px}
+  .noti b{flex:1;min-width:0;font-size:15px;line-height:18px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .noti time{flex:none;font-size:13px;line-height:18px;color:rgba(255,255,255,.7)}
+  .noti p{font-size:15px;line-height:19px;font-weight:400;color:#fff;margin-top:1px}
+  .btn{position:absolute;bottom:50px;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+  .btn.l{left:46px}.btn.r{right:46px}
+  .home{position:absolute;bottom:8px;left:50%;width:144px;height:5px;margin-left:-72px;border-radius:3px;background:rgba(255,255,255,.9)}
+</style>
+</head>
+<body>
+  <div class="wall"></div>
+  <div class="island"></div>
+  <div class="status" aria-hidden="true">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="#fff"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.4" width="3" height="6.6" rx=".8"/><rect x="10" y="2.8" width="3" height="9.2" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><path d="M1.4 4.2a10.2 10.2 0 0 1 14.2 0"/><path d="M4 7a6.5 6.5 0 0 1 9 0"/><circle cx="8.5" cy="10.2" r="1.1" fill="#fff" stroke="none"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.8" stroke="rgba(255,255,255,.45)"/><rect x="2" y="2" width="20" height="9" rx="2.4" fill="#fff"/><path d="M25 4.6v3.8c.9-.3 1.5-1 1.5-1.9s-.6-1.6-1.5-1.9z" fill="rgba(255,255,255,.5)"/></svg>
+  </div>
+  <svg class="lock" width="16" height="20" viewBox="0 0 16 20" fill="#fff" aria-hidden="true"><path d="M8 0a5 5 0 0 0-5 5v3H2.6A2.6 2.6 0 0 0 0 10.6v6.8A2.6 2.6 0 0 0 2.6 20h10.8a2.6 2.6 0 0 0 2.6-2.6v-6.8A2.6 2.6 0 0 0 13.4 8H13V5a5 5 0 0 0-5-5zm0 1.8A3.2 3.2 0 0 1 11.2 5v3H4.8V5A3.2 3.2 0 0 1 8 1.8z"/></svg>
+  <div class="date">วันอาทิตย์ที่ 4 ตุลาคม</div>
+  <div class="clock">19:00</div>
+
+  <div class="noti">
+    <img src="app-icon.png" alt="Sale Here">
+    <div class="txt">
+      <div class="row"><b>แบรนด์สายคาเฟ่ 3 รายดูการ์ดคุณ</b><time>ตอนนี้</time></div>
+      <p>สัปดาห์นี้รวม 34 แบรนด์ ยอดวิวเพิ่มขึ้น 18%</p>
+    </div>
+  </div>
+
+  <div class="btn l" aria-hidden="true"><svg width="20" height="28" viewBox="0 0 20 28" fill="#fff"><path d="M3 0h14v3.2c0 1.8-.6 3.5-1.7 4.9L14 9.8V25a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V9.8L4.700 8.100A8 8 0 0 1 3 3.200zM10 12.500a1.700 1.700 0 1 0 0 3.400 1.700 1.700 0 0 0 0-3.400z"/></svg></div>
+  <div class="btn r" aria-hidden="true"><svg width="28" height="22" viewBox="0 0 28 22" fill="#fff"><path d="M9.6 0h8.800l2 3H24a4 4 0 0 1 4 4v11a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h3.600zM14 6.500a5.600 5.600 0 1 0 0 11.200 5.600 5.600 0 0 0 0-11.200zm0 2.200a3.400 3.400 0 1 1 0 6.800 3.400 3.400 0 0 1 0-6.800z"/></svg></div>
+  <div class="home"></div>
+</body>
+</html>

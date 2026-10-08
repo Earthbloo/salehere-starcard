@@ -148,14 +148,13 @@ struct StarCampaignPage: View {
             case .register:
                 if let deadline = campaign.deadline {
                     clockLine("เหลือเวลาลงทะเบียน", deadline)
-                    starLine
                 } else {
                     descLine(.calendarBlank, "หมดเวลาลงทะเบียนแล้ว", tint: SH.hint)
                 }
+                // หน้ากิจกรรมไม่เปลี่ยน (ผู้ใช้ 6 ต.ค. 2569: "หน้าลงทะเบียนธรรมดา ไม่ต้องแก้") — ไม่มีบรรทัดป้าย STAR แบบ salehere-ios (7 ต.ค. 2569) — ติดด่านยืนยันตัวตนอยู่ กดแล้ว Shell พาเข้าหน้าสถานะเอง
                 SHRedButton(title: campaign.isOpen ? "ลงทะเบียนร่วมกิจกรรม" : "หมดเวลาลงทะเบียน", icon: .notePencil, enabled: campaign.isOpen, action: onMain)
             case .registered:
                 descLine(.calendarBlank, "รอประกาศชื่อผู้ได้รับคัดเลือก")
-                registeredLine
                 SHGreenButton(title: "คุณได้ลงทะเบียนแล้ว", icon: .checkCircle)
             case .waitingAcceptQuota:
                 clockLine("เหลือเวลาตอบรับ", Date().addingTimeInterval(1 * 86400 + 23 * 3600 + 59 * 60))
@@ -195,46 +194,6 @@ struct StarCampaignPage: View {
             PIcon(icon, size: 18, weight: .regular).foregroundStyle(tint)
             Text(text).font(.sh(14, .semibold)).foregroundStyle(tint)
             Spacer()
-        }
-    }
-
-    /// ป้ายสถานะ STAR + คำบอกเงื่อนไขตรง ๆ ก่อนกดปุ่ม (= บรรทัด `.lvl-chip` ของ flow ใหม่)
-    private var starLine: some View {
-        let missing = flow.registerSteps.count
-        // คำ STAR ในป้าย = ตรา ST★R (มีดาวในตัวแล้ว ไม่ต้องนำหน้าด้วย ★)
-        let chip = flow.isStar ? "STAR แล้ว" : flow.hasCard ? "☆ ยังไม่ยืนยันตัวตน" : "☆ ยังไม่เป็น STAR"
-        let hint = !flow.hasCard ? "งานนี้รับเฉพาะ STAR · กดลงทะเบียนแล้วสมัครเป็น STAR ก่อน (ครั้งเดียว ใช้ได้ทุกงาน)"
-            : missing > 0 ? "แบรนด์คัดเลือกจากการ์ด · ขอเติมอีก \(missing) อย่างก่อนส่งใบสมัคร"
-            : flow.isStar ? "การ์ดคุณครบแล้ว · ส่งใบสมัครได้เลย" : "การ์ดพร้อม · ยืนยันตัวตนด้วย แบรนด์จะคัดเลือกง่ายขึ้น"
-        return HStack(alignment: .top, spacing: 6) {
-            StarLevelChip(text: chip)
-            Text(hint).font(.sh(12)).foregroundStyle(SH.ink).lineSpacing(2)
-            Spacer(minLength: 0)
-        }
-    }
-
-    private var registeredLine: some View {
-        let left = StarRow.all.filter { r in
-            guard let k = r.key else { return !flow.isVerified }
-            return [.rate, .about, .insight, .province, .availability].contains(k) && !flow.has(k)
-        }
-        return HStack(alignment: .center, spacing: 6) {
-            StarLevelChip(text: flow.isStar ? "STAR" : "⏳ รอยืนยันตัวตน")
-            if let first = left.first {
-                Text("แบรนด์เปิดดูการ์ดคุณได้แล้ว · ยังขาด\(first.title)ที่แบรนด์มักถาม").font(.sh(12)).foregroundStyle(SH.ink).lineSpacing(2)
-                Spacer(minLength: 4)
-                Button {
-                    Haptics.impact(.light)
-                    onFill()
-                } label: {
-                    Text("เติมเลย").font(.sh(12, .bold)).foregroundStyle(.white)
-                        .padding(.horizontal, 10).frame(height: 26).background(Capsule().fill(SH.ink))
-                }
-                .buttonStyle(.plain)
-            } else {
-                Text("แบรนด์เปิดดูการ์ดคุณได้แล้ว · มีครบทุกอย่างที่แบรนด์ขอดู").font(.sh(12)).foregroundStyle(SH.ink)
-                Spacer(minLength: 0)
-            }
         }
     }
 

@@ -815,10 +815,8 @@ final class Profile {
         a.provinces = f.has(.province) ? f.provinces : []
         if f.has(.availability) {
             a.days = IntakeCatalog.days(f.availDays)
-            // "เช้า+เย็น" = หลายช่วง (ตารางรายวันรวมกัน) — การ์ดยังเก็บเป็นชุดเดียว
-            a.slots = f.availTime.split(separator: "+").reduce(into: Set<Int>()) { s, n in
-                s.formUnion(IntakeCatalog.timeOptions.first { $0.value == String(n) }?.slots ?? [])
-            }
+            // ตารางรายวันรวมกันเป็นชุดเดียว — คีย์ช่วงของ Star Profile = `WorkTime.slotNames` ตัวต่อตัว (4 ช่วงของแอปหลัก)
+            a.slots = Set(f.availWeek.values.joined().compactMap { StarFlow.daySlots.firstIndex(of: $0) })
         } else {
             a.days = []
             a.slots = []
@@ -838,6 +836,7 @@ final class Profile {
         switch f.verify {
         case .none: d.status = .draft
         case .waiting: d.status = .pending
+        case .rejected: d.status = .draft   // ตีกลับ = ส่งใหม่ได้ ตราไม่ขึ้น
         case .approved: d.status = .approved
         }
         d.consentAt = f.consent ? (d.consentAt ?? Date()) : nil
@@ -849,6 +848,15 @@ final class Profile {
         v[ProfileField.lineId.rawValue] = f.lineID.isEmpty ? nil : f.lineID
         v[ProfileField.phone.rawValue] = f.phone.isEmpty ? nil : f.phone
         v[ProfileField.website.rawValue] = f.website.isEmpty ? nil : f.website
+        // สัดส่วนบนการ์ด (widget สายแฟชั่น) = ช่อง "สัดส่วน" ใน Star Profile — ค่าพร้อมหน่วยตามธรรมเนียมของการ์ด ("32 นิ้ว")
+        let body = f.has(.body) ? f.bodyInfo : StarBody()
+        func sized(_ value: String, _ unit: String) -> String? { value.isEmpty ? nil : "\(value) \(unit)" }
+        v[ProfileField.weight.rawValue] = sized(body.weight, "กก.")
+        v[ProfileField.height.rawValue] = sized(body.height, StarBody.cm)
+        v[ProfileField.bust.rawValue] = sized(body.chest, body.chestUnit)
+        v[ProfileField.waist.rawValue] = sized(body.waist, body.waistUnit)
+        v[ProfileField.hips.rawValue] = sized(body.hip, body.hipUnit)
+        v[ProfileField.shoe.rawValue] = sized(body.shoe, "EU")
         // ชิปสายงานบนการ์ด = สายที่ใช่ใน Star Profile เท่านั้น (ผู้ใช้ 1 ต.ค. 2569) — ชิปที่เคยพิมพ์ค้างบนการ์ดไม่ใช่แหล่งข้อมูล
         let listChanged = list[.categories] != nil
         list[.categories] = nil
@@ -878,6 +886,21 @@ final class Profile {
             if flow.phone != v { flow.phone = v }
         case .website:
             if flow.website != v { flow.website = v }
+        case .weight, .height, .bust, .waist, .hips, .shoe:
+            // ตัวเลขที่พิมพ์บนการ์ด ("32 นิ้ว") → ช่องเดียวกันใน Star Profile · หน่วยรอบตัวตามที่พิมพ์ (นิ้ว/ซม.)
+            let num = String(v.filter { $0.isNumber || $0 == "." })
+            let unit = v.contains("ซม") ? StarBody.cm : v.contains("นิ้ว") ? StarBody.inch : nil
+            var b = flow.bodyInfo
+            switch f {
+            case .weight: b.weight = num
+            case .height: b.height = num
+            case .bust: b.chest = num; if let unit { b.chestUnit = unit }
+            case .waist: b.waist = num; if let unit { b.waistUnit = unit }
+            case .hips: b.hip = num; if let unit { b.hipUnit = unit }
+            default: b.shoe = num
+            }
+            if flow.bodyInfo != b { flow.bodyInfo = b }
+            if b.filled { flow.have.insert(.body) } else { flow.have.remove(.body) }
         default:
             break
         }

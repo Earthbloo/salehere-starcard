@@ -1,167 +1,285 @@
 {
- "about": "สายคาเฟ่และแฟชั่น รีวิวจริง ถ่ายเองทุกคลิป",
- "addressInfo": {
-  "address": "99/12 คอนโดลุมพินี ซ.สุขุมวิท 77",
-  "name": "มณีรัตน์ ใจดี",
-  "sub": "สวนหลวง",
-  "tel": "0891234567",
-  "zip": "10250"
+ "followerSources": {
+  "tiktok": "connect",
+  "instagram": "connect",
+  "youtube": "api"
  },
- "availDays": "จ อ พ พฤ ศ ส อา",
- "availTime": "ตลอดวัน",
- "availWeek": {
-  "จ": [
-   "เย็น"
+ "insightValues": {
+  "youtube_location": [
+   {
+    "pct": 35,
+    "label": "กรุงเทพ"
+   },
+   {
+    "pct": 9,
+    "label": "เชียงใหม่"
+   },
+   {
+    "pct": 7,
+    "label": "ชลบุรี"
+   }
   ],
-  "พ": [
-   "เย็น"
+  "youtube_age": [
+   {
+    "pct": 31,
+    "label": "18–24 ปี"
+   },
+   {
+    "pct": 42,
+    "label": "25–34 ปี"
+   },
+   {
+    "pct": 17,
+    "label": "35–44 ปี"
+   }
   ],
-  "พฤ": [
-   "เย็น"
+  "tiktok_age": [
+   {
+    "pct": 31,
+    "label": "18–24 ปี"
+   },
+   {
+    "pct": 42,
+    "label": "25–34 ปี"
+   },
+   {
+    "pct": 17,
+    "label": "35–44 ปี"
+   }
   ],
-  "ศ": [
-   "เย็น"
+  "tiktok_gender": [
+   {
+    "pct": 68,
+    "label": "หญิง"
+   },
+   {
+    "pct": 30,
+    "label": "ชาย"
+   },
+   {
+    "pct": 2,
+    "label": "อื่น ๆ"
+   }
   ],
-  "ส": [
-   "เช้า",
-   "บ่าย",
-   "เย็น"
+  "youtube_gender": [
+   {
+    "pct": 68,
+    "label": "หญิง"
+   },
+   {
+    "pct": 30,
+    "label": "ชาย"
+   },
+   {
+    "pct": 2,
+    "label": "อื่น ๆ"
+   }
   ],
-  "อ": [
-   "เย็น"
+  "instagram_age": [
+   {
+    "pct": 31,
+    "label": "18–24 ปี"
+   },
+   {
+    "pct": 42,
+    "label": "25–34 ปี"
+   },
+   {
+    "pct": 17,
+    "label": "35–44 ปี"
+   }
   ],
-  "อา": [
-   "เช้า",
-   "บ่าย",
-   "เย็น"
+  "tiktok_location": [
+   {
+    "pct": 35,
+    "label": "กรุงเทพ"
+   },
+   {
+    "pct": 9,
+    "label": "เชียงใหม่"
+   },
+   {
+    "pct": 7,
+    "label": "ชลบุรี"
+   }
+  ],
+  "instagram_gender": [
+   {
+    "pct": 68,
+    "label": "หญิง"
+   },
+   {
+    "pct": 30,
+    "label": "ชาย"
+   },
+   {
+    "pct": 2,
+    "label": "อื่น ๆ"
+   }
+  ],
+  "instagram_location": [
+   {
+    "pct": 35,
+    "label": "กรุงเทพ"
+   },
+   {
+    "pct": 9,
+    "label": "เชียงใหม่"
+   },
+   {
+    "pct": 7,
+    "label": "ชลบุรี"
+   }
   ]
  },
- "bankInfo": {
-  "address": "",
-  "bank": "กสิกรไทย",
-  "branch": "",
-  "coName": "",
-  "name": "มณีรัตน์ ใจดี",
-  "no": "1234567890",
-  "shot": false,
-  "signer": "",
-  "taxID": "",
-  "vat": ""
+ "availTime": "ตลอดวัน",
+ "availWeek": {
+  "พฤ": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "อ": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "ศ": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "อา": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "พ": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "ส": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ],
+  "จ": [
+   "slot_09_12",
+   "slot_12_14",
+   "slot_14_17",
+   "slot_17_late"
+  ]
  },
  "categories": [
   "👗 แฟชั่น",
   "☕️ คาเฟ่",
   "✈️ ท่องเที่ยว"
  ],
- "connected": [
-  "tiktok",
-  "instagram"
+ "have": [
+  "categories",
+  "address",
+  "insight",
+  "body",
+  "availability",
+  "contact",
+  "rate",
+  "socials",
+  "bank",
+  "kind",
+  "province",
+  "media",
+  "about"
  ],
  "consent": false,
- "draftApproved": false,
- "draftRounds": 2,
- "followerCounts": {
-  "instagram": 24800,
-  "tiktok": 58300
- },
- "followerSources": {
-  "instagram": "connect",
-  "tiktok": "connect"
- },
- "have": [
-  "socials",
-  "address",
-  "religion",
-  "kind",
-  "availability",
-  "limits",
-  "draftRounds",
-  "categories",
-  "insight",
-  "about",
-  "media",
-  "province",
-  "bank",
-  "rate",
-  "contact"
- ],
- "insightSlots": [
-  "instagram_age",
-  "instagram_location",
-  "instagram_gender"
- ],
- "insightValues": {
-  "instagram_age": [
-   {
-    "label": "18–24 ปี",
-    "pct": 31
-   },
-   {
-    "label": "25–34 ปี",
-    "pct": 42
-   },
-   {
-    "label": "35–44 ปี",
-    "pct": 17
-   }
-  ],
-  "instagram_gender": [
-   {
-    "label": "หญิง",
-    "pct": 68
-   },
-   {
-    "label": "ชาย",
-    "pct": 30
-   },
-   {
-    "label": "อื่น ๆ",
-    "pct": 2
-   }
-  ],
-  "instagram_location": [
-   {
-    "label": "กรุงเทพ",
-    "pct": 35
-   },
-   {
-    "label": "เชียงใหม่",
-    "pct": 9
-   },
-   {
-    "label": "ชลบุรี",
-    "pct": 7
-   }
-  ],
-  "tiktok_age": [],
-  "tiktok_gender": [],
-  "tiktok_location": []
- },
  "limitOther": "",
- "limits": [
-  "ไม่มีข้อจำกัด"
- ],
- "lineID": "@maneerat.review",
+ "bankInfo": {
+  "no": "1234567890",
+  "shot": false,
+  "bank": "กสิกรไทย",
+  "taxID": "",
+  "name": "มณีรัตน์ ใจดี",
+  "address": "",
+  "coName": "",
+  "vat": "",
+  "branch": ""
+ },
  "links": {
   "instagram": "https://instagram.com/mintmint.review",
+  "youtube": "https://youtube.com/@mintmintreview",
   "tiktok": "https://tiktok.com/@mintmint.review"
  },
- "order": "preparing",
- "phase": "register",
- "phone": "0891234567",
+ "draftApproved": false,
+ "verifyReason": "",
+ "draftRounds": 2,
  "provinces": [
-  "กรุงเทพมหานคร",
-  "นนทบุรี"
+  "กรุงเทพมหานคร"
  ],
- "rates": {
-  "instagram_photo": 2400,
-  "instagram_shortVideo": 3000,
-  "tiktok_shortVideo": 7000
+ "lineID": "@maneerat.review",
+ "verifiedAt": 812991804.897233,
+ "website": "",
+ "religion": "",
+ "followerCounts": {
+  "tiktok": 58300,
+  "instagram": 24800,
+  "youtube": 8900
  },
- "religion": "พุทธ",
- "revealSeen": false,
- "reviewed": false,
- "verifiedAt": 812602428.563286,
  "verify": "approved",
- "website": ""
+ "about": "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+ "rates": {
+  "youtube_longVideo": 1500,
+  "youtube_shortVideo": 1100,
+  "tiktok_shortVideo": 7000,
+  "instagram_photo": 2400,
+  "instagram_shortVideo": 3000
+ },
+ "bodyInfo": {
+  "weight": "48",
+  "chest": "32",
+  "waistUnit": "นิ้ว",
+  "height": "165",
+  "waist": "25",
+  "chestUnit": "นิ้ว",
+  "hipUnit": "นิ้ว",
+  "shoe": "38",
+  "hip": "35"
+ },
+ "phone": "0891234567",
+ "reviewed": false,
+ "revealSeen": false,
+ "limits": [],
+ "order": "preparing",
+ "connected": [
+  "youtube",
+  "instagram",
+  "tiktok"
+ ],
+ "insightSlots": [
+  "youtube_location",
+  "youtube_gender",
+  "instagram_gender",
+  "youtube_age",
+  "tiktok_age",
+  "instagram_location",
+  "tiktok_gender",
+  "tiktok_location",
+  "instagram_age"
+ ],
+ "availDays": "จ อ พ พฤ ศ ส อา",
+ "phase": "register",
+ "addressInfo": {
+  "district": "สวนหลวง",
+  "sub": "สวนหลวง",
+  "province": "กรุงเทพมหานคร",
+  "zip": "10250",
+  "tel": "0891234567",
+  "name": "มณีรัตน์ ใจดี",
+  "address": "99/12 คอนโดลุมพินี ซ.สุขุมวิท 77"
+ }
 }

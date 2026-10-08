@@ -4,18 +4,18 @@
 /* แถบภาพจอเรียงแนวนอนหนึ่งแถบต่อหนึ่ง journey · ตัวหนังสือเป็นแค่ป้ายกำกับ ภาพกับลูกศรเล่าเรื่อง */
 :root{
   --bg:#F5F6F8; --surface:#FFFFFF; --ink:#1C1E24; --muted:#666D7A; --line:#E2E5EB; --soft:#ECEEF2;
-  --red:#E11B22; --ok:#0B8F62; --ok-soft:#E2F5EC; --warn:#8A5200; --warn-soft:#FFEFD0;
+  --red:#E11B22; --ok:#0B8F62; --on-ok:#FFFFFF; --ok-soft:#E2F5EC; --warn:#8A5200; --warn-soft:#FFEFD0;
   --shadow:0 1px 2px rgba(22,24,30,.06),0 12px 30px rgba(22,24,30,.10);
   --sans:"Anuphan","Noto Sans Thai","Thonburi",system-ui,sans-serif;
   --serif:"Instrument Serif","Didot",Georgia,serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#101115; --surface:#191B21; --ink:#F0F1F3; --muted:#99A0AC; --line:#2A2D36; --soft:#20232A;
-  --red:#FF5C62; --ok:#3ED6A0; --ok-soft:#12301F; --warn:#F3B84C; --warn-soft:#37290E;
+  --red:#FF5C62; --ok:#3ED6A0; --on-ok:#06231A; --ok-soft:#12301F; --warn:#F3B84C; --warn-soft:#37290E;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.5); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#101115; --surface:#191B21; --ink:#F0F1F3; --muted:#99A0AC; --line:#2A2D36; --soft:#20232A;
-  --red:#FF5C62; --ok:#3ED6A0; --ok-soft:#12301F; --warn:#F3B84C; --warn-soft:#37290E;
+  --red:#FF5C62; --ok:#3ED6A0; --on-ok:#06231A; --ok-soft:#12301F; --warn:#F3B84C; --warn-soft:#37290E;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.5); color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -49,6 +49,20 @@ section{scroll-margin-top:64px}
 .chips .have{background:var(--ink);color:var(--bg)}
 .chips .miss{border:1.4px dashed var(--muted);color:var(--muted);padding:2px 9px}
 .chips .req{background:var(--soft);color:var(--ink)}
+
+/* สรุปสถานะ banner (ตอน ชวนสมัครเป็น STAR) */
+.states{margin-top:22px}
+.states-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.states-h b{font-size:17px;font-weight:700}
+.states-h span{font-size:14px;color:var(--muted)}
+.states-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px}
+.state{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.state img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:zoom-in}
+.state figcaption{margin:0;gap:3px}
+.state figcaption b{display:flex;align-items:center;gap:8px;font-size:14.5px}
+.state figcaption b i{font-size:11.5px;font-weight:700;color:var(--red);border:1.4px solid currentColor;border-radius:999px;padding:0 7px;line-height:18px}
+.state figcaption span{font-size:13px;color:var(--ink)}
+.state figcaption small{font-size:12px;color:var(--muted)}
 
 /* Flow เก่า */
 .gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:18px}
@@ -94,6 +108,11 @@ figcaption b{font-size:14.5px;font-weight:600;line-height:1.3}
 .arrow::after{content:"";position:absolute;right:8px;top:50%;width:8px;height:8px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:translateY(-4px) rotate(45deg);opacity:.75}
 .arrow.noted{width:128px}
 .arrow span{position:absolute;left:50%;top:50%;transform:translate(-50%,-150%);font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:3px 9px;border-radius:999px;white-space:nowrap}
+/* "หรือ" คั่นทางเข้าสองทางที่ไปหน้าเดียวกัน — ไม่มีหัวลูกศร */
+.or{flex:none;width:64px;height:454px;position:relative}
+.or::before{content:"";position:absolute;left:50%;top:22%;bottom:22%;border-left:1.5px dashed var(--line)}
+.or span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.lane-h .num svg{display:block}
 
 .group{flex:none;border:1.5px dashed var(--line);border-radius:26px;padding:14px 14px 12px;background:color-mix(in srgb,var(--surface) 60%,transparent);margin-top:40px}
 .group-h{font-size:14px;font-weight:700;margin-bottom:10px}
@@ -119,7 +138,7 @@ figcaption b{font-size:14.5px;font-weight:600;line-height:1.3}
 .end .later span{font-size:12.5px;color:var(--muted)}
 .end .later span::before{content:"→ "}
 
-/* ภาพขยาย · ตารางเทียบ (อยู่ต่อจาก Flow เก่า ก่อนเข้า journey) · ตัวอย่างไม่ถามซ้ำ */
+/* ภาพขยาย · ตารางเทียบ (อยู่ต่อจาก Flow เก่า ก่อนเข้า journey) */
 .shot img,.tile img,.pics img{cursor:zoom-in}
 dialog.zoom{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;display:none;place-items:center;cursor:zoom-out}
 dialog.zoom[open]{display:grid}
@@ -132,13 +151,68 @@ dialog.zoom img{max-width:min(92vw,1200px);max-height:92vh;border-radius:22px;bo
 .cmp td:first-child{font-weight:700;white-space:nowrap}
 .cmp td.new,.cmp td.old{font-weight:600}
 .cmp td small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
+.cmp td:first-child .chips{margin-top:7px;padding-left:calc(1ch + 8px)}
+.cmp td:first-child .chips i{font-weight:500}
 .cmp td .why{font-weight:400;margin-left:.3em}
 .cmp .jn{color:var(--red);font-weight:700;margin-right:8px}
 .cmp-note{font-size:13px;color:var(--muted);margin-top:10px}
 .tablebox{overflow-x:auto}
-.again{display:flex;align-items:flex-start;width:max-content}
-.again .have6{flex:none;width:210px;margin-top:150px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px}
-.again .have6 b{display:block;font-size:14.5px;margin-bottom:8px}
+/* ศูนย์กลาง (ตอนปิดท้าย): ทางเข้า 3 ทางอยู่ซ้าย ลูกศรทุกเส้นชี้เข้า Star Profile กล่องเดียว */
+#hub{border-top:1px solid var(--line);margin-top:44px}
+.hub{display:grid;grid-template-columns:minmax(230px,300px) minmax(0,1fr);gap:56px;align-items:stretch}
+.doors{display:grid;gap:12px;align-content:center}
+.door{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;row-gap:1px;align-content:center;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;cursor:pointer}
+.door:hover{border-color:var(--muted)}
+.door:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.door .jn{grid-row:span 2;align-self:center;color:var(--red);font-size:22px;font-weight:700}
+.door .dn{font-size:16px;font-weight:700}
+.door .ask{font-size:14px;color:var(--muted)}
+.door .ask b{color:var(--ink);font-size:17px;font-variant-numeric:tabular-nums}
+.door .ask em{color:var(--ok);font-weight:600}
+.door .bar{grid-column:2;height:4px;margin-top:8px;border-radius:999px;background:var(--soft);overflow:hidden}
+.door .bar i{display:block;width:0;height:100%;border-radius:inherit;background:var(--ok);transition:width .35s ease}
+.door::before{content:"";position:absolute;left:calc(100% + 8px);top:50%;width:38px;height:2px;background:var(--muted);border-radius:2px;opacity:.55}
+.door::after{content:"";position:absolute;left:calc(100% + 37px);top:50%;width:8px;height:8px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:translateY(-3px) rotate(45deg);opacity:.75}
+.door.lit{border-color:var(--ok)}
+.door.lit::before{background:var(--ok);opacity:1}
+.door.lit::after{border-color:var(--ok);opacity:1}
+.door.done{cursor:default}
+.core{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;background:var(--surface);border:1.5px solid var(--ink);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.core-main{display:flex;flex-direction:column;gap:16px;min-width:0}
+.core-shot{width:200px}
+.screens{position:relative;aspect-ratio:1206/2622;border-radius:24px;border:1px solid var(--line);background:var(--soft);box-shadow:var(--shadow);overflow:hidden}
+.screens img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.screens img.on{opacity:1;pointer-events:auto;cursor:zoom-in}
+.core-shot figcaption{align-items:center;margin-top:9px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.core-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.core-h h3{font-size:28px;font-weight:700;line-height:1.1}
+.core-h h3 span{font-family:var(--serif);font-style:italic;font-weight:400}
+.count{font-size:14px;color:var(--muted)}
+.count b{color:var(--ink);font-size:20px;font-variant-numeric:tabular-nums}
+.core .chips{gap:8px}
+.core .chips i{font-size:15px;padding:7px 15px}
+.core .chips .miss{padding:6px 14px}
+.chips .new{background:var(--ok);color:var(--on-ok)}
+.uses{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.uses span{margin-right:4px}
+.uses i{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--soft);color:var(--ink);white-space:nowrap}
+.hub-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:16px;min-height:34px}
+.hub-say{font-size:16px;font-weight:600}
+.hub-reset{font:600 13px/1 var(--sans);color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer}
+.hub-reset:hover{color:var(--ink);border-color:var(--muted)}
+.hub-reset:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){
+  .chips .new{animation:hub-in .34s cubic-bezier(.2,.9,.3,1.3) backwards}
+  @keyframes hub-in{from{transform:scale(.6);opacity:0}}
+}
+@media (max-width:760px){
+  .hub{grid-template-columns:minmax(0,1fr);gap:38px}
+  .door::before,.door::after{display:none}
+  .core::before{content:"";position:absolute;left:50%;top:-30px;width:2px;height:20px;background:var(--muted);border-radius:2px;opacity:.55}
+  .core::after{content:"";position:absolute;left:50%;top:-18px;width:8px;height:8px;border-bottom:2px solid var(--muted);border-right:2px solid var(--muted);transform:translateX(-3px) rotate(45deg);opacity:.75}
+  .core{padding:18px;grid-template-columns:minmax(0,1fr);gap:20px}
+  .core-shot{width:170px;justify-self:center}
+}
 footer{color:var(--muted);font-size:13px;padding-block:44px 56px}
 footer .tag{margin-right:6px}
 
@@ -149,12 +223,13 @@ footer .tag{margin-right:6px}
   .wrap,.lane-h{padding-inline:16px}
   .track{padding-inline:16px}
   .shot{width:168px}.shot.wide{width:300px;padding-top:86px}
-  .arrow{height:366px}
+  .arrow,.or{height:366px}
   .group{margin-top:24px}.tile{width:96px}.tile img{width:96px}
   .stub{margin-top:110px;width:150px}
   .lane-h .num{width:42px;height:42px;font-size:21px;border-radius:13px}
   .cmp th,.cmp td{padding:11px 12px;font-size:14px}
   .cmp td:first-child{white-space:normal}
+  .cmp td:first-child .chips{padding-left:0}
 }
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -162,7 +237,7 @@ footer .tag{margin-right:6px}
 <header class="top"><div class="wrap">
   <div class="eyebrow">Sale Here STAR</div>
   <h1>Star Profile <span>Journeys</span></h1>
-  <p>Flow ใหม่ถามเฉพาะข้อมูลที่เป้าหมายนั้นต้องใช้ ที่เหลือถามเมื่อถึงเวลา</p>
+  <p>ทุกทางถาม 8 ข้อที่แบรนด์ใช้คัดเลือกก่อน ครบ = เป็น STAR · ที่เหลือถามเมื่อถึงเวลา ไม่นับเป็น %</p>
 </div></header>
 
 <nav class="jump" aria-label="ไปยังตอน"><div class="wrap">
@@ -171,7 +246,10 @@ footer .tag{margin-right:6px}
   <a href="#j1"><b>1</b>รับของไปรีวิว</a>
   <a href="#j2"><b>2</b>เป็น Star</a>
   <a href="#j3"><b>3</b>สร้าง Star Card</a>
-  <a href="#re">ไม่ถามซ้ำ</a>
+  <a href="#invite">ชวนสมัครเป็น STAR</a>
+  <a href="#hub">Star Profile ตรงกลาง</a>
+  <a href="#insight">ใครมาดูการ์ด</a>
+  <a href="#kyc">รอตรวจ / ตีกลับ</a>
 </div></nav>
 
 <main>
@@ -189,7 +267,7 @@ footer .tag{margin-right:6px}
       <div class="pics"><img class="onblack" src="shots/o-14-gate2.png" alt="หน้าเต็มจอ โปรไฟล์ของคุณยังไม่สมบูรณ์ กรอกข้อมูลให้ครบก่อนรับงานรีวิว"><img src="shots/o-15-hub.jpg" alt="หน้าโปรไฟล์ครีเอเตอร์ แถบความสมบูรณ์ 100%"></div>
     </div>
   </div>
-  <div class="old-foot">รวม 13 ขั้น ครบแล้วจึงเปิดฟอร์มสมัครได้</div>
+  <div class="old-foot">รวม 13 ขั้น ครบแล้วจึงเปิดฟอร์มสมัครได้ · ทางเข้าคือ banner "ทำโปรไฟล์ให้สมบูรณ์กันเถอะ" (ดูตอน ชวนสมัครเป็น STAR)</div>
 </div></section>
 
 <section id="cmp"><div class="wrap">
@@ -197,9 +275,9 @@ footer .tag{margin-right:6px}
   <div class="tablebox"><table class="cmp">
     <thead><tr><th>Journey</th><th>Flow เก่า</th><th>Flow ใหม่</th></tr></thead>
     <tbody>
-      <tr><td><b class="jn">1</b>ต้องการจะรับของไปรีวิว</td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">8 ข้อ<span class="why">ที่แบรนด์ใช้คัดเลือก Star</span><small>ที่อยู่ถามตอนตอบรับ</small></td></tr>
-      <tr><td><b class="jn">2</b>ต้องการจะเป็น Star</td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">13 ข้อในหน้า Star Profile<small>ปิดกลางทางได้ กลับมาทำต่อเฉพาะข้อที่เหลือ</small></td></tr>
-      <tr><td><b class="jn">3</b>ต้องการจะสร้าง Star Card</td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">3 ข้อ<small>ที่เหลือกรอกเมื่ออยากใช้</small></td></tr>
+      <tr><td><b class="jn">1</b>ต้องการจะรับของไปรีวิว<div class="chips"><i class="req">เล่นอยู่ในแอป</i><i class="req">เข้ามาจะเอาของเลย</i></div></td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">8 ข้อ<span class="why">ที่แบรนด์ใช้คัดเลือก Star</span><small>ที่อยู่กรอกในฟอร์มสมัครเหมือนเดิม · ยืนยันตัวตนต้องผ่านก่อนส่งใบสมัคร</small></td></tr>
+      <tr><td><b class="jn">2</b>ต้องการจะเป็น Star<div class="chips"><i class="req">เข้ามาอยากเป็น Star เลย</i><i class="req">MKT วางลิงก์สมัคร Star จากข้างนอก</i></div></td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">8 ข้อ → เป็น STAR → ต่ออีก 3<small>ชุดเดียวกับ Journey 1 แล้วถาม ที่อยู่ · บัญชี · สัดส่วน ต่อในรอบเดียว · ปิดกลางทางได้</small></td></tr>
+      <tr><td><b class="jn">3</b>ต้องการจะสร้าง Star Card<div class="chips"><i class="req">อยากมี Star Card</i></div></td><td class="old">13 ขั้น<small>3 ขั้น + โปรไฟล์ 100% อีก 10 ขั้น</small></td><td class="new">8 ข้อ<span class="why">เดียวกัน แล้วเลือก Template</span><small>ไม่มีทางลัด 3 ข้อแล้ว · widget ที่ใช้ข้อมูลไม่บังคับล็อกไว้ให้กรอกเมื่ออยากใช้</small></td></tr>
     </tbody>
   </table></div>
   <p class="cmp-note">1 ขั้น / 1 ข้อ = 1 หน้าที่ต้องเข้าไปกรอก</p>
@@ -208,30 +286,30 @@ footer .tag{margin-right:6px}
 <section class="lane" id="j1">
   <header class="lane-h">
     <span class="num">1</span>
-    <div><h2>เห็นงานในแอป อยากลงทะเบียน</h2><p>ถามแค่ 8 ข้อที่แบรนด์ใช้คัดเลือก Star · ที่อยู่ถามตอนได้งาน</p></div>
+    <div><h2>เห็นงานในแอป อยากลงทะเบียน</h2><p>ถามแค่ 8 ข้อที่แบรนด์ใช้คัดเลือก Star · ที่อยู่กรอกในฟอร์มสมัครเหมือนเดิม</p></div>
     <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
   </header>
   <div class="strip" tabindex="0" role="group" aria-label="Journey 1 เห็นงานในแอป อยากลงทะเบียน เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
-    <div class="track"><figure class="shot"><img src="shots/j1-02-campaign.jpg" alt="เห็นงาน กดลงทะเบียน"><figcaption><b>เห็นงาน กดลงทะเบียน</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-03-intro.jpg" alt="บอกก่อนว่าจะถามอะไร"><figcaption><b>บอกก่อนว่าจะถามอะไร</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group many"><div class="group-h">ถาม 8 ข้อ<span>แบรนด์ใช้คัดเลือก Star</span></div><div class="tiles"><figure class="tile"><img src="shots/j1-04-kind.jpg" alt="ประเภท"><figcaption>ประเภท</figcaption></figure><figure class="tile"><img src="shots/j1-05-channels.jpg" alt="ช่องทาง + เรท"><figcaption>ช่องทาง + เรท</figcaption></figure><figure class="tile"><img src="shots/j1-06-categories.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j1-07-media-top.jpg" alt="รูปและผลงาน"><figcaption>รูปและผลงาน</figcaption></figure><figure class="tile"><img src="shots/j1-08-province.jpg" alt="พื้นที่"><figcaption>พื้นที่</figcaption></figure><figure class="tile"><img src="shots/j1-09-availability.jpg" alt="วันว่าง"><figcaption>วันว่าง</figcaption></figure><figure class="tile"><img src="shots/j1-09b-contact.jpg" alt="ช่องทางติดต่อ"><figcaption>ช่องทางติดต่อ</figcaption></figure><figure class="tile"><img src="shots/j1-10-kyc.jpg" alt="ยืนยันตัวตน"><figcaption>ยืนยันตัวตน</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-11-reveal.jpg" alt="เป็น STAR แล้ว"><figcaption><b>เป็น STAR แล้ว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-12-register.jpg" alt="ฟอร์มสมัคร Line ID เติมให้แล้ว"><figcaption><b>ฟอร์มสมัคร Line ID เติมให้แล้ว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-13-registered.jpg" alt="ลงทะเบียนสำเร็จ"><figcaption><b>ลงทะเบียนสำเร็จ</b><span class="goal">สมัครงานได้</span></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แบรนด์คัดเลือก</span></div><figure class="shot"><img src="shots/j1-14-selected.jpg" alt="ได้รับเลือก กดตอบรับ"><figcaption><b>ได้รับเลือก กดตอบรับ</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group"><div class="group-h">ถามเพิ่ม 2 ข้อ</div><div class="tiles"><figure class="tile"><img src="shots/j1-15-address.jpg" alt="ที่อยู่"><figcaption>ที่อยู่</figcaption></figure><figure class="tile"><img src="shots/j1-16-draftrounds.jpg" alt="รอบแก้งาน"><figcaption>รอบแก้งาน</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-17-accept.jpg" alt="ตอบรับ ที่อยู่เติมให้แล้ว"><figcaption><b>ตอบรับ ที่อยู่เติมให้แล้ว</b><span class="goal">รับงานได้</span></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>รับของ · ทำดราฟต์</span></div><figure class="shot"><img src="shots/j1-18-linkbar.jpg" alt="ดราฟต์ผ่าน กดส่งลิงก์"><figcaption><b>ดราฟต์ผ่าน กดส่งลิงก์</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-20-link.jpg" alt="ส่งลิงก์รีวิว"><figcaption><b>ส่งลิงก์รีวิว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-21-done.jpg" alt="ส่งรีวิวแล้ว"><figcaption><b>ส่งรีวิวแล้ว</b><span class="goal">จบงาน</span></figcaption></figure><aside class="end">
+    <div class="track"><figure class="shot"><img src="shots/j1-02-campaign.jpg" alt="เห็นงาน กดลงทะเบียน"><figcaption><b>เห็นงาน กดลงทะเบียน</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-03-intro.jpg" alt="บอกก่อนว่าจะถามอะไร ช่องเส้นประ 1 ช่องต่อ 1 ข้อ"><figcaption><b>บอกก่อนว่าจะถามอะไร ช่องเส้นประ 1 ช่องต่อ 1 ข้อ</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group many"><div class="group-h">ถาม 8 ข้อ<span>แบรนด์ใช้คัดเลือก Star</span></div><div class="tiles"><figure class="tile"><img src="shots/j1-04-kind.jpg" alt="ประเภทครีเอเตอร์"><figcaption>ประเภทครีเอเตอร์</figcaption></figure><figure class="tile"><img src="shots/j1-05-channels.jpg" alt="ช่องทางของฉัน + เรท"><figcaption>ช่องทางของฉัน + เรท</figcaption></figure><figure class="tile"><img src="shots/j1-06-categories.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j1-07-media-top.jpg" alt="เกี่ยวกับคุณ"><figcaption>เกี่ยวกับคุณ</figcaption></figure><figure class="tile"><img src="shots/j1-08-province.jpg" alt="พื้นที่รับงาน"><figcaption>พื้นที่รับงาน</figcaption></figure><figure class="tile"><img src="shots/j1-09-availability.jpg" alt="วันเวลาว่างรับงาน"><figcaption>วันเวลาว่างรับงาน</figcaption></figure><figure class="tile"><img src="shots/j1-09b-contact.jpg" alt="ช่องทางติดต่อ"><figcaption>ช่องทางติดต่อ</figcaption></figure><figure class="tile"><img src="shots/j1-10-kyc.jpg" alt="ยืนยันตัวตน"><figcaption>ยืนยันตัวตน</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-11-reveal.jpg" alt="เป็น STAR แล้ว"><figcaption><b>เป็น STAR แล้ว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-12-register.jpg" alt="ฟอร์มสมัครเดิม ที่อยู่ 7 ช่อง Line ID เติมให้แล้ว"><figcaption><b>ฟอร์มสมัครเดิม ที่อยู่ 7 ช่อง Line ID เติมให้แล้ว</b><span class="plus"><i>+ ที่อยู่รับของ</i></span></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-13-registered.jpg" alt="ลงทะเบียนสำเร็จ"><figcaption><b>ลงทะเบียนสำเร็จ</b><span class="goal">สมัครงานได้</span></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แบรนด์คัดเลือก</span></div><figure class="shot"><img src="shots/j1-14-selected.jpg" alt="ได้รับเลือก กดตอบรับ"><figcaption><b>ได้รับเลือก กดตอบรับ</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-17-accept.jpg" alt="ตอบรับ ที่อยู่จากฟอร์มสมัคร ไม่ถามซ้ำ"><figcaption><b>ตอบรับ ที่อยู่จากฟอร์มสมัคร ไม่ถามซ้ำ</b><span class="goal">รับงานได้</span></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>รับของ · ทำดราฟต์</span></div><figure class="shot"><img src="shots/j1-18-linkbar.jpg" alt="ดราฟต์ผ่าน กดส่งลิงก์"><figcaption><b>ดราฟต์ผ่าน กดส่งลิงก์</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-20-link.jpg" alt="ส่งลิงก์รีวิว"><figcaption><b>ส่งลิงก์รีวิว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j1-21-done.jpg" alt="ส่งรีวิวแล้ว"><figcaption><b>ส่งรีวิวแล้ว</b><span class="goal">จบงาน</span></figcaption></figure><aside class="end">
   <h4>จบ Journey 1</h4>
-  <p class="k">ได้แล้ว 11 จาก 16</p>
-  <div class="chips"><i class="have">ประเภท</i><i class="have">ช่องทาง</i><i class="have">เรท</i><i class="have">สายที่ใช่</i><i class="have">รูปและผลงาน</i><i class="have">พื้นที่</i><i class="have">วันว่าง</i><i class="have">ยืนยันตัวตน</i><i class="have">ช่องทางติดต่อ</i><i class="have">ที่อยู่</i><i class="have">รอบแก้งาน</i></div>
+  <p class="k">ได้แล้ว 10 จาก 14</p>
+  <div class="chips"><i class="have">ประเภทครีเอเตอร์</i><i class="have">ช่องทางของฉัน</i><i class="have">เรทรับงาน</i><i class="have">สายที่ใช่</i><i class="have">เกี่ยวกับคุณ</i><i class="have">พื้นที่รับงาน</i><i class="have">วันเวลาว่างรับงาน</i><i class="have">ยืนยันตัวตน</i><i class="have">ช่องทางติดต่อ</i><i class="have">ที่อยู่รับของ</i></div>
   <p class="k">ยังไม่ถาม</p>
-  <div class="later"><div class="chips"><i class="miss">บัญชีรับเงิน</i></div><span>ฟอร์มรับเงิน (มีอยู่แล้ว)</span></div><div class="later"><div class="chips"><i class="miss">งานที่ขอผ่าน</i><i class="miss">ศาสนา</i></div><span>เติมเองใน Star Profile</span></div><div class="later"><div class="chips"><i class="miss">ข้อมูลผู้ติดตาม</i><i class="miss">แนะนำตัว</i></div><span>ไม่บังคับ ข้ามได้</span></div>
+  <div class="later"><div class="chips"><i class="miss">การรับเงิน</i></div><span>ฟอร์มรับเงิน (มีอยู่แล้ว)</span></div><div class="later"><div class="chips"><i class="miss">สัดส่วน</i></div><span>เข้ามากรอกเองใน Star Profile</span></div><div class="later"><div class="chips"><i class="miss">ข้อมูลผู้ติดตาม</i><i class="miss">แนะนำตัว</i></div><span>ไม่บังคับ ข้ามได้</span></div>
 </aside></div>
   </div>
 </section>
 <section class="lane" id="j2">
   <header class="lane-h">
     <span class="num">2</span>
-    <div><h2>ตั้งใจมาเป็น Star จากลิงก์ของ MKT</h2><p>กรอก 13 ข้อรวดเดียว · ปิดกลางทางแล้วกลับมาทำต่อได้</p></div>
+    <div><h2>ตั้งใจมาเป็น Star จากลิงก์ของ MKT</h2><p>8 ข้อเดียวกับทางลงทะเบียน → เป็น STAR → ต่ออีก 3 ข้อในรอบเดียว · ปิดกลางทางแล้วกลับมาทำต่อได้</p></div>
     <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
   </header>
   <div class="strip" tabindex="0" role="group" aria-label="Journey 2 ตั้งใจมาเป็น Star จากลิงก์ของ MKT เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
-    <div class="track"><div class="stub"><em class="tag">ยังไม่ได้สร้าง</em><b>ลิงก์ที่ MKT วาง</b><span>พาเข้าหน้า Star Profile</span></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-01-starprofile-new.jpg" alt="Star Profile กดสมัครเป็น STAR"><figcaption><b>Star Profile กดสมัครเป็น STAR</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group many"><div class="group-h">ถาม 13 ข้อ</div><div class="tiles"><figure class="tile"><img src="shots/j2-02-q01.jpg" alt="ประเภท"><figcaption>ประเภท</figcaption></figure><figure class="tile"><img src="shots/j2-03-q02.jpg" alt="ช่องทาง + เรท"><figcaption>ช่องทาง + เรท</figcaption></figure><figure class="tile"><img src="shots/j2-04-q03.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j2-05-q04.jpg" alt="รูปและผลงาน"><figcaption>รูปและผลงาน</figcaption></figure><figure class="tile"><img src="shots/j2-06-q05.jpg" alt="ยืนยันตัวตน"><figcaption>ยืนยันตัวตน</figcaption></figure><figure class="tile"><img src="shots/j2-07-q06.jpg" alt="พื้นที่"><figcaption>พื้นที่</figcaption></figure><figure class="tile"><img src="shots/j2-08-q07.jpg" alt="วันว่าง"><figcaption>วันว่าง</figcaption></figure><figure class="tile"><img src="shots/j2-09-q08.jpg" alt="ช่องทางติดต่อ"><figcaption>ช่องทางติดต่อ</figcaption></figure><figure class="tile"><img src="shots/j2-10-q09.jpg" alt="ที่อยู่"><figcaption>ที่อยู่</figcaption></figure><figure class="tile"><img src="shots/j2-11-q10.jpg" alt="บัญชีรับเงิน"><figcaption>บัญชีรับเงิน</figcaption></figure><figure class="tile"><img src="shots/j2-12-q11.jpg" alt="รอบแก้งาน"><figcaption>รอบแก้งาน</figcaption></figure><figure class="tile"><img src="shots/j2-13-q12.jpg" alt="งานที่ขอผ่าน"><figcaption>งานที่ขอผ่าน</figcaption></figure><figure class="tile"><img src="shots/j2-14-q13.jpg" alt="ศาสนา"><figcaption>ศาสนา</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-15-starprofile-done.jpg" alt="ข้อมูลครบ"><figcaption><b>ข้อมูลครบ</b><span class="goal">เป็น STAR ข้อมูลครบ</span></figcaption></figure><aside class="end">
+    <div class="track"><div class="stub"><em class="tag">ยังไม่ได้สร้าง</em><b>ลิงก์ที่ MKT วาง</b><span>พาเข้าหน้า Star Profile</span></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-01-starprofile-new.jpg" alt="Star Profile หัว "สมัครเป็น STAR" % ทางไปเป็น STAR · ข้อที่ขาดยังแตะไม่ได้ ไปทางปุ่มล่าง"><figcaption><b>Star Profile หัว "สมัครเป็น STAR" % ทางไปเป็น STAR · ข้อที่ขาดยังแตะไม่ได้ ไปทางปุ่มล่าง</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group many"><div class="group-h">ถาม 8 ข้อ<span>แบรนด์ใช้คัดเลือก Star · ชุดเดียวกับ Journey 1</span></div><div class="tiles"><figure class="tile"><img src="shots/j2-02-q01.jpg" alt="ประเภทครีเอเตอร์"><figcaption>ประเภทครีเอเตอร์</figcaption></figure><figure class="tile"><img src="shots/j2-03-q02.jpg" alt="ช่องทางของฉัน + เรท"><figcaption>ช่องทางของฉัน + เรท</figcaption></figure><figure class="tile"><img src="shots/j2-04-q03.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j2-05-q04.jpg" alt="เกี่ยวกับคุณ"><figcaption>เกี่ยวกับคุณ</figcaption></figure><figure class="tile"><img src="shots/j2-06-q05.jpg" alt="พื้นที่รับงาน"><figcaption>พื้นที่รับงาน</figcaption></figure><figure class="tile"><img src="shots/j2-07-q06.jpg" alt="วันเวลาว่างรับงาน"><figcaption>วันเวลาว่างรับงาน</figcaption></figure><figure class="tile"><img src="shots/j2-08-q07.jpg" alt="ช่องทางติดต่อ"><figcaption>ช่องทางติดต่อ</figcaption></figure><figure class="tile"><img src="shots/j2-09-q08.jpg" alt="ยืนยันตัวตน"><figcaption>ยืนยันตัวตน</figcaption></figure></div></div><div class="arrow noted" aria-hidden="true"><span>ครบ 8 ข้อ</span></div><figure class="shot"><img src="shots/j2-13-star.jpg" alt="เป็น STAR แล้ว motion กลางทาง"><figcaption><b>เป็น STAR แล้ว motion กลางทาง</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>ทำต่อเลย</span></div><div class="group"><div class="group-h">ต่ออีก 3 ข้อ<span>ไม่ใช่ด่าน ใช้เมื่อถึงเวลา · ถามต่อเลยเพราะคนที่ตั้งใจมาเป็น STAR กรอกอยู่แล้ว</span></div><div class="tiles"><figure class="tile"><img src="shots/j2-10-q09.jpg" alt="ที่อยู่รับของ"><figcaption>ที่อยู่รับของ</figcaption></figure><figure class="tile"><img src="shots/j2-11-q10.jpg" alt="การรับเงิน"><figcaption>การรับเงิน</figcaption></figure><figure class="tile"><img src="shots/j2-12-q11.jpg" alt="สัดส่วน"><figcaption>สัดส่วน</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-15-starprofile-done.jpg" alt="Star Profile การ์ดทอง "ใช้สมัครเป็น STAR" ครบ 8 ข้อ + การ์ดเทา "ใช้ให้แบรนด์คัดเลือก" ครบ 5 ข้อ"><figcaption><b>Star Profile การ์ดทอง "ใช้สมัครเป็น STAR" ครบ 8 ข้อ + การ์ดเทา "ใช้ให้แบรนด์คัดเลือก" ครบ 5 ข้อ</b><span class="goal">เป็น STAR ข้อมูลครบ</span></figcaption></figure><aside class="end">
   <h4>จบ Journey 2</h4>
-  <p class="k">ได้แล้ว 16 จาก 16</p>
-  <div class="chips"><i class="have">ประเภท</i><i class="have">ช่องทาง</i><i class="have">เรท</i><i class="have">ข้อมูลผู้ติดตาม</i><i class="have">สายที่ใช่</i><i class="have">รูปและผลงาน</i><i class="have">แนะนำตัว</i><i class="have">พื้นที่</i><i class="have">วันว่าง</i><i class="have">ยืนยันตัวตน</i><i class="have">ช่องทางติดต่อ</i><i class="have">ที่อยู่</i><i class="have">รอบแก้งาน</i><i class="have">บัญชีรับเงิน</i><i class="have">งานที่ขอผ่าน</i><i class="have">ศาสนา</i></div>
+  <p class="k">ได้แล้ว 14 จาก 14</p>
+  <div class="chips"><i class="have">ประเภทครีเอเตอร์</i><i class="have">ช่องทางของฉัน</i><i class="have">เรทรับงาน</i><i class="have">ข้อมูลผู้ติดตาม</i><i class="have">สายที่ใช่</i><i class="have">เกี่ยวกับคุณ</i><i class="have">แนะนำตัว</i><i class="have">พื้นที่รับงาน</i><i class="have">วันเวลาว่างรับงาน</i><i class="have">ยืนยันตัวตน</i><i class="have">ช่องทางติดต่อ</i><i class="have">ที่อยู่รับของ</i><i class="have">การรับเงิน</i><i class="have">สัดส่วน</i></div>
   <p class="k">ครบทุกข้อแล้ว</p>
   
 </aside></div>
@@ -240,36 +318,106 @@ footer .tag{margin-right:6px}
 <section class="lane" id="j3">
   <header class="lane-h">
     <span class="num">3</span>
-    <div><h2>เห็น Star Card ของคนอื่น อยากมีบ้าง</h2><p>ตอบ 3 ข้อ เลือก Template ก็ได้การ์ด · ข้อมูลอื่นกรอกเมื่ออยากใช้ widget นั้น</p></div>
+    <div><h2>เห็น Star Card ของคนอื่น อยากมีบ้าง</h2><p>เปิดการ์ดก็ต้องเป็น STAR ก่อน: 8 ข้อเดียวกัน → เป็น STAR → เลือก Template ได้การ์ด · ที่เหลือกรอกเมื่อถึงเวลา</p></div>
     <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
   </header>
   <div class="strip" tabindex="0" role="group" aria-label="Journey 3 เห็น Star Card ของคนอื่น อยากมีบ้าง เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
-    <div class="track"><figure class="shot wide"><img src="shots/x-export-card.jpg" alt="Star Card ที่คนอื่นแชร์ สแกน QR หรือกดลิงก์"><figcaption><em class="tag">ทางเข้ายังไม่ได้สร้าง</em><b>Star Card ที่คนอื่นแชร์ สแกน QR หรือกดลิงก์</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="stub"><b>เข้าแอป</b><span>มีแอปแล้ว: เปิดได้เลย</span><span>ยังไม่มี: โหลดแอป แล้วล็อกอิน</span></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-01-starprofile-new.jpg" alt="Star Profile กดเปิดการ์ดของฉัน"><figcaption><b>Star Profile กดเปิดการ์ดของฉัน</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group"><div class="group-h">ถาม 3 ข้อ</div><div class="tiles"><figure class="tile"><img src="shots/j3-02-q1.jpg" alt="ประเภท"><figcaption>ประเภท</figcaption></figure><figure class="tile"><img src="shots/j3-03-q2.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j3-04-q3.jpg" alt="รูปและผลงาน"><figcaption>รูปและผลงาน</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-04b-templates.jpg" alt="ยังไม่เคยมีการ์ด เลือก Template"><figcaption><b>ยังไม่เคยมีการ์ด เลือก Template</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-05-editor.jpg" alt="การ์ดเปิดในห้องแต่ง"><figcaption><b>การ์ดเปิดในห้องแต่ง</b><span class="goal">ได้ Star Card</span></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-06-locked.jpg" alt="ข้อมูลที่ยังไม่มี ล็อกไว้"><figcaption><b>ข้อมูลที่ยังไม่มี ล็อกไว้</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group"><div class="group-h">อยากใช้ กรอก 1 ข้อ</div><div class="tiles"><figure class="tile"><img src="shots/j3-07-fill.jpg" alt="ช่องทาง + เรท"><figcaption>ช่องทาง + เรท</figcaption></figure></div></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-08-unlocked.jpg" alt="ปลดล็อก ขึ้นค่าจริง"><figcaption><b>ปลดล็อก ขึ้นค่าจริง</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-09-share.jpg" alt="แชร์การ์ด"><figcaption><b>แชร์การ์ด</b></figcaption></figure><aside class="end">
+    <div class="track"><figure class="shot wide"><img src="shots/x-export-card.jpg" alt="Star Card ที่คนอื่นแชร์ สแกน QR หรือกดลิงก์"><figcaption><em class="tag">ทางเข้ายังไม่ได้สร้าง</em><b>Star Card ที่คนอื่นแชร์ สแกน QR หรือกดลิงก์</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="stub"><b>เข้าแอป</b><span>มีแอปแล้ว: เปิดได้เลย</span><span>ยังไม่มี: โหลดแอป แล้วล็อกอิน</span></div><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j2-01-starprofile-new.jpg" alt="Star Profile กดเปิดใช้งานการ์ด"><figcaption><b>Star Profile กดเปิดใช้งานการ์ด</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="group many"><div class="group-h">ถาม 8 ข้อ<span>แบรนด์ใช้คัดเลือก Star · ชุดเดียวกับ Journey 1</span></div><div class="tiles"><figure class="tile"><img src="shots/j1-04-kind.jpg" alt="ประเภทครีเอเตอร์"><figcaption>ประเภทครีเอเตอร์</figcaption></figure><figure class="tile"><img src="shots/j1-05-channels.jpg" alt="ช่องทางของฉัน + เรท"><figcaption>ช่องทางของฉัน + เรท</figcaption></figure><figure class="tile"><img src="shots/j1-06-categories.jpg" alt="สายที่ใช่"><figcaption>สายที่ใช่</figcaption></figure><figure class="tile"><img src="shots/j1-07-media-top.jpg" alt="เกี่ยวกับคุณ"><figcaption>เกี่ยวกับคุณ</figcaption></figure><figure class="tile"><img src="shots/j1-08-province.jpg" alt="พื้นที่รับงาน"><figcaption>พื้นที่รับงาน</figcaption></figure><figure class="tile"><img src="shots/j1-09-availability.jpg" alt="วันเวลาว่างรับงาน"><figcaption>วันเวลาว่างรับงาน</figcaption></figure><figure class="tile"><img src="shots/j1-09b-contact.jpg" alt="ช่องทางติดต่อ"><figcaption>ช่องทางติดต่อ</figcaption></figure><figure class="tile"><img src="shots/j1-10-kyc.jpg" alt="ยืนยันตัวตน"><figcaption>ยืนยันตัวตน</figcaption></figure></div></div><div class="arrow noted" aria-hidden="true"><span>ครบ 8 ข้อ</span></div><figure class="shot"><img src="shots/j2-13-star.jpg" alt="เป็น STAR แล้ว"><figcaption><b>เป็น STAR แล้ว</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-04b-templates.jpg" alt="ยังไม่เคยมีการ์ด เลือก Template"><figcaption><b>ยังไม่เคยมีการ์ด เลือก Template</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-05-editor.jpg" alt="การ์ดเปิดในห้องแต่ง"><figcaption><b>การ์ดเปิดในห้องแต่ง</b><span class="goal">ได้ Star Card</span></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/j3-09-share.jpg" alt="แชร์การ์ด"><figcaption><b>แชร์การ์ด</b></figcaption></figure><aside class="end">
   <h4>จบ Journey 3</h4>
-  <p class="k">ได้แล้ว 6 จาก 16</p>
-  <div class="chips"><i class="have">ประเภท</i><i class="have">ช่องทาง</i><i class="have">เรท</i><i class="have">สายที่ใช่</i><i class="have">รูปและผลงาน</i><i class="have">แนะนำตัว</i></div>
+  <p class="k">ได้แล้ว 9 จาก 14</p>
+  <div class="chips"><i class="have">ประเภทครีเอเตอร์</i><i class="have">ช่องทางของฉัน</i><i class="have">เรทรับงาน</i><i class="have">สายที่ใช่</i><i class="have">เกี่ยวกับคุณ</i><i class="have">พื้นที่รับงาน</i><i class="have">วันเวลาว่างรับงาน</i><i class="have">ยืนยันตัวตน</i><i class="have">ช่องทางติดต่อ</i></div>
   <p class="k">ยังไม่ถาม</p>
-  <div class="later"><div class="chips"><i class="miss">พื้นที่</i><i class="miss">วันว่าง</i><i class="miss">ช่องทางติดต่อ</i><i class="miss">ยืนยันตัวตน</i></div><span>ตอนลงทะเบียนงาน</span></div><div class="later"><div class="chips"><i class="miss">ที่อยู่</i><i class="miss">รอบแก้งาน</i></div><span>ตอนตอบรับงาน</span></div><div class="later"><div class="chips"><i class="miss">บัญชีรับเงิน</i></div><span>ฟอร์มรับเงิน (มีอยู่แล้ว)</span></div><div class="later"><div class="chips"><i class="miss">งานที่ขอผ่าน</i><i class="miss">ศาสนา</i></div><span>เติมเองใน Star Profile</span></div><div class="later"><div class="chips"><i class="miss">ข้อมูลผู้ติดตาม</i></div><span>ไม่บังคับ ข้ามได้</span></div>
+  <div class="later"><div class="chips"><i class="miss">ที่อยู่รับของ</i></div><span>ตอนลงทะเบียนงาน (ฟอร์มสมัคร)</span></div><div class="later"><div class="chips"><i class="miss">การรับเงิน</i></div><span>ฟอร์มรับเงิน (มีอยู่แล้ว)</span></div><div class="later"><div class="chips"><i class="miss">สัดส่วน</i><i class="miss">ข้อมูลผู้ติดตาม</i><i class="miss">แนะนำตัว</i></div><span>เข้ามากรอกเองใน Star Profile · widget ที่ต้องใช้ล็อกไว้</span></div>
 </aside></div>
   </div>
 </section>
 
-<section id="re"><div class="wrap">
-  <div class="sec-h"><h2>กรอกแล้วไม่ถามซ้ำ</h2><p>คนที่ทำ Star Card ไปแล้ว มาลงทะเบียนงาน ถูกถามแค่ 4 ข้อที่ยังไม่เคยตอบ</p></div>
-</div>
-<div class="strip" tabindex="0" role="group" aria-label="ตัวอย่างกรอกแล้วไม่ถามซ้ำ"><div class="track again">
-  <div class="have6"><b>จบ Journey 3 มีแล้ว</b><div class="chips"><i class="have">ประเภท</i><i class="have">สายที่ใช่</i><i class="have">รูปและผลงาน</i><i class="have">แนะนำตัว</i><i class="have">ช่องทาง</i><i class="have">เรท</i></div></div>
-  <div class="arrow" aria-hidden="true"></div>
-  <figure class="shot"><img src="shots/re-01-campaign.jpg" alt="กดลงทะเบียนงาน"><figcaption><b>กดลงทะเบียนงาน</b></figcaption></figure>
-  <div class="arrow" aria-hidden="true"></div>
-  <figure class="shot"><img src="shots/re-02-intro.jpg" alt="ถามเฉพาะ 4 ข้อที่ยังขาด"><figcaption><b>ถามเฉพาะ 4 ข้อที่ยังขาด</b></figcaption></figure>
-</div></div>
+<section class="lane" id="invite">
+  <header class="lane-h">
+    <span class="num" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><path d="M128 28l30 61 67 10-48 47 11 67-60-32-60 32 11-67-48-47 67-10z"/></svg></span>
+    <div><h2>ชวนด้วยสถานะ "เป็น STAR" ไม่ใช่ "กรอกให้ครบ"</h2><p>banner ใบเดียว สูงเท่ากันทุกสถานะ · % ทางไปเป็น STAR · แตะแล้วถามเฉพาะข้อที่ขาด · STAR ครบ 8 ข้อ = banner หายเลย · STAR เก่าที่ยังไม่ครบ = เติมข้อมูล STAR</p></div>
+    <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
+  </header>
+  <div class="states wrap" role="list" aria-label="สถานะของ banner">
+    <div class="states-h"><b>banner มี 4 สถานะ</b><span>ใบเดียว สูงเท่ากันทุกใบ · วงทอง + ป้าย % = ทางไปเป็น STAR · STAR เก่าที่ยังไม่ครบ = "ขาด N ข้อ" แทน % · ครบ 8 ข้อ = ไม่มี banner แม้ข้อมูลอื่นยังไม่ครบ</span></div>
+    <div class="states-g"><figure class="state" role="listitem"><img src="shots/ban-s0.jpg" alt="A ยังไม่เป็น STAR · 63%"><figcaption><b><i>A</i>ยังไม่เป็น STAR · 63%</b><span>แตะ → ถามเฉพาะข้อที่ขาดใน 8 ข้อ แล้วเปิด Star Profile</span><small>เดิม: InProgress</small></figcaption></figure><figure class="state" role="listitem"><img src="shots/ban-s0-wait.jpg" alt="A เหลือแค่ยืนยันตัวตน รอตรวจ · 88%"><figcaption><b><i>A</i>เหลือแค่ยืนยันตัวตน รอตรวจ · 88%</b><span>แตะ → หน้าสถานะ "ทีมงานกำลังตรวจเอกสาร"</span><small>เดิม: WaitingVerify</small></figcaption></figure><figure class="state" role="listitem"><img src="shots/ban-s0-reject.jpg" alt="A เหลือแค่ยืนยันตัวตน ไม่ผ่าน · 88%"><figcaption><b><i>A</i>เหลือแค่ยืนยันตัวตน ไม่ผ่าน · 88%</b><span>แตะ → หน้าสถานะ บอกเหตุผล ส่งใหม่</span><small>เดิม: RejectVerify</small></figcaption></figure><figure class="state" role="listitem"><img src="shots/ban-c.jpg" alt="C STAR เก่า ข้อมูลยังไม่ครบ · ขาด 5 ข้อ"><figcaption><b><i>C</i>STAR เก่า ข้อมูลยังไม่ครบ · ขาด 5 ข้อ</b><span>แตะ → ถามเฉพาะข้อที่ขาดใน 8 ข้อ แล้วเปิด Star Profile</span><small>เดิม: ไม่มี (ใหม่)</small></figcaption></figure></div>
+  </div>
+  <div class="strip" tabindex="0" role="group" aria-label="ชวนด้วยสถานะ "เป็น STAR" ไม่ใช่ "กรอกให้ครบ" เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
+    <div class="track"><figure class="shot"><img src="shots/inv-01-home-s0.jpg" alt="หน้าแรก ยังไม่เป็น STAR: วงทองรอบรูป + 63% อีก 3 ข้อ"><figcaption><b>หน้าแรก ยังไม่เป็น STAR: วงทองรอบรูป + 63% อีก 3 ข้อ</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/inv-02-wizard-s0.jpg" alt="ถามเฉพาะข้อที่ขาดใน 8 ข้อ (1/3) ไม่มีหน้ารายการขั้น"><figcaption><b>ถามเฉพาะข้อที่ขาดใน 8 ข้อ (1/3) ไม่มีหน้ารายการขั้น</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>ครบ 8 ข้อ</span></div><figure class="shot"><img src="shots/inv-03-home-star.jpg" alt="เป็น STAR แล้ว banner หายไปเลย"><figcaption><b>เป็น STAR แล้ว banner หายไปเลย</b><span class="goal">ไม่มี banner</span></figcaption></figure><div class="or" aria-hidden="true"><span>เหลือแค่ยืนยันตัวตน รอตรวจ</span></div><figure class="shot"><img src="shots/inv-05-home-wait.jpg" alt="ใบเดิม ขนาดเดิม · ป้ายนาฬิกาที่รูป · 88%"><figcaption><b>ใบเดิม ขนาดเดิม · ป้ายนาฬิกาที่รูป · 88%</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/inv-06-wait-status.jpg" alt="หน้าสถานะยืนยันตัวตน รอผล"><figcaption><b>หน้าสถานะยืนยันตัวตน รอผล</b></figcaption></figure><div class="or" aria-hidden="true"><span>ไม่ผ่าน</span></div><figure class="shot"><img src="shots/inv-07-home-reject.jpg" alt="ใบเดิม ขนาดเดิม · ป้าย ! แดงที่รูป สีแดงที่เดียว"><figcaption><b>ใบเดิม ขนาดเดิม · ป้าย ! แดงที่รูป สีแดงที่เดียว</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/inv-08-kyc.jpg" alt="หน้าสถานะ ไม่ผ่าน บอกเหตุผล + ส่งใหม่"><figcaption><b>หน้าสถานะ ไม่ผ่าน บอกเหตุผล + ส่งใหม่</b><span class="goal">ส่งใหม่</span></figcaption></figure><div class="or" aria-hidden="true"><span>หน้าโปรไฟล์</span></div><figure class="shot"><img src="shots/inv-09-profile-s0.jpg" alt="ใบเดียวกันเหนือช่องโพสต์ แทนที่ของเดิม"><figcaption><b>ใบเดียวกันเหนือช่องโพสต์ แทนที่ของเดิม</b></figcaption></figure><div class="or" aria-hidden="true"><span>STAR เก่า ข้อมูลยังไม่ครบ</span></div><figure class="shot"><img src="shots/inv-10-home-c.jpg" alt="เติมข้อมูล STAR · ขาด 5 ข้อ วงทองเต็ม ไม่มี %"><figcaption><b>เติมข้อมูล STAR · ขาด 5 ข้อ วงทองเต็ม ไม่มี %</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะรูปโปรไฟล์ครีเอเตอร์</span></div><figure class="shot"><img src="shots/inv-11-profile-c.jpg" alt="เป็น STAR ทุกที่ การ์ดทองกางให้ ข้อที่ขาดมีปุ่มเพิ่ม"><figcaption><b>เป็น STAR ทุกที่ การ์ดทองกางให้ ข้อที่ขาดมีปุ่มเพิ่ม</b></figcaption></figure><div class="or" aria-hidden="true"><span>กดสมัครกิจกรรม</span></div><figure class="shot"><img src="shots/inv-12-intro-c.jpg" alt="บังคับเติมก่อน แบรนด์ขอข้อมูลเพิ่ม · เติมข้อมูล 5 ข้อ"><figcaption><b>บังคับเติมก่อน แบรนด์ขอข้อมูลเพิ่ม · เติมข้อมูล 5 ข้อ</b><span class="goal">ครบแล้วไปฟอร์มสมัคร</span></figcaption></figure><aside class="end">
+  <h4>กติกา</h4>
+  <div class="chips"><i class="req">สูงเท่ากันทุกสถานะ</i><i class="req">ปุ่มวงกลมลูกศร ไม่มีข้อความ</i><i class="req">เช็คแค่ 8 ข้อ</i><i class="req">% เฉพาะก่อนเป็น STAR</i><i class="req">STAR ครบ = หายเลย</i><i class="req">รอตรวจ/ไม่ผ่าน เฉพาะตอนเหลือแค่ยืนยันตัวตน</i></div>
+  <p class="k">ใช้ของเดิม ไม่ออกแบบใหม่</p>
+  <div class="chips"><i class="have">หน้าสถานะยืนยันตัวตน</i><i class="have">ยศ STAR (userRank) เดิม</i><i class="have">สถานะ InProgress / WaitingVerify / RejectVerify เดิม</i></div>
+  <p class="k">ยังไม่ได้สร้าง</p>
+  <div class="chips"><i class="miss">backend ให้ยศเมื่อครบ 8 ข้อ (ตอนนี้ให้ที่ 3 ขั้นเดิม)</i><i class="miss">starPercent จาก server</i></div>
+  <p class="k">% เฉพาะก่อนเป็น STAR (เลขเดียวกับหน้า Star Profile) · STAR เก่าเห็น "ขาด N ข้อ" · ภาพจากต้นแบบ iOS</p>
+</aside></div>
+  </div>
+</section>
+
+<section id="hub"><div class="wrap">
+  <div class="sec-h"><h2>ทุกทางกรอกลงที่เดียว: Star Profile</h2><p>ตอบจากทางไหนก็มาอัปเดตที่นี่ · ข้อที่มีแล้วไม่ถามซ้ำ · ก่อนเป็น STAR หน้านี้โชว์แค่ 8 ข้อ ไม่มี %</p></div>
+  <div class="hub">
+    <div class="doors">
+      <button type="button" class="door" data-n="1" data-pages="0,1,2,3,4,5,6,7"><b class="jn">1</b><span class="dn">รับของไปรีวิว</span><span class="ask">กรอกแล้ว <b>0</b> จาก 8 · เหลือ <b>8</b> ข้อ</span><span class="bar"><i></i></span></button>
+      <button type="button" class="door" data-n="2" data-pages="0,1,2,3,4,5,6,7,8,9,10"><b class="jn">2</b><span class="dn">เป็น Star</span><span class="ask">กรอกแล้ว <b>0</b> จาก 11 · เหลือ <b>11</b> ข้อ</span><span class="bar"><i></i></span></button>
+      <button type="button" class="door" data-n="3" data-pages="0,1,2,3,4,5,6,7"><b class="jn">3</b><span class="dn">สร้าง Star Card</span><span class="ask">กรอกแล้ว <b>0</b> จาก 8 · เหลือ <b>8</b> ข้อ</span><span class="bar"><i></i></span></button>
+    </div>
+    <div class="core">
+      <figure class="core-shot"><div class="screens"><img class="on" data-n="0" src="shots/hub-0.jpg" alt="หน้า Star Profile ในแอป ตอนมีข้อมูล 0 ข้อ"><img data-n="8" src="shots/hub-8.jpg" alt="หน้า Star Profile ในแอป ตอนมีข้อมูล 8 ข้อ"><img data-n="11" src="shots/hub-11.jpg" alt="หน้า Star Profile ในแอป ตอนมีข้อมูล 11 ข้อ"></div><figcaption>หน้า Star Profile ในแอป</figcaption></figure>
+      <div class="core-main">
+      <div class="core-h"><h3>Star <span>Profile</span></h3><span class="count">มีแล้ว <b>0</b> จาก 11 ข้อ</span></div>
+      <div class="chips"><i class="miss">ประเภทครีเอเตอร์</i><i class="miss">ช่องทางของฉัน + เรท</i><i class="miss">สายที่ใช่</i><i class="miss">เกี่ยวกับคุณ</i><i class="miss">พื้นที่รับงาน</i><i class="miss">วันเวลาว่างรับงาน</i><i class="miss">ช่องทางติดต่อ</i><i class="miss">ยืนยันตัวตน</i><i class="miss">ที่อยู่รับของ</i><i class="miss">การรับเงิน</i><i class="miss">สัดส่วน</i></div>
+      <div class="uses"><span>เติมให้เองที่</span><i>Star Card</i><i>ฟอร์มสมัครงาน</i><i>หน้าตอบรับ</i></div>
+      </div>
+    </div>
+  </div>
+  <div class="hub-foot"><p class="hub-say" aria-live="polite">กดทางเข้าทีละทาง ดูว่ากรอกไปเท่าไหร่ เหลือเท่าไหร่</p><button type="button" class="hub-reset" hidden>เริ่มใหม่</button></div>
+</div></section>
+
+<section class="lane" id="insight">
+  <header class="lane-h">
+    <span class="num" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><polyline points="224 208 32 208 32 48"/><polyline points="224 96 160 152 96 104 32 160"/></svg></span>
+    <div><h2>มีการ์ดแล้ว อยากรู้ว่าใครมาดู</h2><p>มีแบรนด์มาดู แอปแจ้งเตือนเรียกกลับมา · เปิดมาเห็น 3 เรื่องในหน้าเดียว</p></div>
+    <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
+  </header>
+  <div class="strip" tabindex="0" role="group" aria-label="มีการ์ดแล้ว อยากรู้ว่าใครมาดู เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
+    <div class="track"><figure class="shot"><img src="shots/in-01-noti.jpg" alt="แบรนด์มาดู แอปแจ้งเตือน"><figcaption><em class="tag">ยังไม่ได้สร้าง</em><b>แบรนด์มาดู แอปแจ้งเตือน</b></figcaption></figure><div class="or" aria-hidden="true"><span>หรือ</span></div><figure class="shot"><img src="shots/in-02-profile.jpg" alt="กดปุ่มยอดวิวใน Star Profile"><figcaption><b>กดปุ่มยอดวิวใน Star Profile</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/in-03-insight.jpg" alt="Star Insight หน้าเดียว 3 เรื่อง"><figcaption><b>Star Insight หน้าเดียว 3 เรื่อง</b><span class="goal">รู้ว่าใครมาดู</span></figcaption></figure><div class="arrow" aria-hidden="true"></div><div class="stub"><b>ทำต่อจากหน้านี้</b><span>แต่งการ์ดให้ตรงสายที่แบรนด์ดู</span><span>แชร์การ์ดเพิ่มยอดวิว</span></div><aside class="end">
+  <h4>หน้าเดียว 3 เรื่อง</h4>
+  <p class="k">เจ้าของการ์ดเห็น</p>
+  <div class="chips"><i class="have">ยอดวิว</i><i class="have">กดเข้ามาดูการ์ด</i><i class="have">แบรนด์สายไหน</i></div>
+  <p class="k">แจ้งเตือน</p>
+  <div class="chips"><i class="req">บอกจำนวน + สาย</i><i class="req">รวมรอบเดียวตอนเย็น</i><i class="req">ไม่เกินวันละครั้ง</i></div>
+  <p class="k">ยังไม่ได้สร้าง</p>
+  <div class="chips"><i class="miss">ระบบนับยอดวิว</i><i class="miss">ส่งแจ้งเตือนจริง</i></div>
+  <p class="k">ตัวเลขในภาพเป็นข้อมูลจำลอง</p>
+</aside></div>
+  </div>
+</section>
+
+<section class="lane" id="kyc">
+  <header class="lane-h">
+    <span class="num" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><rect x="32" y="48" width="192" height="160" rx="12"/><circle cx="96" cy="128" r="24"/><path d="M60 180a40 40 0 0 1 72 0"/><line x1="152" y1="112" x2="192" y2="112"/><line x1="152" y1="144" x2="192" y2="144"/></svg></span>
+    <div><h2>ยืนยันตัวตนไม่ผ่านทันที: รอตรวจ หรือ ตีกลับ</h2><p>ต้องผ่านก่อนส่งใบสมัคร · คำตอบที่กรอกไว้ยังอยู่ครบ · ผ่านแล้วแจ้งเตือนพากลับมาสมัครต่อ</p></div>
+    <div class="nudge"><button type="button" data-dir="-1" aria-label="เลื่อนกลับ">‹</button><button type="button" data-dir="1" aria-label="เลื่อนไปขั้นถัดไป">›</button></div>
+  </header>
+  <div class="strip" tabindex="0" role="group" aria-label="ยืนยันตัวตนไม่ผ่านทันที: รอตรวจ หรือ ตีกลับ เลื่อนไปทางขวาเพื่อดูขั้นถัดไป">
+    <div class="track"><div class="group"><div class="group-h">หน้าเดิมของแอปหลัก<span>เลือกเอกสาร · วิธีถ่าย · กล้องบัตร · วิธีถ่ายรูปคู่ · กล้อง · ฟอร์ม</span></div><div class="tiles"><figure class="tile"><img src="shots/ky-10-type.jpg" alt="เลือกเอกสาร"><figcaption>เลือกเอกสาร</figcaption></figure><figure class="tile"><img src="shots/ky-11-instruction.jpg" alt="วิธีการถ่ายรูป"><figcaption>วิธีการถ่ายรูป</figcaption></figure><figure class="tile"><img src="shots/ky-12-camera-preview.jpg" alt="กล้อง ยืนยันข้อมูล"><figcaption>กล้อง ยืนยันข้อมูล</figcaption></figure></div></div><div class="arrow noted" aria-hidden="true"><span>OCR อ่านไม่ผ่าน</span></div><figure class="shot"><img src="shots/ky-13-ocr-error.jpg" alt="modal เตือนเดิม ลองใหม่อีกครั้ง"><figcaption><b>modal เตือนเดิม ลองใหม่อีกครั้ง</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>ครั้งที่ 3</span></div><figure class="shot"><img src="shots/ky-14-prompt-manual.jpg" alt="ฟอร์มเติมจาก OCR กดส่งเอง prompt เดิม มีคำเตือนแดง"><figcaption><b>ฟอร์มเติมจาก OCR กดส่งเอง prompt เดิม มีคำเตือนแดง</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/ky-15-sent.jpg" alt="ส่งคำขอยืนยันตัวตนสำเร็จ รอการอนุมัติ (แอปหลักเขียน 7 วันทำการ)"><figcaption><b>ส่งคำขอยืนยันตัวตนสำเร็จ รอการอนุมัติ (แอปหลักเขียน 7 วันทำการ)</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/ky-01-campaign-wait.jpg" alt="หน้ากิจกรรมเดิม ปุ่มลงทะเบียนเหมือนเดิม ไม่แก้"><figcaption><b>หน้ากิจกรรมเดิม ปุ่มลงทะเบียนเหมือนเดิม ไม่แก้</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/ky-02-status-wait.jpg" alt="หน้าสถานะโครงเดียวกับ wizard หัวข้อ ชิป ภาพ ปุ่ม ยกเลิกคำขอได้"><figcaption><b>หน้าสถานะโครงเดียวกับ wizard หัวข้อ ชิป ภาพ ปุ่ม ยกเลิกคำขอได้</b></figcaption></figure><div class="or" aria-hidden="true"><span>ระหว่างรอ</span></div><figure class="shot"><img src="shots/ky-08-profile-wait.jpg" alt="ขั้นยืนยันตัวตนใน Star Profile ก็ UI เดียวกัน"><figcaption><b>ขั้นยืนยันตัวตนใน Star Profile ก็ UI เดียวกัน</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>staff กดผล</span></div><figure class="shot"><img src="shots/ky-03-push-ok.jpg" alt="ผ่าน แจ้งเตือน แตะแล้วเปิดฟอร์มสมัครใบที่ค้างไว้"><figcaption><b>ผ่าน แจ้งเตือน แตะแล้วเปิดฟอร์มสมัครใบที่ค้างไว้</b><span class="goal">สมัครต่อได้</span></figcaption></figure><div class="or" aria-hidden="true"><span>หรือ</span></div><figure class="shot"><img src="shots/ky-04-push-reject.jpg" alt="ไม่ผ่าน แจ้งเตือนพร้อมเหตุผลจาก staff"><figcaption><b>ไม่ผ่าน แจ้งเตือนพร้อมเหตุผลจาก staff</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>แตะ</span></div><figure class="shot"><img src="shots/ky-05-status-reject.jpg" alt="หน้าสถานะเดียวกัน เหตุผลจาก staff ปุ่มเดียว ส่งใหม่"><figcaption><b>หน้าสถานะเดียวกัน เหตุผลจาก staff ปุ่มเดียว ส่งใหม่</b></figcaption></figure><div class="arrow" aria-hidden="true"></div><figure class="shot"><img src="shots/ky-06-reject-form.jpg" alt="ฟอร์มเดิมของแอปหลัก การ์ดสถานะแดง เหตุผล ถ่ายใหม่หรือส่งเลย"><figcaption><b>ฟอร์มเดิมของแอปหลัก การ์ดสถานะแดง เหตุผล ถ่ายใหม่หรือส่งเลย</b></figcaption></figure><div class="arrow noted" aria-hidden="true"><span>ถ่ายใหม่ OCR ผ่าน</span></div><div class="group"><div class="group-h">จบแบบผ่านทันที<span>เคสส่วนใหญ่ ไม่ต้องรอ</span></div><div class="tiles"><figure class="tile"><img src="shots/ky-16-prompt-auto.jpg" alt="ยืนยันข้อมูลจาก OCR"><figcaption>ยืนยันข้อมูลจาก OCR</figcaption></figure><figure class="tile"><img src="shots/ky-17-success-auto.jpg" alt="ยืนยันตัวตนเสร็จสมบูรณ์"><figcaption>ยืนยันตัวตนเสร็จสมบูรณ์</figcaption></figure></div></div><aside class="end">
+  <h4>กติกา</h4>
+  <div class="chips"><i class="req">ต้องผ่านก่อนสมัคร</i><i class="req">แจ้งผล 3 วันทำการ</i><i class="req">ส่งใหม่ได้ทันที</i><i class="req">ยกเลิกคำขอได้เฉพาะตอนรอ · แตะ 2 ครั้ง</i><i class="req">หน้าสถานะเฉพาะตอนเหลือแค่ข้อนี้</i></div>
+  <p class="k">ใช้ของเดิม ไม่แก้ API</p>
+  <div class="chips"><i class="have">push approve / reject เดิม</i><i class="have">เหตุผล UserVerify.reason เดิม</i><i class="have">ด่านเช็กฝั่ง client</i></div>
+  <p class="k">ยังไม่ได้สร้าง / ต้องตกลง</p>
+  <div class="chips"><i class="miss">preset เหตุผลตีกลับให้ staff</i><i class="miss">คิวด่วน คนมีงานค้างสมัคร</i><i class="miss">เลขวันรอให้ตรงกัน (7 vs 1–3)</i></div>
+  <p class="k">ภาพจากต้นแบบ iOS สลับผลด้วย Lab</p>
+</aside></div>
+  </div>
 </section>
 </main>
 
 <dialog class="zoom" aria-label="ภาพขยาย"><img alt=""></dialog>
 <footer><div class="wrap">
-  <span class="tag">ยังไม่ได้สร้าง</span>= ขั้นที่ยังไม่มีในต้นแบบ · ภาพ Flow ใหม่จากต้นแบบ iOS · ภาพ Flow เก่าจากแอป Sale Here จริง · 2 ต.ค. 2569
+  <span class="tag">ยังไม่ได้สร้าง</span>= ขั้นที่ยังไม่มีในต้นแบบ · ภาพ Flow ใหม่จากต้นแบบ iOS · ภาพ Flow เก่าจากแอป Sale Here จริง · 6 ต.ค. 2569
 </div></footer>
 <script>
 // เลื่อนแถบทีละช่วง + แตะภาพเพื่อดูใหญ่
@@ -279,10 +427,52 @@ document.querySelectorAll('.nudge button').forEach(function (b) {
     strip.scrollBy({ left: Number(b.dataset.dir) * strip.clientWidth * 0.7, behavior: 'smooth' })
   })
 })
+// ศูนย์กลาง: กดทางเข้า → ข้อที่ยังไม่มีลง Star Profile · ทางอื่นเหลือถามน้อยลง
+;(function () {
+  var hub = document.querySelector('.hub')
+  if (!hub) return
+  var doors = [].slice.call(hub.querySelectorAll('.door'))
+  var chips = [].slice.call(hub.querySelectorAll('.core .chips i'))
+  var count = hub.querySelector('.count b')
+  var screens = [].slice.call(hub.querySelectorAll('.screens img'))
+  var say = document.querySelector('.hub-say'), reset = document.querySelector('.hub-reset')
+  var idle = say.textContent, have = {}
+  function pages(d) { return d.dataset.pages.split(',').map(Number) }
+  function paint(fresh, from) {
+    var n = 0
+    chips.forEach(function (c, i) {
+      var k = fresh ? fresh.indexOf(i) : -1
+      c.className = have[i] ? (k >= 0 ? 'new' : 'have') : 'miss'
+      c.style.animationDelay = k >= 0 ? k * 55 + 'ms' : ''
+      if (have[i]) n++
+    })
+    count.textContent = n
+    screens.forEach(function (im) { im.classList.toggle('on', Number(im.dataset.n) === n) })
+    doors.forEach(function (d) {
+      var all = pages(d), left = all.filter(function (i) { return !have[i] }).length
+      var got = all.length - left
+      d.querySelector('.ask').innerHTML = 'กรอกแล้ว <b>' + got + '</b> จาก ' + all.length + ' · ' + (left === 0 ? '<em>ไม่ถามแล้ว</em>' : 'เหลือ <b>' + left + '</b> ข้อ')
+      d.querySelector('.bar i').style.width = got / all.length * 100 + '%'
+      d.classList.toggle('done', left === 0)
+      d.classList.toggle('lit', d === from)
+      d.disabled = left === 0
+    })
+    reset.hidden = n === 0
+  }
+  doors.forEach(function (d) {
+    d.addEventListener('click', function () {
+      var all = pages(d), fresh = all.filter(function (i) { return !have[i] }), skip = all.length - fresh.length
+      fresh.forEach(function (i) { have[i] = true })
+      paint(fresh, d)
+      say.textContent = 'Journey ' + d.dataset.n + ' ถาม ' + fresh.length + ' ข้อ' + (skip ? ' · ข้าม ' + skip + ' ข้อที่ตอบแล้ว' : '') + ' · ลงที่ Star Profile'
+    })
+  })
+  reset.addEventListener('click', function () { have = {}; paint(null, null); say.textContent = idle })
+})()
 var zoom = document.querySelector('dialog.zoom')
 document.addEventListener('click', function (e) {
   if (zoom.open) { zoom.close(); return }
-  var im = e.target.closest('.shot img, .tile img, .pics img')
+  var im = e.target.closest('.shot img, .tile img, .pics img, .screens img.on, .state img')
   if (!im) return
   var big = zoom.querySelector('img')
   big.src = im.currentSrc || im.src; big.alt = im.alt

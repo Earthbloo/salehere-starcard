@@ -25,9 +25,10 @@ import UniformTypeIdentifiers
 final class Portfolio {
     static let shared = Portfolio()
 
+    /// รูปของคุณ · รูปผลงาน · วิดีโอ อย่างละไม่เกิน 3 (ผู้ใช้ 7 ต.ค. 2569) — ขั้นต่ำอย่างละ 1 อยู่ที่ `StarFlow.minPhotos/minWorks/minVideos`
     static let creatorSlots = 3
-    static let workMax = 10
-    static let videoMax = 5
+    static let workMax = 3
+    static let videoMax = 3
     /// เท่ากับขีดของแอป Sale Here เดิม
     static let videoMaxMB = 100
 
@@ -133,6 +134,30 @@ final class Portfolio {
         return .added
     }
 
+    /// เปลี่ยนคลิปในช่องเดิม (เป็น STAR แล้วลบไม่ได้ — `StarFlow.keepsData`) · id และตำแหน่งเดิม ไฟล์เก่าลบทิ้งเมื่อของใหม่พร้อมแล้ว
+    @MainActor
+    func replaceVideo(_ id: UUID, from temp: URL) async -> VideoResult {
+        guard let i = videos.firstIndex(where: { $0.id == id }) else { return .failed }
+        let bytes = (try? temp.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+        guard bytes <= Self.videoMaxMB * 1_000_000 else {
+            try? FileManager.default.removeItem(at: temp)
+            return .tooBig
+        }
+        let old = videos[i].file
+        let ext = temp.pathExtension.isEmpty ? "mov" : temp.pathExtension
+        let dest = Self.file("video-\(id.uuidString)-\(UUID().uuidString.prefix(6)).\(ext)")
+        do { try FileManager.default.moveItem(at: temp, to: dest) } catch { return .failed }
+        guard let v = await Self.makeVideo(id: id, file: dest), let at = videos.firstIndex(where: { $0.id == id }) else {
+            try? FileManager.default.removeItem(at: dest)
+            return .failed
+        }
+        videos[at] = v
+        if old != dest { try? FileManager.default.removeItem(at: old) }
+        write(v.thumb, to: Self.file("video-\(id.uuidString).jpg"))
+        persist()
+        return .added
+    }
+
     func removeVideo(_ id: UUID) {
         guard let v = videos.first(where: { $0.id == id }) else { return }
         videos.removeAll { $0.id == id }
@@ -149,61 +174,30 @@ final class Portfolio {
 
     // MARK: ตัวอย่างสำหรับทดสอบ flow (`StarFlow.autofill`)
 
-    /// เติมช่องที่ยังไม่ถึงขั้นต่ำ: รูปของคุณ 3 · ผลงาน 2 · คลิป 2 (คลิปทำจากรูปตัวอย่าง 2 วินาที)
+    /// เติมช่องที่ยังว่าง: รูปของคุณ 3 · ผลงาน 3 · คลิป 2 — ชุดจริงที่กรอกไว้บน simulator iPhone 17 (5 ต.ค. 2569)
+    /// ไฟล์อยู่ใน `Resources/Prefill` (`prefill-creator-0…2.jpg` · `prefill-work-0…2.jpg` · `prefill-video-0.mov` / `-1.mp4`)
     @MainActor
     func fillSample() async {
         guard !filling else { return }
         filling = true
         defer { filling = false }
-        let pics = ["ph01", "ph02", "ph03", "ph04"].compactMap { UIImage(named: $0) }
-        guard pics.count == 4 else { return }
-        for i in creators.indices where creators[i] == nil { setCreator(pics[i], at: i) }
-        if works.count < 2 { addWorks(Array([pics[3], pics[1]].prefix(2 - works.count))) }
-        var k = 0
-        while videos.count < 2, k < 4 {
-            guard let tmp = await Self.sampleClip(pics[(videos.count + 2) % 4]) else { break }
+        func pic(_ name: String) -> UIImage? {
+            Bundle.main.url(forResource: name, withExtension: "jpg").flatMap { UIImage(contentsOfFile: $0.path) }
+        }
+        for i in creators.indices where creators[i] == nil {
+            if let img = pic("prefill-creator-\(i)") { setCreator(img, at: i) }
+        }
+        if works.isEmpty { addWorks((0..<3).compactMap { pic("prefill-work-\($0)") }) }
+        guard videos.isEmpty else { return }
+        for (name, ext) in [("prefill-video-0", "mov"), ("prefill-video-1", "mp4")] {
+            guard let src = Bundle.main.url(forResource: name, withExtension: ext) else { continue }
+            // addVideo ย้ายไฟล์เข้าที่เก็บ — ส่งสำเนาไป ไม่ใช่ไฟล์ใน bundle
+            let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + "." + ext)
+            guard (try? FileManager.default.copyItem(at: src, to: tmp)) != nil else { continue }
             _ = await addVideo(from: tmp)
-            k += 1
         }
     }
     @ObservationIgnored private var filling = false
-
-    /// คลิปนิ่ง 2 วินาทีจากรูปเดียว — ไฟล์ชั่วคราว (addVideo ย้ายเข้าที่เก็บเอง)
-    private static func sampleClip(_ image: UIImage) async -> URL? {
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".mp4")
-        let size = CGSize(width: 540, height: 960)
-        guard let w = try? AVAssetWriter(outputURL: url, fileType: .mp4) else { return nil }
-        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
-            AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: size.width, AVVideoHeightKey: size.height])
-        let px = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: [
-            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32ARGB,
-            kCVPixelBufferWidthKey as String: size.width, kCVPixelBufferHeightKey as String: size.height])
-        w.add(input)
-        guard w.startWriting() else { return nil }
-        w.startSession(atSourceTime: .zero)
-        let frame = UIGraphicsImageRenderer(size: size, format: { let f = UIGraphicsImageRendererFormat.default(); f.scale = 1; return f }()).image { _ in
-            let k = max(size.width / image.size.width, size.height / image.size.height)
-            let d = CGSize(width: image.size.width * k, height: image.size.height * k)
-            image.draw(in: CGRect(x: (size.width - d.width) / 2, y: (size.height - d.height) / 2, width: d.width, height: d.height))
-        }
-        guard let cg = frame.cgImage, let pool = px.pixelBufferPool else { return nil }
-        var buf: CVPixelBuffer?
-        CVPixelBufferPoolCreatePixelBuffer(nil, pool, &buf)
-        guard let buf else { return nil }
-        CVPixelBufferLockBaseAddress(buf, [])
-        let ctx = CGContext(data: CVPixelBufferGetBaseAddress(buf), width: Int(size.width), height: Int(size.height), bitsPerComponent: 8,
-                            bytesPerRow: CVPixelBufferGetBytesPerRow(buf), space: CGColorSpaceCreateDeviceRGB(),
-                            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
-        ctx?.draw(cg, in: CGRect(origin: .zero, size: size))
-        CVPixelBufferUnlockBaseAddress(buf, [])
-        for t in [0, 1, 2] {
-            while !input.isReadyForMoreMediaData { try? await Task.sleep(nanoseconds: 5_000_000) }
-            px.append(buf, withPresentationTime: CMTime(value: CMTimeValue(t), timescale: 1))
-        }
-        input.markAsFinished()
-        await w.finishWriting()
-        return w.status == .completed ? url : nil
-    }
 
     // MARK: ที่เก็บ
 
@@ -252,6 +246,9 @@ final class Portfolio {
             else { return nil }
             return Video(id: e.id, file: f, thumb: thumb, duration: e.duration)
         }
+        // เพดานลดเหลือ 3 (7 ต.ค. 2569) — ของที่เก็บไว้เกินจากรุ่นก่อนตัดออกให้ตรงกติกา
+        for w in works.dropFirst(Self.workMax) { removeWork(w.id) }
+        for v in videos.dropFirst(Self.videoMax) { removeVideo(v.id) }
     }
 
     private func write(_ image: UIImage?, to url: URL) {

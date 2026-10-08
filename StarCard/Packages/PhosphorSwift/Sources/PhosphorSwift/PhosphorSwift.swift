@@ -43,6 +43,7 @@ public enum Ph: String, CaseIterable, Identifiable {
     case paperPlaneTilt = "paper-plane-tilt"
     case pencilSimple = "pencil-simple"
     case plus = "plus"
+    case ruler = "ruler"
     case sealCheck = "seal-check"
     case sparkle = "sparkle"
     case star = "star"
@@ -86,6 +87,9 @@ public enum Ph: String, CaseIterable, Identifiable {
     case eye = "eye"
     case gift = "gift"
     case chartBar = "chart-bar"
+    case trendUp = "trend-up"
+    case trendDown = "trend-down"
+    case chartLineUp = "chart-line-up"
 }
 
 public extension Ph {

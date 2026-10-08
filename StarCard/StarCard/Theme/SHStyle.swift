@@ -20,6 +20,9 @@ enum SHColor {
     /// เขียว "ลงทะเบียนแล้ว" / "ผูกบัญชีแล้ว" ของแอปหลัก
     static let green = Color(red: 18 / 255, green: 183 / 255, blue: 106 / 255)
     static let greenSoft = Color(red: 231 / 255, green: 246 / 255, blue: 239 / 255)
+    /// ส้ม "รอพิจารณา" ของแอปหลัก (การ์ดสถานะ waiting_approve ใน VerifyUserStatusView)
+    static let orange = Color(red: 245 / 255, green: 140 / 255, blue: 22 / 255)
+    static let orangeSoft = Color(red: 255 / 255, green: 243 / 255, blue: 229 / 255)
 
     // MARK: ตัวหนังสือ
     /// #16181D · text-primary

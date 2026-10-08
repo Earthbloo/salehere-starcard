@@ -30,7 +30,7 @@ window.Store = (function () {
       consent: false,
     },
     devPanel: true,
-    // flow ใหม่ (แทรก StarCard เข้า Unbox) — 'old' | 'new' · new.html ตั้ง window.DEFAULT_FLOW = 'new'
+    // flow ใหม่ (แทรก StarCard เข้า Unbox) — 'old' | 'new' · สลับจากแผง (new.html ลบแล้ว 7 ต.ค. 2569 — flow ใหม่ตัวจริงอยู่ที่ desktop/ พอร์ต 8796)
     flow: (window.DEFAULT_FLOW || 'old'),
     // ข้อมูลที่กรอกไว้ใน Star Profile แล้ว — ติ๊กในแผง: มี = เติมให้/ข้าม · ไม่มี = ถามตรงขั้นที่ใช้
     profile: { socials: false, categories: false, about: false, rate: false, insight: false, consent: false, address: false, draftRounds: false, availability: false, contact: false, bank: false, measurements: false, province: false, video: false },

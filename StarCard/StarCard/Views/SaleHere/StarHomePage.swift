@@ -7,6 +7,8 @@ import PhosphorSwift
 struct StarHomePage: View {
     let campaigns: [StarCampaign]
     let onOpen: (StarCampaign) -> Void
+    /// banner "สมัครเป็น ST★R" (ยังไม่เป็น STAR เท่านั้น)
+    var onBanner: () -> Void = {}
 
     var body: some View {
         VStack(spacing: 0) {
@@ -19,6 +21,7 @@ struct StarHomePage: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 18) {
                     sectionHeader
+                    StarInviteBanner(onTap: onBanner).padding(.horizontal, 16)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(campaigns) { c in

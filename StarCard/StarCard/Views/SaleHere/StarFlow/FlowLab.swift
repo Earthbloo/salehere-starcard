@@ -140,7 +140,7 @@ struct FlowLab: View {
             header("ข้อมูลใน STAR PROFILE", "ติ๊กออก = ย้อน state กลับไปขั้นที่ขอ")
             HStack(spacing: 4) {
                 Text("Star Card:").font(.sh(14)).foregroundStyle(ink)
-                Text(flow.isStar ? "มีแล้ว (เป็น STAR)" : flow.hasCard ? "มีแล้ว (ยังไม่ยืนยันตัวตน)" : "ยังไม่มี").font(.sh(14, .bold)).foregroundStyle(flow.hasCard ? PK.redDark : muted)
+                Text(flow.isStar ? "มีแล้ว (เป็น STAR)" : flow.hasCard ? "มีแล้ว (ยังไม่ครบ 8 ข้อ)" : "ยังไม่มี").font(.sh(14, .bold)).foregroundStyle(flow.hasCard ? PK.redDark : muted)
                 Text("· กิจกรรม").font(.sh(14)).foregroundStyle(ink)
                 Text(campaign.episode).font(.sh(14, .bold)).foregroundStyle(PK.redDark)
             }
@@ -153,6 +153,16 @@ struct FlowLab: View {
             }
             .tint(red)
             .onChange(of: autofill) { _, v in StarFlow.autofill = v }
+            .padding(12)
+            .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(PK.fieldFill))
+            // ยศ STAR (`myProfile.userRank`) — STAR เก่าเป็น STAR ต่อแม้ 8 ข้อยังไม่ครบ = สถานะ C (salehere-ios 7 ต.ค. 2569)
+            Toggle(isOn: Binding(get: { flow.starRank }, set: { flow.starRank = $0 })) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("STAR เก่า (มียศ STAR)").font(.sh(14, .bold)).foregroundStyle(ink)
+                    Text(flow.needsStarInfo ? "สถานะ C · เป็น STAR แต่ขาด \(flow.starMissing.count) ข้อ" : "เปิด = เป็น STAR ทันที ไม่ต้องครบ 8 ข้อ").font(.sh(11.5)).foregroundStyle(SHColor.textTertiary)
+                }
+            }
+            .tint(red)
             .padding(12)
             .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(PK.fieldFill))
 
@@ -180,12 +190,31 @@ struct FlowLab: View {
                 Text("สถานะ KYC").font(.sh(12.5, .semibold)).foregroundStyle(muted)
                 Picker("", selection: Binding(get: { flow.verify }, set: { v in
                     if v == .none, let back = flow.tick(nil, on: false, stage: stage) { jump(back) } else { flow.verify = v }
+                    // สลับใน lab = ผลจาก staff มาถึง (push จำลองเด้งเอง) · ตีกลับต้องมีเหตุผลติดมาเสมอ
+                    if v == .waiting, flow.kycSentAt == nil { flow.kycSentAt = Date() }
+                    if v == .rejected, flow.verifyReason.isEmpty { flow.verifyReason = StarFlow.rejectReasons[0] }
                 })) {
-                    Text("ยังไม่ทำ").tag(VerifyStatus.none); Text("รอตรวจ").tag(VerifyStatus.waiting); Text("ผ่าน").tag(VerifyStatus.approved)
+                    Text("ยังไม่ทำ").tag(VerifyStatus.none); Text("รอตรวจ").tag(VerifyStatus.waiting); Text("ตีกลับ").tag(VerifyStatus.rejected); Text("ผ่าน").tag(VerifyStatus.approved)
                 }
                 .pickerStyle(.segmented)
             }
             .padding(.top, 4)
+            if flow.verify == .rejected {
+                HStack(spacing: 10) {
+                    Text("เหตุผล").font(.sh(12.5, .semibold)).foregroundStyle(muted)
+                    Picker("", selection: Binding(get: { flow.verifyReason }, set: { flow.verifyReason = $0 })) {
+                        Text("บัตรไม่ชัด").tag(StarFlow.rejectReasons[0]); Text("หน้าไม่ตรง").tag(StarFlow.rejectReasons[1])
+                    }
+                    .pickerStyle(.segmented)
+                }
+            }
+            HStack(spacing: 10) {
+                Text("ผลตอนจบกล้อง").font(.sh(12.5, .semibold)).foregroundStyle(muted)
+                Picker("", selection: Binding(get: { StarFlow.kycOutcome }, set: { StarFlow.kycOutcome = $0 })) {
+                    Text("OCR ผ่าน · อนุมัติทันที").tag("approved"); Text("AI ไม่ผ่าน · ส่งทีมงาน").tag("waiting")
+                }
+                .pickerStyle(.segmented)
+            }
         }
     }
 

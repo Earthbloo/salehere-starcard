@@ -8,13 +8,21 @@
   const cur = s => D.CAMPAIGNS.find(c => c.slug === s.campaignSlug) || D.CAMPAIGNS[0];
   const isVerified = s => s.user.verify === 'approved';
   const P = s => s.profile;
-  // การ์ดเกิดจากสิ่งที่มีอยู่แล้ว (ช่องโซเชียล + สายที่ใช่) · "STAR" เต็มตัว = การ์ด + ยืนยันตัวตนผ่าน
-  const hasCard = s => P(s).socials && P(s).categories;
-  const isStar = s => hasCard(s) && isVerified(s);
+  // การ์ดประกอบขึ้นได้เมื่อมี ประเภท + สายที่ใช่ + รูปและผลงาน — ไม่ใช่สถานะ STAR
+  const hasCard = s => P(s).kind && P(s).categories && P(s).media;
+  // 8 ข้อที่แบรนด์ใช้คัดเลือก STAR (= `StarFlow.starSteps` ของ iOS) — ผู้ใช้ 6 ต.ค. 2569: ทุกทางเข้าถามชุดนี้ก่อนเสมอ ครบ = เป็น STAR (motion) แล้วค่อยทำต่อ
+  const STAR_STEPS = ['kind', 'socials', 'categories', 'media', 'province', 'availability', 'contact', 'kyc'];
+  const starMissing = s => STAR_STEPS.filter(k => k === 'kyc' ? !isVerified(s) : !P(s)[k]);
+  const isStar = s => !starMissing(s).length;
+  // ข้อที่ไม่ใช่ด่าน — "เติมเมื่อถึงเวลา" (ที่อยู่ · บัญชี · สัดส่วน) ถามต่อท้ายเฉพาะทาง "สมัครเป็น STAR" จากโปรไฟล์
+  const extrasMissing = s => ['address', 'bank', 'measurements'].filter(k => !P(s)[k]);
+  const profileSteps = s => [...starMissing(s), ...extrasMissing(s)];
+  // แถวที่อยู่ใน 8 ข้อ (เรทอยู่หน้าเดียวกับช่องทาง)
+  const GATE_ROWS = ['kyc', 'rate', 'media', 'province', 'availability', 'contact', 'socials', 'categories'];
   // ตัวเลขการแข่งขันของงานนี้ — ใช้เฉพาะสิ่งที่ระบบมีจริง: สิทธิ์ · คนสมัครแล้ว · ผู้สมัครล่าสุดที่เป็น STAR แล้ว
   const rival = s => { const c = cur(s), apps = (c.applications || []).filter(a => !a.me), stars = apps.filter(a => a.star).length; return { quota: c.quota, n: c.registered, ratio: Math.max(1, Math.round(c.registered / c.quota)), stars, apps: apps.length }; };
 
-  window.hasStarCard = hasCard; // ไม่มี "ระดับ" — มีการ์ด = เป็น STAR แล้ว แค่นั้น
+  window.hasStarCard = isStar; // แผง lab: "เป็น STAR" = ครบ 8 ข้อ
 
   // ---------- PK components ----------
   const pkHeader = (title, { go = 'campaign', sub = '' } = {}) => `<div class="pk-head"><button class="pk-circle" data-go="${go}">${I('x', 18, 'bold')}</button><div><div class="t">${title}</div>${sub ? `<span class="sub">${sub}</span>` : ''}</div><span></span></div>`;
@@ -70,12 +78,9 @@
       return html.replace(/(<div class="bar-desc[^"]*"[^>]*>[\s\S]*?<\/div>)/, `$1<div class="bar-desc ink" style="height:auto;padding:6px 0 4px;font-size:12px;gap:6px"><span class="lvl-chip">${isStar(s) ? '★ STAR' : '⏳ รอยืนยันตัวตน'}</span>${line}</div>`);
     }
     if (s.flow !== 'new' || s.campaign !== 'register' || s.reviewTab) return html;
-    const missing = applyMissing(s).length;
-    const c = cur(s);
-    const rv = rival(s);
-    // บอกเงื่อนไขตรง ๆ ก่อนกดปุ่ม: งานนี้รับเฉพาะ STAR
-    const hint = !hasCard(s) ? `งานนี้รับเฉพาะ STAR · กดลงทะเบียนแล้วสมัครเป็น STAR ก่อน (ครั้งเดียว ใช้ได้ทุกงาน)` : missing ? `แบรนด์คัดเลือกจากการ์ด · ขอเติมอีก ${missing} อย่างก่อนส่งใบสมัคร` : (isStar(s) ? 'การ์ดคุณครบแล้ว · ส่งใบสมัครได้เลย' : 'การ์ดพร้อม · ยืนยันตัวตนด้วย แบรนด์จะคัดเลือกง่ายขึ้น');
-    return html.replace(/(<div class="bar-clock">[\s\S]*?<\/div>)(\s*<button)/, `$1<div class="bar-desc ink" style="height:auto;padding-bottom:4px;font-size:12px;gap:6px"><span class="lvl-chip">${isStar(s) ? '★ STAR แล้ว' : hasCard(s) ? '☆ ยังไม่ยืนยันตัวตน' : '☆ ยังไม่เป็น STAR'}</span><span>${hint}</span></div>$2`);
+    // บอกเงื่อนไขตรง ๆ ก่อนกดปุ่ม: งานนี้รับเฉพาะ STAR · ยังไม่ครบ 8 ข้อ = ยังไม่เป็น STAR ไม่มีสถานะกลาง (ผู้ใช้ 6 ต.ค. 2569)
+    const hint = isStar(s) ? 'ข้อมูลคุณครบแล้ว · ส่งใบสมัครได้เลย' : `งานนี้รับเฉพาะ STAR · กดลงทะเบียนแล้วสมัครเป็น STAR ก่อน (ครั้งเดียว ใช้ได้ทุกงาน)`;
+    return html.replace(/(<div class="bar-clock">[\s\S]*?<\/div>)(\s*<button)/, `$1<div class="bar-desc ink" style="height:auto;padding-bottom:4px;font-size:12px;gap:6px"><span class="lvl-chip">${isStar(s) ? '★ STAR แล้ว' : '☆ ยังไม่เป็น STAR'}</span><span>${hint}</span></div>$2`);
   };
 
   function applyMissing(s) { return applySteps(s); }
@@ -129,6 +134,8 @@
   const INSIGHT_OK = ['facebook', 'instagram', 'youtube', 'tiktok'];
   const SLOTS = [{ k: 'gender', t: 'เพศ', v: 'หญิง 68%' }, { k: 'age', t: 'ช่วงอายุ', v: '25–34 ปี 42%' }, { k: 'location', t: 'พื้นที่ยอดนิยม', v: 'กรุงเทพฯ 35%' }];
   const WZ = {
+    kind: s => ({ h: 'คุณเป็นแบบไหน? 🙋', p: 'แบรนด์เห็นว่าคุยกับใคร', body: `<div class="wz-tiles two">${[['Creator', 'บุคคล · รีวิวในนามตัวเอง'], ['Page', 'เพจ · มีทีมดูแล']].map(([b, sm], i) => `<span class="wz-tile ${i ? '' : 'on'}" data-do="pickOne"><b>${b}</b><small>${sm}</small></span>`).join('')}</div>` }),
+    media: s => ({ h: 'รูปและผลงานของคุณ 📸', p: 'แบรนด์ดูหน้าตาและงานก่อนคัดเลือก', body: `<div class="wz-lbl">รูปของฉัน · 3 รูป</div><div class="wz-media">${[D.USER.avatar, 'assets/ph01.jpg', null].map(u => u ? `<span class="on"><img src="${u}" alt=""></span>` : `<span data-do="pkToggle">${I('plus', 18, 'bold')}</span>`).join('')}</div><div class="wz-lbl">รูปผลงาน · 2 รูป</div><div class="wz-media">${['assets/ph04.jpg', null].map(u => u ? `<span class="on"><img src="${u}" alt=""></span>` : `<span data-do="pkToggle">${I('plus', 18, 'bold')}</span>`).join('')}</div><div class="wz-lbl">คลิป · 2 คลิป</div><div class="wz-media">${[null, null].map(() => `<span data-do="pkToggle">${I('plus', 18, 'bold')}</span>`).join('')}</div>` }),
     socials: s => ({ h: 'แปะวาร์ปช่องของคุณเลย 📱', p: 'ผูก 1 ช่องพอ · ระบบดึงยอดผู้ติดตามให้', body: D.USER.socials.slice(0, 4).map(so => `<div class="wz-row ${so.connected ? 'on' : ''}" ${so.connected ? '' : `data-do="connectSocial" data-t="${so.type}"`}>${U.socialIcon(so.type, 36, 'social')}<div><b>${D.SOCIAL_META[so.type].name}</b>${so.connected ? `<span>${U.fmtNum(so.followers)} ผู้ติดตาม</span>` : ''}</div><i>${so.connected ? I('check', 16, 'bold') : 'เชื่อม'}</i></div>`).join(''), ok: () => D.USER.socials.some(x => x.connected), err: 'เชื่อมอย่างน้อย 1 ช่อง' }),
     categories: s => ({ h: 'คุณเป็นครีเอเตอร์สายไหน? 🎨', p: 'เลือกได้ถึง 5', body: `<div class="wz-chips">${['💄 บิวตี้', '👗 แฟชั่น', '🍜 อาหาร', '☕️ คาเฟ่', '✨ ไลฟ์สไตล์', '✈️ ท่องเที่ยว', '💪 สุขภาพ', '👶 แม่และเด็ก', '🐶 สัตว์เลี้ยง', '📱 เทค', '🎮 เกม', '🎬 บันเทิง', '🎪 อีเวนต์'].map((t, i) => chip(t, [1, 3, 5].includes(i))).join('')}</div>` }),
     about: s => ({ h: 'แนะนำตัวสั้น ๆ ✍️', p: '1 บรรทัด ขึ้นใต้ชื่อคุณบนการ์ด', body: `<textarea class="wz-ta" data-bind="form.about" placeholder="เช่น สายคาเฟ่ พาเที่ยวกรุงเทพทุกสุดสัปดาห์">${(s.form && s.form.about) || 'ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ'}</textarea>` }),
@@ -143,7 +150,7 @@
         </div>`).join(''),
       };
     },
-    measurements: s => ({ h: 'ขอไซซ์เสื้อผ้าหน่อยน้า 👗', p: 'งานนี้ส่งชุดให้ ต้องตรงไซซ์', body: `<div class="wz-grid">${[['ส่วนสูง', '165', 'ซม.'], ['น้ำหนัก', '50', 'กก.'], ['รอบอก', '32', 'นิ้ว'], ['รอบเอว', '25', 'นิ้ว'], ['สะโพก', '35', 'นิ้ว'], ['รองเท้า', '23', 'ซม.']].map(([l, v, u]) => `<label class="wz-in col"><small>${l}</small><span><input type="tel" placeholder="${v}"><em>${u}</em></span></label>`).join('')}</div>` }),
+    measurements: s => ({ h: 'สัดส่วนของคุณ 📏', p: 'แบรนด์แฟชั่นใช้เลือกไซซ์ของที่ส่ง · กรอกเท่าที่สะดวก', body: `<div class="wz-grid">${[['ส่วนสูง', '165', 'ซม.'], ['น้ำหนัก', '50', 'กก.'], ['รอบอก', '32', 'นิ้ว'], ['รอบเอว', '25', 'นิ้ว'], ['สะโพก', '35', 'นิ้ว'], ['รองเท้า', '23', 'ซม.']].map(([l, v, u]) => `<label class="wz-in col"><small>${l}</small><span><input type="tel" placeholder="${v}"><em>${u}</em></span></label>`).join('')}</div>` }),
     area: s => ({
       h: 'รับงานที่ไหน ว่างวันไหน? 📍', p: 'แบรนด์ใช้คัดคนให้ตรงพื้นที่และช่วงเวลา',
       body: `<div class="wz-lbl">จังหวัดที่รับงาน</div>${provPicker(['กรุงเทพมหานคร'])}
@@ -192,33 +199,35 @@
     availability: s => ({ h: 'ว่างรับงานวันไหน? 📅', p: 'แบรนด์ดูวันว่างของคุณตอนคัดคน · ปรับทีหลังได้', body: `${week()}` }),
   };
   // หน้าแรกของ wizard ก่อนสมัคร: บอกเหตุผลที่อยู่ดีๆ เด้งมา (user: "กดลงทะเบียนแล้วอยู่ดีๆ มันขึ้นอันนี้ งง") · กี่อย่าง · กี่นาที · ทำครั้งเดียว
-  const STEP_NAME = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว', kyc: 'ยืนยันตัวตน', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
+  const STEP_NAME = { kind: 'ประเภทครีเอเตอร์', media: 'รูปและผลงาน', address: 'ที่อยู่รับของ', bank: 'บัญชีรับเงิน', measurements: 'สัดส่วน', socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว', kyc: 'ยืนยันตัวตน', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
   WZ.intro = s => {
-    const rest = (s.wizSteps || []).filter(k => k !== 'intro'), n = rest.length, card = hasCard(s);
+    const rest = (s.wizSteps || []).filter(k => k !== 'intro'), n = rest.length, card = isStar(s);
     return {
       h: card ? `ก่อนสมัคร ขอข้อมูลเพิ่มอีก ${n} อย่าง` : 'ก่อนสมัครงานแรก สมัครเป็น STAR ก่อน',
       p: `ทำครั้งเดียว ใช้สมัครได้ทุกงาน · ประมาณ ${Math.max(1, Math.ceil(n * 0.4))} นาที`,
       body: `<ol class="wz-intro">${rest.map(k => `<li>${STEP_NAME[k] || k}</li>`).join('')}</ol><div class="wz-intro-note">${I('eye', 15, 'bold')}แบรนด์เห็นการ์ดใบนี้ตอนคัดคน · ครั้งหน้ากดสมัครได้ทันที</div>`,
     };
   };
-  const OPTIONAL_STEPS = ['insight'];
+  const OPTIONAL_STEPS = ['insight', 'measurements'];
   const withIntro = st => st.length ? ['intro', ...st] : [];
-  const applySteps = s => ['socials', 'categories', 'about', 'kyc', 'rate', 'insight', 'province', 'availability', 'contact'].filter(k => k === 'kyc' ? (!s.user.verify || s.user.verify === 'none') : !P(s)[k]);
+  // ลงทะเบียนกิจกรรม = 8 ข้อที่แบรนด์ใช้คัดเลือก (= `registerSteps` ของ iOS)
+  const applySteps = s => starMissing(s);
   const acceptSteps = s => ['address', 'bank', 'draftRounds'].filter(k => !P(s)[k]);
   Ac.pickOne = (d, b) => { b.parentElement.querySelectorAll('.wz-tile').forEach(x => x.classList.remove('on')); b.classList.add('on'); };
   Ac.setAvail = d => { window.__keepScroll = true; Store.set({ form: Object.assign({}, Store.get().form || {}, { avail: d.v === '1' }) }); };
 
   // แถบการ์ดย่อบนหัว wizard: ช่องที่เติมแล้ว = ทึบ · ช่องที่กำลังตอบ = กะพริบ · ที่เหลือ = ประ → ทุกคำตอบ "ขึ้นการ์ดทันที"
-  const STRIP = { socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', insight: 'ผู้ติดตาม', province: 'พื้นที่', availability: 'วันว่าง', contact: 'ติดต่อ', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
+  const STRIP = { kind: 'ประเภท', media: 'รูปผลงาน', socials: 'โซเชียล', categories: 'สาย', about: 'แนะนำตัว', rate: 'เรท', insight: 'ผู้ติดตาม', province: 'พื้นที่', availability: 'วันว่าง', contact: 'ติดต่อ', kyc: 'Verified', bank: 'บัญชี', draftRounds: 'รอบแก้', address: 'ที่อยู่' };
   const stripDone = (s, k) => k === 'kyc' ? isVerified(s) : !!P(s)[k];
   function wizStrip(s, key, steps) {
-    const keys = [...new Set(['socials', 'categories', ...steps.filter(k => k !== 'intro')])].filter(k => STRIP[k]);
+    const keys = [...new Set([...STAR_STEPS, ...steps.filter(k => k !== 'intro')])].filter(k => STRIP[k]);
     const done = keys.filter(k => stripDone(s, k)).length;
     return `<div class="wz-strip"><img src="${D.USER.avatar}" alt=""><div class="wz-strip-slots">${keys.map(k => `<span class="${stripDone(s, k) ? 'on' : k === key ? 'now' : ''}">${stripDone(s, k) ? I('check', 10, 'bold') : ''}${STRIP[k]}</span>`).join('')}</div><em>${done}/${keys.length}</em></div>`;
   }
   // nudge ใต้ปุ่ม: บอกผลทันทีของข้อนี้ (ไม่ใช่กติกา แต่คือสิ่งที่ได้)
   // nudge อยู่ใต้หัวข้อบรรทัดเดียว: "แบรนด์ใช้ข้อนี้ทำอะไร" + กติกาที่จำเป็นจริง ๆ เท่านั้น
   const STEP_LINE = {
+    kind: 'แบรนด์เห็นว่าคุยกับใคร · เลือก 1 อย่าง', media: 'แบรนด์ดูหน้าตาและงานก่อนคัดเลือก', measurements: 'แบรนด์แฟชั่นใช้เลือกไซซ์ของที่ส่ง · กรอกเท่าที่สะดวก',
     socials: 'แบรนด์ดูข้อนี้ก่อนคัดเลือก · ผูก 1 ช่องพอ', categories: 'แบรนด์ใช้ตัดสินใจ · เลือกได้ถึง 5', about: 'แบรนด์อ่านความเป็นตัวคุณจากบรรทัดนี้',
     kyc: 'แบรนด์คัดเลือกคนที่ยืนยันแล้ว · ส่งใบสมัครได้ระหว่างรอตรวจ', rate: 'แบรนด์ดูราคาก่อนคัดเลือก · ใส่ราคามาตรฐานให้แล้ว', insight: 'แบรนด์ใช้คัดเลือกกลุ่มเป้าหมาย · ทำช่องเดียวก็ได้',
     province: 'แบรนด์ใช้คัดเลือกงานหน้าร้าน · เลือกได้ถึง 3', availability: 'แบรนด์ดูวันว่างตอนคัดเลือก', contact: 'แบรนด์ทักคุณตรงนี้ · ขึ้นบนการ์ด', draftRounds: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน',
@@ -234,18 +243,18 @@
     const exitGo = kind === 'one' ? (s.wizReturn || 'cardReveal') : 'campaign';
     const exitBtn = `<button class="pk-circle" data-do="${i ? 'wizBack' : 'wizExit'}">${I(i ? 'caret-left' : 'x', 18, 'bold')}</button>`;
     return `<div class="wz pk">
-      <div class="wz-top">${exitBtn}<span class="wz-ctx">${kind === 'one' ? 'เติม Star Card' : kind === 'apply' ? (hasCard(s) ? `ข้อมูล STAR · ก่อนสมัคร ${c.ep}` : `สมัครเป็น STAR · ${c.ep}`) : `ข้อมูล STAR · ก่อนตอบรับ ${c.ep}`}</span><span class="wz-n">${!intro && total > 1 ? `${n}/${total}` : ''}</span></div>
+      <div class="wz-top">${exitBtn}<span class="wz-ctx">${kind === 'one' ? (isStar(s) ? 'เติมข้อมูล' : 'สมัครเป็น STAR') : kind === 'apply' ? (isStar(s) ? `ข้อมูล STAR · ก่อนสมัคร ${c.ep}` : `สมัครเป็น STAR · ${c.ep}`) : `ข้อมูล STAR · ก่อนตอบรับ ${c.ep}`}</span><span class="wz-n">${!intro && total > 1 ? `${n}/${total}` : ''}</span></div>
       ${intro || (kind === 'one' && total < 2) ? '' : `<div class="wz-bar"><i style="width:${(n / total) * 100}%"></i></div>`}
       <div class="wz-body"><h2 class="wz-h">${st.h}</h2>${STEP_LINE[key] ? `<div class="wz-nchips">${STEP_LINE[key].split(' · ').map((t, k) => `<span class="nchip ${k ? '' : 'brand'}">${k ? '' : I('eye', 12, 'bold')}${t}</span>`).join('')}</div>` : `<p class="wz-p">${st.p}</p>`}${s.err ? `<div class="wz-err">${s.err}</div>` : ''}<div class="wz-ctl">${st.body}</div></div>
       <div class="wz-foot">${pkBtn(label, { act: 'wizNext' })}${OPTIONAL_STEPS.includes(key) ? `<a class="pk-link" data-do="wizSkip">ข้ามไว้ก่อน</a>` : ''}</div>
     </div>`;
   }
   // หน้าแรกก่อนสมัคร = "สมัครเป็น STAR" (ไม่ใช่ "สร้าง Star Card" — user: มันคือการสมัครเป็น Star) · การ์ดที่ยังว่าง: การ์ดกระจกใบจริง (รูป+ชื่อจากบัญชี) + ช่องประตรงที่ข้อมูลจะไปขึ้น → เห็นทันทีว่ากรอกแล้วได้อะไร
-  const SLOT = { socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว 1 บรรทัด', kyc: 'Verified', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
+  const SLOT = { kind: 'ประเภท', media: 'รูปและผลงาน', socials: 'ช่องทางโซเชียล', categories: 'สายที่ใช่', about: 'แนะนำตัว 1 บรรทัด', kyc: 'Verified', rate: 'เรทรับงาน', insight: 'ข้อมูลผู้ติดตาม', province: 'พื้นที่รับงาน', availability: 'วันเวลาว่างรับงาน', contact: 'ช่องทางติดต่อ' };
   function wizIntro(s, rest) {
     // IA ของหน้านี้ = 1 เหตุผล + 1 ภาพ + 1 ปุ่ม: "งานนี้รับเฉพาะ STAR" → การ์ดที่คุณจะได้ (แบบย่อ) → เริ่ม
     // ไม่มี breadcrumb/stepper/ป้ายซ้ำ — งานที่กำลังสมัครอยู่ที่บรรทัดบนสุดบรรทัดเดียว
-    const c = cur(s), card = hasCard(s), n = rest.length, has = k => rest.includes(k);
+    const c = cur(s), card = isStar(s), n = rest.length, has = k => rest.includes(k);
     const ghost = (k, t) => has(k) ? `<span class="wzi-ghost">${t}</span>` : '';
     return `<div class="wz wzi pk">
       <div class="gl-orbs"><i></i><i></i><i></i><i></i><i></i></div>
@@ -256,7 +265,7 @@
         <div class="wzi-card lite">
           <span class="wzi-star">★ STAR</span>
           <div class="wzi-top"><img src="${D.USER.avatar}" alt=""><div><b>${D.USER.name}</b><div class="wzi-ghosts">${ghost('categories', 'สายที่ใช่')}${ghost('province', 'พื้นที่')}${ghost('availability', 'วันว่าง')}</div></div></div>
-          <div class="wzi-ghosts">${ghost('socials', 'ยอดผู้ติดตาม')}${ghost('rate', 'เรทรับงาน')}${ghost('insight', 'ข้อมูลผู้ติดตาม')}${ghost('about', 'แนะนำตัว')}${ghost('kyc', 'Verified')}</div>
+          <div class="wzi-ghosts">${ghost('media', 'รูปและผลงาน')}${ghost('socials', 'ยอดผู้ติดตาม')}${ghost('rate', 'เรทรับงาน')}${ghost('contact', 'ช่องทางติดต่อ')}${ghost('kyc', 'Verified')}</div>
         </div>
       </div>
       <div class="wz-foot">${pkBtn(card ? `เติม ${n} อย่าง` : `สมัครเป็น STAR · ${n} ข้อ`, { act: 'wizNext' })}</div>
@@ -269,6 +278,7 @@
   Ac.wizExitKeep = () => { const s = Store.get(); Store.set({ dialog: null, screen: s.wizKind === 'one' ? (s.wizReturn || 'cardReveal') : 'campaign' }); Store.toast('เก็บไว้ให้แล้ว · กลับมาทำต่อได้ทุกเมื่อ'); };
   const oldOverlay = window.renderOverlay;
   window.renderOverlay = function (s) {
+    if (s.levelUp) return `<div class="lvl-up"><svg class="lvl-mark" viewBox="0.8 10.7 32.4 10.4" aria-hidden="true"><defs><linearGradient id="lvlgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3C9"/><stop offset=".5" stop-color="#E0B33A"/><stop offset="1" stop-color="#B07A12"/></linearGradient></defs><path fill="url(#lvlgold)" fill-rule="evenodd" d="${window.STAR_MARK}"/></svg><b>คุณเป็น STAR แล้ว</b><span>ครบ 8 ข้อที่แบรนด์ใช้คัดเลือก · แบรนด์เลือกคุณได้แล้ว</span></div>`;
     if (s.dialog === 'wizExit') { const st = (s.wizSteps || []).filter(k => k !== 'intro'), doneN = st.filter(k => stripDone(s, k)).length; return U.dialog({ kind: 'modal', title: st.length && st.length - doneN <= 2 ? `เหลืออีก ${st.length - doneN} ข้อ จะออกเลยเหรอ` : 'เก็บไว้ทำต่อทีหลังไหม', detail: `${doneN ? `ทำไปแล้ว ${doneN}/${st.length} · ` : ''}ข้อมูลที่กรอกไว้ยังอยู่<br>กลับมากดสมัครอีกครั้งจะได้ทำต่อจากตรงนี้`, buttons: [{ t: 'เก็บไว้แล้วออก', style: 'gray', act: 'wizExitKeep' }, { t: 'ทำต่อเลย', act: 'closeDialog' }] }); }
     return oldOverlay(s);
   };
@@ -285,13 +295,27 @@
     if (key === 'socials') D.USER.socials.forEach(so => { if (so.type === 'instagram') so.connected = true; });
     if (key === 'area') patch.profile = { province: true, availability: true };
     else if (key === 'insight') { const g = ((s.form || {}).insight) || {}; patch.profile = { insight: Object.keys(g).some(k2 => g[k2]) }; }
+    // ช่องทาง + เรท หน้าเดียว (ใส่ราคามาตรฐานให้แล้ว) เหมือน iOS
+    else if (key === 'socials') patch.profile = { socials: true, rate: true };
     else if (key !== 'kyc') patch.profile = { [key]: true };
-    if (i < steps.length - 1) { patch.wizI = i + 1; Store.set(patch); return; }
+    if (i < steps.length - 1) patch.wizI = i + 1;
     Store.set(patch);
+    // ข้อนี้ปิด 8 ข้อพอดี = เป็น STAR แล้ว → motion ก่อน แล้วข้อถัดไปค่อยโผล่ (ทางลงทะเบียนใช้หน้าการ์ดเกิดเป็น motion อยู่แล้ว)
+    if (s.wizKind !== 'apply') levelUpIfStar();
+    if (i < steps.length - 1) return;
     (s.wizKind === 'accept' ? Ac.wizFinishAccept : s.wizKind === 'one' ? Ac.wizFinishOne : Ac.wizFinishApply)();
   };
+  // motion "คุณเป็น STAR แล้ว" ทั้งจอ (= LevelUp ของ iOS) — เล่นครั้งเดียวตอนครบ 8 ข้อ · กลับไปไม่เป็น STAR แล้วเป็นใหม่ก็เล่นใหม่
+  function levelUpIfStar() {
+    const s = Store.get();
+    if (!isStar(s)) { if (s.starSeen) Store.set({ starSeen: false }); return; }
+    if (s.starSeen) return;
+    Store.set({ starSeen: true, levelUp: true });
+    setTimeout(() => Store.set({ levelUp: false }), 2700);
+  }
   Ac.wizFinishApply = () => {
-    const s = Store.get(), madeCard = (s.wizSteps || []).some(k => ['socials', 'categories', 'about', 'kyc'].includes(k)) && hasCard(s);
+    const s = Store.get(), madeCard = (s.wizSteps || []).some(k => ['socials', 'categories', 'about', 'kyc'].includes(k)) && isStar(s);
+    if (madeCard) Store.set({ starSeen: true });   // หน้าการ์ดเกิด = motion ของทางนี้
     Store.set({ screen: madeCard ? 'cardReveal' : 'register', dialog: null, sheet: null, wizSteps: [], wizI: 0 });
     if (!madeCard) Store.toast('ข้อมูลเติมให้แล้ว · ต่อที่ฟอร์มสมัคร');
 
@@ -304,26 +328,40 @@
   // โทนสว่าง (พื้น PK #F9FAFB) · ไม่มีคำว่าระดับ/Level · บอกสิทธิ์ที่ได้ทันที
   // การ์ด 3D ลอยขึ้นมาวางตัว (expo ease) · แสงสะท้อนตามมุมเอียง · เงาจริง · ฝุ่นแสงทองลอยช้า · ตราวงแหวนวาดตัวเอง · ไม่มี confetti
   // หน้าเดียวกัน 2 โหมด: reveal = การ์ดเพิ่งเกิด (มี intro + ปุ่มต่อไปฟอร์มสมัคร) · profile = Star Profile ถาวรจากปุ่ม "โปรไฟล์ครีเอเตอร์" (ไม่มี intro · ปุ่มแชร์)
+  // วงแหวน % — `pctRing` = หัว "เติมเมื่อถึงเวลา" 42px (ครบ = ติ๊กเขียว) · `miniRing` = วงขาว 22px ในปุ่มล่าง (= iOS `GlassPrimaryButton(progress:)`)
+  const ringSvg = (pct, size, sw) => { const h = size / 2, r = (size - sw) / 2, c = 2 * Math.PI * r; return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}"><circle class="t" cx="${h}" cy="${h}" r="${r}" stroke-width="${sw}"/><circle class="v" cx="${h}" cy="${h}" r="${r}" stroke-width="${sw}" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c * (1 - pct / 100)).toFixed(2)}" transform="rotate(-90 ${h} ${h})"/></svg>`; };
+  const pctRing = pct => `<span class="pct-ring ${pct >= 100 ? 'full' : ''}" role="img" aria-label="ข้อมูลครบ ${pct}%">${ringSvg(pct, 42, 4)}<b>${pct >= 100 ? I('check', 18, 'bold') : pct + '%'}</b></span>`;
+  const miniRing = pct => `<span class="mini-ring" aria-hidden="true">${ringSvg(pct, 22, 3)}</span>`;
   function starPage(s, mode) {
-    const profile = mode === 'profile', boost = mode === 'boost', card = hasCard(s);
+    // ผู้ใช้ 6 ต.ค. 2569: หัว "Star Profile" ต่อเมื่อเป็น STAR (ครบ 8 ข้อ) — ก่อนนั้น "สมัครเป็น STAR" เสมอ
+    const profile = mode === 'profile', boost = mode === 'boost', card = isStar(s);
     const head = boost
       ? `<h2 class="ach2-h glass-title sm"><span class="a">เพิ่มโอกาส</span><span class="b">ถูกเลือก</span></h2><p class="ach2-p glass-chip">${I('clock', 15, 'bold')}ส่งใบสมัครแล้ว · ระหว่างรอแบรนด์เลือก เติมได้เลย</p>`
       : profile
-      ? (card ? `<h2 class="ach2-h glass-title"><span class="a">Star</span><span class="b">Profile</span></h2><p class="ach2-p glass-chip">${I('eye', 15, 'bold')}แบรนด์เห็นการ์ดใบนี้ตอนคัดคน</p>` : `<h2 class="ach2-h glass-title sm"><span class="a">สมัครเป็น</span><span class="b">STAR</span></h2><p class="ach2-p glass-chip">${I('clock', 15, 'bold')}กรอก 3 อย่าง · ประมาณ 1 นาที</p>`)
+      ? (card ? `<h2 class="ach2-h glass-title"><span class="a">Star</span><span class="b">Profile</span></h2><p class="ach2-p glass-chip">${I('eye', 15, 'bold')}แบรนด์ใช้ข้อมูลนี้ตอนคัดคน</p>` : `<h2 class="ach2-h glass-title sm"><span class="a">สมัครเป็น</span><span class="b">STAR</span></h2><p class="ach2-p glass-chip">${I('eye', 15, 'bold')}แบรนด์ใช้ข้อมูลนี้ตอนคัดคน</p>`)
       : `<div class="ach2-seal"><svg viewBox="0 0 120 120"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8C766"/><stop offset=".5" stop-color="#C9A227"/><stop offset="1" stop-color="#8A6A1A"/></linearGradient></defs><circle class="ring" cx="60" cy="60" r="54" fill="none" stroke="url(#gold)" stroke-width="1.2"/><circle class="ring2" cx="60" cy="60" r="47" fill="none" stroke="url(#gold)" stroke-width=".6" opacity=".6"/><path class="star" d="M60 34l6.9 14.3 15.6 2-11.4 10.9 2.9 15.5L60 69.2l-14 7.5 2.9-15.5-11.4-10.9 15.6-2z" fill="url(#gold)"/></svg></div>
         ${isStar(s)
           ? `<h2 class="ach2-h glass-title sm reveal-words"><span class="a w1">คุณเป็น</span><span class="b w2" data-t="STAR">STAR</span><span class="a w3">แล้ว</span></h2>`
           : `<h2 class="ach2-h glass-title sm reveal-words"><span class="a w1">การ์ดของคุณ</span><span class="b w2" data-t="พร้อมแล้ว">พร้อมแล้ว</span></h2>`}
 `;
-    // ยังไม่ครบ = ปุ่มหลักคือ "เติมอีก N อย่าง" (wizard ต่อเนื่องเฉพาะข้อที่ขาด) · ครบแล้วค่อยเป็นปุ่มไปต่อ/แชร์
-    const list = rowsFor(s), all = list.length, nDone = list.filter(r => rowDone(s, r)).length, left = all - nDone;
-    const mins = Math.max(1, Math.ceil(missingSteps(s).length * 0.5) + (isVerified(s) ? 0 : 1));
-    const fillBtn = `<button class="ach2-btn" data-do="fillAllMissing"><span>เติมอีก ${left} อย่าง · ประมาณ ${mins} นาที</span>${I('arrow-right', 18, 'bold')}</button>`;
+    // ไม่มี % ก่อนเป็น STAR (ผู้ใช้ 6 ต.ค. 2569) · ก่อนเป็น STAR = 8 ข้อเท่านั้น + ปุ่ม "สมัครเป็น STAR" · เป็นแล้ว = ยุบ 8 ข้อเป็น "ครบแล้ว" + กลุ่ม "เติมเมื่อถึงเวลา" · ปุ่มแชร์
+    const gate = REVEAL_ROWS.filter(r => GATE_ROWS.includes(r.key)), extras = REVEAL_ROWS.filter(r => !GATE_ROWS.includes(r.key));
+    const gateLeft = gate.filter(r => !rowDone(s, r)).length, left = extras.filter(r => !rowDone(s, r)).length;
+    // ผู้ใช้ 7 ต.ค. 2569: เป็น STAR แต่ยังไม่ครบ = วงแหวน % ข้อมูลทั้งหมดที่หัว "เติมเมื่อถึงเวลา" + ปุ่มล่าง "เติมข้อมูลต่อ NN%" เลขเดียวกัน (= iOS `StarPage.pctRing`)
+    const pct = Math.round(pctDone(s));
+    const fillBtn = `<button class="ach2-btn prog" data-do="fillAllMissing">${miniRing(pct)}<span>เติมข้อมูลต่อ</span><em class="pct">${pct}%</em></button>`;
     const foot = boost
       ? (left ? `${fillBtn}<a class="pk-link" data-go="campaign">ไว้ทีหลัง · กลับไปหน้ากิจกรรม</a>` : `<button class="ach2-btn" data-go="campaign"><span>กลับไปหน้ากิจกรรม</span>${I('arrow-right', 18, 'bold')}</button>`)
       : profile
-      ? (card ? (left ? `${fillBtn}<a class="pk-link" data-do="share">แชร์การ์ด</a>` : `<button class="ach2-btn" data-do="share"><span>แชร์การ์ด</span>${I('share-network', 18, 'bold')}</button>`) : `<button class="ach2-btn" data-do="profileMakeCard"><span>สมัครเป็น STAR</span>${I('arrow-right', 18, 'bold')}</button>`)
+      ? (card ? (left ? fillBtn : `<button class="ach2-btn" data-do="share"><span>แชร์การ์ด</span>${I('share-network', 18, 'bold')}</button>`) : `<button class="ach2-btn" data-do="profileMakeCard"><span>สมัครเป็น STAR</span>${I('arrow-right', 18, 'bold')}</button>`)
       : `<button class="ach2-btn" data-do="revealNext"><span>ต่อ: ฟอร์มสมัคร ${cur(s).ep}</span>${I('arrow-right', 18, 'bold')}</button><a class="pk-link" data-do="share">แชร์การ์ดก่อน</a>`;
+    // 6 ต.ค. 2569 (รอบ 3, canvas แบบ A): เป็น STAR แล้ว = กล่องทอง + ลูกศรกาง 8 ข้อในกล่อง · ของที่เหลือ = แถวเส้นประ ปุ่มเพิ่มขอบขาว + ชิป "มีแล้ว"
+    const bt = card ? '' : `<b>ข้อมูลสมัคร STAR</b><span>${gateLeft === gate.length ? '8 ข้อที่แบรนด์ใช้คัดเลือก' : `เหลืออีก ${gateLeft} ข้อ`}</span>`;
+    const laterTodo = extras.filter(r => !rowDone(s, r)), laterHave = extras.filter(r => rowDone(s, r));
+    const rows = card
+      ? `<div class="ach2-gold"><button class="ach2-gold-h" data-do="toggleDone" aria-expanded="${!!s.doneOpen}"><i class="gcheck">${I('check', 16, 'bold')}</i><span><b>ข้อมูล STAR ครบแล้ว</b><small>8 ข้อที่แบรนด์ใช้คัดเลือก · แบรนด์เลือกคุณได้แล้ว</small></span><i class="gcaret">${I('caret-down', 14, 'bold')}</i></button>${s.doneOpen ? `<div class="ach2-gold-rows">${rowsHtml(s, gate, 'in-gold')}</div>` : ''}</div>`
+        + (profile || boost ? `<div class="ach2-later">${pctRing(pct)}<div><b>เติมเมื่อถึงเวลา</b><small>${left ? 'ไม่ใช่ด่าน · แบรนด์จะขอตอนได้งาน ไม่กระทบการคัดเลือก' : 'ครบทุกข้อแล้ว'}</small></div></div>${rowsHtml(s, [...laterTodo, ...laterHave], 'later')}` : '')
+      : revealRows(s, gate);
     // ทั้ง 2 โหมด (การ์ดเกิด + Star Profile ถาวร) = พื้นสว่าง + แสงเบลอโทนเดียว (champagne) + การ์ด/แถวเป็นกระจก · การ์ดขอบเหลืองนิดๆ ใบเดียว · ไม่มีดาว/ฝุ่น/การ์ดลอย (canvas "Star Profile 2026 Directions" แบบ C)
     return `<div class="ach2 pk ${profile || boost || s.revealSeen ? 'quiet' : ''} glass ${profile || boost ? 'profile' : ''}" id="ach2">
       <div class="gl-orbs"><i></i><i></i><i></i><i></i><i></i></div><div class="ach2-dust" id="ach2-dust"></div>
@@ -331,10 +369,8 @@
       <div class="ach2-body">
         ${head}
         <div class="ach2-stage"><div class="ach2-halo"></div><div class="ach2-shadow"></div><div class="ach2-float"><div class="ach2-card" id="ach2-card">${window.cardView(s)}<span class="spec"></span><span class="edge"></span></div></div></div>
-        <div class="ach2-bt">${boost ? `<div class="bt-row"><b>${left ? `เติมอีก ${left} อย่าง` : 'ข้อมูลครบแล้ว'}</b><em>${nDone}/${all}</em></div><div class="bt-bar ${left ? '' : 'full'}"><i data-to="${(nDone / all) * 100}" style="width:${s.lastPct ?? (nDone / all) * 100}%"></i></div><span>${left ? 'แบรนด์เริ่มคัดคนเร็ว ๆ นี้ · ครบก่อนได้เปรียบ' : 'พร้อมให้แบรนด์เลือกแล้ว'}</span>` : card
-          ? `<div class="bt-row"><b>${left ? 'เติมการ์ดให้เต็ม' : 'การ์ดเต็มแล้ว'}</b><em class="${left ? '' : 'ok'}">${left ? `${nDone}/${all}` : `${I('check', 13, 'bold')} ${all}/${all}`}</em></div><div class="bt-bar ${left ? '' : 'full'}"><i data-to="${(nDone / all) * 100}" style="width:${s.lastPct ?? (nDone / all) * 100}%"></i></div><span>${left ? (mode === 'reveal' ? 'ส่งใบสมัครก่อนได้ · ค่อยกลับมาเติมระหว่างรอผล' : 'แบรนด์เห็นราคาและสไตล์คุณก่อนเลือก') : 'แบรนด์เห็นข้อมูลคุณครบแล้ว'}</span>`
-          : `<b>ข้อมูลบนการ์ด</b><span>ข้อมูลเหล่านี้จะขึ้นบนการ์ดของคุณ</span>`}</div>
-        <div class="ach2-rows">${revealRows(s)}</div>
+        <div class="ach2-bt">${bt}</div>
+        <div class="ach2-rows">${rows}</div>
       </div>
       <div class="ach2-foot">${foot}</div>
     </div>`;
@@ -353,13 +389,15 @@
   S.profileHub = s => s.flow === 'new' ? starPage(s, 'profile') : oldHub(s);
   const oldCreatorProfile = Ac.creatorProfile;
   Ac.creatorProfile = () => { const s = Store.get(); if (s.flow !== 'new') return oldCreatorProfile(); Store.set({ screen: 'profileHub', dialog: null, sheet: null }); };
-  Ac.profileMakeCard = () => { const steps = ['socials', 'categories', 'about'].filter(k => !P(Store.get())[k]); Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: 'profileHub', err: null, dialog: null, sheet: null }); };
+  // ปุ่ม "สมัครเป็น STAR" บน Star Profile = 8 ข้อก่อน (ครบ = motion) แล้วต่อ ที่อยู่ · บัญชี · สัดส่วน ในรอบเดียว (ผู้ใช้ 6 ต.ค. 2569: "ต้องการให้กรอกต่อ")
+  Ac.profileMakeCard = () => { const steps = profileSteps(Store.get()); if (!steps.length) return; Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: 'profileHub', err: null, dialog: null, sheet: null }); };
 
   // แถว "ข้อมูลของฉัน" แบบ iOS hub: มี = ติ๊กเขียว + ชิปสรุป · ยังไม่มี = บอกประโยชน์ 1 บรรทัด + ปุ่ม "+ เพิ่ม" · แตะแล้วเปิด wizard เฉพาะข้อนั้น แล้วกลับมาหน้านี้
   const REVEAL_ROWS = [
     { key: 'kyc', icon: 'seal-check', t: 'ยืนยันตัวตน', done: s => ['Verified'], why: 'ต้องผ่านก่อนแบรนด์เลือก · ขึ้นป้าย Verified' },
     { key: 'rate', icon: 'coins', t: 'เรทรับงาน', done: s => ['IG ฿3,000', 'TikTok ฿10,300', '+3 รูปแบบ'], why: 'แบรนด์ดูราคาก่อนคัดเลือก' },
     { key: 'about', icon: 'text-align-left', t: 'แนะนำตัว', done: s => ['ชอบพาไปเที่ยว ทานอาหารอร่อยๆ…'], why: '1 บรรทัดใต้ชื่อบนการ์ด' },
+    { key: 'media', icon: 'image-square', t: 'รูปและผลงาน', done: s => ['รูป 3', 'ผลงาน 2', 'คลิป 2'], why: 'แบรนด์ดูหน้าตาและงานของคุณก่อนคัดเลือก' },
     { key: 'insight', icon: 'users-three', t: 'ข้อมูลผู้ติดตาม', done: s => ['หญิง 68%', '25–34 ปี', 'กรุงเทพฯ'], why: 'แบรนด์เห็นว่าคนดูคุณเป็นใคร' },
     { key: 'province', icon: 'map-pin', t: 'พื้นที่รับงาน', done: s => ['กรุงเทพฯ', 'นนทบุรี', '+1'], why: 'งานหน้าร้านใกล้คุณขึ้นก่อน' },
     { key: 'availability', icon: 'calendar-dots', t: 'วันเวลาว่างรับงาน', done: s => ['จ–ศ เย็น', 'ส–อา ตลอดวัน'], why: 'แบรนด์ดูวันว่างของคุณตอนคัดคน' },
@@ -367,17 +405,19 @@
     { key: 'socials', icon: 'broadcast', t: 'ช่องทางของฉัน', done: s => D.USER.socials.filter(x => x.connected).map(so => `${({ instagram: 'IG', tiktok: 'TikTok', youtube: 'YouTube', facebook: 'FB', x: 'X', lemon8: 'Lemon8' })[so.type] || so.type} ${U.fmtNum(so.followers)}`), why: 'ยอดผู้ติดตามขึ้นการ์ดอัตโนมัติ' },
     { key: 'categories', icon: 'sparkle', t: 'สายที่ใช่', done: s => D.USER.categories, why: 'งานตรงสายขึ้นหน้าแรกให้' },
     { key: 'bank', icon: 'bank', t: 'การรับเงิน', done: s => ['กสิกรไทย', '···7890'], why: 'ค่าตัวเข้าบัญชีทันทีเมื่องานจบ' },
-    { key: 'draftRounds', icon: 'arrows-clockwise', t: 'รอบแก้งาน', done: s => ['แก้ 2 รอบ'], why: 'ตกลงไว้ก่อน ไม่ต้องเถียงหน้างาน' },
+    // รอบแก้งานเอาออกจากรายการ (iOS 4 ต.ค. 2569: "เอาออกไปเลย") — 13 แถวเท่า iOS ให้ % ตรงกัน (7 ต.ค. 2569)
     { key: 'address', icon: 'package', t: 'ที่อยู่รับของ', done: s => ['กรุงเทพฯ 10110'], why: 'ถามตอนได้งานแรก · รับของรีวิวได้เลย' },
+    { key: 'measurements', icon: 'ruler', t: 'สัดส่วน', done: s => ['165 ซม.', '50 กก.', 'รอบอก 32'], why: 'แบรนด์แฟชั่นดูไซซ์ก่อนส่งของ' },
   ];
   const rowsFor = s => REVEAL_ROWS;
   const rowDone = (s, r) => r.key === 'kyc' ? isVerified(s) : (r.keys || [r.key]).every(k => P(s)[k]);
-  // ข้อที่ยังขาดขึ้นก่อนเสมอ · ข้อที่ครบรวมเป็นบรรทัดเดียว "ครบแล้ว N อย่าง" กดขยายดูได้
-  const missingSteps = s => rowsFor(s).filter(r => r.key !== 'kyc' && !rowDone(s, r)).flatMap(r => (r.keys || [r.key]).filter(k => WZ[k] && !P(s)[k]));
-  function revealRows(s) {
-    const list = rowsFor(s), done = list.filter(r => rowDone(s, r)), todo = list.filter(r => !rowDone(s, r));
-    const doneBar = done.length ? `<div class="ach2-done ${s.doneOpen || !todo.length ? 'open' : ''}" data-do="toggleDone"><i class="tick">${I('check', 12, 'bold')}</i><div class="tx"><b>ครบแล้ว ${done.length} อย่าง</b><span class="sum">${done.map(r => r.t).join(' · ')}</span></div>${I('caret-down', 16, 'bold')}</div>` : '';
-    return rowsHtml(s, todo) + doneBar + (s.doneOpen || !todo.length ? rowsHtml(s, done) : '');
+  // ข้อที่ยังขาด (ไม่นับยืนยันตัวตน) — เป็น STAR แล้ว = เฉพาะกลุ่ม "เติมเมื่อถึงเวลา" · ยังไม่เป็น = 8 ข้อ
+  const missingSteps = s => rowsFor(s).filter(r => (isStar(s) ? !GATE_ROWS.includes(r.key) : GATE_ROWS.includes(r.key)) && r.key !== 'kyc' && !rowDone(s, r)).flatMap(r => (r.keys || [r.key]).filter(k => WZ[k] && !P(s)[k]));
+  // ข้อที่ยังขาดขึ้นก่อนเสมอ · ข้อที่ครบรวมเป็นบรรทัดเดียว "ครบแล้ว N อย่าง" กดขยายดูได้ · `collapsed` = พับไว้แม้ครบทุกข้อ (8 ข้อหลังเป็น STAR)
+  function revealRows(s, list = rowsFor(s), collapsed = false) {
+    const done = list.filter(r => rowDone(s, r)), todo = list.filter(r => !rowDone(s, r)), open = s.doneOpen || (!todo.length && !collapsed);
+    const doneBar = done.length ? `<div class="ach2-done ${open ? 'open' : ''}" data-do="toggleDone"><i class="tick">${I('check', 12, 'bold')}</i><div class="tx"><b>ครบแล้ว ${done.length} ${collapsed ? 'ข้อ' : 'อย่าง'}</b><span class="sum">${done.map(r => r.t).join(' · ')}</span></div>${I('caret-down', 16, 'bold')}</div>` : '';
+    return rowsHtml(s, todo) + doneBar + (open ? rowsHtml(s, done) : '');
   }
   Ac.toggleDone = () => { window.__keepScroll = true; Store.set({ doneOpen: !Store.get().doneOpen }); };
   Ac.fillAllMissing = () => {
@@ -386,9 +426,17 @@
     if (!steps.length) { Store.set({ revealKyc: back, revealSeen: true }); return Ac.openKyc(); }
     Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: back, err: null, revealSeen: true, dialog: null, sheet: null });
   };
-  function rowsHtml(s, list) {
+  // บรรทัดรองของข้อที่ไม่ใช่ด่าน = ใช้ตอนไหน (= `StarPage.whenNeeded`)
+  const WHEN = { bank: 'ใช้ตอนได้ค่าตัว', address: 'ใช้ตอนลงทะเบียนกิจกรรม', measurements: 'ใช้ตอนรับงานสายแฟชั่น', about: 'ขึ้นใต้ชื่อบนการ์ด · ไม่บังคับ', insight: 'แบรนด์ดูกลุ่มคนดู · ไม่บังคับ', draftRounds: 'ตกลงตอนได้งาน' };
+  // `variant`: '' = แถวปกติ · 'in-gold' = แถวขาวในกล่องทอง (ไม่มีไอคอน) · 'later' = เส้นประ ปุ่มเพิ่มขอบขาว
+  function rowsHtml(s, list, variant = '') {
     return list.map(r => {
       const ok = rowDone(s, r);
+      // มีแล้ว = แถวปกติ ติ๊กเขียว ต่อท้ายรายการเดียวกัน (ผู้ใช้ 6 ต.ค. 2569: "ก็เป็นการ์ดปกติแค่ tick ถูก")
+      if (variant === 'later') return ok
+        ? `<div class="ach2-row ok" data-do="revealFill" data-k="${r.key}"><i class="ic">${I(r.icon, 18, 'fill')}</i><div class="tx"><b>${r.t}</b><span class="sum">${r.done(s).join(' · ')}</span></div><i class="tick">${I('check', 12, 'bold')}</i></div>`
+        : `<div class="ach2-row todo later" data-do="revealFill" data-k="${r.key}"><i class="ic">${I(r.icon, 18, 'bold')}</i><div class="tx"><b>${r.t}</b><span class="sum">${WHEN[r.key] || r.why}</span></div><span class="add lite">เพิ่ม</span></div>`;
+      if (variant === 'in-gold') return `<div class="ach2-row ${ok ? 'ok' : 'todo'} ingold" data-do="revealFill" data-k="${r.key}"><div class="tx"><b>${r.t}</b><span class="sum">${ok ? r.done(s).join(' · ') : r.why}</span></div>${ok ? `<i class="tick">${I('check', 12, 'bold')}</i>` : `<span class="add lite">เพิ่ม</span>`}</div>`;
       return `<div class="ach2-row ${ok ? 'ok' : 'todo'}" data-do="revealFill" data-k="${r.key}">
         <i class="ic">${I(r.icon, 18, ok ? 'fill' : 'bold')}</i>
         <div class="tx"><b>${r.t}</b><span class="sum">${ok ? r.done(s).join(' · ') : (r.key === 'kyc' && s.user.verify && s.user.verify !== 'none') ? 'ทีมงานตรวจภายใน 1–3 วันทำการ' : r.why}</span></div>
@@ -400,6 +448,8 @@
     Store.set({ lastPct: pctDone(Store.get()) });
     const s = Store.get(), r = REVEAL_ROWS.find(x => x.key === d.k);
     const back = s.screen === 'profileHub' ? 'profileHub' : 'cardReveal';
+    // ยังไม่เป็น STAR = แตะข้อที่ยังขาดข้อไหนก็พาเข้าชุดเดียว: 8 ข้อก่อน แล้วค่อยข้อที่เหลือ ("force ให้กรอก 8 ข้อก่อนตลอด")
+    if (!isStar(s) && !rowDone(s, r)) { Store.set({ screen: 'fillOne', wizSteps: profileSteps(s), wizI: 0, wizKind: 'one', wizReturn: back, err: null, revealSeen: true, dialog: null, sheet: null }); return; }
     if (r.key === 'kyc') { Store.set({ revealKyc: back, revealSeen: true }); return Ac.openKyc(); }
     const steps = (r.keys || [r.key]).filter(k => WZ[k]);
     Store.set({ screen: 'fillOne', wizSteps: steps, wizI: 0, wizKind: 'one', wizReturn: back, err: null, revealSeen: true, dialog: null, sheet: null });
@@ -409,7 +459,7 @@
   Ac.wizFinishOne = () => {
     // toast ก่อน (toast = set state = render ใหม่) แล้วค่อยกลับหน้าการ์ด แถบความครบจะได้วิ่งจากค่าเดิมไปค่าใหม่ใน render สุดท้าย
     const s = Store.get();
-    Store.toast(!hasCard(s) ? 'บันทึกแล้ว' : pctDone(s) === 100 ? 'การ์ดเต็มแล้ว · แบรนด์เห็นข้อมูลคุณครบ' : 'เพิ่มลงการ์ดแล้ว');
+    Store.toast(!isStar(s) ? 'บันทึกแล้ว' : pctDone(s) === 100 ? 'ข้อมูลครบแล้ว · แบรนด์เห็นข้อมูลคุณครบ' : 'บันทึกข้อมูลแล้ว');
     Store.set({ screen: s.wizReturn || 'cardReveal', dialog: null, sheet: null, wizSteps: [], wizI: 0 });
   };
   const oldAfter = window.afterRender;
@@ -460,6 +510,8 @@
     { t: 'ส่งลิงก์แล้ว · จบ (หน้ากิจกรรมเดิม + dialog เดิม)', set: { campaign: 'acceptedQuota', review: 'reviewed', order: 'delivered', screen: 'campaign', reviewTab: true, dialog: 'linkSuccess', briefRead: true } },
   ];
   window.DATA_RULES = [
+    { key: 'kind', label: 'ประเภทครีเอเตอร์ (Creator / Page)', askAt: 1, needFrom: 2 },
+    { key: 'media', label: 'รูปและผลงาน', askAt: 1, needFrom: 2 },
     { key: 'socials', label: 'โซเชียล ≥1 ช่อง + ยอดฟอล', askAt: 1, needFrom: 2 },
     { key: 'categories', label: 'สายที่ใช่', askAt: 1, needFrom: 2 },
     { key: 'about', label: 'แนะนำตัว 1 บรรทัด', askAt: 1, needFrom: 2 },
@@ -511,6 +563,8 @@
       return;
     }
     Store.set(patch);
+    // ติ๊กจาก lab ไม่เล่น motion — แค่จำว่าเป็น STAR แล้วหรือยัง (กลับไปไม่เป็นแล้วเป็นใหม่จริง ๆ ค่อยเล่น)
+    Store.set({ starSeen: isStar(Store.get()) });
   };
 
   // ---------- จุด hook ----------
@@ -537,12 +591,14 @@
     if (s.kycBack) {
       const b = s.kycBack, steps = (s.wizSteps || []).filter(k => k !== 'kyc');
       const patch = { screen: b.screen, wizSteps: steps, wizI: Math.min(b.wizI, Math.max(0, steps.length - 1)), kycBack: null, dialog: null, sheet: null, kyc: { step: 'type', fails: 0 } };
-      if (!steps.length) { Store.set(Object.assign(patch, { wizI: 0 })); return Ac.wizFinishApply(); }
+      if (!steps.length) { Store.set(Object.assign(patch, { wizI: 0 })); return (s.wizKind === 'one' ? (levelUpIfStar(), Ac.wizFinishOne) : Ac.wizFinishApply)(); }
       Store.set(patch);
+      // ยืนยันตัวตนปิด 8 ข้อพอดี (ทางโปรไฟล์) = motion ก่อน แล้วข้อถัดไปค่อยโผล่
+      if (s.wizKind === 'one') levelUpIfStar();
       Store.toast(isVerified(s) ? 'ยืนยันตัวตนแล้ว · ไปต่อได้เลย' : 'ส่งคำขอยืนยันตัวตนแล้ว · สมัครงานต่อได้เลย');
       return;
     }
-    if (s.revealKyc) { Store.set({ screen: typeof s.revealKyc === 'string' ? s.revealKyc : 'cardReveal', revealKyc: false, dialog: null, sheet: null, kyc: { step: 'type', fails: 0 } }); Store.toast(isVerified(s) ? 'ป้าย Verified ขึ้นการ์ดแล้ว' : 'ส่งคำขอยืนยันตัวตนแล้ว · รอทีมตรวจ'); return; }
+    if (s.revealKyc) { Store.set({ screen: typeof s.revealKyc === 'string' ? s.revealKyc : 'cardReveal', revealKyc: false, dialog: null, sheet: null, kyc: { step: 'type', fails: 0 } }); levelUpIfStar(); Store.toast(isVerified(s) ? 'ป้าย Verified ขึ้นการ์ดแล้ว' : 'ส่งคำขอยืนยันตัวตนแล้ว · รอทีมตรวจ'); return; }
     Store.set({ screen: 'campaign', dialog: null, sheet: null, kyc: { step: 'type', fails: 0 } });
     Store.toast(isVerified(s) ? 'ตรา Verified ขึ้นการ์ดแล้ว · ใบสมัครอัปเดตให้อัตโนมัติ' : 'ส่งคำขอยืนยันตัวตนแล้ว · รอทีมตรวจ');
   };

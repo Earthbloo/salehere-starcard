@@ -59,6 +59,11 @@ struct StarCardSection: View {
     /// ยังไม่ได้เป็น STAR = การ์ดยังไม่ได้แสดงให้ใครเห็น — ไม่ขึ้นป้าย "กำลังแสดงอยู่" และไม่มีปุ่มแชร์ (audit 29 ก.ย. 2569)
     var published = true
     let onOpen: () -> Void
+    /// ปุ่มเล็กใต้ปุ่ม "ดูการ์ด" (ไอคอนกราฟ + ยอดวิว) → หน้า ST★R Insight · nil = ไม่มีปุ่ม
+    /// โผล่เฉพาะใบที่เผยแพร่แล้ว — การ์ดที่ยังไม่มีใครเห็นไม่มีสถิติให้ดู
+    var onInsight: (() -> Void)? = nil
+    /// ยังไม่เคยเปิดการ์ด: แตะเทมเพลตในแถบตัวอย่าง = เริ่มการ์ดใบแรกจากแบบนั้น · nil = ใช้หน้าตาเดิม (รูปย่อ + ปุ่ม)
+    var onPickTemplate: ((CardTemplate) -> Void)? = nil
 
     @Environment(PhotoStore.self) private var photos
     @Environment(ClipInvocation.self) private var invocation
@@ -75,34 +80,44 @@ struct StarCardSection: View {
                 Text("Card").font(GL.serif(22))
                     .foregroundStyle(LinearGradient(colors: [GL.ink, GL.ink, GL.goldInk], startPoint: .top, endPoint: .bottom))
                 if isDefault {
-                    Text("ของคุณพร้อมแล้ว · ตอบ 3 ข้อแล้วเปิดดูได้เลย").font(.sh(12)).foregroundStyle(GL.muted).lineLimit(1)
+                    Text(onPickTemplate != nil ? "รอคุณเปิดใช้งาน" : "ของคุณพร้อมแล้ว · เปิดดูได้เลย").font(.sh(12)).foregroundStyle(GL.muted).lineLimit(1)
                         .padding(.leading, 4)
                 }
             }
+            if isDefault, let onPickTemplate {
+                // ยังไม่เคยเปิดการ์ด = โชว์แบบให้ดูก่อน: แถบเทมเพลตเลื่อนเอง แตะใบไหนก็เริ่มจากใบนั้น (feedback 5 ต.ค. 2569)
+                // เคยเปิดแล้ว = แถวเดิม (รูปย่อใบที่แสดงอยู่ + ดูการ์ด + แชร์ + ยอดวิว)
+                ActivateTease(onOpen: onOpen)
+            } else {
             HStack(spacing: 14) {
                 Button {
                     Haptics.impact(.light)
                     onOpen()
                 } label: { thumbnail }
                 .buttonStyle(DockPress())
-                // ดูการ์ด = ปุ่มหลักของหมวด · แชร์ = ไอคอนเล็กข้าง ๆ (ผู้ใช้ 24 ก.ย. 2569: "ความสำคัญเท่ากันเลยหรอ")
-                HStack(spacing: 8) {
-                    pill(isDefault ? "เปิดการ์ดของฉัน" : "ดูการ์ด", isDefault ? .sparkle : .eye, dark: isDefault, action: onOpen)
-                    if !isDefault && published { Button {
-                        Haptics.impact(.light)
-                        ShareSheet.present(CardLibrary.shared.url(for: record, slug: invocation.slug))
-                    } label: {
-                        PIcon(.shareNetwork, size: 15, weight: .bold).foregroundStyle(GL.ink)
-                            .frame(width: 36, height: 36)
-                            .background(Circle().fill(.white.opacity(0.85)))
-                            .overlay(Circle().strokeBorder(GL.ink.opacity(0.1), lineWidth: 1))
-                            .contentShape(Circle())
+                VStack(spacing: 8) {
+                    // ดูการ์ด = ปุ่มหลักของหมวด · แชร์ = ไอคอนเล็กข้าง ๆ (ผู้ใช้ 24 ก.ย. 2569: "ความสำคัญเท่ากันเลยหรอ")
+                    HStack(spacing: 8) {
+                        pill(isDefault ? "เปิดการ์ดของฉัน" : "ดูการ์ด", isDefault ? .sparkle : .eye, dark: isDefault, action: onOpen)
+                        if !isDefault && published { Button {
+                            Haptics.impact(.light)
+                            ShareSheet.present(CardLibrary.shared.url(for: record, slug: invocation.slug))
+                        } label: {
+                            PIcon(.shareNetwork, size: 15, weight: .bold).foregroundStyle(GL.ink)
+                                .frame(width: 36, height: 36)
+                                .background(Circle().fill(.white.opacity(0.85)))
+                                .overlay(Circle().strokeBorder(GL.ink.opacity(0.1), lineWidth: 1))
+                                .contentShape(Circle())
+                        }
+                        .buttonStyle(DockPress())
+                        .accessibilityLabel("แชร์การ์ด") }
                     }
-                    .buttonStyle(DockPress())
-                    .accessibilityLabel("แชร์การ์ด") }
+                    // ยอดวิว → ST★R Insight อยู่ใต้ปุ่มดูการ์ด (ผู้ใช้ 4 ต.ค. 2569: "ปุ่มไว้ข้างล่างดู card")
+                    if let onInsight, published && !isDefault { InsightChip(onOpen: onInsight) }
                 }
             }
             .padding(.top, 4)
+            }
         }
         .padding(.top, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -167,5 +182,131 @@ enum ShareSheet {
         else { return }
         while let next = top.presentedViewController { top = next }
         top.present(UIActivityViewController(activityItems: [url], applicationActivities: nil), animated: true)
+    }
+}
+
+/// การ์ดที่ยังไม่ได้เปิดใช้งาน — โชว์แบบการ์ดให้ดูเฉย ๆ เป็นพัด 3 ใบ ค่อย ๆ เปลี่ยน แล้วมีปุ่ม "เปิดใช้งาน"
+///
+/// ลำดับที่ผู้ใช้ตีกลับ 5 ต.ค. 2569: แถบรูปเรียง → เวทีดำ → พัด 3 ใบหน้าการ์ดละลายเปลี่ยน "สวยนะ" → ใบเดียวเปลี่ยนรูปทรงนอน/ตั้ง "มั่ว"
+/// → สองกองแยกแนว "โชว์แค่อย่างเดียว" → ใบเดียวสลับ → "เอา 3 อันเหมือนเดิม แต่ค่อยๆเปลี่ยน"
+/// ตอนนี้: พัด 3 ใบ (ใบหน้า + ใบซ้อนหลังสองใบ) โชว์ทีละชุด แนวเดียวกันทั้งชุด — ชุดแนวตั้ง (Story) สลับกับชุดแนวนอน (Portfolio)
+/// เปลี่ยนชุด = จางสลับทั้งพัด 0.75 วิ ค้าง 2.6 วิ (รุ่น 1.8 วิ "ช้าไป" · แสงกวาด/เงารุ่นแรก "เข้มไป ช้าไป") ไม่มีใบไหนยืดหดหรือกระโดด · ชุดที่ซ่อนอยู่เลื่อนแบบของตัวเองไปหนึ่งใบระหว่างที่มองไม่เห็น
+/// พัดลอยขึ้นลงเบา ๆ · ไม่มีแสงกวาด/ขอบทอง/ป้าย · ปุ่มขาวนิ่ง · แตะการ์ดหรือปุ่ม = เปิด Star Card ตาม flow เดิม · Reduce Motion = นิ่ง
+private struct ActivateTease: View {
+    let onOpen: () -> Void
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var showWide = false
+    @State private var tall = 0
+    @State private var wide = 0
+    @State private var float = false
+    private let talls = CardTemplate.all(for: .story)
+    private let wides = CardTemplate.all(for: .portfolio)
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Button {
+                Haptics.impact(.medium)
+                onOpen()
+            } label: {
+                // เพิ่มความน่าสนใจอีกนิด (ผู้ใช้ 5 ต.ค. 2569: "จืดไปนิด เพิ่มสัก 10%") — ทุกอย่างเบาและช้า ไม่มีสีเพิ่ม:
+                // ใบหน้าเอียงซ้ายขวาช้า ๆ แบบมีมิติ · ใบหลังขยับสวนเล็กน้อย · แสงกวาดผ่านใบหน้านาน ๆ ครั้ง · พัดกางออกตอนชุดใหม่จางเข้า · เงาพื้นหายใจตามการลอย
+                TimelineView(.animation(paused: reduceMotion)) { tl in
+                    let t = reduceMotion ? 0 : tl.date.timeIntervalSinceReferenceDate
+                    let tallOn = !(showWide && !wides.isEmpty), wideOn = showWide || talls.isEmpty
+                    ZStack {
+                        Ellipse().fill(GL.ink.opacity(0.05)).frame(width: 190, height: 18).blur(radius: 10)
+                            .scaleEffect(x: float ? 0.9 : 1.04).offset(y: 106)
+                        if !talls.isEmpty {
+                            fan(talls, front: tall, size: CGSize(width: 110, height: 196),
+                                backs: [(-44, 10, -11, 0.86), (42, 8, 9, 0.9)], open: tallOn, t: t)
+                                .opacity(tallOn ? 1 : 0)
+                                .scaleEffect(tallOn ? 1 : 0.95)
+                        }
+                        if !wides.isEmpty {
+                            fan(wides, front: wide, size: CGSize(width: 232, height: 128),
+                                backs: [(-22, 22, -7, 0.9), (22, -20, 6, 0.93)], open: wideOn, t: t)
+                                .opacity(wideOn ? 1 : 0)
+                                .scaleEffect(wideOn ? 1 : 0.95)
+                        }
+                    }
+                    .offset(y: float ? -4 : 3)
+                    .frame(maxWidth: .infinity).frame(height: 226)
+                    .contentShape(Rectangle())
+                }
+            }
+            .buttonStyle(DockPress())
+            .accessibilityLabel("Star Card ยังไม่ได้เปิดใช้งาน ตัวอย่างแบบการ์ดแนวตั้งและแนวนอน")
+
+            Button {
+                Haptics.impact(.medium)
+                onOpen()
+            } label: {
+                HStack(spacing: 7) {
+                    PIcon(.sparkle, size: 15, weight: .bold)
+                    Text("เปิดใช้งาน").font(.sh(15, .bold))
+                }
+                .foregroundStyle(GL.ink)
+                .frame(maxWidth: .infinity).frame(height: 46)
+                .background(Capsule().fill(.white))
+                .overlay(Capsule().strokeBorder(GL.ink.opacity(0.14), lineWidth: 1))
+                .contentShape(Capsule())
+            }
+            .buttonStyle(DockPress())
+        }
+        .padding(.top, 4)
+        .task {
+            guard !reduceMotion, !talls.isEmpty, !wides.isEmpty else { return }
+            withAnimation(.easeInOut(duration: 2.8).repeatForever(autoreverses: true)) { float = true }
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 2_600_000_000)
+                withAnimation(.easeInOut(duration: 0.75)) { showWide.toggle() }
+                // รอให้จางสลับจบ แล้วเลื่อนแบบของชุดที่เพิ่งถูกซ่อน (มองไม่เห็นตอนเปลี่ยน)
+                try? await Task.sleep(nanoseconds: 850_000_000)
+                if showWide { tall = (tall + 1) % talls.count } else { wide = (wide + 1) % wides.count }
+            }
+        }
+    }
+
+    /// พัดแนวเดียว 3 ใบ: ใบซ้อนหลังสองใบ (แบบถัด ๆ ไป วนซ้ำถ้ามีไม่ถึงสาม) + ใบหน้า · `backs` = (x, y, องศา, สเกล) ไกลสุดก่อน
+    /// `open` = ชุดนี้กำลังโชว์ (ใบหลังกางเต็ม) · ซ่อนอยู่ = หุบเข้าหาใบหน้า แล้วกางออกตอนจางเข้า
+    private func fan(_ list: [CardTemplate], front: Int, size: CGSize, backs: [(CGFloat, CGFloat, Double, CGFloat)],
+                     open: Bool, t: Double) -> some View {
+        let spread: CGFloat = open ? 1 : 0.5
+        let sway = sin(t * 0.7)
+        let sweep = (t.truncatingRemainder(dividingBy: 3.4)) / 3.4
+        return ZStack {
+            ForEach(Array(backs.enumerated()), id: \.offset) { k, b in
+                face(list[(front + backs.count - k) % list.count], size)
+                    .shadow(color: GL.ink.opacity(0.11), radius: 6, y: 4)
+                    .brightness(-0.03 * Double(backs.count - k))
+                    .scaleEffect(b.3)
+                    .rotationEffect(.degrees(b.2 * Double(spread) - sway * 1.3 * (b.2 < 0 ? -1 : 1)))
+                    .offset(x: b.0 * spread - CGFloat(sway) * 2, y: b.1 * spread)
+            }
+            face(list[front % list.count], size)
+                .overlay {
+                    LinearGradient(colors: [.clear, .white.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
+                        .frame(width: size.width * 0.4).rotationEffect(.degrees(18))
+                        .offset(x: -size.width + size.width * 2 * min(1, sweep / 0.18))
+                        .opacity(open && sweep < 0.18 ? 1 : 0)
+                        .blendMode(.plusLighter)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(.white.opacity(0.85), lineWidth: 1))
+                .shadow(color: GL.ink.opacity(0.18), radius: 12, y: 9)
+                .rotation3DEffect(.degrees(sway * 5), axis: (x: 0.15, y: 1, z: 0), perspective: 0.55)
+        }
+    }
+
+    private func face(_ t: CardTemplate, _ size: CGSize) -> some View {
+        Group {
+            if let ui = TemplateThumbs.shared.image(for: t.id) {
+                Image(uiImage: ui).resizable().aspectRatio(contentMode: .fill)
+            } else {
+                GL.ink.opacity(0.08)
+            }
+        }
+        .frame(width: size.width, height: size.height)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }

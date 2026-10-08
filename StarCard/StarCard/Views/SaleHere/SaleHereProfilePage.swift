@@ -9,6 +9,8 @@ struct SaleHereProfilePage: View {
     let campaignCount: Int
     /// กดค้างชื่อบนแถบแดง → แผง lab ของ flow ใหม่
     var onLab: () -> Void = {}
+    /// banner "สมัครเป็น ST★R" เหนือช่องโพสต์ (ยังไม่เป็น STAR เท่านั้น)
+    var onBanner: () -> Void = {}
 
     private enum Feed { case grid, list, mentions }
     @State private var feed: Feed = .grid
@@ -32,6 +34,7 @@ struct SaleHereProfilePage: View {
                             SHOutlineButton(title: "โปรไฟล์ครีเอเตอร์", icon: .identificationCard, action: onCreatorProfile)
                         }
                         tiles
+                        StarInviteBanner(onTap: onBanner)
                         composer
                         draftBanner
                     }

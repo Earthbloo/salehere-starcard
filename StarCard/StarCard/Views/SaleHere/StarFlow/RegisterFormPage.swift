@@ -1,7 +1,15 @@
 import SwiftUI
 import PhosphorSwift
 
-/// ฟอร์มสมัครเดิมของแอปหลัก (`UnboxRegister`) — flow ใหม่ตัดช่องที่อยู่ออก เหลือชื่อ+เบอร์+Line ID (ถามที่อยู่ตอนตอบรับแทน)
+/// ฟอร์มสมัครเดิมของแอปหลัก (`UnboxRegister`) ตัวต่อตัว — บล็อก "ข้อมูลที่อยู่" กลับมาอยู่ที่นี่ (ผู้ใช้ 6 ต.ค. 2569: "ให้ flow ลงทะเบียนที่อยู่เป็นเหมือนเดิม
+/// ไม่ต้องแทรกจังหวะตอบรับ") · ช่อง ลำดับ และป้ายตาม `UnboxRegisterViewController` + `Localized.strings`:
+/// ชื่อ - นามสกุล · เบอร์โทรศัพท์ · (Line ID ของเรา) · รายละเอียดที่อยู่ · รหัสไปรษณีย์ → ตำบล/แขวง (เลือก) → อำเภอ/เขต + จังหวัด เติมให้
+///
+/// NOTE port (`createBrandCampaignApplication` — API เดิมครบ ไม่ต้องแก้):
+///   ที่อยู่ 7 ช่องส่งเป็น `name, tel, address, province, district, subDistrict, zipcode` เหมือนเดิม (type non-null — พอดีกับฟอร์มนี้)
+///   ตำบลจาก `getSubDistricts(zipcode)` · อำเภอ/จังหวัดจาก `getDistrictProvince(zipcode, subDistrict)` — ที่นี่จำลองด้วย `ZipBook`
+///   ไม่มี arg `lineId` → Line ID ลง `creatorProfile.lineId` (`createOrUpdateCreatorProfile`) ก่อนแล้วค่อยยิงสมัคร
+///   ลิงก์โซเชียล + ยอดผู้ติดตาม 6 ช่องส่งเหมือนเดิม (`facebook…lemon8`, `*Follower`) · คำถามแบรนด์ = `answers[{question, type, answer}]` เดิม
 ///
 /// ข้อมูลติดต่อ · คำถามของแบรนด์ · การ์ดโซเชียล (+ insight) · ยินยอม · ปุ่มแดงเต็ม
 struct RegisterFormPage: View {
@@ -10,8 +18,6 @@ struct RegisterFormPage: View {
     let onClose: () -> Void
     let onSubmit: () -> Void
 
-    @State private var name = "มณีรัตน์ ใจดี"
-    @State private var tel = "0891234567"
     @State private var answers: [String: String] = [:]
     @State private var checks: Set<String> = []
     @State private var uploaded = false
@@ -25,12 +31,29 @@ struct RegisterFormPage: View {
             }
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    SHSectionHeader(title: "ข้อมูลติดต่อ")
+                    // = "ADDRESS_SESSION_LABEL" ของแอปหลัก — ชุดเดียวกับ `myAddress` จำไว้ใน `flow.addressInfo` งานถัดไปเติมให้เอง
+                    SHSectionHeader(title: "ข้อมูลที่อยู่")
                     VStack(spacing: 14) {
-                        SHFormField(label: "ชื่อ - นามสกุล", required: true, text: $name, placeholder: "กรอกชื่อ - นามสกุล")
-                        SHFormField(label: "เบอร์โทรศัพท์", required: true, text: $tel, placeholder: "กรอกเบอร์โทรศัพท์", keyboard: .phonePad)
+                        SHFormField(label: "ชื่อ - นามสกุล", required: true, text: bind(\.name), placeholder: "กรอกชื่อ - นามสกุล")
+                        SHFormField(label: "เบอร์โทรศัพท์", required: true, text: bind(\.tel), placeholder: "กรอกเบอร์โทรศัพท์", keyboard: .phonePad)
                         // Line ID ถามตอนลงทะเบียน (ผู้ใช้ 29 ก.ย. 2569) — จำไว้ใน StarFlow งานถัดไปเติมให้เอง
                         SHFormField(label: "Line ID", required: true, text: Binding(get: { flow.lineID }, set: { flow.lineID = $0 }), placeholder: "@yourlineid", keyboard: .asciiCapable)
+                        SHFormField(label: "รายละเอียดที่อยู่", required: true, text: bind(\.address), placeholder: "บ้านเลขที่, ชื่อหมู่บ้าน, ห้อง, ชั้น, ถนน, ซอย", paragraph: true)
+                        // รหัสไปรษณีย์เปลี่ยน = ล้างตำบล/อำเภอ/จังหวัด แล้วหาตำบลใหม่ (แอปหลัก: `getSubDistricts` หลังพิมพ์ครบ 0.5 วิ)
+                        SHFormField(label: "รหัสไปรษณีย์", required: true, text: Binding(
+                            get: { flow.addressInfo.zip },
+                            set: { v in
+                                let z = String(v.filter(\.isNumber).prefix(5))
+                                guard z != flow.addressInfo.zip else { return }
+                                flow.addressInfo.zip = z
+                                flow.addressInfo.sub = ""; flow.addressInfo.district = ""; flow.addressInfo.province = ""
+                                if let only = ZipBook.subs(z).count == 1 ? ZipBook.subs(z).first : nil { pickSub(only) }
+                            }), placeholder: "ระบุรหัสไปรษณีย์", keyboard: .numberPad)
+                        SHSelectField(label: "ตำบล/แขวง", required: true, text: Binding(get: { flow.addressInfo.sub }, set: pickSub),
+                                      options: ZipBook.subs(flow.addressInfo.zip), placeholder: "ตำบล/แขวง")
+                        // อำเภอ/จังหวัดเติมให้จากตำบล (แอปหลัก: `getDistrictProvince`) — ช่องยังพิมพ์ทับได้เผื่อรหัสที่ตารางจำลองไม่รู้จัก
+                        SHFormField(label: "อำเภอ/เขต", required: true, text: bind(\.district), placeholder: "อำเภอ/เขต")
+                        SHFormField(label: "จังหวัด", required: true, text: bind(\.province), placeholder: "จังหวัด")
                     }
                     .padding(16)
                     if !campaign.questions.isEmpty {
@@ -63,7 +86,9 @@ struct RegisterFormPage: View {
             .background(.white)
             .scrollDismissesKeyboard(.interactively)
             VStack {
-                SHRedButton(title: "ลงทะเบียนร่วมกิจกรรม", icon: .notePencil, enabled: flow.consent && !flow.lineID.trimmingCharacters(in: .whitespaces).isEmpty, action: onSubmit)
+                // กดได้เมื่อยินยอม + Line ID + ที่อยู่ครบ 7 ช่อง (แอปหลัก `validateForm` เช็กทุกช่องบังคับก่อนส่ง)
+                SHRedButton(title: "ลงทะเบียนร่วมกิจกรรม", icon: .notePencil,
+                            enabled: flow.consent && !flow.lineID.trimmingCharacters(in: .whitespaces).isEmpty && flow.addressInfo.full, action: onSubmit)
             }
             .padding(.horizontal, 16).padding(.top, 10).padding(.bottom, 8)
             .background(Color.white.ignoresSafeArea(edges: .bottom))
@@ -74,9 +99,27 @@ struct RegisterFormPage: View {
     }
 
     /// กรอกตัวอย่างให้ (แผง lab) — คำตอบของแบรนด์ + Line ID
+    /// ช่องที่อยู่ผูกกับ `flow.addressInfo` ตรง ๆ — ฟอร์มนี้คือที่เดียวที่กรอกที่อยู่ใน flow งาน (ตอบรับไม่ถามแล้ว)
+    private func bind(_ kp: WritableKeyPath<StarAddress, String>) -> Binding<String> {
+        Binding(get: { flow.addressInfo[keyPath: kp] }, set: { flow.addressInfo[keyPath: kp] = $0 })
+    }
+
+    /// เลือกตำบลแล้วอำเภอ/จังหวัดตามมา (= `getDistrictProvince` ของแอปหลัก)
+    private func pickSub(_ s: String) {
+        flow.addressInfo.sub = s
+        if let p = ZipBook.place(flow.addressInfo.zip, s) { flow.addressInfo.district = p.district; flow.addressInfo.province = p.province }
+    }
+
     private func autofill() {
+        // ชื่อ+เบอร์ แอปหลักเติมจากโปรไฟล์ให้เสมอ (ไม่ขึ้นกับสวิตช์ autofill)
+        if flow.addressInfo.name.isEmpty { flow.addressInfo.name = "มณีรัตน์ ใจดี" }
+        if flow.addressInfo.tel.isEmpty { flow.addressInfo.tel = "0891234567" }
         guard StarFlow.autofill else { return }
         if flow.lineID.isEmpty { flow.lineID = "@maneerat.review" }
+        if flow.addressInfo.address.isEmpty {
+            flow.addressInfo = StarAddress(name: flow.addressInfo.name, tel: flow.addressInfo.tel, address: "99/12 คอนโดลุมพินี ซ.สุขุมวิท 77",
+                                           district: "สวนหลวง", province: "กรุงเทพมหานคร", zip: "10250", sub: "สวนหลวง")
+        }
         for q in campaign.questions where answers[q.id] == nil {
             switch q.kind {
             case .text: answers[q.id] = "เคยรีวิวสกินแคร์ให้หลายแบรนด์ ผิวแพ้ง่าย ใช้จริงก่อนรีวิวทุกครั้ง"
@@ -268,6 +311,36 @@ struct SHFormField: View {
     }
 }
 
+/// ช่องเลือก (= `BaseSelectViewV2` ของแอปหลัก) — รายการว่าง (รหัสที่ตารางจำลองไม่รู้จัก) ให้พิมพ์เองแทน
+struct SHSelectField: View {
+    let label: String
+    var required = false
+    @Binding var text: String
+    var options: [String]
+    var placeholder = ""
+    var body: some View {
+        if options.isEmpty {
+            SHFormField(label: label, required: required, text: $text, placeholder: placeholder)
+        } else {
+            VStack(alignment: .leading, spacing: 6) {
+                (Text(required ? "* " : "").foregroundStyle(SH.red) + Text(label).foregroundStyle(SH.ink)).font(.sh(14, .semibold))
+                Menu {
+                    ForEach(options, id: \.self) { o in Button(o) { text = o } }
+                } label: {
+                    HStack {
+                        Text(text.isEmpty ? placeholder : text).font(.sh(15)).foregroundStyle(text.isEmpty ? SH.hint : SH.ink)
+                        Spacer()
+                        PIcon(.caretDown, size: 14).foregroundStyle(SH.hint)
+                    }
+                    .padding(.horizontal, 14).frame(height: 46)
+                    .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(SH.line, lineWidth: 1))
+                    .contentShape(Rectangle())
+                }
+            }
+        }
+    }
+}
+
 /// dialog "ลงทะเบียนสำเร็จ" ของแอปหลัก (`AnimatedConfirmDialog`) — ชวนยืนยันตัวตนถ้ายังไม่ผ่าน
 struct RegisterSuccessDialog: View {
     @Environment(StarFlow.self) private var flow
@@ -290,7 +363,7 @@ struct RegisterSuccessDialog: View {
                 Text("ผู้ที่ผ่านการคัดเลือกจะได้รับการแจ้งเตือน\nให้ยืนยันสิทธิ์ผ่านแอปฯ Sale Here")
                     .font(.sh(14)).foregroundStyle(SH.muted).multilineTextAlignment(.center).lineSpacing(3)
                 // ยืนยันตัวตนไปแล้ว (ผ่านหรือรอตรวจ) = ไม่ชวนซ้ำ (ผู้ใช้ 24 ก.ย.)
-                let kycDone = flow.verify != .none
+                let kycDone = flow.isMember   // ตีกลับ (`reject`) = ชวนทำใหม่
                 if !kycDone {
                     Text("*กรุณายืนยันตัวตน เพื่อความรวดเร็ว ในการผ่านการคัดเลือก!!")
                         .font(.sh(12, .semibold)).foregroundStyle(SH.red).multilineTextAlignment(.center)

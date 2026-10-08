@@ -127,9 +127,11 @@ struct GlassCircleButton: View {
 }
 
 /// ปุ่มหลักของหน้า Star Profile — แคปซูลถ่าน 56 + วงแหวนขาวสองชั้น (= `.ach2-btn`)
+/// `progress` = วงแหวน % ขาวหน้าข้อความ + ตัวเลขแทนลูกศร (ผู้ใช้ 7 ต.ค. 2569: ปุ่มล่างเป็น % เหมือนหัว "เติมเมื่อถึงเวลา")
 struct GlassPrimaryButton: View {
     let title: String
     var symbol: Ph = .arrowRight
+    var progress: Double? = nil
     let action: () -> Void
     var body: some View {
         Button {
@@ -137,8 +139,24 @@ struct GlassPrimaryButton: View {
             action()
         } label: {
             HStack(spacing: 8) {
+                if let progress {
+                    ZStack {
+                        Circle().stroke(.white.opacity(0.22), lineWidth: 3)
+                        Circle().trim(from: 0, to: progress)
+                            .stroke(.white, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                    }
+                    .frame(width: 22, height: 22)
+                    .animation(Motion.settle, value: progress)
+                    .padding(.trailing, 2)
+                }
                 StarText(title, size: 16, weight: .bold, color: .white)
-                PIcon(symbol, size: 18)
+                if let progress {
+                    Text("\(Int((progress * 100).rounded()))%").font(.sh(16, .heavy)).monospacedDigit()
+                        .opacity(0.72)
+                } else {
+                    PIcon(symbol, size: 18)
+                }
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity).frame(height: 56)
@@ -203,7 +221,7 @@ struct SealShape: Shape {
 /// - ยืนยันแล้ว = ดาวน้ำเงินทึบ + ติ๊ก
 /// - ยังไม่ยืนยัน = ดาวประสีเทา + "ยังไม่ได้ยืนยันตัวตน" (เทา ไม่ใช่น้ำเงิน — น้ำเงินอ่านเป็นยืนยันแล้ว, ผู้ใช้ 29 ก.ย. 2569)
 ///   แตะแล้วไป KYC · เข้าหน้ามาดาวเติมน้ำเงินให้ดูแวบหนึ่งว่าจะได้อะไร แล้วกลับเป็นประเทา (ครั้งเดียว ไม่วนตลอด)
-/// - รอตรวจ = ดาวประสีเทา + "รอตรวจ"
+/// - รอตรวจ = ชิปเหลือง + "รอตรวจ" · ไม่ผ่าน = ชิปแดง + "ยืนยันตัวตนไม่ผ่าน" (ผู้ใช้ 6 ต.ค. 2569)
 struct VerifyStar: View {
     let status: VerifyStatus
     /// nil = แค่แสดง (หน้า wizard) — ยังไม่ยืนยันก็ไม่ขึ้นอะไร
@@ -216,30 +234,40 @@ struct VerifyStar: View {
         case .approved:
             seal(filled: true, tint: GL.verified, size: 20)
                 .accessibilityLabel("ยืนยันตัวตนแล้ว")
-        case .none, .waiting:
+        case .none, .waiting, .rejected:
             if let onTap {
                 let waiting = status == .waiting
-                let tint = GL.hint
+                // สีตามสถานะ (ผู้ใช้ 6 ต.ค. 2569): รอตรวจ = เหลือง · ไม่ผ่าน = แดง · ยังไม่ทำ = เทาเหมือนเดิม (= `.seal.off.wait/.rej` ของ desktop)
+                let (tint, ink, fill, line): (Color, Color, Color, Color) = switch status {
+                case .waiting: (Color(red: 217 / 255, green: 161 / 255, blue: 0), Color(red: 122 / 255, green: 82 / 255, blue: 0),
+                                Color(red: 1, green: 246 / 255, blue: 204 / 255), Color(red: 245 / 255, green: 196 / 255, blue: 0))
+                case .rejected: (SHColor.red, SHColor.redPressed, SHColor.redSoft, Color(red: 246 / 255, green: 169 / 255, blue: 172 / 255))
+                default: (GL.hint, GL.muted, GL.ink.opacity(0.06), .clear)
+                }
                 Button {
                     Haptics.impact(.light)
                     onTap()
                 } label: {
                     HStack(spacing: 5) {
                         ZStack {
-                            Circle().strokeBorder(GL.verified.opacity(0.5), lineWidth: 1.5)
-                                .scaleEffect(ring ? 1.9 : 0.9).opacity(ring ? 0 : 0.9)
+                            if status == .none {
+                                Circle().strokeBorder(GL.verified.opacity(0.5), lineWidth: 1.5)
+                                    .scaleEffect(ring ? 1.9 : 0.9).opacity(ring ? 0 : 0.9)
+                            }
                             seal(filled: tease, tint: tease ? GL.verified : tint, size: 16)
                         }
                         .frame(width: 16, height: 16)
-                        Text(waiting ? "รอตรวจ" : "ยังไม่ได้ยืนยันตัวตน").font(.sh(11.5, .bold)).foregroundStyle(GL.muted)
+                        Text(waiting ? "รอตรวจ" : status == .rejected ? "ยืนยันตัวตนไม่ผ่าน" : "ยังไม่ได้ยืนยันตัวตน").font(.sh(11.5, .bold)).foregroundStyle(ink)
                     }
                     .padding(.leading, 5).padding(.trailing, 9).frame(height: 26)
-                    .background(Capsule().fill(GL.ink.opacity(0.06)))
+                    .background(Capsule().fill(fill))
+                    .overlay(Capsule().strokeBorder(line, lineWidth: 1))
                     .contentShape(Capsule())
                 }
                 .buttonStyle(DockPress())
                 .fixedSize()
-                .onAppear { if !waiting { playTease() } }
+                // ดาวน้ำเงินแวบเดียว = ชวนไปยืนยัน — เฉพาะคนที่ยังไม่ทำ (รอตรวจ/ไม่ผ่านเห็นสีสถานะตรง ๆ)
+                .onAppear { if status == .none { playTease() } }
             }
         }
     }
@@ -292,15 +320,22 @@ struct StarGlassCard: View {
     var cardIsDefault = false
     var cardCount = 0
     var onOpenCard: () -> Void = {}
+    var onInsight: (() -> Void)? = nil
+    var onPickTemplate: ((CardTemplate) -> Void)? = nil
+    /// หมวดท้ายสุดของการ์ด ใต้ ST★R Card — Star Profile ใส่แถว % "เติมข้อมูลให้ครบ" + รายการที่กางลงมา (feedback 5 ต.ค. 2569)
+    var footer: AnyView? = nil
 
-    private var socials: [StarSocial] { StarSocial.allCases.filter { flow.connected.contains($0) } }
-    /// เรท/ข้อมูลผู้ติดตามอยู่หน้าเดียวกับช่องทาง — ขึ้นช่องประเฉพาะข้อที่ยังไม่มีจริง
-    private func ghost(_ s: WizStep) -> Bool { ghosts.contains(s.page) && !(s.dataKey.map(flow.has) ?? false) }
+    /// ช่องประ 1 ช่องต่อ 1 ข้อที่ยังขาด — จำนวนตรงกับ "สมัครเป็น STAR · N ข้อ" · ชื่อช่อง = ชื่อข้อ = ชื่อแถวในหน้า Star Profile (= salehere-ios)
+    /// แถวใต้ชื่อ = สาย · พื้นที่ · วันว่าง (โชว์แม้มีสายแล้ว) · แถวล่าง = ที่เหลือตามลำดับ wizard (ยืนยันตัวตนท้ายสุด)
+    private static let nameGhostSteps: [WizStep] = [.categories, .province, .availability]
+    private func ghostText(_ s: WizStep) -> String? { ghosts.contains(s) && flow.needs(s) ? s.rowName : nil }
+    private var nameGhosts: [String] { Self.nameGhostSteps.compactMap(ghostText) }
+    private var cardGhosts: [String] { ghosts.filter { !Self.nameGhostSteps.contains($0) }.compactMap(ghostText) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .center, spacing: 12) {
-                avatar
+                avatar.zIndex(1)   // ประกายตอนได้เป็น STAR ลอยทับชื่อ ไม่จมใต้
                 VStack(alignment: .leading, spacing: 4) {
                     // ชื่อ + ดาว — ป้าย "ยังไม่ได้ยืนยันตัวตน" ยาว ถ้าไม่พอบรรทัดเดียวให้ลงบรรทัดใต้ชื่อ ไม่ตัดชื่อ
                     ViewThatFits(in: .horizontal) {
@@ -316,54 +351,22 @@ struct StarGlassCard: View {
                     .padding(.trailing, flow.isStar ? 64 : 0)
                     if flow.has(.categories) {
                         // ชื่อผู้ใช้ตัวเดียวกับที่การ์ดและลิงก์การ์ดใช้ (`Profile.handle` — ช่องแรกที่เชื่อม หรือชื่อบัญชี)
-                        Text("@\(Profile.me.handle) · " + flow.facts(StarRow.all.first { $0.key == .categories }!).joined(separator: " · "))
+                        // ไม่มี @ชื่อผู้ใช้นำหน้าแล้ว (ผู้ใช้ 5 ต.ค. 2569: "เอาตรงนี้ออกไปเลยจาก ios และ web") — เหลือสายงาน
+                        Text(flow.facts(StarRow.all.first { $0.key == .categories }!).joined(separator: " · "))
                             .font(.sh(13)).foregroundStyle(GL.muted).lineLimit(1)
                     } else if ghosts.isEmpty {
                         Text("สายที่ใช่จะขึ้นตรงนี้").font(.sh(13)).italic().foregroundStyle(GL.muted.opacity(0.6))
-                    } else {
-                        PKWrap(spacing: 5) {
-                            if ghost(.categories) { GhostSlot(text: "สายที่ใช่") }
-                            if ghost(.province) { GhostSlot(text: "พื้นที่") }
-                            if ghost(.availability) { GhostSlot(text: "วันว่าง") }
-                        }
+                    }
+                    if !nameGhosts.isEmpty {
+                        PKWrap(spacing: 5) { ForEach(nameGhosts, id: \.self) { GhostSlot(text: $0) } }
                     }
                 }
             }
-            if !ghosts.isEmpty {
-                PKWrap(spacing: 5) {
-                    if ghost(.socials) { GhostSlot(text: "ยอดผู้ติดตาม") }
-                    if ghost(.media) { GhostSlot(text: "รูปและผลงาน") }
-                    if ghost(.rate) { GhostSlot(text: "เรทรับงาน") }
-                    if ghost(.insight) { GhostSlot(text: "ข้อมูลผู้ติดตาม") }
-                    if ghost(.about) { GhostSlot(text: "แนะนำตัว") }
-                    if ghost(.kyc) { GhostSlot(text: "Verified") }
-                }
-            } else if !socials.isEmpty && flow.has(.socials) {
-                // ช่องทาง = หมวดของมันเองในการ์ด (หัวเล็ก + เส้นคั่น แบบแถวท้าย) ไม่ลอยต่อจากชื่อ (ผู้ใช้ 24 ก.ย. 2569)
-                // ยังไม่ผูกโซเชียล = ไม่มีหมวดนี้เลย ไม่ใช่หัวข้อกับประโยคบอกว่ายังไม่มี (ผู้ใช้ 1 ต.ค. 2569: "ยังไม่มีก็เอาออก")
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("ช่องทาง").font(.sh(12, .semibold)).foregroundStyle(GL.muted)
-                    PKWrap(spacing: 8) {
-                        ForEach(socials) { s in
-                            HStack(spacing: 5) {
-                                Image(s.icon).resizable().aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20).clipShape(Circle())
-                                    .saturation(0).brightness(-0.35).contrast(1.4)
-                                Text(StarFlow.fmt(flow.followers(s))).font(.sh(14, .bold)).foregroundStyle(GL.ink)
-                            }
-                            .padding(.leading, 6).padding(.trailing, 12).frame(height: 34)
-                            .background(Capsule().fill(.white.opacity(0.82)))
-                            .overlay(Capsule().strokeBorder(.white.opacity(0.95), lineWidth: 1))
-                        }
-                    }
-                }
-                .padding(.top, 10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .overlay(alignment: .top) { GL.ink.opacity(0.08).frame(height: 1) }
+            if !cardGhosts.isEmpty {
+                PKWrap(spacing: 5) { ForEach(cardGhosts, id: \.self) { GhostSlot(text: $0) } }
             }
-            if !compact && flow.has(.about) {
-                Text(flow.about).font(.sh(15)).foregroundStyle(GL.ink).lineSpacing(4)
-            }
+            // หมวด "ช่องทาง" (ชิปยอดผู้ติดตาม) และบรรทัดแนะนำตัว เอาออกจากการ์ดนี้แล้ว (ผู้ใช้ 5 ต.ค. 2569) —
+            // ข้อมูลทั้งสองยังอยู่ในรายการ "เติมข้อมูลให้ครบ" (ช่องทางของฉัน · แนะนำตัว) และบน Star Card
             if !compact && flow.reviewed {
                 HStack(spacing: 6) {
                     ForEach(["ph01", "ph04"], id: \.self) { n in
@@ -377,16 +380,44 @@ struct StarGlassCard: View {
             // แถวท้ายการ์ดเอาออกหมดแล้ว: "ทำงานผ่าน Sale Here N งาน" (ผู้ใช้ 24 ก.ย. 2569) · "เรทเริ่ม ฿1,500/โพสต์" และ
             // "ยืนยันตัวตนแล้ว" (ผู้ใช้ 30 ก.ย. 2569) — เรทเป็นของแบรนด์ตอนคัดคน ส่วนยืนยันตัวตนมีตราน้ำเงินข้างชื่อบอกอยู่แล้ว
             if ghosts.isEmpty, let liveCard {
-                StarCardSection(record: liveCard, isDefault: cardIsDefault, published: flow.hasCard, onOpen: onOpenCard)
+                StarCardSection(record: liveCard, isDefault: cardIsDefault, published: flow.hasCard, onOpen: onOpenCard, onInsight: onInsight, onPickTemplate: onPickTemplate)
+            }
+            if let footer {
+                footer
+                    .padding(.top, 8)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .overlay(alignment: .top) { GL.ink.opacity(0.08).frame(height: 1) }
             }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(glassBody)
+        // เป็น STAR = ขอบการ์ดไล่ทองวิ่งรอบตอนได้รางวัล แล้วค้างเป็นขอบทองบาง ๆ (`LevelUp`)
+        .overlay {
+            if flow.isStar {
+                RoundedRectangle(cornerRadius: 26, style: .continuous).inset(by: 1)
+                    .trim(from: 0, to: goldEdge ? 1 : 0)
+                    .stroke(StarGold.ring, lineWidth: 1.6)
+                    .opacity(0.9)
+                    .animation(.easeInOut(duration: 0.6), value: goldEdge)
+                    .allowsHitTesting(false)
+            }
+        }
         .overlay(alignment: .topTrailing) {
-            if flow.isStar || !ghosts.isEmpty { StarPill().padding(12) }
+            if flow.isStar || !ghosts.isEmpty {
+                StarPill()
+                    // ปลายทางของตรา ST★R ที่บินจากกลางจอ (`LevelUpOverlay`)
+                    .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { LevelUp.shared.pillFrame = $0 }
+                    // ป้ายรอเปิด แล้วเด้งรับตอนตราบินมาลง
+                    .opacity(pillIn ? 1 : 0)
+                    .padding(12)
+            }
         }
     }
+
+    /// ตราบินมาถึงป้ายแล้ว (`LevelUp.landed`) — เปิดป้าย + ขอบการ์ดไล่ทองตอนนี้
+    private var goldEdge: Bool { !LevelUp.shared.starPlaying || LevelUp.shared.landed }
+    private var pillIn: Bool { !flow.isStar || !LevelUp.shared.starPlaying || LevelUp.shared.landed }
 
     private var nameText: some View {
         Text(SHMockUser.name).font(.sh(20, .heavy)).foregroundStyle(GL.ink).lineLimit(1)
@@ -394,19 +425,19 @@ struct StarGlassCard: View {
 
     @ViewBuilder
     private var avatar: some View {
-        let pic = SHAvatar(size: 60)
-            .overlay(Circle().strokeBorder(.white.opacity(0.85), lineWidth: 3))
-            .shadow(color: GL.ink.opacity(0.12), radius: 8, y: 6)
+        // เป็น STAR = ขอบทอง + ดาวขวาล่าง + จังหวะเลื่อนเลเวลครั้งแรก (`StarAvatar`) — ผู้ใช้ 2 ต.ค. 2569
+        let pic = StarAvatar(isStar: flow.isStar)
         if let onAvatar {
             Button {
                 Haptics.impact(.light)
                 onAvatar()
             } label: {
-                pic.overlay(alignment: .bottomTrailing) {
+                // ปุ่มกล้องย้ายไปซ้ายล่างเมื่อมุมขวาล่างเป็นดาว STAR
+                pic.overlay(alignment: flow.isStar ? .bottomLeading : .bottomTrailing) {
                     PIcon(.camera, size: 11, weight: .fill).foregroundStyle(.white)
                         .frame(width: 22, height: 22).background(Circle().fill(GL.ink))
                         .overlay(Circle().strokeBorder(.white, lineWidth: 2))
-                        .offset(x: 2, y: 2)
+                        .offset(x: flow.isStar ? -2 : 2, y: 2)
                 }
             }
             .buttonStyle(DockPress())
@@ -478,6 +509,34 @@ struct WzTile: View {
 }
 
 /// ช่องกรอกของ wizard (= `.wz-in.col`): ป้ายเล็กด้านบน + ค่า + ท้าย
+/// error ของแต่ละช่องใน wizard (ผู้ใช้ 7 ต.ค. 2569: "error ควรอยู่ตรง field ที่มันขาด จะมาอยู่ข้างบนทำไม") = `errs` ของ desktop
+/// คีย์ = ป้ายช่อง (`WzInput.label` / `BodyField.label` / "แนะนำตัว") หรือ "media:works" · ข้อความว่าง = ขอบแดงอย่างเดียว
+/// `link` = ช่องที่ผิดด้วยกัน (LINE ID หรือเบอร์) แก้ช่องไหนก็หายทั้งคู่ · error ระดับทั้งข้อ (เลือกอย่างน้อย 1 …) ยังอยู่เหนือตัวเลือกของข้อนั้น
+@Observable final class WzErrors {
+    private(set) var map: [String: String] = [:]
+    private var link: [String] = []
+    func set(_ items: [(String, String)], link l: [String] = []) { map = Dictionary(items, uniquingKeysWith: { a, _ in a }); link = l }
+    func clear(_ key: String) {
+        guard map[key] != nil else { return }
+        if link.contains(key) { link.forEach { map[$0] = nil }; link = [] } else { map[key] = nil }
+    }
+    func reset() { if !map.isEmpty { map = [:] }; link = [] }
+}
+
+/// บรรทัด error ใต้ช่อง (ไอคอนเตือน + ข้อความแดง)
+struct WzFieldError: View {
+    let text: String
+    var body: some View {
+        if !text.isEmpty {
+            // ข้อความแดงล้วน ไม่มีไอคอน (= salehere-ios)
+            Text(text).font(.sh(12, .semibold))
+                .foregroundStyle(PK.red)
+                .padding(.leading, 4)
+                .transition(.opacity)
+        }
+    }
+}
+
 struct WzInput: View {
     let label: String
     @Binding var text: String
@@ -490,20 +549,28 @@ struct WzInput: View {
     /// รับเฉพาะตัวเลข ตัดที่เกินความยาวนี้ทิ้ง (nil = ไม่ใช่ช่องตัวเลข)
     var digits: Int? = nil
     @FocusState private var focused: Bool
+    @Environment(WzErrors.self) private var errors: WzErrors?
+    private var error: String? { errors?.map[label] }
 
     var body: some View {
-        if select && !options.isEmpty {
-            Menu {
-                ForEach(options, id: \.self) { o in
-                    Button { Haptics.impact(.light); text = o } label: {
-                        if o == text { Label(o, systemImage: "checkmark") } else { Text(o) }
+        VStack(alignment: .leading, spacing: 5) {
+            if select && !options.isEmpty {
+                Menu {
+                    ForEach(options, id: \.self) { o in
+                        Button { Haptics.impact(.light); text = o } label: {
+                            if o == text { Label(o, systemImage: "checkmark") } else { Text(o) }
+                        }
                     }
-                }
-            } label: { field }
-            .buttonStyle(.plain)
-        } else {
-            field
+                } label: { field }
+                .buttonStyle(.plain)
+            } else {
+                field
+            }
+            if let error { WzFieldError(text: error) }
         }
+        .id("wz:" + label)
+        .onChange(of: text) { _, _ in errors?.clear(label) }
+        .animation(Motion.snap, value: error)
     }
 
     private func cleanDigits(_ v: String) {
@@ -532,7 +599,7 @@ struct WzInput: View {
         }
         .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 6)
         .background(PK.shape(16).fill(.white))
-        .overlay(PK.shape(16).strokeBorder(focused ? GL.ink : PK.line, lineWidth: 1))
+        .overlay(PK.shape(16).strokeBorder(error != nil ? PK.red : focused ? GL.ink : PK.line, lineWidth: error != nil ? 1.5 : 1))
         .contentShape(Rectangle())
         .onTapGesture { if !isMenu { focused = true } }
         .animation(Motion.snap, value: focused)

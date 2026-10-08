@@ -8,8 +8,8 @@ import PhosphorSwift
 
 struct StarHeader: View {
     let isCard: Bool
-    /// ยังไม่มีการ์ด = หัว "สมัครเป็น STAR" ไม่มี toggle (ยังไม่มีหน้าการ์ดให้สลับ)
-    var hasCard = true
+    /// ยังไม่เป็น STAR (ยังไม่ครบ 8 ข้อ) = หัว "สมัครเป็น STAR" ไม่มี toggle (ผู้ใช้ 6 ต.ค. 2569: หัวต้องเป็น "สมัครเป็น STAR" จนกว่าจะครบ)
+    var isStar = true
     let showsDot: Bool
     /// ปุ่มสลับ ข้อมูล | การ์ด — เลิกใช้ 24 ก.ย. 2569 (การ์ดอยู่บนหน้า Profile แล้ว หน้า Card มีปุ่ม ‹ กลับแทน)
     var showsToggle = true
@@ -18,9 +18,9 @@ struct StarHeader: View {
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 10) {
-            if hasCard { title } else { GlassTitle(words: [("สมัครเป็น", false), ("STAR", true)], small: true) }
+            if isStar { title } else { GlassTitle(words: [("สมัครเป็น", false), ("STAR", true)], small: true) }
             Spacer(minLength: 0)
-            if hasCard && showsToggle { toggle.padding(.bottom, 6) }
+            if isStar && showsToggle { toggle.padding(.bottom, 6) }
         }
         .padding(.horizontal, 16)
         .frame(height: 64, alignment: .bottom)
@@ -39,6 +39,10 @@ struct StarHeader: View {
             }
         }
         .lineLimit(1).minimumScaleFactor(0.7)
+        // ปลายทางของตรา "ST★R Card" ทองตอนเปิด Star Card ครั้งแรก — หัวจริงซ่อนไว้จนตราบินมาลง (`LevelUpOverlay`)
+        .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { LevelUp.shared.titleFrame = $0 }
+        // สลับกับตราที่บินมาในเฟรมเดียวกัน (ไม่มี animation — สีและตำแหน่งตรงกันแล้ว)
+        .opacity(isCard && LevelUp.shared.cardPlaying && !LevelUp.shared.landed ? 0 : 1)
     }
 
     private func serif(_ t: String) -> some View {

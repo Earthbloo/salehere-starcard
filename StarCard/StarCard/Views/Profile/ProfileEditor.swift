@@ -382,6 +382,10 @@ struct MediaTile: View {
     var loading = false
     let onTap: () -> Void
     let onRemove: () -> Void
+    /// ปุ่มมุมเป็น "เปลี่ยน" แทน "ลบ" (เป็น STAR แล้ว — `StarFlow.keepsData`) · `onRemove` = เลือกไฟล์ใหม่มาแทน
+    var swaps = false
+    /// ปุ่มมุม ✕/⟳ — ช่อง "รูปของคุณ" ใน wizard ไม่มี (แตะช่องเพื่อเปลี่ยนรูป แบบ salehere-ios)
+    var showsCorner = true
 
     var body: some View {
         Button {
@@ -420,8 +424,9 @@ struct MediaTile: View {
         }
         .buttonStyle(DockPress())
         .overlay(alignment: .topTrailing) {
+            if showsCorner {
             Button(action: onRemove) {
-                PIcon(.x, size: 11, weight: .bold)
+                PIcon(swaps ? .arrowsClockwise : .x, size: swaps ? 12 : 11, weight: .bold)
                     .foregroundStyle(.white)
                     .frame(width: 24, height: 24)
                     .background(Circle().fill(.black.opacity(0.55)))
@@ -430,7 +435,8 @@ struct MediaTile: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("ลบ")
+            .accessibilityLabel(swaps ? "เปลี่ยน" : "ลบ")
+            }
         }
     }
 
@@ -465,6 +471,8 @@ struct LoadingVeil: View {
 struct AddTile: View {
     let label: String
     var ratio: CGFloat = 3 / 4
+    /// หมวดนี้ยังขาดตอนกดถัดไป — เส้นประ + ไอคอนแดง (salehere-ios `WzMediaTiles`)
+    var invalid = false
 
     var body: some View {
         Color.clear
@@ -472,13 +480,13 @@ struct AddTile: View {
             .overlay {
                 VStack(spacing: 6) {
                     PIcon(.plus, size: 18, weight: .bold)
-                        .foregroundStyle(PK.ink.opacity(0.7))
-                    Text(label).font(.sh(11.5, .semibold)).foregroundStyle(PK.muted)
+                        .foregroundStyle(invalid ? PK.red : PK.ink.opacity(0.7))
+                    Text(label).font(.sh(11.5, .semibold)).foregroundStyle(invalid ? PK.red : PK.muted)
                         .lineLimit(1)
                 }
             }
             .background(PK.shape(16).fill(PK.fieldFill))
-        .overlay(PK.shape(16).strokeBorder(PK.line2, style: StrokeStyle(lineWidth: 1.2, dash: [5, 4])))
+        .overlay(PK.shape(16).strokeBorder(invalid ? PK.red : PK.line2, style: StrokeStyle(lineWidth: 1.2, dash: [5, 4])))
         .contentShape(PK.shape(16))
     }
 }

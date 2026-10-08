@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST★R Card · เลือกแบบใบแรก — 3 แนว</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap">
+<style>
+:root { --ink: #16181D; --muted: #666; --line: #E9E9E9; --ease: cubic-bezier(.16, 1, .3, 1); --spring: cubic-bezier(.34, 1.4, .64, 1); }
+* { box-sizing: border-box; } body { margin: 0; background: #ECEEF1; color: var(--ink); font: 14px/1.5 "Noto Sans Thai", sans-serif; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+h1 { font-size: 20px; margin: 0; } header.top { max-width: 1280px; margin: 0 auto; padding: 28px 24px 8px; } header.top p { margin: 4px 0 0; color: var(--muted); }
+.boards { max-width: 1280px; margin: 0 auto; padding: 16px 24px 56px; display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+.board { width: 390px; } .board > h2 { font-size: 15px; margin: 0 0 2px; } .board > p { margin: 0 0 12px; color: var(--muted); font-size: 13px; min-height: 40px; }
+.reco { font-size: 11px; font-weight: 700; background: var(--ink); color: #fff; border-radius: 99px; padding: 2px 9px; margin-left: 6px; vertical-align: 2px; }
+.phone { background: #F9FAFB; border-radius: 36px; padding: 18px 16px 20px; box-shadow: 0 30px 60px -24px rgba(22, 24, 29, .35), 0 0 0 8px #fff; position: relative; overflow: hidden; }
+.phone::before { content: ""; position: absolute; width: 380px; height: 300px; left: -80px; top: -140px; background: #F3EAD3; filter: blur(70px); opacity: .8; }
+.glass { position: relative; border-radius: 26px; padding: 16px; background: linear-gradient(135deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .55)); border: 1px solid rgba(255, 222, 140, .85); box-shadow: 0 22px 40px -18px rgba(22, 24, 29, .16); }
+.id { display: flex; gap: 12px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(22, 24, 29, .08); } .id img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; } .id b { font-size: 19px; font-weight: 800; display: block; } .id span { color: var(--muted); font-size: 13px; }
+.sc-h { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 10px; } .sc-h b { font-weight: 800; font-size: 15px; letter-spacing: .02em; } .sc-h em { font: italic 400 24px/1 "Instrument Serif", serif; } .sc-h span { font-size: 12px; color: var(--muted); }
+.cta { display: flex; gap: 8px; margin-top: 12px; } .btn { height: 44px; border-radius: 99px; font-weight: 700; font-size: 14.5px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 18px; transition: transform .15s; } .btn:active { transform: scale(.97); }
+.btn.dark { background: var(--ink); color: #fff; flex: 1; } .btn.line { background: #fff; border: 1px solid rgba(22, 24, 29, .14); }
+.rest { margin-top: 12px; border-top: 1px solid rgba(22, 24, 29, .08); padding-top: 12px; display: flex; gap: 12px; align-items: center; color: var(--muted); } .rest i { width: 40px; height: 40px; border-radius: 50%; border: 4px solid rgba(22, 24, 29, .08); display: grid; place-items: center; font-style: normal; font-size: 11px; font-weight: 800; color: var(--ink); } .rest b { color: var(--ink); }
+/* ใบเทมเพลต: ทุกใบเป็นแนวตั้ง 3:5 เท่ากัน — ใบ Portfolio โชว์หน้าแรก (ครอปจากแถบ 3 หน้า) */
+.tile { position: relative; aspect-ratio: 3 / 5; border-radius: 12px; overflow: hidden; background: #ddd; flex: none; } .tile img { position: absolute; display: block; }
+.tile.story img { inset: 0; width: 100%; height: 100%; object-fit: cover; } .tile.port img { width: 326%; left: -6.45%; top: -3.9%; }
+/* ---------- A · สำรับ ---------- */
+.deck { position: relative; height: 250px; display: grid; place-items: center; } .deck .tile { position: absolute; width: 132px; box-shadow: 0 14px 28px -10px rgba(22, 24, 29, .45), 0 0 0 1px rgba(22, 24, 29, .06); transition: transform .7s var(--spring), opacity .4s; will-change: transform; }
+.deck .tile[data-p="0"] { transform: rotate(-2deg); z-index: 5; } .deck .tile[data-p="1"] { transform: translate(30px, 6px) rotate(7deg) scale(.95); z-index: 4; } .deck .tile[data-p="2"] { transform: translate(-30px, 8px) rotate(-9deg) scale(.93); z-index: 3; }
+.deck .tile[data-p="3"] { transform: translate(52px, 14px) rotate(13deg) scale(.9); z-index: 2; } .deck .tile[data-p="4"] { transform: translate(-52px, 16px) rotate(-15deg) scale(.88); z-index: 1; }
+.deck .tile.fly { transform: translate(170px, -26px) rotate(22deg) !important; transition: transform .42s cubic-bezier(.5, 0, .9, .5); z-index: 6 !important; }
+.deck-n { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 2px; } .deck-n b { color: var(--ink); }
+/* ---------- B · ผนังไหล ---------- */
+.wall { height: 250px; margin: 0 -16px; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.wall-in { position: absolute; inset: -30px -40px; transform: rotate(-7deg); display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.rowm { display: flex; gap: 12px; width: max-content; animation: drift 34s linear infinite; } .rowm.r2 { animation-duration: 42s; animation-direction: reverse; } .wall:hover .rowm, .wall.hold .rowm { animation-play-state: paused; }
+@keyframes drift { to { transform: translateX(-50%); } }
+.rowm .tile { width: 92px; box-shadow: 0 8px 18px -8px rgba(22, 24, 29, .4); transition: transform .3s var(--spring), box-shadow .3s; cursor: pointer; } .rowm .tile:hover { transform: scale(1.06); } .rowm .tile.sel { box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px var(--ink), 0 14px 26px -8px rgba(22, 24, 29, .5); transform: scale(1.08); }
+/* ---------- C · สตอรี่ ---------- */
+.story-box { display: flex; gap: 14px; align-items: stretch; } .stage { position: relative; width: 150px; flex: none; } .stage .tile { width: 150px; box-shadow: 0 16px 30px -12px rgba(22, 24, 29, .5); }
+.stage .tile img { transition: opacity .6s ease, transform 3.4s linear; opacity: 0; } .stage .tile img.on { opacity: 1; } .stage .tile.story img.on { transform: scale(1.06); }
+.stage .tile .lay { position: absolute; inset: 0; } .stage .tile .lay.port img { width: 326%; left: -6.45%; top: -3.9%; } .stage .tile .lay.story img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bars { position: absolute; left: 8px; right: 8px; top: 8px; display: flex; gap: 3px; z-index: 3; } .bars i { flex: 1; height: 2.5px; border-radius: 2px; background: rgba(255, 255, 255, .45); overflow: hidden; } .bars i b { display: block; height: 100%; width: 0; background: #fff; }
+.bars i.done b { width: 100%; } .bars i.run b { animation: fill 3.2s linear forwards; } .stage.hold .bars i.run b { animation-play-state: paused; } @keyframes fill { to { width: 100%; } }
+.stage::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 44px; border-radius: 12px 12px 0 0; background: linear-gradient(rgba(0, 0, 0, .35), transparent); z-index: 2; pointer-events: none; }
+.tapz { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 4; } .tapz.l { left: 0; } .tapz.r { right: 0; }
+.side { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; } .side h3 { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3; } .side p { margin: 0; font-size: 12.5px; color: var(--muted); }
+.side .tag { align-self: flex-start; font-size: 11.5px; font-weight: 700; background: #F3F4F6; border-radius: 99px; padding: 2px 10px; } .side .btn { width: 100%; margin-top: 4px; flex: none; } .side .btn.line { height: 40px; font-size: 13.5px; font-weight: 600; }
+.note { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; color: var(--muted); font-size: 13px; } .note b { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .rowm { animation: none; } .deck .tile, .stage .tile img { transition: none; } }
+</style>
+</head>
+<body>
+<header class="top"><h1>ST★R Card · ยังไม่เคยเปิดการ์ด — 3 แนวให้เลือก</h1><p>เล่นได้ทุกบอร์ด · ทุกแนวอยู่บนพื้นสว่างของการ์ดเดิม (ไม่มีกล่องดำ) และทุกใบเป็นแนวตั้งขนาดเท่ากัน — ใบ Portfolio โชว์หน้าแรก</p></header>
+<div class="boards" id="boards"></div>
+<p class="note"><b>ที่เปลี่ยนจากรุ่นก่อน:</b> เอากล่องดำออก (ชนกับการ์ดกระจกสว่าง) · เลิกเลื่อนเป็นจังหวะกระตุกทีละใบ · รูปแนวนอนกับแนวตั้งไม่สลับขนาดกันแล้ว</p>
+<script>
+const T = [['designed.391530', 1], ['designed.3119bb', 0], ['designed.ac57a7', 1], ['designed.34534a', 0], ['designed.6da8ac', 0]];
+const tile = (t, extra = '') => `<div class="tile ${t[1] ? 'port' : 'story'}" ${extra}><img src="../assets/tpl/${t[0]}.png" alt=""></div>`;
+const frame = (inner) => `<div class="phone"><div class="glass"><div class="id"><img src="../assets/ph01.jpg" alt=""><div><b>Tarmjaipa</b><span>แฟชั่น · คาเฟ่ · ท่องเที่ยว</span></div></div>
+  <div class="sc-h"><b>ST★R</b><em>Card</em><span>ยังไม่ได้เลือกแบบ</span></div>${inner}<div class="rest"><i>58%</i><b>เติมข้อมูลให้ครบ</b></div></div></div>`;
+document.getElementById('boards').innerHTML = `
+<section class="board"><h2>A · สำรับ</h2><p>การ์ดซ้อนเหมือนถือไพ่ ใบบนสุดถูกปัดออกไปอยู่หลังสุดเอง · ปัด/แตะเพื่อดูใบถัดไป</p>${frame(`<div class="deck" id="deck">${T.map((t, i) => tile(t, `data-p="${i}" data-i="${i}"`)).join('')}</div><p class="deck-n">แบบ <b id="deck-n">1</b> จาก 5 · แตะการ์ดเพื่อดูใบถัดไป</p><div class="cta"><button class="btn dark">ใช้แบบนี้ →</button><button class="btn line">ทั้งหมด</button></div>`)}</section>
+<section class="board"><h2>B · ผนังไหล</h2><p>ผนังการ์ดสองแถวไหลช้า ๆ สวนทางกัน ไม่กระตุก · ชี้/แตะค้างเพื่อหยุด แตะใบไหนก็เลือกใบนั้น</p>${frame(`<div class="wall" id="wall"><div class="wall-in"><div class="rowm">${[...T, ...T, ...T, ...T].map((t, i) => tile(t, `data-i="${i % 5}"`)).join('')}</div><div class="rowm r2">${[...T.slice(2), ...T.slice(0, 2), ...T.slice(2), ...T.slice(0, 2), ...T, ...T].map((t) => tile(t, `data-i="${T.indexOf(t)}"`)).join('')}</div></div></div><div class="cta"><button class="btn dark" id="wall-cta">เลือกแบบของคุณ →</button></div>`)}</section>
+<section class="board"><h2>C · สตอรี่ <span class="reco">แนะนำ</span></h2><p>ดูแบบเหมือนดู IG Story: แถบด้านบนวิ่ง แตะขวา/ซ้ายเพื่อข้าม กดค้างเพื่อหยุด · ปุ่มผูกกับใบที่กำลังดู</p>${frame(`<div class="story-box"><div class="stage" id="stage"><div class="tile"><div class="bars">${T.map(() => '<i><b></b></i>').join('')}</div>${T.map((t, i) => `<div class="lay ${t[1] ? 'port' : 'story'}"><img src="../assets/tpl/${t[0]}.png" alt="" data-i="${i}"></div>`).join('')}</div><button class="tapz l" aria-label="แบบก่อนหน้า"></button><button class="tapz r" aria-label="แบบถัดไป"></button></div>
+  <div class="side"><span class="tag" id="st-tag">Portfolio · 3 หน้า</span><h3>เลือกแบบ<br>การ์ดใบแรก</h3><p id="st-n">แบบ 1 จาก 5</p><button class="btn dark">ใช้แบบนี้ →</button><button class="btn line">ดูทั้งหมด</button></div></div>`)}</section>`;
+// A
+(() => { const deck = document.getElementById('deck'), n = T.length; let top = 0, busy = false, stop = false;
+  const next = () => { if (busy) return; busy = true; const el = deck.querySelector('[data-p="0"]'); el.classList.add('fly');
+    setTimeout(() => { deck.querySelectorAll('.tile').forEach(t => { const p = Number(t.dataset.p); t.dataset.p = p === 0 ? n - 1 : p - 1; }); el.classList.remove('fly'); top = (top + 1) % n; document.getElementById('deck-n').textContent = top + 1; setTimeout(() => busy = false, 500); }, 420); };
+  deck.addEventListener('click', () => { stop = true; next(); }); setInterval(() => { if (!stop) next(); }, 2800); })();
+// B
+(() => { const wall = document.getElementById('wall'); wall.addEventListener('pointerdown', () => wall.classList.add('hold')); addEventListener('pointerup', () => wall.classList.remove('hold'));
+  wall.addEventListener('click', e => { const t = e.target.closest('.tile'); if (!t) return; wall.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); wall.querySelectorAll(`[data-i="${t.dataset.i}"]`).forEach(x => x.classList.add('sel')); document.getElementById('wall-cta').textContent = 'ใช้แบบนี้ →'; }); })();
+// C
+(() => { const st = document.getElementById('stage'), imgs = [...st.querySelectorAll('img')], bars = [...st.querySelectorAll('.bars i')], n = T.length; let i = -1, timer, left = 3200, started = 0;
+  const show = k => { i = (k + n) % n; imgs.forEach((m, j) => m.classList.toggle('on', j === i)); bars.forEach((b, j) => { b.className = j < i ? 'done' : ''; }); void bars[i].offsetWidth; bars[i].className = 'run';
+    document.getElementById('st-tag').textContent = T[i][1] ? 'Portfolio · 3 หน้า' : 'Story'; document.getElementById('st-n').textContent = `แบบ ${i + 1} จาก ${n}`; left = 3200; arm(); };
+  const arm = () => { clearTimeout(timer); started = Date.now(); timer = setTimeout(() => show(i + 1), left); };
+  st.querySelector('.r').addEventListener('click', () => show(i + 1)); st.querySelector('.l').addEventListener('click', () => show(i - 1));
+  st.addEventListener('pointerdown', () => { st.classList.add('hold'); clearTimeout(timer); left -= Date.now() - started; }); addEventListener('pointerup', () => { if (st.classList.contains('hold')) { st.classList.remove('hold'); arm(); } });
+  show(0); })();
+</script>
+</body>
+</html>

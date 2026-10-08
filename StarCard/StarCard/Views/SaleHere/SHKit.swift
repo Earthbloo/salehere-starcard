@@ -191,6 +191,9 @@ struct SHAvatar: View {
 /// ชื่อที่โชว์ในแอปจำลอง — ชื่อจาก "ข้อมูลของฉัน" ถ้ากรอกแล้ว ไม่งั้นชื่อบัญชีทดสอบ
 enum SHMockUser {
     static let fallbackName = Profile.accountName
+    /// `myProfile.tel` / `myProfile.lineId` ของบัญชี Sale Here (สมัครด้วยเบอร์) — ขั้นช่องทางติดต่อเติมให้ล่วงหน้า
+    static let accountTel = "+66891234567"
+    static let accountLine = ""
     static let fallbackBio = "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
 
     static var name: String {
