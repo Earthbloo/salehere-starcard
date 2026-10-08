@@ -159,13 +159,15 @@ function channelsControl(connectable) {
   return `<ul class="chans">${SOCIALS.map(x => {
     const on = F.s.connected.includes(x.id);
     if (!on) return connectable ? `<li><button class="chan off" data-act="editChannel" data-arg="${x.id}">${soc(x.id, 32)}<b>${x.name}</b><span class="chan-add">${ic('plus', 13, 'b')}เชื่อม</span></button></li>` : '';
-    const n = F.insightCount(x.id), sum = x.formats.slice(0, 2).map(f => `${FORMATS[f][0]} ฿${F.rate(x.id, f).toLocaleString('en-US')}`).join(' · ');
-    const badge = n === 3 ? `<i class="ibadge ok">${ic('check', 11, 'b')}</i>` : `<i class="ibadge ${n ? 'part' : ''}">${n}/3</i>`;
-    // บน = ยอด + เรท + ยกเลิกผูกบัญชี (แทนปุ่มแก้) · ล่าง = ปรับราคา (ผู้ใช้ 8 ต.ค. 2569) · ก่อนเป็น STAR ต้องเหลืออย่างน้อย 1 ช่อง — salehere-ios
+    const n = F.insightCount(x.id);
+    // แบบ C ไม่เอาสี (ผู้ใช้ 8 ต.ค. 2569): หัว = โลโก้ ชื่อ ยอด + ยกเลิกผูกบัญชี (ตัวเทา ไม่ใช้ ⋯) · เรทเป็นคอลัมน์ + ปรับราคา · ข้อมูลผู้ติดตาม ●●● + เพิ่มข้อมูล
+    // ก่อนเป็น STAR ต้องเหลืออย่างน้อย 1 ช่อง — salehere-ios
     const canRemove = F.s.connected.length > 1 || F.keepsData;
-    return `<li class="chan on"><div class="chan-head"><button class="chan-top" data-act="editChannel" data-arg="${x.id}" aria-label="ปรับราคา ${x.name}">${soc(x.id, 36)}<span><b>${x.name} · ${F.fmt(F.followers(x.id))}</b><small>${sum}</small></span></button>${canRemove ? `<button class="chan-rm" data-act="askRemoveChannel" data-arg="${x.id}">ยกเลิกผูกบัญชี</button>` : ''}</div>
-      <div class="chan-foot"><button class="chan-price" data-act="editChannel" data-arg="${x.id}">ปรับราคา</button></div>
-      ${x.insight ? `<button class="chan-ins" data-act="openInsightPanel" data-arg="${x.id}"><span><b>ข้อมูลผู้ติดตาม ${badge}</b><small class="${n > 0 && n < 3 ? 'warn' : ''}">${n === 3 ? 'ครบ 3 หัวข้อแล้ว' : 'ไม่บังคับ · แบรนด์เห็นกลุ่มคนดูของคุณ'}</small></span><span class="mini-pill">${n === 3 ? 'อัปเดต' : n > 0 ? 'แนบต่อ' : '+ เพิ่ม'}</span></button>` : ''}</li>`;
+    const more = canRemove ? `<button class="chan-rm" data-act="askRemoveChannel" data-arg="${x.id}">ยกเลิกผูกบัญชี</button>` : '';
+    const rates = x.formats.slice(0, 2).map(f => `<span><small>${FORMATS[f][0]}</small><b>฿${F.rate(x.id, f).toLocaleString('en-US')}</b></span>`).join('') + (x.formats.length > 2 ? `<i class="more">+${x.formats.length - 2}</i>` : '');
+    return `<li class="chan on"><div class="chan-head">${soc(x.id, 44)}<span><b>${x.name}</b><small>${F.fmt(F.followers(x.id))} ผู้ติดตาม</small></span>${more}</div>
+      <div class="chan-rates">${rates}<button class="chan-edit" data-act="editChannel" data-arg="${x.id}">${ic('pencilSimple', 13, 'b')}ปรับราคา</button></div>
+      ${x.insight ? `<button class="chan-insight" data-act="openInsightPanel" data-arg="${x.id}"><b>ข้อมูลผู้ติดตาม</b>${n === 3 ? `<i class="idone">${ic('checkCircle', 14, 'f')}ครบแล้ว</i>` : `<i class="idots" aria-label="${n} จาก 3">${[0, 1, 2].map(i => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</i>`}<span class="grow"></span><span class="ipill ${n === 3 ? '' : 'fill'}">${n === 3 ? 'อัปเดต' : 'เพิ่มข้อมูล'}</span></button>` : ''}</li>`;
   }).join('')}</ul>`;
 }
 function mediaControl() {

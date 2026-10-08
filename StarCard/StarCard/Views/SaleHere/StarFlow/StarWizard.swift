@@ -565,100 +565,105 @@ private struct WzChannels: View {
         .buttonStyle(.plain)
     }
 
-    /// บน = ยอด + สรุปเรท + ยกเลิกผูกบัญชี (แทน >) · ล่าง = ปรับราคา (ผู้ใช้ 8 ต.ค. 2569 · salehere-ios)
+    /// การ์ดช่องที่เชื่อมแล้ว (ผู้ใช้ 8 ต.ค. 2569 เลือกแบบ C ไม่เอาสี):
+    /// หัว = โลโก้ ชื่อ ยอดผู้ติดตาม + ยกเลิกผูกบัญชี (ตัวเทา ไม่ใช้ ⋯) · กลาง = เรทเป็นคอลัมน์ + ปุ่ม ปรับราคา
+    /// ล่าง = ข้อมูลผู้ติดตาม ● ● ● (ช่องที่อัปแล้ว) + เพิ่มข้อมูล / อัปเดต
     private func card(_ s: StarSocial) -> some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 6) {
-                Button {
-                    Haptics.impact(.light)
-                    editing = s
-                } label: {
-                    HStack(spacing: 12) {
-                        Image(s.icon).resizable().aspectRatio(contentMode: .fit).frame(width: 36, height: 36).clipShape(Circle())
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("\(s.name) · \(StarFlow.fmt(flow.followers(s)))").font(.sh(15, .bold)).foregroundStyle(GL.ink).lineLimit(1)
-                            Text(summary(s)).font(.sh(12.5)).foregroundStyle(PK.muted).lineLimit(1)
-                        }
-                        Spacer(minLength: 0)
-                    }
-                    .contentShape(Rectangle())
+        let n = InsightMock.count(flow, s)
+        return VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 12) {
+                Image(s.icon).resizable().aspectRatio(contentMode: .fit).frame(width: 44, height: 44).clipShape(Circle())
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(s.name).font(.sh(17, .bold)).foregroundStyle(GL.ink).lineLimit(1)
+                    Text("\(StarFlow.fmt(flow.followers(s))) ผู้ติดตาม").font(.sh(12.5)).foregroundStyle(PK.muted).lineLimit(1)
                 }
-                .buttonStyle(.plain)
+                Spacer(minLength: 6)
                 // ก่อนเป็น STAR ต้องเหลืออย่างน้อย 1 ช่อง · เป็นแล้วเอาออกได้จนหมด — salehere-ios
                 if flow.connected.count > 1 || flow.keepsData {
                     Button {
                         Haptics.impact(.light)
                         removing = s
                     } label: {
-                        Text("ยกเลิกผูกบัญชี").font(.sh(12, .semibold)).foregroundStyle(PK.muted).underline()
+                        Text("ยกเลิกผูกบัญชี").font(.sh(12.5)).foregroundStyle(PK.muted)
                             .lineLimit(1).fixedSize()
-                            .padding(.vertical, 4).contentShape(Rectangle())
+                            .padding(.vertical, 8).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 14).padding(.vertical, 12)
-            HStack {
-                Spacer()
+            .padding(.horizontal, 14).padding(.top, 12)
+            HStack(alignment: .center, spacing: 10) {
+                ForEach(Array(s.formats.prefix(2)), id: \.self) { f in
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(f.name).font(.sh(11.5)).foregroundStyle(PK.muted).lineLimit(1)
+                        Text("฿\(flow.rate(s, f).formatted())").font(.sh(14.5, .semibold)).foregroundStyle(GL.ink).lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                if s.formats.count > 2 {
+                    Text("+\(s.formats.count - 2)").font(.sh(12, .semibold)).foregroundStyle(PK.muted)
+                }
                 Button {
                     Haptics.impact(.light)
                     editing = s
                 } label: {
-                    Text("ปรับราคา").font(.sh(12.5, .semibold)).foregroundStyle(GL.ink).underline()
-                        .padding(.vertical, 4).contentShape(Rectangle())
+                    HStack(spacing: 5) {
+                        PIcon(.pencilSimple, size: 13)
+                        Text("ปรับราคา").font(.sh(12.5, .semibold))
+                    }
+                    .foregroundStyle(GL.ink)
+                    .padding(.horizontal, 12).frame(height: 32)
+                    .overlay(Capsule().strokeBorder(PK.line, lineWidth: 1))
+                    .contentShape(Capsule())
+                    .fixedSize()
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.horizontal, 14).padding(.bottom, 8)
-            if s.supportsInsight { insightStrip(s) }
+            .padding(.horizontal, 14).padding(.top, 16).padding(.bottom, 12)
+            // ไม่มีเส้นคั่น (ผู้ใช้ 8 ต.ค. 2569: คั่นแล้วดูสำคัญเท่ากัน 3 ส่วน) · เรทชิดขอบการ์ด เว้นจากหัว 16 (เยื้องตรงชื่อแล้วแน่น งง) · ข้อมูลผู้ติดตาม = แถบเทาเล็กขอบมนท้ายการ์ด
+            if s.supportsInsight {
+                Button {
+                    Haptics.impact(.light)
+                    insightFor = s
+                } label: {
+                    HStack(spacing: 8) {
+                        Text("ข้อมูลผู้ติดตาม").font(.sh(12.5, .semibold)).foregroundStyle(GL.ink)
+                        if n == 3 {
+                            // ครบ = ติ๊กเขียว "ครบแล้ว" แทนจุด (เขียวใช้กับ "ครบ" เท่านั้น)
+                            HStack(spacing: 3) {
+                                PIcon(.checkCircle, size: 14, weight: .fill)
+                                Text("ครบแล้ว").font(.sh(12, .semibold))
+                            }
+                            .foregroundStyle(GL.greenInk)
+                        } else {
+                            HStack(spacing: 4) {
+                                ForEach(0..<3, id: \.self) { i in
+                                    Circle().fill(i < n ? GL.ink : PK.line2).frame(width: 8, height: 8)
+                                }
+                            }
+                            .accessibilityLabel("\(n) จาก 3")
+                        }
+                        Spacer(minLength: 6)
+                        Text(n == 3 ? "อัปเดต" : "เพิ่มข้อมูล").font(.sh(12.5, .bold))
+                            .foregroundStyle(n == 3 ? GL.ink : .white)
+                            .padding(.horizontal, 12).frame(height: 28)
+                            .background(Capsule().fill(n == 3 ? .white : GL.ink))
+                            .overlay(Capsule().strokeBorder(n == 3 ? PK.line : .clear, lineWidth: 1))
+                            .fixedSize()
+                    }
+                    .padding(.leading, 12).padding(.trailing, 8).padding(.vertical, 7)
+                    .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(PK.fieldFill.opacity(0.7)))
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal, 10).padding(.bottom, 10)
+            }
         }
         .background(PK.shape(16).fill(.white))
         .overlay(PK.shape(16).strokeBorder(PK.line, lineWidth: 1))
     }
 
-    /// แถบข้อมูลผู้ติดตามใต้การ์ด — สถานะ 0/3 · n/3 · ✓ + ปุ่มเพิ่ม/อัปเดต (สำเนาตาราง state ของ SocialInsightRowView)
-    private func insightStrip(_ s: StarSocial) -> some View {
-        let n = InsightMock.count(flow, s)
-        return Button {
-            Haptics.impact(.light)
-            insightFor = s
-        } label: {
-            HStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) {
-                        Text("ข้อมูลผู้ติดตาม").font(.sh(13, .bold)).foregroundStyle(GL.ink)
-                        InsightBadge(n: n)
-                    }
-                    Text(n == 3 ? "อัปเดตล่าสุด \(InsightMock.today)" : "ไม่บังคับ · แบรนด์เห็นกลุ่มคนดูของคุณ")
-                        .font(.sh(12)).foregroundStyle(n > 0 && n < 3 ? PK.warn : PK.muted).lineLimit(1)
-                }
-                Spacer(minLength: 6)
-                // ไม่บังคับ = ปุ่มเงียบ (แอปหลักใช้ปุ่มแดงทึบ แต่ในหน้านี้จะดังกว่าปุ่มถัดไป)
-                Text(n == 3 ? "อัปเดต" : n > 0 ? "แนบต่อ" : "+ เพิ่ม").font(.sh(12.5, .bold))
-                    .foregroundStyle(GL.ink)
-                    .padding(.horizontal, 12).frame(height: 30)
-                    .background(Capsule().fill(n == 3 ? .white : PK.fieldFill))
-                    .overlay(Capsule().strokeBorder(n == 3 ? PK.line : .clear, lineWidth: 1))
-            }
-            .padding(.horizontal, 14).padding(.vertical, 10)
-            .overlay(alignment: .top) {
-                Line().stroke(PK.line2, style: StrokeStyle(lineWidth: 1, dash: [4, 3])).frame(height: 1).padding(.horizontal, 14)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
 
-    /// เรท 2 รูปแบบแรก + "+N"
-    private func summary(_ s: StarSocial) -> String {
-        let parts = s.formats.prefix(2).map { "\($0.name) ฿\(flow.rate(s, $0).formatted())" }
-        return parts.joined(separator: " · ") + (s.formats.count > 2 ? " · +\(s.formats.count - 2)" : "")
-    }
-
-}
-
-private struct Line: Shape {
-    func path(in r: CGRect) -> Path { Path { p in p.move(to: CGPoint(x: 0, y: 0)); p.addLine(to: CGPoint(x: r.width, y: 0)) } }
 }
 
 /// 0/3 เทา · n/3 ส้ม · ✓ เขียว

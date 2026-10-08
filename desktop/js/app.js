@@ -162,7 +162,7 @@ const A = {
     openOverlay({ modal: { type: 'channel', id: a, isNew, link: isNew ? (F.s.autofill ? x.mock[0] : '') : F.link(a), followers: isNew ? (F.s.autofill ? x.mock[1] : 0) : F.followers(a), rates, touched: !isNew, err: null } }); },
   pasteLink: () => { (navigator.clipboard && navigator.clipboard.readText ? navigator.clipboard.readText() : Promise.reject()).then(t => { UI.modal.link = t.trim(); UI.modal.touched = true; render(); }, () => toast('วางไม่ได้ — คลิกช่องแล้วกด ⌘V')); },
   resetRates: () => { UI.modal.rates = {}; render(); },
-  // ลิงก์ "เอาออก" ใต้การ์ดช่อง → ยืนยัน "ยกเลิกการผูกบัญชี" (salehere-ios) · ช่องสุดท้ายเอาออกได้เฉพาะตอนเป็น STAR แล้ว
+  // ยกเลิกผูกบัญชี บนการ์ดช่อง → ยืนยัน "ยกเลิกการผูกบัญชี" (salehere-ios) · ช่องสุดท้ายเอาออกได้เฉพาะตอนเป็น STAR แล้ว
   askRemoveChannel: a => openOverlay({ dialog: { type: 'unlinkChannel', id: a } }),
   // ไม่มีช่องทาง = ข้อ "ช่องทางของฉัน" กลับเป็นยังไม่มี (ลงทะเบียนครั้งหน้าถามใหม่) · ไม่มี toast (salehere-ios)
   removeChannel: () => { const s = F.s, id = UI.dialog && UI.dialog.id; s.connected = s.connected.filter(x => x !== id);

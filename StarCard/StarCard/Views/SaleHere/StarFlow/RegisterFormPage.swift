@@ -234,10 +234,10 @@ struct RegisterFormPage: View {
                         }
                         Spacer()
                         Text(n >= 3 ? "อัปเดตข้อมูล" : "เพิ่มข้อมูล").font(.sh(12, .semibold))
-                            .foregroundStyle(n >= 3 ? SH.red : .white)
+                            .foregroundStyle(n >= 3 ? SH.ink : .white)
                             .padding(.horizontal, 10).frame(height: 30)
-                            .background(Capsule().fill(n >= 3 ? .white : SH.red))
-                            .overlay(Capsule().strokeBorder(SH.red, lineWidth: 1))
+                            .background(Capsule().fill(n >= 3 ? .white : SH.ink))
+                            .overlay(Capsule().strokeBorder(n >= 3 ? SH.line : SH.ink, lineWidth: 1))
                     }
                     .padding(10)
                     .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(SH.page))
