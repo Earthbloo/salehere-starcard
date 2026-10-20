@@ -456,6 +456,7 @@ extension SHIcon {
         case "facebook": return facebook
         case "x": return x
         case "lemon8": return lemon8
+        case "line": return line
         case "sealCheck": return sealCheck
         case "verifiedPill": return verifiedPill
         case "star": return star
@@ -668,7 +669,7 @@ struct IOSSpecData: SpecDataSource {
                     "platform": s.type.rawValue, "name": s.type.name, "short": s.type.shortName,
                     "icon": s.type.icon, "tint": s.type.tintHex, "handle": s.handle, "followers": Fmt.compact(s.followerCount),
                     "followersRaw": String(s.followerCount), "followersFull": Fmt.thousands(s.followerCount), "viewsFull": Fmt.thousands(s.avgViewCount),
-                    "views": Fmt.compact(s.avgViewCount), "viewsRaw": String(s.avgViewCount), "engagement": String(format: "%.1f%%", s.engagementRate),
+                    "views": Fmt.compact(s.avgViewCount), "viewsRaw": String(s.avgViewCount), "engagement": Fmt.fixed(s.engagementRate, 1) + "%",
                     "engagementRaw": String(s.engagementRate), "synced": s.syncedAgo, "verified": s.source.isVerified ? "1" : ""])
             }
         case "rates":
@@ -692,7 +693,7 @@ struct IOSSpecData: SpecDataSource {
                     "saves": Fmt.compact(w.saves), "savesRaw": String(w.saves), "shares": Fmt.compact(w.shares), "sharesRaw": String(w.shares),
                     "likes": Fmt.compact(w.likes), "comments": Fmt.compact(w.comments),
                     "engageRaw": String(w.likes + w.comments + w.shares + w.saves),
-                    "engagement": String(format: "%.1f%%", w.engagementRate), "viralTag": w.viralTag ?? "",
+                    "engagement": Fmt.fixed(w.engagementRate, 1) + "%", "viralTag": w.viralTag ?? "",
                     "brandLogo": p.shownTrack(.verified).brands.first { $0.name == w.brand }.flatMap { $0.logo ?? $0.asset } ?? ""])
             }
         case "body":
@@ -726,22 +727,23 @@ struct IOSSpecData: SpecDataSource {
             let pairs: [(String, String, String, String)] = [
                 ("phone", p.phone, "ph:phone", "phone"), ("email", p.email, "ph:envelope", "email"),
                 ("line", p.lineId, "sh:line", "lineId"), ("web", p.website, "ph:globe", "website")]
+            // ไอคอนที่สร้างที่นี่ (ไม่อยู่ในผัง) ต้องมี asset ทั้งสามแพลตฟอร์ม — Android `SpecIconCoverageTest` ตรวจชื่อชุดนี้ด้วย
             for (k, v, icon, slot) in pairs where !v.isEmpty {
                 out.append(SpecItem(id: k, i: out.count, fields: ["kind": k, "value": v, "icon": icon, "slot": slot]))
             }
             return out
         case "ages":
             return p.shownAudience.ages.enumerated().map { (i, a) in
-                SpecItem(id: a.label, i: i, fields: ["label": a.label, "share": String(format: "%.0f%%", a.share), "shareRaw": String(a.share)])
+                SpecItem(id: a.label, i: i, fields: ["label": a.label, "share": Fmt.fixed(a.share, 0) + "%", "shareRaw": String(a.share)])
             }
         case "places":
             return p.shownAudience.places.enumerated().map { (i, a) in
-                SpecItem(id: a.name, i: i, fields: ["name": a.name, "share": String(format: "%.0f%%", a.share), "shareRaw": String(a.share)])
+                SpecItem(id: a.name, i: i, fields: ["name": a.name, "share": Fmt.fixed(a.share, 0) + "%", "shareRaw": String(a.share)])
             }
         case "gender":
             let a = p.shownAudience
             return [("หญิง", a.female, "#FF8CBD"), ("ชาย", a.male, "#8299FF"), ("อื่น ๆ", a.other, "#5CE6AD")].enumerated().map { (i, g) in
-                SpecItem(id: g.0, i: i, fields: ["label": g.0, "share": String(format: "%.0f%%", g.1), "shareRaw": String(g.1), "tint": g.2])
+                SpecItem(id: g.0, i: i, fields: ["label": g.0, "share": Fmt.fixed(g.1, 0) + "%", "shareRaw": String(g.1), "tint": g.2])
             }
         case "photos":
             return (0..<6).map { SpecItem(id: "p\($0)", i: $0, fields: ["photo": String(4 + $0)]) }

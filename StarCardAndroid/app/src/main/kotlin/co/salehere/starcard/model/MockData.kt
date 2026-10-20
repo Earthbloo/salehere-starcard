@@ -447,6 +447,8 @@ data class Brand(
     val logo: String?,
     /** สเปก 4.1 Brand Industry Tag — เพิ่มเป็นฟิลด์ ไม่ใช่ widget แยก */
     val industry: String = "Beauty",
+    /** โลโก้จาก asset ในแอป (แคมเปญ mock) — ใช้เมื่อไม่มี `logo` URL (= `Brand.asset` ของ iOS · `works.brandLogo` = logo ?: asset) */
+    val asset: String? = null,
 ) {
     val id: String get() = name
 

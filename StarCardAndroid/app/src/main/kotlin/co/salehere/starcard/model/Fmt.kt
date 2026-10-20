@@ -5,6 +5,9 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 /** ตัวจัดรูปแบบตัวเลขบนการ์ด (= `Fmt` ท้าย MockData.swift) */
+// กติกาปัดเลขของทุกแพลตฟอร์ม (WIDGET-SPEC.md §3.2 · 20 ต.ค. 2569): **half-up บนค่าทศนิยมที่สั้นที่สุดของ double**
+// (1.25 → 1.3 · 1.15 → 1.2 · 62.5 → 63 · 1.005 → 1.01) — `String.format("%.1f")` ของ Java ทำแบบนี้อยู่แล้ว
+// (HALF_UP บนหลักของ `Double.toString`) · iOS ใช้ `NumberFormatter(.halfUp)` · เว็บปัดบนสตริง `String(v)` เอง (toFixed ปัดบนค่าไบนารี ไม่เท่า)
 object Fmt {
     /** ย่อตัวเลข — ตัดทศนิยมทิ้งเมื่อเลขหน้าถึงหลักร้อย ("184K" ไม่ใช่ "184.0K") */
     fun compact(n: Int): String {

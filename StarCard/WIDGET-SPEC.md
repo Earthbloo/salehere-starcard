@@ -8,7 +8,7 @@
 > ตัวคำนวณ: `StarCard/Layout/SpecSolver.swift` · `StarCardAndroid/…/layout/SpecSolver.kt` · `sync-server/web/js/spec-solver.js` — ตัววาด: `SpecPainter.swift` · `SpecPainter.kt` · `spec-painter.js`
 > fixture: `present/spec-fixtures/fixtures/<kind>.json` (สร้างด้วย `-exportSpecs` · ดู §7) · ตรวจกติกา: `node shared/tools/check-widgets.mjs`
 >
-> **สถานะ 18 ต.ค. 2569**: 82 ชนิด = JSON ทั้งหมด (ไม่มี view ต่อ widget เหลือในโค้ด) · Model ต่อหมวดใน `shared/category-models.json` · fixture 81/81 ทั้ง Android (JVM) และเว็บ · ประวัติการเปลี่ยนอยู่ §11
+> **สถานะ 18 ต.ค. 2569**: 82 ชนิด = JSON ทั้งหมด (ไม่มี view ต่อ widget เหลือในโค้ด) · Model ต่อหมวดใน `shared/category-models.json` · fixture 81/81 ทั้ง Android (JVM) และเว็บ (20 ต.ค. 2569: เว็บ 122/122 ทั้ง solver และตัววัดข้อความ — §7) · ประวัติการเปลี่ยนอยู่ §11
 
 ## 1. ทำไม
 
@@ -122,14 +122,22 @@ box   = (W / s − 2·inset, H / s − 2·inset)  กล่องรากใน
 | `socials` | `platform` (instagram/tiktok/youtube/facebook/lemon8/x) `name` `short` `icon` (asset โลโก้) `tint` (#hex ของช่อง) `handle` `followers` `followersFull` `followersRaw` `views` `viewsFull` `viewsRaw` `engagement` `engagementRaw` `synced` `verified` ("1" เมื่อเชื่อม OAuth แล้ว · ว่าง = กรอกเอง) |
 | `rates` | `label` `price` (฿12,000) `priceRaw` `priceNum` ("3,000") `unit` `platform` `platformName` `platformOrder` `icon` `tint` `format` · ช่องแก้ได้ `rateLabels#$i` `ratePrices#$i` |
 | `brands` | `name` `logo` (URL) `industry` |
-| `works` | `brand` `brandLogo` `ep` `campaign` `platform` `icon` `tint` `format` `cover` `workPhoto` `photo` `views` `viewsRaw` `saves` `savesRaw` `shares` `sharesRaw` `likes` `comments` `engagement` `engageRaw` `viralTag` |
-| `contacts` | `kind` (phone/email/line/web) `value` `icon` `slot` — เฉพาะช่องที่มีค่า |
+| `works` | `brand` `brandLogo` (URL `logo` ของแบรนด์ · ไม่มีก็ชื่อ asset ในแอป `asset` · ไม่มีทั้งคู่ = ว่าง) `ep` `campaign` `platform` `icon` `tint` `format` `cover` `workPhoto` `photo` `views` `viewsRaw` `saves` `savesRaw` `shares` `sharesRaw` `likes` `comments` `engagement` `engageRaw` `viralTag` |
+| `contacts` | `kind` (phone/email/line/web) `value` `icon` (`ph:phone` `ph:envelope` `sh:line` `ph:globe` — ชื่อที่แหล่งข้อมูลสร้างเอง ต้องมี asset ทั้งสาม · `SpecIconCoverageTest` ตรวจ) `slot` (phone/email/lineId/website) — ค่าอ่านด้วย `text` ของโปรไฟล์ (ยังไม่กรอก = ประโยคชวนกรอกของช่อง เหมือน iOS) · ตัดเฉพาะช่องที่ว่างจริง |
 | `gender` `ages` `places` | `label`/`name` `share` (62%) `shareRaw` · gender มี `tint` (#FF8CBD หญิง · #8299FF ชาย · #5CE6AD อื่น ๆ) |
-| `body` | `kind` `label` `value` `num` `unit` `wide` (สัดส่วนจาก Star Profile) |
-| `avail` · `areas` | `text` (วันเวลารับงาน · จังหวัด) |
+| `body` | `kind` (h/w/g/s) `label` `value` ("165 cm" · "48 kg" · "32 / 25 / 35" · "EU 38") `num` `unit` (ซม. · กก. · หน่วยรอบตัวเมื่อสามค่าหน่วยเดียวกัน ไม่งั้นว่างและ `value` = "32 นิ้ว · 25 ซม. · 35 นิ้ว") `wide` ("1" = แถวรอบอก/เอว/สะโพก) — จาก Star Profile: iOS `StarFlow.bodyInfo` · Android/เว็บ = ค่าพร้อมหน่วยที่ iOS sync มาใน `values.weight/height/bust/waist/hips/shoe` ("165 ซม." · "32 นิ้ว" · "38 EU") แยกตัวเลข/หน่วยกลับ · ยังไม่กรอก: sample = ชุด 165/48/32-25-35/38 · การ์ดจริง = ว่าง |
+| `avail` · `areas` | `text` — `avail` = `availSummary` ของ iOS ทุกตัวอักษร: ตารางรายวัน (จ→อา) → วันที่ชุดช่วงเหมือนกันรวมกลุ่ม · ติดกันเกิน 2 วันเขียน "จ–ศ" ไม่งั้น "จ พ ศ" · ช่วง: ครบ 4 = "ตลอดวัน" · ติดกันรวม "09.00–14.00" · ห่างคั่น " + " · เป็นต้นไป = "17.00 เป็นต้นไป" → "จ–ศ 17.00 เป็นต้นไป" · Android/เว็บคิดจาก `intake.availability.days` (0 = อาทิตย์) × `slots` (iOS แบนตารางมาให้ทุกวันช่วงเดียวกัน — วันที่ช่วงต่างกันจึงออกเป็นบรรทัดเดียวบนสองแพลตฟอร์มนั้น · §10) · Android ไม่มีฟอร์มใช้ป้าย wizard ของเครื่อง · `areas` = จังหวัด |
 | `photos` | `photo` (ช่องรูป 4…9) |
 
-ค่าที่ระบบคิดให้ ใช้เป็น `slot` ของ `text` (อ่านอย่างเดียว): `stat:totalFollowers` `stat:avgViews` `stat:brandCount` `stat:workCount` `stat:socialCount` `stat:rateCount` `stat:placeCount` `stat:reach` (184K) `stat:reachRaw` `stat:reachDelta` (+12%) `stat:reachNew` (38%) `stat:reachWindow` `stat:reachPlatform` `stat:reachIcon` `stat:cardURL` `stat:year` `stat:phoneFmt` (เบอร์จัดรูป) `stat:site` (เว็บไซต์ตัดโปรโตคอล) `stat:lineFlow` · `count:<list>` = จำนวนชิ้นของรายการ
+ค่าที่ระบบคิดให้ ใช้เป็น `slot` ของ `text` (อ่านอย่างเดียว): `stat:totalFollowers` `stat:avgViews` `stat:brandCount` `stat:workCount` `stat:socialCount` `stat:rateCount` `stat:placeCount` `stat:reach` (184K) `stat:reachRaw` `stat:reachDelta` (+12%) `stat:reachNew` (38%) `stat:reachWindow` `stat:reachPlatform` `stat:reachIcon` `stat:cardURL` `stat:year` `stat:phoneFmt` (เบอร์จัดรูป 3-3-4) `stat:site` (เว็บไซต์ตัดโปรโตคอล) `stat:lineFlow` · `count:<list>` = จำนวนชิ้นของรายการ
+
+สามค่าช่องทางติดต่อ (`stat:phoneFmt` `stat:site` `stat:lineFlow`) อ่าน **ค่าดิบของ Star Profile** ไม่ใช่ `text` ของโปรไฟล์ (ยังไม่กรอก = ว่าง → ผังซ่อนด้วย `has:` · sample = 081-234-5678 · nirabeauty.co · @nirabeauty): iOS `StarFlow.phone/website/lineID` · Android/เว็บ = `stored(phone/website/lineId)` ของโปรไฟล์ (iOS `Profile.sync` เขียนค่าเดียวกันลง `values` ตอน sync · ว่าง = ไม่มีคีย์) — ช่อง `website` อยู่ใน `ProfileField` ของทั้งสามตั้งแต่ 20 ต.ค. 2569
+
+**กติกาปัดเลข (20 ต.ค. 2569 — ทุกตัวเลขที่จัดรูปในแหล่งข้อมูล)**: **half-up บนค่าทศนิยมที่สั้นที่สุดของ double** — 1.25 → 1.3 · 1.15 → 1.2 · 62.5 → 63 · 1.005 → 1.01 · `Fmt.compact(1250)` = "1.3K" · `share` 62.5 → "63%" · `engagement` 4.65 → "4.7%"
+- iOS `Fmt.fixed(v, digits)` = `NumberFormatter(.halfUp)` (ห้าม `String(format: "%.1f")` — printf ปัดบนค่าไบนารีแบบ ties-to-even: 1.25 → "1.2" · 62.5 → "62")
+- Android `Fmt.f` = `String.format(Locale.US, "%.nf")` (Java = HALF_UP บนหลักของ `Double.toString` อยู่แล้ว)
+- เว็บ `fixed(v, d)` ใน data.js ปัดบนสตริง `String(v)` เอง (ห้าม `toFixed` — ปัดบนค่าไบนารี: 1.15 → "1.1" · 1.005 → "1.00")
+- ส่วนที่เป็นจำนวนเต็มอยู่แล้ว (`Int(v.rounded())` · `roundToInt` · `Math.round` ที่ ≥ 100 ของ `compact`) เท่ากันทั้งสาม (ครึ่งปัดขึ้นสำหรับค่าบวก)
 
 สีของช่อง (`tint`) เป็น hex ตายตัวต่อแพลตฟอร์ม: IG `#E85C9E` · TikTok `#33F0EB` · YT `#FF524D` · FB `#5C8FFA` · Lemon8 `#FFD640` · X `#D9D9E0`
 
@@ -301,11 +309,18 @@ front/backend ไม่ต้องรู้จักชื่อตัวเล
 | col/row/stack/chips/spacer/rect/line | พื้น (`fill`/`gradient`) มุม `radius`/`circle`/`shape` · ลาย `pattern`/`platePattern` · เส้น `stroke` ด้านใน · เงา (sigma) · `opacity` · `rotate` · `clip` — ไม่มีค่า = ไม่วาด (`line` ตั้งต้น `ink@0.12`) |
 | text | สตริงจาก fixture ด้วยฟอนต์/ขนาดจากตัวคำนวณ · `lines` บรรทัด ตัดท้าย … · จัด `textAlign` · `mixHead` สองฟอนต์ · **ห้ามใช้ autosize ของแพลตฟอร์ม** · ช่องที่ `slot` ผูกและไม่ `readonly` = แตะแก้ได้ (iOS: `editableText`) |
 | image | รูปช่อง `photo`/`photoRef`/`src` แบบ cover/contain + `fit {dx,dy,zoom}` ของผู้ใช้ (สูตรเดียวกับ `PhotoFit`) · clip ตาม `radius` |
-| icon | ชื่อที่ขึ้นต้น `http` (เช่น `$logo` ของ brands) = โหลดจากเน็ตเหมือน `url:` · ตามชื่อ: `starLockup` (โลโก้ ST★R template สี tint) · `starSeal` (ตรายืนยัน) · `saleHereStar` · `qr` (QR ลิงก์การ์ด) · `provenance` / `provenance:socials` / `provenance:photo` / `provenance:screenshot` / `provenance:profile` (ป้ายที่มาของข้อมูล) · `verifiedBadge` (ป้าย Verified by Sale Here) · `byline` / `byline:dark` / `byline:light` (ป้าย "Verified by Sale Here" แบบบรรทัด ตัวอักษร = สูง×0.45 — คนละอันกับ `sh:verifiedPill` ตราฟ้า) · `verifiedSeal` (ตราใหญ่ กลีบหยัก+เครื่องหมายถูก) · `guilloche` (ลายกิโยเช่วงกลม) · `ringText` (ข้อความ `text` วนรอบวงกลม ขนาด `size`) · `washi` (เทปวาชิ) · `binderClip` · `paperClip` · `barcode` · `bow` · `spark` · `windowDots` (ปุ่มหน้าต่าง 3 จุด) · `embossedLockup` (โลโก้ปั๊มนูน) · `ph:<name>` (Phosphor bold ชื่อ kebab-case ตามไลบรารี เช่น `ph:paper-plane-tilt` · ต่อท้าย `-fill` = น้ำหนัก fill — ชุดเดียวกัน 3 แพลตฟอร์ม · Android `SpecIconCoverageTest` (ใน SpecSolverFixtureTest.kt) ตรวจว่าทุกไอคอนในผังมีจริง) · `sh:<name>` (asset ของแอป: instagram tiktok youtube facebook x lemon8 sealCheck verifiedPill star wordmark watermark qr) · `url:` (โลโก้จากเน็ต) · ชื่อ asset ตรง ๆ · เว็บเสิร์ฟทุกชื่อที่ `/card/icon/<ชื่อในผัง>` |
+| icon | ชื่อที่ขึ้นต้น `http` (เช่น `$logo` ของ brands) = โหลดจากเน็ตเหมือน `url:` · ตามชื่อ: `starLockup` (โลโก้ ST★R template สี tint) · `starSeal` (ตรายืนยัน) · `saleHereStar` · `qr` (QR ลิงก์การ์ด) · `provenance` / `provenance:socials` / `provenance:photo` / `provenance:screenshot` / `provenance:profile` (ป้ายที่มาของข้อมูล) · `verifiedBadge` (ป้าย Verified by Sale Here) · `byline` / `byline:dark` / `byline:light` (ป้าย "Verified by Sale Here" แบบบรรทัด ตัวอักษร = สูง×0.45 — คนละอันกับ `sh:verifiedPill` ตราฟ้า) · `verifiedSeal` (ตราใหญ่ กลีบหยัก+เครื่องหมายถูก) · `guilloche` (ลายกิโยเช่วงกลม) · `ringText` (ข้อความ `text` วนรอบวงกลม ขนาด `size`) · `washi` (เทปวาชิ) · `binderClip` · `paperClip` · `barcode` · `bow` · `spark` · `windowDots` (ปุ่มหน้าต่าง 3 จุด) · `embossedLockup` (โลโก้ปั๊มนูน) · `ph:<name>` (Phosphor bold ชื่อ kebab-case ตามไลบรารี เช่น `ph:paper-plane-tilt` · ต่อท้าย `-fill` = น้ำหนัก fill — ชุดเดียวกัน 3 แพลตฟอร์ม · Android `SpecIconCoverageTest` (ใน SpecSolverFixtureTest.kt) ตรวจว่าทุกไอคอนในผังมีจริง) · `sh:<name>` (asset ของแอป: instagram tiktok youtube facebook x lemon8 line sealCheck verifiedPill star wordmark watermark qr — `line` = โลโก้ LINE ชุด about-social เพิ่ม 20 ต.ค. 2569: iOS `about-social-line.imageset` (PDF) · Android `drawable-nodpi/about_social_line.png` · เว็บผ่าน `SH` ใน web-icons.mjs) · `SpecIconCoverageTest` ตรวจทั้งชื่อในผังและชื่อที่ `SpecData.kt` สร้างเอง (`sh:`/`ph:` ของ `contacts` + `sh:<platform>` ทุกช่อง) · `url:` (โลโก้จากเน็ต) · ชื่อ asset ตรง ๆ · เว็บเสิร์ฟทุกชื่อที่ `/card/icon/<ชื่อในผัง>` |
 
 ชิ้นส่วนกลางที่ไอคอน/token เหล่านี้ใช้ (iOS `Views/Widgets/Primitives/`: `VerifiedSeal` `QRCode` `Sparkle` `SocialProvenance` `WindowChannel` `CutoutPlane` `EditorialInk` `PopInk` `KitLook` `FlowLayout`) เป็นของกลาง — ไม่รู้ชื่อ widget · widget ไหนก็เรียกได้ด้วยชื่อเดียวกัน
 
 สิ่งที่ยอมให้ต่างได้ (ไม่ใช่บั๊ก): anti-alias ขอบตัวอักษร · kernel ของ blur/เงา (±2%) · squircle vs rounded ที่มุม
+
+**ตัววาดชุดที่สองของ iOS — UIKit/iOS 16 (20 ต.ค. 2569 · `StarCard/StarCard/Render/`)**: salehere-ios เป็น UIKit 16.6 จึงมี painter
+ที่รับกล่องชุดเดียวกันแล้ววาดด้วย CoreAnimation/CoreText ล้วน ๆ (`SpecWidgetView` · `SpecChromeView` · `SpecRenderShapes/Patterns`)
+ทุกอย่างที่ขึ้นกับแอปผ่าน `SpecRenderContext` (สี token · ฟอนต์ · รูป · asset · ไอคอน) — ต้นแบบมี `AppRenderContext` ใน `Views/Export/RenderABExport.swift`
+คอมไพล์ที่ iOS 16.0 ได้จริง: `Packages/StarCardRender` (symlink ไฟล์ชุดเดียวกัน + `WidgetSpec.swift` + `SpecSolver.swift`) ·
+`swift build --triple arm64-apple-ios16.0-simulator --sdk "$(xcrun --sdk iphonesimulator --show-sdk-path)"` · วิธีย้ายอยู่ใน `Render/README.md`
+สิ่งที่ยอมให้ต่างเพิ่มจากข้างบน: กระจก = `UIBlurEffect` แทน Liquid Glass · `mixHead` ย่อทีละ 2% (ไม่ใช่ `minimumScaleFactor`) · การย่อรูป (resampling)
 
 ## 7. fixture = สัญญา
 
@@ -332,7 +347,21 @@ fixture จด **จากรอบที่วาดจริง** (`SpecExport
 ผังของ Kotlin อ่านแบบเข้มงวด (`model/WidgetSpec.kt`: `ignoreUnknownKeys = false`) — คำใหม่ในผังที่ Android ยังไม่รู้จักทำให้เทสต์ล้มทันที
 กติกาตัววัดให้ตรง CoreText อยู่ใน `AndroidSpecMeasurer` (ฟอนต์ไฟล์เดียวกัน · กลิฟเป็นหน่วยฟอนต์จำนวนเต็ม · Σ แล้ว ceil 2 ทศนิยม · tracking+kerning นับตัวที่ไม่ใช่ Mn/Me · นับช่องว่างท้ายบรรทัด · ตัดคำ ICU เอง)
 
-**เว็บ**: `node sync-server/web/test/replay.mjs [kind…]` เล่น fixture ซ้ำด้วย `spec-solver.js` (ตัววัด+ข้อมูลจาก fixture) → **81/81** · เทียบตา `sync-server/web/dev/gallery.html`
+**UIKit (iOS 16) เทียบ SwiftUI** (`-exportRenderAB -exportPerson` → `Documents/RenderAB/{swiftui,uikit}` · `present/render-ab/run.sh <udid> [--launch]` → `out/report.html`):
+วาดทุกใบ × 6 กรอบด้วยตัววาดทั้งสองจาก **กล่องชุดเดียวกัน** (จดจากรอบวาดของ SwiftUI ด้วย `SpecExport.capture`) · พื้นผิว `.clear` ไม่มีขอบ พื้นโปร่ง = เทียบ painter ล้วน
+(+ ป้าย Verified มุมขวาบนของ chrome) · ตัวเลขตรงโดยนิยาม · ภาพ 20 ต.ค. 2569: 122 ชนิด · ต่าง <1% 7 ใบ · 1–5% 103 ใบ · ≥5% 12 ใบ (สูงสุด 8.4% = รูปถ่ายที่ย่อ) · เฉลี่ย 2.7% · มัธยฐาน 2.3%
+ที่เหลือคือ anti-alias ขอบตัวอักษร/เส้นโค้ง · resampling ของรูป · ขาวดำ (`mono`) ที่เมทริกซ์ความสว่างต่าง
+
+**เว็บ** พิสูจน์สองชั้นเหมือนกัน (`cd sync-server/web && npm test` = ทั้งสอง · ต้อง `cd sync-server && npm install` ครั้งแรก):
+1. **อัลกอริทึม** — `node sync-server/web/test/replay.mjs [kind…]` เล่น fixture ซ้ำด้วย `spec-solver.js` (ตัววัด+ข้อมูลจาก fixture) → **122/122** (20 ต.ค. 2569)
+2. **ตัววัดข้อความ** — `node sync-server/web/test/measure-parity.mjs [kind…] [--explain <คำ>]` เปิด Google Chrome ของเครื่องแบบ headless (puppeteer-core · ไม่โหลด Chromium)
+   โหลดฟอนต์ด้วย `loadFonts()` ตัวเดียวกับหน้าเว็บ แล้วให้ `WebMeasurer` (`web/js/measure.js`) **วัดเอง** ทุกคำถามที่ iOS จดไว้ (`measures` · `lineHeights`)
+   → `test/out/measure-parity/summary.json` (รูปแบบ `worstMeasures` เดียวกับ compare.py) + `diffs.json`
+   **20 ต.ค. 2569: 19,605 คำถาม (ไม่ซ้ำ) · กว้างต่างไม่เกิน 0.01 = 100% · ไม่ต่างเลย 99.55% · จำนวนบรรทัดเท่ากัน 100% · lineHeight 3,850/3,850 · 122/122 ชนิด**
+   (ก่อนแก้: 91.2% / 98.2% บรรทัด) กติกาที่ต้องตรง CoreText อยู่หัวไฟล์ `measure.js`: หน่วยฟอนต์จำนวนเต็มต่อกลุ่มอักษร จัดรูปทั้งย่อหน้า (kerning ข้ามรอยต่อบรรทัดยังอยู่) ·
+   Σ `หน่วย × (size/1000)` แบบ double ทีละกลุ่ม · จุดตัดบรรทัด = ICU UAX #14 ของเบราว์เซอร์ (กล่องกว้าง 0 — ไม่ใช่ `Intl.Segmenter` แบบคำ ที่ตัด "BUILDING|..." "@maneerat|.review") ·
+   ความกว้างบรรทัดไม่เกินกล่อง (ช่องว่างท้ายที่ล้น / กลุ่มเดียวที่กว้างกว่ากล่อง iOS รายงานเท่ากล่อง) · `tracking` บวกท้ายกลุ่มสุดท้ายห้อยได้ตอนตัดสินพอดีบรรทัด และไม่นับที่บรรทัดสุดท้ายของข้อความหลายบรรทัด (บรรทัดเดียวนับ)
+   · เทียบตา `sync-server/web/dev/gallery.html`
 
 **ผ่าน = ต่างไม่เกิน 0.01** ยกเว้นข้อความที่ตัดคำไทยต่างกัน (ดู §8) · ใบที่ไม่ผ่านคือบั๊กของ solver/ตัววัด **ไม่ใช่ของผัง — ห้ามแก้ JSON เพื่อให้แพลตฟอร์มเดียวตรง**
 
@@ -355,7 +384,7 @@ fixture จด **จากรอบที่วาดจริง** (`SpecExport
 - **ตัวจำผล** (ประสิทธิภาพ · 15 ต.ค. 2569): iOS `SpecSolveMemo` จำผลตัวคำนวณต่อ (ชิ้น · กรอบ · ข้อมูล · `SpecCatalog.generation`) · ตาราง `metas` แยกจากผังทั้งต้น (ถาดอ่านนิสัยหลายร้อยครั้งต่อเฟรม) · `IOSSpecMeasurer` cache ผลวัดตรงตัว · พรีวิวสไตล์ในถาดใช้ id คงที่ (`CardScreen.kitPreview`) — id สุ่มทุกเฟรมคือต้นเหตุกระตุก · เครื่องมือ DEBUG: `-benchKinds` (+env `BENCH_KIND` `BENCH_RENDER`) · env `HITCH=1` (นับเฟรมช้า พิมพ์ solve ms) · env `BENCH_STARTER=<kind>` (การ์ดหน้าเดียวใบเดียว) · Debug config ใช้ `-O`
 - **โหลดผังจากเซิร์ฟเวอร์**: โหมดลองทำเท่านั้น (`LabSync` → `SpecCatalog.replace(with:)` จาก `/api/specs` · ไฟล์ที่อ่านไม่ผ่านถูกข้าม) · DEBUG `SpecCatalog.reload(from:)` อ่านโฟลเดอร์บน Mac โดยไม่ build · โหมดจริงยังฝังมากับแอป
 
-## 10. สถานะ (18 ต.ค. 2569)
+## 10. สถานะ (20 ต.ค. 2569)
 
 **82 / 82 ชนิดเป็น JSON ทั้งหมด** — ไม่มี view ต่อ widget ในโค้ดสามแพลตฟอร์ม (iOS ลบ 28 ไฟล์ 15 ต.ค.) · ไม่มีชื่อ widget ในโค้ด (`check-widgets.mjs` = 0) · ชนิดที่ไม่มีไฟล์ = ไม่มีในแอป (ไม่มี fallback)
 หมวดที่มี: hero 9 · intro 8 · tags 7 · followers 10 · audience 7 · brand 4 · verified 3 · photo 17 · showcase 1 · rate 2 · availability 1 · body 1 · contact 11 · seal 1 (`proofSeal` · pinned) · text 0 (ชั้นข้อความไม่ใช่ widget)
@@ -372,12 +401,14 @@ scrapFolder→scrapBadge · statWrapped→statPoster · interestTags→nicheTags
 - ตำแหน่ง: `dx`/`dy` เป็น % · จุดหมุดหมุนที่ไม่ใช่กลางกล่อง · ตัวนับที่โตตามความกว้าง (รูเฟือง/ขีดสมุด)
 
 **ค้างตัดสินใจ / ยังไม่ทำ**
+- **`owner.verified` คนละความหมายต่อแพลตฟอร์ม** (พบ 20 ต.ค. 2569 — ยังไม่แก้ รอตัดสิน): iOS = `VerifiedFacts.sealed || creator.verified` → sealed = ผ่าน KYC ของ Star Profile (`-labVerified` บังคับได้) · creator.verified = ฟอร์มสถานะ approved · Android = `VerifiedFacts.labForce || StarFlow.isVerified` (KYC) `|| creator.verified` (= **ทุกช่องโซเชียลที่เปิดไว้ยืนยันยอดผ่านการเชื่อมบัญชี/API** ไม่ใช่สถานะฟอร์ม) · เว็บ = `ctx.verified` (ไม่มีใครส่ง — main.js ไม่ตั้ง) `|| creator.verified` (= ทุกช่องไม่ใช่ `manual`) · ไม่มี intake = `MOCK.verified` (true) → การ์ดเดียวกัน ตราฟ้า/`has:owner.verified` ขึ้นบนแพลตฟอร์มหนึ่งแต่ไม่ขึ้นอีกแพลตฟอร์มได้ · ต้องเลือกหนึ่งความหมาย (แนะนำ = KYC ผ่าน ตามกติกา "Verified = KYC" 30 ก.ย.) แล้วให้ `LabDoc.Owner` ส่งธงนั้นให้ Android/เว็บ
+- `avail` บน Android/เว็บยังคิดจาก `intake.availability.days × slots` ที่ iOS แบนมา (ทุกวันช่วงเดียวกัน) — iOS มีตารางรายวัน (`availWeek`) จึงออกได้หลายบรรทัด ("จ–ศ 17.00 เป็นต้นไป" + "ส อา ตลอดวัน") แต่อีกสองได้บรรทัดเดียว · ถ้าต้องเท่ากันทุกกรณีต้องส่ง `availWeek` ใน `IntakeData.availability`
 - จุดตัดคำไทย `breaks` ในเอกสารการ์ด (§8)
 - ขั้นต่ำที่อ่านออก: ขนาดกรอบต่ำสุดต่อใบ · export พอร์ตเป็น 3 รูป
 - Android วาดตัวเลือกได้เฉพาะ `segment` (ลาย · พื้นหลัง · มุม · ราคา) — `checks` `switch` `stepper` ยังไม่มี
 - ย้ายโค้ดแปลงข้อมูล API → ค่าพร้อมวาด ให้แยกต่อหมวด (ตอนนี้อยู่ `IOSSpecData` / `AndroidSpecData` / `data.js` ที่เดียว · ผลเท่าเดิม) · เว็บยังเติม `MOCK` เมื่อ API ไม่มี
 - โหลดผังจากเซิร์ฟเวอร์ตอนเปิดแอปในโหมดจริง (มีแค่โหมดลองทำ)
-- ข้อมูลที่ API ยังไม่มี (ให้ทีม API — `WIDGET-CATEGORY-PLAN.md` ข้อ 10C): insight ผู้ชม · แบรนด์/งานที่ผ่าน Sale Here · สัดส่วน · วิว/engagement ต่อช่องทาง · เว็บไซต์ · `avail` เป็นข้อความ
+- ข้อมูลที่ API ยังไม่มี (ให้ทีม API — `WIDGET-CATEGORY-PLAN.md` ข้อ 10C): insight ผู้ชม · แบรนด์/งานที่ผ่าน Sale Here · สัดส่วน · วิว/engagement ต่อช่องทาง · เว็บไซต์ (ต้นแบบมีแล้วทั้งสาม 20 ต.ค.) · `avail` เป็นข้อความ
 - `aboutNote` ยังไม่มี fixture · Android บันทึกการ์ด lab ของ iOS แล้วขนาด `audiencePoster` ขยับ (362×209 → 378×201 · พฤติกรรมตอนโหลดเดิม)
 
 ## 11. ประวัติ
@@ -392,3 +423,4 @@ scrapFolder→scrapBadge · statWrapped→statPoster · interestTags→nicheTags
 | 19 ต.ค. | ถอด `widget.emboss` · `widget.liftPhoto` · `lift` ของรูป และค่าในชิ้น `keepPhotoBG` `noEmboss` `blindEmboss` — ตราปั๊มวาดในผังและมีตลอด (การ์ดรู้ว่ามีจากไอคอน `embossedLockup` ในผัง) · แอปไม่ลบพื้นหลังรูปคนอีกแล้ว (PNG ใสของผู้ใช้ยังเป็นคัตเอาต์ได้) |
 | 15 ต.ค. | **JSON only**: บล็อก `widget` ครบทุกไฟล์ (เติมด้วยสคริปต์จากค่าที่ iOS คำนวณจริง · ภาพ 667 ไฟล์เท่าเดิมทุก byte) · `shared/category-models.json` · `check-widgets.mjs` · ลบ enum/ตารางชื่อ/view ต่อ widget ทั้ง 3 แพลตฟอร์ม · `textBlock` = ชั้นข้อความ · `proofSeal` → `pinned` · การ์ดเริ่มต้น → `shared/starter-cards.json` · แก้กระตุกตอนยืด (`SpecSolveMemo` · `metas` · cache ตัววัด · id คงที่ของพรีวิวสไตล์) |
 | 18 ต.ค. | Android (`CardLayout.kt` `CardScreen.kt` `Motion.kt`) + เว็บ (`page.js`) ตาม iOS: ตราตรึง `pinned` + หมุดมุมเดียว `resizeLive`/`resizePush` · ยังไม่ commit |
+| 20 ต.ค. | แหล่งข้อมูล Android + เว็บเท่า iOS บนข้อมูลจริง: ช่อง `website` (ProfileField/FIELDS) → `stat:site` + แถว web ของ `contacts` · `stat:phoneFmt`/`lineFlow` อ่านค่าดิบ · `body` จากค่าพร้อมหน่วยที่ sync มา · `avail` = `availSummary` (รวมกลุ่มวัน/รวมช่วง) · `works.brandLogo` = logo ?? asset · กติกาปัดเลข half-up บนทศนิยม (iOS `Fmt.fixed` แทน `String(format:)` · เว็บ `fixed` แทน `toFixed`) · ไอคอน `sh:line` ครบสามแพลตฟอร์ม · `SpecIconCoverageTest` ตรวจชื่อที่ data source สร้างด้วย · `owner.verified` ต่างความหมาย → §10 ค้างตัดสินใจ |

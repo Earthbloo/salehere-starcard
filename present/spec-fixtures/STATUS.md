@@ -1,6 +1,6 @@
 # สถานะการแปลง widget → ผัง JSON
 
-สร้างโดย sync.sh 2026-10-19 19:03 · ชนิดที่มีไฟล์ใน shared/WidgetSpecs/ วาดผ่าน SpecSolver + SpecPainter แล้ว
+สร้างโดย sync.sh 2026-10-20 15:25 · ชนิดที่มีไฟล์ใน shared/WidgetSpecs/ วาดผ่าน SpecSolver + SpecPainter แล้ว
 
 | kind | ผัง | fixture |
 |---|---|---|

@@ -44,6 +44,8 @@ enum SHIcon {
     static let facebook  = "about-social-facebook"
     static let x         = "about-social-x"
     static let lemon8    = "about-social-lemon8"
+    /// โลโก้ LINE แบบเดียวกับชุด about-social (จาก `ic-social-line42` ของแอปหลัก) — แถว LINE ของรายการ `contacts` (`sh:line`)
+    static let line      = "about-social-line"
 
     static let sealCheck = "ic-seal-check"
     /// ป้าย "VERIFIED BY SALE HERE" ตัวจริงของแอปหลัก (StarCardView เดิม · หน้าโปรไฟล์ครีเอเตอร์) — คงสีต้นฉบับ ไม่ย้อม

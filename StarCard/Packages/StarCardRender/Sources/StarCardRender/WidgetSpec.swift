@@ -1,0 +1,1 @@
+../../../../StarCard/Model/WidgetSpec.swift

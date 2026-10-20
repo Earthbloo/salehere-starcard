@@ -1,1 +1,9 @@
-{ "type": "module", "private": true }
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "replay": "node test/replay.mjs",
+    "measure-parity": "node test/measure-parity.mjs",
+    "test": "node test/replay.mjs && node test/measure-parity.mjs"
+  }
+}

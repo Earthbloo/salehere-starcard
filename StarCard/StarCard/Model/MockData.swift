@@ -780,10 +780,24 @@ enum DebugFlags {
 // MARK: - Format
 
 enum Fmt {
+    /// ทศนิยมคงที่ด้วยกติกาเดียวของทุกแพลตฟอร์ม (WIDGET-SPEC.md §3.2 · 20 ต.ค. 2569): **half-up บนค่าทศนิยมที่สั้นที่สุดของ double**
+    /// 1.25 → "1.3" · 1.15 → "1.2" · 62.5 → "63" · 1.005 → "1.01" — เท่ากับ `String.format` ของ Java (Android) และตัวปัดสตริงของเว็บ
+    /// `String(format: "%.1f")` ใช้ไม่ได้: printf ปัดบนค่าไบนารีแบบ ties-to-even (1.25 → "1.2" · 62.5 → "62") จึงต่างจากอีกสองแพลตฟอร์ม
+    static func fixed(_ v: Double, _ digits: Int) -> String {
+        let f = NumberFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.numberStyle = .decimal
+        f.usesGroupingSeparator = false
+        f.roundingMode = .halfUp
+        f.minimumFractionDigits = digits
+        f.maximumFractionDigits = digits
+        return f.string(from: NSNumber(value: v)) ?? String(format: "%.\(digits)f", v)
+    }
+
     /// ย่อตัวเลข — ตัดทศนิยมทิ้งเมื่อเลขหน้าถึงหลักร้อย ("184K" ไม่ใช่ "184.0K")
     static func compact(_ n: Int) -> String {
         func trim(_ v: Double, _ suffix: String) -> String {
-            v >= 100 ? "\(Int(v.rounded()))\(suffix)" : String(format: "%.1f%@", v, suffix)
+            v >= 100 ? "\(Int(v.rounded()))\(suffix)" : fixed(v, 1) + suffix
         }
         switch n {
         case 1_000_000...: return trim(Double(n) / 1_000_000, "M")
@@ -802,14 +816,14 @@ enum Fmt {
     /// เงินแบบย่อ — ใช้กับตัวเลขยอดขายที่ยาวเกินกว่าจะเขียนเต็มบนแผ่นเล็ก
     static func money(_ n: Int) -> String {
         switch n {
-        case 1_000_000...: return "฿" + String(format: "%.1fM", Double(n) / 1_000_000)
-        case 100_000...:   return "฿" + String(format: "%.0fK", Double(n) / 1_000)
+        case 1_000_000...: return "฿" + fixed(Double(n) / 1_000_000, 1) + "M"
+        case 100_000...:   return "฿" + fixed(Double(n) / 1_000, 0) + "K"
         default:           return "฿" + baht(n)
         }
     }
 
     /// เปอร์เซ็นต์ — ตัด ".0" ทิ้งเพื่อให้แถวตัวเลขไม่เต้น
     static func pct(_ v: Double) -> String {
-        v == v.rounded() ? "\(Int(v))%" : String(format: "%.1f%%", v)
+        v == v.rounded() ? "\(Int(v))%" : fixed(v, 1) + "%"
     }
 }

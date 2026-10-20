@@ -41,6 +41,8 @@ enum class ProfileField(val raw: String) {
     /** ชื่อเล่นที่ขึ้นเป็นตัวยักษ์ทับภาพ — **ฟิลด์ของตัวเอง ไม่ใช่คำแรกของชื่อ** (ค่าตั้งต้นยังเป็นคำแรกของชื่อ) */
     nickname("nickname"),
     contactName("contactName"), role("role"), phone("phone"), email("email"), lineId("lineId"),
+    /** เว็บไซต์ของ Star Profile (`creatorProfile.website`) — iOS ซิงก์มาเป็นค่าในโปรไฟล์ · การ์ดอ่านเป็น `stat:site` + แถว web ของ `contacts` (20 ต.ค. 2569) */
+    website("website"),
     /** สายงานที่พิมพ์เอง — เป็นรายการ จึงอ้างด้วย `index` เสมอ */
     categories("categories"),
     /** ชื่อรายการกับราคาในเรตการ์ด — รายการคู่ขนาน ลำดับที่ `i` ของสองช่องคือเรตอันเดียวกัน · เมื่อมีฟอร์มแล้ว = มุมมองของ `intake.rates` */
@@ -70,6 +72,7 @@ enum class ProfileField(val raw: String) {
         ProfileField.phone -> "เบอร์โทร"
         ProfileField.email -> "อีเมล"
         ProfileField.lineId -> "ไลน์ไอดี"
+        ProfileField.website -> "เว็บไซต์"
         ProfileField.categories -> "สายงานที่พิมพ์เอง"
         ProfileField.nickname -> "ชื่อเล่น"
         ProfileField.rateLabels -> "ชื่อรายการ"
@@ -96,6 +99,7 @@ enum class ProfileField(val raw: String) {
         ProfileField.phone -> "08x-xxx-xxxx"
         ProfileField.email -> "you@email.com"
         ProfileField.lineId -> "@lineid"
+        ProfileField.website -> "yourname.com"
         ProfileField.workArea -> "จังหวัด / เมืองที่รับงาน"
         ProfileField.weight -> "— กก."
         ProfileField.height -> "— ซม."
@@ -123,7 +127,7 @@ enum class ProfileField(val raw: String) {
         ProfileField.note -> 200
         ProfileField.role -> 60
         ProfileField.phone -> 20
-        ProfileField.email -> 60
+        ProfileField.email, ProfileField.website -> 60
         ProfileField.categories -> 24
         ProfileField.workArea -> 30
         ProfileField.weight, ProfileField.height, ProfileField.bust, ProfileField.waist, ProfileField.hips, ProfileField.shoe -> 12
@@ -132,6 +136,7 @@ enum class ProfileField(val raw: String) {
     val keyboard: KeyboardType get() = when (this) {
         ProfileField.phone -> KeyboardType.Phone
         ProfileField.email -> KeyboardType.Email
+        ProfileField.website -> KeyboardType.Uri
         ProfileField.ratePrices -> KeyboardType.Number
         else -> KeyboardType.Text
     }
@@ -252,7 +257,8 @@ class Profile private constructor() {
     }
 
     /** มีค่าที่พิมพ์ไว้จริง (ไม่ใช่ว่าง) */
-    private fun stored(f: ProfileField): String? = values[f.raw]?.takeIf { it.isNotEmpty() }
+    /** มีค่าที่พิมพ์ไว้จริง (ไม่ใช่ว่าง · ไม่ใช่ประโยคชวนกรอก) — แหล่งข้อมูลของผังใช้แทน `StarFlow.phone/lineID/website` ของ iOS */
+    fun stored(f: ProfileField): String? = values[f.raw]?.takeIf { it.isNotEmpty() }
 
     fun items(f: ProfileField): List<String> {
         if (intake != null && f == ProfileField.rateLabels) return rateRows.map { it.label }
@@ -301,6 +307,7 @@ class Profile private constructor() {
     val phone: String get() = text(ProfileField.phone)
     val email: String get() = text(ProfileField.email)
     val lineId: String get() = text(ProfileField.lineId)
+    val website: String get() = text(ProfileField.website)
     val categories: List<String> get() = items(ProfileField.categories)
     val nickname: String get() = text(ProfileField.nickname)
 

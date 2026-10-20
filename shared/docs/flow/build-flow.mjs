@@ -68,6 +68,19 @@ const LANES = [
       step('j1-02-campaign', 'หน้าแรก กิจกรรม STAR', 'ไปรับงานแรก · จบงานแล้วใบพวกนี้ปลดเอง', '', 'จบตอนที่ 4'),
     ],
   },
+  {
+    id: 'share', n: '5', title: 'แชร์การ์ด · ส่งลิงก์ หรือ ส่งรูปพร้อมสลิป',
+    lede: '3 ทางเข้า: Star Profile · คลังการ์ด · ห้องแต่ง — ลิงก์คือของที่ส่งให้แบรนด์ · รูปที่ส่งออกมีท้ายสลิป Verified by Sale Here + QR กลับมาที่การ์ด · ยังไม่มีการ์ด = ยังไม่มีปุ่มแชร์',
+    steps: [
+      step('sh01-starprofile', 'Star Profile', 'หมวด ST★R Card · ไอคอนแชร์เล็ก ๆ ข้างปุ่ม "ดูการ์ด"', 'แตะไอคอนแชร์', 'ยังไม่มีการ์ด = ไม่มีไอคอนนี้ (การ์ดยังไม่ได้แสดงให้ใครเห็น)'),
+      step('sh02-sharesheet-link', 'แผ่นแชร์ของระบบ (ลิงก์)', 'ส่งลิงก์ salehere.co.th/star/… ไป LINE / IG / Messages หรือ Copy', 'ปิด → ดูการ์ด'),
+      step('sh03-gallery', 'คลังการ์ด', 'แถบลิงก์ของใบที่ดูอยู่ + ปุ่ม "แชร์" (แผ่นแชร์เดียวกับข้อ 2) + ⋯ มีคัดลอกลิงก์อีกที่', 'แตะแถบลิงก์'),
+      step('sh04-copied', '"คัดลอกลิงก์แล้ว"', 'ขึ้นเขียว ~1.6 วิ แล้วกลับเป็นลิงก์ · ใบที่ไม่ได้แสดงอยู่ก็มีลิงก์ของตัวเอง คัดลอกได้เหมือนกัน', 'แต่งการ์ด'),
+      step('sh05-editor', 'ห้องแต่ง', 'ปุ่มเด่นปุ่มเดียวบนแถบบน = ไอคอนส่งออก (มุมขวาบน) · ↶ ↷ เป็นของรอง', 'แตะไอคอนส่งออก'),
+      step('sh06-preview', 'ฉบับที่จะส่งออก', 'แนวนอน = 3 หน้าต่อกันบนแผ่นเดียว · ท้ายสลิป: โลโก้ Sale Here + STAR · "Verified by Sale Here" · QR กลับมาที่การ์ด', 'แชร์รูป', '"บันทึกรูป" = ลงคลังรูปของเครื่อง · แถบลิงก์ด้านบนคัดลอกได้เหมือนในคลัง'),
+      step('sh07-sharesheet-image', 'แผ่นแชร์ของระบบ (รูป)', 'รูปพร้อมสลิป ชื่อ "Sale Here STAR · @handle" · ส่งไป LINE / IG / Save Image', '', 'จบตอนที่ 5'),
+    ],
+  },
 ]
 
 // ───────── ภาพ (base64) เฉพาะที่ใช้ ─────────
@@ -139,7 +152,7 @@ const SECTION = `
   <div class="fw-top">
     <header class="top">
       <div class="eyebrow">Star Card · Flow</div>
-      <h1>กดเข้า Star Card → Template → เพิ่มวิดเจ็ต</h1>
+      <h1>กดเข้า Star Card → Template → เพิ่มวิดเจ็ต → แชร์</h1>
       <p class="lede">เล่าเป็นเส้นตรงทีละขั้น: ภาพจอ → ปุ่มที่กด → ภาพถัดไป · ภาพจริงจาก build iOS 19 ต.ค. 2569 · แตะภาพเพื่อขยาย · เลื่อนแถบไปทางขวา</p>
     </header>
     <nav class="fw-chips" aria-label="ไปยังตอน">${LANES.map(l => `<button type="button" data-fl="${l.id}"><b>${l.n}</b>${esc(l.title)}</button>`).join('')}</nav>
@@ -185,7 +198,7 @@ const JS = `
 `
 
 // ───────── เขียนไฟล์ ─────────
-const NAV = '<a href="#flow" data-tab="flow">Flow <small>Star Card → Template → วิดเจ็ต</small></a>'
+const NAV = '<a href="#flow" data-tab="flow">Flow <small>Star Card → Template → วิดเจ็ต → แชร์</small></a>'
 writeFileSync(join(here, 'flow-fragment.json'), JSON.stringify({ css: CSS, nav: NAV, section: SECTION, js: JS }))
 writeFileSync(join(here, 'flow-preview.html'), `<!doctype html><html lang="th"><meta charset="utf-8"><title>flow preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">

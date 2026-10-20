@@ -46,6 +46,10 @@ struct ContentView: View {
             if ProcessInfo.processInfo.arguments.contains("-exportSpecs") {
                 await SpecExport.run(photos: photos)
             }
+            // A/B ตัววาด SwiftUI กับ UIKit (`Render/` · iOS 16) จากกล่องชุดเดียวกัน (ดู `RenderABExport`)
+            if ProcessInfo.processInfo.arguments.contains("-exportRenderAB") {
+                await RenderABExport.run(photos: photos)
+            }
             // นิสัย + ภาพทุกชนิดผ่าน chrome จริง — เทียบก่อน/หลังย้ายนิสัยไป JSON (ดู `BaselineExport`)
             HitchMonitor.shared.start()
             if ProcessInfo.processInfo.arguments.contains("-benchKinds") { await KindBench.run(photos: photos) }

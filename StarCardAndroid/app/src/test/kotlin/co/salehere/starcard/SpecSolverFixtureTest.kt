@@ -4,6 +4,7 @@ import co.salehere.starcard.layout.FSize
 import co.salehere.starcard.layout.ReplayData
 import co.salehere.starcard.layout.ReplayMeasurer
 import co.salehere.starcard.layout.SpecSolver
+import co.salehere.starcard.model.SocialType
 import co.salehere.starcard.model.SpecCatalog
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.contentOrNull
@@ -153,23 +154,25 @@ class SpecIconCoverageTest {
         val special = Regex("""^\s*"([^"]+)"(?:,\s*"([^"]+)")*\s*->""", RegexOption.MULTILINE)
             .findAll(File(app, "kotlin/co/salehere/starcard/ui/widgets/SpecIcons.kt").readText())
             .flatMap { m -> Regex("\"([^\"]+)\"").findAll(m.value.substringBefore("->")).map { it.groupValues[1] } }.toSet()
-        val sh = setOf("instagram", "tiktok", "youtube", "facebook", "x", "lemon8", "sealCheck", "verifiedPill", "star", "wordmark", "watermark", "qr")
+        // ชื่อสั้น `sh:` ที่ `shIconNamed` ใน SpecIcons.kt รู้จัก (อ่านจากไฟล์ — เพิ่มใน `when` แล้วเทสต์เห็นเอง)
+        val sh = Regex(""""([A-Za-z0-9]+)"\s*->\s*SHIcon\.""").findAll(File(app, "kotlin/co/salehere/starcard/ui/widgets/SpecIcons.kt").readText())
+            .map { it.groupValues[1] }.toSet()
         val json = Json { ignoreUnknownKeys = true }
         val missing = sortedSetOf<String>()
+        fun ok(name: String): Boolean = when {
+            name.startsWith("$") -> true
+            name in special -> true
+            name.startsWith("ph:") -> name.drop(3).removeSuffix("-fill") in ph || "ph_" + name.drop(3).replace('-', '_') in drawables
+            name.startsWith("sh:") -> name.drop(3) in sh || name.drop(3).replace('-', '_').lowercase() in drawables
+            name.startsWith("url:") || name.startsWith("http") -> true
+            else -> name.replace('-', '_').lowercase() in drawables
+        }
         fun walk(e: kotlinx.serialization.json.JsonElement, kind: String) {
             when (e) {
                 is kotlinx.serialization.json.JsonObject -> {
                     e["icon"]?.let { v ->
                         val name = (v as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull ?: return@let
-                        val ok = when {
-                            name.startsWith("$") -> true
-                            name in special -> true
-                            name.startsWith("ph:") -> name.drop(3).removeSuffix("-fill") in ph || "ph_" + name.drop(3).replace('-', '_') in drawables
-                            name.startsWith("sh:") -> name.drop(3) in sh || name.drop(3).replace('-', '_').lowercase() in drawables
-                            name.startsWith("url:") || name.startsWith("http") -> true
-                            else -> name.replace('-', '_').lowercase() in drawables
-                        }
-                        if (!ok) missing += "$kind: $name"
+                        if (!ok(name)) missing += "$kind: $name"
                     }
                     e.values.forEach { walk(it, kind) }
                 }
@@ -178,6 +181,13 @@ class SpecIconCoverageTest {
             }
         }
         for (f in File(root, "shared/WidgetSpecs").listFiles { x -> x.extension == "json" }!!) walk(json.parseToJsonElement(f.readText()), f.nameWithoutExtension)
+        // ไอคอนที่ **แหล่งข้อมูล** สร้างเอง (ผังรับผ่าน `$icon` จึงไม่อยู่ในไฟล์ผัง · 20 ต.ค. 2569): แถวของ `contacts`
+        // (`ph:phone` `ph:envelope` `sh:line` `ph:globe`) · โลโก้ช่องทุกช่อง `sh:<platform>` (`socials` · `rates` · `works` · `stat:reachIcon`)
+        val dataSource = File(app, "kotlin/co/salehere/starcard/model/SpecData.kt").readText()
+        val generated = Regex(""""((?:sh|ph):[A-Za-z0-9-]+)"""").findAll(dataSource).map { it.groupValues[1] }.toMutableSet()
+        generated += SocialType.entries.map { "sh:" + it.raw }
+        assertTrue("SpecData.kt generates no icon names — regex out of date?", generated.size >= 4)
+        for (name in generated) if (!ok(name)) missing += "SpecData.kt: $name"
         assertTrue("icons Android cannot draw:\n" + missing.joinToString("\n"), missing.isEmpty())
     }
 }

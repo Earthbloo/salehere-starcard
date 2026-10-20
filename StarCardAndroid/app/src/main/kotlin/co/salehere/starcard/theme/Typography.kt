@@ -102,6 +102,8 @@ object SHIcon {
     val facebook = R.drawable.about_social_facebook
     val x = R.drawable.about_social_x
     val lemon8 = R.drawable.about_social_lemon8
+    /** โลโก้ LINE แบบเดียวกับชุด about-social (จาก `ic-social-line42` ของแอปหลัก) — แถว LINE ของรายการ `contacts` (`sh:line`) */
+    val line = R.drawable.about_social_line
 
     val sealCheck = R.drawable.ic_seal_check
     /** ป้าย "VERIFIED BY SALE HERE" ตัวจริงของแอปหลัก — คงสีต้นฉบับ ไม่ย้อม */

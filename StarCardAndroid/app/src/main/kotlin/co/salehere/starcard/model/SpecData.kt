@@ -8,6 +8,7 @@ import co.salehere.starcard.layout.swiftDouble
 import co.salehere.starcard.theme.CardFont
 import co.salehere.starcard.theme.VerifiedFacts
 import co.salehere.starcard.theme.WidgetTextStyle
+import java.util.Locale
 import java.util.UUID
 
 // MARK: - แหล่งข้อมูลของผัง (Android) (= `IOSSpecData` ท้าย Views/Widgets/SpecPainter.swift)
@@ -64,15 +65,19 @@ data class AndroidSpecData(
         if (slot.startsWith("stat:")) {
             val a = shownAudience
             return when (slot.drop(5)) {
-                // ช่องทางติดต่อของ Star Profile (เบอร์จัดรูป 3-3-4) — Android ยังไม่มีช่องเหล่านี้ใน StarFlow จึงอ่านจากโปรไฟล์
+                // ช่องทางติดต่อของ Star Profile (เบอร์จัดรูป 3-3-4) — iOS อ่าน `StarFlow.phone/lineID/website` ตรง ๆ (ว่าง = ว่าง ไม่ใช่ประโยคชวนกรอก)
+                // Android เก็บค่าเดียวกันในโปรไฟล์ (`Profile.sync` ของ iOS เขียน `values.phone/lineId/website` = StarFlow · ซิงก์มาทางห้องลองทำ) จึงอ่าน `stored` ไม่ใช่ `text`
                 "phoneFmt" -> {
-                    val v = p.phone
+                    val v = p.stored(ProfileField.phone) ?: ""
                     if (v.isEmpty()) return if (sample) "081-234-5678" else ""
                     val d = v.filter { it.isDigit() }
                     if (d.length == 10) "${d.take(3)}-${d.substring(3, 6)}-${d.takeLast(4)}" else v
                 }
-                "site" -> if (sample) "nirabeauty.co" else ""
-                "lineFlow" -> p.lineId.ifEmpty { if (sample) "@nirabeauty" else "" }
+                "site" -> {
+                    val v = (p.stored(ProfileField.website) ?: "").replace("https://", "").replace("http://", "")
+                    if (v.isEmpty() && sample) "nirabeauty.co" else v
+                }
+                "lineFlow" -> (p.stored(ProfileField.lineId) ?: "").ifEmpty { if (sample) "@nirabeauty" else "" }
                 "totalFollowers" -> Fmt.compact(shownSocials.sumOf { it.followerCount })
                 "avgViews" -> Fmt.compact(shownSocials.sumOf { it.avgViewCount } / maxOf(1, shownSocials.size))
                 "brandCount" -> shownTrack(WidgetFamily.brand).brands.size.toString()
@@ -179,25 +184,25 @@ data class AndroidSpecData(
                     "likes" to Fmt.compact(w.likes), "comments" to Fmt.compact(w.comments),
                     "engageRaw" to (w.likes + w.comments + w.shares + w.saves).toString(),
                     "engagement" to Fmt.f(w.engagementRate, 1) + "%", "viralTag" to (w.viralTag ?: ""),
-                    "brandLogo" to (track.brands.firstOrNull { it.name == w.brand }?.logo ?: ""),
+                    // โลโก้แบรนด์ของผลงาน: URL ก่อน · ไม่มีก็ asset ในแอป (= iOS `logo ?? asset`)
+                    "brandLogo" to (track.brands.firstOrNull { it.name == w.brand }?.let { it.logo ?: it.asset } ?: ""),
                 ))
             }
         }
         "body" -> {
-            // สัดส่วน — Android ยังไม่เก็บใน StarFlow · ตัวอย่างชุดเดียวกับ `StarBody.sample` ของ iOS
-            if (!sample) emptyList() else listOf(
-                listOf("h", "ส่วนสูง", "165 cm", "165", "ซม.", ""),
-                listOf("w", "น้ำหนัก", "48 kg", "48", "กก.", ""),
-                listOf("g", "รอบอก / เอว / สะโพก", "32 / 25 / 35", "32 / 25 / 35", "นิ้ว", "1"),
-                listOf("s", "ไซซ์รองเท้า", "EU 38", "38", "EU", ""),
-            ).mapIndexed { i, c ->
+            // สัดส่วน (= `StarFlow.bodyInfo` ของ iOS) — Android เก็บเป็นค่าพร้อมหน่วยในโปรไฟล์ ("165 ซม." · "32 นิ้ว" · "38 EU" ที่ `Profile.sync` ของ iOS เขียน)
+            // id h/w/g/s · label · value ("165 cm") · num · unit · wide ("1" = เต็มแถว) · ยังไม่กรอก + sample = ชุดเดียวกับ `StarBody.sample`
+            val real = SpecBody.fromProfile(p)
+            val b = if (real.filled || !sample) real else SpecBody.sample
+            b.rows().mapIndexed { i, c ->
                 SpecItem(c[0], i, mapOf("kind" to c[0], "label" to c[1], "value" to c[2], "num" to c[3], "unit" to c[4], "wide" to c[5]))
             }
         }
         "avail" -> {
-            val f = StarFlow.shared
-            val lines = listOf("${f.availDays} ${f.availTime}".trim()).filter { it.isNotEmpty() }
-                .ifEmpty { if (sample) listOf("ส–อา 17.00 เป็นต้นไป") else emptyList() }
+            // วันเวลารับงาน (= `StarFlow.availSummary` ของ iOS: วันที่ช่วงเหมือนกันรวมกลุ่ม · ช่วงติดกันรวม) — ตารางรายวันมาจาก
+            // ฟอร์ม (`intake.availability.days/slots` ที่ iOS แบนมาให้ทุกวันช่วงเดียวกัน) · ไม่มีฟอร์มใช้ป้ายของ wizard เครื่องนี้ (`availDays` · `availTime`)
+            val s = availSummary(SpecAvail.week(p.intake?.availability, StarFlow.shared))
+            val lines = if (s.isEmpty() && sample) listOf("ส–อา 17.00 เป็นต้นไป") else s
             lines.mapIndexed { i, t -> SpecItem("t$i", i, mapOf("text" to t)) }
         }
         "areas" -> {
@@ -206,10 +211,10 @@ data class AndroidSpecData(
         }
         "contacts" -> {
             val out = ArrayList<SpecItem>()
-            // iOS มีช่อง `website` — โปรไฟล์ Android ยังไม่มีฟิลด์นี้ จึงว่างเสมอ (ไม่ขึ้นรายการ)
+            // = iOS ตัวต่อตัว: อ่าน `text` (ยังไม่กรอก = ประโยคชวนกรอกของช่อง) · ไอคอนที่สร้างที่นี่ต้องมี asset ทั้งสามแพลตฟอร์ม (`SpecIconCoverageTest`)
             val pairs = listOf(
                 arrayOf("phone", p.phone, "ph:phone", "phone"), arrayOf("email", p.email, "ph:envelope", "email"),
-                arrayOf("line", p.lineId, "sh:line", "lineId"), arrayOf("web", "", "ph:globe", "website"),
+                arrayOf("line", p.lineId, "sh:line", "lineId"), arrayOf("web", p.website, "ph:globe", "website"),
             )
             for ((k, v, icon, slot) in pairs) if (v.isNotEmpty()) {
                 out.add(SpecItem(k, out.size, mapOf("kind" to k, "value" to v, "icon" to icon, "slot" to slot)))
@@ -241,5 +246,119 @@ data class AndroidSpecData(
             if (field != null) f = f.copy(size = minOf(maxOf(size, 6.0), 160.0))
         }
         return f
+    }
+}
+
+// MARK: - สัดส่วน (= `StarBody` ของ iOS · ค่าดิบไม่มีหน่วย + หน่วยรอบตัวต่อช่อง)
+
+internal class SpecBody(
+    val weight: String = "", val height: String = "", val chest: String = "", val waist: String = "", val hip: String = "", val shoe: String = "",
+    val chestUnit: String = inch, val waistUnit: String = inch, val hipUnit: String = inch,
+) {
+    val filled: Boolean get() = listOf(weight, height, chest, waist, hip, shoe).any { it.isNotEmpty() }
+
+    /** แถวของรายการ `body`: kind · label · value · num · unit · wide — ลำดับและข้อความ = `IOSSpecData.list("body")` */
+    fun rows(): List<List<String>> {
+        val out = ArrayList<List<String>>()
+        if (height.isNotEmpty()) out += listOf("h", "ส่วนสูง", "$height cm", height, cm, "")
+        if (weight.isNotEmpty()) out += listOf("w", "น้ำหนัก", "$weight kg", weight, "กก.", "")
+        val girth = listOf(chest, waist, hip)
+        if (girth.any { it.isNotEmpty() }) {
+            val same = setOf(chestUnit, waistUnit, hipUnit).size == 1
+            val v = if (same) girth.joinToString(" / ") { it.ifEmpty { "–" } }
+                    else listOf(chest to chestUnit, waist to waistUnit, hip to hipUnit).joinToString(" · ") { "${it.first} ${it.second}" }
+            out += listOf("g", "รอบอก / เอว / สะโพก", v, v, if (same) chestUnit else "", "1")
+        }
+        if (shoe.isNotEmpty()) out += listOf("s", "ไซซ์รองเท้า", "EU $shoe", shoe, "EU", "")
+        return out
+    }
+
+    companion object {
+        const val inch = "นิ้ว"
+        const val cm = "ซม."
+        val sample = SpecBody(weight = "48", height = "165", chest = "32", waist = "25", hip = "35", shoe = "38")
+
+        private val numUnit = Regex("""^\s*(\d+(?:\.\d+)?)\s*(.*)$""")
+
+        /** "32 นิ้ว" → (32, นิ้ว) · "165 ซม." → (165, ซม.) · "38 EU" → (38, EU) · ไม่ขึ้นต้นด้วยตัวเลข (ว่าง/ประโยคชวนกรอก) = ("", "") */
+        private fun split(v: String?): Pair<String, String> {
+            val m = numUnit.find(v ?: return "" to "") ?: return "" to ""
+            return m.groupValues[1] to m.groupValues[2].trim()
+        }
+
+        /** ช่องสัดส่วนของโปรไฟล์ (ค่าที่ `Profile.sync` ของ iOS เขียน: `weight/height/bust/waist/hips/shoe` พร้อมหน่วย) */
+        fun fromProfile(p: Profile): SpecBody {
+            val (chest, cu) = split(p.stored(ProfileField.bust))
+            val (waist, wu) = split(p.stored(ProfileField.waist))
+            val (hip, hu) = split(p.stored(ProfileField.hips))
+            return SpecBody(
+                weight = split(p.stored(ProfileField.weight)).first, height = split(p.stored(ProfileField.height)).first,
+                chest = chest, waist = waist, hip = hip, shoe = split(p.stored(ProfileField.shoe)).first,
+                chestUnit = cu.ifEmpty { inch }, waistUnit = wu.ifEmpty { inch }, hipUnit = hu.ifEmpty { inch },
+            )
+        }
+    }
+}
+
+// MARK: - วันเวลารับงาน (= `StarFlow.availSummary` · `slotText` ของ iOS)
+
+internal object SpecAvail {
+    /** ชื่อย่อ 7 วันเรียง จ→อา (= `IntakeCatalog.weekShort` ของ iOS · ดัชนี 0 = จันทร์) */
+    val weekShort = listOf("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+    /** 4 ช่วงของแอปหลัก (slot_09_12 · slot_12_14 · slot_14_17 · slot_17_late) — ชั่วโมงเริ่ม–จบ (null = เป็นต้นไป) */
+    private val slotHours: List<Pair<Int, Int?>> = listOf(9 to 12, 12 to 14, 14 to 17, 17 to null)
+
+    private fun hourText(from: Int, to: Int?): String =
+        if (to != null) String.format(Locale.US, "%02d.00–%02d.00", from, to) else String.format(Locale.US, "%02d.00 เป็นต้นไป", from)
+
+    /** ครบ 4 = "ตลอดวัน" · ติดกันรวมเป็น "09.00–14.00" · ห่างกันคั่นด้วย " + " · ว่าง = "" */
+    fun slotText(slots: Set<Int>): String {
+        val picked = slotHours.indices.filter { it in slots }
+        if (picked.isEmpty()) return ""
+        if (picked.size == slotHours.size) return "ตลอดวัน"
+        val runs = ArrayList<Pair<Int, Int?>>()
+        for (i in picked) {
+            val h = slotHours[i]
+            val last = runs.lastOrNull()
+            if (last != null && last.second == h.first) runs[runs.size - 1] = last.first to h.second else runs += h
+        }
+        return runs.joinToString(" + ") { hourText(it.first, it.second) }
+    }
+
+    /**
+     * ตารางรายวัน week[0 = จันทร์ … 6 = อาทิตย์] = ชุดช่วงที่ว่าง
+     * ฟอร์มมี = `availability.days` (0 = อาทิตย์) × `slots` (ทุกวันช่วงเดียวกัน — iOS แบนตารางมาแบบนี้ตอน sync) ·
+     * ไม่มีฟอร์ม = ป้ายของ wizard เครื่องนี้ ("ทุกวัน" · "ส.–อา." · "จ.–ศ." · "จ อ ส อา" + เช้า/บ่าย/เย็น/ตลอดวัน)
+     */
+    fun week(a: Availability?, f: StarFlow): List<Set<Int>> {
+        val days: Set<Int>; val slots: Set<Int>
+        if (a != null && a.days.isNotEmpty()) { days = a.days; slots = a.slots }
+        else { days = daysOf(f.availDays); slots = IntakeCatalog.timeOptions.firstOrNull { it.value == f.availTime }?.slots ?: emptySet() }
+        return weekShort.indices.map { i -> if ((i + 1) % 7 in days) slots else emptySet() }
+    }
+
+    /** ป้ายวันของ wizard → ชุดวัน 0 = อาทิตย์ (= `IntakeCatalog.days` ของ iOS) */
+    private fun daysOf(label: String): Set<Int> {
+        val parts = label.split(" ").filter { it.isNotEmpty() }
+        if (parts.isNotEmpty() && parts.all { it in weekShort }) return parts.map { (weekShort.indexOf(it) + 1) % 7 }.toSet()
+        IntakeCatalog.dayOptions.firstOrNull { it.value == label }?.let { return it.days }
+        if (label.startsWith("ส")) return setOf(0, 6)
+        if (label.startsWith("จ")) return (1..5).toSet()
+        return (0 until 7).toSet()
+    }
+}
+
+/** "จ–ศ 17.00 เป็นต้นไป" · "ส อา ตลอดวัน" — วันที่ช่วงเหมือนกันรวมเป็นกลุ่ม · ติดกันเกิน 2 วันเขียนเป็นช่วง (= iOS ทุกตัวอักษร) */
+internal fun availSummary(week: List<Set<Int>>): List<String> {
+    val groups = ArrayList<Pair<Set<Int>, MutableList<Int>>>()
+    for ((i, s) in week.withIndex()) {
+        if (s.isEmpty()) continue
+        val g = groups.firstOrNull { it.first == s }
+        if (g != null) g.second += i else groups += s to mutableListOf(i)
+    }
+    return groups.map { (slots, days) ->
+        val run = days.size > 2 && days.last() - days.first() == days.size - 1
+        val d = if (run) "${SpecAvail.weekShort[days.first()]}–${SpecAvail.weekShort[days.last()]}" else days.joinToString(" ") { SpecAvail.weekShort[it] }
+        "$d ${SpecAvail.slotText(slots)}"
     }
 }

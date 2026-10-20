@@ -155,6 +155,7 @@ internal fun shIconNamed(short: String): Int = when (short) {
     "facebook" -> SHIcon.facebook
     "x" -> SHIcon.x
     "lemon8" -> SHIcon.lemon8
+    "line" -> SHIcon.line
     "sealCheck" -> SHIcon.sealCheck
     "verifiedPill" -> SHIcon.verifiedPill
     "star" -> SHIcon.star

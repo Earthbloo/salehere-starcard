@@ -9,14 +9,36 @@ import { swiftDouble } from './spec-model.js'
 
 // MARK: - ตัวเลข (= Fmt)
 
+// กติกาปัดเลขของทุกแพลตฟอร์ม (WIDGET-SPEC.md §3.2 · 20 ต.ค. 2569): **half-up บนค่าทศนิยมที่สั้นที่สุดของ double**
+// (1.25 → 1.3 · 1.15 → 1.2 · 62.5 → 63 · 1.005 → 1.01) = `String.format` ของ Java · `NumberFormatter(.halfUp)` ของ iOS
+// `toFixed` ใช้ไม่ได้: ปัดบนค่าไบนารี (1.15 → "1.1" · 1.005 → "1.00") จึงปัดบนสตริง `String(v)` เอง
+export function fixed(v, d = 1) {
+  if (!Number.isFinite(v)) return String(v)
+  const neg = v < 0
+  let s = String(Math.abs(v))
+  if (/e/i.test(s)) return v.toFixed(d) // ใหญ่/เล็กเกินกว่า String จะเขียนเป็นทศนิยม — ไม่มีในข้อมูลการ์ด
+  let [int, frac = ''] = s.split('.')
+  frac = frac.padEnd(d + 1, '0')
+  let digits = (int + frac.slice(0, d)).split('').map(Number)
+  if (frac.charCodeAt(d) >= 53) { // หลักถัดไป ≥ 5 → ปัดขึ้น
+    let i = digits.length - 1
+    while (i >= 0) { if (digits[i] === 9) { digits[i] = 0; i-- } else { digits[i]++; break } }
+    if (i < 0) digits.unshift(1)
+  }
+  const all = digits.join('')
+  const head = all.slice(0, all.length - d) || '0'
+  const out = d > 0 ? `${head}.${all.slice(all.length - d)}` : head
+  return neg && /[1-9]/.test(out) ? '-' + out : out
+}
+
 export const Fmt = {
   compact(n) {
-    const trim = (v, s) => (v >= 100 ? `${Math.round(v)}${s}` : `${v.toFixed(1)}${s}`)
+    const trim = (v, s) => (v >= 100 ? `${Math.round(v)}${s}` : `${fixed(v, 1)}${s}`)
     return n >= 1e6 ? trim(n / 1e6, 'M') : n >= 1e3 ? trim(n / 1e3, 'K') : String(n)
   },
   baht(n) { return Math.round(n).toLocaleString('en-US') },
-  pct(v) { const s = v.toFixed(1); return (s.endsWith('.0') ? s.slice(0, -2) : s) + '%' },
-  f(v, d = 1) { return v.toFixed(d) },
+  pct(v) { const s = fixed(v, 1); return (s.endsWith('.0') ? s.slice(0, -2) : s) + '%' },
+  f(v, d = 1) { return fixed(v, d) },
 }
 
 // MARK: - ช่องทาง · รูปแบบงาน
@@ -85,7 +107,8 @@ export const MOCK = {
   },
   track: {
     brands: [
-      { name: 'Sivanna Colors', logo: 'https://img.salehere.co.th/p/300x0/2025/05/07/fe0pah3cmv3g.jpg', industry: 'Cosmetics' },
+      // `asset` = โลโก้จาก asset ในแอป (แคมเปญ mock ของ iOS) — `works.brandLogo` = logo || asset
+      { name: 'Sivanna Colors', logo: 'https://img.salehere.co.th/p/300x0/2025/05/07/fe0pah3cmv3g.jpg', industry: 'Cosmetics', asset: null },
       { name: 'Scotch', logo: 'https://img.salehere.co.th/p/300x0/2023/12/06/yy7womguuk9w.jpg', industry: 'Supplement' },
       { name: 'BioActive+', logo: 'https://img.salehere.co.th/p/300x0/2019/12/20/oosmvnoxfb8m.jpg', industry: 'Supplement' },
       { name: 'Cathy Doll', logo: 'https://cathydoll.me/cdn/shop/files/New_CD_LOGO_2018.png?v=1669460778&width=600', industry: 'Skincare' },
@@ -107,6 +130,8 @@ export const MOCK = {
 const PLACEHOLDER = {
   name: 'ชื่อของคุณ', nickname: 'ชื่อเล่น', tagline: 'สายงานของคุณ', about: 'แนะนำตัวสั้น ๆ ให้แบรนด์รู้จัก', quote: 'ประโยคที่อยากบอกแบรนด์',
   handle: 'yourname', contactName: 'ชื่อผู้รับงาน', role: 'ติดต่อโดยตรง', phone: '08x-xxx-xxxx', email: 'you@email.com', lineId: '@lineid',
+  // เว็บไซต์ของ Star Profile — iOS เขียน `values.website` ตอน sync (`stat:site` + แถว web ของ `contacts` · 20 ต.ค. 2569)
+  website: 'yourname.com',
   workArea: 'จังหวัด / เมืองที่รับงาน', weight: '— กก.', height: '— ซม.', bust: '— นิ้ว', waist: '— นิ้ว', hips: '— นิ้ว', shoe: '— EU',
   note: 'แตะเพื่อพิมพ์ข้อความ',
 }
@@ -203,6 +228,87 @@ export class Profile {
   }
 }
 
+// MARK: - สัดส่วน (= `StarBody` ของ iOS · `SpecBody` ของ Android)
+
+const INCH = 'นิ้ว', CM = 'ซม.'
+const BODY_SAMPLE = { weight: '48', height: '165', chest: '32', waist: '25', hip: '35', shoe: '38', chestUnit: INCH, waistUnit: INCH, hipUnit: INCH, filled: true }
+
+/** "32 นิ้ว" → [32, นิ้ว] · "165 ซม." → [165, ซม.] · "38 EU" → [38, EU] · ไม่ขึ้นต้นด้วยตัวเลข (ว่าง/ประโยคชวนกรอก) = ['', ''] */
+function splitUnit(v) {
+  const m = /^\s*(\d+(?:\.\d+)?)\s*(.*)$/.exec(v || '')
+  return m ? [m[1], m[2].trim()] : ['', '']
+}
+
+/** ช่องสัดส่วนของโปรไฟล์ (`values.weight/height/bust/waist/hips/shoe` ที่ iOS `Profile.sync` เขียนพร้อมหน่วย) */
+function bodyFromValues(p) {
+  const [chest, cu] = splitUnit(p.stored('bust')), [waist, wu] = splitUnit(p.stored('waist')), [hip, hu] = splitUnit(p.stored('hips'))
+  const b = { weight: splitUnit(p.stored('weight'))[0], height: splitUnit(p.stored('height'))[0], chest, waist, hip, shoe: splitUnit(p.stored('shoe'))[0],
+    chestUnit: cu || INCH, waistUnit: wu || INCH, hipUnit: hu || INCH }
+  b.filled = [b.weight, b.height, b.chest, b.waist, b.hip, b.shoe].some(Boolean)
+  return b
+}
+
+/** แถวของรายการ `body`: kind · label · value · num · unit · wide — ลำดับและข้อความ = `IOSSpecData.list("body")` */
+function bodyRows(b) {
+  const out = []
+  if (b.height) out.push(['h', 'ส่วนสูง', `${b.height} cm`, b.height, CM, ''])
+  if (b.weight) out.push(['w', 'น้ำหนัก', `${b.weight} kg`, b.weight, 'กก.', ''])
+  const girth = [b.chest, b.waist, b.hip]
+  if (girth.some(Boolean)) {
+    const same = new Set([b.chestUnit, b.waistUnit, b.hipUnit]).size === 1
+    const v = same ? girth.map((g) => g || '–').join(' / ')
+      : [[b.chest, b.chestUnit], [b.waist, b.waistUnit], [b.hip, b.hipUnit]].map(([g, u]) => `${g} ${u}`).join(' · ')
+    out.push(['g', 'รอบอก / เอว / สะโพก', v, v, same ? b.chestUnit : '', '1'])
+  }
+  if (b.shoe) out.push(['s', 'ไซซ์รองเท้า', `EU ${b.shoe}`, b.shoe, 'EU', ''])
+  return out
+}
+
+// MARK: - วันเวลารับงาน (= `StarFlow.availSummary` · `slotText` ของ iOS · `SpecAvail` ของ Android)
+
+/** ชื่อย่อ 7 วันเรียง จ→อา (ดัชนี 0 = จันทร์) */
+const WEEK_SHORT = ['จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส', 'อา']
+/** 4 ช่วงของแอปหลัก — ชั่วโมงเริ่ม–จบ (null = เป็นต้นไป) */
+const SLOT_HOURS = [[9, 12], [12, 14], [14, 17], [17, null]]
+const hh = (n) => String(n).padStart(2, '0')
+const hourText = ([from, to]) => (to != null ? `${hh(from)}.00–${hh(to)}.00` : `${hh(from)}.00 เป็นต้นไป`)
+
+/** ครบ 4 = "ตลอดวัน" · ติดกันรวมเป็น "09.00–14.00" · ห่างกันคั่นด้วย " + " · ว่าง = "" */
+export function slotText(slots) {
+  const picked = SLOT_HOURS.map((_, i) => i).filter((i) => slots.has(i))
+  if (!picked.length) return ''
+  if (picked.length === SLOT_HOURS.length) return 'ตลอดวัน'
+  const runs = []
+  for (const i of picked) {
+    const h = SLOT_HOURS[i], last = runs[runs.length - 1]
+    if (last && last[1] === h[0]) runs[runs.length - 1] = [last[0], h[1]]
+    else runs.push(h)
+  }
+  return runs.map(hourText).join(' + ')
+}
+
+/** ตารางรายวัน week[0 = จันทร์ … 6 = อาทิตย์] = ชุดช่วงที่ว่าง — จาก `availability.days` (0 = อาทิตย์) × `slots` */
+export function availWeek(a) {
+  const days = new Set(a?.days || []), slots = new Set(a?.slots || [])
+  return WEEK_SHORT.map((_, i) => (days.has((i + 1) % 7) ? slots : new Set()))
+}
+
+/** "จ–ศ 17.00 เป็นต้นไป" · "ส อา ตลอดวัน" — วันที่ช่วงเหมือนกันรวมกลุ่ม · ติดกันเกิน 2 วันเขียนเป็นช่วง (= iOS ทุกตัวอักษร) */
+export function availSummary(week) {
+  const key = (s) => [...s].sort((a, b) => a - b).join(',')
+  const groups = []
+  week.forEach((s, i) => {
+    if (!s.size) return
+    const g = groups.find((x) => x.key === key(s))
+    if (g) g.days.push(i); else groups.push({ key: key(s), slots: s, days: [i] })
+  })
+  return groups.map(({ slots, days }) => {
+    const run = days.length > 2 && days[days.length - 1] - days[0] === days.length - 1
+    const d = run ? `${WEEK_SHORT[days[0]]}–${WEEK_SHORT[days[days.length - 1]]}` : days.map((i) => WEEK_SHORT[i]).join(' ')
+    return `${d} ${slotText(slots)}`
+  })
+}
+
 // MARK: - ข้อความของช่อง
 
 function slotParts(slot) {
@@ -238,14 +344,19 @@ export class WebSpecData {
       const a = this.audience
       const p = this.p
       switch (slot.slice(5)) {
+        // ช่องทางติดต่อของ Star Profile — iOS อ่าน `StarFlow.phone/lineID/website` ตรง ๆ (ว่าง = ว่าง) · เว็บได้ค่าเดียวกันใน
+        // `owner.values` (iOS `Profile.sync` เขียน values.phone/lineId/website = StarFlow) จึงอ่าน `stored` ไม่ใช่ `text` (ประโยคชวนกรอก)
         case 'phoneFmt': {
-          const v = p.text('phone')
+          const v = p.stored('phone') || ''
           if (!v) return this.sample ? '081-234-5678' : ''
           const d = v.replace(/\D/g, '')
           return d.length === 10 ? `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(-4)}` : v
         }
-        case 'site': return this.sample ? 'nirabeauty.co' : ''
-        case 'lineFlow': return p.text('lineId') || (this.sample ? '@nirabeauty' : '')
+        case 'site': {
+          const v = (p.stored('website') || '').split('https://').join('').split('http://').join('')
+          return !v && this.sample ? 'nirabeauty.co' : v
+        }
+        case 'lineFlow': return p.stored('lineId') || (this.sample ? '@nirabeauty' : '')
         case 'totalFollowers': return Fmt.compact(this.socials.reduce((s, x) => s + x.followerCount, 0))
         case 'avgViews': return Fmt.compact(Math.trunc(this.socials.reduce((s, x) => s + x.avgViewCount, 0) / Math.max(1, this.socials.length)))
         case 'brandCount': return String(this.track().brands.length)
@@ -336,16 +447,21 @@ export class WebSpecData {
           cover: w.cover || '', saves: Fmt.compact(w.saves), savesRaw: String(w.saves), shares: Fmt.compact(w.shares), sharesRaw: String(w.shares),
           likes: Fmt.compact(w.likes), comments: Fmt.compact(w.comments), engageRaw: String(w.likes + w.comments + w.shares + w.saves),
           engagement: Fmt.f(w.engagementRate, 1) + '%', viralTag: w.viralTag || '',
-          brandLogo: tr.brands.find((b) => b.name === w.brand)?.logo || '',
+          // โลโก้แบรนด์ของผลงาน: URL ก่อน · ไม่มีก็ asset ในแอป (= iOS `logo ?? asset`)
+          brandLogo: (({ logo, asset } = {}) => logo || asset || '')(tr.brands.find((b) => b.name === w.brand)),
         }))
       }
       case 'body': {
-        if (!this.sample) return []
-        return [['h', 'ส่วนสูง', '165 cm', '165', 'ซม.', ''], ['w', 'น้ำหนัก', '48 kg', '48', 'กก.', ''],
-          ['g', 'รอบอก / เอว / สะโพก', '32 / 25 / 35', '32 / 25 / 35', 'นิ้ว', '1'], ['s', 'ไซซ์รองเท้า', 'EU 38', '38', 'EU', '']]
-          .map((c, i) => I(c[0], i, { kind: c[0], label: c[1], value: c[2], num: c[3], unit: c[4], wide: c[5] }))
+        // สัดส่วน (= `StarFlow.bodyInfo` ของ iOS) — เว็บได้ค่าพร้อมหน่วยใน `owner.values` ("165 ซม." · "32 นิ้ว" · "38 EU")
+        const real = bodyFromValues(this.p)
+        const b = real.filled || !this.sample ? real : BODY_SAMPLE
+        return bodyRows(b).map((c, i) => I(c[0], i, { kind: c[0], label: c[1], value: c[2], num: c[3], unit: c[4], wide: c[5] }))
       }
-      case 'avail': return (this.sample ? ['ส–อา 17.00 เป็นต้นไป'] : []).map((t, i) => I(`t${i}`, i, { text: t }))
+      case 'avail': {
+        // วันเวลารับงาน (= `StarFlow.availSummary` ของ iOS) — ตารางจาก `intake.availability.days/slots` (iOS แบนมาให้ทุกวันช่วงเดียวกัน)
+        const s = availSummary(availWeek(this.p.intake?.availability))
+        return (s.length ? s : this.sample ? ['ส–อา 17.00 เป็นต้นไป'] : []).map((t, i) => I(`t${i}`, i, { text: t }))
+      }
       case 'areas': {
         const prov = this.p.intake?.availability?.provinces || []
         return (prov.length ? prov : this.sample ? ['กรุงเทพมหานคร', 'นนทบุรี'] : []).map((t, i) => I(`a${i}`, i, { text: t }))
@@ -353,7 +469,7 @@ export class WebSpecData {
       case 'contacts': {
         const out = []
         for (const [k, v, icon, slot] of [['phone', this.p.text('phone'), 'ph:phone', 'phone'], ['email', this.p.text('email'), 'ph:envelope', 'email'],
-          ['line', this.p.text('lineId'), 'sh:line', 'lineId'], ['web', '', 'ph:globe', 'website']]) {
+          ['line', this.p.text('lineId'), 'sh:line', 'lineId'], ['web', this.p.text('website'), 'ph:globe', 'website']]) {
           if (v) out.push(I(k, out.length, { kind: k, value: v, icon, slot }))
         }
         return out

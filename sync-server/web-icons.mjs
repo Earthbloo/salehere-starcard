@@ -27,6 +27,8 @@ export function iconResolver(repo) {
   const SH = {
     instagram: 'about-social-instagram', tiktok: 'about-social-tiktok', youtube: 'about-social-youtube',
     facebook: 'about-social-facebook', x: 'about-social-x', lemon8: 'about-social-lemon8',
+    // LINE (แถว LINE ของรายการ `contacts`) — iOS เก็บเป็น PDF เบราว์เซอร์เปิดไม่ได้ จึงตกไปใช้ PNG ของ Android ตามลำดับหาปกติ
+    line: 'about-social-line',
     sealCheck: 'ic-seal-check', verifiedPill: 'ic-verified-sale-here', star: 'ic-salehere-star-outline',
     wordmark: 'ic-salehere-text', watermark: 'ic-salehere-watermark', qr: 'ic-salehere-qr',
   }
