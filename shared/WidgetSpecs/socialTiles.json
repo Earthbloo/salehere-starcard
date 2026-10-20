@@ -1,0 +1,180 @@
+{
+ "kind": "socialTiles",
+ "design": {
+  "w": 366,
+  "h": 117
+ },
+ "widget": {
+  "title": "ผู้ติดตามแบบชิป",
+  "category": "followers",
+  "symbol": "circle.grid.3x1.fill",
+  "order": 14,
+  "stamp": "followers",
+  "motion": "mid"
+ },
+ "notes": "หัวข้อ 'ผู้ติดตาม' + ป้ายที่มา (ขนาดจริง: ใบมีแสตมป์ = SaleHereByline 8.5 ≈ 84×19 · ไม่มีแสตมป์ = ป้าย 'กรอกเอง · รอตรวจสอบ' ≈ 101×17) · ช่องเรียงข้างกัน (โลโก้ในกล่องสีช่อง + ยอดฟอลโลว์ + ชื่อช่อง) · แปลงจาก SocialWidgets.swift (SocialTiles) · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · เส้นขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว tint@0.3 · เงาที่สองของ ink.lift (ดำ 0.09 r 8.4 บนหมึกสว่าง) ตัดทิ้ง (เงาได้ใบเดียวต่อโหนด)",
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ผู้ติดตาม",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:socials",
+      "w": 84,
+      "h": 19,
+      "if": "stamped"
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:socials",
+      "w": 101,
+      "h": 17,
+      "if": "!stamped"
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "tiles",
+    "list": "socials",
+    "wrap": false,
+    "gap": 8,
+    "grow": 1,
+    "align": "center",
+    "each": {
+     "type": "stack",
+     "grow": 1,
+     "h": "fill",
+     "maxH": 64,
+     "children": [
+      {
+       "type": "rect",
+       "if": "ink.light",
+       "radius": 15,
+       "gradient": {
+        "from": "white@0.92",
+        "to": "white@0.7",
+        "angle": 90
+       },
+       "stroke": {
+        "color": "$tint@0.3",
+        "width": 0.8
+       },
+       "shadow": {
+        "sigma": 5,
+        "y": 4,
+        "color": "$tint@0.16"
+       }
+      },
+      {
+       "type": "rect",
+       "if": "!ink.light",
+       "radius": 15,
+       "gradient": {
+        "from": "white@0.1",
+        "to": "white@0.045",
+        "angle": 90
+       },
+       "stroke": {
+        "color": "$tint@0.3",
+        "width": 0.8
+       },
+       "shadow": {
+        "sigma": 5,
+        "y": 4,
+        "color": "$tint@0.28"
+       }
+      },
+      {
+       "type": "row",
+       "gap": 9,
+       "align": "center",
+       "pad": [
+        8,
+        10
+       ],
+       "children": [
+        {
+         "type": "stack",
+         "w": 34,
+         "h": 34,
+         "children": [
+          {
+           "type": "rect",
+           "radius": 9,
+           "fill": "$tint@0.16",
+           "stroke": {
+            "color": "$tint@0.28",
+            "width": 0.6
+           }
+          },
+          {
+           "type": "icon",
+           "icon": "$icon",
+           "size": 17,
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "gap": 1,
+         "align": "start",
+         "grow": 1,
+         "children": [
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "size": 16,
+           "weight": 700,
+           "color": "ink@0.98",
+           "maxLines": 1
+          },
+          {
+           "type": "text",
+           "slot": "$name",
+           "face": "noto",
+           "size": 9,
+           "weight": 500,
+           "color": "ink@0.42",
+           "maxLines": 1,
+           "shrinkTo": 6.3
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

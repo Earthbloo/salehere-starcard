@@ -1,0 +1,326 @@
+{
+ "kind": "scrapAbout",
+ "design": {
+  "w": 370,
+  "h": 230
+ },
+ "widget": {
+  "title": "รู้จักตัวฉัน",
+  "category": "intro",
+  "symbol": "person.crop.square",
+  "size": {
+   "w": 366,
+   "h": 228
+  },
+  "order": 66,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก 06 รู้จักตัวฉัน — แผ่นกระดาษโทน (scrap.paper + speckle) · ป้ายกล่องคำซ้อนสองแถว 'รู้จัก' (แถบดำตัวขาว 27 · note#1) / 'ตัวฉัน' (แถบ band มิตร · note#2 เยื้องขวา 35) · แนะนำตัว (about) 5 บรรทัด หมึกของแผ่น กว้าง 52.4% ไม่เกิน 200 · พิลขาว พื้นที่รับงาน (workArea) · ขวา: แผ่น scrap.mid เอียง -8 + โพลารอยด์รูป 1 เอียง 4 + ชื่อเล่น (nickname) มิตรชมพู 37 เอียง -4 + คลิปหนีบเงิน · ประกาย/หัวใจ · ของฝั่งขวาเกาะขอบขวา (place top-right) · แปลงจาก ScrapbookWidgets.swift (ScrapAboutWidget) · ใช้ไม่ได้: พิล 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · ขอบขาวรอบชื่อเล่น (ใช้ shadow ขาว) · surface pane/clear = ไม่วาดแผ่นและหมึกพลิกตามการ์ด",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "row",
+    "id": "labelWrap",
+    "pad": [
+     22,
+     0,
+     0,
+     18
+    ],
+    "align": "start",
+    "children": [
+     {
+      "type": "col",
+      "id": "label",
+      "gap": -3.24,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "first",
+        "pad": [
+         0,
+         8.1,
+         2.2,
+         8.1
+        ],
+        "fill": "#141414",
+        "rotate": -2,
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 900,
+          "size": 27,
+          "color": "white",
+          "maxLines": 1,
+          "text": "รู้จัก"
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "pad": [
+         0,
+         0,
+         0,
+         35
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "second",
+          "pad": [
+           0.5,
+           9.2
+          ],
+          "fill": "scrap.band",
+          "rotate": 1.5,
+          "children": [
+           {
+            "type": "text",
+            "face": "mitr",
+            "weight": 400,
+            "size": 23.2,
+            "color": "#141414",
+            "maxLines": 1,
+            "text": "ตัวฉัน"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "text",
+    "id": "about",
+    "if": "papered",
+    "slot": "about",
+    "face": "noto",
+    "weight": 500,
+    "size": 11.5,
+    "lineHeight": 1.25,
+    "color": "scrap.ink",
+    "maxLines": 5,
+    "w": "52.4%",
+    "maxW": 200,
+    "dx": 20,
+    "dy": 104
+   },
+   {
+    "type": "text",
+    "id": "aboutBare",
+    "if": "!papered",
+    "slot": "about",
+    "face": "noto",
+    "weight": 500,
+    "size": 11.5,
+    "lineHeight": 1.25,
+    "color": "ink@0.95",
+    "maxLines": 5,
+    "w": "52.4%",
+    "maxW": 200,
+    "dx": 20,
+    "dy": 104
+   },
+   {
+    "type": "row",
+    "id": "chipsWrap",
+    "pad": [
+     188,
+     0,
+     0,
+     20
+    ],
+    "align": "start",
+    "gap": 5,
+    "children": [
+     {
+      "type": "row",
+      "id": "area",
+      "if": "has:workArea",
+      "pad": [
+       3,
+       8
+      ],
+      "circle": true,
+      "fill": "white",
+      "children": [
+       {
+        "type": "text",
+        "slot": "workArea",
+        "face": "noto",
+        "weight": 600,
+        "size": 8.5,
+        "color": "#141414",
+        "maxLines": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "rect",
+    "id": "midSheet",
+    "w": 105,
+    "h": 100,
+    "fill": "scrap.mid",
+    "rotate": -8,
+    "place": "top-right",
+    "dx": -33,
+    "dy": 25
+   },
+   {
+    "type": "stack",
+    "id": "polaroid",
+    "w": 125,
+    "h": 160,
+    "fill": "white",
+    "pad": 8.1,
+    "rotate": 4,
+    "place": "top-right",
+    "dx": -17,
+    "dy": 29,
+    "shadow": {
+     "sigma": 3,
+     "y": 5,
+     "color": "scrap.shade@0.2"
+    },
+    "children": [
+     {
+      "type": "image",
+      "photo": 1
+     }
+    ]
+   },
+   {
+    "type": "text",
+    "id": "nickname",
+    "slot": "nickname",
+    "face": "mitr",
+    "weight": 400,
+    "size": 37,
+    "color": "scrap.paperAccent",
+    "maxLines": 1,
+    "shrinkTo": 18.5,
+    "w": 120,
+    "rotate": -4,
+    "place": "top-right",
+    "dx": 4,
+    "dy": 164,
+    "shadow": {
+     "sigma": 0.8,
+     "color": "white"
+    }
+   },
+   {
+    "type": "icon",
+    "id": "paperClip",
+    "icon": "paperClip",
+    "w": 15,
+    "h": 41,
+    "tint": "#AEB3BC",
+    "rotate": 10,
+    "place": "top-right",
+    "dx": -36,
+    "dy": 15
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "size": 15,
+    "tint": "white",
+    "place": "bottom-right",
+    "dx": -10,
+    "dy": -15
+   },
+   {
+    "type": "rect",
+    "id": "heart",
+    "shape": "heart",
+    "w": 18,
+    "h": 18,
+    "fill": "scrap.accent",
+    "dx": 176,
+    "dy": 30
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

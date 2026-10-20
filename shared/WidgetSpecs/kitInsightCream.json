@@ -1,0 +1,670 @@
+{
+ "kind": "kitInsightCream",
+ "design": {
+  "w": 350,
+  "h": 300
+ },
+ "widget": {
+  "title": "Insight",
+  "category": "audience",
+  "symbol": "chart.bar.fill",
+  "order": 117,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": false,
+  "kit": {
+   "look": "cream"
+  },
+  "stamp": "insight",
+  "motion": "mid",
+  "replaces": [
+   "kitInsight"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ข้อมูล",
+    "items": [
+     [
+      "city",
+      "เมือง"
+     ],
+     [
+      "gender",
+      "เพศ"
+     ],
+     [
+      "age",
+      "อายุ"
+     ],
+     [
+      "reach",
+      "การเข้าถึง"
+     ]
+    ],
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 20,
+      "shadow": {
+       "sigma": 4.5,
+       "y": 4,
+       "color": "black@0.07"
+      },
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20,
+        "shadow": {
+         "sigma": 4.5,
+         "y": 4,
+         "color": "black@0.07"
+        }
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 20
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 1.5
+      },
+      "radius": 20,
+      "if": "bordered"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "shadow": {
+         "sigma": 4.5,
+         "y": 4,
+         "color": "black@0.07"
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "shadow": {
+           "sigma": 4.5,
+           "y": 4,
+           "color": "black@0.07"
+          }
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 1.5
+        },
+        "radius": 3,
+        "if": "bordered"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20,
+        "shadow": {
+         "sigma": 4.5,
+         "y": 4,
+         "color": "black@0.07"
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 20,
+          "shadow": {
+           "sigma": 4.5,
+           "y": 4,
+           "color": "black@0.07"
+          }
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 20
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 1.5
+        },
+        "radius": 20,
+        "if": "bordered"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 19,
+      "weight": 700,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 13.3,
+      "w": "fill",
+      "id": "title",
+      "text": "Insight"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.block",
+            "radius": 12
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "text",
+              "text": "เมืองหลักของผู้ติดตาม",
+              "face": "noto",
+              "size": 11,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "chips",
+                "list": "places",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:map-pin-fill",
+                   "tint": "#D9534F",
+                   "w": 13,
+                   "h": 17
+                  },
+                  {
+                   "type": "text",
+                   "text": "{name} {share}",
+                   "face": "noto",
+                   "size": 17,
+                   "weight": 700,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  }
+                 ],
+                 "gap": 6,
+                 "align": "center"
+                },
+                "limit": 1
+               },
+               {
+                "type": "chips",
+                "list": "places",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{name} {share}",
+                   "face": "noto",
+                   "size": 11.5,
+                   "weight": 600,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  }
+                 ],
+                 "pad": [
+                  5,
+                  0
+                 ],
+                 "fill": "kit.ink@0.08",
+                 "radius": 8,
+                 "justify": "center",
+                 "grow": 1
+                },
+                "where": "!$i=first",
+                "limit": 2,
+                "wrap": false,
+                "gap": 6,
+                "align": "stretch",
+                "w": "fill"
+               }
+              ],
+              "gap": 6,
+              "align": "stretch"
+             }
+            ],
+            "pad": [
+             9,
+             11
+            ],
+            "align": "start",
+            "justify": "center",
+            "gap": 4
+           }
+          ],
+          "grow": 1,
+          "if": "list:places>0"
+         }
+        ],
+        "if": "!hidden:city",
+        "grow": 1,
+        "id": "city"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.block",
+            "radius": 12
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "text",
+              "text": "เพศ",
+              "face": "noto",
+              "size": 11,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             },
+             {
+              "type": "chips",
+              "list": "gender",
+              "each": {
+               "type": "row",
+               "children": [
+                {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "rect",
+                   "w": 10,
+                   "h": 10,
+                   "circle": true,
+                   "fill": "$tint"
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$label",
+                   "face": "noto",
+                   "size": 13.5,
+                   "weight": 400,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$share",
+                   "face": "noto",
+                   "size": 17,
+                   "weight": 800,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  }
+                 ],
+                 "gap": 5,
+                 "align": "end"
+                }
+               ],
+               "gap": 14,
+               "align": "center"
+              },
+              "limit": 2,
+              "wrap": false,
+              "gap": 14,
+              "align": "center",
+              "w": "fill"
+             }
+            ],
+            "pad": [
+             9,
+             11
+            ],
+            "align": "start",
+            "justify": "center",
+            "gap": 4
+           }
+          ],
+          "grow": 1
+         }
+        ],
+        "if": "!hidden:gender",
+        "grow": 1,
+        "id": "gender"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.block",
+            "radius": 12
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "text",
+              "text": "อายุ",
+              "face": "noto",
+              "size": 11,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             },
+             {
+              "type": "chips",
+              "list": "ages",
+              "each": {
+               "type": "row",
+               "children": [
+                {
+                 "type": "rect",
+                 "w": 1,
+                 "fill": "black@0.1",
+                 "if": "!$i=first"
+                },
+                {
+                 "type": "col",
+                 "children": [
+                  {
+                   "type": "text",
+                   "slot": "$label",
+                   "face": "noto",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "kit.mut",
+                   "maxLines": 1
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$share",
+                   "face": "noto",
+                   "size": 16,
+                   "weight": 800,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  }
+                 ],
+                 "gap": 1,
+                 "align": "center",
+                 "grow": 1
+                }
+               ],
+               "grow": 1
+              },
+              "wrap": false,
+              "gap": 0,
+              "align": "stretch",
+              "w": "fill"
+             }
+            ],
+            "pad": [
+             9,
+             11
+            ],
+            "align": "start",
+            "justify": "center",
+            "gap": 4
+           }
+          ],
+          "grow": 1,
+          "if": "list:ages>0"
+         }
+        ],
+        "if": "!hidden:age",
+        "grow": 1,
+        "id": "age"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.block",
+            "radius": 12
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "text",
+              "text": "การเข้าถึง",
+              "face": "noto",
+              "size": 11,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             },
+             {
+              "type": "row",
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:eye-fill",
+                "size": 14,
+                "tint": "#2E9E5B"
+               },
+               {
+                "type": "text",
+                "face": "noto",
+                "size": 19,
+                "weight": 800,
+                "color": "kit.ink",
+                "maxLines": 1,
+                "slot": "stat:reach"
+               },
+               {
+                "type": "text",
+                "text": "ต่อเดือน",
+                "face": "noto",
+                "size": 11,
+                "weight": 400,
+                "color": "kit.mut",
+                "maxLines": 1,
+                "if": "!has:stat:reachWindow"
+               },
+               {
+                "type": "row",
+                "gap": 3,
+                "if": "has:stat:reachWindow",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "ใน",
+                  "face": "noto",
+                  "size": 11,
+                  "weight": 400,
+                  "color": "kit.mut",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "text",
+                  "face": "noto",
+                  "size": 11,
+                  "weight": 400,
+                  "color": "kit.mut",
+                  "maxLines": 1,
+                  "slot": "stat:reachWindow"
+                 }
+                ]
+               }
+              ],
+              "gap": 6,
+              "align": "end"
+             }
+            ],
+            "pad": [
+             9,
+             11
+            ],
+            "align": "start",
+            "justify": "center",
+            "gap": 4
+           }
+          ],
+          "grow": 1
+         }
+        ],
+        "if": "!hidden:reach & has:stat:reach",
+        "grow": 1,
+        "id": "reach"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "gap": 7,
+      "align": "stretch"
+     }
+    ],
+    "pad": 14,
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

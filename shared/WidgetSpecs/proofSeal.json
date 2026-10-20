@@ -1,0 +1,1199 @@
+{
+ "kind": "proofSeal",
+ "design": {
+  "w": 366,
+  "h": 232
+ },
+ "widget": {
+  "title": "ตรารับรอง Sale Here",
+  "category": "seal",
+  "symbol": "checkmark.seal.fill",
+  "order": 11,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "keepAspect": true,
+  "motion": "anchored",
+  "pinned": true,
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ลาย",
+    "opt": "pattern",
+    "options": [
+     [
+      null,
+      "เรียบ"
+     ],
+     [
+      "stripe",
+      "ลายทาง"
+     ],
+     [
+      "diamond",
+      "ข้าวหลามตัด"
+     ]
+    ],
+    "if": "surface=glass"
+   }
+  ]
+ },
+ "notes": "ตรารับรอง Verified by Sale Here · แปลงจาก VerifiedSealWidget.swift (VS + VerifiedSealSkin · แบบ medal) · ใบวาดพื้นเอง (inset 0) มุม 20 · พื้นผิว (14 ต.ค. 2569 · VerifiedSealSkin): `surface=glass` + การ์ดสว่าง = แผ่นอ่อนของธีม (hue sat .20 bri .975 ไม่มี token → white + rawAccent@0.45 + black@0.025 · คู่สี = สีอ่อนของคู่ + plate@0.10) หมึก/สีเน้น = `plate` (soft @0.66 hair @0.22 lace @0.09) · `surface=glass` + การ์ดมืด = แผ่น `plate` หมึก `plateInk` (soft @0.64 hair @0.24 lace @0.10) สีเน้น `rawAccent` · pane/clear = ไม่มีแผ่น หมึกการ์ด `ink@0.95` soft `ink@0.58` hair `line@0.24` สีเน้น `accent` (ทั้งสามชุด = block ที่ซ้ำกันสามชุดตาม `if`) · เหรียญศูนย์กลาง x 94 กลางแนวตั้ง: กิโยเช่ r 138 → วงตัวอักษร r 68 size 7.2 → วงเส้น r 59/77 → เหรียญ r 50 · คอลัมน์ x 182 กว้าง 166 (pad 14/13): 'VERIFIED' heavy + 'by' เซริฟเอียง · ตัวเขียน sh:wordmark สูง 62 · เส้นเน้น 1.4 · สามแถว (ชื่อข้อ 10.5 · เส้นจุด · ค่า 9) · ฐาน: วงแดง Sale Here 21 · 'STAR CARD NO.' + handle · ST★R lockup 20 · ไม่มี: SealStyle note/type/sticker (ชิ้นไม่ส่ง sealStyle ให้ผัง — ไม่มีธง cfg:seal) · ค่าของแถว (วันที่ยืนยัน · เวลา sync) และเลข serial (TH …) ไม่มีใน SpecDataSource → ค่าดีไซน์/handle · ฟอนต์ mono · punch ของเหรียญ (verifiedSeal เจาะด้วยขาว/ดำตาม ink ไม่ใช่สีแผ่น) · แถวที่ยังไม่ผ่าน · หมุนวงตัวอักษร · เกล็ด/ลายแผ่น",
+ "root": {
+  "type": "stack",
+  "id": "sheet",
+  "clip": true,
+  "radius": 20,
+  "children": [
+   {
+    "type": "rect",
+    "id": "plateLight",
+    "if": "surface=glass & ink.light & !duo",
+    "fill": "white"
+   },
+   {
+    "type": "rect",
+    "id": "plateLightTint",
+    "if": "surface=glass & ink.light & !duo",
+    "fill": "rawAccent@0.45"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "surface=glass & ink.light & !duo",
+    "platePattern": "rawAccentSoft"
+   },
+   {
+    "type": "rect",
+    "id": "plateLightShade",
+    "if": "surface=glass & ink.light & !duo",
+    "fill": "black@0.025"
+   },
+   {
+    "type": "rect",
+    "id": "plateLightDuo",
+    "if": "surface=glass & ink.light & duo",
+    "fill": "plateInk"
+   },
+   {
+    "type": "rect",
+    "id": "plateLightDuoInk",
+    "if": "surface=glass & ink.light & duo",
+    "fill": "plate@0.10"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "surface=glass & ink.light & duo",
+    "platePattern": "plateInk"
+   },
+   {
+    "type": "rect",
+    "id": "plateDark",
+    "if": "surface=glass & !ink.light",
+    "fill": "plate"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "surface=glass & !ink.light",
+    "platePattern": "plate"
+   },
+   {
+    "type": "stack",
+    "id": "blockN",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "children": [
+     {
+      "type": "icon",
+      "id": "lace",
+      "icon": "guilloche",
+      "w": 276,
+      "h": 276,
+      "tint": "line@0.15",
+      "place": "center-left",
+      "dx": -44
+     },
+     {
+      "type": "rect",
+      "id": "ringOuter",
+      "w": 154,
+      "h": 154,
+      "circle": true,
+      "stroke": {
+       "color": "line@0.17",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 17
+     },
+     {
+      "type": "rect",
+      "id": "ringInner",
+      "w": 118,
+      "h": 118,
+      "circle": true,
+      "stroke": {
+       "color": "line@0.24",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 35
+     },
+     {
+      "type": "icon",
+      "id": "ringText",
+      "icon": "ringText",
+      "text": "VERIFIED BY SALE HERE  ✦  IDENTITY  ✦  CHANNELS  ✦  NUMBERS  ✦  ",
+      "size": 7.2,
+      "w": 150.4,
+      "h": 150.4,
+      "tint": "ink@0.78",
+      "place": "center-left",
+      "dx": 18.8
+     },
+     {
+      "type": "icon",
+      "id": "medal",
+      "icon": "verifiedSeal",
+      "w": 100,
+      "h": 100,
+      "tint": "ink@0.95",
+      "place": "center-left",
+      "dx": 44
+     },
+     {
+      "type": "col",
+      "id": "column",
+      "place": "top-left",
+      "dx": 182,
+      "w": 166,
+      "h": "fill",
+      "pad": [
+       14,
+       0,
+       11,
+       0
+      ],
+      "gap": 0,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "title",
+        "gap": 4,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "text": "VERIFIED",
+          "face": "noto",
+          "weight": 800,
+          "size": 20.5,
+          "kerning": -0.6,
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 9
+         },
+         {
+          "type": "text",
+          "text": "by",
+          "face": "noto",
+          "weight": 400,
+          "size": 21.7,
+          "color": "ink@0.95",
+          "maxLines": 1
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 1
+       },
+       {
+        "type": "icon",
+        "id": "wordmark",
+        "icon": "sh:wordmark",
+        "w": 52,
+        "h": 62,
+        "tint": "ink@0.95"
+       },
+       {
+        "type": "spacer",
+        "h": 6
+       },
+       {
+        "type": "rect",
+        "id": "rule",
+        "w": "fill",
+        "h": 1.4,
+        "fill": "accent"
+       },
+       {
+        "type": "spacer",
+        "h": 8
+       },
+       {
+        "type": "col",
+        "id": "facts",
+        "gap": 4,
+        "w": "fill",
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตัวตนจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "ink@0.95",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "line@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ตรวจบัตรแล้ว",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "ink@0.58",
+            "maxLines": 1
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "เจ้าของช่องจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "ink@0.95",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "line@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "row",
+            "gap": 2,
+            "align": "end",
+            "children": [
+             {
+              "type": "text",
+              "slot": "count:socials",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "ink@0.58",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "text": "ช่อง",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "ink@0.58",
+              "maxLines": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ยอดจากแพลตฟอร์ม",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "ink@0.95",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "line@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ล่าสุด",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "ink@0.58",
+            "maxLines": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 4
+       },
+       {
+        "type": "row",
+        "id": "issuer",
+        "gap": 6,
+        "align": "end",
+        "w": "fill",
+        "children": [
+         {
+          "type": "stack",
+          "w": 21,
+          "h": 21,
+          "children": [
+           {
+            "type": "rect",
+            "circle": true,
+            "fill": "#DA3832"
+           },
+           {
+            "type": "icon",
+            "icon": "sh:wordmark",
+            "w": 12.2,
+            "h": 12.2,
+            "tint": "white",
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "gap": 1,
+          "align": "start",
+          "shrink": 1,
+          "children": [
+           {
+            "type": "text",
+            "text": "STAR CARD NO.",
+            "face": "noto",
+            "weight": 600,
+            "size": 6,
+            "tracking": 0.9,
+            "color": "ink@0.46",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "id": "serial",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 700,
+            "size": 9,
+            "tracking": 0.6,
+            "color": "ink@0.58",
+            "maxLines": 1,
+            "shrinkTo": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 0
+         },
+         {
+          "type": "icon",
+          "id": "lockup",
+          "icon": "starLockup",
+          "w": 54,
+          "h": 20,
+          "tint": "ink@0.92"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "if": "!surface=glass"
+   },
+   {
+    "type": "stack",
+    "id": "blockL",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "children": [
+     {
+      "type": "icon",
+      "id": "lace",
+      "icon": "guilloche",
+      "w": 276,
+      "h": 276,
+      "tint": "plate@0.09",
+      "place": "center-left",
+      "dx": -44
+     },
+     {
+      "type": "rect",
+      "id": "ringOuter",
+      "w": 154,
+      "h": 154,
+      "circle": true,
+      "stroke": {
+       "color": "plate@0.15",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 17
+     },
+     {
+      "type": "rect",
+      "id": "ringInner",
+      "w": 118,
+      "h": 118,
+      "circle": true,
+      "stroke": {
+       "color": "plate@0.22",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 35
+     },
+     {
+      "type": "icon",
+      "id": "ringText",
+      "icon": "ringText",
+      "text": "VERIFIED BY SALE HERE  ✦  IDENTITY  ✦  CHANNELS  ✦  NUMBERS  ✦  ",
+      "size": 7.2,
+      "w": 150.4,
+      "h": 150.4,
+      "tint": "plate@0.78",
+      "place": "center-left",
+      "dx": 18.8
+     },
+     {
+      "type": "icon",
+      "id": "medal",
+      "icon": "verifiedSeal",
+      "w": 100,
+      "h": 100,
+      "tint": "plate",
+      "place": "center-left",
+      "dx": 44
+     },
+     {
+      "type": "col",
+      "id": "column",
+      "place": "top-left",
+      "dx": 182,
+      "w": 166,
+      "h": "fill",
+      "pad": [
+       14,
+       0,
+       11,
+       0
+      ],
+      "gap": 0,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "title",
+        "gap": 4,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "text": "VERIFIED",
+          "face": "noto",
+          "weight": 800,
+          "size": 20.5,
+          "kerning": -0.6,
+          "color": "plate",
+          "maxLines": 1,
+          "shrinkTo": 9
+         },
+         {
+          "type": "text",
+          "text": "by",
+          "face": "noto",
+          "weight": 400,
+          "size": 21.7,
+          "color": "plate",
+          "maxLines": 1
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 1
+       },
+       {
+        "type": "icon",
+        "id": "wordmark",
+        "icon": "sh:wordmark",
+        "w": 52,
+        "h": 62,
+        "tint": "plate"
+       },
+       {
+        "type": "spacer",
+        "h": 6
+       },
+       {
+        "type": "rect",
+        "id": "rule",
+        "w": "fill",
+        "h": 1.4,
+        "fill": "plate"
+       },
+       {
+        "type": "spacer",
+        "h": 8
+       },
+       {
+        "type": "col",
+        "id": "facts",
+        "gap": 4,
+        "w": "fill",
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตัวตนจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plate",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plate@0.22",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ตรวจบัตรแล้ว",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "plate@0.66",
+            "maxLines": 1
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "เจ้าของช่องจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plate",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plate@0.22",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "row",
+            "gap": 2,
+            "align": "end",
+            "children": [
+             {
+              "type": "text",
+              "slot": "count:socials",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "plate@0.66",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "text": "ช่อง",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "plate@0.66",
+              "maxLines": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ยอดจากแพลตฟอร์ม",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plate",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plate@0.22",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ล่าสุด",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "plate@0.66",
+            "maxLines": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 4
+       },
+       {
+        "type": "row",
+        "id": "issuer",
+        "gap": 6,
+        "align": "end",
+        "w": "fill",
+        "children": [
+         {
+          "type": "stack",
+          "w": 21,
+          "h": 21,
+          "children": [
+           {
+            "type": "rect",
+            "circle": true,
+            "fill": "#DA3832"
+           },
+           {
+            "type": "icon",
+            "icon": "sh:wordmark",
+            "w": 12.2,
+            "h": 12.2,
+            "tint": "white",
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "gap": 1,
+          "align": "start",
+          "shrink": 1,
+          "children": [
+           {
+            "type": "text",
+            "text": "STAR CARD NO.",
+            "face": "noto",
+            "weight": 600,
+            "size": 6,
+            "tracking": 0.9,
+            "color": "plate@0.53",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "id": "serial",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 700,
+            "size": 9,
+            "tracking": 0.6,
+            "color": "plate@0.66",
+            "maxLines": 1,
+            "shrinkTo": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 0
+         },
+         {
+          "type": "icon",
+          "id": "lockup",
+          "icon": "starLockup",
+          "w": 54,
+          "h": 20,
+          "tint": "plate@0.92"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "if": "surface=glass & ink.light"
+   },
+   {
+    "type": "stack",
+    "id": "blockD",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "children": [
+     {
+      "type": "icon",
+      "id": "lace",
+      "icon": "guilloche",
+      "w": 276,
+      "h": 276,
+      "tint": "plateInk@0.10",
+      "place": "center-left",
+      "dx": -44
+     },
+     {
+      "type": "rect",
+      "id": "ringOuter",
+      "w": 154,
+      "h": 154,
+      "circle": true,
+      "stroke": {
+       "color": "plateInk@0.17",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 17
+     },
+     {
+      "type": "rect",
+      "id": "ringInner",
+      "w": 118,
+      "h": 118,
+      "circle": true,
+      "stroke": {
+       "color": "plateInk@0.24",
+       "width": 0.7
+      },
+      "place": "center-left",
+      "dx": 35
+     },
+     {
+      "type": "icon",
+      "id": "ringText",
+      "icon": "ringText",
+      "text": "VERIFIED BY SALE HERE  ✦  IDENTITY  ✦  CHANNELS  ✦  NUMBERS  ✦  ",
+      "size": 7.2,
+      "w": 150.4,
+      "h": 150.4,
+      "tint": "plateInk@0.78",
+      "place": "center-left",
+      "dx": 18.8
+     },
+     {
+      "type": "icon",
+      "id": "medal",
+      "icon": "verifiedSeal",
+      "w": 100,
+      "h": 100,
+      "tint": "plateInk",
+      "place": "center-left",
+      "dx": 44
+     },
+     {
+      "type": "col",
+      "id": "column",
+      "place": "top-left",
+      "dx": 182,
+      "w": 166,
+      "h": "fill",
+      "pad": [
+       14,
+       0,
+       11,
+       0
+      ],
+      "gap": 0,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "title",
+        "gap": 4,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "text": "VERIFIED",
+          "face": "noto",
+          "weight": 800,
+          "size": 20.5,
+          "kerning": -0.6,
+          "color": "plateInk",
+          "maxLines": 1,
+          "shrinkTo": 9
+         },
+         {
+          "type": "text",
+          "text": "by",
+          "face": "noto",
+          "weight": 400,
+          "size": 21.7,
+          "color": "plateInk",
+          "maxLines": 1
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 1
+       },
+       {
+        "type": "icon",
+        "id": "wordmark",
+        "icon": "sh:wordmark",
+        "w": 52,
+        "h": 62,
+        "tint": "plateInk"
+       },
+       {
+        "type": "spacer",
+        "h": 6
+       },
+       {
+        "type": "rect",
+        "id": "rule",
+        "w": "fill",
+        "h": 1.4,
+        "fill": "rawAccent"
+       },
+       {
+        "type": "spacer",
+        "h": 8
+       },
+       {
+        "type": "col",
+        "id": "facts",
+        "gap": 4,
+        "w": "fill",
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตัวตนจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plateInk",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plateInk@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ตรวจบัตรแล้ว",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "plateInk@0.64",
+            "maxLines": 1
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "เจ้าของช่องจริง",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plateInk",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plateInk@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "row",
+            "gap": 2,
+            "align": "end",
+            "children": [
+             {
+              "type": "text",
+              "slot": "count:socials",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "plateInk@0.64",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "text": "ช่อง",
+              "face": "noto",
+              "weight": 600,
+              "size": 9,
+              "color": "plateInk@0.64",
+              "maxLines": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 5,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ยอดจากแพลตฟอร์ม",
+            "face": "noto",
+            "weight": 600,
+            "size": 10.5,
+            "color": "plateInk",
+            "maxLines": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "h": 1,
+            "minW": 6,
+            "stroke": {
+             "color": "plateInk@0.24",
+             "width": 1,
+             "dash": [
+              0.6,
+              3.4
+             ]
+            },
+            "alignSelf": "end"
+           },
+           {
+            "type": "text",
+            "text": "ล่าสุด",
+            "face": "noto",
+            "weight": 600,
+            "size": 9,
+            "color": "plateInk@0.64",
+            "maxLines": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 4
+       },
+       {
+        "type": "row",
+        "id": "issuer",
+        "gap": 6,
+        "align": "end",
+        "w": "fill",
+        "children": [
+         {
+          "type": "stack",
+          "w": 21,
+          "h": 21,
+          "children": [
+           {
+            "type": "rect",
+            "circle": true,
+            "fill": "#DA3832"
+           },
+           {
+            "type": "icon",
+            "icon": "sh:wordmark",
+            "w": 12.2,
+            "h": 12.2,
+            "tint": "white",
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "gap": 1,
+          "align": "start",
+          "shrink": 1,
+          "children": [
+           {
+            "type": "text",
+            "text": "STAR CARD NO.",
+            "face": "noto",
+            "weight": 600,
+            "size": 6,
+            "tracking": 0.9,
+            "color": "plateInk@0.51",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "id": "serial",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 700,
+            "size": 9,
+            "tracking": 0.6,
+            "color": "plateInk@0.64",
+            "maxLines": 1,
+            "shrinkTo": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 0
+         },
+         {
+          "type": "icon",
+          "id": "lockup",
+          "icon": "starLockup",
+          "w": 54,
+          "h": 20,
+          "tint": "plateInk@0.92"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "if": "surface=glass & !ink.light"
+   }
+  ]
+ }
+}

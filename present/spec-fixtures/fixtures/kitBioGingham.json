@@ -1,0 +1,1496 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        330,
+        170
+      ],
+      "boxes" : [
+        {
+          "h" : 170,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 83.29,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 47.6,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 2,
+          "size" : 12.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 9.19,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 280,
+          "x" : 25,
+          "y" : 121.31
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 142.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 47.6,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 275.08,
+          "weight" : 400,
+          "width" : 280
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        330,
+        340
+      ],
+      "boxes" : [
+        {
+          "h" : 340,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 340,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 340,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 340,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 318,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 318,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 318,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 318,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 253.29,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 47.6,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 2,
+          "size" : 12.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 179.19,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 280,
+          "x" : 25,
+          "y" : 121.31
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 312.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 47.6,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 275.08,
+          "weight" : 400,
+          "width" : 280
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        330.00000000000006,
+        330.00000000000006
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 51.58,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 34.14,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 220.42,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 25,
+          "y" : 84.58
+        },
+        {
+          "h" : 129.99,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 3,
+          "size" : 22.76,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 84.58
+        },
+        {
+          "h" : 63.93,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 280,
+          "x" : 25,
+          "y" : 226.57
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 302.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 34.13793103448276,
+            "outWeight" : 800,
+            "size" : 34.13793103448276,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.758620689655174,
+            "outWeight" : 400,
+            "size" : 22.758620689655174,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 34.13793103448276,
+          "v" : 51.58,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 22.758620689655174,
+          "v" : 43.33,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 167.21,
+          "weight" : 800,
+          "width" : 280.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 129.99,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 3,
+          "size" : 22.758620689655174,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 258.68,
+          "weight" : 400,
+          "width" : 280.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 280.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 47.6,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 275.08,
+          "weight" : 400,
+          "width" : 280.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 167.21,
+          "weight" : 800,
+          "width" : 280.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 129.99,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 3,
+          "size" : 22.758620689655174,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 258.68,
+          "weight" : 400,
+          "width" : 280.00000000000006
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.5272727272727272,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        330,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 308,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 243.29,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 47.6,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 2,
+          "size" : 12.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 61.71
+        },
+        {
+          "h" : 169.19,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 280,
+          "x" : 25,
+          "y" : 121.31
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 302.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 47.6,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 275.08,
+          "weight" : 400,
+          "width" : 280
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.1090909090909091,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        170
+      ],
+      "boxes" : [
+        {
+          "h" : 170,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 170,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 588,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 588,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 588,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 148,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 588,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 45.33,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 30,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 560,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 66.67,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 560,
+          "x" : 25,
+          "y" : 78.33
+        },
+        {
+          "h" : 38.08,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 560,
+          "x" : 25,
+          "y" : 78.33
+        },
+        {
+          "h" : 2.09,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 560,
+          "x" : 25,
+          "y" : 128.41
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 142.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30,
+            "outWeight" : 800,
+            "size" : 30,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 45.33,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 20,
+          "v" : 38.08,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 146.94,
+          "weight" : 800,
+          "width" : 560
+        },
+        {
+          "face" : "noto",
+          "h" : 38.08,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 494.16,
+          "weight" : 400,
+          "width" : 560
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 560
+        },
+        {
+          "face" : "noto",
+          "h" : 23.8,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 308.86,
+          "weight" : 400,
+          "width" : 560
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 146.94,
+          "weight" : 800,
+          "width" : 560
+        },
+        {
+          "face" : "noto",
+          "h" : 38.08,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 494.16,
+          "weight" : 400,
+          "width" : 560
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        330,
+        327.24999999999994
+      ],
+      "boxes" : [
+        {
+          "h" : 327.25,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 327.25,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 327.25,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 327.25,
+          "id" : "r\/2",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 305.25,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 305.25,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 305.25,
+          "id" : "r\/2\/0\/1",
+          "type" : "rect",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 305.25,
+          "id" : "r\/2\/2",
+          "type" : "col",
+          "w" : 308,
+          "x" : 11,
+          "y" : 11
+        },
+        {
+          "h" : 37.4,
+          "id" : "r\/2\/2\/0",
+          "lines" : 1,
+          "size" : 24.75,
+          "text" : "About Me",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 25
+        },
+        {
+          "h" : 231.85,
+          "id" : "r\/2\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 25,
+          "y" : 70.4
+        },
+        {
+          "h" : 62.82,
+          "id" : "r\/2\/2\/1\/0",
+          "lines" : 2,
+          "size" : 16.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 280,
+          "x" : 25,
+          "y" : 70.4
+        },
+        {
+          "h" : 142.53,
+          "id" : "r\/2\/2\/1\/1",
+          "type" : "spacer",
+          "w" : 280,
+          "x" : 25,
+          "y" : 145.22
+        },
+        {
+          "h" : 2.5,
+          "id" : "r\/2\/2\/1\/2",
+          "type" : "rect",
+          "w" : 40,
+          "x" : 25,
+          "y" : 299.75
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.75,
+            "outWeight" : 800,
+            "size" : 24.75,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.5,
+            "outWeight" : 400,
+            "size" : 16.5,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 800,
+            "size" : 19,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 400,
+            "size" : 12.5,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.75,
+          "v" : 37.4,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 16.5,
+          "v" : 31.41,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.26,
+          "size" : 12.5,
+          "v" : 23.8,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 37.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.75,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 121.23,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 62.82,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 16.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 258.64,
+          "weight" : 400,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 93.07,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 47.6,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 12.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 275.08,
+          "weight" : 400,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 37.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.75,
+          "t" : "About Me",
+          "tracking" : 0,
+          "w" : 121.23,
+          "weight" : 800,
+          "width" : 280
+        },
+        {
+          "face" : "noto",
+          "h" : 62.82,
+          "kerning" : 0,
+          "lineHeight" : 1.26,
+          "lines" : 2,
+          "size" : 16.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 258.64,
+          "weight" : 400,
+          "width" : 280
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.7272727272727273,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    330,
+    170
+  ],
+  "inset" : 0,
+  "kind" : "kitBioGingham",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

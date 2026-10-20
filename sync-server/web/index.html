@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star Card</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root { --bg: #0d0d10; --fg: #e9e9ee; --mut: #8a8a96; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.4 system-ui, sans-serif; }
+  header { display: flex; gap: 12px; align-items: baseline; padding: 14px 16px 8px; }
+  header b { font-size: 15px; }
+  #meta { color: var(--mut); font-size: 12px; }
+  body.offline #meta { color: #ff7a6b; }
+  #stage { padding: 8px 16px 40px; overflow-x: auto; }
+  .fit { position: relative; margin: 0 auto; }
+  .strip { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+  .page { position: absolute; top: 0; }
+  .empty { color: var(--mut); text-align: center; padding: 80px 0; }
+</style>
+</head>
+<body>
+<header><b>Star Card</b><span id="meta">กำลังโหลด…</span></header>
+<main id="stage"></main>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

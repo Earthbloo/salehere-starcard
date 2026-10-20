@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import co.salehere.starcard.components.EntranceStyle
 import co.salehere.starcard.layout.PageLayout
+import co.salehere.starcard.theme.VerifiedFacts
 import co.salehere.starcard.theme.WidgetTextStyle
 import java.util.UUID
 import kotlin.math.roundToInt
@@ -76,9 +77,12 @@ enum class WidgetFamily {
     // ลำดับนี้คือลำดับที่โผล่ในตู้ — ของหลักมาก่อน ถ้อยคำปิดท้ายทั้งสองหมวด
     // `text` อยู่ต่อจาก `intro` ไม่ใช่ท้ายสุด · `seal` ต่อจาก `hero` ทันที
     hero, seal, intro, text, followers, audience, tags, brand, verified,
-    photo, showcase, words, rate, contact,
-    /** สัดส่วนร่างกาย — สายแฟชั่น/บิวตี้/นายแบบ (พิมพ์เองทุกช่อง เว้นว่างได้) */
-    body;
+    photo, showcase, words, rate,
+    // ชุดห้าสไตล์ — สองหัวข้อที่ตู้เดิมไม่มี (ผู้ใช้ 12 ต.ค. 2569)
+    availability,
+    /** สัดส่วนร่างกาย — สายแฟชั่น/บิวตี้/นายแบบ */
+    body,
+    contact;
 
     val raw: String get() = name
     val id: String get() = raw
@@ -100,6 +104,7 @@ enum class WidgetFamily {
             audience -> "ผู้ชม"
             rate -> "เรตราคา"
             contact -> "ติดต่อ"
+            availability -> "วันเวลาและพื้นที่"
         }
 
     /**
@@ -117,7 +122,12 @@ enum class WidgetFamily {
             seal -> StarTopic.Verify
             // แบรนด์ + ผลงานยืนยัน = หลักฐานจากระบบ ปลดล็อกเมื่อทำงานผ่าน Sale Here จบแล้วอย่างน้อย 1 งาน (ผู้ใช้ 23 ก.ย. 2569)
             brand, verified -> StarTopic.Work
-            text, body, photo, showcase, contact -> null
+            // ติดต่อ · รูปผลงาน ผูกหัวข้อด้วย (ผู้ใช้ 19 ต.ค. 2569: เปิดการ์ดถามแค่ 3 ข้อ ที่เหลือล็อกจนกว่าจะกรอก) = iOS
+            // Android ยังไม่มี StarDataKey.contact (Star Profile ฝั่งนี้ยังไม่ได้ port ช่องทางติดต่อ) — ติดต่อจึงยังไม่ล็อก ต่างจาก iOS
+            photo, showcase -> StarTopic.Data(StarDataKey.media)
+            text, contact -> null
+            availability -> StarTopic.Data(StarDataKey.availability)
+            body -> StarTopic.Data(StarDataKey.body)
         }
 
     val trayGroup: TrayGroup
@@ -131,8 +141,31 @@ enum class WidgetFamily {
             seal -> TrayGroup.verify
             photo, showcase, brand, verified -> TrayGroup.work
             contact -> TrayGroup.contact
-            text, body -> TrayGroup.decor
+            text -> TrayGroup.decor
+            availability -> TrayGroup.schedule
+            body -> TrayGroup.body
         }
+
+    /** ส่วนของตู้ (เกี่ยวกับฉัน · รับงาน · ผลงาน) — ทั้งหมวดเท่ากัน */
+    val group: WidgetGroup
+        get() = when (this) {
+            hero, seal, intro, text, followers, audience, tags, body, words -> WidgetGroup.about
+            rate, availability, contact -> WidgetGroup.booking
+            brand, verified, photo, showcase -> WidgetGroup.work
+        }
+
+    /** ชั้นสิทธิ์ตั้งต้นของหมวด — ใบที่ต่างจากเพื่อนใส่ `widget.tier` ทับ */
+    val tier: WidgetTier
+        get() = when (this) {
+            followers, audience, rate -> WidgetTier.connected
+            brand, verified, seal -> WidgetTier.verified
+            else -> WidgetTier.personal
+        }
+
+    /** ใบในหมวดนี้ยังล็อกอยู่ไหม — ตรารับรองล็อกจนกว่าการยืนยันตัวตนจะผ่าน · ที่เหลือ = หัวข้อ Star Profile ยังไม่กรอก */
+    val missing: Boolean
+        get() = if (this == seal) !(VerifiedFacts.labForce || StarFlow.shared.isVerified)
+            else topic?.let { !it.filled } ?: false
 
     companion object {
         fun from(raw: String?): WidgetFamily? = entries.firstOrNull { it.raw == raw }
@@ -145,7 +178,7 @@ enum class WidgetFamily {
  * สามหมวดท้ายไม่ผูกกับ Star Profile: ผลงาน (จาก Portfolio) · ติดต่อ (จากบัญชี) · ข้อความ (ของตกแต่ง)
  */
 enum class TrayGroup {
-    profile, channels, niche, intro, rate, audience, verify, work, contact, decor;
+    profile, channels, niche, intro, body, rate, schedule, audience, verify, work, contact, decor;
 
     val raw: String get() = name
     val id: String get() = raw
@@ -157,6 +190,8 @@ enum class TrayGroup {
             niche -> "สายที่ใช่"
             intro -> "แนะนำตัว"
             rate -> "เรทรับงาน"
+            body -> "สัดส่วน"
+            schedule -> "วันเวลา·พื้นที่"
             audience -> "ข้อมูลผู้ติดตาม"
             verify -> "ยืนยันตัวตน"
             work -> "ผลงาน"
@@ -171,8 +206,11 @@ enum class TrayGroup {
             intro -> StarTopic.Data(StarDataKey.about)
             rate -> StarTopic.Data(StarDataKey.rate)
             audience -> StarTopic.Data(StarDataKey.insight)
+            body -> StarTopic.Data(StarDataKey.body)
+            schedule -> StarTopic.Data(StarDataKey.availability)
             verify -> StarTopic.Verify
-            work, contact, decor -> null
+            work -> StarTopic.Data(StarDataKey.media)
+            contact, decor -> null
         }
 
     companion object {
@@ -254,695 +292,147 @@ enum class PopSkin {
 
 // MARK: - Kind
 
-enum class WidgetKind {
-    // โปรไฟล์
-    artPortrait, artTypeOver, artPolaroid, heroMinimal, heroAura,
-    // โปรไฟล์ — ตระกูลคัตเอาต์ (ดู `CutoutWidgets`)
-    // สองตัวนี้อ่าน **ช่องอัลฟา** ของรูป รูปที่ผู้ใช้ลบพื้นหลังมาแล้วจะไม่ถูกขังในสี่เหลี่ยม
-    artNameBehind, artBreakout,
-    // โปรไฟล์ — โปสเตอร์พอร์ต: ตัวเดียวในตระกูลคัตเอาต์ที่ **เป็นแผ่นพิมพ์** ไม่ใช่เวทีมืด
-    artPortfolio,
-    // เกี่ยวกับฉัน
-    aboutText, interestTags,
-    // หลักฐาน — โลโก้แบรนด์
-    proofBrandGrid, proofBrandRail, proofBrandCoins,
-    // หลักฐาน — ผลงานยืนยัน สองหน้าตาของเรื่องเดียวกัน · **รูปคือตัวนำ** ไม่ใช่ตัวประกอบ
-    proofWork, proofTicket,
-    // หลักฐาน — ตรารับรอง (ดู `VerifiedSealWidget`) ใบเดียวที่ **เนื้อหาคือคำรับรอง**
-    proofSeal,
-    // ผู้ติดตาม
-    statGiant, socialChips, socialTiles, statWrapped,
-    // ผู้ติดตาม — โปสเตอร์แถวสถิติ (ดู `StatPosterWidget`) ใบเดียวที่ **ไม่ใช่ป้ายข้อมูล**
-    statPoster,
-    // ผลงาน
-    artFilmstrip, artDuo, artPair, workFeatured, workReel, artPhotobooth,
-    // ผลงาน — สำรับ "กองรูป" แปดสถานการณ์ (ดู `GalleryWidgets`) เรียงตามความหนาแน่นของรูป
-    galleryStack, galleryCarousel, galleryMasonry, galleryMosaic,
-    galleryPost, galleryStory, galleryFilm, galleryTape,
-    // ผลงาน — แผ่นโชว์คลิป (ดู `ShowcaseWidgets`) ตัวเดียวในตู้ที่เป็น **แผ่นพรีเซนต์ทั้งแผ่น**
-    reelShowcase,
-    // เนื้อหา
-    typeMarquee, typeQuote, nicheTags, stickerTags,
-    // สายงาน — โปสเตอร์ที่เอาแท็กไปล้อมตัวคน (ดู `NichePosterWidget`) เนื้อหาคือแท็ก ไม่ใช่ชื่อ
-    nichePoster,
-    // ข้อความล้วน — ตัวเดียวในตู้ที่ *ไม่มีเนื้อหาของตัวเอง* นอกจากที่เจ้าของการ์ดพิมพ์ลงไป
-    textBlock,
-    // เรตราคา — สเปกหมวด 5.1 · หกหน้าตาของราคาชุดเดียวกัน
-    rateTags, rateNeon,
-    // ช่องทางติดต่อ — สเปก 1.3 · สี่แบบมินิมอล · โปสเตอร์ติดต่อ (ใบเดียวในตระกูลที่ **เป็นภาพ**)
-    contactCard, contactQR,
-    contactBar, contactStack, contactLine, contactChips,
-    contactPoster,
-    // ประชากรผู้ติดตาม — สเปก 2.3
-    audienceLine, audienceSplit, audienceAge, audienceMap,
-    // ผู้ชม — โปสเตอร์อินไซต์ (ดู `InsightPosterWidget`) วาด **ทุกชุดพร้อมกัน** บนแผ่นเดียว
-    audiencePoster,
-    // สำรับ "แผ่นสติกเกอร์" — **แปดหน้าที่ × สองวัสดุ = สิบหกตัว** (ดู `PopWidgets`)
-    // วัสดุเป็นของ *ชนิด* (ดู `popSkin`) ไม่ใช่ของธีม — ตู้จึงหยิบทั้งสองวัสดุได้โดยไม่ต้องสลับธีม
-    popHeroPaper, popHeroGlass,
-    popVideoPaper, popVideoGlass,
-    popStatsGlass,
-    popWorkPaper, popWorkGlass,
-    popRatePaper, popRateGlass,
-    popNichePaper, popNicheGlass,
-    popBodyPaper, popBodyGlass,
-    popContactPaper, popContactGlass,
-    // สำรับบรรณาธิการ — แปลงตรงจากแผ่นตัวอย่างแปดใบ (ดู `EditorialWidgets`)
-    // ทั้งสำรับมี **ตัวอักษรเป็นผัง** ข้อความของมันจึงเก็บต่อชิ้น (`ProfileField.note` + `index`)
-    wallPolaroid, wallMemory, zineCover,
-    aboutEditorial, aboutBehind,
-    sayClarity, sayPitch, flowCards;
-
+/**
+ * ชนิดของ widget = ชื่อไฟล์ผัง `shared/WidgetSpecs/<kind>.json` (= `struct WidgetKind` ของ iOS)
+ *
+ * **แอปไม่รู้จักชื่อ widget สักตัว** — ทุกนิสัย (ชื่อในตู้ · ไอคอน · ขนาด · พื้นผิว · ถาด · ป้าย · ท่าเข้า)
+ * อ่านจากบล็อก `widget` ของไฟล์ผัง · ค่าที่ไม่ใส่ใช้ค่าของหมวด (`WidgetFamily`) หรือกติกากลางข้างล่าง
+ * เพิ่มไฟล์ใหม่ = ขึ้นตู้ทันที · ลบไฟล์ = หายจากตู้เฉย ๆ
+ *
+ * ข้อยกเว้นเดียวคือ **ชั้นข้อความ** (`textLayer`) — ตัวอักษรที่พิมพ์ลงการ์ดแบบ IG ไม่ใช่ widget จึงไม่มีไฟล์ผัง
+ * คีย์ในไฟล์การ์ดยังเป็น `textBlock` ตามเดิม การ์ดเก่าจึงเปิดได้
+ */
+class WidgetKind private constructor(
+    /** คีย์ที่บันทึกลงการ์ด = ชื่อไฟล์ผัง */
+    val name: String,
+) {
     val raw: String get() = name
-    val id: String get() = raw
+    val id: String get() = name
 
-    /**
-     * หน้าที่ของกล่องในสำรับสติกเกอร์ — "กล่องนี้เล่าเรื่องอะไร" (วัสดุอยู่ที่ `popSkin`)
-     * ชื่อ ไอคอน และขนาด เป็นของหน้าที่ ไม่ใช่ของวัสดุ — ฝาแฝดสองใบจึงต่างกันแค่คำต่อท้ายชื่อ
-     */
-    enum class PopRole {
-        hero, video, stats, work, rate, niche, body, contact;
+    val isTextLayer: Boolean get() = name == TEXT_LAYER_KEY
 
-        val title: String
-            get() = when (this) {
-                hero -> "ป้ายชื่อ"
-                video -> "หน้าต่างวิดีโอ"
-                stats -> "ผู้ติดตามสามช่อง"
-                work -> "ผลงานสามใบ"
-                rate -> "ใบเรตราคา"
-                niche -> "สายงานแบบลิสต์"
-                body -> "สัดส่วน"
-                contact -> "ช่องทางติดต่อสามแถว"
-            }
+    /** นิสัยของชนิดนี้ — บล็อก `widget` ของไฟล์ผัง (ชั้นข้อความใช้ `TEXT_LAYER`) */
+    val meta: WidgetSpec.Widget
+        get() = if (isTextLayer) TEXT_LAYER else SpecCatalog.widgetMeta(name) ?: WidgetSpec.Widget(title = name)
 
-        val symbol: String
-            get() = when (this) {
-                hero -> "person.crop.square.fill"
-                video -> "play.rectangle.fill"
-                stats -> "flag.fill"
-                work -> "rosette"
-                rate -> "tag.fill"
-                niche -> "list.bullet.clipboard.fill"
-                body -> "figure.stand"
-                contact -> "person.fill"
-            }
+    override fun equals(other: Any?): Boolean = other is WidgetKind && other.name == name
+    override fun hashCode(): Int = name.hashCode()
+    override fun toString(): String = name
 
-        /** ผังในเทมเพลต `storyPop*` (แปลงจาก 810×1080 → กว้าง 504) */
-        val defaultSize: Size
-            get() = when (this) {
-                hero -> Size(277f, 250f)
-                video -> Size(215f, 202f)
-                stats -> Size(504f, 172f)
-                work -> Size(350f, 172f)
-                rate -> Size(142f, 182f)
-                niche -> Size(160f, 214f)
-                body, contact -> Size(160f, 214f)
-            }
-    }
+    val title: String get() = meta.title
+    val symbol: String get() = meta.symbol ?: "square.fill"
 
-    /** หน้าที่ + วัสดุ ในสวิตช์เดียว — ที่เหลือทั้งไฟล์อ่านต่อจากตรงนี้ จึงไม่มี switch ไหนต้องไล่สิบหกตัวอีก */
-    private val popParts: Pair<PopRole, PopSkin>?
-        get() = when (this) {
-            popHeroPaper -> PopRole.hero to PopSkin.paper
-            popHeroGlass -> PopRole.hero to PopSkin.glass
-            popVideoPaper -> PopRole.video to PopSkin.paper
-            popVideoGlass -> PopRole.video to PopSkin.glass
-            popStatsGlass -> PopRole.stats to PopSkin.glass
-            popWorkPaper -> PopRole.work to PopSkin.paper
-            popWorkGlass -> PopRole.work to PopSkin.glass
-            popRatePaper -> PopRole.rate to PopSkin.paper
-            popRateGlass -> PopRole.rate to PopSkin.glass
-            popNichePaper -> PopRole.niche to PopSkin.paper
-            popNicheGlass -> PopRole.niche to PopSkin.glass
-            popBodyPaper -> PopRole.body to PopSkin.paper
-            popBodyGlass -> PopRole.body to PopSkin.glass
-            popContactPaper -> PopRole.contact to PopSkin.paper
-            popContactGlass -> PopRole.contact to PopSkin.glass
-            else -> null
-        }
-
-    val popRole: PopRole? get() = popParts?.first
-    /** วัสดุของแผ่น — `null` แปลว่าไม่ใช่สำรับสติกเกอร์ */
-    val popSkin: PopSkin? get() = popParts?.second
-
-    /** สำรับแผ่นสติกเกอร์ — เช็คทีเดียวแทนไล่ทั้งสำรับทุก switch */
-    val isPop: Boolean get() = popParts != null
-
-    /** ฝาแฝดอีกวัสดุหนึ่งของกล่องเดียวกัน — ใช้ตอนสลับวัสดุทั้งการ์ด */
-    val popTwin: WidgetKind?
-        get() {
-            val p = popParts ?: return null
-            val other = if (p.second == PopSkin.paper) PopSkin.glass else PopSkin.paper
-            return WidgetKind.entries.firstOrNull { it.popRole == p.first && it.popSkin == other }
-        }
-
-    /**
-     * หมวดใน gallery
-     * ตัวเลขผู้ติดตามอยู่ "เกี่ยวกับฉัน" เพราะมันคือขนาดของตัวเรา ไม่ใช่งานที่เคยทำ
-     * ส่วนแถบวิ่งโชว์ชื่อแบรนด์ที่ร่วมงาน จึงเป็นผลงาน ไม่ใช่ของตกแต่ง
-     */
-    val group: WidgetGroup
-        get() = when (this) {
-            artPortrait, artTypeOver, artPolaroid, heroMinimal, heroAura,
-            artNameBehind, artBreakout, artPortfolio,
-            aboutText, statGiant, socialChips, socialTiles, statWrapped, statPoster,
-            nicheTags, stickerTags, interestTags, nichePoster, typeQuote, textBlock,
-            // ประชากรผู้ติดตามคือ "หน้าตาของคนที่ตามเรา" จึงอยู่หมวดเดียวกับยอดฟอลโลว์
-            audienceLine, audienceSplit, audienceAge, audienceMap, audiencePoster,
-            // ตรารับรองตอบคำถาม "เชื่อคนนี้ได้แค่ไหน" — เรื่องของตัวคน ไม่ใช่ของงานชิ้นใด
-            proofSeal,
-            // สำรับสติกเกอร์ — สองวัสดุอยู่หมวดเดียวกันเสมอ (หมวดมาจากหน้าที่ ไม่ใช่วัสดุ)
-            popHeroPaper, popHeroGlass, popStatsGlass,
-            popNichePaper, popNicheGlass, popBodyPaper, popBodyGlass,
-            // สำรับบรรณาธิการ — หน้าแนะนำตัว · ประโยคเดี่ยว · การ์ดขั้นตอน คือ "ฉันเป็นใคร"
-            aboutEditorial, aboutBehind, sayClarity, sayPitch, flowCards ->
-                WidgetGroup.about
-            // ทุกอย่างที่ตอบคำถาม "จ้างยังไง เท่าไหร่ ติดต่อใคร"
-            rateTags, rateNeon,
-            contactCard, contactQR,
-            contactBar, contactStack, contactLine, contactChips, contactPoster,
-            popRatePaper, popRateGlass, popContactPaper, popContactGlass ->
-                WidgetGroup.booking
-            proofBrandGrid, proofBrandRail, proofBrandCoins,
-            proofWork, proofTicket, typeMarquee,
-            artFilmstrip, artDuo, artPair, workFeatured, workReel, artPhotobooth,
-            galleryStack, galleryCarousel, galleryMasonry, galleryMosaic,
-            galleryPost, galleryStory, galleryFilm, galleryTape, reelShowcase,
-            popVideoPaper, popVideoGlass, popWorkPaper, popWorkGlass,
-            // กองรูปแบบบรรณาธิการ — ทั้งสามใบมีรูปเป็นเนื้อหาหลัก
-            wallPolaroid, wallMemory, zineCover ->
-                WidgetGroup.work
-        }
-
-    /** ตระกูล — ใช้หา "แบบอื่น" ที่สลับกันแล้วยังเล่าเรื่องเดิม */
-    val family: WidgetFamily
-        get() = when (this) {
-            // ฝาแฝดสองวัสดุอยู่ตระกูลเดียวกัน — ปุ่ม "เปลี่ยนแบบ" จึงสลับกระดาษ↔กระจกได้ในตัว
-            artPortrait, artTypeOver, artPolaroid, heroMinimal, heroAura,
-            // อยู่ตระกูลเดียวกับหน้าโปรไฟล์ที่เหลือ — กด "เปลี่ยนแบบ" จากปกนิตยสารแล้วเจอได้
-            artNameBehind, artBreakout, artPortfolio,
-            popHeroPaper, popHeroGlass -> WidgetFamily.hero
-            aboutText, aboutEditorial, aboutBehind -> WidgetFamily.intro
-            popStatsGlass -> WidgetFamily.followers
-            popVideoPaper, popVideoGlass, popWorkPaper, popWorkGlass -> WidgetFamily.photo
-            popRatePaper, popRateGlass -> WidgetFamily.rate
-            popNichePaper, popNicheGlass -> WidgetFamily.tags
-            popContactPaper, popContactGlass -> WidgetFamily.contact
-            popBodyPaper, popBodyGlass -> WidgetFamily.body
-            proofBrandGrid, proofBrandRail, proofBrandCoins, typeMarquee -> WidgetFamily.brand
-            // กำแพงโพลารอยด์อ่าน `track.works` เหมือนอีกห้าใบแล้ว — หนึ่งใบคือผลงานหนึ่งชิ้น
-            proofWork, proofTicket,
-            wallPolaroid -> WidgetFamily.verified
-            // ตระกูลของตัวเอง — ไม่มีใบไหนเล่าเรื่องเดียวกันให้สลับได้
-            proofSeal -> WidgetFamily.seal
-            statGiant, socialChips, socialTiles, statWrapped, statPoster -> WidgetFamily.followers
-            artFilmstrip, artDuo, artPair, workFeatured, workReel, artPhotobooth,
-            galleryStack, galleryCarousel, galleryMasonry, galleryMosaic,
-            galleryPost, galleryStory, galleryFilm, galleryTape,
-            wallMemory, zineCover -> WidgetFamily.photo
-            // ตระกูลของตัวเอง — ใบเดียวในตู้ที่ถือทั้งหัวเรื่อง รูปสี่ใบ และคำบรรยายรายชิ้น
-            reelShowcase -> WidgetFamily.showcase
-            typeQuote, sayClarity, sayPitch -> WidgetFamily.words
-            textBlock, flowCards -> WidgetFamily.text
-            // สายงาน (พิมพ์เอง) กับ หมวดหมู่ (ของแพลตฟอร์ม) สลับกันได้ — เล่าเรื่องเดียวกัน
-            nicheTags, stickerTags, interestTags, nichePoster -> WidgetFamily.tags
-            rateTags, rateNeon -> WidgetFamily.rate
-            contactCard, contactQR,
-            contactBar, contactStack, contactLine, contactChips,
-            contactPoster -> WidgetFamily.contact
-            audienceLine, audienceSplit, audienceAge, audienceMap, audiencePoster -> WidgetFamily.audience
-        }
-
-    /** ชั้นสิทธิ์ — ผูกกับที่มาของข้อมูล ไม่ใช่หมวดใน gallery */
-    val tier: WidgetTier
-        get() {
-            val role = popRole
-            if (role != null) return if (role == PopRole.stats || role == PopRole.rate) WidgetTier.connected else WidgetTier.personal
-            return when (this) {
-                proofBrandGrid, proofBrandRail, proofBrandCoins,
-                proofWork, proofTicket, proofSeal,
-                wallPolaroid -> WidgetTier.verified          // แพลตฟอร์มออกให้จากงานที่ส่งจริง
-                statGiant, socialChips, socialTiles, statWrapped, statPoster,
-                interestTags,
-                // สถิติผู้ชมมาจาก OAuth · เรตมีราคาที่ระบบแนะนำกำกับ
-                audienceLine, audienceSplit, audienceAge, audienceMap, audiencePoster,
-                rateTags, rateNeon -> WidgetTier.connected  // ยอด OAuth · ราคาที่ระบบแนะนำ · ตั้งค่าจากโปรไฟล์
-                else -> WidgetTier.personal
-            }
-        }
-
-    /**
-     * widget ที่ **มีพื้นผิวของตัวเองอยู่แล้ว** — chrome จึงไม่ครอบแผ่นซ้ำ
-     * กติกาของการ์ดคือ *ทุกชิ้นต้องมีพื้น* — ที่นี่ตอบแค่ว่า **ใครเป็นคนวาดพื้นนั้น**
-     * ก้อนข้อความอยู่ในลิสต์นี้ด้วย — มันคือตัวอักษรที่พิมพ์ลงบนการ์ดแบบ IG ไม่ใช่กล่อง
-     */
-    val drawsOwnSurface: Boolean
-        get() {
-            // แผ่นสติกเกอร์ — กล่องขาวกับป้ายหัวข้อคือพื้นผิวของมันเอง (แต่ยังอ่านพื้นผิวที่เลือกไปใช้)
-            if (isPop) return true
-            return when (this) {
-                // รูปเต็มกรอบ/วัสดุรูป — ตัวรูปคือพื้นอยู่แล้ว
-                artPortrait, artTypeOver, artPolaroid, artFilmstrip, artDuo, artPair,
-                // ตระกูลคัตเอาต์ — พื้นของมันคือฉากที่ตัวคนยืนอยู่ · โปสเตอร์พอร์ตวาดกระดาษของตัวเอง
-                artNameBehind, artBreakout, artPortfolio,
-                // โปสเตอร์สายงาน / ผู้ติดตาม / อินไซต์ / ตรารับรอง — แผ่นเข้มคือดีไซน์ และถอดออกได้
-                nichePoster,
-                statPoster,
-                audiencePoster,
-                proofSeal,
-                typeQuote, statGiant,
-                // ข้อความล้วน — ตัวมันเองคือตัวอักษร ครอบกระจกแล้วกลายเป็นป้ายแทนที่จะเป็นข้อความ
-                textBlock,
-                // ตั๋วผลงานวาดพื้นผิวของตัวเอง (กระดาษตั๋ว)
-                proofTicket,
-                // สำรับ Gen Z — วัสดุของแต่ละตัวคือพื้นผิวของมันเอง
-                heroAura, statWrapped, artPhotobooth, stickerTags,
-                // บัตรกระดาษที่วาดพื้นผิวของตัวเอง
-                contactQR,
-                // โปสเตอร์ติดต่อ — แผ่นไล่เฉดของมันคือดีไซน์
-                contactPoster,
-                // ป้ายราคาเป็นกระดาษแข็งที่มีเงาของตัวเอง · ป้ายไฟวาดแผ่นมืดของตัวเอง
-                rateTags,
-                rateNeon,
-                // สำรับกองรูป — ยกเว้น `โพสต์` กับ `สตอรี่` ที่เป็น *กรอบของแพลตฟอร์ม* กระจกคือกรอบนั้น
-                galleryStack, galleryCarousel, galleryMasonry, galleryMosaic,
-                galleryFilm, galleryTape,
-                // สำรับบรรณาธิการ — ทุกใบเป็น *แผ่นกระดาษของตัวเอง*
-                wallPolaroid, wallMemory, zineCover, aboutEditorial, aboutBehind,
-                sayClarity, sayPitch, flowCards,
-                // แผ่นโชว์คลิป — แผ่นสีเข้มของมันคือตัวงาน ไม่ใช่กรอบที่ chrome วาดให้
-                reelShowcase -> true
-                // ตัวหนังสือ · ชิป · แถบโลโก้ ที่เคยลอยบนการ์ดเปล่า — ตอนนี้ได้แผ่นจาก chrome เหมือนแผ่นข้อมูล
-                else -> false
-            }
-        }
-
-    /**
-     * ชิ้นที่ให้ผู้ใช้เลือกพื้นผิวได้
-     * ตัวที่มีตัวเลือกให้เลือกมากกว่าหนึ่งแบบจึงได้แถวนี้ทั้งหมด (ดู `surfaceOptions`)
-     */
-    val usesSurfaceChoice: Boolean get() = surfaceOptions.size > 1
-    /** ใบที่มีแผ่นทึบของตัวเอง (สำรับโปสเตอร์ · บรรณาธิการ · โชว์คลิป) — ใส่ลายทางบนแผ่นได้ */
-    val takesPattern: Boolean get() = surfaceOptions.contains(WidgetSurface.pane)
-    /**
-     * โปสเตอร์ที่คน **ยืนบนการ์ด** — รูปทึบถูกลบพื้นหลังให้อัตโนมัติ
-     * ปิดได้รายชิ้นในถาด (`WidgetInstance.liftPhoto`) สำหรับคนที่อยากได้รูปในกรอบ
-     */
-    val liftsSubject: Boolean get() = this == artPortfolio || this == nichePoster || this == contactPoster
-    /**
-     * ใบที่รับ **ตราปั๊มนูน Sale Here STAR** บนแผ่นของตัวเองได้ — ปิดได้รายชิ้นในถาด (`WidgetInstance.emboss`)
-     * เลือกเฉพาะใบที่มี *วัสดุทึบ* ให้ปั๊ม (แผ่นโปสเตอร์ · บล็อกสี)
-     */
-    val takesEmboss: Boolean
-        get() = this == artPortfolio || this == statPoster || this == statWrapped
-
-    /**
-     * widget ที่อ่าน `WidgetInstance.textStyle` — แผงของมันจะมีเรื่องฟอนต์/สี/ขนาด/จัดวางเพิ่ม
-     * เปิดเฉพาะตัวที่ **ทั้งใบเป็นตัวอักษรที่ผู้ใช้พิมพ์เอง** เท่านั้น
-     */
-    val usesTextStyle: Boolean get() = this == textBlock
-
-    /** widget ที่แสดงรูปครีเอเตอร์หรือรูปผลงาน — เปิดให้อัปโหลดรูปของตัวเองทับรูปตั้งต้นได้ */
-    val usesPhoto: Boolean
-        get() {
-            val role = popRole
-            if (role != null) return role == PopRole.hero || role == PopRole.video || role == PopRole.work
-            return when (this) {
-                artPortrait, artTypeOver, artPolaroid, statGiant, typeQuote,
-                artNameBehind, artBreakout, artPortfolio, nichePoster, contactPoster,
-                audiencePoster,
-                artFilmstrip, artDuo, artPair, workFeatured, workReel, proofWork,
-                heroAura, artPhotobooth,
-                // ชั้นหลักฐานตอนนี้ใช้รูปทุกตัว — ตัวที่ไม่ใช้ถูกถอดออกไปแล้ว
-                proofTicket,
-                // สำรับกองรูปใช้รูปทั้งแปดตัว — มันคือทั้งหมดที่ตระกูลนี้มี
-                galleryStack, galleryCarousel, galleryMasonry, galleryMosaic,
-                galleryPost, galleryStory, galleryFilm, galleryTape,
-                // สำรับบรรณาธิการที่มีช่องรูป — สามใบกองรูป และสองหน้าแนะนำตัว
-                wallPolaroid, wallMemory, zineCover, aboutEditorial, aboutBehind,
-                // แผ่นโชว์คลิป — สี่ช่องในเครื่องคือรูปปกคลิปของเจ้าของการ์ด
-                reelShowcase -> true
-                else -> false
-            }
-        }
-
-    /** widget ที่มีรูปเป็นแกนหลัก — ต้องเว้น padding เป็นศูนย์เพื่อให้รูปชนขอบ */
-    val isFullBleed: Boolean
-        get() = when (this) {
-            // สตอรี่คือเฟรมเต็มจอของแพลตฟอร์ม — เว้นขอบเมื่อไหร่มันเลิกเป็นสตอรี่ทันที
-            workFeatured, workReel, galleryStory -> true
-            else -> false
-        }
-
-    val title: String
-        get() = when (this) {
-            artPortrait -> "ปกนิตยสาร"
-            artTypeOver -> "ตัวอักษรทับภาพ"
-            artPolaroid -> "โพลารอยด์"
-            artNameBehind -> "ชื่ออยู่หลังคน"
-            artBreakout -> "ทะลุกรอบ"
-            artPortfolio -> "โปสเตอร์พอร์ต"
-            heroMinimal -> "ชื่อมินิมอล"
-            heroAura -> "ออร่า"
-            aboutText -> "แนะนำตัว"
-            interestTags -> "หมวดหมู่ที่สนใจ"
-            proofBrandGrid -> "แผงโลโก้ครบ"
-            proofBrandRail -> "โลโก้เลื่อน"
-            proofBrandCoins -> "เหรียญโลโก้"
-            proofWork -> "ผลงานที่ยืนยันแล้ว"
-            proofTicket -> "ตั๋วผลงาน"
-            proofSeal -> "ตรารับรอง Sale Here"
-            statGiant -> "ตัวเลขยักษ์"
-            socialChips -> "ผู้ติดตามแบบแถว"
-            socialTiles -> "ผู้ติดตามแบบชิป"
-            statWrapped -> "การ์ดสรุปยอด"
-            statPoster -> "โปสเตอร์ผู้ติดตาม"
-            artPhotobooth -> "ตู้ถ่ายรูป"
-            stickerTags -> "สติกเกอร์สายงาน"
-            artFilmstrip -> "แถบภาพ"
-            artDuo -> "เบนโตะ"
-            artPair -> "คู่แนวตั้ง"
-            workFeatured -> "ผลงานชิ้นเด่น"
-            workReel -> "คลิปแนวตั้ง"
-            galleryStack -> "กองรูปซ้อน"
-            galleryCarousel -> "สไลด์การ์ด"
-            galleryMasonry -> "บอร์ดพิน"
-            galleryMosaic -> "โมเสก"
-            galleryPost -> "โพสต์โซเชียล"
-            galleryStory -> "สตอรี่"
-            galleryFilm -> "ฟิล์ม 35 มม."
-            galleryTape -> "เทปกาว"
-            reelShowcase -> "คลิปล่าสุด"
-            typeMarquee -> "แถบวิ่ง"
-            typeQuote -> "คำพูดตัวใหญ่"
-            textBlock -> "ข้อความ"
-            wallPolaroid -> "กำแพงโพลารอยด์"
-            wallMemory -> "บอร์ดรูปติดหมุด"
-            zineCover -> "ปกผลงาน"
-            aboutEditorial -> "หน้าแนะนำตัว"
-            aboutBehind -> "ชื่อหลังภาพ"
-            sayClarity -> "ประโยคไฮไลต์"
-            sayPitch -> "ประโยคขายงาน"
-            flowCards -> "การ์ดขั้นตอน"
-            nicheTags -> "สายงาน"
-            nichePoster -> "โปสเตอร์สายงาน"
-            rateTags -> "ป้ายราคา"
-            rateNeon -> "ป้ายไฟ"
-            contactCard -> "นามบัตร"
-            contactQR -> "คิวอาร์การ์ด"
-            contactBar -> "แถบติดต่อ"
-            contactStack -> "สามบรรทัด"
-            contactLine -> "ไลน์ตัวใหญ่"
-            contactChips -> "ชิปช่องทาง"
-            contactPoster -> "โปสเตอร์ติดต่อ"
-            audienceLine -> "ประโยคเดียว"
-            audienceSplit -> "สัดส่วนผู้ชม"
-            audienceAge -> "ช่วงอายุผู้ชม"
-            audienceMap -> "ผู้ชมในประเทศ"
-            audiencePoster -> "โปสเตอร์อินไซต์"
-            // สำรับสติกเกอร์ — ชื่อ = หน้าที่ + วัสดุ · สองใบในตู้ต้องแยกกันด้วยชื่อ ไม่ใช่ด้วยรูปอย่างเดียว
-            popHeroPaper, popHeroGlass, popVideoPaper, popVideoGlass,
-            popStatsGlass, popWorkPaper, popWorkGlass,
-            popRatePaper, popRateGlass, popNichePaper, popNicheGlass,
-            popBodyPaper, popBodyGlass, popContactPaper, popContactGlass -> {
-                val p = popParts
-                if (p == null) "" else p.first.title + " " + p.second.label
-            }
-        }
-
-    val symbol: String
-        get() = when (this) {
-            artPortrait -> "person.crop.rectangle.stack.fill"
-            artTypeOver -> "textformat.alt"
-            artPolaroid -> "photo.artframe"
-            artNameBehind -> "person.and.background.dotted"
-            artBreakout -> "person.crop.rectangle.badge.plus"
-            artPortfolio -> "person.and.background.striped.horizontal"
-            heroMinimal -> "textformat"
-            heroAura -> "sparkles"
-            aboutText -> "text.alignleft"
-            interestTags -> "heart.text.square.fill"
-            proofBrandGrid -> "square.grid.3x3.fill"
-            proofBrandRail -> "arrow.left.arrow.right"
-            proofBrandCoins -> "circle.grid.2x1.fill"
-            proofWork -> "checkmark.seal.fill"
-            proofTicket -> "ticket.fill"
-            proofSeal -> "checkmark.seal.fill"
-            statGiant -> "number.circle.fill"
-            socialChips -> "list.bullet.rectangle.fill"
-            socialTiles -> "circle.grid.3x1.fill"
-            statWrapped -> "list.number"
-            statPoster -> "number.square.fill"
-            artPhotobooth -> "camera.fill"
-            stickerTags -> "seal.fill"
-            artFilmstrip -> "rectangle.split.3x1.fill"
-            artDuo -> "square.grid.2x2.fill"
-            artPair -> "rectangle.split.2x1.fill"
-            workFeatured -> "rectangle.grid.1x2.fill"
-            workReel -> "play.rectangle.fill"
-            galleryStack -> "square.stack.fill"
-            galleryCarousel -> "square.on.square"
-            galleryMasonry -> "rectangle.split.2x2.fill"
-            galleryMosaic -> "circle.grid.3x3.fill"
-            galleryPost -> "text.below.photo.fill"
-            galleryStory -> "camera.viewfinder"
-            galleryFilm -> "film.fill"
-            galleryTape -> "paperclip"
-            reelShowcase -> "iphone"
-            typeMarquee -> "text.line.first.and.arrowtriangle.forward"
-            typeQuote -> "quote.bubble.fill"
-            textBlock -> "textformat.size"
-            wallPolaroid -> "photo.stack"
-            wallMemory -> "pin.fill"
-            zineCover -> "magazine.fill"
-            aboutEditorial -> "text.word.spacing"
-            aboutBehind -> "person.and.background.dotted"
-            sayClarity -> "highlighter"
-            sayPitch -> "text.badge.star"
-            flowCards -> "rectangle.3.group.fill"
-            nicheTags -> "tag"
-            nichePoster -> "tags.fill"
-            rateTags -> "tag.fill"
-            rateNeon -> "lightbulb.fill"
-            contactCard -> "person.text.rectangle.fill"
-            contactQR -> "qrcode"
-            contactBar -> "text.append"
-            contactStack -> "list.bullet"
-            contactLine -> "bubble.left.fill"
-            contactChips -> "capsule.portrait.fill"
-            contactPoster -> "person.crop.rectangle.fill"
-            audienceLine -> "text.alignleft"
-            audienceSplit -> "person.2.fill"
-            audienceAge -> "chart.bar.fill"
-            audienceMap -> "mappin.and.ellipse"
-            audiencePoster -> "chart.pie.fill"
-            // สำรับสติกเกอร์ — ค่ามาจากหน้าที่ (ดู `PopRole`)
-            popHeroPaper, popHeroGlass, popVideoPaper, popVideoGlass,
-            popStatsGlass, popWorkPaper, popWorkGlass,
-            popRatePaper, popRateGlass, popNichePaper, popNicheGlass,
-            popBodyPaper, popBodyGlass, popContactPaper, popContactGlass ->
-                popRole?.symbol ?: "square.fill"
-        }
-
-    /**
-     * ขนาดตั้งต้นตอนหยิบออกจากตู้ — **หน่วย pt บนพื้นที่ออกแบบ** (ดู `PageLayout`)
-     * เป็นค่าที่ "พอดีสวย" ไม่ใช่ค่าที่ "เล็กสุดที่ยังได้"
-     * 492 = ความกว้างหน้าเต็ม (540 − ขอบ 24 สองข้าง) จึงยังเป็นตัวที่กินเต็มหน้าอยู่
-     */
+    /** ขนาดตั้งต้น — `widget.size` ไม่ใส่ = ขนาดออกแบบของผัง */
     val defaultSize: Size
-        get() = when (this) {
-            artPortrait -> Size(366f, 420f)
-            artTypeOver -> Size(366f, 367f)
-            artPolaroid -> Size(179f, 206f)
-            // สูงกว่าตระกูลเดียวกัน — ตัวคนเต็มตัวต้องมีที่ยืน กรอบเตี้ยได้แค่ครึ่งตัวลอย
-            artNameBehind -> Size(366f, 472f)
-            artBreakout -> Size(366f, 472f)
-            // โปสเตอร์เต็มแผ่น — คำยักษ์กินความกว้างทั้งใบ คนต้องมีที่ยืนเต็มตัวใต้คำนั้น
-            artPortfolio -> Size(366f, 488f)
-            heroMinimal -> Size(366f, 135f)
-            heroAura -> Size(366f, 384f)
-            aboutText -> Size(366f, 135f)
-            interestTags -> Size(366f, 117f)
-            proofBrandGrid -> Size(366f, 206f)
-            proofBrandRail -> Size(366f, 81f)
-            proofBrandCoins -> Size(366f, 94f)
-            proofWork -> Size(366f, 295f)
-            proofTicket -> Size(366f, 260f)
-            // โปสเตอร์เต็มแผ่นแนวนอน — ผังของมัน (ดู `VS` ใน `VerifiedSealWidget`)
-            proofSeal -> Size(366f, 232f)
-            statGiant -> Size(366f, 206f)
-            socialChips -> Size(366f, 224f)
-            socialTiles -> Size(366f, 117f)
-            statWrapped -> Size(366f, 260f)
-            // โปสเตอร์เต็มแผ่นแนวนอน — ผังของมัน (ดู `SP` ใน `StatPosterWidget`)
-            statPoster -> Size(366f, 214f)
-            artPhotobooth -> Size(366f, 188f)
-            stickerTags -> Size(366f, 135f)
-            artFilmstrip -> Size(366f, 99f)
-            artDuo -> Size(366f, 260f)
-            artPair -> Size(366f, 188f)
-            workFeatured -> Size(366f, 260f)
-            workReel -> Size(117f, 313f)
-            galleryStack -> Size(366f, 224f)
-            galleryCarousel -> Size(366f, 206f)
-            galleryMasonry -> Size(366f, 242f)
-            galleryMosaic -> Size(366f, 313f)
-            galleryPost -> Size(366f, 313f)
-            galleryStory -> Size(179f, 295f)
-            galleryFilm -> Size(366f, 117f)
-            galleryTape -> Size(366f, 206f)
-            // แผ่นโชว์คลิป — ผังถูกออกแบบที่ขนาดนี้เป๊ะ (ดู `Reel` ใน `ShowcaseWidgets`)
-            reelShowcase -> Size(366f, 254f)
-            typeMarquee -> Size(366f, 46f)
-            typeQuote -> Size(366f, 206f)
-            textBlock -> Size(366f, 117f)
-            // สำรับบรรณาธิการ — ทุกใบเต็มความกว้างหน้า เพราะผังของมันเป็น *หน้า* ไม่ใช่ป้าย
-            wallPolaroid -> Size(366f, 470f)
-            wallMemory -> Size(366f, 366f)
-            zineCover -> Size(366f, 430f)
-            aboutEditorial -> Size(366f, 340f)
-            aboutBehind -> Size(366f, 330f)
-            sayClarity -> Size(366f, 200f)
-            sayPitch -> Size(366f, 172f)
-            flowCards -> Size(366f, 300f)
-            nicheTags -> Size(366f, 81f)
-            // โปสเตอร์เต็มแผ่นแนวนอน — สัดส่วนของต้นฉบับ (ดู `NP` ใน `NichePosterWidget`)
-            nichePoster -> Size(366f, 221f)
-            rateTags -> Size(366f, 117f)
-            rateNeon -> Size(366f, 224f)
-            contactCard -> Size(366f, 135f)
-            contactQR -> Size(179f, 224f)
-            contactBar -> Size(366f, 64f)
-            contactStack -> Size(366f, 153f)
-            contactLine -> Size(366f, 117f)
-            contactChips -> Size(366f, 117f)
-            // โปสเตอร์เต็มแผ่น — คนต้องมีที่ยืนเต็มตัวข้างคอลัมน์ช่องทาง (ดู `CP`)
-            contactPoster -> Size(366f, 270f)
-            audienceLine -> Size(366f, 153f)
-            audienceSplit -> Size(366f, 135f)
-            audienceAge -> Size(366f, 171f)
-            audienceMap -> Size(366f, 188f)
-            // แผ่นอินไซต์ตั้งตรง — ผังของมัน (ดู `IP` ใน `InsightPosterWidget`)
-            audiencePoster -> Size(366f, 520f)
-            // สำรับสติกเกอร์ — สองวัสดุใช้ผังเดียวกันเป๊ะ ขนาดจึงขึ้นกับหน้าที่อย่างเดียว
-            popHeroPaper, popHeroGlass, popVideoPaper, popVideoGlass,
-            popStatsGlass, popWorkPaper, popWorkGlass,
-            popRatePaper, popRateGlass, popNichePaper, popNicheGlass,
-            popBodyPaper, popBodyGlass, popContactPaper, popContactGlass ->
-                popRole?.defaultSize ?: Size(366f, 224f)
+        get() {
+            val s = meta.size ?: SpecCatalog.spec(named = name)?.design ?: return Size(366f, 224f)
+            return Size(s.w.toFloat(), s.h.toFloat())
         }
 
-    /**
-     * **สัดส่วนที่ผังถูกออกแบบไว้** — ไม่ใช่กรงที่ขังกรอบ แต่เป็นจุดอ้างอิงของการสเกล
-     * กรอบยืดได้ทั้งสองแกนตามใจ แล้ว **การโชว์เป็นฝ่ายรับมือ** (ดู `WidgetChrome`)
-     */
     val aspect: Float
         get() {
             val s = defaultSize
             return s.height / maxOf(s.width, 1f)
         }
 
-    /**
-     * ความสูงที่คู่กับความกว้างนี้ตามสัดส่วนที่ออกแบบไว้ — ใช้ตอนลากหมุดมุม (สเกลทั้งชิ้น)
-     * และเป็นความสูงตั้งต้นของผังในเทมเพลตที่ระบุมาแค่ความกว้าง
-     */
     fun height(forWidth: Float): Float = maxOf(1f, (forWidth * aspect).roundToInt().toFloat())
-
-    /** ขนาดเต็มที่ความกว้างนี้ */
     fun size(forWidth: Float): Size = Size(forWidth, height(forWidth))
 
-    /** ปรับขนาดได้ไหม — ก้อนข้อความปรับผ่านขนาดตัวอักษรแทน จึงไม่มีหมุดย่อขยายกล่อง */
-    val canResize: Boolean get() = this != textBlock
+    /** หมวด — `widget.category` */
+    val family: WidgetFamily get() = WidgetFamily.from(meta.category) ?: WidgetFamily.text
+    /** ส่วนของตู้ — ค่าของหมวด */
+    val group: WidgetGroup get() = family.group
+    /** ชั้นสิทธิ์ — ค่าของหมวด · ใบที่ต่างจากเพื่อนใส่ `widget.tier` ทับ */
+    val tier: WidgetTier get() = meta.tier?.let { t -> WidgetTier.entries.firstOrNull { it.name == t } } ?: family.tier
 
-    /**
-     * **ใบที่วาดผังของตัวเองที่ขนาดออกแบบตายตัว** แล้วสเกลตามความกว้าง (สำรับโปสเตอร์)
-     * ความสูงต่ำสุดของมันคือสัดส่วนที่ออกแบบไว้ที่ความกว้างนั้น — เตี้ยกว่านั้นเนื้อหาจะถูกกรอบตัด
-     */
-    val keepsDesignAspect: Boolean
-        get() = when (this) {
-            reelShowcase, nichePoster, contactPoster, statPoster, audiencePoster,
-            proofSeal -> true
-            else -> false
-        }
+    /** วาดพื้นของตัวเอง — chrome ไม่ครอบแผ่น (`widget.ownSurface`) */
+    val drawsOwnSurface: Boolean get() = meta.ownSurface ?: false
+    /** วาดเส้นขอบของตัวเอง — chrome ไม่วาดเส้นซ้ำ (`widget.ownBorder`) */
+    val drawsOwnBorder: Boolean get() = meta.ownBorder ?: false
+    val usesSurfaceChoice: Boolean get() = surfaceOptions.size > 1
+    val usesTextStyle: Boolean get() = isTextLayer
+    val usesPhoto: Boolean get() = meta.photo ?: false
+    val isFullBleed: Boolean get() = meta.fullBleed ?: false
+    val canResize: Boolean get() = meta.resize ?: true
+    val keepsDesignAspect: Boolean get() = meta.keepAspect ?: false
 
-    /**
-     * พื้นผิวตั้งต้นตอนหยิบออกจากตู้/สลับแบบ — **กระจกเสมอ** ไม่มีชิ้นไหนเริ่มต้นแบบไม่มีพื้น
-     * สำรับสติกเกอร์วาดแผ่นของตัวเอง แต่แผ่นนั้น **อ่านค่าพื้นผิวของชิ้น** ผ่าน `LocalWidgetSurface`
-     */
-    val defaultSurface: WidgetSurface
-        // โปสเตอร์อินไซต์ — ต้นฉบับไม่มีกรอบ พื้นของมันคือสีพื้นหลังการ์ดที่เจ้าของเลือก
-        get() = if (this == audiencePoster) WidgetSurface.clear else WidgetSurface.glass
-
-    /**
-     * พื้นผิวที่ใบนี้ให้เลือก — ไม่ใช่ทุกใบที่ถอดพื้นออกแล้วยังอ่านออก
-     * สองกลุ่มที่ถอดไม่ได้: **สำรับสติกเกอร์** (ตัวหนังสือถ่านคงที่จูนมาสำหรับกล่องขาว) · **ปกผลงาน** (พื้นคือรูปที่อัปโหลด)
-     */
+    /** พื้นผิวที่ใบนี้ให้เลือก (`widget.surfaces`) — ไม่ใส่: วาดพื้นเอง = ไม่มี · ไม่วาดเอง = กระจก/เข้ม/ไม่มีพื้น */
     val surfaceOptions: List<WidgetSurface>
-        get() {
-            // สำรับสติกเกอร์ — ตัวหนังสือเป็นถ่านคงที่ที่จูนมาสำหรับกล่องขาว ถอดกล่องแล้วหายทั้งใบ
-            if (isPop) return listOf(WidgetSurface.glass, WidgetSurface.dim)
-            // แผ่นโชว์คลิป — แผ่นสีเข้มคือดีไซน์ของมัน ถอดออกแล้วเหลือหัวเรื่องกับเครื่องสี่เครื่อง
-            if (this == reelShowcase) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            // โปสเตอร์พอร์ต — กระดาษของมันคือ *ดีไซน์* คำถามเดียวที่เหลือจึงเป็น "เอากระดาษไหม"
-            if (this == artPortfolio) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            // โปสเตอร์สายงาน — เหตุผลเดียวกัน
-            if (this == nichePoster) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            // โปสเตอร์ผู้ติดตาม — เหตุผลเดียวกัน (ผู้ใช้ขอทั้งสองแบบ: มีพื้นหลังและไม่มี)
-            if (this == statPoster) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            // ตรารับรอง — ถอดแผ่นแล้วเหรียญกับตัวอักษรนั่งบนการ์ดตรง ๆ
-            if (this == proofSeal) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            // โปสเตอร์อินไซต์ — เริ่มที่ไม่มีพื้น (ดู `defaultSurface`) แผ่นข้อมูลขาวอ่านออกบนทุกพื้น
-            if (this == audiencePoster) return listOf(WidgetSurface.clear, WidgetSurface.glass, WidgetSurface.pane)
-            // โปสเตอร์ติดต่อ — แผ่นสีเรียบคือดีไซน์ · ถอดออกแล้วหมึกพลิกตามธีมให้เอง
-            if (this == contactPoster) return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            if (isEditorial) {
-                // ปกผลงาน — พื้นของมันคือรูปที่ผู้ใช้อัปโหลด ไม่ใช่กรอบ ไม่มีอะไรให้ถอด
-                if (this == zineCover) return emptyList()
-                // ที่เหลือ: กระดาษของมัน · กระจกใบเดียวกับทั้งการ์ด · ไม่มีพื้นเลย
-                return listOf(WidgetSurface.glass, WidgetSurface.pane, WidgetSurface.clear)
-            }
-            // ของที่วาดวัสดุของตัวเองแบบอื่น (ฟิล์ม · ป้ายไฟ · กระดาษอัดรูป) — วัสดุคือตัวงาน ไม่ใช่กรอบที่ถอดได้
-            if (drawsOwnSurface) return emptyList()
-            // ใบที่ chrome ครอบแผ่นให้อยู่แล้ว — `กระจก` ของมันคือ `.glass` ตัวเดิม
-            return listOf(WidgetSurface.glass, WidgetSurface.dim, WidgetSurface.clear)
-        }
+        get() = meta.surfaces?.mapNotNull { r -> WidgetSurface.entries.firstOrNull { it.name == r } }
+            ?: if (drawsOwnSurface) emptyList() else listOf(WidgetSurface.glass, WidgetSurface.dim, WidgetSurface.clear)
+
+    /** พื้นผิวตั้งต้น = ตัวเลือกแรกของถาด (ไม่มีตัวเลือก = กระจก) */
+    val defaultSurface: WidgetSurface get() = surfaceOptions.firstOrNull() ?: WidgetSurface.glass
+
+    /** ชื่อตัวเลือกพื้นผิวบนถาด — `widget.surfaceNames` ทับชื่อกลาง */
+    fun surfaceName(s: WidgetSurface): String = meta.surfaceNames?.get(s.name) ?: s.displayName
+
+    /** ตัวเลือกในถาดของใบนี้ (`widget.controls`) */
+    val controls: List<KitControl> get() = meta.controls ?: emptyList()
+
+    /** เส้นขอบตั้งต้น — `widget.border` · ไม่ใส่ = มีเมื่อ chrome ครอบแผ่นให้ */
+    val defaultBorder: Boolean get() = meta.border ?: !drawsOwnSurface
+
+    /** วัสดุแผ่นสติกเกอร์ (`widget.skin`) */
+    val popSkin: PopSkin? get() = PopSkin.from(meta.skin)
+
+    /** ชิ้นที่ Sale Here วางให้ทุกการ์ด (`widget.pinned`) */
+    val isPinnedKind: Boolean get() = meta.pinned ?: false
 
     /**
-     * สำรับบรรณาธิการ — แปดใบที่แปลงมาจากแผ่นตัวอย่าง (ดู `EditorialWidgets`)
-     * ทั้งสำรับอ่าน `LocalWidgetSurface` เองเพื่อตอบว่าจะวาดกระดาษรองไหม
+     * ผังของใบนี้วาดตรา Sale Here STAR ของตัวเอง (ไอคอน `embossedLockup`) — มีตลอด ไม่มีปุ่มปิด (19 ต.ค. 2569)
+     * การ์ดที่มีใบแบบนี้ไม่ปั๊มตรามุมการ์ดซ้ำ (= `carriesEmboss` ของ iOS)
      */
-    val isEditorial: Boolean
-        get() = when (this) {
-            wallPolaroid, wallMemory, zineCover, aboutEditorial, aboutBehind,
-            sayClarity, sayPitch, flowCards -> true
-            else -> false
-        }
-
-    /**
-     * ชื่อของตัวเลือกพื้นผิวบนถาด — ใบที่วาดกระดาษเองไม่ได้กำลังเลือก *วัสดุของแผ่น*
-     * แต่กำลังตอบว่า "เอากระดาษรองไหม" คำว่า "กระจก" ตรงนั้นจึงผิดความหมาย
-     */
-    fun surfaceName(s: WidgetSurface): String =
-        if (drawsOwnPaper && s == WidgetSurface.glass) "มีพื้น" else s.displayName
-
-    /** ใบที่วาดกระดาษ/แผ่นพิมพ์ของตัวเอง **และถอดออกได้** — ถาดของมันถามว่า "เอาพื้นไหม" */
-    val drawsOwnPaper: Boolean
-        get() = isEditorial || this == artPortfolio || this == reelShowcase ||
-            this == nichePoster || this == contactPoster || this == statPoster ||
-            this == audiencePoster || this == proofSeal
-
-    /** เส้นขอบเป็นของ "แผ่นข้อมูล" เท่านั้น — ของที่วาดวัสดุเองมีขอบของตัวมันอยู่แล้ว */
-    val defaultBorder: Boolean get() = if (isPop) false else !drawsOwnSurface
+    val carriesEmboss: Boolean get() {
+        val spec = SpecCatalog.spec(this) ?: return false
+        fun has(n: SpecNode): Boolean =
+            n.icon == "embossedLockup" || n.children.orEmpty().any { has(it) } || (n.each?.let { has(it) } ?: false)
+        return has(spec.root) || spec.variants.orEmpty().any { has(it.root) }
+    }
 
     companion object {
-        fun from(raw: String?): WidgetKind? = entries.firstOrNull { it.raw == raw }
+        /** คีย์ของชั้นข้อความในไฟล์การ์ด — คงชื่อเดิม การ์ดเก่าจึงเปิดได้ */
+        const val TEXT_LAYER_KEY = "textBlock"
+
+        /** นิสัยของชั้นข้อความ (ไม่ใช่ widget จึงไม่มีไฟล์ผัง) — ชุดเดียวกับ `TextBlock.layer` ของ iOS */
+        val TEXT_LAYER = WidgetSpec.Widget(
+            title = "ข้อความ", category = "text", symbol = "textformat.size",
+            size = SpecSize(366.0, 117.0), ownSurface = true, resize = false, motion = "light",
+        )
+
+        /** ชั้นข้อความของการ์ด */
+        val textLayer: WidgetKind = WidgetKind(TEXT_LAYER_KEY)
+
+        /** ทุกชนิดจากไฟล์ผัง เรียงตาม `widget.order` แล้วตามชื่อ — คิดครั้งเดียวต่อชุดผัง (ถาดเรียกทุกเฟรมตอนลาก/ยืด) */
+        val entries: List<WidgetKind>
+            get() {
+                sortedCache?.let { if (it.first == SpecCatalog.generation) return it.second }
+                val kinds = SpecCatalog.widgetKinds.mapNotNull { from(it) }
+                    .sortedWith(compareBy<WidgetKind>({ it.meta.order ?: Int.MAX_VALUE }, { it.name }))
+                sortedCache = SpecCatalog.generation to kinds
+                return kinds
+            }
+        private var sortedCache: Pair<Int, List<WidgetKind>>? = null
+
+        /** ชนิดจากไฟล์ผังที่ลงทะเบียนไว้ (หมวดต้องเป็นหมวดที่แอปรู้จัก) — ไม่รู้จัก = null */
+        fun from(raw: String?): WidgetKind? {
+            if (raw == null) return null
+            if (raw == TEXT_LAYER_KEY) return textLayer
+            val m = SpecCatalog.widgetMeta(raw) ?: return null
+            WidgetFamily.from(m.category) ?: return null
+            return WidgetKind(raw)
+        }
+
+        fun valueOf(raw: String): WidgetKind = from(raw) ?: throw IllegalArgumentException("No WidgetKind $raw")
 
         /**
-         * อ่านชนิดจากไฟล์ — ใจดีกับการ์ดที่บันทึกไว้ก่อนสำรับสติกเกอร์จะแยกวัสดุ
-         * ไฟล์เก่าเขียนแค่ `popHero` — ตอนกู้จึงเดาจากธีมของไฟล์นั้น (`corner == .soft` = กระดาษ)
+         * อ่านชนิดจากไฟล์ — ชื่อเก่าที่ถอดแล้วตกไปที่ใบที่ประกาศ `widget.replaces`
+         * ไฟล์เก่าของสำรับสติกเกอร์เขียนแค่ `popHero` — ลองต่อท้ายด้วยวัสดุตามธีมของไฟล์นั้น (`corner == .soft` = กระดาษ)
          */
-        fun decode(raw: String, legacyPopSkin: PopSkin = PopSkin.glass): WidgetKind? {
+        fun decode(raw: String, legacyPopSkin: PopSkin = PopSkin.glass, kitLook: String? = null): WidgetKind? {
             from(raw)?.let { return it }
+            // ชุดห้าสไตล์ก่อน 19 ต.ค. 2569: ชนิดเดียวต่อหัวข้อ + `kit.style` ในชิ้น → ชนิดใหม่ที่ `widget.kit.look` ตรงกัน
+            SpecCatalog.replacement(raw, kitLook)?.let { r -> from(r)?.let { return it } }
             val suffix = if (legacyPopSkin == PopSkin.paper) "Paper" else "Glass"
             return from(raw + suffix)
         }
@@ -952,58 +442,15 @@ enum class WidgetKind {
 // MARK: - ความลึกของ widget ในสำรับ (= `extension WidgetKind` ใน Components/Motion.swift)
 
 /**
- * ความลึกของ widget ในสำรับ
+ * ความลึกของ widget ในสำรับ — `widget.motion` (`deep` · `mid` · `light` · `anchored`)
  * กติกา: **ตัวที่มีท่าเป็นของตัวเองข้างในต้องได้ `anchored`** เพราะกรอบกับข้างในเล่นพร้อมกัน
- * แล้วท่าจะซ้อนกันจนอ่านไม่ออก — กรอบเป็นแค่กล้อง ตัวแสดงคือชิ้นส่วนข้างใน
  */
 val WidgetKind.entranceStyle: EntranceStyle
-    get() = when (this) {
-        // ท่าอยู่ข้างในทั้งหมด — บานเกล็ด · ฟิล์ม · แถบวิ่ง · มิเตอร์ · ตารางกวาด
-        WidgetKind.proofWork, WidgetKind.workFeatured, WidgetKind.workReel, WidgetKind.artDuo,
-        WidgetKind.artPair, WidgetKind.artFilmstrip, WidgetKind.proofBrandGrid, WidgetKind.artPolaroid,
-        WidgetKind.typeMarquee, WidgetKind.proofBrandRail, WidgetKind.statGiant, WidgetKind.artTypeOver,
-        // ตระกูลคัตเอาต์ — สามระนาบเดินคนละอัตราอยู่ข้างในแล้ว
-        WidgetKind.artNameBehind, WidgetKind.artBreakout, WidgetKind.artPortfolio,
-        // โปสเตอร์สายงาน / ผู้ติดตาม / ตั๋วผลงาน — ท่าอยู่ข้างในแล้ว กรอบต้องนิ่ง
-        WidgetKind.nichePoster,
-        WidgetKind.statPoster,
-        WidgetKind.proofTicket,
-        // ชุดใหม่อ่าน `pageScrub` เองทุกตัว (ออร่าเต้น · สรุปปี · ตู้ถ่ายรูป · สติกเกอร์)
-        WidgetKind.heroAura, WidgetKind.statWrapped, WidgetKind.artPhotobooth,
-        WidgetKind.stickerTags,
-        // สำรับรอบสอง — ทุกตัวอ่าน `pageScrub` เองทั้งหมด
-        WidgetKind.rateTags,
-        WidgetKind.rateNeon,
-        WidgetKind.contactCard, WidgetKind.contactQR,
-        WidgetKind.contactBar, WidgetKind.contactStack, WidgetKind.contactLine, WidgetKind.contactChips,
-        WidgetKind.contactPoster,
-        // ตรารับรอง — วงตัวอักษรหมุน ฟอยล์รับแสงตามนิ้วอยู่ข้างในแล้ว
-        WidgetKind.proofSeal,
-        WidgetKind.audienceLine, WidgetKind.audienceSplit, WidgetKind.audienceAge, WidgetKind.audienceMap,
-        WidgetKind.audiencePoster,
-        // สำรับกองรูป — ทั้งแปดตัวมีท่าประจำวัสดุอยู่ข้างใน
-        WidgetKind.galleryStack, WidgetKind.galleryCarousel, WidgetKind.galleryMasonry, WidgetKind.galleryMosaic,
-        WidgetKind.galleryPost, WidgetKind.galleryStory, WidgetKind.galleryFilm, WidgetKind.galleryTape,
-        // สำรับบรรณาธิการ — ทุกใบมีขบวนของตัวเองข้างใน
-        WidgetKind.wallPolaroid, WidgetKind.wallMemory, WidgetKind.zineCover, WidgetKind.aboutEditorial,
-        WidgetKind.aboutBehind, WidgetKind.sayClarity, WidgetKind.sayPitch, WidgetKind.flowCards,
-        // แผ่นโชว์คลิป — เครื่องสี่เครื่องพลิกไล่กันอยู่ข้างในแล้ว กรอบต้องนิ่ง
-        WidgetKind.reelShowcase ->
-            EntranceStyle.anchored
-        // ภาพใหญ่ก้อนเดียว — กรอบพาเดินทางเอง
-        WidgetKind.artPortrait, WidgetKind.typeQuote ->
-            EntranceStyle.deep
-        // แผ่นข้อมูล — สำรับสติกเกอร์ไม่มีท่าข้างใน กรอบพาไปทั้งแผ่นเหมือนกระดาษที่ถูกปลิว
-        WidgetKind.proofBrandCoins, WidgetKind.socialChips, WidgetKind.socialTiles,
-        WidgetKind.interestTags, WidgetKind.nicheTags,
-        WidgetKind.popHeroPaper, WidgetKind.popHeroGlass, WidgetKind.popVideoPaper, WidgetKind.popVideoGlass,
-        WidgetKind.popStatsGlass, WidgetKind.popWorkPaper, WidgetKind.popWorkGlass,
-        WidgetKind.popRatePaper, WidgetKind.popRateGlass, WidgetKind.popNichePaper, WidgetKind.popNicheGlass,
-        WidgetKind.popBodyPaper, WidgetKind.popBodyGlass, WidgetKind.popContactPaper, WidgetKind.popContactGlass ->
-            EntranceStyle.mid
-        // ตัวหนังสือล้วน
-        WidgetKind.heroMinimal, WidgetKind.aboutText, WidgetKind.textBlock ->
-            EntranceStyle.light
+    get() = when (meta.motion) {
+        "deep" -> EntranceStyle.deep
+        "light" -> EntranceStyle.light
+        "anchored" -> EntranceStyle.anchored
+        else -> EntranceStyle.mid
     }
 
 // MARK: - พื้นผิวของชิ้นที่กำลังวาด (ส่งลงทาง CompositionLocal — = `EnvironmentValues` ของ iOS)
@@ -1014,17 +461,10 @@ val LocalWidgetSurface = compositionLocalOf { WidgetSurface.glass }
 /** ลายบนแผ่นของชิ้นนี้ (= `\.widgetPattern`) */
 val LocalWidgetPattern = compositionLocalOf { PlatePattern.plain }
 
-/** ใบนี้ปั๊มตรานูนไหม — ดู `WidgetKind.takesEmboss` (ตั้งต้นเปิด พรีวิวในตู้จึงเห็นตราด้วย) (= `\.widgetEmboss`) */
-val LocalWidgetEmboss = compositionLocalOf { true }
-
-/** ตราของใบนี้เป็นปั๊มนูนเปล่า (false = ตราพิมพ์ด้วยหมึกของแผ่น) (= `\.widgetEmbossBlind`) */
-val LocalWidgetEmbossBlind = compositionLocalOf { false }
-
-/** ชิ้นนี้ลบพื้นหลังรูปคนให้เองไหม — ดู `WidgetKind.liftsSubject` (= `\.widgetLiftsPhoto`) */
-val LocalWidgetLiftsPhoto = compositionLocalOf { false }
 
 /** เส้นขอบรอบชิ้น (= `\.widgetBorder`) */
 val LocalWidgetBorder = compositionLocalOf { false }
+
 
 /**
  * วัสดุที่ชนิดของชิ้นสั่งมา — ชิ้นส่วนร่วมของสำรับสติกเกอร์อยู่ลึกหลายชั้น
@@ -1116,17 +556,31 @@ data class WidgetInstance(
     var surface: WidgetSurface,
     /** เส้นขอบรอบ widget — แยกจากพื้นผิว เพราะบางทีอยากได้กรอบโดยไม่เอาพื้น */
     var border: Boolean,
-    /** ลายบนแผ่นทึบ — เลือกรายชิ้นในถาด (ดู `WidgetKind.takesPattern`) */
-    var pattern: PlatePattern = PlatePattern.plain,
-    /** ลบพื้นหลังรูปคนให้อัตโนมัติ — มีผลเฉพาะ `kind.liftsSubject` · ตั้งต้นเปิด */
-    var liftPhoto: Boolean = true,
-    /** ตรา Sale Here STAR บนแผ่นของใบนี้ — มีผลเฉพาะ `kind.takesEmboss` · ตั้งต้นเปิด */
-    var emboss: Boolean = true,
-    /** ปั๊มนูนเปล่าแทนตราพิมพ์ — ตั้งต้นเป็นตราพิมพ์ด้วยหมึกของแผ่น */
-    var embossBlind: Boolean = false,
+    /**
+     * **ค่าที่ผู้ใช้เลือกในถาด** — คีย์ = `opt` ของ `widget.controls` · ค่าตั้งต้นไม่เก็บ (= `options` ของ iOS · 19 ต.ค. 2569)
+     */
+    var options: Map<String, String> = emptyMap(),
     /** หน้าตาตัวอักษร — ฟอนต์ · สี · ขนาด · การจัดวาง (อยู่ที่ชิ้น ไม่ใช่ที่ตระกูล — มันคือ *หน้าตา* ไม่ใช่ *เนื้อหา*) */
     var textStyle: WidgetTextStyle = WidgetTextStyle(),
 ) {
+    /** ลายบนแผ่น — `options["pattern"]` */
+    val pattern: PlatePattern get() = PlatePattern.from(options["pattern"]) ?: PlatePattern.plain
+
+    /**
+     * ชิ้นที่ Sale Here วางให้และ **ตรึงไว้กับก้นหน้า** — เป็นของชนิด (`widget.pinned`) ไม่ใช่ค่าที่เก็บในชิ้น
+     * `y` ที่ถือไว้ไม่ถูกใช้: ตำแหน่งคิดจากก้นหน้าตอนวาดทุกครั้ง (ดู `PageLayout.pinnedFrame`)
+     */
+    val pinned: Boolean get() = kind.isPinnedKind
+
+    /** หน้าตา + ตัวเลือกของชุดห้าสไตล์ — อ่านจาก `options` (`fill` · `corner` · ตัวเลือกเนื้อหา) + หน้าตาของชนิด */
+    val kit: KitConfig
+        get() = KitConfig(
+            style = kind.kitStyle,
+            fill = KitFill.entries.firstOrNull { it.name == options["fill"] } ?: KitFill.solid,
+            corner = KitCorner.entries.firstOrNull { it.name == options["corner"] } ?: KitCorner.round,
+            opts = options,
+        )
+
     /** กรอบที่ตัวนี้ *ขอ* — ยังไม่ผ่านการรูดเข้าหน้าและการดันไม่ให้ทับกัน */
     val rect: Rect get() = Rect(x, y, x + w, y + h)
 

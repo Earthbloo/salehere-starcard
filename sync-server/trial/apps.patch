@@ -1,0 +1,672 @@
+--- StarCard/StarCard/Model/LabSync.swift
++++ StarCard/StarCard/Model/LabSync.swift
+@@ -225,6 +225,13 @@
+     @ObservationIgnored private var slotIDs: [String: String] = [:]
+     @ObservationIgnored private var loop: Task<Void, Never>?
+     @ObservationIgnored private var busy = false
++    /// รุ่นของผังกับรูป mock ที่ดึงจาก API แล้ว (ทดลอง)
++    @ObservationIgnored private var specsVersion: String?
++    @ObservationIgnored private var mockVersion: String?
++    /// ลายเซ็นของการแก้ตอนซิงก์ล่าสุด · ที่เห็นรอบก่อน (รอให้นิ่งก่อนส่ง) · ตัวฟังเปิด/พับแอป
++    @ObservationIgnored private var lastSig: String?
++    @ObservationIgnored private var pendingSig: String?
++    @ObservationIgnored private var observers: [NSObjectProtocol] = []
+     @ObservationIgnored private let server = LabMode.server
+     @ObservationIgnored private let session: URLSession = {
+         let c = URLSessionConfiguration.ephemeral
+@@ -238,11 +245,12 @@
+     }
+ 
+     enum LabError: LocalizedError {
+-        case http(Int), badImage
++        case http(Int), badImage, graphql(String)
+         var errorDescription: String? {
+             switch self {
+             case .http(let c): return "server ตอบ \(c)"
+             case .badImage: return "อ่านรูปไม่ได้"
++            case .graphql(let m): return m
+             }
+         }
+     }
+@@ -253,38 +261,72 @@
+         guard LabMode.isOn, loop == nil else { return }
+         self.photos = photos
+         loadState()
++        // ซิงก์ตอนสลับเครื่อง (ทดลอง 15 ต.ค. 2569) — ไม่ต้องตลอดเวลาแบบงานหลายคน: เจ้าของใช้คนเดียว
++        //   ดึง: ตอนเปิดแอป · ตอนกลับเข้าแอป   ·   ส่ง: แก้แล้วนิ่ง ~2 วิ · ตอนพับแอป   ·   ชน = บันทึกล่าสุดชนะ
++        // ระหว่างใช้ เช็กแค่ "ลายเซ็น" ของการแก้ (เวลาแก้การ์ด + รุ่นของโปรไฟล์/รูป) ทุก 2 วิ — ไม่ต่อเน็ต ไม่ประกอบการ์ด
++        let nc = NotificationCenter.default
++        observers = [
++            nc.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
++                Task { @MainActor in await self?.run { try await $0.pull() } }
++            },
++            nc.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
++                Task { @MainActor in await self?.run { try await $0.pushIfDirty() } }
++            },
++        ]
+         loop = Task { [weak self] in
++            await self?.run { try await $0.pull() }
+             while !Task.isCancelled {
+-                await self?.tick()
+-                try? await Task.sleep(for: .seconds(1))
++                try? await Task.sleep(for: .seconds(2))
++                await self?.run { try await $0.watch() }
+             }
+         }
+     }
+ 
+-    private func tick() async {
++    /// งานซิงก์ทีละงาน — งานที่มาซ้อนระหว่างที่อีกงานยังไม่จบถูกข้าม (รอบถัดไปทำต่อเอง)
++    private func run(_ job: (LabSync) async throws -> Void) async {
+         guard !busy else { return }
+         busy = true
+         defer { busy = false }
+-        do {
+-            if phase == .idle || phase == .connecting { try await connect(); return }
+-            if let id = cardID, CardLibrary.shared.card(id: id) == nil { cardID = nil; rev = 0; lastJSON = nil }
+-            guard cardID != nil else { try await connect(); return }
++        do { try await job(self); if phase != .pushing { phase = .synced } } catch { phase = .offline(error.localizedDescription) }
++    }
+ 
+-            // ดึงก่อนส่ง — มี rev ใหม่ระหว่างที่เครื่องนี้ก็แก้อยู่ = ชนกัน ของที่ server ชนะ
+-            if let remote = try await fetch(known: rev), remote.rev != rev {
+-                try await receive(remote)
+-                return
+-            }
+-            guard let id = cardID, let record = CardLibrary.shared.card(id: id) else { return }
+-            let doc = try await build(record)
+-            let json = try encode(doc)
+-            if json != lastJSON { try await push(doc, json) }
+-            phase = .synced
+-        } catch {
+-            phase = .offline(error.localizedDescription)
+-        }
++    /// ดึง: ผัง/รูป mock ที่เปลี่ยน · การ์ดที่ใหม่กว่า — มีงานแก้ค้างในเครื่อง = ส่งของเครื่องนี้ก่อน (บันทึกล่าสุดชนะ)
++    private func pull() async throws {
++        try await syncSpecs()
++        try await syncMockPhotos()
++        if cardID == nil || phase == .idle || phase == .connecting { try await connect(); lastSig = signature(); return }
++        if let id = cardID, CardLibrary.shared.card(id: id) == nil { cardID = nil; rev = 0; lastJSON = nil; try await connect(); return }
++        if signature() != lastSig { try await pushIfDirty(); return }
++        if let remote = try await fetch(known: rev), remote.rev != rev { try await receive(remote) }
+     }
+ 
++    /// ทุก 2 วิ: ลายเซ็นเปลี่ยนแล้วนิ่งหนึ่งรอบ = ผู้ใช้แก้เสร็จช่วงหนึ่ง → ส่ง
++    private func watch() async throws {
++        guard cardID != nil else { return }
++        let sig = signature()
++        guard sig != lastSig else { pendingSig = nil; return }
++        if sig == pendingSig { try await pushIfDirty() } else { pendingSig = sig }
++    }
++
++    /// ส่งเมื่อ **ผู้ใช้แก้จริง** (ลายเซ็นเปลี่ยน) — เทียบแค่ JSON ไม่พอ: iOS เขียน Set ในลำดับสุ่มทุกครั้ง
++    /// แล้วเครื่องที่ไม่ได้แก้อะไรจะส่งฉบับเก่าของตัวเองทับของใหม่จากอีกเครื่อง (เกิดจริง rev 41)
++    private func pushIfDirty() async throws {
++        guard let id = cardID, let record = CardLibrary.shared.card(id: id), signature() != lastSig else { return }
++        let doc = try await build(record)
++        let json = try encode(doc)
++        if json != lastJSON { try await push(doc, json) }
++        lastSig = signature()
++        pendingSig = nil
++    }
++
++    /// ลายเซ็นของการแก้ในเครื่อง — ถูกพอจะเรียกบ่อย (ไม่ประกอบการ์ด ไม่ encode)
++    private func signature() -> String {
++        guard let id = cardID, let r = CardLibrary.shared.card(id: id) else { return "" }
++        let per = photos?.perWidget.values.reduce(0) { $0 + $1.count } ?? 0
++        let fits = photos?.fits.values.reduce(0) { $0 + $1.count } ?? 0
++        return "\(r.updatedAt.timeIntervalSince1970)|\(Profile.me.revision)|\(Portfolio.shared.revision)|\(per)|\(fits)|\(photos?.uploaded.count ?? 0)"
++    }
++
+     /// เปิดครั้งแรก: server ว่าง = ใบหลักของเครื่องนี้เป็นการ์ดกลาง · มีแล้ว = รับมาใช้
+     private func connect() async throws {
+         phase = .connecting
+@@ -318,26 +360,83 @@
+ 
+     // MARK: ส่ง
+ 
+-    private func push(_ doc: LabDoc, _ json: Data) async throws {
+-        struct Body: Encodable { var baseRev: Int; var doc: LabDoc; var platform: String; var device: String }
++    /// ส่งการ์ดผ่าน GraphQL `saveStarCard` (ทดลอง 14 ต.ค. 2569 — เดิม `PUT /api/card`) · ชน = รับฉบับล่าสุดมาใช้
++    private func push(_ doc: LabDoc, _ json: Data, retry: Bool = true) async throws {
+         phase = .pushing
+-        var req = URLRequest(url: server.appendingPathComponent("api/card"))
+-        req.httpMethod = "PUT"
++        guard let obj = try JSONSerialization.jsonObject(with: json) as? [String: Any] else { return }
++        let res = try await gql(
++            "mutation Save($c: StarCardInput!, $r: Int!, $by: String) { saveStarCard(card: $c, baseRev: $r, by: $by) { ok rev conflict } }",
++            ["c": Self.cardInput(obj), "r": rev, "by": Self.platform])
++        let r = res["saveStarCard"] as? [String: Any] ?? [:]
++        if r["conflict"] as? Bool == true {
++            // อีกเครื่องบันทึกก่อน — เจ้าของคนเดียว: การแก้ล่าสุดคือที่ต้องการ → ส่งซ้ำบน rev ล่าสุด (บันทึกล่าสุดชนะ)
++            guard retry, let latest = try await fetch(known: nil) else { return }
++            rev = latest.rev
++            try await push(doc, json, retry: false)
++            return
++        }
++        rev = r["rev"] as? Int ?? rev
++        lastJSON = json
++        saveState()
++    }
++
++    /// doc ของแอป → `StarCardInput` — ชิ้นแยกเป็นฟิลด์หลัก + `options` (ที่เหลือทั้งหมด)
++    private static func cardInput(_ d: [String: Any]) -> [String: Any] {
++        let core: Set<String> = ["id", "kind", "x", "y", "w", "h", "surface", "border"]
++        let pages = (d["pages"] as? [[String: Any]] ?? []).map { page -> [String: Any] in
++            let items = (page["items"] as? [[String: Any]] ?? []).map { it -> [String: Any] in
++                var w: [String: Any] = [:]
++                for k in core { if let v = it[k] { w[k] = v } }
++                w["options"] = it.filter { !core.contains($0.key) }
++                return w
++            }
++            return ["items": items]
++        }
++        var c: [String: Any] = ["format": d["format"] ?? "portfolio", "pages": pages,
++                                "theme": d["theme"] ?? [:], "photos": d["photos"] ?? [:], "notes": d["notes"] ?? [:],
++                                "backgroundImageId": d["backgroundImageId"] ?? NSNull()]
++        if let n = d["name"] { c["name"] = n }
++        if let o = d["owner"] { c["owner"] = o }
++        return c
++    }
++
++    // MARK: GraphQL (ทดลอง)
++
++    private func gql(_ query: String, _ variables: [String: Any] = [:]) async throws -> [String: Any] {
++        var req = URLRequest(url: server.appendingPathComponent("graphql"))
++        req.httpMethod = "POST"
+         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+-        req.httpBody = try JSONEncoder().encode(Body(baseRev: rev, doc: doc, platform: Self.platform, device: Self.device))
++        req.httpBody = try JSONSerialization.data(withJSONObject: ["query": query, "variables": variables])
+         let (data, resp) = try await session.data(for: req)
+-        switch (resp as? HTTPURLResponse)?.statusCode ?? 0 {
+-        case 200:
+-            struct Ok: Decodable { var rev: Int }
+-            rev = try JSONDecoder().decode(Ok.self, from: data).rev
+-            lastJSON = json
+-            saveState()
+-        case 409:
+-            // อีกเครื่องเขียนก่อน — รับฉบับของเขามาใช้ (งานแก้ล่าสุดของเครื่องนี้ถูกทิ้ง)
+-            try await receive(try JSONDecoder().decode(Remote.self, from: data))
+-        case let code:
+-            throw LabError.http(code)
++        guard (resp as? HTTPURLResponse)?.statusCode == 200 else { throw LabError.http((resp as? HTTPURLResponse)?.statusCode ?? 0) }
++        let obj = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
++        if let errs = obj["errors"] as? [[String: Any]], let m = errs.first?["message"] as? String { throw LabError.graphql(m) }
++        return obj["data"] as? [String: Any] ?? [:]
++    }
++
++    /// ผัง widget จาก API — ไฟล์ผังเปลี่ยนเมื่อไหร่ แทนชุดในตัวแอปแล้ววาดใหม่ (ไม่ต้อง build)
++    private func syncSpecs() async throws {
++        let v = try await gql("{ widgetSpecsVersion }")["widgetSpecsVersion"] as? String
++        guard let v, v != specsVersion else { return }
++        let list = try await gql("{ widgetSpecs { kind json } }")["widgetSpecs"] as? [[String: Any]] ?? []
++        let files = list.compactMap { ($0["json"]).flatMap { try? JSONSerialization.data(withJSONObject: $0) } }
++        if SpecCatalog.replace(with: files) > 0 {
++            specsVersion = v
++            remoteStamp &+= 1
+         }
++    }
++
++    /// รูป mock ชุดเดียวของทุก platform — แทนคลังรูปของเครื่อง (`PhotoStore.library`)
++    private func syncMockPhotos() async throws {
++        guard let photos else { return }
++        let m = try await gql("{ mockPhotos { version creators works } }")["mockPhotos"] as? [String: Any] ?? [:]
++        guard let v = m["version"] as? String, v != mockVersion else { return }
++        var creators: [UIImage] = [], works: [UIImage] = []
++        for id in m["creators"] as? [String] ?? [] { creators.append(try await download(id)) }
++        for id in m["works"] as? [String] ?? [] { works.append(try await download(id)) }
++        photos.labMock = creators.isEmpty && works.isEmpty ? nil : .init(creators: creators, works: works)
++        mockVersion = v
++        remoteStamp &+= 1
+     }
+ 
+     // MARK: รับ
+@@ -373,7 +472,9 @@
+         let mine = try await build(record)
+         lastJSON = try encode(mine)
+         saveState()
+-        lastEcho = try await echo(mine, rev: remote.rev)
++        // ของที่เพิ่งรับมาไม่ใช่การแก้ของเครื่องนี้ — จำลายเซ็นไว้ ไม่งั้นรอบหน้าจะส่งกลับขึ้นไปเอง
++        lastSig = signature()
++        pendingSig = nil
+     }
+ 
+     /// ใช้ doc จากเครื่องอื่นกับการ์ดในเครื่องนี้ — รูปที่ยังไม่มีโหลดมาก่อน
+--- StarCard/StarCard/Model/PhotoStore.swift
++++ StarCard/StarCard/Model/PhotoStore.swift
+@@ -45,6 +45,8 @@
+     /// รูปโปรไฟล์จากหน้า "ข้อมูลของฉัน" — ใช้แทนรูปครีเอเตอร์ตั้งต้นในช่อง 1–3 ของทุก widget
+     /// (ดู `PhotoLib.isProfileSlot`) และหัวหน้าคลัง · เก็บลงดิสก์เหมือนรูปพื้นหลัง
+     private(set) var profile: UIImage? { didSet { profileRevision &+= 1 } }
++    /// โหมดลองทำ: รูป mock ชุดเดียวของทุก platform (GraphQL `mockPhotos`) — มีค่า = ช่องที่ไม่ได้ใส่รูปเองใช้ชุดนี้
++    var labMock: LabMockPhotos?
+     /// นับทุกครั้งที่รูปโปรไฟล์เปลี่ยน — ดู `TemplateThumbs.stamp`
+     @ObservationIgnored private(set) var profileRevision = 0
+     /// รูปหน้าสมุดบัญชีจากส่วน "การรับเงิน" — เอกสาร ไม่ใช่รูปการ์ด · เก็บลงดิสก์เหมือนรูปโปรไฟล์
+@@ -486,6 +488,7 @@
+         #if DEBUG
+         if Self.exportPerson { return CutoutSample.image }
+         #endif
++        if let m = labMock { return m.image(i) }
+         let folio = Portfolio.shared
+         if PhotoLib.isProfileSlot(i) {
+             if let c = folio.creatorImage(slot: i) { return c }
+@@ -1108,3 +1111,17 @@
+         .padding(.horizontal, 16).padding(.bottom, 8)
+     }
+ }
++
++/// รูป mock ของโหมดลองทำ — กติกาเดียวกับเว็บ/Android (ดู `MockPhotos` ใน sync-server/graphql.mjs)
++struct LabMockPhotos {
++    var creators: [UIImage]
++    var works: [UIImage]
++
++    /// ช่อง 1…3 (ช่องรูปครีเอเตอร์) → creators · ที่เหลือ → works
++    func image(_ i: Int) -> UIImage? {
++        let n = ((i % PhotoLib.count) + PhotoLib.count) % PhotoLib.count
++        if (1...3).contains(n), !creators.isEmpty { return creators[(n - 1) % creators.count] }
++        if !works.isEmpty { return works[abs(i) % works.count] }
++        return creators.first
++    }
++}
+--- StarCard/StarCard/Model/WidgetSpec.swift
++++ StarCard/StarCard/Model/WidgetSpec.swift
+@@ -431,6 +431,22 @@
+     static func root(of spec: WidgetSpec, box: CGSize) -> SpecNode {
+         for v in spec.variants ?? [] where SpecCondition.box(v.when, box: box) { return v.root }
+         return spec.root
++    }
++
++    /// เพิ่มทุกครั้งที่ผังทั้งชุดถูกแทน — ตัวจำผลของตัวคำนวณ (`SpecSolveMemo`) ใช้เป็นส่วนหนึ่งของกุญแจ
++    private(set) static var generation = 0
++
++    /// โหมดลองทำ: แทนผังทั้งชุดด้วยไฟล์ที่ดึงจาก API — ไฟล์ที่อ่านไม่ผ่านถูกข้าม · คืนจำนวนที่อ่านได้ (0 = คงชุดเดิม)
++    @discardableResult
++    static func replace(with files: [Data]) -> Int {
++        let dec = JSONDecoder()
++        var out: [String: WidgetSpec] = [:]
++        for d in files {
++            do { let spec = try dec.decode(WidgetSpec.self, from: d); out[spec.kind] = spec }
++            catch { print("WidgetSpec (API): \(error)") }
++        }
++        if !out.isEmpty { cache = out; generation &+= 1 }
++        return out.count
+     }
+ 
+     #if DEBUG
+--- StarCard/StarCard/Views/Widgets/SpecPainter.swift
++++ StarCard/StarCard/Views/Widgets/SpecPainter.swift
+@@ -89,8 +89,7 @@
+             return (boxes, solver.scale)
+         }
+         #endif
+-        let solver = SpecSolver(spec: spec, box: box, data: data, measurer: IOSSpecMeasurer.shared, renderScale: renderScale)
+-        return (solver.solve(), solver.scale)
++        return SpecSolveMemo.shared.solve(spec, box: box, data: data, renderScale: renderScale)
+     }
+ 
+     // MARK: ต้นไม้ — วาดซ้อนตามโครงสร้าง (clip · opacity · rotate ใช้กับทั้งกิ่ง)
+@@ -774,3 +773,57 @@
+         set { self[WidgetRenderScaleKey.self] = newValue }
+     }
+ }
++
++// MARK: - จำผลของตัวคำนวณ
++
++/// SwiftUI เรียก `body` ซ้ำทุกเฟรมตอนลาก/ย่อขยาย/มีแอนิเมชัน — คิดผังใหม่ทุกครั้งเปลืองเปล่า (15 ต.ค. 2569)
++///
++/// กุญแจ = ผัง (+ รุ่นของแคตตาล็อก) · กรอบ · สเกล · ค่าของชิ้น · และ **ทุกคำถามที่ตัวคำนวณถามแหล่งข้อมูลรอบก่อน**
++/// ถามซ้ำแล้วได้คำตอบเดิมทุกข้อ = ผลเดิมแน่นอน (ข้อมูลโปรไฟล์/โน้ต/Star Profile เปลี่ยนเมื่อไหร่ คำตอบต่าง → คิดใหม่เอง)
++final class SpecSolveMemo {
++    static let shared = SpecSolveMemo()
++
++    private enum Q: Hashable {
++        case text(String, String?, String)
++        case list(String, [SpecItem])
++        case flag(String, Bool)
++        case font(String?, String, CGFloat, Int, SpecFont)
++    }
++
++    /// ตัวจดคำถาม/คำตอบระหว่างคิดผังหนึ่งรอบ
++    private final class Recorder: SpecDataSource {
++        let base: SpecDataSource
++        var log: [Q] = []
++        init(_ base: SpecDataSource) { self.base = base }
++        func text(slot: String, preset: String?) -> String { let v = base.text(slot: slot, preset: preset); log.append(.text(slot, preset, v)); return v }
++        func list(_ name: String) -> [SpecItem] { let v = base.list(name); log.append(.list(name, v)); return v }
++        func flag(_ name: String) -> Bool { let v = base.flag(name); log.append(.flag(name, v)); return v }
++        func font(slot: String?, face: String, size: CGFloat, weight: Int) -> SpecFont {
++            let v = base.font(slot: slot, face: face, size: size, weight: weight); log.append(.font(slot, face, size, weight, v)); return v
++        }
++    }
++
++    private struct Entry { var questions: [Q]; var boxes: [SpecBox]; var scale: CGFloat }
++    private var entries: [String: Entry] = [:]
++
++    private func same(_ q: Q, _ d: SpecDataSource) -> Bool {
++        switch q {
++        case let .text(slot, preset, v): return d.text(slot: slot, preset: preset) == v
++        case let .list(name, v): return d.list(name) == v
++        case let .flag(name, v): return d.flag(name) == v
++        case let .font(slot, face, size, weight, v): return d.font(slot: slot, face: face, size: size, weight: weight) == v
++        }
++    }
++
++    func solve(_ spec: WidgetSpec, box: CGSize, data: IOSSpecData, renderScale: CGFloat) -> ([SpecBox], CGFloat) {
++        let key = "\(spec.kind)|\(SpecCatalog.generation)|\(box.width)x\(box.height)|\(renderScale)|\(data.sample)|\(data.widget?.uuidString ?? "")|"
++            + "\(data.inkLight)|\(data.surface)|\(data.border)|\(data.duo)|\(data.stamped)|\(data.cutout)|\(data.kitDark)|\(data.kit)|\(data.tune)"
++        if let e = entries[key], e.questions.allSatisfy({ same($0, data) }) { return (e.boxes, e.scale) }
++        let rec = Recorder(data)
++        let solver = SpecSolver(spec: spec, box: box, data: rec, measurer: IOSSpecMeasurer.shared, renderScale: renderScale)
++        let boxes = solver.solve()
++        if entries.count > 600 { entries.removeAll(keepingCapacity: true) }
++        entries[key] = Entry(questions: rec.log, boxes: boxes, scale: solver.scale)
++        return (boxes, solver.scale)
++    }
++}
+--- StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/LabSync.kt
++++ StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/LabSync.kt
+@@ -38,6 +38,10 @@
+ import kotlinx.serialization.json.JsonElement
+ import kotlinx.serialization.json.JsonNull
+ import kotlinx.serialization.json.JsonObject
++import kotlinx.serialization.json.JsonPrimitive
++import kotlinx.serialization.json.booleanOrNull
++import kotlinx.serialization.json.contentOrNull
++import kotlinx.serialization.json.intOrNull
+ import kotlinx.serialization.json.buildJsonObject
+ import kotlinx.serialization.json.int
+ import kotlinx.serialization.json.jsonArray
+@@ -280,37 +284,34 @@
+         if (!LabMode.isOn || loop != null) return
+         photosRef = WeakReference(photos)
+         loadState()
++        // ซิงก์ตอนสลับเครื่อง (ทดลอง 15 ต.ค. 2569 · = iOS) — เจ้าของใช้คนเดียว ไม่ต้องตลอดเวลาแบบงานหลายคน
++        //   ดึง: ตอนเปิดแอป · ตอนกลับเข้าแอป   ·   ส่ง: แก้แล้วนิ่ง ~2 วิ · ตอนพับแอป   ·   ชน = บันทึกล่าสุดชนะ
++        // ระหว่างใช้ เช็กแค่ "ลายเซ็น" ของการแก้ทุก 2 วิ — ไม่ต่อเน็ต ไม่ประกอบการ์ด
++        AppContext.app.registerActivityLifecycleCallbacks(object : android.app.Application.ActivityLifecycleCallbacks {
++            override fun onActivityResumed(a: android.app.Activity) { scope.launch { serial { pull() } } }
++            override fun onActivityPaused(a: android.app.Activity) { scope.launch { serial { pushIfDirty() } } }
++            override fun onActivityCreated(a: android.app.Activity, b: android.os.Bundle?) {}
++            override fun onActivityStarted(a: android.app.Activity) {}
++            override fun onActivityStopped(a: android.app.Activity) {}
++            override fun onActivitySaveInstanceState(a: android.app.Activity, b: android.os.Bundle) {}
++            override fun onActivityDestroyed(a: android.app.Activity) {}
++        })
+         loop = scope.launch {
++            serial { pull() }
+             while (isActive) {
+-                tick()
+-                delay(1000)
++                delay(2000)
++                serial { watch() }
+             }
+         }
+     }
+ 
+-    private suspend fun tick() {
++    /** งานซิงก์ทีละงาน — งานที่มาซ้อนระหว่างที่อีกงานยังไม่จบถูกข้าม (รอบถัดไปทำต่อเอง) */
++    private suspend fun serial(job: suspend () -> Unit) {
+         if (busy) return
+         busy = true
+         try {
+-            if (phase == Phase.idle || phase == Phase.connecting) {
+-                connect(); return
+-            }
+-            cardID?.let { id -> if (CardLibrary.shared.card(id) == null) { cardID = null; rev = 0; lastJSON = null } }
+-            if (cardID == null) {
+-                connect(); return
+-            }
+-
+-            // ดึงก่อนส่ง — มี rev ใหม่ระหว่างที่เครื่องนี้ก็แก้อยู่ = ชนกัน ของที่ server ชนะ
+-            val remote = fetch(known = rev)
+-            if (remote != null && remote.rev != rev) {
+-                receive(remote)
+-                return
+-            }
+-            val record = cardID?.let { CardLibrary.shared.card(it) } ?: return
+-            val doc = build(record)
+-            val json = encode(doc)
+-            if (json != lastJSON) push(doc, json)
+-            phase = Phase.synced
++            job()
++            if (phase != Phase.pushing) phase = Phase.synced
+         } catch (e: CancellationException) {
+             throw e
+         } catch (e: Exception) {
+@@ -318,8 +319,51 @@
+         } finally {
+             busy = false
+         }
++    }
++
++    /** ลายเซ็นของการแก้ตอนซิงก์ล่าสุด · ที่เห็นรอบก่อน (รอให้นิ่งก่อนส่ง) */
++    private var lastSig: String? = null
++    private var pendingSig: String? = null
++
++    /** ดึง: ผัง/รูป mock ที่เปลี่ยน · การ์ดที่ใหม่กว่า — มีงานแก้ค้างในเครื่อง = ส่งของเครื่องนี้ก่อน (บันทึกล่าสุดชนะ) */
++    private suspend fun pull() {
++        syncSpecs()
++        syncMockPhotos()
++        cardID?.let { id -> if (CardLibrary.shared.card(id) == null) { cardID = null; rev = 0; lastJSON = null } }
++        if (cardID == null || phase == Phase.idle || phase == Phase.connecting) { connect(); lastSig = signature(); return }
++        if (signature() != lastSig) { pushIfDirty(); return }
++        val remote = fetch(known = rev)
++        if (remote != null && remote.rev != rev) receive(remote)
+     }
+ 
++    /** ทุก 2 วิ: ลายเซ็นเปลี่ยนแล้วนิ่งหนึ่งรอบ = ผู้ใช้แก้เสร็จช่วงหนึ่ง → ส่ง */
++    private suspend fun watch() {
++        if (cardID == null) return
++        val sig = signature()
++        if (sig == lastSig) { pendingSig = null; return }
++        if (sig == pendingSig) pushIfDirty() else pendingSig = sig
++    }
++
++    /** ส่งเมื่อ **ผู้ใช้แก้จริง** (ลายเซ็นเปลี่ยน) — เครื่องที่ไม่ได้แก้อะไรต้องไม่ส่งฉบับเก่าของตัวเองทับของใหม่จากอีกเครื่อง */
++    private suspend fun pushIfDirty() {
++        val record = cardID?.let { CardLibrary.shared.card(it) } ?: return
++        if (signature() == lastSig) return
++        val doc = build(record)
++        val json = encode(doc)
++        if (json != lastJSON) push(doc, json)
++        lastSig = signature()
++        pendingSig = null
++    }
++
++    /** ลายเซ็นของการแก้ในเครื่อง — ถูกพอจะเรียกบ่อย (ไม่ประกอบการ์ด ไม่ encode) */
++    private fun signature(): String {
++        val r = cardID?.let { CardLibrary.shared.card(it) } ?: return ""
++        val ph = photos
++        val per = ph?.perWidget?.values?.sumOf { it.size } ?: 0
++        val fits = ph?.fits?.values?.sumOf { it.size } ?: 0
++        return "${r.updatedAt}|${Profile.me.revision}|${Portfolio.shared.revision}|$per|$fits|${ph?.uploaded?.size ?: 0}"
++    }
++
+     /** เปิดครั้งแรก: server ว่าง = ใบหลักของเครื่องนี้เป็นการ์ดกลาง · มีแล้ว = รับมาใช้ */
+     private suspend fun connect() {
+         phase = Phase.connecting
+@@ -352,25 +396,92 @@
+ 
+     // MARK: ส่ง
+ 
+-    private suspend fun push(doc: LabDoc, json: String) {
++    /** ส่งการ์ดผ่าน GraphQL `saveStarCard` (ทดลอง 14 ต.ค. 2569 — เดิม `PUT /api/card`) · ชน = รับฉบับล่าสุดมาใช้ */
++    private suspend fun push(doc: LabDoc, json: String, retry: Boolean = true) {
+         phase = Phase.pushing
+-        val body = buildJsonObject {
+-            put("baseRev", rev)
+-            put("doc", CardStore.json.encodeToJsonElement(LabDoc.serializer(), doc))
+-            put("platform", platform)
+-            put("device", device)
++        val obj = CardStore.json.encodeToJsonElement(LabDoc.serializer(), doc).jsonObject
++        val vars = JsonObject(mapOf("c" to cardInput(obj), "r" to JsonPrimitive(rev), "by" to JsonPrimitive(platform)))
++        val data = gql(
++            "mutation Save(\$c: StarCardInput!, \$r: Int!, \$by: String) { saveStarCard(card: \$c, baseRev: \$r, by: \$by) { ok rev conflict } }",
++            vars,
++        )
++        val r = data["saveStarCard"]?.jsonObject ?: throw LabError("saveStarCard ว่าง")
++        if (r["conflict"]?.jsonPrimitive?.booleanOrNull == true) {
++            // อีกเครื่องบันทึกก่อน — เจ้าของคนเดียว: การแก้ล่าสุดคือที่ต้องการ → ส่งซ้ำบน rev ล่าสุด (บันทึกล่าสุดชนะ)
++            if (!retry) return
++            val latest = fetch(known = null) ?: return
++            rev = latest.rev
++            push(doc, json, retry = false)
++            return
+         }
+-        val res = http("PUT", "api/card", body.toString().toByteArray(), "application/json")
+-        when (res.code) {
+-            200 -> {
+-                rev = CardStore.json.parseToJsonElement(res.text).jsonObject.getValue("rev").jsonPrimitive.int
+-                lastJSON = json
+-                saveState()
++        rev = r["rev"]?.jsonPrimitive?.intOrNull ?: rev
++        lastJSON = json
++        saveState()
++    }
++
++    /** doc ของแอป → `StarCardInput` — ชิ้นแยกเป็นฟิลด์หลัก + `options` (ที่เหลือทั้งหมด) */
++    private fun cardInput(d: JsonObject): JsonObject {
++        val core = setOf("id", "kind", "x", "y", "w", "h", "surface", "border")
++        val pages = (d["pages"] as? JsonArray ?: JsonArray(emptyList())).map { page ->
++            val items = ((page as JsonObject)["items"] as? JsonArray ?: JsonArray(emptyList())).map { it ->
++                val o = it.jsonObject
++                val w = LinkedHashMap<String, JsonElement>()
++                for (k in core) o[k]?.let { v -> w[k] = v }
++                w["options"] = JsonObject(o.filterKeys { k -> k !in core })
++                JsonObject(w)
+             }
+-            // อีกเครื่องเขียนก่อน — รับฉบับของเขามาใช้ (งานแก้ล่าสุดของเครื่องนี้ถูกทิ้ง)
+-            409 -> receive(CardStore.json.decodeFromString(Remote.serializer(), res.text))
+-            else -> throw LabError("server ตอบ ${res.code}")
++            JsonObject(mapOf("items" to JsonArray(items)))
++        }
++        val c = LinkedHashMap<String, JsonElement>()
++        c["format"] = d["format"] ?: JsonPrimitive("portfolio")
++        c["pages"] = JsonArray(pages)
++        c["theme"] = d["theme"] ?: JsonObject(emptyMap())
++        c["photos"] = d["photos"] ?: JsonObject(emptyMap())
++        c["notes"] = d["notes"] ?: JsonObject(emptyMap())
++        c["backgroundImageId"] = d["backgroundImageId"] ?: JsonNull
++        d["name"]?.let { c["name"] = it }
++        d["owner"]?.let { c["owner"] = it }
++        return JsonObject(c)
++    }
++
++    // MARK: GraphQL (ทดลอง)
++
++    private suspend fun gql(query: String, variables: JsonObject = JsonObject(emptyMap())): JsonObject {
++        val body = JsonObject(mapOf("query" to JsonPrimitive(query), "variables" to variables)).toString().toByteArray()
++        val res = http("POST", "graphql", body, "application/json")
++        if (res.code != 200) throw LabError("server ตอบ ${res.code}")
++        val obj = CardStore.json.parseToJsonElement(res.text).jsonObject
++        (obj["errors"] as? JsonArray)?.firstOrNull()?.jsonObject?.get("message")?.jsonPrimitive?.contentOrNull?.let { throw LabError(it) }
++        return obj["data"] as? JsonObject ?: JsonObject(emptyMap())
++    }
++
++    private var specsVersion: String? = null
++    private var mockVersion: String? = null
++
++    /** ผัง widget จาก API — ไฟล์ผังเปลี่ยนเมื่อไหร่ แทนชุดในตัวแอปแล้ววาดใหม่ (ไม่ต้อง build) */
++    private suspend fun syncSpecs() {
++        val v = gql("{ widgetSpecsVersion }")["widgetSpecsVersion"]?.jsonPrimitive?.contentOrNull ?: return
++        if (v == specsVersion) return
++        val list = gql("{ widgetSpecs { kind json } }")["widgetSpecs"] as? JsonArray ?: return
++        val files = list.mapNotNull { it.jsonObject["json"]?.toString() }
++        if (SpecCatalog.replace(files) > 0) {
++            specsVersion = v
++            remoteStamp += 1
+         }
++    }
++
++    /** รูป mock ชุดเดียวของทุก platform — แทนคลังรูปของเครื่อง (`PhotoStore.library`) */
++    private suspend fun syncMockPhotos() {
++        val photos = photos ?: return
++        val m = gql("{ mockPhotos { version creators works } }")["mockPhotos"]?.jsonObject ?: return
++        val v = m["version"]?.jsonPrimitive?.contentOrNull ?: return
++        if (v == mockVersion) return
++        fun ids(k: String) = (m[k] as? JsonArray)?.mapNotNull { it.jsonPrimitive.contentOrNull } ?: emptyList()
++        val creators = ids("creators").map { download(it) }
++        val works = ids("works").map { download(it) }
++        photos.labMock = if (creators.isEmpty() && works.isEmpty()) null else LabMockPhotos(creators, works)
++        mockVersion = v
++        remoteStamp += 1
+     }
+ 
+     // MARK: รับ
+@@ -404,7 +515,9 @@
+         val mine = build(record)
+         lastJSON = encode(mine)
+         saveState()
+-        lastEcho = echo(mine, remote.rev)
++        // ของที่เพิ่งรับมาไม่ใช่การแก้ของเครื่องนี้ — จำลายเซ็นไว้ ไม่งั้นรอบหน้าจะส่งกลับขึ้นไปเอง
++        lastSig = signature()
++        pendingSig = null
+     }
+ 
+     /** ใช้ doc จากเครื่องอื่นกับการ์ดในเครื่องนี้ — รูปที่ยังไม่มีโหลดมาก่อน */
+--- StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/PhotoStore.kt
++++ StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/PhotoStore.kt
+@@ -604,7 +604,14 @@
+      * ช่องครีเอเตอร์ (1–3): รูปโปรไฟล์ครีเอเตอร์ → รูปโปรไฟล์วงกลม · ช่องอื่น: คลังที่อัปโหลด → รูปผลงานจากหน้าแก้ไขโปรไฟล์
+      * null = ยังไม่มีรูปของเจ้าของเลย ผู้เรียกตกไปใช้รูปตัวอย่าง
+      */
++    /** โหมดลองทำ: รูป mock ชุดเดียวของทุก platform (GraphQL `mockPhotos`) — มีค่า = ช่องที่ไม่ได้ใส่รูปเองใช้ชุดนี้ */
++    private val _labMock = mutableStateOf<LabMockPhotos?>(null)
++    var labMock: LabMockPhotos?
++        get() = _labMock.value
++        set(v) { _labMock.value = v }
++
+     fun library(i: Int): Bitmap? {
++        labMock?.let { return it.image(i) }
+         val folio = Portfolio.shared
+         if (PhotoLib.isProfileSlot(i)) {
+             folio.creatorImage(i)?.let { return it }
+@@ -1184,4 +1191,15 @@
+     val inner = (this[id] ?: emptyMap()).toMutableMap()
+     if (value == null) inner.remove(slot) else inner[slot] = value
+     if (inner.isEmpty()) remove(id) else this[id] = inner
++}
++
++/** รูป mock ของโหมดลองทำ — กติกาเดียวกับ iOS/เว็บ (ดู `MockPhotos` ใน sync-server/graphql.mjs) */
++class LabMockPhotos(val creators: List<Bitmap>, val works: List<Bitmap>) {
++    /** ช่อง 1…3 (ช่องรูปครีเอเตอร์) → creators · ที่เหลือ → works */
++    fun image(i: Int): Bitmap? {
++        val n = ((i % PhotoLib.count) + PhotoLib.count) % PhotoLib.count
++        if (n in 1..3 && creators.isNotEmpty()) return creators[(n - 1) % creators.size]
++        if (works.isNotEmpty()) return works[kotlin.math.abs(i) % works.size]
++        return creators.firstOrNull()
++    }
+ }
+--- StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/WidgetSpec.kt
++++ StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/model/WidgetSpec.kt
+@@ -289,6 +289,16 @@
+     fun load(json: String): WidgetSpec = fromJson(json).also { register(it) }
+ 
+     fun register(spec: WidgetSpec) { cache[spec.kind] = spec }
++
++    /** โหมดลองทำ: แทนผังทั้งชุดด้วยไฟล์ที่ดึงจาก API — ไฟล์ที่อ่านไม่ผ่านถูกข้าม · คืนจำนวนที่อ่านได้ (0 = คงชุดเดิม) */
++    fun replace(texts: List<String>): Int {
++        val out = LinkedHashMap<String, WidgetSpec>()
++        for (t in texts) {
++            runCatching { fromJson(t) }.onSuccess { out[it.kind] = it }.onFailure { println("SpecCatalog spec (API): ${it.message}") }
++        }
++        if (out.isNotEmpty()) { cache.clear(); cache.putAll(out) }
++        return out.size
++    }
+ 
+     fun spec(kind: WidgetKind): WidgetSpec? = cache[kind.name]
+     fun spec(named: String): WidgetSpec? = cache[named]
+--- StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/ui/widgets/WidgetKit.kt
++++ StarCardAndroid/app/src/main/kotlin/co/salehere/starcard/ui/widgets/WidgetKit.kt
+@@ -584,7 +584,9 @@
+             .size(d.dp)
+             .let {
+                 if (compact) it
+-                else it.shadow(6.dp, shape, clip = false, ambientColor = Color.Black.opacity(0.30), spotColor = Color.Black.opacity(0.30))
++                // เงาวงกลมแทนเงาทรงกลีบ — เงาของรูปทรงเว้าถูกคำนวณใหม่ทุกเฟรมบน RenderThread (ANR 14 ต.ค. 2569)
++                // กลีบลึกแค่ 7.5% ของรัศมี เงาวงกลมจึงตาแยกไม่ออก แต่ระบบแคชไว้ได้
++                else it.shadow(6.dp, CircleShape, clip = false, ambientColor = Color.Black.opacity(0.30), spotColor = Color.Black.opacity(0.30))
+             },
+     ) {
+         val px = size.width

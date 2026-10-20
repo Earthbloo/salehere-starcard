@@ -409,7 +409,7 @@ private fun ShellFlowView(st: ShellState, s: FlowScreen) {
             onFill = { steps -> st.startWizard(WizKind.one, steps, back = FlowScreen.StarProfile) },
             onKyc = { st.openKyc(back = FlowScreen.StarProfile) },
             onShare = { st.toast("แชร์การ์ด — จำลอง") },
-            onOpenStarCard = { intent -> st.creatorIntent = intent },
+            onOpenStarCard = { intent -> st.openStarCard(intent) },
             hosted = true,
         )
         FlowScreen.Kyc -> Unit
@@ -533,6 +533,14 @@ private class ShellState(private val scope: CoroutineScope) {
      */
     fun openCreatorProfile() = open(FlowScreen.StarProfile)
 
+    /** กดดูการ์ดตอนยังไม่ครบ 3 ข้อขั้นต่ำ → ถาม 3 ข้อก่อน แล้วเปิดการ์ดด้วย intent นี้ตอน wizard จบ (= iOS `openStarCard`) */
+    var cardAfterWizard: StarCardIntent? by mutableStateOf(null)
+    fun openStarCard(intent: StarCardIntent) {
+        if (flow.cardReady) { creatorIntent = intent; return }
+        startWizard(WizKind.one, flow.cardMissing, back = FlowScreen.StarProfile)
+        cardAfterWizard = intent
+    }
+
     fun open(s: FlowScreen?) {
         screen = s
     }
@@ -587,6 +595,12 @@ private class ShellState(private val scope: CoroutineScope) {
                 toast("ที่อยู่เติมให้แล้ว · ต่อที่หน้าตอบรับ")
             }
             WizKind.one -> {
+                cardAfterWizard?.let { intent ->
+                    cardAfterWizard = null
+                    open(FlowScreen.StarProfile)
+                    if (flow.cardReady) creatorIntent = intent
+                    return
+                }
                 toast(
                     if (!flow.hasCard) "บันทึกแล้ว"
                     else if (flow.pct >= 1) "การ์ดเต็มแล้ว · แบรนด์เห็นข้อมูลคุณครบ"

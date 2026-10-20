@@ -1,0 +1,4439 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        300,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 265.29,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 50.71
+        },
+        {
+          "h" : 249.29,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 58.71
+        },
+        {
+          "h" : 170.78,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 272,
+          "x" : 14,
+          "y" : 58.71
+        },
+        {
+          "h" : 161.78,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 161.78,
+          "x" : 69.11,
+          "y" : 58.71
+        },
+        {
+          "h" : 31.73,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 21,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 232.49
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 70.65,
+          "x" : 114.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 32.32,
+          "x" : 114.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 32.32,
+          "x" : 114.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 34.33,
+          "x" : 151,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "·",
+          "type" : "text",
+          "w" : 3.62,
+          "x" : 151,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 26.71,
+          "x" : 158.62,
+          "y" : 267.22
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 98.26,
+          "x" : 100.87,
+          "y" : 290.62
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 98.26,
+          "x" : 100.87,
+          "y" : 290.62
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        300,
+        660
+      ],
+      "boxes" : [
+        {
+          "h" : 660,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 660,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 660,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 660,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 595.29,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 50.71
+        },
+        {
+          "h" : 579.29,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 58.71
+        },
+        {
+          "h" : 225,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 272,
+          "x" : 14,
+          "y" : 196.6
+        },
+        {
+          "h" : 216,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 216,
+          "x" : 42,
+          "y" : 196.6
+        },
+        {
+          "h" : 31.73,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 21,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 424.6
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 70.65,
+          "x" : 114.68,
+          "y" : 459.33
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 32.32,
+          "x" : 114.68,
+          "y" : 459.33
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 32.32,
+          "x" : 114.68,
+          "y" : 459.33
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 34.33,
+          "x" : 151,
+          "y" : 459.33
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "·",
+          "type" : "text",
+          "w" : 3.62,
+          "x" : 151,
+          "y" : 459.33
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 26.71,
+          "x" : 158.62,
+          "y" : 459.33
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 98.26,
+          "x" : 100.87,
+          "y" : 482.73
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 98.26,
+          "x" : 100.87,
+          "y" : 482.73
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        330.00000000000006,
+        330.00000000000006
+      ],
+      "boxes" : [
+        {
+          "h" : 412.5,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 412.5,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412.5,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 412.5,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412.5,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 412.5,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412.5,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 412.5,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 64.48,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 42.67,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 384.5,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 312.02,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 384.5,
+          "x" : 14,
+          "y" : 86.48
+        },
+        {
+          "h" : 296.02,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 384.5,
+          "x" : 14,
+          "y" : 94.48
+        },
+        {
+          "h" : 138.36,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 384.5,
+          "x" : 14,
+          "y" : 94.48
+        },
+        {
+          "h" : 129.36,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 129.36,
+          "x" : 141.57,
+          "y" : 94.48
+        },
+        {
+          "h" : 64.48,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 42.67,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 384.5,
+          "x" : 14,
+          "y" : 235.84
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 140.02,
+          "x" : 136.24,
+          "y" : 303.32
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 68.11,
+          "x" : 136.24,
+          "y" : 303.32
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 28.45,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 68.11,
+          "x" : 136.24,
+          "y" : 303.32
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 67.91,
+          "x" : 208.35,
+          "y" : 303.32
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 28.45,
+          "text" : "·",
+          "type" : "text",
+          "w" : 7.63,
+          "x" : 208.35,
+          "y" : 303.32
+        },
+        {
+          "h" : 42.99,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 28.45,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 56.28,
+          "x" : 219.98,
+          "y" : 303.32
+        },
+        {
+          "h" : 41.19,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 232.94,
+          "x" : 89.78,
+          "y" : 349.31
+        },
+        {
+          "h" : 41.19,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 27.26,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 232.94,
+          "x" : 89.78,
+          "y" : 349.31
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 34.13793103448276,
+            "outWeight" : 700,
+            "size" : 34.13793103448276,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 34.13793103448276,
+            "outWeight" : 700,
+            "size" : 34.13793103448276,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.758620689655174,
+            "outWeight" : 400,
+            "size" : 22.758620689655174,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21.81034482758621,
+            "outWeight" : 400,
+            "size" : 21.81034482758621,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 37.931034482758626,
+            "outWeight" : 700,
+            "size" : 37.931034482758626,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 37.931034482758626,
+            "outWeight" : 700,
+            "size" : 37.931034482758626,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.287356321839084,
+            "outWeight" : 400,
+            "size" : 25.287356321839084,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.23371647509579,
+            "outWeight" : 400,
+            "size" : 24.23371647509579,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 42.67241379310345,
+            "outWeight" : 700,
+            "size" : 42.67241379310345,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 42.67241379310345,
+            "outWeight" : 700,
+            "size" : 42.67241379310345,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 28.448275862068964,
+            "outWeight" : 400,
+            "size" : 28.448275862068964,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27.262931034482758,
+            "outWeight" : 400,
+            "size" : 27.262931034482758,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 34.13793103448276,
+          "v" : 51.58,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 22.758620689655174,
+          "v" : 34.39,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21.81034482758621,
+          "v" : 32.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37.931034482758626,
+          "v" : 57.31,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.287356321839084,
+          "v" : 38.21,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.23371647509579,
+          "v" : 36.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 42.67241379310345,
+          "v" : 64.48,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 28.448275862068964,
+          "v" : 42.99,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.262931034482758,
+          "v" : 41.19,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 146.73,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 52.41,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 54.49,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 6.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 45.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 32.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.81034482758621,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 186.35,
+          "weight" : 400,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 57.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.931034482758626,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 163.03,
+          "weight" : 700,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 57.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.931034482758626,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 58.23,
+          "weight" : 700,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 60.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 6.78,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 50.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 36.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.23371647509579,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 207.06,
+          "weight" : 400,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 64.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 42.67241379310345,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 183.41,
+          "weight" : 700,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 64.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 42.67241379310345,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 65.51,
+          "weight" : 700,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 68.11,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 7.63,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 56.28,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.262931034482758,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 232.94,
+          "weight" : 400,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 41.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.262931034482758,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 232.94,
+          "weight" : 400,
+          "width" : 232.94
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 68.11,
+          "weight" : 400,
+          "width" : 68.11
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 7.63,
+          "weight" : 400,
+          "width" : 7.63
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 56.28,
+          "weight" : 400,
+          "width" : 56.28
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        },
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 146.73,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 51.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.13793103448276,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 52.41,
+          "weight" : 700,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 54.49,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 6.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 34.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.758620689655174,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 45.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 32.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.81034482758621,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 186.35,
+          "weight" : 400,
+          "width" : 302.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 57.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.931034482758626,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 163.03,
+          "weight" : 700,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 57.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.931034482758626,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 58.23,
+          "weight" : 700,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 60.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 6.78,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 38.21,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.287356321839084,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 50.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 36.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.23371647509579,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 207.06,
+          "weight" : 400,
+          "width" : 338.66666666666674
+        },
+        {
+          "face" : "noto",
+          "h" : 64.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 42.67241379310345,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 183.41,
+          "weight" : 700,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 64.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 42.67241379310345,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 65.51,
+          "weight" : 700,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 68.11,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 7.63,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 56.28,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.262931034482758,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 232.94,
+          "weight" : 400,
+          "width" : 384.50000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 41.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.262931034482758,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 232.94,
+          "weight" : 400,
+          "width" : 232.94
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 68.11,
+          "weight" : 400,
+          "width" : 68.11
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 7.63,
+          "weight" : 400,
+          "width" : 7.63
+        },
+        {
+          "face" : "noto",
+          "h" : 42.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.448275862068964,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 56.28,
+          "weight" : 400,
+          "width" : 56.28
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.5272727272727272,
+      "scale" : 0.8
+    },
+    {
+      "box" : [
+        330,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 330,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 28.71,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 19,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 302,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 265.29,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 302,
+          "x" : 14,
+          "y" : 50.71
+        },
+        {
+          "h" : 249.29,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 302,
+          "x" : 14,
+          "y" : 58.71
+        },
+        {
+          "h" : 170.78,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 302,
+          "x" : 14,
+          "y" : 58.71
+        },
+        {
+          "h" : 161.78,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 161.78,
+          "x" : 84.11,
+          "y" : 58.71
+        },
+        {
+          "h" : 31.73,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 21,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 302,
+          "x" : 14,
+          "y" : 232.49
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 70.65,
+          "x" : 129.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 32.32,
+          "x" : 129.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 32.32,
+          "x" : 129.68,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 34.33,
+          "x" : 166,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "·",
+          "type" : "text",
+          "w" : 3.62,
+          "x" : 166,
+          "y" : 267.22
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 26.71,
+          "x" : 173.62,
+          "y" : 267.22
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 98.26,
+          "x" : 115.87,
+          "y" : 290.62
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 98.26,
+          "x" : 115.87,
+          "y" : 290.62
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 302
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 302
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 302
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.1090909090909091,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 366.67,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 677.78,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366.67,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 677.78,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366.67,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 677.78,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366.67,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 677.78,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 50.37,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 33.33,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 649.78,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 280.3,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 649.78,
+          "x" : 14,
+          "y" : 72.37
+        },
+        {
+          "h" : 264.3,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 649.78,
+          "x" : 14,
+          "y" : 80.37
+        },
+        {
+          "h" : 139.17,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 649.78,
+          "x" : 14,
+          "y" : 80.37
+        },
+        {
+          "h" : 130.17,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 130.17,
+          "x" : 273.81,
+          "y" : 80.37
+        },
+        {
+          "h" : 50.37,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 33.33,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 649.78,
+          "x" : 14,
+          "y" : 222.54
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 111.12,
+          "x" : 283.33,
+          "y" : 275.91
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 53.2,
+          "x" : 283.33,
+          "y" : 275.91
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 22.22,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 53.2,
+          "x" : 283.33,
+          "y" : 275.91
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 53.92,
+          "x" : 340.53,
+          "y" : 275.91
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 22.22,
+          "text" : "·",
+          "type" : "text",
+          "w" : 5.96,
+          "x" : 340.53,
+          "y" : 275.91
+        },
+        {
+          "h" : 33.58,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 22.22,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 43.96,
+          "x" : 350.49,
+          "y" : 275.91
+        },
+        {
+          "h" : 32.18,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 181.96,
+          "x" : 247.91,
+          "y" : 312.49
+        },
+        {
+          "h" : 32.18,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 21.3,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 181.96,
+          "x" : 247.91,
+          "y" : 312.49
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30,
+            "outWeight" : 700,
+            "size" : 30,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30,
+            "outWeight" : 700,
+            "size" : 30,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.166666666666668,
+            "outWeight" : 400,
+            "size" : 19.166666666666668,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 33.33333333333333,
+            "outWeight" : 700,
+            "size" : 33.33333333333333,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 33.33333333333333,
+            "outWeight" : 700,
+            "size" : 33.33333333333333,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.22222222222222,
+            "outWeight" : 400,
+            "size" : 22.22222222222222,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21.296296296296294,
+            "outWeight" : 400,
+            "size" : 21.296296296296294,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 45.33,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19.166666666666668,
+          "v" : 28.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 33.33333333333333,
+          "v" : 50.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 22.22222222222222,
+          "v" : 33.58,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21.296296296296294,
+          "v" : 32.18,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 128.94,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 46.05,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 47.88,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.36,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 39.56,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 163.76,
+          "weight" : 400,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 50.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.33333333333333,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 143.27,
+          "weight" : 700,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 50.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.33333333333333,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 51.17,
+          "weight" : 700,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 53.2,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 43.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 32.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.296296296296294,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 181.96,
+          "weight" : 400,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 32.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.296296296296294,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 181.96,
+          "weight" : 400,
+          "width" : 181.96
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 53.2,
+          "weight" : 400,
+          "width" : 53.2
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.96,
+          "weight" : 400,
+          "width" : 5.96
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 43.96,
+          "weight" : 400,
+          "width" : 43.96
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 128.94,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 46.05,
+          "weight" : 700,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 47.88,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.36,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 39.56,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 163.76,
+          "weight" : 400,
+          "width" : 582
+        },
+        {
+          "face" : "noto",
+          "h" : 50.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.33333333333333,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 143.27,
+          "weight" : 700,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 50.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.33333333333333,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 51.17,
+          "weight" : 700,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 53.2,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 43.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 32.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.296296296296294,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 181.96,
+          "weight" : 400,
+          "width" : 649.7777777777777
+        },
+        {
+          "face" : "noto",
+          "h" : 32.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.296296296296294,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 181.96,
+          "weight" : 400,
+          "width" : 181.96
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 53.2,
+          "weight" : 400,
+          "width" : 53.2
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 5.96,
+          "weight" : 400,
+          "width" : 5.96
+        },
+        {
+          "face" : "noto",
+          "h" : 33.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.22222222222222,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 43.96,
+          "weight" : 400,
+          "width" : 43.96
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 0.9
+    },
+    {
+      "box" : [
+        300,
+        577.4999999999999
+      ],
+      "boxes" : [
+        {
+          "h" : 577.5,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 577.5,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 577.5,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 577.5,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 22.5,
+          "text" : "รูปโปรไฟล์",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 14
+        },
+        {
+          "h" : 507.5,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 56
+        },
+        {
+          "h" : 491.5,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 272,
+          "x" : 14,
+          "y" : 64
+        },
+        {
+          "h" : 225,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "row",
+          "w" : 272,
+          "x" : 14,
+          "y" : 153.55
+        },
+        {
+          "h" : 216,
+          "id" : "r\/2\/1\/0\/0\/0",
+          "type" : "image",
+          "w" : 216,
+          "x" : 42,
+          "y" : 153.55
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/1\/0\/1",
+          "lines" : 1,
+          "size" : 22.5,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 272,
+          "x" : 14,
+          "y" : 381.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2",
+          "type" : "chips",
+          "w" : 77.6,
+          "x" : 111.2,
+          "y" : 418.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2\/c0",
+          "type" : "row",
+          "w" : 35.91,
+          "x" : 111.2,
+          "y" : 418.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2\/c0\/1",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 35.91,
+          "x" : 111.2,
+          "y" : 418.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2\/c1",
+          "type" : "row",
+          "w" : 37.69,
+          "x" : 151.11,
+          "y" : 418.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2\/c1\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "·",
+          "type" : "text",
+          "w" : 4.02,
+          "x" : 151.11,
+          "y" : 418.55
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/2\/c1\/1",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 29.67,
+          "x" : 159.13,
+          "y" : 418.55
+        },
+        {
+          "h" : 21.72,
+          "id" : "r\/2\/1\/0\/4",
+          "type" : "chips",
+          "w" : 122.82,
+          "x" : 88.59,
+          "y" : 444.23
+        },
+        {
+          "h" : 21.72,
+          "id" : "r\/2\/1\/0\/4\/c0",
+          "lines" : 1,
+          "size" : 14.38,
+          "text" : "@mintmint.review",
+          "type" : "text",
+          "w" : 122.82,
+          "x" : 88.59,
+          "y" : 444.23
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.5,
+            "outWeight" : 700,
+            "size" : 22.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.5,
+            "outWeight" : 700,
+            "size" : 22.5,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 400,
+            "size" : 15,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.375,
+            "outWeight" : 400,
+            "size" : 14.375,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19,
+            "outWeight" : 700,
+            "size" : 19,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21,
+            "outWeight" : 700,
+            "size" : 21,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 400,
+            "size" : 13.5,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ],
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "name",
+            "v" : "klll"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 22.5,
+          "v" : 34,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.375,
+          "v" : 21.72,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19,
+          "v" : 28.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21,
+          "v" : 31.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 34,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.5,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 96.71,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 34,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.5,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 34.54,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 35.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 4.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 29.67,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.72,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.375,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 122.82,
+          "weight" : 400,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 21.72,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.375,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 122.82,
+          "weight" : 400,
+          "width" : 122.82
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 35.91,
+          "weight" : 400,
+          "width" : 35.91
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 4.02,
+          "weight" : 400,
+          "width" : 4.02
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 29.67,
+          "weight" : 400,
+          "width" : 29.67
+        },
+        {
+          "face" : "noto",
+          "h" : 28.71,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 81.67,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 31.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 32.24,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 98.26,
+          "weight" : 400,
+          "width" : 98.26
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 32.32,
+          "weight" : 400,
+          "width" : 32.32
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 3.62,
+          "weight" : 400,
+          "width" : 3.62
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 26.71,
+          "weight" : 400,
+          "width" : 26.71
+        },
+        {
+          "face" : "noto",
+          "h" : 34,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.5,
+          "t" : "รูปโปรไฟล์",
+          "tracking" : 0,
+          "w" : 96.71,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 34,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.5,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 34.54,
+          "weight" : 700,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 35.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 4.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 29.67,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.72,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.375,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 122.82,
+          "weight" : 400,
+          "width" : 272
+        },
+        {
+          "face" : "noto",
+          "h" : 21.72,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.375,
+          "t" : "@mintmint.review",
+          "tracking" : 0,
+          "w" : 122.82,
+          "weight" : 400,
+          "width" : 122.82
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 35.91,
+          "weight" : 400,
+          "width" : 35.91
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "·",
+          "tracking" : 0,
+          "w" : 4.02,
+          "weight" : 400,
+          "width" : 4.02
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 29.67,
+          "weight" : 400,
+          "width" : 29.67
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.8,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    300,
+    330
+  ],
+  "inset" : 0,
+  "kind" : "kitProfileCream",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

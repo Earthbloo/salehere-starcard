@@ -182,6 +182,9 @@ object Symbols {
         "square.and.arrow.up.fill" to (Ph.share to PhWeight.fill),
     )
 
+    /** มีคู่ Phosphor ในตารางไหม — ไอคอนของชนิดจากไฟล์ผังที่ยังไม่มีคู่ใช้ของ `like` แทน */
+    fun has(sfName: String): Boolean = table.containsKey(sfName)
+
     fun lookup(sfName: String): Pair<Ph, PhWeight> = table[sfName] ?: (Ph.circleDashed to PhWeight.regular)
 }
 

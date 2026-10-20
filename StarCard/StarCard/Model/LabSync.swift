@@ -225,6 +225,13 @@ final class LabSync {
     @ObservationIgnored private var slotIDs: [String: String] = [:]
     @ObservationIgnored private var loop: Task<Void, Never>?
     @ObservationIgnored private var busy = false
+    /// รุ่นของผังกับรูป mock ที่ดึงจาก API แล้ว (ทดลอง)
+    @ObservationIgnored private var specsVersion: String?
+    @ObservationIgnored private var mockVersion: String?
+    /// ลายเซ็นของการแก้ตอนซิงก์ล่าสุด · ที่เห็นรอบก่อน (รอให้นิ่งก่อนส่ง) · ตัวฟังเปิด/พับแอป
+    @ObservationIgnored private var lastSig: String?
+    @ObservationIgnored private var pendingSig: String?
+    @ObservationIgnored private var observers: [NSObjectProtocol] = []
     @ObservationIgnored private let server = LabMode.server
     @ObservationIgnored private let session: URLSession = {
         let c = URLSessionConfiguration.ephemeral
@@ -238,11 +245,12 @@ final class LabSync {
     }
 
     enum LabError: LocalizedError {
-        case http(Int), badImage
+        case http(Int), badImage, graphql(String)
         var errorDescription: String? {
             switch self {
             case .http(let c): return "server ตอบ \(c)"
             case .badImage: return "อ่านรูปไม่ได้"
+            case .graphql(let m): return m
             }
         }
     }
@@ -253,36 +261,70 @@ final class LabSync {
         guard LabMode.isOn, loop == nil else { return }
         self.photos = photos
         loadState()
+        // ซิงก์ตอนสลับเครื่อง (ทดลอง 15 ต.ค. 2569) — ไม่ต้องตลอดเวลาแบบงานหลายคน: เจ้าของใช้คนเดียว
+        //   ดึง: ตอนเปิดแอป · ตอนกลับเข้าแอป   ·   ส่ง: แก้แล้วนิ่ง ~2 วิ · ตอนพับแอป   ·   ชน = บันทึกล่าสุดชนะ
+        // ระหว่างใช้ เช็กแค่ "ลายเซ็น" ของการแก้ (เวลาแก้การ์ด + รุ่นของโปรไฟล์/รูป) ทุก 2 วิ — ไม่ต่อเน็ต ไม่ประกอบการ์ด
+        let nc = NotificationCenter.default
+        observers = [
+            nc.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+                Task { @MainActor in await self?.run { try await $0.pull() } }
+            },
+            nc.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+                Task { @MainActor in await self?.run { try await $0.pushIfDirty() } }
+            },
+        ]
         loop = Task { [weak self] in
+            await self?.run { try await $0.pull() }
             while !Task.isCancelled {
-                await self?.tick()
-                try? await Task.sleep(for: .seconds(1))
+                try? await Task.sleep(for: .seconds(2))
+                await self?.run { try await $0.watch() }
             }
         }
     }
 
-    private func tick() async {
+    /// งานซิงก์ทีละงาน — งานที่มาซ้อนระหว่างที่อีกงานยังไม่จบถูกข้าม (รอบถัดไปทำต่อเอง)
+    private func run(_ job: (LabSync) async throws -> Void) async {
         guard !busy else { return }
         busy = true
         defer { busy = false }
-        do {
-            if phase == .idle || phase == .connecting { try await connect(); return }
-            if let id = cardID, CardLibrary.shared.card(id: id) == nil { cardID = nil; rev = 0; lastJSON = nil }
-            guard cardID != nil else { try await connect(); return }
+        do { try await job(self); if phase != .pushing { phase = .synced } } catch { phase = .offline(error.localizedDescription) }
+    }
 
-            // ดึงก่อนส่ง — มี rev ใหม่ระหว่างที่เครื่องนี้ก็แก้อยู่ = ชนกัน ของที่ server ชนะ
-            if let remote = try await fetch(known: rev), remote.rev != rev {
-                try await receive(remote)
-                return
-            }
-            guard let id = cardID, let record = CardLibrary.shared.card(id: id) else { return }
-            let doc = try await build(record)
-            let json = try encode(doc)
-            if json != lastJSON { try await push(doc, json) }
-            phase = .synced
-        } catch {
-            phase = .offline(error.localizedDescription)
-        }
+    /// ดึง: ผัง/รูป mock ที่เปลี่ยน · การ์ดที่ใหม่กว่า — มีงานแก้ค้างในเครื่อง = ส่งของเครื่องนี้ก่อน (บันทึกล่าสุดชนะ)
+    private func pull() async throws {
+        try await syncSpecs()
+        try await syncMockPhotos()
+        if cardID == nil || phase == .idle || phase == .connecting { try await connect(); lastSig = signature(); return }
+        if let id = cardID, CardLibrary.shared.card(id: id) == nil { cardID = nil; rev = 0; lastJSON = nil; try await connect(); return }
+        if signature() != lastSig { try await pushIfDirty(); return }
+        if let remote = try await fetch(known: rev), remote.rev != rev { try await receive(remote) }
+    }
+
+    /// ทุก 2 วิ: ลายเซ็นเปลี่ยนแล้วนิ่งหนึ่งรอบ = ผู้ใช้แก้เสร็จช่วงหนึ่ง → ส่ง
+    private func watch() async throws {
+        guard cardID != nil else { return }
+        let sig = signature()
+        guard sig != lastSig else { pendingSig = nil; return }
+        if sig == pendingSig { try await pushIfDirty() } else { pendingSig = sig }
+    }
+
+    /// ส่งเมื่อ **ผู้ใช้แก้จริง** (ลายเซ็นเปลี่ยน) — เทียบแค่ JSON ไม่พอ: iOS เขียน Set ในลำดับสุ่มทุกครั้ง
+    /// แล้วเครื่องที่ไม่ได้แก้อะไรจะส่งฉบับเก่าของตัวเองทับของใหม่จากอีกเครื่อง (เกิดจริง rev 41)
+    private func pushIfDirty() async throws {
+        guard let id = cardID, let record = CardLibrary.shared.card(id: id), signature() != lastSig else { return }
+        let doc = try await build(record)
+        let json = try encode(doc)
+        if json != lastJSON { try await push(doc, json) }
+        lastSig = signature()
+        pendingSig = nil
+    }
+
+    /// ลายเซ็นของการแก้ในเครื่อง — ถูกพอจะเรียกบ่อย (ไม่ประกอบการ์ด ไม่ encode)
+    private func signature() -> String {
+        guard let id = cardID, let r = CardLibrary.shared.card(id: id) else { return "" }
+        let per = photos?.perWidget.values.reduce(0) { $0 + $1.count } ?? 0
+        let fits = photos?.fits.values.reduce(0) { $0 + $1.count } ?? 0
+        return "\(r.updatedAt.timeIntervalSince1970)|\(Profile.me.revision)|\(Portfolio.shared.revision)|\(per)|\(fits)|\(photos?.uploaded.count ?? 0)"
     }
 
     /// เปิดครั้งแรก: server ว่าง = ใบหลักของเครื่องนี้เป็นการ์ดกลาง · มีแล้ว = รับมาใช้
@@ -318,26 +360,84 @@ final class LabSync {
 
     // MARK: ส่ง
 
-    private func push(_ doc: LabDoc, _ json: Data) async throws {
-        struct Body: Encodable { var baseRev: Int; var doc: LabDoc; var platform: String; var device: String }
+    /// ส่งการ์ดผ่าน GraphQL `saveStarCard` (ทดลอง 14 ต.ค. 2569 — เดิม `PUT /api/card`) · ชน = รับฉบับล่าสุดมาใช้
+    private func push(_ doc: LabDoc, _ json: Data, retry: Bool = true) async throws {
         phase = .pushing
-        var req = URLRequest(url: server.appendingPathComponent("api/card"))
-        req.httpMethod = "PUT"
-        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        req.httpBody = try JSONEncoder().encode(Body(baseRev: rev, doc: doc, platform: Self.platform, device: Self.device))
-        let (data, resp) = try await session.data(for: req)
-        switch (resp as? HTTPURLResponse)?.statusCode ?? 0 {
-        case 200:
-            struct Ok: Decodable { var rev: Int }
-            rev = try JSONDecoder().decode(Ok.self, from: data).rev
-            lastJSON = json
-            saveState()
-        case 409:
-            // อีกเครื่องเขียนก่อน — รับฉบับของเขามาใช้ (งานแก้ล่าสุดของเครื่องนี้ถูกทิ้ง)
-            try await receive(try JSONDecoder().decode(Remote.self, from: data))
-        case let code:
-            throw LabError.http(code)
+        guard let obj = try JSONSerialization.jsonObject(with: json) as? [String: Any] else { return }
+        let res = try await gql(
+            "mutation Save($c: StarCardInput!, $r: Int!, $by: String) { saveStarCard(card: $c, baseRev: $r, by: $by) { ok rev conflict } }",
+            ["c": Self.cardInput(obj), "r": rev, "by": Self.platform])
+        let r = res["saveStarCard"] as? [String: Any] ?? [:]
+        if r["conflict"] as? Bool == true {
+            // อีกเครื่องบันทึกก่อน — เจ้าของคนเดียว: การแก้ล่าสุดคือที่ต้องการ → ส่งซ้ำบน rev ล่าสุด (บันทึกล่าสุดชนะ)
+            guard retry, let latest = try await fetch(known: nil) else { return }
+            rev = latest.rev
+            try await push(doc, json, retry: false)
+            return
         }
+        rev = r["rev"] as? Int ?? rev
+        lastJSON = json
+        saveState()
+    }
+
+    /// doc ของแอป → `StarCardInput` — ชิ้น = ฟิลด์หลัก + `options`
+    private static func cardInput(_ d: [String: Any]) -> [String: Any] {
+        let core: Set<String> = ["id", "kind", "x", "y", "w", "h", "surface", "border"]
+        let pages = (d["pages"] as? [[String: Any]] ?? []).map { page -> [String: Any] in
+            let items = (page["items"] as? [[String: Any]] ?? []).map { it -> [String: Any] in
+                var w: [String: Any] = [:]
+                for k in core { if let v = it[k] { w[k] = v } }
+                // ทุกอย่างที่ไม่ใช่ฟิลด์หลักอยู่ใน `options` ของชิ้นอยู่แล้ว (19 ต.ค. 2569) — ส่งต่อตรง ๆ
+                w["options"] = it["options"] ?? [String: Any]()
+                return w
+            }
+            return ["items": items]
+        }
+        var c: [String: Any] = ["format": d["format"] ?? "portfolio", "pages": pages,
+                                "theme": d["theme"] ?? [:], "photos": d["photos"] ?? [:], "notes": d["notes"] ?? [:],
+                                "backgroundImageId": d["backgroundImageId"] ?? NSNull()]
+        if let n = d["name"] { c["name"] = n }
+        if let o = d["owner"] { c["owner"] = o }
+        return c
+    }
+
+    // MARK: GraphQL (ทดลอง)
+
+    private func gql(_ query: String, _ variables: [String: Any] = [:]) async throws -> [String: Any] {
+        var req = URLRequest(url: server.appendingPathComponent("graphql"))
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONSerialization.data(withJSONObject: ["query": query, "variables": variables])
+        let (data, resp) = try await session.data(for: req)
+        guard (resp as? HTTPURLResponse)?.statusCode == 200 else { throw LabError.http((resp as? HTTPURLResponse)?.statusCode ?? 0) }
+        let obj = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
+        if let errs = obj["errors"] as? [[String: Any]], let m = errs.first?["message"] as? String { throw LabError.graphql(m) }
+        return obj["data"] as? [String: Any] ?? [:]
+    }
+
+    /// ผัง widget จาก API — ไฟล์ผังเปลี่ยนเมื่อไหร่ แทนชุดในตัวแอปแล้ววาดใหม่ (ไม่ต้อง build)
+    private func syncSpecs() async throws {
+        let v = try await gql("{ widgetSpecsVersion }")["widgetSpecsVersion"] as? String
+        guard let v, v != specsVersion else { return }
+        let list = try await gql("{ widgetSpecs { kind json } }")["widgetSpecs"] as? [[String: Any]] ?? []
+        let files = list.compactMap { ($0["json"]).flatMap { try? JSONSerialization.data(withJSONObject: $0) } }
+        if SpecCatalog.replace(with: files) > 0 {
+            specsVersion = v
+            remoteStamp &+= 1
+        }
+    }
+
+    /// รูป mock ชุดเดียวของทุก platform — แทนคลังรูปของเครื่อง (`PhotoStore.library`)
+    private func syncMockPhotos() async throws {
+        guard let photos else { return }
+        let m = try await gql("{ mockPhotos { version creators works } }")["mockPhotos"] as? [String: Any] ?? [:]
+        guard let v = m["version"] as? String, v != mockVersion else { return }
+        var creators: [UIImage] = [], works: [UIImage] = []
+        for id in m["creators"] as? [String] ?? [] { creators.append(try await download(id)) }
+        for id in m["works"] as? [String] ?? [] { works.append(try await download(id)) }
+        photos.labMock = creators.isEmpty && works.isEmpty ? nil : .init(creators: creators, works: works)
+        mockVersion = v
+        remoteStamp &+= 1
     }
 
     // MARK: รับ
@@ -373,7 +473,9 @@ final class LabSync {
         let mine = try await build(record)
         lastJSON = try encode(mine)
         saveState()
-        lastEcho = try await echo(mine, rev: remote.rev)
+        // ของที่เพิ่งรับมาไม่ใช่การแก้ของเครื่องนี้ — จำลายเซ็นไว้ ไม่งั้นรอบหน้าจะส่งกลับขึ้นไปเอง
+        lastSig = signature()
+        pendingSig = nil
     }
 
     /// ใช้ doc จากเครื่องอื่นกับการ์ดในเครื่องนี้ — รูปที่ยังไม่มีโหลดมาก่อน

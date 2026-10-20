@@ -143,7 +143,7 @@ object GL {
     val goldInk = rgb(154 / 255.0, 116 / 255.0, 32 / 255.0)
     val gold = rgb(201 / 255.0, 162 / 255.0, 39 / 255.0)
 
-    /** "Didot-Italic" — Android ใช้เซริฟเอียงของระบบ (ดู `serifItalic`) */
+    /** หัวข้อ "Card / Profile / Insight" — Noto Sans Thai (ดู `serifItalic`) */
     fun serif(size: Float): TextStyle = serifItalic(size)
 }
 

@@ -1,0 +1,207 @@
+{
+ "kind": "typeMarquee",
+ "design": {
+  "w": 366,
+  "h": 46
+ },
+ "widget": {
+  "title": "แถบวิ่ง",
+  "category": "brand",
+  "symbol": "text.line.first.and.arrowtriangle.forward",
+  "order": 29,
+  "tier": "personal",
+  "motion": "anchored"
+ },
+ "notes": "แถบชื่อแบรนด์ตัวพิมพ์ใหญ่คั่นด้วย ✱ สีเน้น บนแถบพื้นเน้นจาง เอียง 0.8° มีเส้นบน/ล่าง · ต้นฉบับเป็นแถบวิ่งตามเวลา (ScrubRunner · 3 สำเนา · TimelineView) — ที่นี่เป็นภาพนิ่ง ชุดเดียว ล้นแล้วตัด เฟสของแถบจึงตรงกันไม่ได้ · แถบสูง 40 วางกลางกล่อง (กล่องที่กรอบดีไซน์สูงแค่ 22 — แถบล้นบนล่างเท่ากันเหมือน VStack ของต้นฉบับ) · กรอบสูง (h>=100) ซ้อนสองแถบสลับทิศ/สี เหมือน n = h/50 ของต้นฉบับ · Swift อ่าน brands (ชื่อแบรนด์) ไม่ใช่ categories · ✱ = ตัวอักษร U+2731 (ต้นฉบับ SF Symbol asterisk 9 black — ph:asterisk ไม่มีใน asset ที่ฝัง วาดเป็นช่องว่าง) · แปลงจาก ArtWidgets.swift (TypeMarquee)",
+ "variants": [
+  {
+   "when": "h>=100",
+   "root": {
+    "type": "col",
+    "gap": 6,
+    "justify": "center",
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "band0",
+      "h": 40,
+      "fill": "accent@0.1",
+      "rotate": -0.8,
+      "clip": true,
+      "children": [
+       {
+        "type": "rect",
+        "h": 0.5,
+        "place": "top-left",
+        "fill": "line@0.12"
+       },
+       {
+        "type": "chips",
+        "list": "brands",
+        "wrap": false,
+        "gap": 22,
+        "align": "center",
+        "place": "center-left",
+        "each": {
+         "type": "row",
+         "gap": 22,
+         "align": "center",
+         "shrink": 0,
+         "children": [
+          {
+           "type": "text",
+           "text": "{name}",
+           "textCase": "upper",
+           "face": "noto",
+           "size": 15,
+           "weight": 700,
+           "color": "ink@0.9",
+           "maxLines": 1
+          },
+          {
+           "type": "text",
+           "text": "✱",
+           "face": "noto",
+           "size": 9,
+           "weight": 900,
+           "color": "accent",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "rect",
+        "h": 0.5,
+        "place": "bottom-left",
+        "fill": "line@0.12"
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "band1",
+      "h": 40,
+      "fill": "accent@0.16",
+      "rotate": 0.8,
+      "clip": true,
+      "children": [
+       {
+        "type": "rect",
+        "h": 0.5,
+        "place": "top-left",
+        "fill": "line@0.12"
+       },
+       {
+        "type": "chips",
+        "list": "brands",
+        "wrap": false,
+        "gap": 22,
+        "align": "center",
+        "place": "center-right",
+        "each": {
+         "type": "row",
+         "gap": 22,
+         "align": "center",
+         "shrink": 0,
+         "children": [
+          {
+           "type": "text",
+           "text": "{name}",
+           "textCase": "upper",
+           "face": "noto",
+           "size": 15,
+           "weight": 700,
+           "color": "ink@0.9",
+           "maxLines": 1
+          },
+          {
+           "type": "text",
+           "text": "✱",
+           "face": "noto",
+           "size": 9,
+           "weight": 900,
+           "color": "accent",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "rect",
+        "h": 0.5,
+        "place": "bottom-left",
+        "fill": "line@0.12"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "id": "band0",
+    "h": 40,
+    "fill": "accent@0.1",
+    "rotate": -0.8,
+    "clip": true,
+    "children": [
+     {
+      "type": "rect",
+      "h": 0.5,
+      "place": "top-left",
+      "fill": "line@0.12"
+     },
+     {
+      "type": "chips",
+      "list": "brands",
+      "wrap": false,
+      "gap": 22,
+      "align": "center",
+      "place": "center-left",
+      "each": {
+       "type": "row",
+       "gap": 22,
+       "align": "center",
+       "shrink": 0,
+       "children": [
+        {
+         "type": "text",
+         "text": "{name}",
+         "textCase": "upper",
+         "face": "noto",
+         "size": 15,
+         "weight": 700,
+         "color": "ink@0.9",
+         "maxLines": 1
+        },
+        {
+         "type": "text",
+         "text": "✱",
+         "face": "noto",
+         "size": 9,
+         "weight": 900,
+         "color": "accent",
+         "maxLines": 1
+        }
+       ]
+      }
+     },
+     {
+      "type": "rect",
+      "h": 0.5,
+      "place": "bottom-left",
+      "fill": "line@0.12"
+     }
+    ],
+    "place": "center",
+    "w": "100%"
+   }
+  ]
+ }
+}

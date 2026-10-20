@@ -108,8 +108,8 @@ data class CardPage(
 }
 
 /**
- * ชิ้นหนึ่งชิ้น — widget ใคร widget มัน: ตำแหน่ง · ข้อความ · หน้าตา · รูป อยู่ในตัวมันครบ
- * key ใน text/style/photos = ชื่อช่อง/เลขช่องจาก WidgetSpec ของ kind นั้น
+ * ชิ้นหนึ่งชิ้น — widget ใคร widget มัน · **ทุกชิ้นทรงเดียวกัน** (19 ต.ค. 2569):
+ * ฟิลด์หลัก `id kind x y w h surface border` + `options` (key = `opt` ของ `widget.controls`) + `photos`
  */
 @KeepGeneratedSerializer
 @Serializable(with = WidgetItem.Serializer::class)
@@ -123,17 +123,15 @@ data class WidgetItem(
     val y: Double,
     val w: Double,
     val h: Double,
-    val surface: String? = null,
-    val border: Boolean? = null,
-    val pattern: String? = null,
-    /** null = true */
-    val liftPhoto: Boolean? = null,
-    /** print · blind · off · null = print */
-    val emboss: String? = null,
-    /** ชื่อช่อง → ข้อความของชิ้นนี้ (เก็บตามที่พิมพ์ — ตัวพิมพ์ใหญ่ทำตอนวาด) */
-    val text: Map<String, String> = emptyMap(),
-    /** ชื่อช่อง → หน้าตา · ช่องรายการใช้ชื่อคอลัมน์ เช่น "rate.price" */
-    val style: Map<String, SlotStyle> = emptyMap(),
+    /** พื้นผิวแผ่น glass dim clear pane — ส่งทุกชิ้นเสมอ */
+    @EncodeDefault val surface: String = "glass",
+    /** เส้นขอบรอบชิ้น — ส่งทุกชิ้นเสมอ */
+    @EncodeDefault val border: Boolean = false,
+    /**
+     * ค่าที่ผู้ใช้เลือกในถาด — key = `opt` ของ `widget.controls` · ค่าตั้งต้นไม่ส่ง
+     * ชั้นข้อความ (textBlock) เก็บข้อความที่ `text` และหน้าตาตัวอักษรที่ `face` `tint` `scale` `align` `points`
+     */
+    val options: Map<String, String> = emptyMap(),
     /** เลขช่องรูป ("1") → รูปที่ผู้ใช้ใส่เอง */
     val photos: Map<String, PhotoRef> = emptyMap(),
     @Transient val extra: JsonObject = NoExtra,
@@ -162,8 +160,6 @@ data class SlotStyle(
 @Serializable(with = PhotoRef.Serializer::class)
 data class PhotoRef(
     val imageId: Int,
-    /** PNG ที่ลบพื้นหลังแล้ว — ใช้ไฟล์นี้เลย ไม่ต้องให้ ML Kit ตัดใหม่ */
-    val liftImageId: Int? = null,
     val fit: PhotoFit? = null,
     @Transient val extra: JsonObject = NoExtra,
 ) {
@@ -193,9 +189,8 @@ data class StarOwner(
     val displayName: String,
     val nickname: String? = null,
     val handle: String,
-    val tagline: String? = null,
+    // tagline ไม่ส่ง — แอปสร้างจาก categories เอง · quote ตัดแล้ว (ไม่มีที่กรอก)
     val about: String? = null,
-    val quote: String? = null,
     val workArea: String? = null,
     val categories: List<String> = emptyList(),
     val interests: List<String> = emptyList(),
@@ -307,9 +302,8 @@ data class WidgetSpec(
 @Serializable
 data class SlotSpec(
     val label: String,
-    /** "own" · "profile.<ฟิลด์>" · "profile.rates[].price" · "fact.<ค่า>" */
+    /** อ่านอย่างเดียวทุกแบบ: "label" · "profile.<ฟิลด์>" · "profile.rates[].price" · "fact.<ค่า>" */
     val from: String,
-    val override: Boolean? = null,
     val list: Boolean? = null,
     val defaultText: String? = null,
     val maxLength: Int? = null,
@@ -406,7 +400,6 @@ fun CardTheme.canonicalized(): CardTheme = copy(
 fun WidgetItem.canonicalized(): WidgetItem = copy(
     id = id.lowercase(),
     x = x.r(2), y = y.r(2), w = w.r(2), h = h.r(2),
-    style = style.mapValues { (_, s) -> s.copy(pt = s.pt?.r(1)) },
     photos = photos.mapValues { (_, p) -> p.canonicalized() },
 )
 

@@ -1,0 +1,70 @@
+{
+ "kind": "artFilmstrip",
+ "design": {
+  "w": 366,
+  "h": 99
+ },
+ "widget": {
+  "title": "แถบภาพ",
+  "category": "photo",
+  "symbol": "rectangle.split.3x1.fill",
+  "order": 18,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored",
+  "replaces": [
+   "artPhotobooth"
+  ]
+ },
+ "notes": "คอนแทกต์ชีต 4 ช่องเท่ากัน ช่องรูป 6–9 มุม 13 ขอบเส้นผม · scrubSlide/scrubAperture (ท่าเปลี่ยนหน้า) ไม่อยู่ในผัง · แปลงจาก ArtWidgets.swift (ArtFilmstrip)",
+ "root": {
+  "type": "row",
+  "gap": 7,
+  "children": [
+   {
+    "type": "image",
+    "photo": 6,
+    "radius": 13,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 1,
+    "id": "cell6"
+   },
+   {
+    "type": "image",
+    "photo": 7,
+    "radius": 13,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 1,
+    "id": "cell7"
+   },
+   {
+    "type": "image",
+    "photo": 8,
+    "radius": 13,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 1,
+    "id": "cell8"
+   },
+   {
+    "type": "image",
+    "photo": 9,
+    "radius": 13,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 1,
+    "id": "cell9"
+   }
+  ]
+ }
+}

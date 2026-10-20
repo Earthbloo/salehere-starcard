@@ -100,13 +100,15 @@ struct CardPage: Codable, Equatable {
     var extra: [String: JSONValue] = [:]
 }
 
-/// ชิ้นหนึ่งชิ้นบนการ์ด — **widget ใคร widget มัน**: ตำแหน่ง · ข้อความ · หน้าตา · รูป ของชิ้นนี้อยู่ในตัวมันครบ
+/// ชิ้นหนึ่งชิ้นบนการ์ด — **widget ใคร widget มัน**: ตำแหน่ง · ตัวเลือก · รูป ของชิ้นนี้อยู่ในตัวมันครบ
+///
+/// **ทุกชิ้นทรงเดียวกัน** (19 ต.ค. 2569): ฟิลด์หลัก `id kind x y w h surface border` + `options` + `photos`
+/// server/front ไม่ต้องรู้ว่าแต่ละ kind มีตัวเลือกอะไร — อ่านจาก `widget.controls` ในไฟล์ผังของ kind นั้น
 ///
 /// ผลคือ ทำสำเนาชิ้น/การ์ด = ได้ของทั้งหมดติดไปและแยกขาดจากต้นฉบับ · ลบชิ้น = ของของมันหายไปด้วย
 /// (prototype เคยเก็บข้อความและรูปไว้นอกชิ้น ผูกด้วย id — ทำสำเนาแล้วสองใบแก้ทับกัน)
 ///
-/// ช่องข้อความและช่องรูปของแต่ละ kind ประกาศไว้ใน `WidgetSpec` (§5) — key ใน `text`/`style`/`photos`
-/// ต้องเป็นชื่อช่องจากสเปกนั้นเท่านั้น
+/// ช่องรูปของแต่ละ kind ประกาศไว้ใน `WidgetSpec` (§5) — key ใน `photos` ต้องเป็นเลขช่องจากสเปกนั้นเท่านั้น
 struct WidgetItem: Codable, Equatable {
     /// UUID ตัวพิมพ์เล็ก · สร้างใหม่ทุกครั้งที่ทำสำเนาหรือสร้างจากเทมเพลต
     var id: String
@@ -118,24 +120,15 @@ struct WidgetItem: Codable, Equatable {
     var y: Double
     var w: Double
     var h: Double
-    /// พื้นผิวแผ่น: glass dim clear pane · nil = ตามบุคลิกของ kind
-    var surface: String?
-    /// มีเส้นขอบรอบชิ้น · nil = ตามบุคลิกของ kind
-    var border: Bool?
-    /// ลายบนแผ่น: plain stripe diamond · nil = plain
-    var pattern: String?
-    /// ลบพื้นหลังรูปคนอัตโนมัติ (เฉพาะ kind ที่ยกตัวแบบได้) · nil = true
-    var liftPhoto: Bool?
-    /// ตรา Sale Here บนแผ่น: print (พิมพ์) · blind (ปั๊มนูน) · off · nil = print
-    var emboss: String?
-    /// ข้อความของชิ้นนี้ — key = ชื่อช่องจากสเปก เช่น `"headline"`
+    /// พื้นผิวแผ่น: glass dim clear pane — ส่งทุกชิ้นเสมอ
+    var surface: String
+    /// มีเส้นขอบรอบชิ้น — ส่งทุกชิ้นเสมอ
+    var border: Bool
+    /// **ค่าที่ผู้ใช้เลือกในถาด** — key = `opt` ของ `widget.controls` ในไฟล์ผัง · ค่าเป็นข้อความเสมอ · ค่าตั้งต้นไม่ส่ง
     ///
-    /// ช่อง `own` เก็บถ้อยคำที่ผู้ใช้พิมพ์ · ช่องที่ผูกโปรไฟล์แบบ override ได้ เก็บคำที่ทับเฉพาะชิ้นนี้
-    /// ไม่มี key = ใช้ค่าจากโปรไฟล์ / ข้อความตั้งต้นในสเปก · เก็บ "ตามที่พิมพ์" — ตัวพิมพ์ใหญ่ทำตอนวาด
-    var text: [String: String] = [:]
-    /// หน้าตาของแต่ละช่อง — key = ชื่อช่อง (ช่องรายการใช้ชื่อคอลัมน์ เช่น "rate.price" มีผลทุกแถว)
-    /// ไม่มี key หรือค่าย่อยเป็น nil = ตามที่สเปกของช่องตั้งไว้
-    var style: [String: SlotStyle] = [:]
+    /// ชั้นข้อความ (`textBlock`) เก็บข้อความที่พิมพ์ที่ `text` และหน้าตาตัวอักษรที่ `face` `tint` `scale` `align` `points`
+    /// widget ไม่มีข้อความพิมพ์เอง (ข้อมูลจาก Model ของหมวดล้วน) · server ทิ้ง key ที่ kind นั้นไม่ได้ประกาศ
+    var options: [String: String] = [:]
     /// รูปที่ผู้ใช้ใส่เองในช่องรูปของชิ้นนี้ — key = เลขช่องรูปจากสเปก เช่น `"1"`
     /// ช่องที่ไม่มี key ใช้รูปสำรองตามลำดับกลาง (ดู `StarOwner.photos`)
     var photos: [String: PhotoRef] = [:]
@@ -144,7 +137,7 @@ struct WidgetItem: Codable, Equatable {
 
 /// หน้าตาของช่องข้อความหนึ่งช่อง — ทุกค่าเป็น optional: nil = ตามสเปก → ตามธีม
 ///
-/// ลำดับหาค่าตอนวาด: `item.style[ช่อง].ค่า` → `WidgetSpec.slots[ช่อง].style.ค่า` → ธีมของการ์ด
+/// ลำดับหาค่าตอนวาด: `WidgetSpec.slots[ช่อง].style.ค่า` → ธีมของการ์ด (ชิ้นไม่มีหน้าตารายช่องแล้ว · ชั้นข้อความเก็บใน `options`)
 struct SlotStyle: Codable, Equatable {
     /// ฟอนต์: noto mitr … — ต้องเป็นไฟล์ฟอนต์ที่ฝังได้ทุกแพลตฟอร์ม (ห้ามฟอนต์ระบบ)
     var font: String?
@@ -164,9 +157,6 @@ struct SlotStyle: Codable, Equatable {
 struct PhotoRef: Codable, Equatable {
     /// รูปต้นฉบับใน image-service
     var imageId: Int
-    /// PNG ที่ลบพื้นหลังแล้ว — อัปเป็นไฟล์แยก เพราะ Vision (iOS) กับ ML Kit (Android) ตัดไม่เหมือนกัน
-    /// เครื่องที่เปิดดูใช้ไฟล์นี้เลย ไม่คำนวณใหม่
-    var liftImageId: Int?
     /// การจัดกรอบ · nil = ครอปกลางเฟรม
     var fit: PhotoFit?
     var extra: [String: JSONValue] = [:]
@@ -191,7 +181,7 @@ struct PhotoFit: Codable, Equatable {
 
 /// ข้อมูลเจ้าของ **ส่วนที่ขึ้นบนการ์ดได้** (อ่านอย่างเดียวในห้องแต่ง — แก้ผ่าน `StarProfileUpdate`)
 ///
-/// แก้ชื่อบนการ์ด = แก้ที่นี่ การ์ดทุกใบเปลี่ยนตาม (ยกเว้นชิ้นที่ทับชื่อไว้เองใน `WidgetItem.text`)
+/// แก้ชื่อบนการ์ด = แก้ที่นี่ การ์ดทุกใบเปลี่ยนตาม — ไม่มีการทับรายชิ้น (widget ไม่มีช่องพิมพ์)
 /// **ไม่มีข้อมูลส่วนตัว**: บัญชีธนาคาร · วันเกิด · ศาสนา · ที่อยู่ — อยู่ในโปรไฟล์ แต่ไม่ถูกส่งมากับการ์ด
 struct StarOwner: Codable, Equatable {
     /// ชื่อที่แสดง (ProfileField.name)
@@ -199,10 +189,9 @@ struct StarOwner: Codable, Equatable {
     var nickname: String?
     /// ชื่อผู้ใช้ที่อยู่ในลิงก์ salehere.co.th/star/{handle}
     var handle: String
-    /// สายงาน / คำโปรยสั้น
-    var tagline: String?
+    // สายงานใต้ชื่อ (`tagline`) ไม่ส่ง — ไม่มีที่กรอก แอปสร้างจาก `categories` เอง ("แฟชั่น · คาเฟ่")
+    // `quote` ตัดแล้ว — ไม่มีที่กรอกและไม่มี widget อ่าน
     var about: String?
-    var quote: String?
     /// พื้นที่รับงาน
     var workArea: String?
     /// หมวดหมู่ (ตามลำดับที่เจ้าของเรียง) · ความสนใจ (เรียงตามตัวอักษร)
@@ -366,31 +355,29 @@ struct WidgetSpec: Codable, Equatable {
 struct SlotSpec: Codable, Equatable {
     /// ชื่อที่ผู้ใช้เห็นในห้องแต่ง เช่น "พาดหัวบรรทัดบน"
     var label: String
-    /// ข้อความมาจากไหน:
-    ///   "own"                    ถ้อยคำของชิ้นนี้ (ผู้ใช้พิมพ์ใน `WidgetItem.text`)
+    /// ข้อความมาจากไหน — **อ่านอย่างเดียวทุกแบบ** (ไม่มีช่อง `own` ที่ผู้ใช้พิมพ์แล้ว ยกเว้นชั้นข้อความ):
+    ///   "label"                  ป้ายตายตัวของดีไซน์ (`defaultText`) เช่น "SOCIAL CHANNEL"
     ///   "profile.<ฟิลด์>"         ผูกกับโปรไฟล์ เช่น "profile.displayName"
     ///   "profile.rates[].price"  รายการ — วาดซ้ำทุกแถว (`list` = true)
-    ///   "fact.<ค่า>"              ข้อเท็จจริงระบบ เช่น "fact.followers.instagram" — แก้ข้อความไม่ได้
+    ///   "fact.<ค่า>"              ข้อเท็จจริงระบบ เช่น "fact.followers.instagram"
     var from: String
-    /// ช่องที่ผูกโปรไฟล์ ให้ทับเฉพาะชิ้นนี้ได้ไหม (ชื่อที่แสดง · คำโปรย = ได้ · เบอร์ · เรต = ไม่ได้)
-    var override: Bool?
     var list: Bool?
-    /// ข้อความตั้งต้น — ขึ้นจนกว่าผู้ใช้จะพิมพ์ทับ (ช่อง own) หรือเมื่อโปรไฟล์ยังว่าง
+    /// ข้อความของป้าย (`label`) หรือคำใบ้เมื่อโปรไฟล์ยังว่าง
     var defaultText: String?
     /// จำนวนตัวอักษรสูงสุด — server ตรวจตอนบันทึก
     var maxLength: Int?
     /// แปลงตอนวาด: "upper" — ในการ์ดเก็บตามที่พิมพ์จริง
     var textCase: String?
-    /// หน้าตาตั้งต้นของช่องนี้ (ขนาดเป็น pt ใน `pt`) — `WidgetItem.style` ทับทีละค่า
+    /// หน้าตาของช่องนี้ (ขนาดเป็น pt ใน `pt`) — widget ใช้ค่านี้ตรง ๆ ไม่มีการปรับของผู้ใช้
     var style: SlotStyle?
-    /// ผู้ใช้ปรับอะไรได้บ้าง เช่น ["font", "size", "color"] · textBlock เพิ่ม "align", "pt"
+    /// ผู้ใช้ปรับอะไรได้บ้าง — widget = [] เสมอ · มีแค่ชั้นข้อความ: "font" "size" "color" "align" "pt"
     var styleable: [String] = []
 }
 
 /// เทมเพลต = การ์ดตัวอย่างที่ทีมออกแบบทำไว้
 ///
-/// สร้างการ์ดจากเทมเพลต: server คัดลอก `doc` → สร้าง UUID ใหม่ให้ทุกชิ้น → ลบ `text`/`photos` ของดีไซเนอร์
-/// (เหลือ `style` กับผัง) → การ์ดดึงชื่อและรูปของผู้ใช้เองจาก `StarOwner`
+/// สร้างการ์ดจากเทมเพลต: server คัดลอก `doc` → สร้าง UUID ใหม่ให้ทุกชิ้น → ลบ `options.text`/`photos` ของดีไซเนอร์
+/// (เหลือตัวเลือกอื่นกับผัง) → การ์ดดึงชื่อและรูปของผู้ใช้เองจาก `StarOwner`
 struct CardTemplate: Codable, Equatable {
     var id: String
     var name: String
@@ -513,11 +500,6 @@ extension WidgetItem {
         i.y = round(y, 2)
         i.w = round(w, 2)
         i.h = round(h, 2)
-        i.style = style.mapValues { s in
-            var s = s
-            s.pt = s.pt.map { round($0, 1) }
-            return s
-        }
         i.photos = photos.mapValues { $0.canonicalized() }
         return i
     }
@@ -686,8 +668,7 @@ extension CardPage {
 }
 
 extension WidgetItem {
-    private static let known = ["id", "kind", "x", "y", "w", "h", "surface", "border", "pattern",
-                                "liftPhoto", "emboss", "text", "style", "photos"]
+    private static let known = ["id", "kind", "x", "y", "w", "h", "surface", "border", "options", "photos"]
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: AnyKey.self)
         id = try c.req("id")
@@ -696,13 +677,9 @@ extension WidgetItem {
         y = try c.req("y")
         w = try c.req("w")
         h = try c.req("h")
-        surface = try c.opt("surface")
-        border = try c.opt("border")
-        pattern = try c.opt("pattern")
-        liftPhoto = try c.opt("liftPhoto")
-        emboss = try c.opt("emboss")
-        text = try c.opt("text") ?? [:]
-        style = try c.opt("style") ?? [:]
+        surface = try c.opt("surface") ?? "glass"
+        border = try c.opt("border") ?? false
+        options = try c.opt("options") ?? [:]
         photos = try c.opt("photos") ?? [:]
         extra = try c.unknown(Self.known)
     }
@@ -716,11 +693,7 @@ extension WidgetItem {
         try c.put(h, "h")
         try c.put(surface, "surface")
         try c.put(border, "border")
-        try c.put(pattern, "pattern")
-        try c.put(liftPhoto, "liftPhoto")
-        try c.put(emboss, "emboss")
-        try c.put(text, "text")
-        try c.put(style, "style")
+        try c.put(options, "options")
         try c.put(photos, "photos")
         try c.put(extra: extra)
     }
@@ -752,14 +725,12 @@ extension PhotoRef {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: AnyKey.self)
         imageId = try c.req("imageId")
-        liftImageId = try c.opt("liftImageId")
         fit = try c.opt("fit")
-        extra = try c.unknown(["imageId", "liftImageId", "fit"])
+        extra = try c.unknown(["imageId", "fit"])
     }
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: AnyKey.self)
         try c.put(imageId, "imageId")
-        try c.put(liftImageId, "liftImageId")
         try c.put(fit, "fit")
         try c.put(extra: extra)
     }

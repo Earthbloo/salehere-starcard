@@ -29,33 +29,23 @@ import kotlin.math.min
 
 /**
  * ฟอนต์ที่เลือกได้ — ทุกตัวต้องอ่านภาษาไทยออก
- * `noto` กับ `mitr` มาในแอป · สุขุมวิท/ธนบุรี/กรุงเทพเป็นฟอนต์ของ iOS — Android ไม่มี จึงตกกลับไปที่ `noto` เสมอ
+ * มีแค่ฟอนต์ที่มาในแอปและเป็น SIL Open Font License (`noto` · `mitr`) — ฟอนต์ของ Apple
+ * (สุขุมวิท · ธนบุรี · กรุงเทพ · SF Rounded · New York) ถูกถอดออก · ค่าเก่าที่บันทึกไว้ตกกลับไปที่ `noto` (`from` คืน null)
  */
 enum class CardFont(val raw: String) {
-    noto("noto"), mitr("mitr"), sukhumvit("sukhumvit"), thonburi("thonburi"), krungthep("krungthep"),
-    rounded("rounded"), serif("serif");
+    noto("noto"), mitr("mitr");
 
     val displayName: String
         get() = when (this) {
             noto -> "มาตรฐาน"
             mitr -> "มิตร"
-            sukhumvit -> "สุขุมวิท"
-            thonburi -> "ธนบุรี"
-            krungthep -> "กรุงเทพ"
-            rounded -> "มน"
-            serif -> "เซริฟ"
         }
 
-    /** ฟอนต์นี้มีอยู่จริงบนเครื่องนี้ไหม — ตัวที่ไม่มีตกกลับไปที่ฟอนต์หลักของแอป (= `resolved`) */
-    val isAvailable: Boolean get() = this == noto || this == mitr || this == rounded || this == serif
-
-    /** ตระกูลฟอนต์ที่ใช้จริง — ที่หาไม่เจอตกกลับไป NotoSansThai เสมอ */
+    /** ตระกูลฟอนต์ที่ใช้จริง */
     val family: FontFamily
         get() = when (this) {
             mitr -> SHFont.mitr
-            rounded -> FontFamily.SansSerif
-            serif -> FontFamily.Serif
-            noto, sukhumvit, thonburi, krungthep -> SHFont.family
+            noto -> SHFont.family
         }
 
     /**
@@ -64,9 +54,7 @@ enum class CardFont(val raw: String) {
      */
     fun font(size: Float, weight: FontWeight = FontWeight.Normal): TextStyle = when (this) {
         mitr -> sh(size, FontWeight.Normal, family = SHFont.mitr)
-        rounded -> systemFont(size, weight)
-        serif -> systemFont(size, weight, serif = true)
-        noto, sukhumvit, thonburi, krungthep -> sh(size, weight)
+        noto -> sh(size, weight)
     }
 
     companion object {
@@ -268,6 +256,17 @@ enum class WidgetTextSize(val raw: String) {
             l -> 1.30f
             xl -> 1.70f
             xxl -> 2.20f
+        }
+
+    /** ตัวคูณเดียวกันใน Double (= CGFloat ของ iOS) — ตัวคำนวณผังใช้ตัวนี้ */
+    val factorD: Double
+        get() = when (this) {
+            xs -> 0.60
+            s -> 0.78
+            m -> 1.00
+            l -> 1.30
+            xl -> 1.70
+            xxl -> 2.20
         }
 
     companion object {

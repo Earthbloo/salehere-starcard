@@ -1,0 +1,123 @@
+{
+ "kind": "contactChips",
+ "design": {
+  "w": 366,
+  "h": 117
+ },
+ "widget": {
+  "title": "ชิปช่องทาง",
+  "category": "contact",
+  "symbol": "capsule.portrait.fill",
+  "order": 40,
+  "motion": "anchored"
+ },
+ "notes": "สามช่องทางเป็นชิปขอบบาง ไอคอนสีเน้น + ค่า ขึ้นบรรทัดเองเมื่อแคบ · ไอคอน Phosphor แบบ fill ph:chat-circle-fill · ph:phone-fill · ph:globe (ต้นฉบับเป็น SF Symbol message.fill / phone.fill / globe — ชุด Phosphor ที่ฝังยังไม่มี phone/globe จึงยังว่าง) · แปลงจาก BookingWidgets.swift (ContactChipsWidget)",
+ "root": {
+  "type": "row",
+  "wrap": true,
+  "gap": 8,
+  "align": "start",
+  "justify": "start",
+  "children": [
+   {
+    "type": "row",
+    "id": "line",
+    "gap": 6,
+    "pad": [
+     8,
+     12
+    ],
+    "circle": true,
+    "align": "center",
+    "shrink": 0,
+    "stroke": {
+     "color": "line@0.18",
+     "width": 0.8
+    },
+    "children": [
+     {
+      "type": "icon",
+      "icon": "ph:chat-circle-fill",
+      "size": 10,
+      "tint": "accent"
+     },
+     {
+      "type": "text",
+      "slot": "lineId",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.9",
+      "maxLines": 1
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "phone",
+    "gap": 6,
+    "pad": [
+     8,
+     12
+    ],
+    "circle": true,
+    "align": "center",
+    "shrink": 0,
+    "stroke": {
+     "color": "line@0.18",
+     "width": 0.8
+    },
+    "children": [
+     {
+      "type": "icon",
+      "icon": "ph:phone-fill",
+      "size": 10,
+      "tint": "accent"
+     },
+     {
+      "type": "text",
+      "slot": "phone",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.9",
+      "maxLines": 1
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "web",
+    "gap": 6,
+    "pad": [
+     8,
+     12
+    ],
+    "circle": true,
+    "align": "center",
+    "shrink": 0,
+    "stroke": {
+     "color": "line@0.18",
+     "width": 0.8
+    },
+    "children": [
+     {
+      "type": "icon",
+      "icon": "ph:globe",
+      "size": 10,
+      "tint": "accent"
+     },
+     {
+      "type": "text",
+      "slot": "website",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.9",
+      "maxLines": 1
+     }
+    ]
+   }
+  ]
+ }
+}

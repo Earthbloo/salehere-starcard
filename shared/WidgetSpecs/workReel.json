@@ -1,0 +1,107 @@
+{
+ "kind": "workReel",
+ "design": {
+  "w": 117,
+  "h": 313
+ },
+ "widget": {
+  "title": "คลิปแนวตั้ง",
+  "category": "photo",
+  "symbol": "play.rectangle.fill",
+  "order": 22,
+  "photo": true,
+  "fullBleed": true,
+  "motion": "anchored",
+  "replaces": [
+   "galleryStory"
+  ]
+ },
+ "notes": "คลิปแนวตั้งเต็มกรอบ: รูป 8 มุม 20 ขอบ line@0.12 0.6 + scrim ครึ่งล่าง black@0.62 · โลโก้แพลตฟอร์ม (ชิ้นแรกของ works) มุมล่างซ้าย pad 12 · ปุ่มเล่น 44 กลางภาพ: ต้นฉบับ .ultraThinMaterial → ประมาณด้วย white@0.22 · ไอคอน play 15 ขยับขวา 1.5 · full-bleed · SeekRing (วงแหวนกรอ) และ scrub ทั้งหมดไม่อยู่ในผัง · แปลงจาก WorkWidgets.swift (WorkReel)",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "image",
+    "photo": 8,
+    "radius": 20,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "id": "clip"
+   },
+   {
+    "type": "col",
+    "id": "scrim",
+    "children": [
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "rect",
+      "grow": 1,
+      "radius": 20,
+      "gradient": {
+       "from": "clear",
+       "to": "black@0.62",
+       "angle": 90
+      }
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "platformMark",
+    "w": 25,
+    "h": 25,
+    "place": "bottom-left",
+    "dx": 12,
+    "dy": -12,
+    "pad": 6,
+    "fill": "black@0.42",
+    "circle": true,
+    "stroke": {
+     "color": "white@0.14",
+     "width": 0.5
+    },
+    "children": [
+     {
+      "type": "chips",
+      "list": "works",
+      "limit": 1,
+      "wrap": false,
+      "each": {
+       "type": "icon",
+       "icon": "$icon",
+       "size": 13
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "playRing",
+    "w": 44,
+    "h": 44,
+    "place": "center",
+    "circle": true,
+    "fill": "white@0.22",
+    "stroke": {
+     "color": "white@0.16",
+     "width": 1.4
+    },
+    "children": [
+     {
+      "type": "icon",
+      "icon": "ph:play-fill",
+      "size": 15,
+      "tint": "white",
+      "place": "center",
+      "dx": 1.5
+     }
+    ]
+   }
+  ]
+ }
+}

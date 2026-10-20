@@ -1,0 +1,154 @@
+{
+ "kind": "audienceAge",
+ "design": {
+  "w": 366,
+  "h": 171
+ },
+ "widget": {
+  "title": "ช่วงอายุผู้ชม",
+  "category": "audience",
+  "symbol": "chart.bar.fill",
+  "order": 44,
+  "stamp": "insight",
+  "motion": "anchored"
+ },
+ "notes": "หัวข้อ 'ช่วงอายุผู้ชม' + แถวต่อช่วงอายุ (ป้าย 42pt · แท่งแคปซูล pct $shareRaw/max · %) · แปลงจาก InsightWidgets.swift (AudienceAgeWidget) · แถวเรียงตามอายุ (ไม่ sort) และ grow 1 เท่ากัน · แท่ง = share/max เหมือนต้นฉบับ (`/max` ติดมากับชิ้น ใช้ได้ทุกชั้น) · กลุ่มใหญ่สุด (peak = `$shareRaw=max`) เน้นด้วยไล่สี accentSoft→accent + ป้าย ink@0.9 + ตัวเลข ink@0.98 · กลุ่มรอง accent@0.34 + ink@0.5 / 0.55 · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (ของเดิม fixedSize) · ทุกสีมาจากหมึก/สีเน้นของพื้นที่ใบนั่ง (ไม่มีค่าตายตัว) · chrome วาดแผ่น/ขอบให้",
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ช่วงอายุผู้ชม",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:screenshot",
+      "w": 104,
+      "h": 18
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "bands",
+    "list": "ages",
+    "direction": "col",
+    "gap": 0,
+    "grow": 1,
+    "each": {
+     "type": "row",
+     "grow": 1,
+     "gap": 10,
+     "align": "center",
+     "children": [
+      {
+       "type": "text",
+       "slot": "$label",
+       "w": 42,
+       "face": "noto",
+       "size": 11,
+       "weight": 600,
+       "color": "ink@0.9",
+       "maxLines": 1,
+       "if": "$shareRaw=max"
+      },
+      {
+       "type": "text",
+       "slot": "$label",
+       "w": 42,
+       "face": "noto",
+       "size": 11,
+       "weight": 600,
+       "color": "ink@0.5",
+       "maxLines": 1,
+       "if": "!$shareRaw=max"
+      },
+      {
+       "type": "stack",
+       "grow": 1,
+       "h": 9,
+       "children": [
+        {
+         "type": "rect",
+         "circle": true,
+         "fill": "fill@0.07"
+        },
+        {
+         "type": "row",
+         "children": [
+          {
+           "type": "rect",
+           "pct": "$shareRaw/max",
+           "circle": true,
+           "gradient": {
+            "from": "accentSoft",
+            "to": "accent",
+            "angle": 0
+           },
+           "if": "$shareRaw=max"
+          },
+          {
+           "type": "rect",
+           "pct": "$shareRaw/max",
+           "circle": true,
+           "fill": "accent@0.34",
+           "if": "!$shareRaw=max"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "slot": "$share",
+       "minW": 38,
+       "textAlign": "right",
+       "face": "noto",
+       "size": 12.5,
+       "weight": 800,
+       "color": "ink@0.98",
+       "maxLines": 1,
+       "if": "$shareRaw=max"
+      },
+      {
+       "type": "text",
+       "slot": "$share",
+       "minW": 38,
+       "textAlign": "right",
+       "face": "noto",
+       "size": 12.5,
+       "weight": 800,
+       "color": "ink@0.55",
+       "maxLines": 1,
+       "if": "!$shareRaw=max"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

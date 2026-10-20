@@ -1,0 +1,375 @@
+{
+ "kind": "kitNicheNight",
+ "design": {
+  "w": 330,
+  "h": 110
+ },
+ "widget": {
+  "title": "สายงาน",
+  "category": "tags",
+  "symbol": "sparkles",
+  "order": 104,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "night"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitNiche"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 16,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 16
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 16
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 16,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 16
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 16
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 4.5,
+      "dy": -6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "radius": 1.5,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -4.5,
+      "dy": -6
+     }
+    ],
+    "if": "bordered",
+    "id": "brackets"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 19,
+      "weight": 700,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 13.3,
+      "w": "fill",
+      "id": "title",
+      "text": "สายงาน"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "chips",
+        "list": "categories",
+        "each": {
+         "type": "stack",
+         "children": [
+          {
+           "type": "rect",
+           "fill": "kit.block",
+           "radius": 10
+          },
+          {
+           "type": "rect",
+           "stroke": {
+            "color": "kit.border@0.3",
+            "width": 1
+           },
+           "radius": 10,
+           "if": "bordered"
+          },
+          {
+           "type": "rect",
+           "stroke": {
+            "color": "kit.ink@0.1",
+            "width": 1
+           },
+           "radius": 10,
+           "if": "!bordered"
+          },
+          {
+           "type": "col",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:sparkle",
+             "size": 24,
+             "tint": "kit.accent"
+            },
+            {
+             "type": "text",
+             "slot": "categories#$i",
+             "face": "noto",
+             "size": 11.5,
+             "weight": 600,
+             "color": "kit.ink",
+             "maxLines": 2,
+             "shrinkTo": 9.2,
+             "textAlign": "center",
+             "w": "fill"
+            }
+           ],
+           "pad": [
+            12,
+            4
+           ],
+           "align": "center",
+           "justify": "center",
+           "gap": 6
+          }
+         ],
+         "grow": 1
+        },
+        "where": "!hidden:$text",
+        "wrap": false,
+        "gap": 8,
+        "grow": 1,
+        "align": "stretch"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "align": "stretch"
+     }
+    ],
+    "pad": [
+     20,
+     20,
+     18,
+     20
+    ],
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

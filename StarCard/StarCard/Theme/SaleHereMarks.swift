@@ -216,7 +216,7 @@ struct SaleHereMarkView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 1.5).strokeBorder(Self.red, lineWidth: 0.9)
                 Text(String(date.suffix(2)))
-                    .font(.system(size: 6.5, weight: .bold, design: .monospaced))
+                    .font(.sh(6.5, .bold).monospacedDigit())
                     .foregroundStyle(Self.red)
             }
             .frame(width: 14, height: 11)
@@ -230,7 +230,7 @@ struct SaleHereMarkView: View {
     private var micro: some View {
         HStack(spacing: 3) {
             Text(String(repeating: "SALE HERE VERIFIED ", count: 12))
-                .font(.system(size: 3.4, weight: .bold, design: .monospaced))
+                .font(.sh(3.4, .bold).monospacedDigit())
                 .tracking(0.25)
                 .foregroundStyle(Self.red.opacity(0.8))
                 .lineLimit(1)

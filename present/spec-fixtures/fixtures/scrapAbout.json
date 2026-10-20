@@ -1,0 +1,4753 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        370,
+        230
+      ],
+      "boxes" : [
+        {
+          "h" : 230,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 77.18,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 43,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 63.7,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 40.8,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 47.5,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 61.76
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 74.02,
+          "x" : 53,
+          "y" : 61.76
+        },
+        {
+          "h" : 36.42,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 23.2,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 55.62,
+          "x" : 62.2,
+          "y" : 62.26
+        },
+        {
+          "h" : 43.44,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 11.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 193.88,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 230,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 73.74,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 8.5,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 57.74,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 232,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 228,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 236.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 254,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 319,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 345,
+          "y" : 200
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 230,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        370,
+        460
+      ],
+      "boxes" : [
+        {
+          "h" : 460,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 460,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 460,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 460,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 460,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 77.18,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 43,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 63.7,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 40.8,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 47.5,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 61.76
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 74.02,
+          "x" : 53,
+          "y" : 61.76
+        },
+        {
+          "h" : 36.42,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 23.2,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 55.62,
+          "x" : 62.2,
+          "y" : 62.26
+        },
+        {
+          "h" : 43.44,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 11.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 193.88,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 460,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 73.74,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 8.5,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 57.74,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 232,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 228,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 236.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 254,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 319,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 345,
+          "y" : 430
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 460,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        370,
+        370
+      ],
+      "boxes" : [
+        {
+          "h" : 370,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 77.18,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 43,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 63.7,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 40.8,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 47.5,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 61.76
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 74.02,
+          "x" : 53,
+          "y" : 61.76
+        },
+        {
+          "h" : 36.42,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 23.2,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 55.62,
+          "x" : 62.2,
+          "y" : 62.26
+        },
+        {
+          "h" : 43.44,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 11.5,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 193.88,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 370,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 73.74,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 8.5,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 57.74,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 232,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 228,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 236.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 254,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 319,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 345,
+          "y" : 340
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 370,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 38.275862068965516,
+            "outWeight" : 900,
+            "size" : 38.275862068965516,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 38.275862068965516,
+            "outWeight" : 400,
+            "size" : 38.275862068965516,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.454022988505745,
+            "outWeight" : 500,
+            "size" : 24.454022988505745,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.07471264367816,
+            "outWeight" : 600,
+            "size" : 18.07471264367816,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 38.275862068965516,
+            "outWeight" : 400,
+            "size" : 38.275862068965516,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 34.442068965517244,
+            "outWeight" : 900,
+            "size" : 34.442068965517244,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 33.15006896551724,
+            "outWeight" : 400,
+            "size" : 33.15006896551724,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20.049655172413793,
+            "outWeight" : 500,
+            "size" : 20.049655172413793,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.819310344827587,
+            "outWeight" : 600,
+            "size" : 14.819310344827587,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37.84206896551724,
+            "outWeight" : 400,
+            "size" : 37.84206896551724,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30.721034482758622,
+            "outWeight" : 900,
+            "size" : 30.721034482758622,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 28.17503448275862,
+            "outWeight" : 400,
+            "size" : 28.17503448275862,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.774827586206897,
+            "outWeight" : 500,
+            "size" : 15.774827586206897,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.659655172413792,
+            "outWeight" : 600,
+            "size" : 11.659655172413792,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37.42103448275862,
+            "outWeight" : 400,
+            "size" : 37.42103448275862,
+            "slot" : "nickname",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 38.275862068965516,
+          "v" : 57.83,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 38.275862068965516,
+          "v" : 60.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 24.454022988505745,
+          "v" : 46.19,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.07471264367816,
+          "v" : 27.31,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 34.442068965517244,
+          "v" : 52.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 33.15006896551724,
+          "v" : 52.05,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 20.049655172413793,
+          "v" : 37.87,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.819310344827587,
+          "v" : 22.39,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37.84206896551724,
+          "v" : 59.41,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30.721034482758622,
+          "v" : 46.42,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 28.17503448275862,
+          "v" : 44.23,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 15.774827586206897,
+          "v" : 29.79,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.659655172413792,
+          "v" : 17.62,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37.42103448275862,
+          "v" : 58.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 57.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 67.33,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 91.75,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 57.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 67.33,
+          "weight" : 900,
+          "width" : 67.33
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 91.75,
+          "weight" : 400,
+          "width" : 91.75
+        },
+        {
+          "face" : "noto",
+          "h" : 184.76,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 4,
+          "size" : 24.454022988505745,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 189.33,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 27.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.07471264367816,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 122.77,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.07471264367816,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 122.77,
+          "weight" : 600,
+          "width" : 122.77
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 58.49,
+          "weight" : 400,
+          "width" : 124.13793103448276
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 57.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 67.33,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 91.75,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 57.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 67.33,
+          "weight" : 900,
+          "width" : 67.33
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 91.75,
+          "weight" : 400,
+          "width" : 91.75
+        },
+        {
+          "face" : "noto",
+          "h" : 184.76,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 4,
+          "size" : 24.454022988505745,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 189.33,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 27.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.07471264367816,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 122.77,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.31,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.07471264367816,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 122.77,
+          "weight" : 600,
+          "width" : 122.77
+        },
+        {
+          "face" : "mitr",
+          "h" : 60.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 38.275862068965516,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 58.49,
+          "weight" : 400,
+          "width" : 124.13793103448276
+        },
+        {
+          "face" : "noto",
+          "h" : 52.04,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.442068965517244,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 60.59,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 52.05,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.15006896551724,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 79.47,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 52.04,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 34.442068965517244,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 60.59,
+          "weight" : 900,
+          "width" : 60.59
+        },
+        {
+          "face" : "mitr",
+          "h" : 52.05,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 33.15006896551724,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 79.47,
+          "weight" : 400,
+          "width" : 79.47
+        },
+        {
+          "face" : "noto",
+          "h" : 113.60999999999999,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 3,
+          "size" : 20.049655172413793,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 190.46,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 22.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.819310344827587,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 100.66,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 22.39,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.819310344827587,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 100.66,
+          "weight" : 600,
+          "width" : 100.66
+        },
+        {
+          "face" : "mitr",
+          "h" : 59.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.84206896551724,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 57.83,
+          "weight" : 400,
+          "width" : 122.73103448275863
+        },
+        {
+          "face" : "noto",
+          "h" : 46.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30.721034482758622,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 54.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 44.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.17503448275862,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 67.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 46.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30.721034482758622,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 54.04,
+          "weight" : 900,
+          "width" : 54.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 44.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.17503448275862,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 67.54,
+          "weight" : 400,
+          "width" : 67.54
+        },
+        {
+          "face" : "noto",
+          "h" : 89.37,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 3,
+          "size" : 15.774827586206897,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 182.77,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 17.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.659655172413792,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 79.2,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.659655172413792,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 79.2,
+          "weight" : 600,
+          "width" : 79.2
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.75,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37.42103448275862,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 57.18,
+          "weight" : 400,
+          "width" : 121.36551724137932
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.4702702702702703,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        370,
+        370
+      ],
+      "boxes" : [
+        {
+          "h" : 370,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 370,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 77.18,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 43,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 63.7,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 40.8,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 47.5,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 109.02,
+          "x" : 18,
+          "y" : 61.76
+        },
+        {
+          "h" : 37.42,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 74.02,
+          "x" : 53,
+          "y" : 61.76
+        },
+        {
+          "h" : 36.42,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 23.2,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 55.62,
+          "x" : 62.2,
+          "y" : 62.26
+        },
+        {
+          "h" : 43.92,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 11.63,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 193.88,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 370,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.98,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 74.37,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 12.98,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 8.59,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 58.37,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 232,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 228,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 236.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 254,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 319,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 345,
+          "y" : 340
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 370,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.62568306010929,
+            "outWeight" : 500,
+            "size" : 11.62568306010929,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.592896174863387,
+            "outWeight" : 600,
+            "size" : 8.592896174863387,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.62568306010929,
+          "v" : 21.96,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.592896174863387,
+          "v" : 12.98,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.92,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.62568306010929,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 185.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.592896174863387,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 58.37,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.592896174863387,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 58.37,
+          "weight" : 600,
+          "width" : 58.37
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.92,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.62568306010929,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 185.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.592896174863387,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 58.37,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.592896174863387,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 58.37,
+          "weight" : 600,
+          "width" : 58.37
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 0.9891891891891892,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        230
+      ],
+      "boxes" : [
+        {
+          "h" : 230,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 230,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 82.2,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 114.39,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 44.49,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 65.44,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 42.29,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27.99,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 49.24,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 40.95,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 114.39,
+          "x" : 18,
+          "y" : 63.25
+        },
+        {
+          "h" : 40.95,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 79.39,
+          "x" : 53,
+          "y" : 63.25
+        },
+        {
+          "h" : 39.95,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 25.44,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 60.99,
+          "x" : 62.2,
+          "y" : 63.75
+        },
+        {
+          "h" : 53,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 14.03,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 244,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 230,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 21.67,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 86.44,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 15.67,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 10.37,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 70.44,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 472,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 468,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 476.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 494,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 559,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 585,
+          "y" : 200
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 230,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30,
+            "outWeight" : 900,
+            "size" : 30,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 30,
+            "outWeight" : 400,
+            "size" : 30,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.166666666666668,
+            "outWeight" : 500,
+            "size" : 19.166666666666668,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.166666666666668,
+            "outWeight" : 600,
+            "size" : 14.166666666666668,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 28.98,
+            "outWeight" : 900,
+            "size" : 28.98,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 27.688,
+            "outWeight" : 400,
+            "size" : 27.688,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.560000000000002,
+            "outWeight" : 500,
+            "size" : 16.560000000000002,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.240000000000002,
+            "outWeight" : 600,
+            "size" : 12.240000000000002,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27.99,
+            "outWeight" : 900,
+            "size" : 27.99,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 25.444,
+            "outWeight" : 400,
+            "size" : 25.444,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.030000000000001,
+            "outWeight" : 500,
+            "size" : 14.030000000000001,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.370000000000001,
+            "outWeight" : 600,
+            "size" : 10.370000000000001,
+            "slot" : "workArea",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 45.33,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 47.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 19.166666666666668,
+          "v" : 36.2,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.166666666666668,
+          "v" : 21.41,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 28.98,
+          "v" : 43.79,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.688,
+          "v" : 43.47,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 16.560000000000002,
+          "v" : 31.28,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.240000000000002,
+          "v" : 18.49,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.99,
+          "v" : 42.29,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.444,
+          "v" : 39.95,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 14.030000000000001,
+          "v" : 26.5,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.370000000000001,
+          "v" : 15.67,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 52.77,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 71.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 52.77,
+          "weight" : 900,
+          "width" : 52.77
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 71.91,
+          "weight" : 400,
+          "width" : 71.91
+        },
+        {
+          "face" : "noto",
+          "h" : 72.4,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 19.166666666666668,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 305.69,
+          "weight" : 500,
+          "width" : 319.64
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 96.23,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 96.23,
+          "weight" : 600,
+          "width" : 96.23
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 200
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 52.77,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 71.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 52.77,
+          "weight" : 900,
+          "width" : 52.77
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 71.91,
+          "weight" : 400,
+          "width" : 71.91
+        },
+        {
+          "face" : "noto",
+          "h" : 72.4,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 19.166666666666668,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 305.69,
+          "weight" : 500,
+          "width" : 319.64
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 96.23,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 96.23,
+          "weight" : 600,
+          "width" : 96.23
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 43.79,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.98,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 50.98,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.688,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.37,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 43.79,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 28.98,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 50.98,
+          "weight" : 900,
+          "width" : 50.98
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.688,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.37,
+          "weight" : 400,
+          "width" : 66.37
+        },
+        {
+          "face" : "noto",
+          "h" : 62.56,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 16.560000000000002,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 264.12,
+          "weight" : 500,
+          "width" : 288.00000000000006
+        },
+        {
+          "face" : "noto",
+          "h" : 18.49,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.240000000000002,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 83.14,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.49,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.240000000000002,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 83.14,
+          "weight" : 600,
+          "width" : 83.14
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 42.29,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.99,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 49.24,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 39.95,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.444,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 60.99,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 42.29,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.99,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 49.24,
+          "weight" : 900,
+          "width" : 49.24
+        },
+        {
+          "face" : "mitr",
+          "h" : 39.95,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.444,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 60.99,
+          "weight" : 400,
+          "width" : 60.99
+        },
+        {
+          "face" : "noto",
+          "h" : 53,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 14.030000000000001,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 223.77,
+          "weight" : 500,
+          "width" : 244.00000000000003
+        },
+        {
+          "face" : "noto",
+          "h" : 15.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.370000000000001,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 70.44,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 15.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.370000000000001,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 70.44,
+          "weight" : 600,
+          "width" : 70.44
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        370,
+        496.41666666666663
+      ],
+      "boxes" : [
+        {
+          "h" : 496.42,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/4",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/5",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 79.91,
+          "id" : "r\/5\/0",
+          "type" : "col",
+          "w" : 112.61,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 43.37,
+          "id" : "r\/5\/0\/0",
+          "type" : "row",
+          "w" : 64.13,
+          "x" : 18,
+          "y" : 22
+        },
+        {
+          "h" : 41.17,
+          "id" : "r\/5\/0\/0\/0",
+          "lines" : 1,
+          "size" : 27.25,
+          "text" : "รู้จัก",
+          "type" : "text",
+          "w" : 47.93,
+          "x" : 26.1,
+          "y" : 22
+        },
+        {
+          "h" : 39.78,
+          "id" : "r\/5\/0\/1",
+          "type" : "row",
+          "w" : 112.61,
+          "x" : 18,
+          "y" : 62.13
+        },
+        {
+          "h" : 39.78,
+          "id" : "r\/5\/0\/1\/0",
+          "type" : "row",
+          "w" : 77.61,
+          "x" : 53,
+          "y" : 62.13
+        },
+        {
+          "h" : 38.78,
+          "id" : "r\/5\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 24.7,
+          "text" : "ตัวฉัน",
+          "type" : "text",
+          "w" : 59.21,
+          "x" : 62.2,
+          "y" : 62.63
+        },
+        {
+          "h" : 51.2,
+          "id" : "r\/6",
+          "lines" : 2,
+          "size" : 13.56,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 193.88,
+          "x" : 20,
+          "y" : 104
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/8",
+          "type" : "row",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 21.14,
+          "id" : "r\/8\/0",
+          "type" : "row",
+          "w" : 84.06,
+          "x" : 20,
+          "y" : 188
+        },
+        {
+          "h" : 15.14,
+          "id" : "r\/8\/0\/0",
+          "lines" : 1,
+          "size" : 10.02,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 68.06,
+          "x" : 28,
+          "y" : 191
+        },
+        {
+          "h" : 100,
+          "id" : "r\/9",
+          "type" : "rect",
+          "w" : 105,
+          "x" : 232,
+          "y" : 25
+        },
+        {
+          "h" : 160,
+          "id" : "r\/10",
+          "type" : "stack",
+          "w" : 125,
+          "x" : 228,
+          "y" : 29
+        },
+        {
+          "h" : 143.8,
+          "id" : "r\/10\/0",
+          "type" : "image",
+          "w" : 108.8,
+          "x" : 236.1,
+          "y" : 37.1
+        },
+        {
+          "h" : 58.09,
+          "id" : "r\/11",
+          "lines" : 1,
+          "size" : 37,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 120,
+          "x" : 254,
+          "y" : 164
+        },
+        {
+          "h" : 41,
+          "id" : "r\/12",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 319,
+          "y" : 15
+        },
+        {
+          "h" : 15,
+          "id" : "r\/13",
+          "type" : "icon",
+          "w" : 15,
+          "x" : 345,
+          "y" : 466.42
+        },
+        {
+          "h" : 18,
+          "id" : "r\/14",
+          "type" : "rect",
+          "w" : 18,
+          "x" : 176,
+          "y" : 30
+        },
+        {
+          "h" : 496.42,
+          "id" : "r\/15",
+          "type" : "rect",
+          "w" : 370,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "ink.light" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27.75,
+            "outWeight" : 900,
+            "size" : 27.75,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 27.75,
+            "outWeight" : 400,
+            "size" : 27.75,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.729166666666664,
+            "outWeight" : 500,
+            "size" : 17.729166666666664,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.104166666666666,
+            "outWeight" : 600,
+            "size" : 13.104166666666666,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 37,
+            "outWeight" : 400,
+            "size" : 37,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27,
+            "outWeight" : 900,
+            "size" : 27,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 23.2,
+            "outWeight" : 400,
+            "size" : 23.2,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 500,
+            "size" : 11.5,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27.495,
+            "outWeight" : 900,
+            "size" : 27.495,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 26.203,
+            "outWeight" : 400,
+            "size" : 26.203,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.611249999999998,
+            "outWeight" : 500,
+            "size" : 15.611249999999998,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.53875,
+            "outWeight" : 600,
+            "size" : 11.53875,
+            "slot" : "workArea",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 27.2475,
+            "outWeight" : 900,
+            "size" : 27.2475,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 24.7015,
+            "outWeight" : 400,
+            "size" : 24.7015,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.555625,
+            "outWeight" : 500,
+            "size" : 13.555625,
+            "slot" : "about",
+            "weight" : 500
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.019375,
+            "outWeight" : 600,
+            "size" : 10.019375,
+            "slot" : "workArea",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          },
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.75,
+          "v" : 41.93,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.75,
+          "v" : 43.57,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 17.729166666666664,
+          "v" : 33.49,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.104166666666666,
+          "v" : 19.8,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 37,
+          "v" : 58.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27,
+          "v" : 40.8,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.2,
+          "v" : 36.42,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 11.5,
+          "v" : 21.72,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.495,
+          "v" : 41.54,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 26.203,
+          "v" : 41.14,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 15.611249999999998,
+          "v" : 29.49,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.53875,
+          "v" : 17.44,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 27.2475,
+          "v" : 41.17,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.7015,
+          "v" : 38.78,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.25,
+          "size" : 13.555625,
+          "v" : 25.6,
+          "weight" : 500
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.019375,
+          "v" : 15.14,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 41.93,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.82,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.57,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.93,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.82,
+          "weight" : 900,
+          "width" : 48.82
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.57,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.52,
+          "weight" : 400,
+          "width" : 66.52
+        },
+        {
+          "face" : "noto",
+          "h" : 100.47,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 3,
+          "size" : 17.729166666666664,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 191.94,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 19.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.104166666666666,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 89.01,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 19.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.104166666666666,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 89.01,
+          "weight" : 600,
+          "width" : 89.01
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 40.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.5,
+          "weight" : 900,
+          "width" : 47.5
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.2,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 55.62,
+          "weight" : 400,
+          "width" : 55.62
+        },
+        {
+          "face" : "noto",
+          "h" : 43.44,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 183.42,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 57.74,
+          "weight" : 600,
+          "width" : 57.74
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 41.93,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.82,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.57,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.93,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.82,
+          "weight" : 900,
+          "width" : 48.82
+        },
+        {
+          "face" : "mitr",
+          "h" : 43.57,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.75,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 66.52,
+          "weight" : 400,
+          "width" : 66.52
+        },
+        {
+          "face" : "noto",
+          "h" : 100.47,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 3,
+          "size" : 17.729166666666664,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 191.94,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 19.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.104166666666666,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 89.01,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 19.8,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.104166666666666,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 89.01,
+          "weight" : 600,
+          "width" : 89.01
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 41.54,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.495,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.37,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 41.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 26.203,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 62.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.54,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.495,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 48.37,
+          "weight" : 900,
+          "width" : 48.37
+        },
+        {
+          "face" : "mitr",
+          "h" : 41.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 26.203,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 62.81,
+          "weight" : 400,
+          "width" : 62.81
+        },
+        {
+          "face" : "noto",
+          "h" : 88.47,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 3,
+          "size" : 15.611249999999998,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 180.88,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 17.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.53875,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 78.38,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.53875,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 78.38,
+          "weight" : 600,
+          "width" : 78.38
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        },
+        {
+          "face" : "noto",
+          "h" : 41.17,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.2475,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.93,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.78,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.7015,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 59.21,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 41.17,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 27.2475,
+          "t" : "รู้จัก",
+          "tracking" : 0,
+          "w" : 47.93,
+          "weight" : 900,
+          "width" : 47.93
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.78,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.7015,
+          "t" : "ตัวฉัน",
+          "tracking" : 0,
+          "w" : 59.21,
+          "weight" : 400,
+          "width" : 59.21
+        },
+        {
+          "face" : "noto",
+          "h" : 51.2,
+          "kerning" : 0,
+          "lineHeight" : 1.25,
+          "lines" : 2,
+          "size" : 13.555625,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 181.27,
+          "weight" : 500,
+          "width" : 193.88
+        },
+        {
+          "face" : "noto",
+          "h" : 15.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.019375,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 15.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.019375,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 600,
+          "width" : 68.06
+        },
+        {
+          "face" : "mitr",
+          "h" : 58.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 37,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 56.54,
+          "weight" : 400,
+          "width" : 120
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6486486486486487,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    370,
+    230
+  ],
+  "inset" : 0,
+  "kind" : "scrapAbout",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

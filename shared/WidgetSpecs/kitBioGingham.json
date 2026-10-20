@@ -1,0 +1,476 @@
+{
+ "kind": "kitBioGingham",
+ "design": {
+  "w": 330,
+  "h": 170
+ },
+ "widget": {
+  "title": "About Me",
+  "category": "intro",
+  "symbol": "text.alignleft",
+  "order": 108,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "gingham"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitBio"
+  ],
+  "controls": [
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if)",
+ "variants": [
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 13,
+          "if": "bordered"
+         }
+        ],
+        "if": "!cfg:corner=square"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 2
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "kit.border",
+             "width": 2
+            },
+            "radius": 2,
+            "if": "bordered"
+           }
+          ],
+          "if": "bordered"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 13
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "kit.border",
+             "width": 2
+            },
+            "radius": 13,
+            "if": "bordered"
+           }
+          ],
+          "if": "!bordered"
+         }
+        ],
+        "if": "cfg:corner=square"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 19,
+          "weight": 800,
+          "color": "kit.title",
+          "maxLines": 2,
+          "shrinkTo": 13.3,
+          "w": "fill",
+          "id": "title",
+          "text": "About Me"
+         },
+         {
+          "type": "col",
+          "children": [
+           {
+            "type": "text",
+            "slot": "about",
+            "face": "noto",
+            "size": 12.5,
+            "weight": 400,
+            "color": "#141417",
+            "maxLines": 0,
+            "lineHeight": 1.26
+           },
+           {
+            "type": "spacer",
+            "grow": 1
+           },
+           {
+            "type": "rect",
+            "w": 40,
+            "h": 2.5,
+            "radius": 2,
+            "fill": "black",
+            "alignSelf": "start"
+           }
+          ],
+          "grow": 1,
+          "id": "topic",
+          "gap": 12,
+          "align": "stretch"
+         }
+        ],
+        "pad": 14,
+        "gap": 8,
+        "align": "stretch",
+        "id": "content"
+       }
+      ],
+      "pad": 0,
+      "id": "card"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 20,
+      "pattern": {
+       "kind": "grid",
+       "color": "#383F1A@0.22",
+       "size": 13,
+       "width": 1
+      },
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3,
+          "pattern": {
+           "kind": "grid",
+           "color": "#383F1A@0.22",
+           "size": 13,
+           "width": 1
+          }
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 20
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 20,
+          "pattern": {
+           "kind": "grid",
+           "color": "#383F1A@0.22",
+           "size": 13,
+           "width": 1
+          }
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "white",
+        "radius": 13
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2
+        },
+        "radius": 13,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 2
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 2,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 13,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 19,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 13.3,
+        "w": "fill",
+        "id": "title",
+        "text": "About Me"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "slot": "about",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#141417",
+          "maxLines": 0,
+          "lineHeight": 1.26
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         },
+         {
+          "type": "rect",
+          "w": 40,
+          "h": 2.5,
+          "radius": 2,
+          "fill": "black",
+          "alignSelf": "start"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 12,
+        "align": "stretch"
+       }
+      ],
+      "pad": 14,
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "pad": 11,
+    "id": "card"
+   }
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

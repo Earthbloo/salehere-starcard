@@ -1,0 +1,8081 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        280,
+        300
+      ],
+      "boxes" : [
+        {
+          "h" : 300,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 152,
+          "x" : 64,
+          "y" : 7.18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 266,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 36.22,
+          "x" : 16,
+          "y" : 60.81
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 165.5,
+          "x" : 52.22,
+          "y" : 70.63
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 46.28,
+          "x" : 217.72,
+          "y" : 59.29
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "165",
+          "type" : "text",
+          "w" : 25.74,
+          "x" : 217.72,
+          "y" : 59.29
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 16.54,
+          "x" : 247.46,
+          "y" : 61.94
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 102.25
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 36.65,
+          "x" : 16,
+          "y" : 123.06
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 173.3,
+          "x" : 52.65,
+          "y" : 132.88
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 38.05,
+          "x" : 225.95,
+          "y" : 121.54
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "48",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 225.95,
+          "y" : 121.54
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 16.89,
+          "x" : 247.11,
+          "y" : 124.18
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 164.5
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 110.1,
+          "x" : 16,
+          "y" : 185.31
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 42.17,
+          "x" : 126.1,
+          "y" : 195.13
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 95.73,
+          "x" : 168.27,
+          "y" : 183.79
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 79.02,
+          "x" : 168.27,
+          "y" : 183.79
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 12.71,
+          "x" : 251.29,
+          "y" : 186.44
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 226.75
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 56.07,
+          "x" : 16,
+          "y" : 247.56
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 155.96,
+          "x" : 72.07,
+          "y" : 257.38
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 35.97,
+          "x" : 228.03,
+          "y" : 246.04
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "38",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 228.03,
+          "y" : 246.04
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 14.81,
+          "x" : 249.19,
+          "y" : 248.69
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 152
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        280,
+        600
+      ],
+      "boxes" : [
+        {
+          "h" : 600,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 600,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 600,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 600,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 152,
+          "x" : 64,
+          "y" : 7.18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 566,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 548,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 548,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 136.25,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 136.25,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 36.22,
+          "x" : 16,
+          "y" : 98.31
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 165.5,
+          "x" : 52.22,
+          "y" : 108.13
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 46.28,
+          "x" : 217.72,
+          "y" : 96.79
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "165",
+          "type" : "text",
+          "w" : 25.74,
+          "x" : 217.72,
+          "y" : 96.79
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 16.54,
+          "x" : 247.46,
+          "y" : 99.43
+        },
+        {
+          "h" : 137.25,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 176.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 176.25
+        },
+        {
+          "h" : 136.25,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 177.25
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 36.65,
+          "x" : 16,
+          "y" : 235.56
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 173.3,
+          "x" : 52.65,
+          "y" : 245.38
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 38.05,
+          "x" : 225.95,
+          "y" : 234.04
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "48",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 225.95,
+          "y" : 234.04
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 16.89,
+          "x" : 247.11,
+          "y" : 236.69
+        },
+        {
+          "h" : 137.25,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 313.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 313.5
+        },
+        {
+          "h" : 136.25,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 314.5
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 110.1,
+          "x" : 16,
+          "y" : 372.81
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 42.17,
+          "x" : 126.1,
+          "y" : 382.63
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 95.73,
+          "x" : 168.27,
+          "y" : 371.29
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 79.02,
+          "x" : 168.27,
+          "y" : 371.29
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 12.71,
+          "x" : 251.29,
+          "y" : 373.94
+        },
+        {
+          "h" : 137.25,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 450.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 450.75
+        },
+        {
+          "h" : 136.25,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 451.75
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 56.07,
+          "x" : 16,
+          "y" : 510.06
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 155.96,
+          "x" : 72.07,
+          "y" : 519.88
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 35.97,
+          "x" : 228.03,
+          "y" : 508.54
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "38",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 228.03,
+          "y" : 508.54
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 14.81,
+          "x" : 249.19,
+          "y" : 511.19
+        },
+        {
+          "h" : 600,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 600,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 152
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        300,
+        300
+      ],
+      "boxes" : [
+        {
+          "h" : 300,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 172,
+          "x" : 64,
+          "y" : 1.37
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 266,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 57.65,
+          "x" : 16,
+          "y" : 55
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 142.32,
+          "x" : 73.65,
+          "y" : 70.63
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 68.03,
+          "x" : 215.97,
+          "y" : 55
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "165",
+          "type" : "text",
+          "w" : 35.51,
+          "x" : 215.97,
+          "y" : 55
+        },
+        {
+          "h" : 29.96,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.83,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 28.52,
+          "x" : 255.48,
+          "y" : 55.65
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 102.25
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 58.33,
+          "x" : 16,
+          "y" : 117.25
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 152.89,
+          "x" : 74.33,
+          "y" : 132.88
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 56.78,
+          "x" : 227.22,
+          "y" : 117.25
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "48",
+          "type" : "text",
+          "w" : 23.67,
+          "x" : 227.22,
+          "y" : 117.25
+        },
+        {
+          "h" : 29.96,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.83,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 29.11,
+          "x" : 254.89,
+          "y" : 117.9
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 164.5
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 17.69,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 151.42,
+          "x" : 16,
+          "y" : 179.5
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 167.42,
+          "y" : 195.13
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 116.58,
+          "x" : 167.42,
+          "y" : 179.5
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 17.69,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 93.74,
+          "x" : 167.42,
+          "y" : 179.5
+        },
+        {
+          "h" : 29.96,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 16.83,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 18.84,
+          "x" : 265.16,
+          "y" : 180.15
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 226.75
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 89.24,
+          "x" : 16,
+          "y" : 241.75
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 125.57,
+          "x" : 105.24,
+          "y" : 257.38
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 53.19,
+          "x" : 230.81,
+          "y" : 241.75
+        },
+        {
+          "h" : 31.26,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20.69,
+          "text" : "38",
+          "type" : "text",
+          "w" : 23.67,
+          "x" : 230.81,
+          "y" : 241.75
+        },
+        {
+          "h" : 29.96,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.83,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 25.52,
+          "x" : 258.48,
+          "y" : 242.4
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20.689655172413794,
+            "outWeight" : 600,
+            "size" : 20.689655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20.689655172413794,
+            "outWeight" : 400,
+            "size" : 20.689655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.82758620689655,
+            "outWeight" : 400,
+            "size" : 19.82758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20.189655172413794,
+            "outWeight" : 400,
+            "size" : 20.189655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.689655172413794,
+            "outWeight" : 400,
+            "size" : 19.689655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.189655172413794,
+            "outWeight" : 400,
+            "size" : 19.189655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.689655172413794,
+            "outWeight" : 400,
+            "size" : 18.689655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.189655172413794,
+            "outWeight" : 400,
+            "size" : 18.189655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.689655172413794,
+            "outWeight" : 400,
+            "size" : 17.689655172413794,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20.189655172413794,
+            "outWeight" : 600,
+            "size" : 20.189655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.689655172413794,
+            "outWeight" : 600,
+            "size" : 19.689655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.189655172413794,
+            "outWeight" : 600,
+            "size" : 19.189655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.689655172413794,
+            "outWeight" : 600,
+            "size" : 18.689655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.189655172413794,
+            "outWeight" : 600,
+            "size" : 18.189655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.689655172413794,
+            "outWeight" : 600,
+            "size" : 17.689655172413794,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.32758620689655,
+            "outWeight" : 400,
+            "size" : 19.32758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.82758620689655,
+            "outWeight" : 400,
+            "size" : 18.82758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.32758620689655,
+            "outWeight" : 400,
+            "size" : 18.32758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.82758620689655,
+            "outWeight" : 400,
+            "size" : 17.82758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.32758620689655,
+            "outWeight" : 400,
+            "size" : 17.32758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.82758620689655,
+            "outWeight" : 400,
+            "size" : 16.82758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20.689655172413794,
+          "v" : 31.26,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20.689655172413794,
+          "v" : 31.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19.82758620689655,
+          "v" : 29.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.689655172413794,
+          "v" : 26.73,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.689655172413794,
+          "v" : 26.73,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.82758620689655,
+          "v" : 25.43,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 61.02,
+          "weight" : 600,
+          "width" : 172
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 57.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 35.51,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 28.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 58.33,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 29.11,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 175.23,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 109,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 89.24,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 25.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 57.65,
+          "weight" : 400,
+          "width" : 57.65
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 35.51,
+          "weight" : 600,
+          "width" : 35.51
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 28.52,
+          "weight" : 400,
+          "width" : 28.52
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 58.33,
+          "weight" : 400,
+          "width" : 58.33
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600,
+          "width" : 23.67
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 29.11,
+          "weight" : 400,
+          "width" : 29.11
+        },
+        {
+          "face" : "noto",
+          "h" : 62.52,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 123.63,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 61.02,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 120.64,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 59.5,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 117.65,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 114.66,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 56.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 111.68,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 54.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 108.69,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 26.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 149.82,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 62.52,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 85.33,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 61.02,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 83.27,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 59.5,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 81.21,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.14,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 56.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 77.08,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 54.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 75.02,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 26.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 93.19,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 59.92,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.16,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 58.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.85,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 56.9,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.55,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 55.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.24,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 53.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 10.93,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 52.36,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 10.63,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 25.43,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 18.6,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 89.24,
+          "weight" : 400,
+          "width" : 89.24
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600,
+          "width" : 23.67
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 25.52,
+          "weight" : 400,
+          "width" : 25.52
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 172
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 61.02,
+          "weight" : 600,
+          "width" : 172
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 57.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 35.51,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 28.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 58.33,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 29.11,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 175.23,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 109,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.91,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 89.24,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 25.52,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 57.65,
+          "weight" : 400,
+          "width" : 57.65
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 35.51,
+          "weight" : 600,
+          "width" : 35.51
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 28.52,
+          "weight" : 400,
+          "width" : 28.52
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 58.33,
+          "weight" : 400,
+          "width" : 58.33
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600,
+          "width" : 23.67
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 29.11,
+          "weight" : 400,
+          "width" : 29.11
+        },
+        {
+          "face" : "noto",
+          "h" : 62.52,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 123.63,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 61.02,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 120.64,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 59.5,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 117.65,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 114.66,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 56.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 111.68,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 54.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.189655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 108.69,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 26.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.689655172413794,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 149.82,
+          "weight" : 400,
+          "width" : 151.42077771329076
+        },
+        {
+          "face" : "noto",
+          "h" : 62.52,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 85.33,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 61.02,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 20.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 83.27,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 59.5,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 81.21,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.14,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 56.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 77.08,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 54.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.189655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 75.02,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 26.73,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.689655172413794,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 93.19,
+          "weight" : 600,
+          "width" : 93.73718760408912
+        },
+        {
+          "face" : "noto",
+          "h" : 59.92,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.16,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 58.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 19.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.85,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 56.9,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.55,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 55.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 11.24,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 53.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 10.93,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 52.36,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.32758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 10.63,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 25.43,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.82758620689655,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 18.6,
+          "weight" : 400,
+          "width" : 18.842034682620113
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 89.24,
+          "weight" : 400,
+          "width" : 89.24
+        },
+        {
+          "face" : "noto",
+          "h" : 31.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.689655172413794,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 23.67,
+          "weight" : 600,
+          "width" : 23.67
+        },
+        {
+          "face" : "noto",
+          "h" : 29.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.82758620689655,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 25.52,
+          "weight" : 400,
+          "width" : 25.52
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.58,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        300,
+        300
+      ],
+      "boxes" : [
+        {
+          "h" : 300,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 172,
+          "x" : 64,
+          "y" : 7.18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 266,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 300,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 36.22,
+          "x" : 16,
+          "y" : 60.81
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 185.5,
+          "x" : 52.22,
+          "y" : 70.63
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 46.28,
+          "x" : 237.72,
+          "y" : 59.29
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "165",
+          "type" : "text",
+          "w" : 25.74,
+          "x" : 237.72,
+          "y" : 59.29
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 16.54,
+          "x" : 267.46,
+          "y" : 61.94
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 102.25
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 36.65,
+          "x" : 16,
+          "y" : 123.06
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 193.3,
+          "x" : 52.65,
+          "y" : 132.88
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 38.05,
+          "x" : 245.95,
+          "y" : 121.54
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "48",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 245.95,
+          "y" : 121.54
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 16.89,
+          "x" : 267.11,
+          "y" : 124.18
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 164.5
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 110.1,
+          "x" : 16,
+          "y" : 185.31
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 62.17,
+          "x" : 126.1,
+          "y" : 195.13
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 95.73,
+          "x" : 188.27,
+          "y" : 183.79
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 79.02,
+          "x" : 188.27,
+          "y" : 183.79
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 12.71,
+          "x" : 271.29,
+          "y" : 186.44
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 268,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 268,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 268,
+          "x" : 16,
+          "y" : 226.75
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 13,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 56.07,
+          "x" : 16,
+          "y" : 247.56
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 175.96,
+          "x" : 72.07,
+          "y" : 257.38
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 35.97,
+          "x" : 248.03,
+          "y" : 246.04
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "38",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 248.03,
+          "y" : 246.04
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 14.81,
+          "x" : 269.19,
+          "y" : 248.69
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 300,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 172
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.22,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        300
+      ],
+      "boxes" : [
+        {
+          "h" : 300,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 482,
+          "x" : 64,
+          "y" : 1.89
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 266,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 578,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 248,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 578,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 578,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 578,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 55.72,
+          "x" : 16,
+          "y" : 55.52
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 456.39,
+          "x" : 71.72,
+          "y" : 70.63
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 65.89,
+          "x" : 528.11,
+          "y" : 55.52
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "165",
+          "type" : "text",
+          "w" : 34.32,
+          "x" : 528.11,
+          "y" : 55.52
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.17,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 27.57,
+          "x" : 566.43,
+          "y" : 56.15
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 578,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 578,
+          "x" : 16,
+          "y" : 101.25
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 578,
+          "x" : 16,
+          "y" : 102.25
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 56.38,
+          "x" : 16,
+          "y" : 117.77
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 466.6,
+          "x" : 72.38,
+          "y" : 132.88
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 55.02,
+          "x" : 538.98,
+          "y" : 117.77
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "48",
+          "type" : "text",
+          "w" : 22.88,
+          "x" : 538.98,
+          "y" : 117.77
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.17,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 28.14,
+          "x" : 565.86,
+          "y" : 118.4
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 578,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 578,
+          "x" : 16,
+          "y" : 163.5
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 578,
+          "x" : 16,
+          "y" : 164.5
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 169.39,
+          "x" : 16,
+          "y" : 180.02
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 278.07,
+          "x" : 185.39,
+          "y" : 195.13
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 130.54,
+          "x" : 463.46,
+          "y" : 180.02
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 105.36,
+          "x" : 463.46,
+          "y" : 180.02
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.17,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 21.18,
+          "x" : 572.82,
+          "y" : 180.65
+        },
+        {
+          "h" : 62.25,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 578,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 578,
+          "x" : 16,
+          "y" : 225.75
+        },
+        {
+          "h" : 61.25,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 578,
+          "x" : 16,
+          "y" : 226.75
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 86.26,
+          "x" : 16,
+          "y" : 242.27
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 440.19,
+          "x" : 102.26,
+          "y" : 257.38
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 51.55,
+          "x" : 542.45,
+          "y" : 242.27
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "38",
+          "type" : "text",
+          "w" : 22.88,
+          "x" : 542.45,
+          "y" : 242.27
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 19.17,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 24.67,
+          "x" : 569.33,
+          "y" : 242.9
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 300,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 600,
+            "size" : 20,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.166666666666668,
+            "outWeight" : 400,
+            "size" : 19.166666666666668,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19.166666666666668,
+          "v" : 28.96,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 58.98,
+          "weight" : 600,
+          "width" : 482
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 55.72,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 34.32,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 27.57,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 56.38,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 28.14,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 169.39,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 105.36,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.18,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 86.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 24.67,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 55.72,
+          "weight" : 400,
+          "width" : 55.72
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 34.32,
+          "weight" : 600,
+          "width" : 34.32
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 27.57,
+          "weight" : 400,
+          "width" : 27.57
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 56.38,
+          "weight" : 400,
+          "width" : 56.38
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600,
+          "width" : 22.88
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 28.14,
+          "weight" : 400,
+          "width" : 28.14
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 169.39,
+          "weight" : 400,
+          "width" : 169.39
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 105.36,
+          "weight" : 600,
+          "width" : 105.36
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.18,
+          "weight" : 400,
+          "width" : 21.18
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 86.26,
+          "weight" : 400,
+          "width" : 86.26
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600,
+          "width" : 22.88
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 24.67,
+          "weight" : 400,
+          "width" : 24.67
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 482
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 58.98,
+          "weight" : 600,
+          "width" : 482
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 55.72,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 34.32,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 27.57,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 56.38,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 28.14,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 169.39,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 105.36,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.18,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 86.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 24.67,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 55.72,
+          "weight" : 400,
+          "width" : 55.72
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 34.32,
+          "weight" : 600,
+          "width" : 34.32
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 27.57,
+          "weight" : 400,
+          "width" : 27.57
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 56.38,
+          "weight" : 400,
+          "width" : 56.38
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600,
+          "width" : 22.88
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 28.14,
+          "weight" : 400,
+          "width" : 28.14
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 169.39,
+          "weight" : 400,
+          "width" : 169.39
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 105.36,
+          "weight" : 600,
+          "width" : 105.36
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 21.18,
+          "weight" : 400,
+          "width" : 21.18
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 86.26,
+          "weight" : 400,
+          "width" : 86.26
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 22.88,
+          "weight" : 600,
+          "width" : 22.88
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 24.67,
+          "weight" : 400,
+          "width" : 24.67
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        280,
+        490
+      ],
+      "boxes" : [
+        {
+          "h" : 490,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 490,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 490,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 490,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/3",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/5",
+          "type" : "row",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/0",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 12,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/1",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 29,
+          "y" : 11.5
+        },
+        {
+          "h" : 11,
+          "id" : "r\/2\/0\/5\/2",
+          "type" : "rect",
+          "w" : 11,
+          "x" : 46,
+          "y" : 11.5
+        },
+        {
+          "h" : 34,
+          "id" : "r\/2\/0\/6",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/0\/6\/0",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "สัดส่วน",
+          "type" : "text",
+          "w" : 152,
+          "x" : 64,
+          "y" : 6.43
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/0\/7",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 33
+        },
+        {
+          "h" : 456,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 280,
+          "x" : 0,
+          "y" : 34
+        },
+        {
+          "h" : 438,
+          "id" : "r\/2\/1\/0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 438,
+          "id" : "r\/2\/1\/0\/0",
+          "type" : "chips",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 108.75,
+          "id" : "r\/2\/1\/0\/0\/c0",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 108.75,
+          "id" : "r\/2\/1\/0\/0\/c0\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 40
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "ส่วนสูง",
+          "type" : "text",
+          "w" : 39.01,
+          "x" : 16,
+          "y" : 83.8
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/1",
+          "type" : "spacer",
+          "w" : 159.95,
+          "x" : 55.01,
+          "y" : 94.38
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2",
+          "type" : "row",
+          "w" : 49.04,
+          "x" : 214.96,
+          "y" : 83.04
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "165",
+          "type" : "text",
+          "w" : 25.74,
+          "x" : 214.96,
+          "y" : 83.04
+        },
+        {
+          "h" : 20.27,
+          "id" : "r\/2\/1\/0\/0\/c0\/1\/2\/1",
+          "lines" : 1,
+          "size" : 13.42,
+          "text" : "ซม.",
+          "type" : "text",
+          "w" : 19.3,
+          "x" : 244.7,
+          "y" : 84.24
+        },
+        {
+          "h" : 109.75,
+          "id" : "r\/2\/1\/0\/0\/c1",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 148.75
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c1\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 148.75
+        },
+        {
+          "h" : 108.75,
+          "id" : "r\/2\/1\/0\/0\/c1\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 149.75
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "น้ำหนัก",
+          "type" : "text",
+          "w" : 39.47,
+          "x" : 16,
+          "y" : 193.55
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/1",
+          "type" : "spacer",
+          "w" : 167.67,
+          "x" : 55.47,
+          "y" : 204.13
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2",
+          "type" : "row",
+          "w" : 40.86,
+          "x" : 223.14,
+          "y" : 192.79
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "48",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 223.14,
+          "y" : 192.79
+        },
+        {
+          "h" : 20.27,
+          "id" : "r\/2\/1\/0\/0\/c1\/1\/2\/1",
+          "lines" : 1,
+          "size" : 13.42,
+          "text" : "กก.",
+          "type" : "text",
+          "w" : 19.7,
+          "x" : 244.3,
+          "y" : 193.99
+        },
+        {
+          "h" : 109.75,
+          "id" : "r\/2\/1\/0\/0\/c2",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 258.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c2\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 258.5
+        },
+        {
+          "h" : 108.75,
+          "id" : "r\/2\/1\/0\/0\/c2\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 259.5
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "รอบอก \/ เอว \/ สะโพก",
+          "type" : "text",
+          "w" : 118.57,
+          "x" : 16,
+          "y" : 303.3
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/1",
+          "type" : "spacer",
+          "w" : 31.58,
+          "x" : 134.57,
+          "y" : 313.88
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2",
+          "type" : "row",
+          "w" : 97.85,
+          "x" : 166.15,
+          "y" : 302.54
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "32 \/ 25 \/ 35",
+          "type" : "text",
+          "w" : 79.02,
+          "x" : 166.15,
+          "y" : 302.54
+        },
+        {
+          "h" : 20.27,
+          "id" : "r\/2\/1\/0\/0\/c2\/1\/2\/1",
+          "lines" : 1,
+          "size" : 13.42,
+          "text" : "นิ้ว",
+          "type" : "text",
+          "w" : 14.83,
+          "x" : 249.17,
+          "y" : 303.74
+        },
+        {
+          "h" : 109.75,
+          "id" : "r\/2\/1\/0\/0\/c3",
+          "type" : "col",
+          "w" : 248,
+          "x" : 16,
+          "y" : 368.25
+        },
+        {
+          "h" : 1,
+          "id" : "r\/2\/1\/0\/0\/c3\/0",
+          "type" : "line",
+          "w" : 248,
+          "x" : 16,
+          "y" : 368.25
+        },
+        {
+          "h" : 108.75,
+          "id" : "r\/2\/1\/0\/0\/c3\/1",
+          "type" : "row",
+          "w" : 248,
+          "x" : 16,
+          "y" : 369.25
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/0",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "ไซซ์รองเท้า",
+          "type" : "text",
+          "w" : 60.39,
+          "x" : 16,
+          "y" : 413.05
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/1",
+          "type" : "spacer",
+          "w" : 149.18,
+          "x" : 76.39,
+          "y" : 423.63
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2",
+          "type" : "row",
+          "w" : 38.43,
+          "x" : 225.57,
+          "y" : 412.29
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "38",
+          "type" : "text",
+          "w" : 17.16,
+          "x" : 225.57,
+          "y" : 412.29
+        },
+        {
+          "h" : 20.27,
+          "id" : "r\/2\/1\/0\/0\/c3\/1\/2\/1",
+          "lines" : 1,
+          "size" : 13.42,
+          "text" : "EU",
+          "type" : "text",
+          "w" : 17.27,
+          "x" : 246.73,
+          "y" : 413.49
+        },
+        {
+          "h" : 490,
+          "id" : "r\/3",
+          "type" : "stack",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 490,
+          "id" : "r\/3\/0",
+          "type" : "rect",
+          "w" : 280,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : true,
+          "cfg:corner=square" : false,
+          "cfg:fill=clear" : false,
+          "cfg:fill=gradient" : false,
+          "cfg:fill=solid" : true,
+          "hidden:g" : false,
+          "hidden:h" : false,
+          "hidden:s" : false,
+          "hidden:w" : false,
+          "kit.dark" : false
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 600,
+            "size" : 14,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 400,
+            "size" : 14,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 600,
+            "size" : 15,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.416666666666668,
+            "outWeight" : 400,
+            "size" : 13.416666666666668,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 600,
+            "size" : 13,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 400,
+            "size" : 13,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+          "body" : [
+            {
+              "fields" : {
+                "kind" : "h",
+                "label" : "ส่วนสูง",
+                "num" : "165",
+                "unit" : "ซม.",
+                "value" : "165 cm",
+                "wide" : ""
+              },
+              "i" : 0,
+              "id" : "h"
+            },
+            {
+              "fields" : {
+                "kind" : "w",
+                "label" : "น้ำหนัก",
+                "num" : "48",
+                "unit" : "กก.",
+                "value" : "48 kg",
+                "wide" : ""
+              },
+              "i" : 1,
+              "id" : "w"
+            },
+            {
+              "fields" : {
+                "kind" : "g",
+                "label" : "รอบอก \/ เอว \/ สะโพก",
+                "num" : "32 \/ 25 \/ 35",
+                "unit" : "นิ้ว",
+                "value" : "32 \/ 25 \/ 35",
+                "wide" : "1"
+              },
+              "i" : 2,
+              "id" : "g"
+            },
+            {
+              "fields" : {
+                "kind" : "s",
+                "label" : "ไซซ์รองเท้า",
+                "num" : "38",
+                "unit" : "EU",
+                "value" : "EU 38",
+                "wide" : ""
+              },
+              "i" : 3,
+              "id" : "s"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.416666666666668,
+          "v" : 20.27,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 41.29,
+          "weight" : 600,
+          "width" : 152
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 39.01,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 19.3,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 39.47,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 19.7,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 118.57,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 14.83,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 60.39,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 17.27,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 39.01,
+          "weight" : 400,
+          "width" : 39.01
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 19.3,
+          "weight" : 400,
+          "width" : 19.3
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 39.47,
+          "weight" : 400,
+          "width" : 39.47
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 19.7,
+          "weight" : 400,
+          "width" : 19.7
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 118.57,
+          "weight" : 400,
+          "width" : 118.57
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 14.83,
+          "weight" : 400,
+          "width" : 14.83
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 60.39,
+          "weight" : 400,
+          "width" : 60.39
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 17.27,
+          "weight" : 400,
+          "width" : 17.27
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 38.34,
+          "weight" : 600,
+          "width" : 152
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 36.22,
+          "weight" : 400,
+          "width" : 36.22
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 16.54,
+          "weight" : 400,
+          "width" : 16.54
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 36.65,
+          "weight" : 400,
+          "width" : 36.65
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 16.89,
+          "weight" : 400,
+          "width" : 16.89
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 110.1,
+          "weight" : 400,
+          "width" : 110.1
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 12.71,
+          "weight" : 400,
+          "width" : 12.71
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 56.07,
+          "weight" : 400,
+          "width" : 56.07
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 14.81,
+          "weight" : 400,
+          "width" : 14.81
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "สัดส่วน",
+          "tracking" : 0,
+          "w" : 41.29,
+          "weight" : 600,
+          "width" : 152
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 39.01,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 19.3,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 39.47,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 19.7,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 118.57,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 14.83,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 60.39,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 17.27,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ส่วนสูง",
+          "tracking" : 0,
+          "w" : 39.01,
+          "weight" : 400,
+          "width" : 39.01
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "165",
+          "tracking" : 0,
+          "w" : 25.74,
+          "weight" : 600,
+          "width" : 25.74
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "ซม.",
+          "tracking" : 0,
+          "w" : 19.3,
+          "weight" : 400,
+          "width" : 19.3
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "น้ำหนัก",
+          "tracking" : 0,
+          "w" : 39.47,
+          "weight" : 400,
+          "width" : 39.47
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "48",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "กก.",
+          "tracking" : 0,
+          "w" : 19.7,
+          "weight" : 400,
+          "width" : 19.7
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "รอบอก \/ เอว \/ สะโพก",
+          "tracking" : 0,
+          "w" : 118.57,
+          "weight" : 400,
+          "width" : 118.57
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "32 \/ 25 \/ 35",
+          "tracking" : 0,
+          "w" : 79.02,
+          "weight" : 600,
+          "width" : 79.02
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "นิ้ว",
+          "tracking" : 0,
+          "w" : 14.83,
+          "weight" : 400,
+          "width" : 14.83
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "ไซซ์รองเท้า",
+          "tracking" : 0,
+          "w" : 60.39,
+          "weight" : 400,
+          "width" : 60.39
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "38",
+          "tracking" : 0,
+          "w" : 17.16,
+          "weight" : 600,
+          "width" : 17.16
+        },
+        {
+          "face" : "noto",
+          "h" : 20.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.416666666666668,
+          "t" : "EU",
+          "tracking" : 0,
+          "w" : 17.27,
+          "weight" : 400,
+          "width" : 17.27
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.8571428571428571,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    280,
+    300
+  ],
+  "inset" : 0,
+  "kind" : "kitBodyMac",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

@@ -1,0 +1,117 @@
+{
+ "kind": "audienceSplit",
+ "design": {
+  "w": 366,
+  "h": 135
+ },
+ "widget": {
+  "title": "สัดส่วนผู้ชม",
+  "category": "audience",
+  "symbol": "person.2.fill",
+  "order": 43,
+  "stamp": "insight",
+  "motion": "anchored"
+ },
+ "notes": "หัวข้อ 'สัดส่วนผู้ชม' + แถบสามส่วน (chips gender · pct $shareRaw · fill $tint) + คำอธิบาย · แปลงจาก InsightWidgets.swift (AudienceSplitWidget) · แถบ: กว้าง = (w − gaps) × share/100 เหมือนต้นฉบับ · สีเพศคงที่ (Aud.female/male/other = tint ของรายการ) · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (วันที่ '12 ก.ย.' ในต้นฉบับเป็นค่าตายตัว) · หมึกทุกตัวจาก ink ของพื้นที่ใบนั่ง · chrome วาดแผ่น/ขอบให้",
+ "root": {
+  "type": "col",
+  "gap": 11,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "สัดส่วนผู้ชม",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:screenshot",
+      "w": 104,
+      "h": 18
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "bar",
+    "list": "gender",
+    "wrap": false,
+    "gap": 3,
+    "h": 13,
+    "align": "stretch",
+    "each": {
+     "type": "rect",
+     "pct": "$shareRaw",
+     "minW": 5,
+     "circle": true,
+     "fill": "$tint"
+    }
+   },
+   {
+    "type": "chips",
+    "id": "legend",
+    "list": "gender",
+    "wrap": false,
+    "gap": 14,
+    "align": "center",
+    "each": {
+     "type": "row",
+     "gap": 5,
+     "align": "center",
+     "children": [
+      {
+       "type": "rect",
+       "w": 7,
+       "h": 7,
+       "circle": true,
+       "fill": "$tint"
+      },
+      {
+       "type": "text",
+       "slot": "$share",
+       "face": "noto",
+       "size": 14,
+       "weight": 800,
+       "color": "ink@0.96",
+       "maxLines": 1
+      },
+      {
+       "type": "text",
+       "slot": "$label",
+       "face": "noto",
+       "size": 10.5,
+       "weight": 500,
+       "color": "ink@0.46",
+       "maxLines": 1
+      }
+     ]
+    }
+   },
+   {
+    "type": "spacer",
+    "grow": 1
+   }
+  ]
+ }
+}

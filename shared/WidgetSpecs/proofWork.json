@@ -1,0 +1,1199 @@
+{
+ "kind": "proofWork",
+ "design": {
+  "w": 366,
+  "h": 295
+ },
+ "widget": {
+  "title": "ผลงานที่ยืนยันแล้ว",
+  "category": "verified",
+  "symbol": "checkmark.seal.fill",
+  "order": 9,
+  "photo": true,
+  "stamp": "work",
+  "motion": "anchored",
+  "replaces": [
+   "scrapChat"
+  ]
+ },
+ "notes": "บานเกล็ดผลงานที่ยืนยันแล้ว · แปลงจาก ProofWidgets.swift (ProofWork.column) · หัวข้อ + ตรา Verified · บานกว้างเท่ากัน (w fill) ช่องห่าง 9 · จำนวนบาน = floor((w+9)/119) → variants w>=348 สาม · w>=467 สี่ · w>=586 ห้า (กรอบออกแบบ 342 = สอง) · บาน (col gap 8) = รูป WorkPicture (image src $cover → asset ปกแคมเปญ · ว่าง = photoRef $workPhoto) มุม 12 เส้น line@0.1 0.5 + ป้าย viralTag มุมบนซ้าย (แคปซูล rawAccent@0.92 · 8.5 heavy ขาว · pad 3.5/7 · เว้น 7 · if $viralTag) + ชิป EP มุมล่างขวา · แถวแบรนด์ (BrandPlate 20 มุม 4.4 = src $brandLogo · ชื่อ 10/600 ink@0.72 · ไอคอนแพลตฟอร์ม 11) · ยอดวิว 19/800 ink@0.98 'วิว' 9.5 ink@0.42 · WorkDeepStats บันทึก/แชร์ (ph:bookmark-simple-fill / ph:share-fat-fill 8.74 · 9.5/700 · ink@0.52 · ห่าง 10) · ยังต่าง: EP ฟอนต์ mono → noto · views = 0 ของเดิมแสดง '–' · สองแถวเมื่อจัตุรัสไม่มี · ไอคอนบันทึก/แชร์เป็น Phosphor แทน SF Symbols",
+ "variants": [
+  {
+   "when": "w>=586",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "panes",
+      "list": "works",
+      "limit": 5,
+      "wrap": false,
+      "gap": 9,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "pane",
+       "grow": 1,
+       "gap": 8,
+       "align": "stretch",
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "grow": 1,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "radius": 12,
+           "stroke": {
+            "color": "line@0.1",
+            "width": 0.5
+           },
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "id": "viral",
+           "pad": 7,
+           "justify": "start",
+           "align": "start",
+           "if": "$viralTag",
+           "children": [
+            {
+             "type": "row",
+             "pad": [
+              3.5,
+              7
+             ],
+             "circle": true,
+             "fill": "rawAccent@0.92",
+             "children": [
+              {
+               "type": "text",
+               "text": "{viralTag}",
+               "face": "noto",
+               "size": 8.5,
+               "weight": 800,
+               "color": "white",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 6,
+           "justify": "end",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.4,
+             "align": "center",
+             "pad": [
+              2.85,
+              5.6
+             ],
+             "fill": "#17141A",
+             "radius": 4.1,
+             "children": [
+              {
+               "type": "rect",
+               "w": 3.75,
+               "h": 3.75,
+               "radius": 1.9,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 7.5,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "clip": true,
+         "radius": 12
+        },
+        {
+         "type": "row",
+         "id": "brand",
+         "gap": 6,
+         "align": "center",
+         "children": [
+          {
+           "type": "image",
+           "id": "brandPlate",
+           "src": "$brandLogo",
+           "w": 20,
+           "h": 20,
+           "radius": 4.4,
+           "fit": "contain",
+           "if": "$brandLogo"
+          },
+          {
+           "type": "text",
+           "id": "brandName",
+           "text": "{brand}",
+           "face": "noto",
+           "size": 10,
+           "weight": 600,
+           "color": "ink@0.72",
+           "maxLines": 1,
+           "shrinkTo": 6
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minW": 3
+          },
+          {
+           "type": "icon",
+           "id": "platform",
+           "icon": "$icon",
+           "w": 11,
+           "h": 11
+          }
+         ],
+         "minH": 20
+        },
+        {
+         "type": "row",
+         "id": "views",
+         "gap": 4,
+         "align": "end",
+         "children": [
+          {
+           "type": "text",
+           "id": "viewCount",
+           "text": "{views}",
+           "face": "noto",
+           "size": 19,
+           "weight": 800,
+           "color": "ink@0.98",
+           "maxLines": 1
+          },
+          {
+           "type": "col",
+           "pad": [
+            0,
+            0,
+            7.9,
+            0
+           ],
+           "children": [
+            {
+             "type": "text",
+             "text": "วิว",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 400,
+             "color": "ink@0.42",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "id": "deepStats",
+         "gap": 10,
+         "align": "center",
+         "children": [
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:bookmark-simple-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{saves}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:share-fat-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{shares}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "when": "w>=467",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "panes",
+      "list": "works",
+      "limit": 4,
+      "wrap": false,
+      "gap": 9,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "pane",
+       "grow": 1,
+       "gap": 8,
+       "align": "stretch",
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "grow": 1,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "radius": 12,
+           "stroke": {
+            "color": "line@0.1",
+            "width": 0.5
+           },
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "id": "viral",
+           "pad": 7,
+           "justify": "start",
+           "align": "start",
+           "if": "$viralTag",
+           "children": [
+            {
+             "type": "row",
+             "pad": [
+              3.5,
+              7
+             ],
+             "circle": true,
+             "fill": "rawAccent@0.92",
+             "children": [
+              {
+               "type": "text",
+               "text": "{viralTag}",
+               "face": "noto",
+               "size": 8.5,
+               "weight": 800,
+               "color": "white",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 6,
+           "justify": "end",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.4,
+             "align": "center",
+             "pad": [
+              2.85,
+              5.6
+             ],
+             "fill": "#17141A",
+             "radius": 4.1,
+             "children": [
+              {
+               "type": "rect",
+               "w": 3.75,
+               "h": 3.75,
+               "radius": 1.9,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 7.5,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "clip": true,
+         "radius": 12
+        },
+        {
+         "type": "row",
+         "id": "brand",
+         "gap": 6,
+         "align": "center",
+         "children": [
+          {
+           "type": "image",
+           "id": "brandPlate",
+           "src": "$brandLogo",
+           "w": 20,
+           "h": 20,
+           "radius": 4.4,
+           "fit": "contain",
+           "if": "$brandLogo"
+          },
+          {
+           "type": "text",
+           "id": "brandName",
+           "text": "{brand}",
+           "face": "noto",
+           "size": 10,
+           "weight": 600,
+           "color": "ink@0.72",
+           "maxLines": 1,
+           "shrinkTo": 6
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minW": 3
+          },
+          {
+           "type": "icon",
+           "id": "platform",
+           "icon": "$icon",
+           "w": 11,
+           "h": 11
+          }
+         ],
+         "minH": 20
+        },
+        {
+         "type": "row",
+         "id": "views",
+         "gap": 4,
+         "align": "end",
+         "children": [
+          {
+           "type": "text",
+           "id": "viewCount",
+           "text": "{views}",
+           "face": "noto",
+           "size": 19,
+           "weight": 800,
+           "color": "ink@0.98",
+           "maxLines": 1
+          },
+          {
+           "type": "col",
+           "pad": [
+            0,
+            0,
+            7.9,
+            0
+           ],
+           "children": [
+            {
+             "type": "text",
+             "text": "วิว",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 400,
+             "color": "ink@0.42",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "id": "deepStats",
+         "gap": 10,
+         "align": "center",
+         "children": [
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:bookmark-simple-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{saves}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:share-fat-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{shares}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "when": "w>=348",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "panes",
+      "list": "works",
+      "limit": 3,
+      "wrap": false,
+      "gap": 9,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "pane",
+       "grow": 1,
+       "gap": 8,
+       "align": "stretch",
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "grow": 1,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "radius": 12,
+           "stroke": {
+            "color": "line@0.1",
+            "width": 0.5
+           },
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "id": "viral",
+           "pad": 7,
+           "justify": "start",
+           "align": "start",
+           "if": "$viralTag",
+           "children": [
+            {
+             "type": "row",
+             "pad": [
+              3.5,
+              7
+             ],
+             "circle": true,
+             "fill": "rawAccent@0.92",
+             "children": [
+              {
+               "type": "text",
+               "text": "{viralTag}",
+               "face": "noto",
+               "size": 8.5,
+               "weight": 800,
+               "color": "white",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 6,
+           "justify": "end",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.4,
+             "align": "center",
+             "pad": [
+              2.85,
+              5.6
+             ],
+             "fill": "#17141A",
+             "radius": 4.1,
+             "children": [
+              {
+               "type": "rect",
+               "w": 3.75,
+               "h": 3.75,
+               "radius": 1.9,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 7.5,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "clip": true,
+         "radius": 12
+        },
+        {
+         "type": "row",
+         "id": "brand",
+         "gap": 6,
+         "align": "center",
+         "children": [
+          {
+           "type": "image",
+           "id": "brandPlate",
+           "src": "$brandLogo",
+           "w": 20,
+           "h": 20,
+           "radius": 4.4,
+           "fit": "contain",
+           "if": "$brandLogo"
+          },
+          {
+           "type": "text",
+           "id": "brandName",
+           "text": "{brand}",
+           "face": "noto",
+           "size": 10,
+           "weight": 600,
+           "color": "ink@0.72",
+           "maxLines": 1,
+           "shrinkTo": 6
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minW": 3
+          },
+          {
+           "type": "icon",
+           "id": "platform",
+           "icon": "$icon",
+           "w": 11,
+           "h": 11
+          }
+         ],
+         "minH": 20
+        },
+        {
+         "type": "row",
+         "id": "views",
+         "gap": 4,
+         "align": "end",
+         "children": [
+          {
+           "type": "text",
+           "id": "viewCount",
+           "text": "{views}",
+           "face": "noto",
+           "size": 19,
+           "weight": 800,
+           "color": "ink@0.98",
+           "maxLines": 1
+          },
+          {
+           "type": "col",
+           "pad": [
+            0,
+            0,
+            7.9,
+            0
+           ],
+           "children": [
+            {
+             "type": "text",
+             "text": "วิว",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 400,
+             "color": "ink@0.42",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "id": "deepStats",
+         "gap": 10,
+         "align": "center",
+         "children": [
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:bookmark-simple-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{saves}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "gap": 3.5,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:share-fat-fill",
+             "w": 10.05,
+             "h": 10.05,
+             "tint": "ink@0.52"
+            },
+            {
+             "type": "text",
+             "text": "{shares}",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 700,
+             "color": "ink@0.52",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ผลงานที่ยืนยันแล้ว",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "verifiedBadge",
+      "w": 73,
+      "h": 20
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "panes",
+    "list": "works",
+    "limit": 2,
+    "wrap": false,
+    "gap": 9,
+    "grow": 1,
+    "align": "stretch",
+    "each": {
+     "type": "col",
+     "id": "pane",
+     "grow": 1,
+     "gap": 8,
+     "align": "stretch",
+     "children": [
+      {
+       "type": "stack",
+       "id": "photo",
+       "grow": 1,
+       "children": [
+        {
+         "type": "image",
+         "id": "picture",
+         "radius": 12,
+         "stroke": {
+          "color": "line@0.1",
+          "width": 0.5
+         },
+         "src": "$cover",
+         "photoRef": "$workPhoto"
+        },
+        {
+         "type": "row",
+         "id": "viral",
+         "pad": 7,
+         "justify": "start",
+         "align": "start",
+         "if": "$viralTag",
+         "children": [
+          {
+           "type": "row",
+           "pad": [
+            3.5,
+            7
+           ],
+           "circle": true,
+           "fill": "rawAccent@0.92",
+           "children": [
+            {
+             "type": "text",
+             "text": "{viralTag}",
+             "face": "noto",
+             "size": 8.5,
+             "weight": 800,
+             "color": "white",
+             "maxLines": 1
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "pad": 6,
+         "justify": "end",
+         "align": "end",
+         "children": [
+          {
+           "type": "row",
+           "id": "ep",
+           "gap": 3.4,
+           "align": "center",
+           "pad": [
+            2.85,
+            5.6
+           ],
+           "fill": "#17141A",
+           "radius": 4.1,
+           "children": [
+            {
+             "type": "rect",
+             "w": 3.75,
+             "h": 3.75,
+             "radius": 1.9,
+             "fill": "#DA3832"
+            },
+            {
+             "type": "text",
+             "text": "{ep}",
+             "face": "noto",
+             "size": 7.5,
+             "weight": 700,
+             "tracking": 0.4,
+             "color": "#FAF5EB",
+             "maxLines": 1
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "clip": true,
+       "radius": 12
+      },
+      {
+       "type": "row",
+       "id": "brand",
+       "gap": 6,
+       "align": "center",
+       "children": [
+        {
+         "type": "image",
+         "id": "brandPlate",
+         "src": "$brandLogo",
+         "w": 20,
+         "h": 20,
+         "radius": 4.4,
+         "fit": "contain",
+         "if": "$brandLogo"
+        },
+        {
+         "type": "text",
+         "id": "brandName",
+         "text": "{brand}",
+         "face": "noto",
+         "size": 10,
+         "weight": 600,
+         "color": "ink@0.72",
+         "maxLines": 1,
+         "shrinkTo": 6
+        },
+        {
+         "type": "spacer",
+         "grow": 1,
+         "minW": 3
+        },
+        {
+         "type": "icon",
+         "id": "platform",
+         "icon": "$icon",
+         "w": 11,
+         "h": 11
+        }
+       ],
+       "minH": 20
+      },
+      {
+       "type": "row",
+       "id": "views",
+       "gap": 4,
+       "align": "end",
+       "children": [
+        {
+         "type": "text",
+         "id": "viewCount",
+         "text": "{views}",
+         "face": "noto",
+         "size": 19,
+         "weight": 800,
+         "color": "ink@0.98",
+         "maxLines": 1
+        },
+        {
+         "type": "col",
+         "pad": [
+          0,
+          0,
+          7.9,
+          0
+         ],
+         "children": [
+          {
+           "type": "text",
+           "text": "วิว",
+           "face": "noto",
+           "size": 9.5,
+           "weight": 400,
+           "color": "ink@0.42",
+           "maxLines": 1
+          }
+         ]
+        },
+        {
+         "type": "spacer",
+         "grow": 1
+        }
+       ]
+      },
+      {
+       "type": "row",
+       "id": "deepStats",
+       "gap": 10,
+       "align": "center",
+       "children": [
+        {
+         "type": "row",
+         "gap": 3.5,
+         "align": "center",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:bookmark-simple-fill",
+           "w": 10.05,
+           "h": 10.05,
+           "tint": "ink@0.52"
+          },
+          {
+           "type": "text",
+           "text": "{saves}",
+           "face": "noto",
+           "size": 9.5,
+           "weight": 700,
+           "color": "ink@0.52",
+           "maxLines": 1
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "gap": 3.5,
+         "align": "center",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:share-fat-fill",
+           "w": 10.05,
+           "h": 10.05,
+           "tint": "ink@0.52"
+          },
+          {
+           "type": "text",
+           "text": "{shares}",
+           "face": "noto",
+           "size": 9.5,
+           "weight": 700,
+           "color": "ink@0.52",
+           "maxLines": 1
+          }
+         ]
+        },
+        {
+         "type": "spacer",
+         "grow": 1
+        }
+       ]
+      }
+     ],
+     "w": "fill"
+    }
+   }
+  ]
+ }
+}

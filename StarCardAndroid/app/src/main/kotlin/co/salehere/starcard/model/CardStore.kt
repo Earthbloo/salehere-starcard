@@ -47,6 +47,12 @@ data class CardSnapshot(
         var border: Boolean,
         /** ตัวตนของชิ้น — ข้อความที่พิมพ์เอง (`Profile.note`) ผูกกับ id นี้ ไฟล์เก่าไม่มี = สุ่มใหม่ตอนกู้ */
         var id: String? = null,
+        /**
+         * **ค่าที่ผู้ใช้เลือกในถาด** — คีย์ = `opt` ของ `widget.controls` · ชั้นข้อความเก็บ `face` `tint` `scale` `align` `points`
+         * ก้อนเดียวของทุกใบ (19 ต.ค. 2569) · ไฟล์ก่อนหน้านั้นไม่มีคีย์นี้ → อ่านจากคีย์เก่าข้างล่าง (อ่านอย่างเดียว ไม่เขียนแล้ว)
+         */
+        var options: Map<String, String>? = null,
+        // ── คีย์เก่า (อ่านอย่างเดียว) ──
         // หน้าตาตัวอักษร — ไฟล์เก่าไม่มีสี่คีย์นี้ จึงเป็น optional ทั้งชุด
         var face: String? = null,
         var tint: String? = null,
@@ -60,12 +66,13 @@ data class CardSnapshot(
         var slotSizes: Map<String, String>? = null,
         /** ลายบนแผ่น — ไฟล์เก่าไม่มี = แผ่นเรียบ */
         var pattern: String? = null,
-        /** ลบพื้นหลังรูปคน — ไฟล์เก่าไม่มี = เปิด (เก็บเฉพาะตอนปิด) */
-        var keepPhotoBG: Boolean? = null,
-        /** ตราปั๊มนูนบนแผ่น — ไฟล์เก่าไม่มี = เปิด (เก็บเฉพาะตอนปิด) */
-        var noEmboss: Boolean? = null,
-        /** ปั๊มนูนเปล่าแทนฟอยล์ — ไฟล์เก่าไม่มี = ฟอยล์ (เก็บเฉพาะตอนเลือกนูน) */
-        var blindEmboss: Boolean? = null,
+        // (`keepPhotoBG` `noEmboss` `blindEmboss` ถูกถอด 19 ต.ค. 2569 — ไฟล์เก่าที่มีคีย์พวกนี้อ่านได้ คีย์ถูกข้าม)
+        /** ชิ้นที่ตรึงกับก้นหน้า (ดู `PinnedSeal`) — เก็บเฉพาะตอนเป็น true */
+        var pinned: Boolean? = null,
+        /** หน้าตาของตรารับรอง — ไฟล์เก่าไม่มี = เหรียญ (เก็บเฉพาะตอนไม่ใช่เหรียญ) */
+        var sealStyle: String? = null,
+        /** หน้าตาของชุดห้าสไตล์ — เก็บเฉพาะชิ้นที่ `kind.isKit` */
+        var kit: KitConfig? = null,
         /** รุ่นแรกเก็บแค่เปิด/ปิดลายทาง — อ่านอย่างเดียว */
         var stripes: Boolean? = null,
     )
@@ -136,18 +143,7 @@ object CardStore {
                         x = it.x.toDouble(), y = it.y.toDouble(), w = it.w.toDouble(), h = it.h.toDouble(),
                         surface = it.surface.raw, border = it.border,
                         id = it.id.toString(),
-                        face = it.textStyle.face.raw,
-                        tint = it.textStyle.tint.raw,
-                        scale = it.textStyle.scale.raw,
-                        align = it.textStyle.align.raw,
-                        points = it.textStyle.points.toDouble(),
-                        slotFaces = it.textStyle.slotFaces.mapValues { e -> e.value.raw },
-                        slotTints = it.textStyle.slotTints.mapValues { e -> e.value.raw },
-                        slotSizes = it.textStyle.slotSizes.mapValues { e -> e.value.raw },
-                        pattern = if (it.pattern == PlatePattern.plain) null else it.pattern.raw,
-                        keepPhotoBG = if (it.liftPhoto) null else true,
-                        noEmboss = if (it.emboss) null else true,
-                        blindEmboss = if (it.embossBlind) true else null,
+                        options = storedOptions(it),
                     )
                 })
             },
@@ -164,34 +160,70 @@ object CardStore {
             index = index,
         )
 
+    /** คีย์หน้าตาตัวอักษรของชั้นข้อความใน `options` */
+    private val TEXT_KEYS = listOf("face", "tint", "scale", "align", "points")
+
+    /** สิ่งที่เขียนลง `options` ของไฟล์ — ตัวเลือกในถาด · ชั้นข้อความเพิ่มหน้าตาตัวอักษร · ว่าง = ไม่เขียนคีย์ */
+    private fun storedOptions(w: WidgetInstance): Map<String, String>? {
+        val o = w.options.toMutableMap()
+        if (w.kind.usesTextStyle) {
+            o["face"] = w.textStyle.face.raw
+            o["tint"] = w.textStyle.tint.raw
+            o["scale"] = w.textStyle.scale.raw
+            o["align"] = w.textStyle.align.raw
+            o["points"] = w.textStyle.points.toDouble().toString()
+        }
+        return o.ifEmpty { null }
+    }
+
+    /** ไฟล์ก่อน 19 ต.ค. 2569 — ค่าที่เคยกระจายเป็นคีย์ของชิ้น → `options` ก้อนเดียว (`sealStyle` `pinned` ถูกข้าม) */
+    private fun legacyOptions(it: CardSnapshot.Item): Map<String, String> {
+        val o = mutableMapOf<String, String>()
+        val p = it.pattern ?: (if (it.stripes == true) PlatePattern.stripe.raw else null)
+        if (p != null && p != PlatePattern.plain.raw) o["pattern"] = p
+        it.kit?.let { k ->
+            for ((kk, v) in k.opts) o.putIfAbsent(kk, v)
+            if (k.fill != KitFill.solid) o["fill"] = k.fill.name
+            if (k.corner != KitCorner.round) o["corner"] = k.corner.name
+        }
+        it.face?.let { v -> o["face"] = v }
+        it.tint?.let { v -> o["tint"] = v }
+        it.scale?.let { v -> o["scale"] = v }
+        it.align?.let { v -> o["align"] = v }
+        it.points?.let { v -> o["points"] = v.toString() }
+        return o
+    }
+
     /** แปลงภาพนิ่งกลับเป็นสถานะรันไทม์ — คู่ขาของ `snapshot` และใจดีกับไฟล์เก่าแบบเดียวกับ `load` */
     fun restore(snap: CardSnapshot): Restored? {
         // สำรับสติกเกอร์ในไฟล์เก่าไม่มีวัสดุติดมากับชนิด — ตอนนั้นมันมาจากมุมของธีม
         val legacyPopSkin = if (CornerStyle.from(snap.theme.corner) == CornerStyle.soft) PopSkin.paper else PopSkin.glass
         val pages = snap.pages.map { p ->
             CardPage(p.items.mapNotNull { item ->
-                val kind = WidgetKind.decode(item.kind, legacyPopSkin = legacyPopSkin) ?: return@mapNotNull null
+                val kind = WidgetKind.decode(item.kind, legacyPopSkin = legacyPopSkin, kitLook = item.kit?.style?.raw)
+                    ?: return@mapNotNull null
                 var w = WidgetInstance.make(
                     kind,
                     x = item.x.toFloat(), y = item.y.toFloat(), w = item.w.toFloat(), h = item.h.toFloat(),
                     id = item.id?.let { s -> runCatching { UUID.fromString(s) }.getOrNull() } ?: UUID.randomUUID(),
                 )
+                val o = (item.options ?: legacyOptions(item)).toMutableMap()
+                var ts = w.textStyle
+                if (kind.usesTextStyle) {
+                    o["face"]?.let { s -> CardFont.from(s) }?.let { v -> ts = ts.copy(face = v) }
+                    o["tint"]?.let { s -> TextTint.from(s) }?.let { v -> ts = ts.copy(tint = v) }
+                    o["scale"]?.let { s -> TextScale.from(s) }?.let { v -> ts = ts.copy(scale = v) }
+                    o["align"]?.let { s -> TextAlignment.from(s) }?.let { v -> ts = ts.copy(align = v) }
+                    ts = ts.copy(points = o["points"]?.toFloatOrNull() ?: ts.scale.size)
+                }
+                // หน้าตาตัวอักษรเป็นของชั้นข้อความเท่านั้น — ไฟล์เก่าเขียนคีย์พวกนี้ให้ทุกชิ้น ไม่ใช่ตัวเลือกของ widget
+                for (k in TEXT_KEYS) o.remove(k)
                 w = w.copy(
                     surface = WidgetSurface.decode(item.surface),
                     border = item.border,
-                    pattern = item.pattern?.let { s -> PlatePattern.from(s) }
-                        ?: (if (item.stripes == true) PlatePattern.stripe else PlatePattern.plain),
-                    liftPhoto = item.keepPhotoBG != true,
-                    emboss = item.noEmboss != true,
-                    embossBlind = item.blindEmboss == true,
+                    options = o,
                 )
-                var ts = w.textStyle
-                item.face?.let { s -> CardFont.from(s) }?.let { v -> ts = ts.copy(face = v) }
-                item.tint?.let { s -> TextTint.from(s) }?.let { v -> ts = ts.copy(tint = v) }
-                item.scale?.let { s -> TextScale.from(s) }?.let { v -> ts = ts.copy(scale = v) }
-                item.align?.let { s -> TextAlignment.from(s) }?.let { v -> ts = ts.copy(align = v) }
                 ts = ts.copy(
-                    points = item.points?.toFloat() ?: ts.scale.size,
                     slotFaces = (item.slotFaces ?: emptyMap()).mapNotNull { (k, v) -> CardFont.from(v)?.let { f -> k to f } }.toMap(),
                     slotTints = (item.slotTints ?: emptyMap()).mapNotNull { (k, v) -> TextTint.from(v)?.let { t -> k to t } }.toMap(),
                     slotSizes = (item.slotSizes ?: emptyMap()).mapNotNull { (k, v) -> WidgetTextSize.from(v)?.let { z -> k to z } }.toMap(),

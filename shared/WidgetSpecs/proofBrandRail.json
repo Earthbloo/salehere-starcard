@@ -1,0 +1,149 @@
+{
+ "kind": "proofBrandRail",
+ "design": {
+  "w": 366,
+  "h": 81
+ },
+ "widget": {
+  "title": "โลโก้เลื่อน",
+  "category": "brand",
+  "symbol": "arrow.left.arrow.right",
+  "order": 7,
+  "stamp": "work",
+  "motion": "anchored"
+ },
+ "notes": "รางโลโก้แถวเดียว ช่องห่าง 8 ด้าน 29 ตายตัว (= min(สูงที่เหลือ 29, 44) ของกรอบออกแบบ — สามชุดต่อกันในแถว: ความกว้าง intrinsic ของ chips ที่ไอคอน h fill+aspect วัดผิด ชุดจึงทับกัน ใช้ด้านตายตัวแทน) มุม 6.4 (0.22×ด้าน 29 ของกรอบออกแบบ — ตายตัว) · แปลงจาก ProofWidgets.swift (ProofBrandRail) · ของเดิมเป็นรางเลื่อนวนไม่รู้จบ (ScrubRunner วาดสำเนา ≥3 ชุดต่อกัน) + มาสก์จางซ้ายขวา 6% → ที่นี่วางรายการสามชุดต่อกันในแถวที่ clip (เต็มกว้างเหมือนรางจริง) · ยังไม่มี: การเลื่อน/เฟสของราง (แอนิเมชัน = ของแพลตฟอร์ม) · มาสก์ไล่จางซ้ายขวา (ผังไม่มี mask) · หัวข้อ N จาก stat:brandCount",
+ "root": {
+  "type": "col",
+  "gap": 8,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "row",
+      "gap": 3,
+      "align": "end",
+      "children": [
+       {
+        "type": "text",
+        "text": "ร่วมงานกับ",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "text",
+        "id": "count",
+        "slot": "stat:brandCount",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "text",
+        "text": "แบรนด์",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       }
+      ]
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "verifiedBadge",
+      "w": 73,
+      "h": 20
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "rail",
+    "grow": 1,
+    "gap": 8,
+    "align": "stretch",
+    "clip": true,
+    "children": [
+     {
+      "type": "chips",
+      "list": "brands",
+      "wrap": false,
+      "gap": 8,
+      "align": "center",
+      "justify": "start",
+      "each": {
+       "type": "icon",
+       "id": "logo",
+       "icon": "$logo",
+       "h": 29,
+       "radius": 6.4,
+       "w": 29
+      },
+      "shrink": 0,
+      "id": "run1"
+     },
+     {
+      "type": "chips",
+      "list": "brands",
+      "wrap": false,
+      "gap": 8,
+      "align": "center",
+      "justify": "start",
+      "each": {
+       "type": "icon",
+       "id": "logo",
+       "icon": "$logo",
+       "h": 29,
+       "radius": 6.4,
+       "w": 29
+      },
+      "shrink": 0,
+      "id": "run2"
+     },
+     {
+      "type": "chips",
+      "list": "brands",
+      "wrap": false,
+      "gap": 8,
+      "align": "center",
+      "justify": "start",
+      "each": {
+       "type": "icon",
+       "id": "logo",
+       "icon": "$logo",
+       "h": 29,
+       "radius": 6.4,
+       "w": 29
+      },
+      "shrink": 0,
+      "id": "run3"
+     }
+    ]
+   }
+  ]
+ }
+}

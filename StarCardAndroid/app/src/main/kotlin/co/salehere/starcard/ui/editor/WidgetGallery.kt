@@ -128,7 +128,7 @@ fun WidgetGallery(
 
     // ก้อนข้อความมีปุ่มของตัวเองบนแถบล่าง — สองทางเข้าสำหรับของชิ้นเดียวคือความงงที่ไม่จำเป็น
     val all = (Mock.catalog + Mock.lockedTeasers)
-        .filter { it.kind != WidgetKind.textBlock }
+        .filter { !it.kind.isTextLayer }
         .sortedWith(compareBy<CatalogEntry>({ it.kind.family.ordinal }, { if (it.unlocked) 0 else 1 }))
 
     val ordered = all.sortedWith(

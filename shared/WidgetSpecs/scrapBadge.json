@@ -1,0 +1,535 @@
+{
+ "kind": "scrapBadge",
+ "design": {
+  "w": 180,
+  "h": 310
+ },
+ "widget": {
+  "title": "บัตรครีเอเตอร์",
+  "category": "hero",
+  "symbol": "person.text.rectangle",
+  "size": {
+   "w": 178,
+   "h": 307
+  },
+  "order": 62,
+  "ownSurface": true,
+  "photo": true,
+  "keepAspect": true,
+  "motion": "mid",
+  "replaces": [
+   "scrapFolder"
+  ]
+ },
+ "notes": "สแครปบุ๊ก 02 บัตรครีเอเตอร์ — วัตถุลอย (ไม่มีแผ่น) · สายคล้องชมพู (scrap.mid + เส้นประขาว) + ห่วงเงิน · บัตรครีม #FFFDF8 มุม 12 เงาเฉดแผ่น: 'STAR' ดำหนัก 25 + 'ครีเอเตอร์' มิตรชมพูเอียง · รูป 1 ในกรอบ scrap.band · ชื่อ · @handle · สายงานแรก · QR + 'สแกนดูการ์ด' · แคปซูล blush ด้านบน · กรอบแนวนอน (ratio<0.667) = variant บัตรวางนอน (ตัวเลขของผัง 370×180 คูณ 1.722 ให้เท่ากล่อง 637×310) · แปลงจาก ScrapbookWidgets.swift (ScrapBadgeWidget) · ใช้ไม่ได้: ตะขอโค้งของห่วง (วาดแค่วงแหวน) · ซ่อน ' · ' เมื่อไม่มีสายงาน",
+ "variants": [
+  {
+   "when": "ratio<0.667",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "id": "lanyard",
+      "w": 38,
+      "h": 45,
+      "fill": "scrap.mid",
+      "dx": 69,
+      "dy": 0
+     },
+     {
+      "type": "rect",
+      "id": "ring",
+      "w": 17,
+      "h": 17,
+      "circle": true,
+      "stroke": {
+       "color": "#BFC3CB",
+       "width": 2.2
+      },
+      "dx": 79,
+      "dy": 39
+     },
+     {
+      "type": "col",
+      "id": "cardWrap",
+      "pad": [
+       52,
+       17,
+       10,
+       17
+      ],
+      "children": [
+       {
+        "type": "stack",
+        "id": "card",
+        "grow": 1,
+        "fill": "#FFFDF8",
+        "radius": 12,
+        "shadow": {
+         "sigma": 7.7,
+         "y": 14,
+         "color": "scrap.shade@0.22"
+        },
+        "children": [
+         {
+          "type": "row",
+          "pad": [
+           24,
+           28
+          ],
+          "gap": 24,
+          "align": "center",
+          "children": [
+           {
+            "type": "stack",
+            "w": 186,
+            "h": 186,
+            "fill": "scrap.band",
+            "pad": 7,
+            "children": [
+             {
+              "type": "image",
+              "photo": 1
+             }
+            ]
+           },
+           {
+            "type": "col",
+            "gap": 7,
+            "align": "start",
+            "grow": 1,
+            "children": [
+             {
+              "type": "row",
+              "gap": 14,
+              "align": "end",
+              "children": [
+               {
+                "type": "text",
+                "text": "STAR",
+                "face": "noto",
+                "weight": 900,
+                "size": 38,
+                "kerning": -0.9,
+                "color": "#141414",
+                "maxLines": 1
+               },
+               {
+                "type": "text",
+                "text": "ครีเอเตอร์",
+                "face": "mitr",
+                "weight": 400,
+                "size": 29,
+                "color": "scrap.paperAccent",
+                "rotate": -4,
+                "maxLines": 1
+               }
+              ]
+             },
+             {
+              "type": "text",
+              "slot": "name",
+              "face": "noto",
+              "weight": 800,
+              "size": 27.5,
+              "color": "#141414",
+              "maxLines": 1,
+              "shrinkTo": 13.8
+             },
+             {
+              "type": "row",
+              "gap": 0,
+              "align": "center",
+              "children": [
+               {
+                "type": "text",
+                "text": "@",
+                "if": "has:handle",
+                "face": "noto",
+                "weight": 500,
+                "size": 15.5,
+                "color": "#7A5664",
+                "maxLines": 1
+               },
+               {
+                "type": "text",
+                "slot": "handle",
+                "if": "has:handle",
+                "face": "noto",
+                "weight": 500,
+                "size": 15.5,
+                "color": "#7A5664",
+                "maxLines": 1,
+                "shrinkTo": 9.3
+               },
+               {
+                "type": "text",
+                "text": " · ",
+                "if": "has:handle",
+                "face": "noto",
+                "weight": 500,
+                "size": 15.5,
+                "color": "#7A5664",
+                "maxLines": 1
+               },
+               {
+                "type": "text",
+                "slot": "categories#0",
+                "face": "noto",
+                "weight": 500,
+                "size": 15.5,
+                "color": "#7A5664",
+                "maxLines": 1,
+                "shrinkTo": 9.3
+               }
+              ]
+             },
+             {
+              "type": "row",
+              "gap": 12,
+              "align": "center",
+              "pad": [
+               7,
+               0,
+               0,
+               0
+              ],
+              "children": [
+               {
+                "type": "icon",
+                "icon": "qr",
+                "w": 58.5,
+                "h": 58.5,
+                "tint": "#141414"
+               },
+               {
+                "type": "col",
+                "gap": 2,
+                "align": "start",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "สแกนดูการ์ด",
+                  "face": "mitr",
+                  "weight": 400,
+                  "size": 17,
+                  "color": "#141414",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "text",
+                  "text": "STAR · SALE HERE",
+                  "face": "noto",
+                  "weight": 600,
+                  "size": 9.5,
+                  "kerning": 1.7,
+                  "color": "#7A5664",
+                  "maxLines": 1
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "rect",
+          "id": "slotCap",
+          "w": 60,
+          "h": 10,
+          "circle": true,
+          "fill": "scrap.blush",
+          "dx": 58,
+          "dy": 10
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "icon",
+      "icon": "spark",
+      "size": 34,
+      "tint": "white",
+      "place": "top-right",
+      "dx": -17,
+      "dy": 14
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "id": "lanyard",
+    "w": 22,
+    "h": 50,
+    "fill": "scrap.mid",
+    "place": "top-center",
+    "children": [
+     {
+      "type": "rect",
+      "w": 1,
+      "stroke": {
+       "color": "white@0.8",
+       "width": 1,
+       "dash": [
+        3,
+        2
+       ]
+      },
+      "dx": 3
+     },
+     {
+      "type": "rect",
+      "w": 1,
+      "stroke": {
+       "color": "white@0.8",
+       "width": 1,
+       "dash": [
+        3,
+        2
+       ]
+      },
+      "place": "top-right",
+      "dx": -3
+     }
+    ]
+   },
+   {
+    "type": "rect",
+    "id": "ring",
+    "w": 10,
+    "h": 10,
+    "circle": true,
+    "stroke": {
+     "color": "#BFC3CB",
+     "width": 1.3
+    },
+    "place": "top-center",
+    "dy": 43
+   },
+   {
+    "type": "col",
+    "id": "cardWrap",
+    "pad": [
+     70,
+     10,
+     0,
+     10
+    ],
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "card",
+      "h": 235,
+      "fill": "#FFFDF8",
+      "radius": 12,
+      "shadow": {
+       "sigma": 4.5,
+       "y": 8,
+       "color": "scrap.shade@0.22"
+      },
+      "children": [
+       {
+        "type": "col",
+        "pad": [
+         16,
+         12,
+         10,
+         12
+        ],
+        "gap": 5,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "title",
+          "h": 38,
+          "w": "fill",
+          "children": [
+           {
+            "type": "text",
+            "text": "STAR",
+            "face": "noto",
+            "weight": 900,
+            "size": 25,
+            "kerning": -0.5,
+            "color": "#141414",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "text": "ครีเอเตอร์",
+            "face": "mitr",
+            "weight": 400,
+            "size": 20,
+            "color": "scrap.paperAccent",
+            "textAlign": "right",
+            "rotate": -4,
+            "maxLines": 1,
+            "dy": 15
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "w": 88,
+          "h": 88,
+          "fill": "scrap.band",
+          "pad": 4,
+          "children": [
+           {
+            "type": "image",
+            "photo": 1
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "slot": "name",
+          "face": "noto",
+          "weight": 800,
+          "size": 8,
+          "color": "#141414",
+          "textAlign": "center",
+          "maxLines": 1,
+          "shrinkTo": 4,
+          "w": "fill"
+         },
+         {
+          "type": "row",
+          "gap": 0,
+          "align": "center",
+          "justify": "center",
+          "pad": [
+           -3,
+           0,
+           0,
+           0
+          ],
+          "children": [
+           {
+            "type": "text",
+            "text": "@",
+            "if": "has:handle",
+            "face": "noto",
+            "weight": 500,
+            "size": 8,
+            "color": "#7A5664",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "slot": "handle",
+            "if": "has:handle",
+            "face": "noto",
+            "weight": 500,
+            "size": 8,
+            "color": "#7A5664",
+            "maxLines": 1,
+            "shrinkTo": 4.8
+           },
+           {
+            "type": "text",
+            "text": " · ",
+            "if": "has:handle",
+            "face": "noto",
+            "weight": 500,
+            "size": 8,
+            "color": "#7A5664",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "slot": "categories#0",
+            "face": "noto",
+            "weight": 500,
+            "size": 8,
+            "color": "#7A5664",
+            "maxLines": 1,
+            "shrinkTo": 4.8
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 7,
+          "align": "center",
+          "pad": [
+           2,
+           0,
+           0,
+           0
+          ],
+          "children": [
+           {
+            "type": "icon",
+            "icon": "qr",
+            "w": 40,
+            "h": 40,
+            "tint": "#141414"
+           },
+           {
+            "type": "col",
+            "gap": 1,
+            "align": "start",
+            "children": [
+             {
+              "type": "text",
+              "text": "สแกนดูการ์ด",
+              "face": "mitr",
+              "weight": 400,
+              "size": 10,
+              "color": "#141414",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "text": "STAR · SALE HERE",
+              "face": "noto",
+              "weight": 600,
+              "size": 5.5,
+              "kerning": 1,
+              "color": "#7A5664",
+              "maxLines": 1
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "rect",
+        "id": "slotCap",
+        "w": 35,
+        "h": 6,
+        "circle": true,
+        "fill": "scrap.blush",
+        "place": "top-center",
+        "dy": 8
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "size": 20,
+    "tint": "white",
+    "place": "top-right",
+    "dx": -10,
+    "dy": 58
+   }
+  ]
+ }
+}

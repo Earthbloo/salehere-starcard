@@ -1,0 +1,60 @@
+{
+ "kind": "contactLine",
+ "design": {
+  "w": 366,
+  "h": 117
+ },
+ "widget": {
+  "title": "ไลน์ตัวใหญ่",
+  "category": "contact",
+  "symbol": "bubble.left.fill",
+  "order": 39,
+  "motion": "anchored"
+ },
+ "notes": "ช่องเดียวตัวใหญ่ — 'ทักมาทางไลน์' + LINE ID ตัวดำ kerning แน่น -0.8 (ต้นฉบับ tracking -0.8 · ช่องแก้ได้วาด tracking ไม่ได้จึงใช้ kerning) · ขนาด = min(32, กว้าง×0.1) ของต้นฉบับ แทนด้วยขั้น sizeWhen · แปลงจาก BookingWidgets.swift (ContactLineWidget)",
+ "root": {
+  "type": "col",
+  "gap": 3,
+  "align": "start",
+  "justify": "start",
+  "children": [
+   {
+    "type": "text",
+    "id": "label",
+    "text": "ทักมาทางไลน์",
+    "face": "noto",
+    "size": 10.5,
+    "weight": 700,
+    "tracking": 1.2,
+    "color": "accent@0.9",
+    "maxLines": 1
+   },
+   {
+    "type": "text",
+    "id": "lineId",
+    "slot": "lineId",
+    "face": "noto",
+    "size": 32,
+    "weight": 900,
+    "sizeWhen": [
+     {
+      "when": "w<200",
+      "size": 18
+     },
+     {
+      "when": "w<260",
+      "size": 24
+     },
+     {
+      "when": "w<320",
+      "size": 28
+     }
+    ],
+    "kerning": -0.8,
+    "color": "ink@0.97",
+    "maxLines": 1,
+    "w": "fill"
+   }
+  ]
+ }
+}

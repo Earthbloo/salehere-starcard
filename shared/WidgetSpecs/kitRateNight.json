@@ -1,0 +1,476 @@
+{
+ "kind": "kitRateNight",
+ "design": {
+  "w": 300,
+  "h": 290
+ },
+ "widget": {
+  "title": "เรทรับงาน",
+  "category": "rate",
+  "symbol": "tag.fill",
+  "order": 84,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "night"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitRate"
+  ],
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ราคา",
+    "opt": "mode",
+    "options": [
+     [
+      null,
+      "ต่อช่อง"
+     ],
+     [
+      "fmt",
+      "ต่อรูปแบบงาน"
+     ]
+    ],
+    "clears": [
+     "hide"
+    ]
+   },
+   {
+    "type": "checks",
+    "label": "แถว",
+    "items": "rates",
+    "if": "opt:mode=fmt",
+    "opt": "hide"
+   },
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "ratePlatforms",
+    "if": "!opt:mode=fmt",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา night · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "kit.fill",
+      "radius": 16
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 16,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 16
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 16,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "bordered",
+    "id": "brackets",
+    "children": [
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 4.5,
+      "dy": -6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -4.5,
+      "dy": -6
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "pad": [
+     20,
+     20,
+     18,
+     20
+    ],
+    "gap": 8,
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 19,
+      "weight": 700,
+      "color": "kit.title",
+      "maxLines": 2,
+      "id": "title",
+      "shrinkTo": 13.3,
+      "text": "เรทรับงาน"
+     },
+     {
+      "type": "col",
+      "grow": 1,
+      "children": [
+       {
+        "type": "chips",
+        "if": "opt:mode=fmt",
+        "id": "rowsFmt",
+        "direction": "col",
+        "gap": 7,
+        "grow": 1,
+        "each": {
+         "type": "stack",
+         "children": [
+          {
+           "type": "rect",
+           "if": "bordered",
+           "id": "block",
+           "fill": "kit.block",
+           "radius": 10,
+           "stroke": {
+            "color": "kit.border@0.3",
+            "width": 1
+           }
+          },
+          {
+           "type": "rect",
+           "if": "!bordered",
+           "id": "block",
+           "fill": "kit.block",
+           "radius": 10,
+           "stroke": {
+            "color": "kit.mut@0.17",
+            "width": 1
+           }
+          },
+          {
+           "type": "col",
+           "pad": [
+            7,
+            10
+           ],
+           "align": "stretch",
+           "justify": "center",
+           "children": [
+            {
+             "type": "row",
+             "gap": 8,
+             "align": "center",
+             "children": [
+              {
+               "type": "text",
+               "slot": "$label",
+               "face": "noto",
+               "size": 13,
+               "weight": 600,
+               "color": "kit.ink",
+               "maxLines": 1,
+               "shrinkTo": 9.75
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 6
+              },
+              {
+               "type": "text",
+               "slot": "$price",
+               "face": "noto",
+               "size": 17.5,
+               "weight": 800,
+               "color": "kit.accent",
+               "maxLines": 1,
+               "id": "price",
+               "shrink": 0
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "grow": 1
+        },
+        "list": "rates"
+       },
+       {
+        "type": "chips",
+        "if": "!opt:mode=fmt",
+        "id": "rowsChannel",
+        "direction": "col",
+        "gap": 7,
+        "grow": 1,
+        "each": {
+         "type": "stack",
+         "children": [
+          {
+           "type": "rect",
+           "if": "bordered",
+           "id": "block",
+           "fill": "kit.block",
+           "radius": 10,
+           "stroke": {
+            "color": "kit.border@0.3",
+            "width": 1
+           }
+          },
+          {
+           "type": "rect",
+           "if": "!bordered",
+           "id": "block",
+           "fill": "kit.block",
+           "radius": 10,
+           "stroke": {
+            "color": "kit.mut@0.17",
+            "width": 1
+           }
+          },
+          {
+           "type": "col",
+           "pad": [
+            7,
+            10
+           ],
+           "align": "stretch",
+           "justify": "center",
+           "children": [
+            {
+             "type": "row",
+             "gap": 8,
+             "align": "center",
+             "children": [
+              {
+               "type": "text",
+               "slot": "$platformName",
+               "face": "noto",
+               "size": 13,
+               "weight": 600,
+               "color": "kit.ink",
+               "maxLines": 1,
+               "shrinkTo": 9.75
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 6
+              },
+              {
+               "type": "text",
+               "text": "เริ่ม",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 400,
+               "color": "kit.mut",
+               "maxLines": 1,
+               "shrink": 0
+              },
+              {
+               "type": "text",
+               "slot": "$price",
+               "face": "noto",
+               "size": 17.5,
+               "weight": 800,
+               "color": "kit.accent",
+               "maxLines": 1,
+               "id": "price",
+               "shrink": 0
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "grow": 1
+        },
+        "list": "rates",
+        "sort": "platformOrder asc, priceRaw asc",
+        "where": "!hidden:$platform",
+        "group": "platform"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

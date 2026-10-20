@@ -1,0 +1,581 @@
+<title>Widget ชุด 5 สไตล์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Kanit:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column; tasks first, then the 5 looks, the field matrix, per-topic cards, editor controls, open questions, drafts */
+:root{
+  --bg:#F9FAFB; --paper:#FFFFFF; --ink:#111827; --ink-2:#4B5563; --ink-3:#8A93A3;
+  --line:#E5E7EB; --chip:#F1F2F4; --accent:#E5322D; --ok:#15803D; --ok-bg:#E8F5EC;
+  --warn:#B45309; --warn-bg:#FDF2E3; --new:#1D4ED8; --new-bg:#E8EEFC;
+  --f-display:"Kanit","Anuphan",system-ui,sans-serif;
+  --f-body:"Anuphan","Kanit",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1115; --paper:#171A20; --ink:#F3F4F6; --ink-2:#B6BDC9; --ink-3:#7D8796;
+  --line:#2A2F38; --chip:#22262E; --accent:#FF5A54; --ok:#4ADE80; --ok-bg:#12291A;
+  --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1115; --paper:#171A20; --ink:#F3F4F6; --ink-2:#B6BDC9; --ink-3:#7D8796;
+  --line:#2A2F38; --chip:#22262E; --accent:#FF5A54; --ok:#4ADE80; --ok-bg:#12291A;
+  --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:40px 80px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.25;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,42px);letter-spacing:-.01em}
+h2{font-size:24px}
+h3{font-size:18px}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.lede{font-size:17px;color:var(--ink-2);max-width:62ch}
+.sec{display:flex;flex-direction:column;gap:20px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--ink-2);max-width:65ch}
+a{color:var(--new)}
+:focus-visible{outline:2px solid var(--new);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-direction:column;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--f-display);font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:13px;color:var(--ink-2)}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* task list */
+.tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.tasks{grid-template-columns:1fr}}
+.task{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.task header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.task header b{font-family:var(--f-mono);font-size:13px;color:var(--ink-2);white-space:nowrap}
+.task ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--ink-2)}
+.task li strong{color:var(--ink);font-weight:600}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tag.new{background:var(--new-bg);color:var(--new)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.red{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+
+/* 5 looks */
+.looks{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:18px}
+.look{display:flex;flex-direction:column;gap:10px;min-width:0}
+.look .stage{background:var(--chip);border-radius:12px;padding:18px 14px;display:flex;justify-content:center}
+.look h3{font-size:16px}
+.look p{font-size:13px;color:var(--ink-2)}
+.look .rel{font-size:12px;color:var(--ink-3)}
+
+/* widget renders (artwork: fixed colours by design) */
+.w{width:100%;max-width:200px;font-family:"Kanit",var(--f-body);font-size:11px;line-height:1.3;color:#111}
+.w .t{font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
+.w .t small{font-size:9px;font-weight:600}
+.w .r{display:flex;align-items:center;gap:6px;padding:5px 7px}
+.w .r .n{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}
+.w .ic{width:16px;height:16px;border-radius:5px;display:grid;place-items:center;font-size:8px;font-weight:700;color:#fff;flex:none}
+.ic.fb{background:#1877F2}.ic.ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF)}.ic.tt{background:#111}.ic.l8{background:#F7E733;color:#111}.ic.x{background:#111}
+.w .rows{display:flex;flex-direction:column;gap:4px}
+
+.w.m-purple{background:#B57EF7;border:2px solid #111;border-radius:10px;box-shadow:4px 4px 0 #111;padding:8px}
+.w.m-purple .t{padding:0 2px 6px}
+.w.m-purple .r{background:#fff;border:1.5px solid #111;border-radius:6px}
+
+.w.m-cream{background:#ECE7E0;border-radius:12px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.w.m-cream .t{font-size:13px;color:#333;padding:0 2px 6px}
+.w.m-cream .r{background:#F7F4F0;border-radius:7px;color:#333}
+
+.w.m-gingham{padding:7px;border-radius:14px;background-color:#C5D1A6;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.35) 0 3px,transparent 3px 6px),repeating-linear-gradient(90deg,rgba(120,140,80,.35) 0 3px,transparent 3px 6px)}
+.w.m-gingham .in{background:#fff;border:2px solid #111;border-radius:10px;padding:8px}
+.w.m-gingham .t{padding:0 0 4px}
+.w.m-gingham .r{padding:4px 2px}
+.w.m-gingham .r em{display:block;font-style:normal;font-size:8px;color:#777}
+
+.w.m-night{position:relative;background:#0E1520;border-radius:10px;padding:10px;color:#E6EEF6}
+.w.m-night::before,.w.m-night::after,.w.m-night .c1,.w.m-night .c2{content:"";position:absolute;width:14px;height:14px;border:2px solid #5CC8F0}
+.w.m-night::before{top:-3px;left:-3px;border-right:0;border-bottom:0;border-top-left-radius:8px}
+.w.m-night::after{top:-3px;right:-3px;border-left:0;border-bottom:0;border-top-right-radius:8px}
+.w.m-night .c1{bottom:-3px;left:-3px;border-right:0;border-top:0;border-bottom-left-radius:8px}
+.w.m-night .c2{bottom:-3px;right:-3px;border-left:0;border-top:0;border-bottom-right-radius:8px}
+.w.m-night .t{color:#fff;font-size:12px;padding:0 2px 6px}
+.w.m-night .r{background:#1A2432;border-radius:6px;font-size:10px}
+.w.m-night .r .n{color:#5CC8F0}
+
+.w.m-mac{background:#fff;border:1px solid #D7D7D7;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.w.m-mac .bar{display:flex;align-items:center;gap:4px;background:#F3F3F3;padding:5px 7px;border-bottom:1px solid #E3E3E3;font-size:9px;color:#555}
+.w.m-mac .bar i{width:7px;height:7px;border-radius:50%;display:block}
+.w.m-mac .bar span{flex:1;text-align:center;margin-right:24px}
+.w.m-mac .rows{gap:0;padding:2px 8px 6px}
+.w.m-mac .r{padding:5px 0;border-bottom:1px solid #EFEFEF}
+.w.m-mac .r:last-child{border-bottom:0}
+.w.m-mac .r .n{color:#2F6BF0}
+
+/* matrix */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{font-size:12px;color:var(--ink-2);font-weight:600;background:var(--chip);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.topic{font-weight:600;white-space:nowrap}
+td.topic small{display:block;font-weight:400;color:var(--ink-3);font-size:12px}
+.cell-ok{color:var(--ok);font-weight:600}
+.cell-warn{color:var(--warn)}
+.cell-warn b{display:block;font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--ink-2)}
+
+/* topic cards */
+.topics{display:flex;flex-direction:column;gap:14px}
+.topic-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.topic-card header{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.topic-card header .pg{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin-left:auto}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 14px;font-size:14px}
+.kv dt{color:var(--ink-3)}
+.kv dd{margin:0;color:var(--ink-2)}
+.kv dd strong{color:var(--ink);font-weight:600}
+code{font-family:var(--f-mono);font-size:12px;background:var(--chip);padding:1px 5px;border-radius:4px;color:var(--ink)}
+@media (max-width:560px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
+details{border-top:1px dashed var(--line);padding-top:10px}
+summary{cursor:pointer;font-size:13px;color:var(--ink-2);font-weight:600}
+details img{display:block;margin-top:10px;border-radius:8px;border:1px solid var(--line);max-width:100%;height:auto;background:#fff}
+
+/* controls table + demo */
+.ctrl{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px;align-items:start}
+@media (max-width:820px){.ctrl{grid-template-columns:1fr}}
+.demo{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.demo-stage{border-radius:10px;padding:26px 16px;display:flex;justify-content:center;background-color:#F2EFEA;
+  background-image:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1px);background-size:12px 12px}
+.dw{width:100%;max-width:230px;font-family:"Kanit",var(--f-body);color:#111;padding:12px;transition:all .2s}
+.dw .ttl{font-size:17px;font-weight:700;outline:none;border-radius:4px;padding:0 2px}
+.dw .ttl:focus{box-shadow:0 0 0 2px #2F6BF0}
+.dw .row{display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-bottom:1px solid rgba(0,0,0,.08);font-size:13px}
+.dw .row:last-child{border-bottom:0}
+.dw .row b{font-variant-numeric:tabular-nums}
+.dw .lock{font-size:10px;color:#8a8a8a;margin-top:6px;display:flex;gap:4px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{display:flex;flex-direction:column;gap:6px}
+.opt>span{font-size:12px;color:var(--ink-3);font-weight:600}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sw{display:flex;gap:8px;flex-wrap:wrap}
+.sw button{width:26px;height:26px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+.sw button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.opt.off{opacity:.4;pointer-events:none}
+
+/* questions */
+.qs{display:flex;flex-direction:column;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.q{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q .num{font-family:var(--f-mono);color:var(--accent);font-size:13px;padding-top:2px}
+.q p{color:var(--ink-2)}
+.q p b{color:var(--ink)}
+
+.drafts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.draft{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.draft img{border-radius:8px;border:1px solid var(--line);max-width:100%;height:auto;background:#fff}
+.draft p{font-size:13px;color:var(--ink-2)}
+.foot{font-size:13px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">สรุปจากไฟล์ Canva · 18 หน้า · อ่านเมื่อ 12 ต.ค. 2569</span>
+  <h1>Widget ชุด 5 สไตล์</h1>
+  <p class="lede">สเปก config ทีละใบอยู่ใน <a href="https://claude.ai/artifact/Xu2a5Gfca89MrJUkXVTD7Z">Widget Config ทีละใบ</a> · ใน Canva มี widget 10 หัวข้อ แต่ละหัวข้อมี 5 สไตล์ และมีปุ่มแต่ง widget แบบใหม่ หน้านี้เทียบไฟล์นั้นกับแอปตอนนี้ ว่ามีอะไรต้องออกแบบเพิ่ม และมีข้อมูลอะไรที่ Star Profile ยังไม่มี</p>
+  <div class="stats" role="list">
+    <div class="stat" role="listitem"><b>50</b><span>แบบที่ต้องวาด (10 หัวข้อ × 5 สไตล์)</span></div>
+    <div class="stat" role="listitem"><b>2</b><span>หัวข้อที่ยังไม่มี widget ในแอปเลย</span></div>
+    <div class="stat" role="listitem"><b>4</b><span>ปุ่มแต่งที่ต้องเพิ่มในถาด widget</span></div>
+    <div class="stat" role="listitem"><b>12</b><span>ช่องที่บางสไตล์แสดงข้อมูลไม่ครบชุด</span></div>
+  </div>
+</header>
+
+<section class="sec" id="tasks">
+  <div class="sec-head">
+    <h2>สิ่งที่ต้องออกแบบเพิ่ม</h2>
+    <p>เรียงตามขนาดงาน ทั้ง 5 สไตล์นี้ยังไม่มีในแอปเลยสักใบ widget ที่มีอยู่ตอนนี้เป็นคนละชุด (สติกเกอร์ป๊อป · สแครปบุ๊ก · บรรณาธิการ · หน้าต่าง · ผ้าปิกนิก)</p>
+  </div>
+  <div class="tasks">
+    <article class="task">
+      <header><h3>1 · หัวข้อใหม่ ยังไม่มี widget</h3><b>10 แบบ</b></header>
+      <ul>
+        <li><strong>วันเวลาและพื้นที่รับงาน</strong> × 5 สไตล์ ข้อมูลมีแล้วใน Star Profile (ช่วงเวลา 4 ช่วง + จังหวัดสูงสุด 3 จังหวัด)</li>
+        <li><strong>สัดส่วน</strong> × 5 สไตล์ ตระกูลนี้ถูกลบเมื่อ 30 ก.ย. แต่ Star Profile เก็บข้อมูลสัดส่วนแล้วตั้งแต่ 6 ต.ค.</li>
+      </ul>
+      <span class="tag new">ใหม่ทั้งหัวข้อ</span>
+    </article>
+    <article class="task">
+      <header><h3>2 · หัวข้อที่มีแล้ว วาดใหม่ 5 สไตล์</h3><b>40 แบบ</b></header>
+      <ul>
+        <li><strong>โปรไฟล์ · Social Media · เรท · ผลงาน</strong></li>
+        <li><strong>ช่องทางติดต่อ · สายงาน · Bio · Insight</strong></li>
+        <li>แต่ละหัวข้อต้องแสดงฟิลด์ชุดเดียวกันครบทั้ง 5 สไตล์ (ดูตารางด้านล่าง)</li>
+      </ul>
+      <span class="tag warn">12 ช่องต้องแก้ใน Canva ก่อน</span>
+    </article>
+    <article class="task">
+      <header><h3>3 · ปุ่มแต่ง widget</h3><b>4 ปุ่ม</b></header>
+      <ul>
+        <li><strong>พื้นหลัง</strong> สีพื้น / ไล่สี / โปร่ง + เลือกสี</li>
+        <li><strong>ขอบ</strong> มี/ไม่มี · มน/เหลี่ยม · สีขอบ (ตอนนี้มีแค่เปิด/ปิด)</li>
+        <li><strong>ล็อกฟอนต์ข้อมูล</strong> ให้ตามฟอนต์ธีมของการ์ด หัวข้อแก้ได้อิสระ</li>
+        <li><strong>สีแนะนำ</strong> เปลี่ยนสีพื้นแล้วระบบเปลี่ยนสีตัวหนังสือให้ ผู้ใช้แก้ต่อได้</li>
+      </ul>
+      <span class="tag new">หน้าตาถาด + กติกา</span>
+    </article>
+    <article class="task">
+      <header><h3>4 · ของประกอบ</h3><b>~28 ชิ้น</b></header>
+      <ul>
+        <li><strong>ไอคอนสายงาน 18 ตัว</strong> สไตล์ครีมและสไตล์กลางคืนใช้ไอคอนเส้น ต้องมีครบทุกหมวดในฟอร์ม</li>
+        <li><strong>ตรา Verified × 5</strong> ตำแหน่งติ๊กแดงมุมขวาบนของแต่ละสไตล์ (กติกาเดิม: ทุก widget ข้อมูลต้องมี)</li>
+        <li><strong>สถานะล็อก × 5</strong> หน้าตาตอนยังไม่มีข้อมูล (ข้อมูลตัวอย่าง + ม่านเทา) ของแต่ละสไตล์</li>
+      </ul>
+      <span class="tag red">ตกหล่นใน Canva</span>
+    </article>
+  </div>
+</section>
+
+<section class="sec" id="looks">
+  <div class="sec-head">
+    <h2>5 สไตล์</h2>
+    <p>วาดใหม่ด้วย HTML จาก Canva หน้า 4 (Social Media) เพื่อใช้เป็นตัวอ้างอิง เลข model ใน Canva สลับกันในบางหน้า หน้านี้จึงเรียกสไตล์ตามหน้าตา</p>
+  </div>
+  <div class="looks">
+    <div class="look">
+      <div class="stage"><div class="w m-purple" aria-label="ตัวอย่างสไตล์ม่วงสติกเกอร์">
+        <div class="t">Social Media <small>ผู้ติดตาม</small></div>
+        <div class="rows">
+          <div class="r"><span class="ic fb">f</span>Nira Beauty<span class="n">92,000</span></div>
+          <div class="r"><span class="ic ig">IG</span>@nira.beauty<span class="n">184,000</span></div>
+          <div class="r"><span class="ic tt">TT</span>@nira.beauty<span class="n">321,000</span></div>
+          <div class="r"><span class="ic l8">L8</span>@nira.beauty<span class="n">18,500</span></div>
+          <div class="r"><span class="ic x">X</span>@nirabeauty<span class="n">7,200</span></div>
+        </div></div></div>
+      <h3>ม่วงสติกเกอร์</h3>
+      <p>พื้นม่วง ขอบดำหนา เงาดำทึบเยื้อง แถวขาวมีขอบ</p>
+      <span class="rel">ในแอปที่ใกล้สุด: สำรับสติกเกอร์ป๊อป</span>
+    </div>
+    <div class="look">
+      <div class="stage"><div class="w m-cream" aria-label="ตัวอย่างสไตล์ครีมนุ่ม">
+        <div class="t">Social Media</div>
+        <div class="rows">
+          <div class="r"><span class="ic fb">f</span>Nira Beauty<span class="n">92,000</span></div>
+          <div class="r"><span class="ic ig">IG</span>@nira.beauty<span class="n">184,000</span></div>
+          <div class="r"><span class="ic tt">TT</span>@nira.beauty<span class="n">321,000</span></div>
+          <div class="r"><span class="ic l8">L8</span>@nira.beauty<span class="n">18,500</span></div>
+          <div class="r"><span class="ic x">X</span>@nirabeauty<span class="n">7,200</span></div>
+        </div></div></div>
+      <h3>ครีมนุ่ม</h3>
+      <p>พื้นครีมเทา ไม่มีขอบ เงาบาง แถวสีอ่อนกว่าพื้น</p>
+      <span class="rel">ในแอปที่ใกล้สุด: ไม่มี</span>
+    </div>
+    <div class="look">
+      <div class="stage"><div class="w m-gingham" aria-label="ตัวอย่างสไตล์กรอบตารางเขียว"><div class="in">
+        <div class="t">Social Media</div>
+        <div class="rows">
+          <div class="r"><span class="ic fb">f</span><span>Facebook<em>Nira Beauty</em></span><span class="n">92,000</span></div>
+          <div class="r"><span class="ic ig">IG</span><span>Instagram<em>@nira.beauty</em></span><span class="n">184,000</span></div>
+          <div class="r"><span class="ic tt">TT</span><span>TikTok<em>@nira.beauty</em></span><span class="n">321,000</span></div>
+          <div class="r"><span class="ic l8">L8</span><span>Lemon8<em>@nira.beauty</em></span><span class="n">18,500</span></div>
+          <div class="r"><span class="ic x">X</span><span>X<em>@nirabeauty</em></span><span class="n">7,200</span></div>
+        </div></div></div></div>
+      <h3>กรอบตารางเขียว</h3>
+      <p>กรอบผ้าลายตารางสีเขียวเสจ การ์ดขาวขอบดำด้านใน</p>
+      <span class="rel">ในแอปที่ใกล้สุด: ผ้าปิกนิก (ฟ้า/แดง คนละลาย)</span>
+    </div>
+    <div class="look">
+      <div class="stage"><div class="w m-night" aria-label="ตัวอย่างสไตล์กลางคืนนีออน"><i class="c1"></i><i class="c2"></i>
+        <div class="t">Social Media</div>
+        <div class="rows">
+          <div class="r">Facebook<span class="n">92,000</span></div>
+          <div class="r">Instagram<span class="n">184,000</span></div>
+          <div class="r">TikTok<span class="n">321,000</span></div>
+          <div class="r">Lemon8<span class="n">18,500</span></div>
+          <div class="r">X<span class="n">7,200</span></div>
+        </div></div></div>
+      <h3>กลางคืนนีออน</h3>
+      <p>พื้นกรมท่าเกือบดำ มุมโค้งฟ้านีออนสี่มุม ตัวเลขสีฟ้า</p>
+      <span class="rel">ในแอปที่ใกล้สุด: ไม่มี</span>
+    </div>
+    <div class="look">
+      <div class="stage"><div class="w m-mac" aria-label="ตัวอย่างสไตล์หน้าต่าง Mac">
+        <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span>Social Media</span></div>
+        <div class="rows">
+          <div class="r">Facebook<span class="n">92,000</span></div>
+          <div class="r">Instagram<span class="n">184,000</span></div>
+          <div class="r">TikTok<span class="n">321,000</span></div>
+          <div class="r">Lemon8<span class="n">18,500</span></div>
+          <div class="r">X<span class="n">7,200</span></div>
+        </div></div></div>
+      <h3>หน้าต่าง Mac</h3>
+      <p>แถบหน้าต่างสามจุด ชื่อกลางแถบ เส้นคั่นบาง ตัวเลขสีน้ำเงิน</p>
+      <span class="rel">ในแอปที่ใกล้สุด: <code>socialWindow</code> · <code>portfolioWindow</code></span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="matrix">
+  <div class="sec-head">
+    <h2>ตารางเช็กฟิลด์ 10 × 5</h2>
+    <p>กติกาในแอป: ทุกสไตล์ของหัวข้อเดียวกันต้องแสดงฟิลด์ชุดเดียวกัน ถ้าไม่ครบ ผู้ใช้ที่กดเปลี่ยนสไตล์จะเสียข้อมูลบนการ์ดไปโดยไม่รู้ตัว ช่องสีส้มคือจุดที่ต้องแก้ใน Canva ก่อนส่งให้ dev</p>
+  </div>
+  <div class="legend"><span class="cell-ok">✓ ครบ</span><span class="cell-warn">● ขาดฟิลด์</span></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>หัวข้อ</th><th>ม่วงสติกเกอร์</th><th>ครีมนุ่ม</th><th>กรอบตารางเขียว</th><th>กลางคืนนีออน</th><th>หน้าต่าง Mac</th></tr></thead>
+      <tbody>
+        <tr><td class="topic">โปรไฟล์<small>หน้า 3</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● ขาดสายงาน</b>มีแค่ชื่อ + แฮนเดิล</td><td class="cell-warn"><b>● ขาดสายงาน</b>มีแค่ชื่อ + แฮนเดิล</td></tr>
+        <tr><td class="topic">Social Media<small>หน้า 4</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● ขาดแฮนเดิล</b>มีแค่ชื่อแพลตฟอร์ม</td><td class="cell-warn"><b>● ขาดแฮนเดิล</b>ขาดโลโก้แพลตฟอร์มด้วย</td></tr>
+        <tr><td class="topic">เรทรับงาน<small>หน้า 5</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td></tr>
+        <tr><td class="topic">รูปผลงาน<small>หน้า 6</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● ขาดชื่องาน + ยอดวิว</b>มีแค่รูป</td><td class="cell-warn"><b>● ขาดชื่องาน + ยอดวิว</b>มีแค่รูป</td></tr>
+        <tr><td class="topic">วันเวลา + พื้นที่<small>หน้า 7</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td></tr>
+        <tr><td class="topic">ช่องทางติดต่อ<small>หน้า 8</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● ขาด QR LINE</b></td><td class="cell-warn"><b>● ขาด QR LINE</b></td></tr>
+        <tr><td class="topic">สายงาน<small>หน้า 9</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓ + ไอคอน</td><td class="cell-ok">✓</td><td class="cell-ok">✓ + ไอคอน</td><td class="cell-ok">✓</td></tr>
+        <tr><td class="topic">Bio<small>หน้า 10</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td></tr>
+        <tr><td class="topic">สัดส่วน<small>หน้า 11</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● ขาดรอบอก/เอว/สะโพก</b>มี 4 จาก 5 ช่อง</td><td class="cell-warn"><b>● ขาดรอบอก/เอว/สะโพก</b>มี 4 จาก 5 ช่อง</td></tr>
+        <tr><td class="topic">Insight<small>หน้า 12</small></td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-ok">✓</td><td class="cell-warn"><b>● เหลือค่าเดียวต่อหัวข้อ</b>เมืองอันดับ 1 · อายุช่วงเดียว</td><td class="cell-warn"><b>● เหลือค่าเดียวต่อหัวข้อ</b>เมืองอันดับ 1 · อายุช่วงเดียว</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="color:var(--ink-2);font-size:14px">จุดที่ขาดจะอยู่ที่สไตล์กลางคืนนีออนกับหน้าต่าง Mac แทบทั้งหมด ถ้าแก้สองสไตล์นี้ให้ครบ ตารางนี้จะผ่านทุกช่อง</p>
+</section>
+
+<section class="sec" id="topics">
+  <div class="sec-head">
+    <h2>รายหัวข้อ</h2>
+    <p>แต่ละหัวข้อบอกว่าในแอปมีอะไรอยู่แล้ว ข้อมูลพร้อมแค่ไหน และต้องออกแบบอะไร กดดูหน้า Canva ได้ที่ท้ายการ์ด</p>
+  </div>
+  <div class="topics">
+
+    <article class="topic-card">
+      <header><h3>วันเวลาและพื้นที่รับงาน</h3><span class="tag new">ใหม่ทั้งหัวข้อ</span><span class="pg">Canva หน้า 7</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd>ไม่มี widget · มีแค่ในฟอร์ม Star Profile</dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">พร้อม</span> <code>availability</code> ช่วงเวลา 4 ช่วง (ระบบรวมช่วงติดกันเป็นข้อความอย่าง "ส.–อา. 18.00 เป็นต้นไป") · <code>province</code> สูงสุด 3 จังหวัด</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · Canva ทำวันเวลากับพื้นที่ไว้ในใบเดียว ต้องเผื่อกรณีมีข้อมูลแค่ส่วนเดียว และกรณีเลือกครบ 3 จังหวัด</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p07-time-area.jpg" alt="Canva หน้า 7: วันเวลาและพื้นที่รับงาน 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>สัดส่วน</h3><span class="tag new">ใหม่ทั้งหัวข้อ</span><span class="pg">Canva หน้า 11</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd>ตระกูล <code>.body</code> ถูกลบเมื่อ 30 ก.ย. ตอนนั้น Star Profile ยังไม่มีข้อมูลนี้</dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">มีบางส่วน</span> น้ำหนัก ส่วนสูง รอบอก รอบเอว สะโพก รองเท้า (หน่วยแยกรายช่อง) · <span class="tag warn">ไม่มีไซซ์เสื้อ</span> แต่ Canva ใช้ทุกสไตล์</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · ต้องแสดงหน่วยตามที่ผู้ใช้เลือก (cm/นิ้ว, kg/ปอนด์, รองเท้าไซซ์ EU) · สไตล์กลางคืนกับ Mac ต้องเติมรอบอก/เอว/สะโพก</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p11-body.jpg" alt="Canva หน้า 11: สัดส่วน 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>โปรไฟล์</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 3 · 13 · 18</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>artTypeOver</code> <code>heroMinimal</code> <code>artPortfolio</code> <code>portfolioWindow</code> <code>portfolioGingham</code> + สำรับป๊อป/สแครป</dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">พร้อม</span> รูป ชื่อ สายงาน แฮนเดิล · หน้า 18 (ฉบับร่าง) เพิ่มป้าย "ยืนยันตัวตนแล้ว" กับ "ผลงานยืนยันแล้ว" ซึ่งดึงจาก KYC และงานที่ผ่านได้</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · ตัดสินใจว่าจะใส่ป้ายยืนยันสองป้ายจากหน้า 18 ไหม · ถ้าใส่ ต้องมีทุกสไตล์</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p03-profile.jpg" alt="Canva หน้า 3: โปรไฟล์ 5 สไตล์" width="562" height="314" loading="lazy"><img src="img/p18-profile-badges.jpg" alt="Canva หน้า 18: โปรไฟล์พร้อมป้ายยืนยัน" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>Social Media</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 4 · 14</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>statGiant</code> <code>socialChips</code> <code>socialTiles</code> <code>statWrapped</code> <code>statPoster</code> <code>socialWindow</code> <code>socialGingham</code></dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">พร้อม</span> ยอดผู้ติดตาม 6 แพลตฟอร์ม (IG, TikTok, Facebook, YouTube, X, Lemon8)</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · Canva มี 5 แพลตฟอร์ม แต่แอปมี 6 (ขาด YouTube) · ต้องเผื่อกรณีมี 1 ช่องและครบ 6 ช่อง</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p04-social.jpg" alt="Canva หน้า 4: Social Media 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>เรทรับงาน</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 5 · 15</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>rateTags</code> <code>rateNeon</code> + สำรับป๊อป/สแครป</dd>
+        <dt>ข้อมูล</dt><dd><span class="tag warn">รูปแบบไม่ตรง</span> แอปเก็บราคาแยกตามแพลตฟอร์ม × รูปแบบงาน (Short Video · Photo · Long Video · Seeding) แต่ Canva หน้า 5 มีราคาเดียวต่อแพลตฟอร์ม · หน้า 15 (ฉบับร่าง) มีแพ็กเกจ ซ่อนราคา และเงื่อนไขรับเงิน ซึ่งแอปยังไม่มี</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> ที่แสดงราคาแยกตามรูปแบบงานได้ · ถ้าจะใช้หน้า 15 ต้องเพิ่มข้อมูลแพ็กเกจและเงื่อนไขรับเงินใน Star Profile ก่อน</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p05-rate.jpg" alt="Canva หน้า 5: เรทรับงาน 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>รูปผลงาน</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 6 · 16</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>gallery*</code> 8 แบบ · <code>artFilmstrip</code> <code>workFeatured</code> <code>workReel</code> <code>reelShowcase</code> ฯลฯ</dd>
+        <dt>ข้อมูล</dt><dd><span class="tag warn">ขาดยอดวิว</span> Star Profile เก็บรูป/ผลงาน/วิดีโอได้หมวดละ 1–3 ชิ้น ไม่มีชื่อแคมเปญและยอดวิว · Canva วาดตาราง 6 ช่องพร้อมยอดวิว</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> ที่รับได้ 1–3 ชิ้นต่อหมวด · ถ้าจะโชว์ยอดวิว ต้องรอเชื่อมบัญชีหรือให้ผู้ใช้พิมพ์เอง · หน้า 16 (ฉบับร่าง) มีกรอบโพสต์ IG 6 แบบ ในแอปมี <code>galleryPost</code> อยู่แล้ว</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p06-works.jpg" alt="Canva หน้า 6: รูปผลงาน 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>ช่องทางติดต่อ</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 8</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>contactCard</code> <code>contactQR</code> <code>contactBar</code> <code>contactStack</code> <code>contactLine</code> <code>contactChips</code> <code>contactPoster</code></dd>
+        <dt>ข้อมูล</dt><dd><span class="tag warn">ขาดอีเมล</span> Star Profile มี LINE ID · เบอร์โทร · เว็บไซต์ แต่การ์ดตอนนี้ใช้แค่ LINE (เบอร์ถูกถอดออกจากการ์ดเมื่อ 30 ก.ย.) · Canva ใส่ทั้งเบอร์และอีเมลทุกสไตล์ แต่อีเมลไม่มีใน Star Profile</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · ตัดสินใจก่อนว่าจะเพิ่มอีเมล หรือใช้เว็บไซต์แทน · สไตล์กลางคืนกับ Mac ต้องเพิ่ม QR LINE</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p08-contact.jpg" alt="Canva หน้า 8: ช่องทางติดต่อ 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>สายงาน</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 9</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>nicheTags</code> <code>stickerTags</code> <code>interestTags</code> <code>nichePoster</code></dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">พร้อม</span> หมวดในฟอร์มมี 18 หมวด</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์ + ไอคอนเส้น 18 ตัว</strong> (Canva วาดแค่ บิวตี้ · อาหาร · ไลฟ์สไตล์) · ต้องเผื่อชื่อหมวดยาว เช่น "เทคโนโลยี &amp; แกดเจ็ต"</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p09-niche.jpg" alt="Canva หน้า 9: สายงาน 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>Bio (About Me)</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 10</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>aboutText</code> <code>aboutEditorial</code> <code>aboutBehind</code> <code>scrapAbout</code></dd>
+        <dt>ข้อมูล</dt><dd><span class="tag ok">พร้อม</span> ข้อความแนะนำตัวจาก Star Profile</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> · ต้องเผื่อข้อความยาวสุดที่ฟอร์มรับ</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p10-bio.jpg" alt="Canva หน้า 10: Bio 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+    <article class="topic-card">
+      <header><h3>Insight ผู้ติดตาม</h3><span class="tag warn">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 12</span></header>
+      <dl class="kv">
+        <dt>ในแอปตอนนี้</dt><dd><code>audienceLine</code> <code>audienceSplit</code> <code>audienceAge</code> <code>audienceMap</code> <code>audiencePoster</code> <code>scrapStats</code></dd>
+        <dt>ข้อมูล</dt><dd><span class="tag warn">ยังเป็นข้อมูลจำลอง</span> ผู้ใช้อัปโหลดภาพหน้าจอ insight · ตัวเลขยังเป็น mock จนกว่าจะเชื่อมบัญชีด้วย OAuth</dd>
+        <dt>ต้องออกแบบ</dt><dd><strong>5 สไตล์</strong> ที่แสดง เมือง 3 อันดับ · เพศ · อายุ 3 ช่วง · การเข้าถึง ครบทุกสไตล์</dd>
+      </dl>
+      <details><summary>ดูหน้า Canva</summary><img src="img/p12-insight.jpg" alt="Canva หน้า 12: Insight 5 สไตล์" width="562" height="314" loading="lazy"></details>
+    </article>
+
+  </div>
+</section>
+
+<section class="sec" id="controls">
+  <div class="sec-head">
+    <h2>ปุ่มแต่ง widget</h2>
+    <p>จาก Canva หน้า 1, 2 และ 14 ลองกดตัวอย่างทางขวาได้ ข้อความบน widget แก้ไม่ได้ทั้งหมด — หัวข้อเป็นป้ายตายตัว ตัวเลขมาจากข้อมูลจริง · ฟอนต์ สี ขนาดตามดีไซน์และธีมของการ์ด (19 ต.ค. 2569)</p>
+  </div>
+  <div class="ctrl">
+    <div class="scroll">
+      <table style="min-width:520px">
+        <thead><tr><th>ส่วน</th><th>Canva ให้ทำ</th><th>แอปตอนนี้</th><th>ต้องเพิ่ม</th></tr></thead>
+        <tbody>
+          <tr><td class="topic">พื้นหลัง</td><td>สีพื้น · ไล่สี · โปร่ง + เลือกสี</td><td>กระจก · เข้ม · ไม่มีพื้น + ลาย</td><td><span class="tag new">ไล่สี + จานสี</span></td></tr>
+          <tr><td class="topic">ขอบ</td><td>มี/ไม่มี · มน/เหลี่ยม · สีขอบ</td><td>มี/ไม่มี</td><td><span class="tag new">ทรงมุม + สีขอบ</span></td></tr>
+          <tr><td class="topic">หัวข้อ</td><td>แก้คำ ฟอนต์ สีได้อิสระ</td><td>ป้ายตายตัว · แก้คำ/ฟอนต์/สี/ขนาดไม่ได้</td><td><span class="tag ok">ล็อกแล้ว</span></td></tr>
+          <tr><td class="topic">ข้อมูลจากระบบ</td><td>แก้คำไม่ได้ · ฟอนต์ตามธีม</td><td>แก้ไม่ได้ · ฟอนต์ตามดีไซน์</td><td><span class="tag ok">ล็อกแล้ว</span></td></tr>
+          <tr><td class="topic">สีแนะนำ</td><td>เปลี่ยนสีพื้น → ระบบเปลี่ยนสีตัวหนังสือให้</td><td>ไม่มี</td><td><span class="tag new">กติกาสีคู่</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="demo" aria-label="ตัวอย่างปุ่มแต่ง widget">
+      <div class="demo-stage"><div class="dw" id="dw">
+        <div class="ttl" id="dw-title">เรทรับงาน</div>
+        <div class="row"><span>TikTok · Short Video</span><b>฿35,000</b></div>
+        <div class="row"><span>IG · Short Video</span><b>฿25,000</b></div>
+        <div class="row"><span>Facebook · Photo</span><b>฿18,000</b></div>
+        <div class="lock">🔒 ข้อความบน widget แก้ไม่ได้ · ตัวเลขดึงจาก Star Profile</div>
+      </div></div>
+      <div class="opts">
+        <div class="opt"><span>พื้นหลัง</span><div class="seg" data-k="bg">
+          <button type="button" id="bg-solid" data-v="solid" aria-pressed="true">สีพื้น</button>
+          <button type="button" id="bg-grad" data-v="grad" aria-pressed="false">ไล่สี</button>
+          <button type="button" id="bg-clear" data-v="clear" aria-pressed="false">โปร่ง</button></div></div>
+        <div class="opt" id="opt-color"><span>สีพื้น</span><div class="sw" data-k="color">
+          <button type="button" id="c-purple" data-v="#B57EF7" style="background:#B57EF7" aria-label="ม่วง" aria-pressed="false"></button>
+          <button type="button" id="c-cream" data-v="#ECE7E0" style="background:#ECE7E0" aria-label="ครีม" aria-pressed="true"></button>
+          <button type="button" id="c-sage" data-v="#C5D1A6" style="background:#C5D1A6" aria-label="เขียวเสจ" aria-pressed="false"></button>
+          <button type="button" id="c-night" data-v="#0E1520" style="background:#0E1520" aria-label="กรมท่า" aria-pressed="false"></button>
+          <button type="button" id="c-white" data-v="#FFFFFF" style="background:#FFFFFF" aria-label="ขาว" aria-pressed="false"></button></div></div>
+        <div class="opt"><span>ขอบ</span><div class="seg" data-k="border">
+          <button type="button" id="b-on" data-v="on" aria-pressed="true">มีขอบ</button>
+          <button type="button" id="b-off" data-v="off" aria-pressed="false">ไม่มีขอบ</button></div></div>
+        <div class="opt" id="opt-corner"><span>มุม</span><div class="seg" data-k="corner">
+          <button type="button" id="k-round" data-v="round" aria-pressed="true">มน</button>
+          <button type="button" id="k-square" data-v="square" aria-pressed="false">เหลี่ยม</button></div></div>
+        <div class="opt" id="opt-bcolor"><span>สีขอบ</span><div class="sw" data-k="bcolor">
+          <button type="button" id="bc-ink" data-v="#111111" style="background:#111111" aria-label="ดำ" aria-pressed="true"></button>
+          <button type="button" id="bc-cyan" data-v="#5CC8F0" style="background:#5CC8F0" aria-label="ฟ้านีออน" aria-pressed="false"></button>
+          <button type="button" id="bc-red" data-v="#E5322D" style="background:#E5322D" aria-label="แดง" aria-pressed="false"></button>
+          <button type="button" id="bc-grey" data-v="#D7D7D7" style="background:#D7D7D7" aria-label="เทา" aria-pressed="false"></button></div></div>
+      </div>
+    </div>
+  </div>
+  <details><summary>ดูหน้า Canva 1, 2, 14</summary>
+    <img src="img/p01-rules.jpg" alt="Canva หน้า 1: กติกาพื้นหลัง ขอบ และฟอนต์" width="562" height="314" loading="lazy">
+    <img src="img/p02-borders.jpg" alt="Canva หน้า 2: ตัวอย่างพื้นหลังกับขอบ 5 แบบ" width="562" height="314" loading="lazy">
+    <img src="img/p14-social-notes.jpg" alt="Canva หน้า 14: โน้ตเรื่องสีแนะนำ" width="562" height="314" loading="lazy">
+  </details>
+</section>
+
+<section class="sec" id="questions">
+  <div class="sec-head">
+    <h2>ต้องตัดสินใจก่อนวาด</h2>
+    <p>แต่ละข้อเปลี่ยนจำนวนงานหรือข้อมูลที่ต้องเพิ่มใน Star Profile</p>
+  </div>
+  <div class="qs">
+    <div class="q"><span class="num">01</span><p><b>5 สไตล์นี้มาแทน widget เดิม หรือเพิ่มเข้าไปในตู้?</b> ถ้ามาแทน ต้องวางแผนแปลงการ์ดเก่าและเทมเพลต My Card ที่ใช้ชิ้นเดิมอยู่ ถ้าเพิ่ม ตู้จะโตจาก 87 เป็น 137 ชิ้น</p></div>
+    <div class="q"><span class="num">02</span><p><b>เอาเบอร์โทรกลับมาบนการ์ด และเพิ่มอีเมลไหม?</b> Canva ใช้ทั้งสองอย่างทุกสไตล์ · เบอร์มีใน Star Profile แล้ว ส่วนอีเมลยังไม่มี (มีเว็บไซต์แทน)</p></div>
+    <div class="q"><span class="num">03</span><p><b>เรทแสดงราคาเดียวต่อแพลตฟอร์ม หรือแยกตามรูปแบบงาน?</b> ข้อมูลในแอปแยกตามรูปแบบงาน ส่วนแพ็กเกจ ซ่อนราคา และเงื่อนไขรับเงินจากหน้า 15 ต้องเพิ่มช่องใหม่</p></div>
+    <div class="q"><span class="num">04</span><p><b>ไซซ์เสื้อในสัดส่วน กับยอดวิวในผลงาน จะเอามาจากไหน?</b> ทั้งสองอย่างยังไม่มีใน Star Profile</p></div>
+    <div class="q"><span class="num">05</span><p><b>แถบหน้าต่าง Mac มีไอคอนเครื่องมือ (ค้นหา แชร์ แก้ไข)</b> ส่วนใหญ่การ์ดถูก export เป็นรูป ไอคอนที่ดูเหมือนกดได้แต่กดไม่ได้ควรตัดออก แบบเดียวกับ <code>socialWindow</code> ที่มีอยู่</p></div>
+  </div>
+</section>
+
+<section class="sec" id="drafts">
+  <div class="sec-head">
+    <h2>หน้าที่ซ่อนอยู่ใน Canva</h2>
+    <p>หน้า 13–18 ถูกซ่อนไว้ (ไอคอนรูปตาขีดฆ่า) น่าจะเป็นฉบับร่าง หรือหน้าที่ยังคุยกันอยู่</p>
+  </div>
+  <div class="drafts">
+    <figure class="draft" style="margin:0"><img src="img/p17-list.jpg" alt="Canva หน้า 17: รายการ widget หลักและเสริม" width="562" height="314" loading="lazy"><p><b>หน้า 17</b> · รายการหัวข้อ: หลัก 8 (Social Media, เรทราคา, รูปโปรไฟล์, รูปผลงาน, วันเวลาที่สะดวก, พื้นที่รับงาน, ช่องทางติดต่อ, สายงาน) · เสริม 3 (bio, สัดส่วน, stat insight) · "8 widget 5 model"</p></figure>
+    <figure class="draft" style="margin:0"><img src="img/p15-rate-draft.jpg" alt="Canva หน้า 15: เรทราคาแบบมีแพ็กเกจ" width="562" height="314" loading="lazy"><p><b>หน้า 15</b> · เรทแบบละเอียด: ราคาต่อรูปแบบงาน · ซ่อนราคา "ขอเรท" · แพ็กเกจ 3 คลิป + 2 สตอรี่ · รับเงินสด / เงิน+ของ / ไม่รับแลกของ</p></figure>
+    <figure class="draft" style="margin:0"><img src="img/p16-ig-post.jpg" alt="Canva หน้า 16: กรอบโพสต์ IG 6 แบบ" width="562" height="314" loading="lazy"><p><b>หน้า 16</b> · กรอบโพสต์ IG 6 แบบ (ขอบบาง · ไม่มีขอบ · ไล่สี · ขอบเหลี่ยม) ใช้กับรูปผลงาน</p></figure>
+    <figure class="draft" style="margin:0"><img src="img/p18-profile-badges.jpg" alt="Canva หน้า 18: โปรไฟล์พร้อมป้ายยืนยัน" width="562" height="314" loading="lazy"><p><b>หน้า 18</b> · โปรไฟล์ม่วงกับครีม เพิ่มป้าย "ยืนยันตัวตนแล้ว" และ "ผลงานยืนยันแล้ว"</p></figure>
+  </div>
+  <p style="color:var(--ink-2);font-size:14px">หน้า 13 คือโปรไฟล์ม่วงใบเดียว (ซ้ำกับหน้า 3) · หน้า 14 คือ Social Media 5 สไตล์ พร้อมโน้ตเรื่องสีแนะนำ</p>
+</section>
+
+<p class="foot">ที่มา: ไฟล์ Canva DAHXOY1w-iM (18 หน้า) เทียบกับ <code>StarCard/Model/WidgetModel.swift</code>, <code>StarFlow.swift</code>, <code>Intake.swift</code> ในรีโป salehere-starcard · ภาพในหน้านี้แคปจาก Canva ความละเอียดต่ำ ใช้ดูเลย์เอาต์เท่านั้น</p>
+
+</div>
+
+<script>
+(function(){
+  var dw=document.getElementById('dw');
+  var st={bg:'solid',color:'#ECE7E0',border:'on',corner:'round',bcolor:'#111111'};
+  function shade(hex,amt){var n=parseInt(hex.slice(1),16),r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    function c(v){return Math.max(0,Math.min(255,Math.round(v+amt)))}
+    return 'rgb('+c(r)+','+c(g)+','+c(b)+')'}
+  function lum(hex){var n=parseInt(hex.slice(1),16);return (0.299*((n>>16)&255)+0.587*((n>>8)&255)+0.114*(n&255))/255}
+  function render(){
+    var dark=lum(st.color)<0.5;
+    if(st.bg==='solid'){dw.style.background=st.color}
+    else if(st.bg==='grad'){dw.style.background='linear-gradient(160deg,'+shade(st.color,dark?40:28)+','+shade(st.color,dark?-10:-34)+')'}
+    else{dw.style.background='transparent'}
+    var ink=(st.bg==='clear')?'#111':(dark?'#F2F5F8':'#111');
+    dw.style.color=ink;
+    dw.querySelectorAll('.row').forEach(function(r){r.style.borderBottomColor=dark&&st.bg!=='clear'?'rgba(255,255,255,.14)':'rgba(0,0,0,.08)'});
+    dw.style.border=st.border==='on'?'2px solid '+st.bcolor:'2px solid transparent';
+    dw.style.borderRadius=st.corner==='round'?'14px':'2px';
+    document.getElementById('opt-color').classList.toggle('off',st.bg==='clear');
+    document.getElementById('opt-corner').classList.toggle('off',st.border==='off');
+    document.getElementById('opt-bcolor').classList.toggle('off',st.border==='off');
+  }
+  document.querySelectorAll('[data-k]').forEach(function(g){
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button');if(!b)return;
+      g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      st[g.dataset.k]=b.dataset.v;
+      if(g.dataset.k==='color'){st.bcolor=lum(st.color)<0.5?'#5CC8F0':'#111111';
+        document.querySelectorAll('[data-k="bcolor"] button').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.v===st.bcolor?'true':'false')})}
+      render();
+    });
+  });
+  render();
+})();
+</script>

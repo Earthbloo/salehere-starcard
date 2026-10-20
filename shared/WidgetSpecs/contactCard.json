@@ -1,0 +1,118 @@
+{
+ "kind": "contactCard",
+ "design": {
+  "w": 366,
+  "h": 135
+ },
+ "widget": {
+  "title": "นามบัตร",
+  "category": "contact",
+  "symbol": "person.text.rectangle.fill",
+  "order": 35,
+  "motion": "anchored"
+ },
+ "notes": "นามบัตร: สามแถวแบ่งสูงเท่ากัน ป้ายซ้ายกว้าง 38 + ค่าตัวหนา ไม่มีเส้นคั่น · แปลงจาก BookingWidgets.swift (ContactCardWidget)",
+ "root": {
+  "type": "col",
+  "gap": 0,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "line",
+    "gap": 10,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "LINE",
+      "w": 38,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.42",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "lineId",
+      "face": "noto",
+      "size": 13,
+      "weight": 700,
+      "color": "ink@0.95",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "phone",
+    "gap": 10,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "โทร",
+      "w": 38,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.42",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "phone",
+      "face": "noto",
+      "size": 13,
+      "weight": 700,
+      "color": "ink@0.95",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "web",
+    "gap": 10,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "เว็บ",
+      "w": 38,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.42",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "website",
+      "face": "noto",
+      "size": 13,
+      "weight": 700,
+      "color": "ink@0.95",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   }
+  ]
+ }
+}

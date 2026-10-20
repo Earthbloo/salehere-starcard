@@ -1,0 +1,329 @@
+{
+ "kind": "proofBrandGrid",
+ "design": {
+  "w": 366,
+  "h": 206
+ },
+ "widget": {
+  "title": "แผงโลโก้ครบ",
+  "category": "brand",
+  "symbol": "square.grid.3x3.fill",
+  "order": 6,
+  "stamp": "work",
+  "motion": "anchored"
+ },
+ "notes": "คอนแทกต์ชีตโลโก้แบรนด์ครบทุกใบ 4 คอลัมน์ (ช่อง w 25% · สูง 76 = (182−20−10)/2 สำหรับ 2 แถว) · กรอบแคบกว่า 300 → variant 3 คอลัมน์ (33.33%) · เส้นผม line@0.1 เฉพาะขอบใน เหมือนของเดิม: เส้นตั้งซ้ายของช่องที่ไม่ใช่คอลัมน์แรก (if ตามลำดับ $i) · เส้นนอนเต็มกว้างระหว่างแถว (rect ใน stack dy = สูงช่อง×แถว · if list:brands>cols×แถว — ของเดิมวาดบนช่องว่างด้วย จึงยาวเต็มแถว) · โลโก้ด้าน 0.72 ของช่อง มุม 0.22×ด้าน · แปลงจาก ProofWidgets.swift (ProofBrandGrid + BrandPlate) · หัวข้อ 'ร่วมงานกับ N แบรนด์' = สามข้อความ (N จาก stat:brandCount) · ยังต่าง: ช่องสูงตายตัว (ของเดิม min(cw, h/rows) — ไม่มี 'สูงตามจำนวนแถว' ในผัง) จึงต่างเมื่อกรอบไม่ใช่ขนาดออกแบบ (เช่นพื้น clear ที่ไม่มีระยะขอบใน) · โลโก้ที่ไม่มีไฟล์ (โมโนแกรม) ไม่มี",
+ "variants": [
+  {
+   "when": "w<300",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "row",
+        "gap": 3,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "text": "ร่วมงานกับ",
+          "face": "noto",
+          "size": 13.5,
+          "weight": 700,
+          "color": "ink@0.88",
+          "maxLines": 1,
+          "shrinkTo": 9.5
+         },
+         {
+          "type": "text",
+          "id": "count",
+          "slot": "stat:brandCount",
+          "face": "noto",
+          "size": 13.5,
+          "weight": 700,
+          "color": "ink@0.88",
+          "maxLines": 1,
+          "shrinkTo": 9.5
+         },
+         {
+          "type": "text",
+          "text": "แบรนด์",
+          "face": "noto",
+          "size": 13.5,
+          "weight": 700,
+          "color": "ink@0.88",
+          "maxLines": 1,
+          "shrinkTo": 9.5
+         }
+        ]
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "board",
+      "grow": 1,
+      "children": [
+       {
+        "type": "rect",
+        "id": "hrule1",
+        "h": 0.5,
+        "fill": "line@0.1",
+        "place": "top-left",
+        "dy": 80,
+        "if": "list:brands>3"
+       },
+       {
+        "type": "rect",
+        "id": "hrule2",
+        "h": 0.5,
+        "fill": "line@0.1",
+        "place": "top-left",
+        "dy": 160,
+        "if": "list:brands>6"
+       },
+       {
+        "type": "rect",
+        "id": "hrule3",
+        "h": 0.5,
+        "fill": "line@0.1",
+        "place": "top-left",
+        "dy": 240,
+        "if": "list:brands>9"
+       },
+       {
+        "type": "rect",
+        "id": "hrule4",
+        "h": 0.5,
+        "fill": "line@0.1",
+        "place": "top-left",
+        "dy": 320,
+        "if": "list:brands>12"
+       },
+       {
+        "type": "rect",
+        "id": "hrule5",
+        "h": 0.5,
+        "fill": "line@0.1",
+        "place": "top-left",
+        "dy": 400,
+        "if": "list:brands>15"
+       },
+       {
+        "type": "chips",
+        "id": "sheet",
+        "list": "brands",
+        "gap": 0,
+        "align": "start",
+        "justify": "start",
+        "each": {
+         "type": "stack",
+         "id": "cell",
+         "w": "33.33%",
+         "h": 80,
+         "children": [
+          {
+           "type": "rect",
+           "id": "vrule",
+           "w": 0.5,
+           "fill": "line@0.1",
+           "place": "top-left",
+           "if": "$i>=1&$i<3|$i>=4&$i<6|$i>=7&$i<9|$i>=10&$i<12|$i>=13&$i<15|$i>=16&$i<18"
+          },
+          {
+           "type": "icon",
+           "id": "logo",
+           "icon": "$logo",
+           "w": 54.7,
+           "h": 54.7,
+           "radius": 12,
+           "place": "center"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "row",
+      "gap": 3,
+      "align": "end",
+      "children": [
+       {
+        "type": "text",
+        "text": "ร่วมงานกับ",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "text",
+        "id": "count",
+        "slot": "stat:brandCount",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "text",
+        "text": "แบรนด์",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       }
+      ]
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "verifiedBadge",
+      "w": 73,
+      "h": 20
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "board",
+    "grow": 1,
+    "children": [
+     {
+      "type": "rect",
+      "id": "hrule1",
+      "h": 0.5,
+      "fill": "line@0.1",
+      "place": "top-left",
+      "dy": 76,
+      "if": "list:brands>4"
+     },
+     {
+      "type": "rect",
+      "id": "hrule2",
+      "h": 0.5,
+      "fill": "line@0.1",
+      "place": "top-left",
+      "dy": 152,
+      "if": "list:brands>8"
+     },
+     {
+      "type": "rect",
+      "id": "hrule3",
+      "h": 0.5,
+      "fill": "line@0.1",
+      "place": "top-left",
+      "dy": 228,
+      "if": "list:brands>12"
+     },
+     {
+      "type": "rect",
+      "id": "hrule4",
+      "h": 0.5,
+      "fill": "line@0.1",
+      "place": "top-left",
+      "dy": 304,
+      "if": "list:brands>16"
+     },
+     {
+      "type": "rect",
+      "id": "hrule5",
+      "h": 0.5,
+      "fill": "line@0.1",
+      "place": "top-left",
+      "dy": 380,
+      "if": "list:brands>20"
+     },
+     {
+      "type": "chips",
+      "id": "sheet",
+      "list": "brands",
+      "gap": 0,
+      "align": "start",
+      "justify": "start",
+      "each": {
+       "type": "stack",
+       "id": "cell",
+       "w": "25%",
+       "h": 76,
+       "children": [
+        {
+         "type": "rect",
+         "id": "vrule",
+         "w": 0.5,
+         "fill": "line@0.1",
+         "place": "top-left",
+         "if": "$i>=1&$i<4|$i>=5&$i<8|$i>=9&$i<12|$i>=13&$i<16|$i>=17&$i<20|$i>=21&$i<24"
+        },
+        {
+         "type": "icon",
+         "id": "logo",
+         "icon": "$logo",
+         "w": 54.7,
+         "h": 54.7,
+         "radius": 12,
+         "place": "center"
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

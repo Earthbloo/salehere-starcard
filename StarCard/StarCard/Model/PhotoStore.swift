@@ -45,6 +45,8 @@ final class PhotoStore {
     /// รูปโปรไฟล์จากหน้า "ข้อมูลของฉัน" — ใช้แทนรูปครีเอเตอร์ตั้งต้นในช่อง 1–3 ของทุก widget
     /// (ดู `PhotoLib.isProfileSlot`) และหัวหน้าคลัง · เก็บลงดิสก์เหมือนรูปพื้นหลัง
     private(set) var profile: UIImage? { didSet { profileRevision &+= 1 } }
+    /// โหมดลองทำ: รูป mock ชุดเดียวของทุก platform (GraphQL `mockPhotos`) — มีค่า = ช่องที่ไม่ได้ใส่รูปเองใช้ชุดนี้
+    var labMock: LabMockPhotos?
     /// นับทุกครั้งที่รูปโปรไฟล์เปลี่ยน — ดู `TemplateThumbs.stamp`
     @ObservationIgnored private(set) var profileRevision = 0
     /// รูปหน้าสมุดบัญชีจากส่วน "การรับเงิน" — เอกสาร ไม่ใช่รูปการ์ด · เก็บลงดิสก์เหมือนรูปโปรไฟล์
@@ -56,13 +58,6 @@ final class PhotoStore {
     private(set) var perWidget: [UUID: [Int: UIImage]] = [:]
     /// การจัดกรอบของแต่ละช่อง — ว่างไว้แปลว่ายังเป็นครอปกลางเฟรมตามเดิม
     private(set) var fits: [UUID: [Int: PhotoFit]] = [:]
-    /// ช่องที่ถูก **ลบพื้นหลัง** แล้ว — เก็บผลไว้ต่างหาก ไม่ทับรูปต้นฉบับ
-    ///
-    /// เก็บแยกเพราะปุ่มนี้ต้องกดคืนได้ทันทีโดยไม่ต้องอัปโหลดใหม่ (ดู `PhotoLift`)
-    /// และเพราะรูปต้นฉบับยังเป็นของที่ผู้ใช้เลือกมา — การกดปุ่มหนึ่งครั้งไม่ควรทำลายมันทิ้ง
-    private(set) var lifted: [UUID: [Int: UIImage]] = [:]
-    /// ช่องที่กำลังคำนวณหน้ากากอยู่ — ปุ่มหมุนรอระหว่างนี้ และกดซ้ำไม่ได้
-    private(set) var lifting: Set<PhotoSlotRef> = []
     /// ช่องที่กำลังถูกจัดกรอบอยู่ · nil = ไม่มีใครถูกจัด
     ///
     /// อยู่ในสโตร์ ไม่ใช่ใน `CardScreen` เพราะทั้งปุ่มบนตัวรูปและชั้นการ์ดที่วางแผ่นลากทับ
@@ -81,30 +76,20 @@ final class PhotoStore {
             write(image, to: Self.slotURL(id, s))
             // รูปใหม่ = กรอบใหม่ · การเก็บค่าเลื่อนของรูปเก่าไว้ทำให้รูปที่เพิ่งวางเข้าไปเบี้ยวทันที
             fits[id]?[s] = nil
-            // และหน้ากากของรูปเก่าก็ใช้กับรูปใหม่ไม่ได้ — ต้องกดลบพื้นหลังใหม่ถ้าต้องการ
-            if lifted[id]?[s] != nil {
-                lifted[id]?[s] = nil
-                write(nil, to: Self.liftURL(id, s))
-            }
         }
         saveManifest()
     }
     func clear(_ id: UUID) {
         for s in (perWidget[id] ?? [:]).keys { write(nil, to: Self.slotURL(id, s)) }
-        for s in (lifted[id] ?? [:]).keys { write(nil, to: Self.liftURL(id, s)) }
         perWidget[id] = nil
         fits[id] = nil
-        lifted[id] = nil
         saveManifest()
     }
     func clear(slot: Int, for id: UUID) {
         perWidget[id]?[slot] = nil
         // คืนรูประบบ = คืนกรอบตั้งต้นด้วย ไม่งั้นรูปใหม่โผล่มาพร้อมกรอบของรูปเก่า
         fits[id]?[slot] = nil
-        // พื้นหลังที่ลบไว้เป็นของ *รูปใบนั้น* — คืนรูปเดิมแล้วหน้ากากของใบเก่าใช้ต่อไม่ได้
-        lifted[id]?[slot] = nil
         write(nil, to: Self.slotURL(id, slot))
-        write(nil, to: Self.liftURL(id, slot))
         saveManifest()
         if framing == PhotoSlotRef(widget: id, slot: slot) { framing = nil }
     }
@@ -131,52 +116,11 @@ final class PhotoStore {
     /// ถ้าตัวนี้ตอบไม่ตรงกับที่วาดจริง ขอบเขตการเลื่อนจะคำนวณจากสัดส่วนของภาพอื่น
     @MainActor
     func uiImage(slot i: Int, for id: UUID) -> UIImage? {
-        if let cut = lifted[id]?[i] { return cut }
         if let own = perWidget[id]?[i] { return own }
         if let own = library(i) { return own }
         return ImageCache.shared.cached(PhotoLib.url(i))
     }
     func count(for id: UUID) -> Int { perWidget[id]?.count ?? 0 }
-
-    // MARK: ลบพื้นหลัง
-
-    func hasLift(slot: Int, for id: UUID) -> Bool { lifted[id]?[slot] != nil }
-    func isLifting(slot: Int, for id: UUID) -> Bool {
-        lifting.contains(PhotoSlotRef(widget: id, slot: slot))
-    }
-
-    /// รูปต้นฉบับของช่อง — **ไม่นับใบที่ลบพื้นหลังไปแล้ว** (ตัวที่ส่งเข้า Vision ต้องมีพื้นหลัง)
-    @MainActor
-    private func sourceImage(slot i: Int, for id: UUID) -> UIImage? {
-        if let own = perWidget[id]?[i] { return own }
-        if let own = library(i) { return own }
-        return ImageCache.shared.cached(PhotoLib.url(i))
-    }
-
-    /// ยกตัวแบบออกจากพื้นหลังของช่องนี้ — คืน `false` เมื่อในรูปไม่มีวัตถุที่แยกได้
-    ///
-    /// รูปต้นฉบับไม่ถูกแตะเลย กดคืนพื้นหลังได้ตลอดเวลาด้วย `dropLift`
-    @MainActor
-    @discardableResult
-    func liftBackground(slot i: Int, for id: UUID) async -> Bool {
-        let ref = PhotoSlotRef(widget: id, slot: i)
-        guard !lifting.contains(ref), let source = sourceImage(slot: i, for: id) else { return false }
-        lifting.insert(ref)
-        let out = await PhotoLift.lift(source)
-        lifting.remove(ref)
-        guard let out else { return false }
-        lifted[id, default: [:]][i] = out
-        write(out, to: Self.liftURL(id, i), png: true)
-        saveManifest()
-        return true
-    }
-
-    /// คืนพื้นหลังให้ช่องนี้
-    func dropLift(slot i: Int, for id: UUID) {
-        lifted[id]?[i] = nil
-        write(nil, to: Self.liftURL(id, i))
-        saveManifest()
-    }
 
     var hasUploads: Bool { !uploaded.isEmpty }
     var count: Int { max(uploaded.count, PhotoLib.count) }
@@ -213,7 +157,6 @@ final class PhotoStore {
 
     private struct Manifest: Codable {
         var slots: [String: [Int]] = [:]
-        var lifts: [String: [Int]] = [:]
         var fits: [String: [Int: PhotoFit]] = [:]
         var library: [UUID] = []
     }
@@ -227,10 +170,6 @@ final class PhotoStore {
     }
     private static func slotURL(_ id: UUID, _ s: Int) -> URL? {
         photoDir?.appendingPathComponent("slot-\(id.uuidString)-\(s).jpg")
-    }
-    /// PNG ไม่ใช่ JPEG — รูปที่ลบพื้นหลังแล้วต้องเก็บความโปร่งใสไว้
-    private static func liftURL(_ id: UUID, _ s: Int) -> URL? {
-        photoDir?.appendingPathComponent("lift-\(id.uuidString)-\(s).png")
     }
     private static func libraryURL(_ id: UUID) -> URL? {
         photoDir?.appendingPathComponent("lib-\(id.uuidString).jpg")
@@ -254,7 +193,6 @@ final class PhotoStore {
         guard let url = Self.manifestURL else { return }
         var m = Manifest()
         for (id, slots) in perWidget where !slots.isEmpty { m.slots[id.uuidString] = Array(slots.keys) }
-        for (id, slots) in lifted where !slots.isEmpty { m.lifts[id.uuidString] = Array(slots.keys) }
         for (id, slots) in fits where !slots.isEmpty { m.fits[id.uuidString] = slots }
         m.library = uploadedIDs
         guard let data = try? JSONEncoder().encode(m) else { return }
@@ -271,14 +209,6 @@ final class PhotoStore {
             for s in slots {
                 if let path = Self.slotURL(id, s)?.path, let img = UIImage(contentsOfFile: path) {
                     perWidget[id, default: [:]][s] = img
-                }
-            }
-        }
-        for (key, slots) in m.lifts {
-            guard let id = UUID(uuidString: key) else { continue }
-            for s in slots {
-                if let path = Self.liftURL(id, s)?.path, let img = UIImage(contentsOfFile: path) {
-                    lifted[id, default: [:]][s] = img
                 }
             }
         }
@@ -456,6 +386,13 @@ final class PhotoStore {
         saveManifest()
     }
 
+    #if DEBUG
+    /// ตอน export แค็ตตาล็อก — ทุกช่องรูปเป็นคนตัดพื้นหลังตัวอย่าง แทนรูปที่ค้างอยู่ใน simulator
+    static var exportPerson = false
+    #else
+    static let exportPerson = false
+    #endif
+
     /// รูปลำดับที่ i — วนซ้ำถ้าขอเกินจำนวนที่มี
     ///
     /// ลำดับความสำคัญ: รูปที่วางไว้ในช่องนี้ของ widget ตัวนั้น → คลังรวมของการ์ด → รูปตั้งต้นจากระบบ
@@ -476,6 +413,10 @@ final class PhotoStore {
     /// ช่องอื่น / ช่องครีเอเตอร์ที่ยังไม่มีรูป: คลังที่อัปโหลดตอนแต่ง → รูปผลงานจากหน้าแก้ไขโปรไฟล์
     /// nil = ยังไม่มีรูปของเจ้าของเลย ผู้เรียกตกไปใช้รูปตัวอย่าง
     func library(_ i: Int) -> UIImage? {
+        #if DEBUG
+        if Self.exportPerson { return CutoutSample.image }
+        #endif
+        if let m = labMock { return m.image(i) }
         let folio = Portfolio.shared
         if PhotoLib.isProfileSlot(i) {
             if let c = folio.creatorImage(slot: i) { return c }
@@ -488,7 +429,7 @@ final class PhotoStore {
     /// รูปวงกลมข้างชื่อ — รูปโปรไฟล์ก่อน ไม่มีค่อยใช้รูปช่องครีเอเตอร์แรก
     @ViewBuilder
     func avatar() -> some View {
-        if let profile {
+        if let profile, !Self.exportPerson {
             Image(uiImage: profile).resizable().unredacted()
         } else {
             image(1)
@@ -499,10 +440,7 @@ final class PhotoStore {
     /// ให้ตัวหนังสือกลายเป็นแท่ง แต่รูปต้องยังเป็นรูป ไม่งั้นพรีวิวกลายเป็นก้อนเทาทั้งใบ
     @ViewBuilder
     func image(_ i: Int, for id: UUID? = nil) -> some View {
-        if let id, let cut = lifted[id]?[i] {
-            // รูปที่ลบพื้นหลังแล้วมาก่อนเสมอ — ขนาดเท่าต้นฉบับ ช่องจึงครอปเหมือนเดิมทุกประการ
-            Image(uiImage: cut).resizable().unredacted()
-        } else if let id, let own = perWidget[id]?[i] {
+        if let id, let own = perWidget[id]?[i] {
             Image(uiImage: own).resizable().unredacted()
         } else if let own = library(i) {
             Image(uiImage: own).resizable().unredacted()
@@ -978,8 +916,7 @@ struct PhotoFitCatcher: View {
     @MainActor private var isCutout: Bool {
         guard let ref else { return false }
         guard let img = store.userImage(slot: ref.slot, for: ref.widget) else { return true }
-        if CutoutCache.shared.result(for: img).isCutout { return true }
-        return SubjectLift.shared.result(for: img)?.isCutout == true
+        return CutoutCache.shared.result(for: img).isCutout
     }
 
     /// ขนาดที่ภาพถูกวาดจริงในกรอบ (ก่อนซูม) — คำนวณจากสัดส่วนของภาพกับกฎ `.fill`
@@ -1096,5 +1033,19 @@ struct PhotoFitCatcher: View {
         .background(Capsule().fill(Color(white: 0.09)))
         .overlay(Capsule().strokeBorder(.white.opacity(0.1), lineWidth: 0.6))
         .padding(.horizontal, 16).padding(.bottom, 8)
+    }
+}
+
+/// รูป mock ของโหมดลองทำ — กติกาเดียวกับเว็บ/Android (ดู `MockPhotos` ใน sync-server/graphql.mjs)
+struct LabMockPhotos {
+    var creators: [UIImage]
+    var works: [UIImage]
+
+    /// ช่อง 1…3 (ช่องรูปครีเอเตอร์) → creators · ที่เหลือ → works
+    func image(_ i: Int) -> UIImage? {
+        let n = ((i % PhotoLib.count) + PhotoLib.count) % PhotoLib.count
+        if (1...3).contains(n), !creators.isEmpty { return creators[(n - 1) % creators.count] }
+        if !works.isEmpty { return works[abs(i) % works.count] }
+        return creators.first
     }
 }

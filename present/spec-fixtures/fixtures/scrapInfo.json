@@ -1,0 +1,5227 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        180,
+        240
+      ],
+      "boxes" : [
+        {
+          "h" : 240,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 240,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 101.58,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 27.2,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 45.04,
+          "x" : 45,
+          "y" : 43.06
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 53.54,
+          "x" : 93.04,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 86.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 18.34,
+          "x" : 87,
+          "y" : 78.66
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 100.5
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 115.42
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 11,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 75,
+          "x" : 87,
+          "y" : 107.16
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 129
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 143.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 65.71,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 29.58,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 11.54,
+          "x" : 116.58,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.59,
+          "x" : 128.12,
+          "y" : 135.66
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 73,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11,
+            "outWeight" : 400,
+            "size" : 11,
+            "slot" : "workArea",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 17.27,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 37.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 67.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.12,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 71.95,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 17.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 74.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        180,
+        480
+      ],
+      "boxes" : [
+        {
+          "h" : 480,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 480,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 101.58,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 27.2,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 45.04,
+          "x" : 45,
+          "y" : 43.06
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 53.54,
+          "x" : 93.04,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 86.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 18.34,
+          "x" : 87,
+          "y" : 78.66
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 100.5
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 115.42
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 11,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 75,
+          "x" : 87,
+          "y" : 107.16
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 129
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 143.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 65.71,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 29.58,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 11.54,
+          "x" : 116.58,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.59,
+          "x" : 128.12,
+          "y" : 135.66
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 73,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11,
+            "outWeight" : 400,
+            "size" : 11,
+            "slot" : "workArea",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 17.27,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 37.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 67.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.12,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 71.95,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 17.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 74.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        240,
+        240
+      ],
+      "boxes" : [
+        {
+          "h" : 240,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 240,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 240,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 240,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 38.98,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 138.96,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 37.51,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 24.83,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 62.12,
+          "x" : 45,
+          "y" : 43.47
+        },
+        {
+          "h" : 38.98,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 24.83,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 73.84,
+          "x" : 110.12,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 39.31,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 14.59,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 9.66,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 49.66,
+          "x" : 45,
+          "y" : 93.72
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 16.55,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 25.3,
+          "x" : 100.66,
+          "y" : 82.32
+        },
+        {
+          "h" : 39.31,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 111.31
+        },
+        {
+          "h" : 14.59,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 9.66,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 49.66,
+          "x" : 45,
+          "y" : 133.03
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 16.55,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 112.32,
+          "x" : 100.66,
+          "y" : 121.63
+        },
+        {
+          "h" : 39.31,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 150.62
+        },
+        {
+          "h" : 14.59,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 9.66,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 49.66,
+          "x" : 45,
+          "y" : 172.34
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 90.64,
+          "x" : 100.66,
+          "y" : 160.94
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 16.55,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 40.81,
+          "x" : 100.66,
+          "y" : 160.94
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 16.55,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 15.91,
+          "x" : 141.47,
+          "y" : 160.94
+        },
+        {
+          "h" : 25.99,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 16.55,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 33.92,
+          "x" : 157.38,
+          "y" : 160.94
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 103,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.82758620689655,
+            "outWeight" : 900,
+            "size" : 24.82758620689655,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 24.82758620689655,
+            "outWeight" : 400,
+            "size" : 24.82758620689655,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9.655172413793103,
+            "outWeight" : 600,
+            "size" : 9.655172413793103,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 16.551724137931036,
+            "outWeight" : 400,
+            "size" : 16.551724137931036,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 16.551724137931036,
+            "outWeight" : 400,
+            "size" : 16.551724137931036,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 16.551724137931036,
+            "outWeight" : 400,
+            "size" : 16.551724137931036,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 16.551724137931036,
+            "outWeight" : 400,
+            "size" : 16.551724137931036,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 16.551724137931036,
+            "outWeight" : 400,
+            "size" : 16.551724137931036,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.82758620689655,
+          "v" : 37.51,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.82758620689655,
+          "v" : 38.98,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9.655172413793103,
+          "v" : 14.59,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.551724137931036,
+          "v" : 25.99,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 37.51,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 62.12,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 73.84,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 26.14,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 25.3,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 11.56,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 112.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 15.7,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.81,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 15.91,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.92,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 37.51,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 62.12,
+          "weight" : 900,
+          "width" : 62.12
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 73.84,
+          "weight" : 400,
+          "width" : 73.84
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 25.3,
+          "weight" : 400,
+          "width" : 25.3
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 112.32,
+          "weight" : 400,
+          "width" : 112.32
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.81,
+          "weight" : 400,
+          "width" : 40.81
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 15.91,
+          "weight" : 400,
+          "width" : 15.91
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.92,
+          "weight" : 400,
+          "width" : 33.92
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400,
+          "width" : 81.44
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        },
+        {
+          "face" : "noto",
+          "h" : 37.51,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 62.12,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 73.84,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 26.14,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 25.3,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 11.56,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 112.32,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 14.59,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.655172413793103,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 15.7,
+          "weight" : 600,
+          "width" : 49.655172413793096
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.81,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 15.91,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.92,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 37.51,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 62.12,
+          "weight" : 900,
+          "width" : 62.12
+        },
+        {
+          "face" : "mitr",
+          "h" : 38.98,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.82758620689655,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 73.84,
+          "weight" : 400,
+          "width" : 73.84
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 25.3,
+          "weight" : 400,
+          "width" : 25.3
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 112.32,
+          "weight" : 400,
+          "width" : 112.32
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.81,
+          "weight" : 400,
+          "width" : 40.81
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 15.91,
+          "weight" : 400,
+          "width" : 15.91
+        },
+        {
+          "face" : "mitr",
+          "h" : 25.99,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.551724137931036,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.92,
+          "weight" : 400,
+          "width" : 33.92
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.725,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        240,
+        240
+      ],
+      "boxes" : [
+        {
+          "h" : 240,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 240,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 240,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 240,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 220,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 101.58,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 27.2,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 45.04,
+          "x" : 45,
+          "y" : 43.06
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 53.54,
+          "x" : 93.04,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 220,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 86.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 18.34,
+          "x" : 87,
+          "y" : 78.66
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 100.5
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 115.42
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 81.44,
+          "x" : 87,
+          "y" : 107.16
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 177,
+          "x" : 45,
+          "y" : 129
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 143.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 65.71,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 29.58,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 11.54,
+          "x" : 116.58,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.59,
+          "x" : 128.12,
+          "y" : 135.66
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 103,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400,
+          "width" : 81.44
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.525,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        240
+      ],
+      "boxes" : [
+        {
+          "h" : 240,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 240,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 590,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 590,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 590,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 40.69,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 144.95,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 39.17,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 25.92,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 64.86,
+          "x" : 45,
+          "y" : 43.52
+        },
+        {
+          "h" : 40.69,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 25.92,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 77.09,
+          "x" : 112.86,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 590,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 41.04,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 547,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 15.23,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 10.08,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 51.84,
+          "x" : 45,
+          "y" : 94.81
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 17.28,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 26.41,
+          "x" : 102.84,
+          "y" : 82.91
+        },
+        {
+          "h" : 41.04,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 547,
+          "x" : 45,
+          "y" : 113.04
+        },
+        {
+          "h" : 15.23,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 10.08,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 51.84,
+          "x" : 45,
+          "y" : 135.85
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 17.28,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 117.27,
+          "x" : 102.84,
+          "y" : 123.95
+        },
+        {
+          "h" : 41.04,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 547,
+          "x" : 45,
+          "y" : 154.08
+        },
+        {
+          "h" : 15.23,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 10.08,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 51.84,
+          "x" : 45,
+          "y" : 176.89
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 94.62,
+          "x" : 102.84,
+          "y" : 164.99
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 17.28,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 42.6,
+          "x" : 102.84,
+          "y" : 164.99
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 17.28,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 16.61,
+          "x" : 145.44,
+          "y" : 164.99
+        },
+        {
+          "h" : 27.13,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 17.28,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 35.41,
+          "x" : 162.05,
+          "y" : 164.99
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 288,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 30,
+            "outWeight" : 900,
+            "size" : 30,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 30,
+            "outWeight" : 400,
+            "size" : 30,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.666666666666668,
+            "outWeight" : 600,
+            "size" : 11.666666666666668,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 20,
+            "outWeight" : 400,
+            "size" : 20,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.92,
+            "outWeight" : 900,
+            "size" : 25.92,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 25.92,
+            "outWeight" : 400,
+            "size" : 25.92,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.080000000000002,
+            "outWeight" : 600,
+            "size" : 10.080000000000002,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 17.28,
+            "outWeight" : 400,
+            "size" : 17.28,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 17.28,
+            "outWeight" : 400,
+            "size" : 17.28,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 17.28,
+            "outWeight" : 400,
+            "size" : 17.28,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 17.28,
+            "outWeight" : 400,
+            "size" : 17.28,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 17.28,
+            "outWeight" : 400,
+            "size" : 17.28,
+            "slot" : "categories#1",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 45.33,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 30,
+          "v" : 47.1,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.666666666666668,
+          "v" : 17.63,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 31.4,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.92,
+          "v" : 39.17,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.92,
+          "v" : 40.69,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.080000000000002,
+          "v" : 15.23,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.28,
+          "v" : 27.13,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 75.06,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 89.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 31.59,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 30.56,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 13.97,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 135.72,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 18.98,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 49.3,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 19.22,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 40.98,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 75.06,
+          "weight" : 900,
+          "width" : 75.06
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 89.22,
+          "weight" : 400,
+          "width" : 89.22
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 30.56,
+          "weight" : 400,
+          "width" : 30.56
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 135.72,
+          "weight" : 400,
+          "width" : 135.72
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 49.3,
+          "weight" : 400,
+          "width" : 49.3
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 19.22,
+          "weight" : 400,
+          "width" : 19.22
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 40.98,
+          "weight" : 400,
+          "width" : 40.98
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400,
+          "width" : 81.44
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 75.06,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 89.22,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 31.59,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 30.56,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 13.97,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 135.72,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 18.98,
+          "weight" : 600,
+          "width" : 60
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 49.3,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 19.22,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 40.98,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 45.33,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 75.06,
+          "weight" : 900,
+          "width" : 75.06
+        },
+        {
+          "face" : "mitr",
+          "h" : 47.1,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 30,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 89.22,
+          "weight" : 400,
+          "width" : 89.22
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 30.56,
+          "weight" : 400,
+          "width" : 30.56
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 135.72,
+          "weight" : 400,
+          "width" : 135.72
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 49.3,
+          "weight" : 400,
+          "width" : 49.3
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 19.22,
+          "weight" : 400,
+          "width" : 19.22
+        },
+        {
+          "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 40.98,
+          "weight" : 400,
+          "width" : 40.98
+        },
+        {
+          "face" : "noto",
+          "h" : 39.17,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.92,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 64.86,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 40.69,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.92,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 77.09,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 15.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.080000000000002,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 27.29,
+          "weight" : 600,
+          "width" : 51.84
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 26.41,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 15.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.080000000000002,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 12.07,
+          "weight" : 600,
+          "width" : 51.84
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 117.27,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 15.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.080000000000002,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 16.4,
+          "weight" : 600,
+          "width" : 51.84
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 42.6,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 16.61,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 35.41,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 39.17,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.92,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 64.86,
+          "weight" : 900,
+          "width" : 64.86
+        },
+        {
+          "face" : "mitr",
+          "h" : 40.69,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.92,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 77.09,
+          "weight" : 400,
+          "width" : 77.09
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 26.41,
+          "weight" : 400,
+          "width" : 26.41
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 117.27,
+          "weight" : 400,
+          "width" : 117.27
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 42.6,
+          "weight" : 400,
+          "width" : 42.6
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 16.61,
+          "weight" : 400,
+          "width" : 16.61
+        },
+        {
+          "face" : "mitr",
+          "h" : 27.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.28,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 35.41,
+          "weight" : 400,
+          "width" : 35.41
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        180,
+        252
+      ],
+      "boxes" : [
+        {
+          "h" : 252,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 252,
+          "id" : "r\/0",
+          "type" : "col",
+          "w" : 180,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0",
+          "type" : "stack",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/0",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 72
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/1",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 100.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/2",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 129
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/3",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 157.5
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/4",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 186
+        },
+        {
+          "h" : 1,
+          "id" : "r\/0\/0\/5",
+          "type" : "rect",
+          "w" : 160,
+          "x" : 10,
+          "y" : 214.5
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/6",
+          "type" : "rect",
+          "w" : 1,
+          "x" : 36,
+          "y" : 18
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/7",
+          "type" : "row",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0",
+          "type" : "row",
+          "w" : 101.58,
+          "x" : 45,
+          "y" : 42
+        },
+        {
+          "h" : 27.2,
+          "id" : "r\/0\/0\/7\/0\/0",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ข้อมูล",
+          "type" : "text",
+          "w" : 45.04,
+          "x" : 45,
+          "y" : 43.06
+        },
+        {
+          "h" : 28.26,
+          "id" : "r\/0\/0\/7\/0\/1",
+          "lines" : 1,
+          "size" : 18,
+          "text" : "ของฉัน",
+          "type" : "text",
+          "w" : 53.54,
+          "x" : 93.04,
+          "y" : 42
+        },
+        {
+          "h" : 212,
+          "id" : "r\/0\/0\/8",
+          "type" : "col",
+          "w" : 160,
+          "x" : 10,
+          "y" : 18
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/0",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 72
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/0\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "ชื่อเล่น",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 86.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "nickname",
+          "text" : "เมย์",
+          "type" : "text",
+          "w" : 18.34,
+          "x" : 87,
+          "y" : 78.66
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/1",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 100.5
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/1\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "อยู่",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 115.42
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/1\/1",
+          "lines" : 1,
+          "size" : 11,
+          "slot" : "workArea",
+          "text" : "กรุงเทพมหานคร",
+          "type" : "text",
+          "w" : 75,
+          "x" : 87,
+          "y" : 107.16
+        },
+        {
+          "h" : 28.5,
+          "id" : "r\/0\/0\/8\/2",
+          "type" : "row",
+          "w" : 117,
+          "x" : 45,
+          "y" : 129
+        },
+        {
+          "h" : 10.58,
+          "id" : "r\/0\/0\/8\/2\/0",
+          "lines" : 1,
+          "size" : 7,
+          "text" : "สาย",
+          "type" : "text",
+          "w" : 36,
+          "x" : 45,
+          "y" : 143.92
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1",
+          "type" : "row",
+          "w" : 65.71,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 29.58,
+          "x" : 87,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "text" : " · ",
+          "type" : "text",
+          "w" : 11.54,
+          "x" : 116.58,
+          "y" : 135.66
+        },
+        {
+          "h" : 18.84,
+          "id" : "r\/0\/0\/8\/2\/1\/2",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.59,
+          "x" : 128.12,
+          "y" : 135.66
+        },
+        {
+          "h" : 33,
+          "id" : "r\/1",
+          "type" : "icon",
+          "w" : 34,
+          "x" : 73,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18,
+            "outWeight" : 900,
+            "size" : 18,
+            "weight" : 900
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 18,
+            "outWeight" : 400,
+            "size" : 18,
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "weight" : 600
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "nickname",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 12,
+            "outWeight" : 400,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11.5,
+            "outWeight" : 400,
+            "size" : 11.5,
+            "slot" : "workArea",
+            "weight" : 400
+          },
+          {
+            "face" : "mitr",
+            "outFace" : "mitr",
+            "outSize" : 11,
+            "outWeight" : 400,
+            "size" : 11,
+            "slot" : "workArea",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "nickname",
+            "v" : "เมย์"
+          },
+          {
+            "slot" : "workArea",
+            "v" : "กรุงเทพมหานคร"
+          },
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 27.2,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18,
+          "v" : 28.26,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.84,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 17.27,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "ชื่อเล่น",
+          "tracking" : 0,
+          "w" : 18.95,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "อยู่",
+          "tracking" : 0,
+          "w" : 8.38,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 81.44,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "สาย",
+          "tracking" : 0,
+          "w" : 11.39,
+          "weight" : 600,
+          "width" : 36
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "h" : 27.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ข้อมูล",
+          "tracking" : 0,
+          "w" : 45.04,
+          "weight" : 900,
+          "width" : 45.04
+        },
+        {
+          "face" : "mitr",
+          "h" : 28.26,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18,
+          "t" : "ของฉัน",
+          "tracking" : 0,
+          "w" : 53.54,
+          "weight" : 400,
+          "width" : 53.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "เมย์",
+          "tracking" : 0,
+          "w" : 18.34,
+          "weight" : 400,
+          "width" : 18.34
+        },
+        {
+          "face" : "mitr",
+          "h" : 37.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 12,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 67.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 36.12,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 11.5,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 71.95,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 17.27,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "กรุงเทพมหานคร",
+          "tracking" : 0,
+          "w" : 74.65,
+          "weight" : 400,
+          "width" : 75
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 29.58,
+          "weight" : 400,
+          "width" : 29.58
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : " · ",
+          "tracking" : 0,
+          "w" : 11.54,
+          "weight" : 400,
+          "width" : 11.54
+        },
+        {
+          "face" : "mitr",
+          "h" : 18.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.59,
+          "weight" : 400,
+          "width" : 24.59
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 1.3333333333333333,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    180,
+    240
+  ],
+  "inset" : 0,
+  "kind" : "scrapInfo",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

@@ -116,7 +116,7 @@ struct StarPage: View {
                                               onInsight: mode == .profile ? onInsight : nil,
                                               onPickTemplate: mode == .profile ? onPickTemplate : nil,
                                               footer: AnyView(fillSection))
-                                if liveCard == nil && mode == .profile && flow.isStar {
+                                if liveCard == nil && mode == .profile && flow.cardReady {
                                     GlassActionButton(title: "เลือกแบบการ์ด", symbol: .sparkle) { onOpenStarCard(.create) }
                                 }
                             }

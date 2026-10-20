@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget Gallery</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  body { margin: 0; background: #111; color: #ddd; font: 12px system-ui, sans-serif; }
+  h1 { font-size: 14px; padding: 12px 16px 0; margin: 0; }
+  p.note { color: #888; padding: 0 16px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 18px; padding: 16px; }
+  .cell { background: #1b1b1f; border-radius: 10px; padding: 8px; }
+  .cell b { display: block; margin-bottom: 6px; }
+  .pair { display: flex; gap: 8px; align-items: flex-start; }
+  .pair > div { position: relative; }
+  .tag { position: absolute; top: -2px; left: 4px; z-index: 5; font-size: 9px; color: #fff; background: rgba(0,0,0,.6); padding: 1px 4px; border-radius: 4px; }
+  img.ios { display: block; }
+</style>
+</head>
+<body>
+<h1>Widget gallery — web (ซ้าย) เทียบ iOS (ขวา)</h1>
+<p class="note">ผัง JSON จาก <code>widgetSpecs</code> (GraphQL) · ข้อมูลชุดเดียวกับที่ iOS ใช้ตอนส่งออก (fixture) · ฟอนต์วัดต่างกันได้เล็กน้อย</p>
+<div class="grid" id="grid"></div>
+<script type="module">
+import { parseSpec } from '../js/spec-model.js'
+import { makeTheme } from '../js/theme.js'
+import { WebMeasurer, loadFonts } from '../js/measure.js'
+import { ReplayData } from '../js/replay.js'
+import { Profile, WebSpecData } from '../js/data.js'
+import { mountWidget } from '../js/chrome.js'
+import { paintBackdrop } from '../js/backdrop.js'
+
+await loadFonts('../fonts/')
+const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
+const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
+// ธีมเดียวกับตัวส่งออกของ iOS (`WidgetMatrixExport.baseTheme`)
+const theme = makeTheme({ palette: 'midnight', ink: 'night', corner: 'round', backdrop: 'solid', brightness: 0.3, hueShift: 0, inkAuto: false, strip: 'line' })
+const measurer = new WebMeasurer()
+const only = new URLSearchParams(location.search).get('kind')
+const grid = document.getElementById('grid')
+const z = Number(new URLSearchParams(location.search).get('z') || 1)
+grid.style.zoom = z
+const M = 12 // ขอบรอบชิ้นของตัวส่งออก (`WidgetMatrixExport.margin`)
+for (const kind of Object.keys(specs).sort()) {
+  if (only && only !== kind) continue
+  const fx = await fetch(`../fixtures/fixtures/${kind}.json`).then((x) => (x.ok ? x.json() : null)).catch(() => null)
+  const spec = specs[kind]
+  const c = fx?.cases.find((x) => x.probe === 'design')
+  const W = spec.design.w, H = spec.design.h
+  const cell = document.createElement('div'); cell.className = 'cell'
+  cell.innerHTML = `<b>${kind}</b>`
+  const pair = document.createElement('div'); pair.className = 'pair'
+  const web = document.createElement('div')
+  web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative`
+  paintBackdrop(web, theme, W + M * 2, H + M * 2)
+  web.insertAdjacentHTML('beforeend', '<span class="tag">web</span>')
+  // แหล่งข้อมูล = คำตอบที่ iOS บันทึกไว้ · ถามนอกชุด → ตัวอย่างของเว็บเอง
+  const profile = new Profile({}, {})
+  const fallback = new WebSpecData({ profile, item: {}, sample: true, surface: 'glass' })
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`,
+    makeData: c ? () => new ReplayData(c.data, fallback) : null }
+  try { mountWidget(web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { web.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+  pair.appendChild(web)
+  const ios = document.createElement('div')
+  ios.innerHTML = `<span class="tag">iOS</span><img class="ios" width="${W + M * 2}" src="../fixtures/cells/cell-${kind}-design.png" onerror="this.parentNode.innerHTML='<i style=color:#777>ไม่มีภาพ iOS</i>'">`
+  pair.appendChild(ios)
+  cell.appendChild(pair)
+  grid.appendChild(cell)
+}
+</script>
+</body>
+</html>

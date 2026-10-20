@@ -380,7 +380,7 @@ struct SaleHereShell: View {
             let kind = WizKind(rawValue: p[1]) ?? .one
             let steps = p[3].split(separator: ",").compactMap { WizStep(rawValue: String($0)) }
             if kind == .apply { openCampaign = campaigns[0] } else { tab = .profile }
-            wiz = (kind, steps, kind == .one ? .starProfile : nil)
+            wiz = (kind, steps, kind == .one || kind == .card ? .starProfile : nil)
             wizStart = Int(p[2]) ?? 0
             screen = .wizard(kind)
         default: break
@@ -389,7 +389,7 @@ struct SaleHereShell: View {
 
     private func leaveWizard() {
         pendingTemplate = nil
-        if wiz.kind == .one { open(wiz.back) } else { close() }
+        if wiz.kind == .one || wiz.kind == .card { open(wiz.back) } else { close() }
     }
 
     @ViewBuilder
@@ -487,10 +487,11 @@ struct SaleHereShell: View {
         }
     }
 
-    /// เข้า Star Card — ยังไม่เป็น STAR = บังคับกรอก 8 ข้อที่แบรนด์ใช้คัดเลือกก่อนเสมอ (ผู้ใช้ 6 ต.ค. 2569: "force ให้กรอก 8 ข้อก่อนตลอด")
+    /// เข้า Star Card — ยังไม่ครบ 3 ข้อขั้นต่ำ (เกี่ยวกับฉัน · สายงาน · social) = ถาม 3 ข้อนั้นก่อน (ผู้ใช้ 19 ต.ค. 2569) · ไม่ต้องเป็น STAR
+    /// (6 ต.ค. เคยบังคับ 8 ข้อที่แบรนด์ใช้คัดเลือก) · หัวข้อที่ยังไม่กรอกไปล็อกในตู้วิดเจ็ตแทน (ผู้ใช้ 6 ต.ค. 2569: "force ให้กรอก 8 ข้อก่อนตลอด")
     /// แล้วค่อยพาไปหน้าเลือกเทมเพลต (เดิม 29 ก.ย. ถามแค่ 3 ข้อให้การ์ดเกิด)
     private func openStarCard(_ intent: StarCardIntent) {
-        if flow.isStar, let t = pendingTemplate {
+        if flow.cardReady, let t = pendingTemplate {
             // แตะเทมเพลตจากแถบตัวอย่าง = สร้างใบแรกจากแบบนั้น แล้วเข้าห้องแต่งเลย (motion "ST★R Card" เล่นครั้งแรกเหมือนเดิม)
             pendingTemplate = nil
             let record = CardLibrary.shared.create(from: t)
@@ -498,7 +499,7 @@ struct SaleHereShell: View {
             withAnimation(Motion.page) { creatorIntent = .edit(record.id) }
             return
         }
-        if flow.isStar {
+        if flow.cardReady {
             // ยังไม่เคยเลือกการ์ด (คลังว่าง) = motion "ST★R Card" ก่อน แล้วพาไปหน้าเลือกเทมเพลตเลือกใบแรก
             // ไม่สร้างใบตั้งต้นให้เอง (ผู้ใช้ 2 ต.ค. 2569: "ถ้า User ไม่เคยเลือก Card มาก่อน Animate และต้องพาไป Template
             // เพื่อเลือกอันแรก") · มีการ์ดแล้วแต่ยังไม่เคยเห็น motion = motion แล้วตราบินขึ้นหัวหน้า Star Card
@@ -511,7 +512,7 @@ struct SaleHereShell: View {
             withAnimation(Motion.page) { creatorIntent = target }
             return
         }
-        startWizard(.one, flow.starMissing, back: .starProfile)
+        startWizard(.card, flow.cardMissing, back: .starProfile)
         cardAfterWizard = intent
     }
 
@@ -532,11 +533,11 @@ struct SaleHereShell: View {
         case .accept:
             open(.accept)
             toast("ที่อยู่เติมให้แล้ว · ต่อที่หน้าตอบรับ")
-        case .one:
+        case .one, .card:
             if let intent = cardAfterWizard {
                 cardAfterWizard = nil
                 open(.starProfile)
-                if flow.isStar { openStarCard(intent) }
+                if flow.cardReady { openStarCard(intent) }
                 return
             }
             // ไม่มี toast ตอนจบ (salehere-ios) — หน้า Star Profile อัปเดตแถวให้เห็นเอง
@@ -586,14 +587,14 @@ struct SaleHereShell: View {
         switch kind {
         case .apply: fresh = flow.registerSteps.isEmpty ? [] : [.intro] + flow.registerSteps
         case .accept: fresh = flow.acceptSteps
-        case .one: fresh = wiz.steps.filter { $0 == .kyc ? flow.verify == .none : !($0.dataKey.map(flow.has) ?? true) }
+        case .one, .card: fresh = wiz.steps.filter { $0 == .kyc ? flow.verify == .none : !($0.dataKey.map(flow.has) ?? true) }
         }
         guard fresh != wiz.steps else { return }
         if fresh.isEmpty {
             switch kind {
             case .apply: open(.register); toast("ข้อมูลครบแล้ว · ต่อที่ฟอร์มสมัคร")
             case .accept: open(.accept); toast("ข้อมูลครบแล้ว · ต่อที่หน้าตอบรับ")
-            case .one: open(wiz.back)
+            case .one, .card: open(wiz.back)
             }
         } else {
             startWizard(kind, fresh, back: wiz.back)
@@ -611,7 +612,7 @@ struct SaleHereShell: View {
             // ขั้นที่ยังขาดของ wizard ชุดนั้น + หน้าเดิมที่มันพาไปเมื่อไม่มีอะไรต้องถาม
             let steps: [WizStep], after: FlowScreen
             switch kind {
-            case .apply, .one: steps = flow.registerSteps.isEmpty ? [] : [.intro] + flow.registerSteps; after = .register
+            case .apply, .one, .card: steps = flow.registerSteps.isEmpty ? [] : [.intro] + flow.registerSteps; after = .register
             case .accept: steps = flow.acceptSteps; after = .accept
             }
             if steps.isEmpty { open(after) } else { startWizard(kind, steps, back: nil) }

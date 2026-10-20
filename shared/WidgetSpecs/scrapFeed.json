@@ -1,0 +1,398 @@
+{
+ "kind": "scrapFeed",
+ "design": {
+  "w": 370,
+  "h": 260
+ },
+ "widget": {
+  "title": "ฟีดของฉัน",
+  "category": "followers",
+  "symbol": "square.grid.2x2",
+  "size": {
+   "w": 366,
+   "h": 257
+  },
+  "order": 64,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก 04 ฟีดของฉัน — แผ่นกระดาษโทน (scrap.paper + เม็ดกระดาษสองชั้น = ScrapPaper) วาดเฉพาะ `papered` (ScrapSkin) · ขอบขาวบางเมื่อแผ่นมืด · หน้าต่างขาวมุม 9 เงาเฉดแผ่น กว้างเต็มแผ่นเว้น 18 (col ห่อ): แถบหัว blush (จุดสามสี + พิลขาว salehere.co.th/star/@handle) · แถวโปรไฟล์ (รูป 1 วงกลมขอบ paperAccent · @handle ดำหนัก · tagline · ช่องทางทุกช่องพร้อมยอด ขึ้นบรรทัดเอง · 'ผู้ติดตาม') · รูป 2–5 สี่ช่องเท่ากัน สูง 98 · 'ฟีด' ดำหนัก 46 (Scrap.ink หมึกวัตถุคงที่) + 'ของฉัน' มิตรชมพู 34 เอียงมุมล่างซ้าย · ประกายมุมขวาบน · แปลงจาก ScrapbookWidgets.swift (ScrapFeedWidget) · ใช้ไม่ได้: แถวละ 3 ช่องตายตัว (ใช้ wrap ตามกว้าง) · ขอบขาวรอบตัวอักษร (ใช้ shadow ขาว) · โลโก้เปลือย glyph-tiktok/x/youtube (รายการ socials มีแต่ icon)",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "col",
+    "id": "windowWrap",
+    "pad": [
+     18,
+     18,
+     0,
+     18
+    ],
+    "align": "stretch",
+    "children": [
+     {
+      "type": "col",
+      "id": "window",
+      "h": 186,
+      "fill": "white",
+      "radius": 9,
+      "clip": true,
+      "gap": 0,
+      "shadow": {
+       "sigma": 4.5,
+       "y": 8,
+       "color": "scrap.shade@0.2"
+      },
+      "children": [
+       {
+        "type": "row",
+        "id": "bar",
+        "h": 20,
+        "fill": "scrap.blush",
+        "pad": [
+         0,
+         8
+        ],
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "windowDots",
+          "w": 26,
+          "h": 6
+         },
+         {
+          "type": "spacer",
+          "w": 30,
+          "shrink": 0
+         },
+         {
+          "type": "row",
+          "id": "url",
+          "pad": [
+           2,
+           9
+          ],
+          "circle": true,
+          "fill": "white",
+          "gap": 0,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "salehere.co.th/star/",
+            "face": "noto",
+            "weight": 500,
+            "size": 6.5,
+            "color": "#8A6674",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 500,
+            "size": 6.5,
+            "color": "#8A6674",
+            "maxLines": 1
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "profile",
+        "pad": [
+         9,
+         10,
+         0,
+         10
+        ],
+        "gap": 8,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "w": 42,
+          "h": 42,
+          "circle": true,
+          "fill": "scrap.paperAccent",
+          "pad": 1,
+          "children": [
+           {
+            "type": "stack",
+            "circle": true,
+            "fill": "white",
+            "pad": 1.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 1,
+              "circle": true
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "gap": 1,
+          "align": "start",
+          "shrink": 1,
+          "children": [
+           {
+            "type": "text",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 800,
+            "size": 12,
+            "color": "#141414",
+            "maxLines": 1,
+            "shrinkTo": 7.2
+           },
+           {
+            "type": "text",
+            "slot": "tagline",
+            "face": "noto",
+            "weight": 500,
+            "size": 7.5,
+            "color": "#7A5664",
+            "maxLines": 1,
+            "shrinkTo": 4.5
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 4
+         },
+         {
+          "type": "col",
+          "gap": 3,
+          "align": "end",
+          "children": [
+           {
+            "type": "chips",
+            "id": "socials",
+            "list": "socials",
+            "gap": 8,
+            "justify": "end",
+            "align": "center",
+            "each": {
+             "type": "row",
+             "gap": 3,
+             "align": "center",
+             "children": [
+              {
+               "type": "stack",
+               "w": 17,
+               "h": 17,
+               "radius": 5.1,
+               "fill": "scrap.blush",
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "$icon",
+                 "size": 11,
+                 "place": "center"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "slot": "$followers",
+               "face": "noto",
+               "weight": 800,
+               "size": 11,
+               "color": "#141414",
+               "maxLines": 1
+              }
+             ]
+            }
+           },
+           {
+            "type": "text",
+            "text": "ผู้ติดตาม",
+            "face": "noto",
+            "weight": 600,
+            "size": 6,
+            "color": "#7A5664",
+            "maxLines": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "grid",
+        "h": 106,
+        "pad": [
+         8,
+         10,
+         0,
+         10
+        ],
+        "gap": 3,
+        "children": [
+         {
+          "type": "image",
+          "photo": 2,
+          "grow": 1,
+          "clip": true
+         },
+         {
+          "type": "image",
+          "photo": 3,
+          "grow": 1,
+          "clip": true
+         },
+         {
+          "type": "image",
+          "photo": 4,
+          "grow": 1,
+          "clip": true
+         },
+         {
+          "type": "image",
+          "photo": 5,
+          "grow": 1,
+          "clip": true
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "text",
+    "id": "feed",
+    "text": "ฟีด",
+    "face": "noto",
+    "weight": 900,
+    "size": 46,
+    "color": "#141414",
+    "maxLines": 1,
+    "w": 80,
+    "h": 62,
+    "place": "bottom-left",
+    "dx": 11,
+    "dy": -10,
+    "shadow": {
+     "sigma": 0.8,
+     "color": "white"
+    }
+   },
+   {
+    "type": "text",
+    "id": "mine",
+    "text": "ของฉัน",
+    "face": "mitr",
+    "weight": 400,
+    "size": 34,
+    "color": "scrap.paperAccent",
+    "maxLines": 1,
+    "w": 120,
+    "h": 48,
+    "rotate": -6,
+    "place": "bottom-left",
+    "dx": 72,
+    "dy": -10,
+    "shadow": {
+     "sigma": 0.8,
+     "color": "white"
+    }
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "size": 13,
+    "tint": "white",
+    "place": "top-right",
+    "dx": -7,
+    "dy": 6
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

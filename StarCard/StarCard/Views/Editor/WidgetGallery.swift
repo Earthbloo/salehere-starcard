@@ -39,15 +39,35 @@ struct WidgetGallery: View {
 
     private let gap: CGFloat = 12
 
-    private var all: [CatalogEntry] {
+    private var all: [CatalogEntry] { Self.allEntries }
+
+    private static var allEntries: [CatalogEntry] {
         // ก้อนข้อความมีปุ่มของตัวเองบนแถบล่าง — สองทางเข้าสำหรับของชิ้นเดียวคือความงงที่ไม่จำเป็น
-        (Mock.catalog + Mock.lockedTeasers).filter { $0.kind != .textBlock }.sorted { a, b in
+        (Mock.catalog + Mock.lockedTeasers).filter { !$0.kind.isTextLayer }.sorted { a, b in
             let af = WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0
             let bf = WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0
             if af != bf { return af < bf }
             return a.unlocked && !b.unlocked
         }
     }
+
+    /// ลำดับทั้งตู้ (ทุกหมวด) — ตัวเดียวกับที่ `sections` ใช้
+    static func orderedEntries() -> [CatalogEntry] {
+        allEntries.sorted { a, b in
+            let ag = TrayGroup.allCases.firstIndex(of: a.kind.family.trayGroup) ?? 0
+            let bg = TrayGroup.allCases.firstIndex(of: b.kind.family.trayGroup) ?? 0
+            if ag != bg { return ag < bg }
+            let af = WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0
+            let bf = WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0
+            if af != bf { return af < bf }
+            // ชุดห้าสไตล์อยู่ในหัวข้อของมันเอง (ผู้ใช้ 14 ต.ค. 2569: ไม่แยกเป็นหัวข้อ "ชุดใหม่") — ขึ้นก่อนแบบเดิม
+            return a.kind.isKit && !b.kind.isKit
+        }
+    }
+
+    #if DEBUG
+    static func orderedKinds() -> [WidgetKind] { orderedEntries().map(\.kind) }
+    #endif
 
     /// ก้อนหนึ่งตระกูล — `id` เป็น rawValue ของตระกูล จึงไม่ซ้ำกันทั้งลิสต์
     /// (เคยใช้ลำดับ 0,1,2… เป็น id แล้ว `LazyVStack` รีไซเคิลเซลล์ผิดใบมาแล้วรอบหนึ่ง)
@@ -59,18 +79,17 @@ struct WidgetGallery: View {
 
     private var sections: [Section] {
         var out: [Section] = []
-        let ordered = all.sorted { a, b in
-            let ag = TrayGroup.allCases.firstIndex(of: a.kind.family.trayGroup) ?? 0
-            let bg = TrayGroup.allCases.firstIndex(of: b.kind.family.trayGroup) ?? 0
-            return ag != bg ? ag < bg : (WidgetFamily.allCases.firstIndex(of: a.kind.family) ?? 0) < (WidgetFamily.allCases.firstIndex(of: b.kind.family) ?? 0)
-        }
+        let ordered = Self.orderedEntries()
+        // ชุดห้าสไตล์เป็นห้าชนิดแยกกันแล้ว (19 ต.ค. 2569) — แต่ละหน้าตาคือช่องของตัวเองในตู้โดยไม่ต้องแตกเอง
         for e in ordered where e.kind.family.trayGroup == group {
-            if let last = out.last, last.id == e.kind.family.rawValue {
+            let id = e.kind.family.rawValue
+            if let last = out.last, last.id == id {
                 out[out.count - 1] = Section(id: last.id, label: last.label,
                                              entries: last.entries + [e])
             } else {
-                out.append(Section(id: e.kind.family.rawValue,
-                                   label: e.kind.family.label, entries: [e]))
+                out.append(Section(id: id,
+                                   label: e.kind.family.label,
+                                   entries: [e]))
             }
         }
         return out

@@ -19,6 +19,19 @@ enum Motion {
     /// เข้าที่อย่างสงบ — ใช้กับการเข้า/ออกโหมดแต่ง
     static let settle = Animation.interpolatingSpring(stiffness: 260, damping: 28)
 
+    // MARK: จังหวะของหน้าจอ iPhone — ลาก · สลับที่ · ปรับขนาด widget (ผู้ใช้ 13 ต.ค. 2569: "เหมือน iOS 100%")
+    //
+    // ค่าจาก UIKit ของหน้าโฮม (UISpringTimingParameters) แปลงเป็น response/dampingFraction ของ SwiftUI:
+    // ยกขึ้นเด้งสั้น ๆ · ตัวอื่นไหลหลบด้วยสปริงที่หน่วงพอดี ไม่เด้งเกิน · วางแล้วเด้งเข้าช่องหนึ่งจังหวะ
+    /// ยกขึ้นติดนิ้ว — โต 1.1 เด้งสั้น
+    static let homeLift = Animation.spring(response: 0.28, dampingFraction: 0.62)
+    /// ตัวอื่นไหลหลบระหว่างลาก/ปรับขนาด
+    static let homeReflow = Animation.spring(response: 0.42, dampingFraction: 0.78)
+    /// วางเข้าช่อง
+    static let homeDrop = Animation.spring(response: 0.38, dampingFraction: 0.72)
+    /// ชิ้นที่ลอยตามนิ้ว — ตามแบบมีแรงเฉื่อยนิด ๆ ไม่ใช่ติดนิ้วแข็ง ๆ
+    static let homeFollow = Animation.interactiveSpring(response: 0.16, dampingFraction: 0.86)
+
     /// หน่วงไล่ทีละชิ้น — ทำให้เนื้อหา "ไหลเข้ามา" แทนที่จะโผล่พรึ่บพร้อมกัน
     static func stagger(_ i: Int, step: Double = 0.045, cap: Double = 0.45) -> Double {
         min(Double(i) * step, cap)
@@ -110,76 +123,16 @@ extension MotionFX {
 }
 
 extension WidgetKind {
-    /// ความลึกของ widget ในสำรับ
+    /// ความลึกของ widget ในสำรับ — `widget.motion` (`deep` · `mid` · `light` · `anchored`)
     ///
     /// กติกา: **ตัวที่มีท่าเป็นของตัวเองข้างในต้องได้ `anchored`** เพราะกรอบกับข้างในเล่นพร้อมกัน
     /// แล้วท่าจะซ้อนกันจนอ่านไม่ออก — กรอบเป็นแค่กล้อง ตัวแสดงคือชิ้นส่วนข้างใน
     var entranceStyle: EntranceStyle {
-        switch self {
-        // ท่าอยู่ข้างในทั้งหมด — บานเกล็ด · ฟิล์ม · แถบวิ่ง · มิเตอร์ · ตารางกวาด
-        case .proofWork, .workFeatured, .workReel, .artDuo, .artPair, .artFilmstrip, .proofBrandGrid,
-             .typeMarquee, .proofBrandRail, .statGiant, .artTypeOver,
-             // โปสเตอร์คัตเอาต์ — สามระนาบเดินคนละอัตราอยู่ข้างในแล้ว
-             // ถ้ากรอบขยับด้วย ความต่างของอัตราจะถูกกลบ แล้วความลึกที่ทั้งแบบมีอยู่ก็หายไป
-             .artPortfolio,
-             // โปสเตอร์สายงาน — สองปีกวิ่งออกคนละทางอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .nichePoster,
-             // โปสเตอร์ผู้ติดตาม — พาดหัวไถล ตัวเลขถอดทีละหลัก เส้นคาดหุบเข้าหาตัวเอง
-             // ทั้งหมดอยู่ข้างในแล้ว กรอบต้องนิ่ง ไม่งั้นท่าถูก transform ซ้อน
-             .statPoster,
-             // ตั๋วผลงาน — ท่าฉีกตามรอยปรุอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .proofTicket,
-             // ชุดใหม่อ่าน `pageScrub` เองทุกตัว (สรุปปี · ตู้ถ่ายรูป · แชท · สติกเกอร์)
-             // กรอบจึงต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อน
-             .statWrapped, .artPhotobooth,
-             .stickerTags,
-             // สำรับรอบสอง — ทุกตัวอ่าน `pageScrub` เองทั้งหมด
-             // (แถบสัดส่วนกวาด · ป้ายราคาแกว่ง · มิเตอร์ถอดหลัก)
-             // กรอบต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อนจนอ่านไม่ออก
-             .rateTags,
-             // ป้ายไฟ — หลอดดับไล่ทีละดวงอยู่ข้างในทั้งหมด กรอบต้องนิ่ง
-             .rateNeon,
-             .contactCard, .contactQR,
-             .contactBar, .contactStack, .contactLine, .contactChips,
-             // โปสเตอร์ติดต่อ — สามระนาบเดินคนละอัตราอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .contactPoster,
-             // ตรารับรอง — วงตัวอักษรหมุน ฟอยล์รับแสงตามนิ้วอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .proofSeal,
-             .audienceLine, .audienceSplit, .audienceAge, .audienceMap,
-             // โปสเตอร์อินไซต์ — แผ่นข้อมูลโผล่ไล่กัน แท่งหดเข้าแกนอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .audiencePoster,
-             // สำรับกองรูป — ทั้งแปดตัวมีท่าประจำวัสดุอยู่ข้างใน (ลอกใบบน · ฟิล์มเดินเฟรม ·
-             // สองคอลัมน์ไหลสวนกัน · กวาดทแยง · สไลด์เดินใบ · แถบสตอรี่เติมตามนิ้ว)
-             // กรอบต้องนิ่ง ไม่งั้นท่าข้างในถูก transform ซ้อนจนอ่านไม่ออก
-             .galleryStack, .galleryCarousel, .galleryMasonry, .galleryMosaic,
-             .galleryPost, .galleryStory, .galleryFilm, .galleryTape,
-             // สำรับบรรณาธิการ — ทุกใบมีขบวนของตัวเองข้างใน (ฟิล์มล้มทีละใบ ·
-             // การ์ดขั้นตอนพลิกไล่ · บรรทัดมุดใต้ขอบตัวเอง) กรอบจึงต้องนิ่ง
-             .wallPolaroid, .wallMemory, .zineCover, .aboutEditorial, .aboutBehind,
-             .flowCards,
-             // แผ่นโชว์คลิป — เครื่องสี่เครื่องพลิกไล่กันอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .reelShowcase,
-             // สำรับหน้าต่าง — ตัวเลขถอดทีละหลัก คำยักษ์ไถลหลังคนอยู่ข้างในแล้ว กรอบต้องนิ่ง
-             .socialWindow, .portfolioWindow,
-             // สำรับผ้าปิกนิก — ท่าเดียวกับสำรับหน้าต่าง
-             .socialGingham, .portfolioGingham:
-            return .anchored
-        // ภาพใหญ่ก้อนเดียว — กรอบพาเดินทางเอง
-            return .deep
-        // แผ่นข้อมูล — สำรับสติกเกอร์ไม่มีท่าข้างใน กรอบพาไปทั้งแผ่นเหมือนกระดาษที่ถูกปลิว
-        case .proofBrandCoins, .socialChips, .socialTiles,
-             .interestTags, .nicheTags,
-             .popHeroPaper, .popHeroGlass, .popVideoPaper, .popVideoGlass,
-             .popStatsGlass, .popWorkPaper, .popWorkGlass,
-             .popRatePaper, .popRateGlass, .popNichePaper, .popNicheGlass,
-             .popContactPaper, .popContactGlass,
-             // สำรับสแครปบุ๊ก — แผ่นกระดาษนิ่ง ๆ กรอบพาไปทั้งแผ่น
-             .scrapFolder, .scrapBadge, .scrapKeyTab, .scrapFeed, .scrapTags, .scrapAbout, .scrapInfo,
-             .scrapReceipt, .scrapStats, .scrapStamp, .scrapPhones, .scrapChat, .scrapNote, .scrapLabel:
-            return .mid
-        // ตัวหนังสือล้วน
-        case .heroMinimal, .aboutText, .textBlock:
-            return .light
+        switch meta.motion {
+        case "deep": return .deep
+        case "light": return .light
+        case "anchored": return .anchored
+        default: return .mid
         }
     }
 }

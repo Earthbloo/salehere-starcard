@@ -10,8 +10,9 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if EditorialLab.on {
-                EditorialLab()
+            if ProcessInfo.processInfo.arguments.contains("-kitEditor") {
+                // ทดสอบชุดห้าสไตล์ในห้องแต่งตรง ๆ — ไม่ต้องเดินผ่าน Sale Here → Star Profile
+                CardScreen()
             } else if AppRuntime.isClip {
                 // คลิปเปิดการ์ดของคนอื่นจากลิงก์ — ไม่ผ่านคลังหรือหน้าเทมเพลตของเจ้าของเครื่อง
                 CardScreen(viewOnly: true)
@@ -37,6 +38,19 @@ struct ContentView: View {
             // เมทริกซ์ widget ทุกชนิด × ทุกตัวเลือก → PNG (เทียบพิกเซลกับ Android · ดู `WidgetMatrixExport`)
             if ProcessInfo.processInfo.arguments.contains("-exportWidgetMatrix") {
                 await WidgetMatrixExport.run(photos: photos)
+            }
+            if ProcessInfo.processInfo.arguments.contains("-exportShapeMatrix") {
+                await ShapeMatrixExport.run(photos: photos)
+            }
+            // ใบที่มีไฟล์ผัง → รูปทุกกรอบทดสอบ + fixture ของตัวคำนวณ (สัญญาสำหรับ Android/Web · ดู `SpecExport`)
+            if ProcessInfo.processInfo.arguments.contains("-exportSpecs") {
+                await SpecExport.run(photos: photos)
+            }
+            // นิสัย + ภาพทุกชนิดผ่าน chrome จริง — เทียบก่อน/หลังย้ายนิสัยไป JSON (ดู `BaselineExport`)
+            HitchMonitor.shared.start()
+            if ProcessInfo.processInfo.arguments.contains("-benchKinds") { await KindBench.run(photos: photos) }
+            if ProcessInfo.processInfo.arguments.contains("-exportBaseline") {
+                await BaselineExport.run(photos: photos)
             }
             #endif
         }

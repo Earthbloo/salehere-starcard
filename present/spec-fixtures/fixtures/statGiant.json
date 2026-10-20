@@ -1,0 +1,3895 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        366,
+        206
+      ],
+      "boxes" : [
+        {
+          "h" : 206,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 330,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 16.62,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 11,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 120.91,
+          "x" : 18,
+          "y" : 18.69
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 109.09,
+          "x" : 146.91,
+          "y" : 27
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 264,
+          "y" : 18
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 36
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 38
+        },
+        {
+          "h" : 29.21,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 125.64
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 330,
+          "x" : 18,
+          "y" : 154.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 18,
+          "y" : 154.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 162.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 51,
+          "y" : 160.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 106.75,
+          "y" : 154.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 116.75,
+          "y" : 162.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 139.75,
+          "y" : 160.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 72.66,
+          "x" : 195.5,
+          "y" : 154.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 205.5,
+          "y" : 162.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 29.66,
+          "x" : 228.5,
+          "y" : 160.85
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        412
+      ],
+      "boxes" : [
+        {
+          "h" : 412,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 412,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 330,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 16.62,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 11,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 120.91,
+          "x" : 18,
+          "y" : 18.69
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 109.09,
+          "x" : 146.91,
+          "y" : 27
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 264,
+          "y" : 18
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 36
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 38
+        },
+        {
+          "h" : 235.21,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 125.64
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 330,
+          "x" : 18,
+          "y" : 360.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 18,
+          "y" : 360.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 368.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 51,
+          "y" : 366.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 106.75,
+          "y" : 360.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 116.75,
+          "y" : 368.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 139.75,
+          "y" : 366.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 72.66,
+          "x" : 195.5,
+          "y" : 360.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 205.5,
+          "y" : 368.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 29.66,
+          "x" : 228.5,
+          "y" : 366.85
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        366
+      ],
+      "boxes" : [
+        {
+          "h" : 366,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34.96,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 330,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 34.96,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 21.64,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 230,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 256,
+          "y" : 35.48
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 264,
+          "y" : 26.48
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 52.96
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 54.96
+        },
+        {
+          "h" : 155.26,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 142.6
+        },
+        {
+          "h" : 50.14,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 330,
+          "x" : 18,
+          "y" : 297.86
+        },
+        {
+          "h" : 50.14,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 109.46,
+          "x" : 18,
+          "y" : 297.86
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 314.43
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 24.24,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 66.46,
+          "x" : 51,
+          "y" : 303.86
+        },
+        {
+          "h" : 50.14,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 109.46,
+          "x" : 135.46,
+          "y" : 297.86
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 145.46,
+          "y" : 314.43
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 24.24,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 66.46,
+          "x" : 168.46,
+          "y" : 303.86
+        },
+        {
+          "h" : 50.14,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 95.08,
+          "x" : 252.92,
+          "y" : 297.86
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 262.92,
+          "y" : 314.43
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 24.24,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 52.08,
+          "x" : 285.92,
+          "y" : 303.86
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 23.13793103448276,
+            "outWeight" : 700,
+            "size" : 23.13793103448276,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 800,
+            "size" : 25.24137931034483,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.63793103448276,
+            "outWeight" : 700,
+            "size" : 22.63793103448276,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.13793103448276,
+            "outWeight" : 700,
+            "size" : 22.13793103448276,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 21.63793103448276,
+            "outWeight" : 700,
+            "size" : 21.63793103448276,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.74137931034483,
+            "outWeight" : 800,
+            "size" : 24.74137931034483,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.24137931034483,
+            "outWeight" : 800,
+            "size" : 24.24137931034483,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 23.13793103448276,
+          "v" : 34.96,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 21.63793103448276,
+          "v" : 32.69,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.24137931034483,
+          "v" : 36.63,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 34.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 243.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 53.47,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 69.92,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 23.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 203.09,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 68.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 22.63793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 198.88,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 66.9,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 22.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.67,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 32.69,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.63793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 227.97,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 51.02,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 50.01,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 65.36,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 51.02,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 50.01,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 65.36,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 36.43,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 35.71,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 51.35,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        },
+        {
+          "face" : "noto",
+          "h" : 34.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 23.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 243.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 68.06,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 53.47,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 69.92,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 23.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 203.09,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 68.42,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 22.63793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 198.88,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 66.9,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 22.13793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.67,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 32.69,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 21.63793103448276,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 227.97,
+          "weight" : 700,
+          "width" : 230
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 51.02,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 50.01,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 65.36,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 51.02,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 50.01,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 65.36,
+          "weight" : 800,
+          "width" : 66.45993282902789
+        },
+        {
+          "face" : "noto",
+          "h" : 76.28,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 25.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 36.43,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        },
+        {
+          "face" : "noto",
+          "h" : 74.76,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 24.74137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 35.71,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        },
+        {
+          "face" : "noto",
+          "h" : 36.63,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.24137931034483,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 51.35,
+          "weight" : 800,
+          "width" : 52.08013434194419
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        366
+      ],
+      "boxes" : [
+        {
+          "h" : 366,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 330,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 16.62,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 11,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 120.91,
+          "x" : 18,
+          "y" : 18.69
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 109.09,
+          "x" : 146.91,
+          "y" : 27
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 264,
+          "y" : 18
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 36
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 38
+        },
+        {
+          "h" : 189.21,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 125.64
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 330,
+          "x" : 18,
+          "y" : 314.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 18,
+          "y" : 314.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 322.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 51,
+          "y" : 320.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 80.75,
+          "x" : 106.75,
+          "y" : 314.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 116.75,
+          "y" : 322.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 37.75,
+          "x" : 139.75,
+          "y" : 320.85
+        },
+        {
+          "h" : 33.15,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 72.66,
+          "x" : 195.5,
+          "y" : 314.85
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 205.5,
+          "y" : 322.93
+        },
+        {
+          "h" : 21.15,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 14,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 29.66,
+          "x" : 228.5,
+          "y" : 320.85
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        206
+      ],
+      "boxes" : [
+        {
+          "h" : 206,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 206,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.7,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 574,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 27.7,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 18.33,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 194.71,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 279.29,
+          "x" : 220.71,
+          "y" : 31.85
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 508,
+          "y" : 22.85
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 45.7
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 47.7
+        },
+        {
+          "h" : 10.44,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 135.34
+        },
+        {
+          "h" : 42.22,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 574,
+          "x" : 18,
+          "y" : 145.78
+        },
+        {
+          "h" : 42.22,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 96.92,
+          "x" : 18,
+          "y" : 145.78
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 158.39
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 53.92,
+          "x" : 51,
+          "y" : 151.78
+        },
+        {
+          "h" : 42.22,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 96.92,
+          "x" : 122.92,
+          "y" : 145.78
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 132.92,
+          "y" : 158.39
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 53.92,
+          "x" : 155.92,
+          "y" : 151.78
+        },
+        {
+          "h" : 42.22,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 85.36,
+          "x" : 227.84,
+          "y" : 145.78
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 237.84,
+          "y" : 158.39
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 42.36,
+          "x" : 260.84,
+          "y" : 151.78
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.333333333333336,
+            "outWeight" : 700,
+            "size" : 18.333333333333336,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 800,
+            "size" : 20,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.333333333333336,
+          "v" : 27.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.333333333333336,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 574
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 42.36,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 27.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.333333333333336,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.71,
+          "weight" : 700,
+          "width" : 194.71
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800,
+          "width" : 53.92
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800,
+          "width" : 53.92
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 42.36,
+          "weight" : 800,
+          "width" : 42.36
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 574
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        },
+        {
+          "face" : "noto",
+          "h" : 27.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.333333333333336,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.71,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 574
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 42.36,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 27.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.333333333333336,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 194.71,
+          "weight" : 700,
+          "width" : 194.71
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800,
+          "width" : 53.92
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 53.92,
+          "weight" : 800,
+          "width" : 53.92
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 42.36,
+          "weight" : 800,
+          "width" : 42.36
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        439.81
+      ],
+      "boxes" : [
+        {
+          "h" : 439.81,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 439.81,
+          "id" : "r\/0",
+          "type" : "image",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 439.81,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 439.81,
+          "id" : "r\/2",
+          "type" : "col",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 25.35,
+          "id" : "r\/2\/0",
+          "type" : "row",
+          "w" : 330,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 25.35,
+          "id" : "r\/2\/0\/0",
+          "lines" : 1,
+          "size" : 16.78,
+          "text" : "ผู้ติดตามรวมทุกช่องทาง",
+          "type" : "text",
+          "w" : 179.03,
+          "x" : 18,
+          "y" : 18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/0\/1",
+          "type" : "spacer",
+          "w" : 50.97,
+          "x" : 205.03,
+          "y" : 30.68
+        },
+        {
+          "h" : 18,
+          "id" : "r\/2\/0\/2",
+          "type" : "icon",
+          "w" : 84,
+          "x" : 264,
+          "y" : 21.68
+        },
+        {
+          "h" : 89.64,
+          "id" : "r\/2\/1",
+          "type" : "col",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 43.35
+        },
+        {
+          "h" : 87.64,
+          "id" : "r\/2\/1\/0",
+          "lines" : 1,
+          "size" : 58,
+          "slot" : "stat:totalFollowers",
+          "text" : "92.0K",
+          "type" : "text",
+          "w" : 158.58,
+          "x" : 18,
+          "y" : 45.35
+        },
+        {
+          "h" : 249.17,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 0,
+          "x" : 18,
+          "y" : 132.99
+        },
+        {
+          "h" : 39.65,
+          "id" : "r\/2\/3",
+          "type" : "chips",
+          "w" : 330,
+          "x" : 18,
+          "y" : 382.16
+        },
+        {
+          "h" : 39.65,
+          "id" : "r\/2\/3\/c0",
+          "type" : "row",
+          "w" : 92.34,
+          "x" : 18,
+          "y" : 382.16
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c0\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 28,
+          "y" : 393.48
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/2\/3\/c0\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "24.8K",
+          "type" : "text",
+          "w" : 49.34,
+          "x" : 51,
+          "y" : 388.16
+        },
+        {
+          "h" : 39.65,
+          "id" : "r\/2\/3\/c1",
+          "type" : "row",
+          "w" : 92.34,
+          "x" : 118.34,
+          "y" : 382.16
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c1\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 128.34,
+          "y" : 393.48
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/2\/3\/c1\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "58.3K",
+          "type" : "text",
+          "w" : 49.34,
+          "x" : 151.34,
+          "y" : 388.16
+        },
+        {
+          "h" : 39.65,
+          "id" : "r\/2\/3\/c2",
+          "type" : "row",
+          "w" : 81.76,
+          "x" : 218.68,
+          "y" : 382.16
+        },
+        {
+          "h" : 17,
+          "id" : "r\/2\/3\/c2\/0",
+          "type" : "icon",
+          "w" : 17,
+          "x" : 228.68,
+          "y" : 393.48
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/2\/3\/c2\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "8.9K",
+          "type" : "text",
+          "w" : 38.76,
+          "x" : 251.68,
+          "y" : 388.16
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.775000000000002,
+            "outWeight" : 700,
+            "size" : 16.775000000000002,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 58,
+            "outWeight" : 900,
+            "size" : 58,
+            "slot" : "stat:totalFollowers",
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 800,
+            "size" : 18.3,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11,
+            "outWeight" : 700,
+            "size" : 11,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14,
+            "outWeight" : 800,
+            "size" : 14,
+            "weight" : 800
+          }
+        ],
+        "lists" : {
+          "socials" : [
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "24.8K",
+                "followersFull" : "24,800",
+                "followersRaw" : "24800",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-instagram",
+                "name" : "Instagram",
+                "platform" : "instagram",
+                "short" : "IG",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#E85C9E",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 0,
+              "id" : "instagram"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "58.3K",
+                "followersFull" : "58,300",
+                "followersRaw" : "58300",
+                "handle" : "@mintmint.review",
+                "icon" : "about-social-tiktok",
+                "name" : "TikTok",
+                "platform" : "tiktok",
+                "short" : "TikTok",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#33F0EB",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 1,
+              "id" : "tiktok"
+            },
+            {
+              "fields" : {
+                "engagement" : "0.0%",
+                "engagementRaw" : "0.0",
+                "followers" : "8.9K",
+                "followersFull" : "8,900",
+                "followersRaw" : "8900",
+                "handle" : "@mintmintreview",
+                "icon" : "about-social-youtube",
+                "name" : "YouTube",
+                "platform" : "youtube",
+                "short" : "YouTube",
+                "synced" : "เชื่อมบัญชีแล้ว",
+                "tint" : "#FF524D",
+                "verified" : "1",
+                "views" : "0",
+                "viewsFull" : "0",
+                "viewsRaw" : "0"
+              },
+              "i" : 2,
+              "id" : "youtube"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:totalFollowers",
+            "v" : "92.0K"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.775000000000002,
+          "v" : 25.35,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 58,
+          "v" : 87.64,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11,
+          "v" : 16.62,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14,
+          "v" : 21.15,
+          "weight" : 800
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 25.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.775000000000002,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 179.03,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 38.76,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 25.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.775000000000002,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 179.03,
+          "weight" : 700,
+          "width" : 179.03
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800,
+          "width" : 49.34
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800,
+          "width" : 49.34
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 38.76,
+          "weight" : 800,
+          "width" : 38.76
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 16.62,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 120.91,
+          "weight" : 700,
+          "width" : 120.91
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 37.75,
+          "weight" : 800,
+          "width" : 37.75
+        },
+        {
+          "face" : "noto",
+          "h" : 21.15,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 29.66,
+          "weight" : 800,
+          "width" : 29.66
+        },
+        {
+          "face" : "noto",
+          "h" : 25.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.775000000000002,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 179.03,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 330
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 38.76,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 87.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 58,
+          "t" : "92.0K",
+          "tracking" : 0,
+          "w" : 158.58,
+          "weight" : 900,
+          "width" : 158.58
+        },
+        {
+          "face" : "noto",
+          "h" : 25.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.775000000000002,
+          "t" : "ผู้ติดตามรวมทุกช่องทาง",
+          "tracking" : 0.6,
+          "w" : 179.03,
+          "weight" : 700,
+          "width" : 179.03
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "24.8K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800,
+          "width" : 49.34
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "58.3K",
+          "tracking" : 0,
+          "w" : 49.34,
+          "weight" : 800,
+          "width" : 49.34
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "8.9K",
+          "tracking" : 0,
+          "w" : 38.76,
+          "weight" : 800,
+          "width" : 38.76
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    206
+  ],
+  "inset" : 0,
+  "kind" : "statGiant",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

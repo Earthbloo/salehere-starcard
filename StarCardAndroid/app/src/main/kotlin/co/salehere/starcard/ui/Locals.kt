@@ -29,6 +29,9 @@ val LocalGhostData = compositionLocalOf { false }
 /** ตู้ widget: วาดด้วยข้อมูลตัวอย่างแม้ยังไม่กรอก (= `\.sampleData`) */
 val LocalSampleData = compositionLocalOf { false }
 
+/** สเกลที่ chrome คูณทั้งใบ (`min(W/w0, H/h0)`) — ตัวคำนวณใช้คิดขั้นต่ำที่อ่านออก (`SpecLegibility`) · นอก chrome = 1 */
+val LocalWidgetRenderScale = compositionLocalOf { 1.0 }
+
 /** พรีวิวย่อส่วนสั่งหยุดของที่วิ่งตามเวลา (= `\.previewStatic`) */
 val LocalPreviewStatic = compositionLocalOf { false }
 

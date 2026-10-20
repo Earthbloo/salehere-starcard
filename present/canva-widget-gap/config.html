@@ -1,0 +1,677 @@
+<title>Widget Config ทีละใบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Kanit:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: reading column with a sticky widget index; each widget = tray mock beside its spec tables */
+:root{
+  --bg:#F9FAFB; --paper:#FFFFFF; --ink:#111827; --ink-2:#4B5563; --ink-3:#8A93A3;
+  --line:#E5E7EB; --chip:#F1F2F4; --accent:#E5322D; --ok:#15803D; --ok-bg:#E8F5EC;
+  --warn:#B45309; --warn-bg:#FDF2E3; --new:#1D4ED8; --new-bg:#E8EEFC; --tray:#FFFFFF; --tray-line:#ECEDEF;
+  --f-display:"Kanit","Anuphan",system-ui,sans-serif;
+  --f-body:"Anuphan","Kanit",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1115; --paper:#171A20; --ink:#F3F4F6; --ink-2:#B6BDC9; --ink-3:#7D8796;
+  --line:#2A2F38; --chip:#22262E; --accent:#FF5A54; --ok:#4ADE80; --ok-bg:#12291A;
+  --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; --tray:#1D2128; --tray-line:#2C313A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1115; --paper:#171A20; --ink:#F3F4F6; --ink-2:#B6BDC9; --ink-3:#7D8796;
+  --line:#2A2F38; --chip:#22262E; --accent:#FF5A54; --ok:#4ADE80; --ok-bg:#12291A;
+  --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; --tray:#1D2128; --tray-line:#2C313A; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:600;line-height:1.25;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,42px)}
+h2{font-size:24px}
+h3{font-size:17px}
+h4{font-size:14px;color:var(--ink-2);font-weight:600}
+p{margin:0}
+a{color:var(--new)}
+:focus-visible{outline:2px solid var(--new);outline-offset:2px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.lede{font-size:17px;color:var(--ink-2);max-width:64ch}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+code{font-family:var(--f-mono);font-size:12px;background:var(--chip);padding:1px 5px;border-radius:4px;color:var(--ink)}
+.sec{display:flex;flex-direction:column;gap:18px;scroll-margin-top:72px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--ink-2);max-width:68ch}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--ink-2);align-items:center}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap;line-height:1.6}
+.tag.new{background:var(--new-bg);color:var(--new)}
+.tag.has{background:var(--ok-bg);color:var(--ok)}
+.tag.ask{background:var(--warn-bg);color:var(--warn)}
+.tag.p2{background:var(--chip);color:var(--ink-2)}
+
+/* sticky index */
+.index{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-block:10px;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--line)}
+.index ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.index a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink);font-size:13px;font-weight:500;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+.index a:hover{border-color:var(--ink-3)}
+
+/* tables */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{font-size:12px;color:var(--ink-2);font-weight:600;background:var(--chip);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+td .sub{display:block;font-weight:400;color:var(--ink-3);font-size:12px;white-space:normal}
+.t-wide{min-width:720px}
+.t-mid{min-width:560px}
+
+/* tray mock */
+.tray{background:var(--tray);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(15,17,21,.06);overflow:hidden;font-size:13px}
+.tray-h{display:flex;align-items:center;gap:8px;padding:10px 14px 8px;border-bottom:1px solid var(--tray-line)}
+.tray-h::before{content:"";width:34px;height:4px;border-radius:2px;background:var(--line);position:absolute;left:50%;transform:translate(-50%,-8px)}
+.tray-h{position:relative}
+.tray-h b{font-family:var(--f-display);font-size:15px;font-weight:600}
+.tray-h span{margin-left:auto;font-size:12px;color:var(--ink-3)}
+.trow{display:flex;flex-direction:column;gap:6px;padding:10px 14px;border-bottom:1px solid var(--tray-line)}
+.trow:last-child{border-bottom:0}
+.trow.inline{flex-direction:row;align-items:center;justify-content:space-between}
+.tl{font-size:12px;font-weight:600;color:var(--ink-3)}
+.trow.inline .tl{color:var(--ink);font-size:13px;font-weight:500}
+.trow.spec{background:color-mix(in srgb,var(--new) 7%,transparent)}
+.thumbs{display:flex;gap:6px}
+.thumbs i{width:34px;height:42px;border-radius:7px;display:block;border:1px solid rgba(0,0,0,.12)}
+.thumbs i.on{outline:2px solid var(--ink);outline-offset:2px}
+.t-p{background:#B57EF7;box-shadow:inset 0 0 0 2px #111}.t-c{background:#ECE7E0}.t-g{background-color:#C5D1A6;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.4) 0 3px,transparent 3px 6px),repeating-linear-gradient(90deg,rgba(120,140,80,.4) 0 3px,transparent 3px 6px)}.t-n{background:#0E1520;box-shadow:inset 0 0 0 2px #5CC8F0}.t-m{background:linear-gradient(#EDEDED 0 9px,#fff 9px)}
+.segm{display:flex;background:var(--chip);border-radius:9px;padding:2px;gap:2px}
+.segm span{flex:1;text-align:center;padding:4px 6px;border-radius:7px;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.segm span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.cbs{display:flex;flex-direction:column;gap:5px}
+.cb{display:flex;align-items:center;gap:8px;font-size:13px}
+.cb::before{content:"";width:16px;height:16px;border-radius:4px;border:1.5px solid var(--ink-3);flex:none}
+.cb.on::before{background:var(--ink);border-color:var(--ink);box-shadow:inset 0 0 0 3px var(--tray)}
+.cb em{margin-left:auto;font-style:normal;color:var(--ink-3);font-size:12px;font-variant-numeric:tabular-nums}
+.cb.dis{opacity:.45}
+.swi{width:34px;height:20px;border-radius:10px;background:var(--line);position:relative;flex:none}
+.swi::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.swi.on{background:#34C759}.swi.on::after{left:16px}
+.step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.step span{padding:2px 10px;font-size:13px}
+.step span:nth-child(2){border-inline:1px solid var(--line);font-weight:600;font-variant-numeric:tabular-nums}
+.sws{display:flex;gap:6px;flex-wrap:wrap}
+.sws i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.sws i.on{box-shadow:0 0 0 2px var(--tray),0 0 0 3.5px var(--ink)}
+.sws i.pick{background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red)}
+.tdel{color:var(--accent);font-weight:600;text-align:center}
+.tnote{font-size:11.5px;color:var(--ink-3);padding:8px 14px 12px}
+
+/* common grid */
+.two{display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr}.two .tray{max-width:360px}}
+.stack{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* widget block */
+.wblock{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:72px}
+.wblock>header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.wblock>header .num{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+.wblock>header h2{font-size:22px}
+.wblock>header .pg{margin-left:auto;font-size:12px;color:var(--ink-3);font-family:var(--f-mono)}
+.wblock .scroll{border-radius:10px}
+.wblock .tray{box-shadow:none}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.facts div{background:var(--paper);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.facts span{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.facts b{font-weight:500;font-size:13.5px}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--ink-2);font-size:14px}
+.notes b{color:var(--ink);font-weight:600}
+
+details.dev{border:1px dashed var(--line);border-radius:12px;padding:12px 16px;background:var(--paper)}
+details.dev summary{cursor:pointer;font-weight:600;font-size:14px}
+details.dev pre{font-family:var(--f-mono);font-size:12px;line-height:1.6;overflow-x:auto;margin:12px 0 0;padding:12px;background:var(--chip);border-radius:8px;color:var(--ink)}
+
+.qs{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.q{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q .n{font-family:var(--f-mono);color:var(--accent);font-size:13px;padding-top:2px}
+.q p{color:var(--ink-2)}
+.q p b{color:var(--ink)}
+.foot{font-size:13px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+
+<header class="sec" style="gap:14px">
+  <span class="eyebrow">สเปก config · widget ชุด 5 สไตล์ จาก Canva · 12 ต.ค. 2569</span>
+  <h1>Widget Config ทีละใบ</h1>
+  <p class="lede">ทุก widget มีถาดแต่งชุดเดียวกัน แล้วบางใบมีแถวเนื้อหาเฉพาะของตัวเองเพิ่ม หน้านี้ไล่ทีละใบว่าถาดมีอะไร ดึงข้อมูลจากไหน ขนาดเท่าไร และต้องรับกรณีไหนบ้าง สรุปภาพรวมกับสิ่งที่ต้องออกแบบอยู่ใน <a href="https://claude.ai/artifact/H7S14KAMn2jncUBK31p64C">Widget ชุด 5 สไตล์</a></p>
+  <div class="legend">
+    <span><span class="tag has">มีแล้ว</span> ในแอปตอนนี้</span>
+    <span><span class="tag new">ใหม่</span> ต้องสร้าง</span>
+    <span><span class="tag ask">รอตัดสินใจ</span> Canva ไม่ได้บอก หรือข้อมูลยังไม่มี</span>
+    <span><span class="tag p2">ระยะ 2</span> ทำทีหลังได้</span>
+  </div>
+</header>
+
+<nav class="index" aria-label="ไปยัง widget">
+  <ol>
+    <li><a href="#common">ถาดกลาง</a></li>
+    <li><a href="#styles">5 สไตล์</a></li>
+    <li><a href="#text">ตัวอักษร</a></li>
+    <li><a href="#w-profile">1 โปรไฟล์</a></li>
+    <li><a href="#w-social">2 Social</a></li>
+    <li><a href="#w-rate">3 เรท</a></li>
+    <li><a href="#w-works">4 ผลงาน</a></li>
+    <li><a href="#w-time">5 วันเวลา+พื้นที่</a></li>
+    <li><a href="#w-contact">6 ติดต่อ</a></li>
+    <li><a href="#w-niche">7 สายงาน</a></li>
+    <li><a href="#w-bio">8 Bio</a></li>
+    <li><a href="#w-body">9 สัดส่วน</a></li>
+    <li><a href="#w-insight">10 Insight</a></li>
+    <li><a href="#decide">ต้องตัดสินใจ</a></li>
+  </ol>
+</nav>
+
+<!-- ===================== COMMON ===================== -->
+<section class="sec" id="common">
+  <div class="sec-head">
+    <h2>ถาดกลาง ใช้กับทุก widget</h2>
+    <p>แตะ widget บนการ์ดแล้วถาดนี้ขึ้นมา ลำดับแถวเหมือนกันทุกใบ แถวสีฟ้าคือที่ของแถวเนื้อหาเฉพาะแต่ละ widget ซึ่งจะอยู่ใต้แถว "แบบ" เสมอ</p>
+  </div>
+  <div class="two">
+    <div class="tray" aria-label="ตัวอย่างถาดกลาง">
+      <div class="tray-h"><b>Social Media</b><span>ชื่อถาด = ชื่อหัวข้อ</span></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">แถวเนื้อหาเฉพาะของ widget</span><span class="small muted">เช่น ช่องที่แสดง · จำนวนรูป · ข้อมูลที่แสดง</span></div>
+      <div class="trow"><span class="tl">พื้นหลัง</span><div class="segm"><span class="on">สีพื้น</span><span>ไล่สี</span><span>โปร่ง</span></div></div>
+      <div class="trow"><span class="tl">สีพื้น</span><div class="sws"><i class="on" style="background:#B57EF7"></i><i style="background:#ECE7E0"></i><i style="background:#C5D1A6"></i><i style="background:#0E1520"></i><i style="background:#FFFFFF"></i><i style="background:#F7C6D9"></i><i style="background:#BFE3F7"></i><i style="background:#111"></i><i class="pick"></i></div></div>
+      <div class="trow inline"><span class="tl">ขอบ</span><span class="swi on"></span></div>
+      <div class="trow"><span class="tl">มุม</span><div class="segm"><span class="on">มน</span><span>เหลี่ยม</span></div></div>
+      <div class="trow"><span class="tl">สีขอบ</span><div class="sws"><i class="on" style="background:#111"></i><i style="background:#fff"></i><i style="background:#5CC8F0"></i><i style="background:#E5322D"></i><i style="background:#D7D7D7"></i><i class="pick"></i></div></div>
+      <div class="trow tdel">ลบ</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-wide">
+        <thead><tr><th>แถว</th><th>ตัวเลือก</th><th>ค่าตั้งต้น</th><th>กติกา</th><th>สถานะ</th></tr></thead>
+        <tbody>
+          <tr><td>แบบ</td><td>รูปย่อ 5 สไตล์ของหัวข้อนี้</td><td>สไตล์ที่ลากมาวาง</td><td>เปลี่ยนแบบแล้วตัวเลือกเนื้อหาเดิมอยู่ครบ แต่ พื้นหลัง/ขอบ/มุม/สี กลับเป็นค่าตั้งต้นของแบบใหม่ ส่วนกว้างเท่าเดิม สูงคำนวณใหม่</td><td><span class="tag has">มีแล้ว</span><span class="sub">ตอนนี้แถวนี้ไม่มีชื่อ</span></td></tr>
+          <tr><td>พื้นหลัง</td><td>สีพื้น · ไล่สี · โปร่ง</td><td>ตามสไตล์</td><td>"โปร่ง" ซ่อนแถวสีพื้น · แต่ละสไตล์ตีความ "พื้นหลัง" ต่างกัน ดูตาราง 5 สไตล์</td><td><span class="tag new">ใหม่</span><span class="sub">แทนแถว "กล่อง" (กระจก/เข้ม/ไม่มีพื้น)</span></td></tr>
+          <tr><td>สีพื้น</td><td>8 สี + จานสีเอง</td><td>ตามสไตล์</td><td>ตอน "ไล่สี" สีที่เลือกเป็นสีต้น ระบบทำสีปลายให้ (เข้มลง 20%, มุม 160°)</td><td><span class="tag new">ใหม่</span> <span class="tag ask">รอตัดสินใจ</span><span class="sub">ไล่สีเลือกเองสองสีไหม</span></td></tr>
+          <tr><td>ขอบ</td><td>สวิตช์ มี/ไม่มี</td><td>ตามสไตล์</td><td>ปิดแล้วซ่อนแถวมุมกับสีขอบ (ตาม Canva: "หากเลือกแบบมีขอบ จะให้เลือกทรงมุม")</td><td><span class="tag has">มีแล้ว</span><span class="sub">ตอนนี้เป็นปุ่มสองปุ่ม เปลี่ยนเป็นสวิตช์</span></td></tr>
+          <tr><td>มุม</td><td>มน · เหลี่ยม</td><td>มน</td><td>ไม่มีปรับองศา · มน = รัศมีของสไตล์นั้น · เหลี่ยม = 2pt · ตอนปิดขอบ ใช้มุมมนของสไตล์</td><td><span class="tag new">ใหม่</span></td></tr>
+          <tr><td>สีขอบ</td><td>5 สี + จานสีเอง</td><td>ตามสไตล์</td><td>สไตล์ม่วง: เงาเยื้องเปลี่ยนสีตามสีขอบด้วย · สไตล์กลางคืน: สีมุมนีออนและสีตัวเลขใช้สีนี้</td><td><span class="tag new">ใหม่</span></td></tr>
+          <tr><td>ลบ</td><td>ปุ่มเดียว</td><td>–</td><td>มีปุ่มเลิกทำ 5 วินาทีเหมือนเดิม</td><td><span class="tag has">มีแล้ว</span></td></tr>
+        </tbody>
+      </table></div>
+      <h4>สิ่งที่ทำบนการ์ดโดยตรง ไม่ได้อยู่ในถาด</h4>
+      <ul class="notes">
+        <li><b>แตะหัวข้อ</b> → ไม่มีอะไรเกิดขึ้น · หัวข้อเป็นป้ายตายตัว แก้คำ/ฟอนต์/สี/ขนาดไม่ได้ <span class="tag has">ตัดแล้ว 19 ต.ค.</span></li>
+        <li><b>แตะข้อมูล</b> (ตัวเลข ชื่อ ราคา) → ข้อความสั้น "ข้อมูลนี้มาจาก Star Profile" + ปุ่ม "แก้ใน Star Profile" แก้บนการ์ดไม่ได้ <span class="tag new">ใหม่</span></li>
+        <li><b>แตะช่องรูป</b> → เลือกรูป / จัดกรอบ / รูปเดิม <span class="tag has">มีแล้ว</span></li>
+        <li><b>ลากขอบขวา/ขอบล่าง</b> → ปรับขนาดอิสระ สแนปทีละ 6pt · แต่ละ widget มีขนาดเล็กสุดของตัวเอง (ดูในแต่ละใบ) <span class="tag has">มีแล้ว</span></li>
+        <li><b>ติ๊กแดง Verified</b> ขึ้นเองที่มุมขวาบนเมื่อข้อมูลยืนยันได้ ผู้ใช้ปิดไม่ได้ <span class="tag has">มีแล้ว</span></li>
+        <li><b>สถานะล็อก</b> ยังไม่มีข้อมูล → วาด widget ด้วยข้อมูลตัวอย่างใต้ม่านเทา + ป้ายปลดล็อกมุมขวาบน แตะแล้วเปิดฟอร์มกรอก <span class="tag has">มีแล้ว</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STYLES ===================== -->
+<section class="sec" id="styles">
+  <div class="sec-head">
+    <h2>ปุ่มกลางทำอะไรในแต่ละสไตล์</h2>
+    <p>ปุ่มชุดเดียวกัน แต่ 5 สไตล์โครงไม่เหมือนกัน ตารางนี้บอกว่าแต่ละปุ่มไปเปลี่ยนส่วนไหนของ widget และค่าตั้งต้นของแต่ละสไตล์</p>
+  </div>
+  <div class="scroll"><table class="t-wide">
+    <thead><tr><th></th><th>ม่วงสติกเกอร์</th><th>ครีมนุ่ม</th><th>กรอบตารางเขียว</th><th>กลางคืนนีออน</th><th>หน้าต่าง Mac</th></tr></thead>
+    <tbody>
+      <tr><td>พื้นหลังคือ</td><td>แผ่นนอก</td><td>แผ่นนอก</td><td>ผ้ากรอบ (ลายตารางทับบนสีที่เลือก) · การ์ดในเป็นขาวเสมอ</td><td>แผ่นนอก</td><td>ตัวหน้าต่าง · แถบบนเป็นเทาอ่อนเสมอ</td></tr>
+      <tr><td>ค่าตั้งต้น<span class="sub">พื้นหลัง · สี</span></td><td>สีพื้น · #B57EF7</td><td>สีพื้น · #ECE7E0</td><td>สีพื้น · #C5D1A6</td><td>สีพื้น · #0E1520</td><td>สีพื้น · #FFFFFF</td></tr>
+      <tr><td>"โปร่ง" แล้วเหลืออะไร</td><td>แถวขาวขอบดำลอยบนการ์ด</td><td>แถวสีอ่อนลอยบนการ์ด</td><td>การ์ดขาวด้านใน ไม่มีผ้า</td><td>แถวเข้ม + มุมนีออน</td><td>แถบหน้าต่าง + เนื้อหาบนการ์ด</td></tr>
+      <tr><td>ขอบคือ</td><td>เส้นดำ 2pt + เงาเยื้อง 4pt</td><td>เส้น 1.5pt</td><td>เส้นของการ์ดขาวด้านใน</td><td>มุมนีออน 4 มุม (ไม่ใช่เส้นรอบ)</td><td>เส้นเทา 1pt</td></tr>
+      <tr><td>ค่าตั้งต้น<span class="sub">ขอบ · สี</span></td><td>มี · ดำ</td><td>ไม่มี</td><td>มี · ดำ</td><td>มี · #5CC8F0</td><td>มี · #D7D7D7</td></tr>
+      <tr><td>มน / เหลี่ยม</td><td>10pt / 2pt</td><td>12pt / 2pt</td><td>12pt / 2pt ทั้งผ้าและการ์ดใน</td><td>มุมโค้ง / มุมหักฉาก</td><td>10pt / 2pt</td></tr>
+      <tr><td>แถวข้อมูล</td><td>กล่องขาว ขอบดำ 1.5pt</td><td>กล่องสว่างกว่าพื้น</td><td>เส้นคั่นบาง</td><td>กล่องสว่างกว่าพื้นเล็กน้อย</td><td>เส้นคั่นเทา</td></tr>
+      <tr><td>สีตัวเลข</td><td>ตามหมึก (ดำ/ขาว)</td><td>ตามหมึก</td><td>ดำ (บนการ์ดขาว)</td><td>= สีขอบ</td><td>น้ำเงิน #2F6BF0 คงที่</td></tr>
+      <tr><td>ฟอนต์หัวข้อตั้งต้น</td><td>หนาสุด 800</td><td>หนา 700 สีเทาเข้ม</td><td>หนา 700</td><td>หนา 700 สีขาว</td><td>ธรรมดา 500 กลางแถบหน้าต่าง</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ===================== TEXT ===================== -->
+<section class="sec" id="text">
+  <div class="sec-head">
+    <h2>ตัวอักษรสามระดับ</h2>
+    <p>Canva แบ่งไว้สองระดับ (หัวข้อ · ข้อมูลจากระบบ) หน้านี้เพิ่ม "ป้ายรอง" เพราะทุก widget มีคำกำกับอย่าง "ผู้ติดตาม" "ส่วนสูง" ที่ Canva ไม่ได้บอกว่าแก้ได้ไหม</p>
+  </div>
+  <div class="scroll"><table class="t-wide">
+    <thead><tr><th>ระดับ</th><th>ตัวอย่าง</th><th>แก้คำ</th><th>ฟอนต์</th><th>สี</th><th>ขนาด</th><th>สถานะ</th></tr></thead>
+    <tbody>
+      <tr><td>หัวข้อ</td><td>Social Media · เรทรับงาน · About Me</td><td>ไม่ได้ (ป้ายตายตัว)</td><td>ตามดีไซน์</td><td>ระบบเลือกจากสีพื้น</td><td>ตามดีไซน์</td><td><span class="tag has">ล็อกแล้ว</span><span class="sub">19 ต.ค. 2569 · เดิมแก้คำ/ฟอนต์/สี/ขนาดได้</span></td></tr>
+      <tr><td>ป้ายรอง</td><td>ผู้ติดตาม · วันที่สะดวกรับงาน · ส่วนสูง</td><td>ไม่ได้</td><td>ตามฟอนต์ธีม</td><td>ระบบเลือก (จางกว่าข้อมูล)</td><td>ตามดีไซน์</td><td><span class="tag has">ล็อกแล้ว</span></td></tr>
+      <tr><td>ข้อมูลจากระบบ</td><td>92,000 · ฿18,000 · กรุงเทพ · @nira.beauty</td><td>ไม่ได้</td><td>ตามฟอนต์ธีมของการ์ด</td><td>ระบบเลือกจากความสว่างของพื้น</td><td>ตามดีไซน์</td><td><span class="tag has">ล็อกแล้ว</span><span class="sub">ไม่มีการปรับฟอนต์/สี/ขนาดรายช่อง</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes">
+    <li><b>ฟอนต์ธีม</b> ยังไม่มีในแอป · ตั้งแต่ 19 ต.ค. 2569 widget ไม่มีการเลือกฟอนต์แล้ว (ทุกช่องตามดีไซน์) · ถ้าจะให้เปลี่ยนฟอนต์ได้ ต้องเป็นระดับการ์ด: เพิ่มแถว "ฟอนต์ข้อมูล" ในแท็บพื้นหลังของการ์ด ใช้ 7 ฟอนต์ชุดเดิม (ไม่มีฟอนต์ไทยแบบมีหัว) <span class="tag new">ใหม่</span></li>
+    <li><b>สีที่ระบบเลือก:</b> พื้นสว่าง (ความสว่าง ≥ 50%) → หมึกดำ #111 · พื้นมืด → หมึกขาว #F2F5F8 · "โปร่ง" → ใช้หมึกของการ์ด</li>
+  </ul>
+</section>
+
+<!-- ===================== 1 PROFILE ===================== -->
+<article class="wblock" id="w-profile">
+  <header><span class="num">01</span><h2>โปรไฟล์</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 3 · 13 · 18</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>รูปโปรไฟล์</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>ครึ่งหน้า · 260 × 300</b></div>
+    <div><span>เล็กสุด</span><b>170 × 200</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ไม่ล็อก (ชื่อมีเสมอ)</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>รูปโปรไฟล์</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">แฮนเดิลจากช่อง</span><div class="segm"><span class="on">TikTok</span><span>IG</span><span>FB</span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง: พื้นหลัง · สีพื้น · ขอบ · มุม · สีขอบ · ลบ</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>รูป</td><td>ช่องรูปของ widget · ตั้งต้น = รูปโปรไฟล์ Star Profile</td><td>ม่วง = สี่เหลี่ยมมน · อีก 4 แบบ = วงกลม</td></tr>
+          <tr><td>ชื่อ</td><td>ชื่อที่แสดงใน Star Profile</td><td>นิรา ภัทรวดี · ยาวสุด 2 บรรทัด แล้วย่อตัว</td></tr>
+          <tr><td>บรรทัดสายงาน</td><td>สายที่ใช่ 2 อันดับแรก</td><td>บิวตี้ · ไลฟ์สไตล์ <span class="tag ask">รอตัดสินใจ</span><span class="sub">Canva เขียน "Beauty &amp; Skincare Creator" ซึ่งไม่มีในข้อมูล</span></td></tr>
+          <tr><td>แฮนเดิล</td><td>ช่องที่เลือกในถาด</td><td>@nira.beauty</td></tr>
+          <tr><td>ป้ายยืนยัน</td><td>KYC ผ่าน · มีงานที่ผ่าน</td><td>ยืนยันตัวตนแล้ว · ผลงานยืนยันแล้ว <span class="tag ask">รอตัดสินใจ</span><span class="sub">อยู่ในหน้า 18 ที่ซ่อน</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>แฮนเดิลจากช่อง:</b> แสดงเฉพาะช่องที่เชื่อมแล้ว ตั้งต้นที่ช่องผู้ติดตามมากสุด มีช่องเดียวไม่ต้องโชว์แถวนี้ (แบบเดียวกับ <code>socialWindow</code>)</li>
+        <li><b>ไม่มีรูป:</b> ตัวอักษรแรกของชื่อบนพื้นสีขอบ ไม่ใช้กล่องเทาแบบใน Canva เพราะการ์ดถูก export เป็นรูป</li>
+        <li><b>ไม่มีช่องโซเชียล:</b> ไม่มีบรรทัดแฮนเดิลทั้ง 5 สไตล์ และซ่อนแถวในถาด</li>
+        <li><b>ติ๊กแดง:</b> ขึ้นเมื่อ KYC ผ่าน</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> รูป · ชื่อ · บรรทัดสายงาน · แฮนเดิล (สไตล์กลางคืนกับ Mac ใน Canva ยังขาดบรรทัดสายงาน)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 2 SOCIAL ===================== -->
+<article class="wblock" id="w-social">
+  <header><span class="num">02</span><h2>Social Media</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 4 · 14</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>Social Media</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · สูงตามจำนวนแถว</b></div>
+    <div><span>เล็กสุด</span><b>220 × 120</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่เชื่อมช่องไหนเลย</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>Social Media</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">ช่องที่แสดง</span><div class="cbs">
+        <span class="cb on">TikTok<em>321,000</em></span><span class="cb on">Instagram<em>184,000</em></span><span class="cb on">Facebook<em>92,000</em></span><span class="cb on">Lemon8<em>18,500</em></span><span class="cb">X<em>7,200</em></span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง · เรียงตามผู้ติดตามมากไปน้อยเสมอ</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูลต่อแถว</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>โลโก้แพลตฟอร์ม</td><td>ช่องที่เชื่อม (IG · TikTok · Facebook · YouTube · X · Lemon8)</td><td>ไอคอนสีจริงของแพลตฟอร์ม · Canva มี 5 ช่อง ต้องวาด YouTube เพิ่ม</td></tr>
+          <tr><td>ชื่อแพลตฟอร์ม</td><td>ระบบ</td><td>Instagram</td></tr>
+          <tr><td>แฮนเดิล</td><td>บัญชีที่เชื่อม</td><td>@nira.beauty · ยาวเกินตัดท้ายด้วย …</td></tr>
+          <tr><td>ผู้ติดตาม</td><td>บัญชีที่เชื่อม</td><td>ต่ำกว่า 1 ล้าน เขียนเต็ม 184,000 · ตั้งแต่ 1 ล้าน 1.2M</td></tr>
+          <tr><td>ป้ายรอง</td><td>ระบบ</td><td>"ผู้ติดตาม" มุมขวาของหัวข้อ (สไตล์ม่วง)</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>ช่องที่แสดง:</b> ช่องทำเครื่องหมาย ตั้งต้นติ๊กครบทุกช่อง ต้องเหลืออย่างน้อย 1 ช่อง (ช่องสุดท้ายกดออกไม่ได้)</li>
+        <li><b>ชื่อแพลตฟอร์ม vs แฮนเดิล:</b> สไตล์ม่วงกับครีมใช้แฮนเดิลอย่างเดียว (โลโก้บอกแพลตฟอร์มแล้ว) · สไตล์ตาราง/กลางคืน/Mac แสดงชื่อแพลตฟอร์ม + แฮนเดิลบรรทัดล่าง</li>
+        <li><b>แคบกว่า 280pt:</b> แฮนเดิลลงไปอยู่ใต้ชื่อ ไม่ซ่อน</li>
+        <li><b>ติ๊กแดง:</b> ขึ้นเสมอ (ยอดมาจากบัญชีที่เชื่อม)</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> โลโก้ · แฮนเดิล · ผู้ติดตาม (Canva สไตล์กลางคืนกับ Mac ยังไม่มีแฮนเดิล)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 3 RATE ===================== -->
+<article class="wblock" id="w-rate">
+  <header><span class="num">03</span><h2>เรทรับงาน</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 5 · 15</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>เรทรับงาน</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · สูงตามจำนวนแถว</b></div>
+    <div><span>เล็กสุด</span><b>220 × 120</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่ใส่เรท</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>เรทรับงาน</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">แสดงราคา</span><div class="segm"><span class="on">ต่อช่อง</span><span>ต่อรูปแบบงาน</span></div></div>
+      <div class="trow spec"><span class="tl">แถวที่แสดง (สูงสุด 6)</span><div class="cbs">
+        <span class="cb on">TikTok<em>เริ่ม ฿35,000</em></span><span class="cb on">Instagram<em>เริ่ม ฿25,000</em></span><span class="cb on">Facebook<em>เริ่ม ฿18,000</em></span><span class="cb">Lemon8<em>เริ่ม ฿12,000</em></span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูลต่อแถว</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>ชื่อแถว</td><td>ช่อง หรือ ช่อง × รูปแบบงาน</td><td>ต่อช่อง: TikTok · ต่อรูปแบบงาน: TikTok · Short Video</td></tr>
+          <tr><td>ราคา</td><td>เรทใน Star Profile (ช่อง × Short Video / Photo / Long Video / Seeding)</td><td>฿35,000 · ต่อช่องใช้ราคาต่ำสุดของช่องนั้น นำหน้าด้วย "เริ่ม"</td></tr>
+          <tr><td>ซ่อนราคา</td><td>–</td><td>"ขอเรท" แทนตัวเลข <span class="tag p2">ระยะ 2</span><span class="sub">หน้า 15 ต้องเพิ่มข้อมูลก่อน</span></td></tr>
+          <tr><td>แพ็กเกจ</td><td>–</td><td>แพ็กเกจ 3 คลิป + 2 สตอรี่ ฿90,000 <span class="tag p2">ระยะ 2</span></td></tr>
+          <tr><td>เงื่อนไขรับเงิน</td><td>–</td><td>รับเงินสด · รับเงิน+ของ · ไม่รับแลกของ <span class="tag p2">ระยะ 2</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>แสดงราคา:</b> "ต่อช่อง" ตรงกับ Canva หน้า 5 · "ต่อรูปแบบงาน" ใช้ข้อมูลที่แอปเก็บจริง แต่ละแถวคือหนึ่งคู่ ช่อง × รูปแบบงาน ที่ราคามากกว่า 0</li>
+        <li><b>แถวที่แสดง:</b> ช่องทำเครื่องหมาย รายการเปลี่ยนตามโหมดที่เลือก ตั้งต้นติ๊ก 4 แถวราคาสูงสุด เกิน 6 แถวกดเพิ่มไม่ได้</li>
+        <li><b>ราคาที่ระบบแนะนำ</b> (ผู้ใช้ยังไม่แก้) ขึ้นได้ ไม่มีเครื่องหมายต่าง</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี (ราคาตั้งเอง)</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> ชื่อแถว · ราคา (Canva ครบแล้ว)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 4 WORKS ===================== -->
+<article class="wblock" id="w-works">
+  <header><span class="num">04</span><h2>รูปผลงาน</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 6 · 16</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>รูปผลงาน</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · 2 คอลัมน์</b></div>
+    <div><span>เล็กสุด</span><b>200 × 220</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่มีรูป/ผลงาน/วิดีโอ</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>รูปผลงาน</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p"></i><i class="t-c on"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec inline"><span class="tl">จำนวนรูป</span><span class="step"><span>−</span><span>6</span><span>+</span></span></div>
+      <div class="trow spec inline"><span class="tl">ยอดวิว</span><span class="swi"></span></div>
+      <div class="tnote">ตามด้วยแถวกลาง · เลือกรูปโดยแตะช่องบนการ์ด</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูลต่อช่อง</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>รูป</td><td>Star Profile: รูป · ผลงาน · วิดีโอ (หมวดละ 1–3 = สูงสุด 9)</td><td>สี่เหลี่ยมจัตุรัส · วิดีโอใช้เฟรมแรก + ▶ เล็กมุมล่าง</td></tr>
+          <tr><td>ชื่องาน</td><td>— ตัดแล้ว (19 ต.ค. 2569)</td><td>รูปผลงานใน API ไม่มีชื่องาน · ไม่ให้พิมพ์เอง</td></tr>
+          <tr><td>บรรทัดรอง</td><td>— ตัดแล้ว</td><td>เหตุผลเดียวกับชื่องาน</td></tr>
+          <tr><td>ยอดวิว</td><td>ยังไม่มี</td><td>1.2M วิว <span class="tag ask">รอตัดสินใจ</span><span class="sub">รอเชื่อมบัญชี (ไม่ให้พิมพ์เอง)</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>จำนวนรูป:</b> สเต็ปเปอร์ ค่าที่เลือกได้ 1 · 2 · 4 · 6 (1 = รูปใหญ่รูปเดียว · 2–6 = ตาราง 2 คอลัมน์) · สูงสุด = จำนวนรูปที่มีในคลัง</li>
+        <li><b>ชื่องานใต้รูป:</b> ตัดแล้ว (19 ต.ค. 2569) — ไม่มีข้อมูลจริงรองรับ จึงไม่มีสวิตช์</li>
+        <li><b>ยอดวิว:</b> สวิตช์ ซ่อนไว้จนกว่าจะมีที่มาของข้อมูล</li>
+        <li><b>ช่องว่าง:</b> ถ้าจำนวนรูปมากกว่าที่ใส่ไว้ เติมจากคลังตามลำดับเอง ไม่ปล่อยกรอบเปล่าในรูป export</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> รูป · ชื่องาน · บรรทัดรอง · (ยอดวิว) — Canva สไตล์กลางคืนกับ Mac มีแค่รูป</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 5 TIME + AREA ===================== -->
+<article class="wblock" id="w-time">
+  <header><span class="num">05</span><h2>วันเวลาและพื้นที่รับงาน</h2><span class="tag new">ใหม่ทั้งหัวข้อ</span><span class="pg">Canva หน้า 7</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>วันเวลาและพื้นที่รับงาน</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · 366 × 190</b></div>
+    <div><span>เล็กสุด</span><b>200 × 110</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ไม่มีทั้งวันเวลาและพื้นที่</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>วันเวลาและพื้นที่รับงาน</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p"></i><i class="t-c"></i><i class="t-g on"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">ข้อมูลที่แสดง</span><div class="cbs"><span class="cb on">วันเวลาที่สะดวก</span><span class="cb on">พื้นที่รับงาน</span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>วันเวลา</td><td>Star Profile: ช่วงเวลา 4 ช่วงต่อวัน (09–12 · 12–14 · 14–17 · 17 เป็นต้นไป)</td><td>ระบบรวมวันที่ช่วงเหมือนกัน: "จ–ศ 17.00 เป็นต้นไป" · "ส–อา ตลอดวัน" · บรรทัดละกลุ่ม</td></tr>
+          <tr><td>พื้นที่</td><td>Star Profile: จังหวัด สูงสุด 3</td><td>กรุงเทพ · สมุทรปราการ</td></tr>
+          <tr><td>ป้ายรอง + ไอคอน</td><td>ระบบ</td><td>📅 วันที่สะดวกรับงาน · 📍 พื้นที่รับงาน (ไอคอนเส้น)</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>ข้อมูลที่แสดง:</b> ช่องทำเครื่องหมาย ต้องเหลืออย่างน้อย 1 · ข้อที่ยังไม่กรอกเป็นสีเทากดไม่ได้</li>
+        <li><b>หัวข้อเปลี่ยนเอง</b> ตามข้อมูลที่แสดง: เหลือแต่วันเวลา → "วันที่สะดวกรับงาน" · เหลือแต่พื้นที่ → "พื้นที่รับงาน"</li>
+        <li><b>หลายกลุ่มวัน:</b> แสดงได้ถึง 3 บรรทัด เกินนั้นต่อท้ายด้วย "+ อีก N วัน" <span class="tag ask">รอตัดสินใจ</span></li>
+        <li><b>ครบ 7 วันช่วงเดียวกัน:</b> เขียน "ทุกวัน" แทน "จ–อา"</li>
+        <li><b>จังหวัด:</b> สไตล์ครีมเป็นชิป · สไตล์อื่นเป็นข้อความคั่นด้วย "," · ต้องโชว์ครบ 3</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 6 CONTACT ===================== -->
+<article class="wblock" id="w-contact">
+  <header><span class="num">06</span><h2>ช่องทางติดต่อ</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 8</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>ช่องทางติดต่อ</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>ครึ่งหน้า · 180 × 300 (มี QR)</b></div>
+    <div><span>เล็กสุด</span><b>กว้างพอให้ QR ≥ 72pt</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ไม่มี LINE เบอร์ หรือเว็บไซต์</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>ช่องทางติดต่อ</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">ช่องทางที่แสดง</span><div class="cbs"><span class="cb on">LINE<em>@nirabeauty</em></span><span class="cb">เบอร์โทร<em>081-234-5678</em></span><span class="cb">เว็บไซต์<em>nira.co</em></span></div></div>
+      <div class="trow spec inline"><span class="tl">QR LINE</span><span class="swi on"></span></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>LINE ID</td><td>Star Profile</td><td>@nirabeauty + โลโก้ LINE</td></tr>
+          <tr><td>QR LINE</td><td>สร้างจาก LINE ID (line.me/ti/p/~ID)</td><td>สี่เหลี่ยม ≥ 72pt ตอน export · มีขอบขาวรอบ QR · ใต้ QR "QR เพิ่มเพื่อน"</td></tr>
+          <tr><td>เบอร์โทร</td><td>Star Profile</td><td>081-234-5678</td></tr>
+          <tr><td>เว็บไซต์</td><td>Star Profile</td><td>nira.co (ตัด https:// ออก)</td></tr>
+          <tr><td>อีเมล</td><td>ไม่มีใน Star Profile</td><td>Canva ใช้ทุกสไตล์ <span class="tag ask">รอตัดสินใจ</span><span class="sub">เพิ่มช่องอีเมล หรือใช้เว็บไซต์แทน</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>ช่องทางที่แสดง:</b> ช่องทำเครื่องหมาย ตั้งต้น = LINE อย่างเดียว · เบอร์โทรไม่ติ๊กเป็นค่าตั้งต้นเพราะรูปการ์ดถูกส่งต่อได้ · ช่องที่ไม่ได้กรอกเป็นสีเทา</li>
+        <li><b>QR LINE:</b> สวิตช์ แสดงเมื่อติ๊ก LINE · ปิดแล้ว widget เตี้ยลงเอง</li>
+        <li><b>ไม่มีปุ่มบนรูป:</b> ห้ามทำเป็นปุ่ม "แอดไลน์" ใช้ QR แทน (การ์ดส่วนใหญ่ถูก export เป็นรูป)</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> ช่องที่ติ๊ก + QR เมื่อเปิด (Canva สไตล์กลางคืนกับ Mac ยังไม่มี QR)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 7 NICHE ===================== -->
+<article class="wblock" id="w-niche">
+  <header><span class="num">07</span><h2>สายงาน</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 9</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>สายงาน</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · สูงตามจำนวนแถว</b></div>
+    <div><span>เล็กสุด</span><b>200 × 80</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่เลือกสายที่ใช่</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>สายงาน</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n on"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">สายที่แสดง</span><div class="cbs"><span class="cb on">บิวตี้</span><span class="cb on">อาหาร &amp; เครื่องดื่ม</span><span class="cb on">ไลฟ์สไตล์</span><span class="cb">คาเฟ่</span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูลต่อชิ้น</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>ชื่อสาย</td><td>Star Profile: สายที่ใช่ (เลือกได้ 5 จาก 18 หมวด)</td><td>บิวตี้ · ยาวสุด "เทคโนโลยี &amp; แกดเจ็ต" ตัดเป็น 2 บรรทัดในช่อง</td></tr>
+          <tr><td>ไอคอน</td><td>ชุดไอคอนเส้น 18 ตัว (ต้องวาดใหม่)</td><td>เฉพาะสไตล์ครีมกับกลางคืน</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>สายที่แสดง:</b> ช่องทำเครื่องหมาย จากสายที่ผู้ใช้เลือกไว้ ตั้งต้นติ๊ก 3 อันแรก ต้องเหลืออย่างน้อย 1</li>
+        <li><b>การวาง:</b> ม่วง = กล่องเท่ากันแถวละ 3 · ครีม = แถวละ 1 + ไอคอน · ตาราง/Mac = ชิปขึ้นบรรทัดใหม่เอง · กลางคืน = ช่องสี่เหลี่ยมแถวละ 3 + ไอคอน</li>
+        <li><b>ไอคอนไม่ใช่ฟิลด์ข้อมูล</b> เป็นของตกแต่งของสไตล์ จึงไม่ผิดกติกา "ฟิลด์ชุดเดียวกัน"</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 8 BIO ===================== -->
+<article class="wblock" id="w-bio">
+  <header><span class="num">08</span><h2>Bio</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 10</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>About Me</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · สูงตามข้อความ</b></div>
+    <div><span>เล็กสุด</span><b>200 × 90</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่เขียนแนะนำตัว</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>About Me</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m on"></i></div></div>
+      <div class="tnote">ไม่มีแถวเนื้อหาเฉพาะ · ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>ข้อความแนะนำตัว</td><td>Star Profile: แนะนำตัว</td><td>สวัสดีค่ะ มะปรางนะคะ ชอบรีวิวของกินของใช้... · แก้ใน Star Profile เท่านั้น</td></tr>
+          <tr><td>เส้นตกแต่งใต้ข้อความ</td><td>สไตล์</td><td>เฉพาะม่วงกับตาราง · สีตามสีขอบ</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>ข้อความยาว:</b> widget สูงขึ้นตามข้อความ · ถ้าผู้ใช้ลากให้เตี้ยกว่าเนื้อหา ตัวหนังสือย่อได้ถึง 70% แล้วตัดท้ายด้วย …</li>
+        <li><b>ข้อความเป็นข้อมูล:</b> ตามกติกา Canva ข้อมูลจากระบบแก้บนการ์ดไม่ได้ แตะแล้วพาไปแก้ใน Star Profile <span class="tag ask">รอตัดสินใจ</span><span class="sub">ผู้ใช้อาจอยากเขียน bio สำหรับการ์ดแยก</span></li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 9 BODY ===================== -->
+<article class="wblock" id="w-body">
+  <header><span class="num">09</span><h2>สัดส่วน</h2><span class="tag new">ใหม่ทั้งหัวข้อ</span><span class="pg">Canva หน้า 11</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>สัดส่วน</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>ครึ่งหน้า · 240 × 220</b></div>
+    <div><span>เล็กสุด</span><b>170 × 150</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่กรอกสัดส่วนสักช่อง</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>สัดส่วน</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">ช่องที่แสดง</span><div class="cbs"><span class="cb on">ส่วนสูง<em>165 cm</em></span><span class="cb on">น้ำหนัก<em>48 kg</em></span><span class="cb on">รอบอก-เอว-สะโพก<em>32-25-35 in</em></span><span class="cb on">รองเท้า<em>EU 38</em></span><span class="cb dis">ไซซ์เสื้อ<em>ไม่มีข้อมูล</em></span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>ส่วนสูง</td><td>Star Profile: สัดส่วน</td><td>165 cm · หน่วยตามที่ผู้ใช้เลือก</td></tr>
+          <tr><td>น้ำหนัก</td><td>Star Profile: สัดส่วน</td><td>48 kg</td></tr>
+          <tr><td>รอบอก-เอว-สะโพก</td><td>Star Profile: สัดส่วน (3 ช่องรวมเป็นช่องเดียว)</td><td>32-25-35 in · ช่องเต็มกว้าง</td></tr>
+          <tr><td>รองเท้า</td><td>Star Profile: สัดส่วน</td><td>EU 38</td></tr>
+          <tr><td>ไซซ์เสื้อ</td><td>ไม่มีใน Star Profile</td><td>M <span class="tag ask">รอตัดสินใจ</span><span class="sub">เพิ่มช่อง หรือตัดออกจาก Canva</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>ช่องที่แสดง:</b> ช่องทำเครื่องหมาย ตั้งต้นติ๊กทุกช่องที่กรอกแล้ว ช่องที่ไม่ได้กรอกเป็นสีเทา</li>
+        <li><b>การวาง:</b> ม่วง/ครีม/ตาราง = ตาราง 2 คอลัมน์ ช่องรอบอก-เอว-สะโพกเต็มแถว · กลางคืน = ช่องตัวเลขใหญ่ 2×2 + แถวรอบตัวเต็มกว้าง · Mac = รายการ</li>
+        <li><b>หน่วยไม่ตรงกัน:</b> รอบอกเป็นนิ้ว เอวเป็น cm → แสดงทีละค่าพร้อมหน่วย "32 in · 64 cm · 35 in"</li>
+        <li><b>ติ๊กแดง:</b> ไม่มี</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> ทุกช่องที่ติ๊ก (Canva สไตล์กลางคืนกับ Mac ยังไม่มีรอบอก-เอว-สะโพก)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== 10 INSIGHT ===================== -->
+<article class="wblock" id="w-insight">
+  <header><span class="num">10</span><h2>Insight ผู้ติดตาม</h2><span class="tag ask">วาดใหม่ 5 สไตล์</span><span class="pg">Canva หน้า 12</span></header>
+  <div class="facts">
+    <div><span>หัวข้อตั้งต้น</span><b>Insight</b></div>
+    <div><span>ขนาดตั้งต้น</span><b>เต็มกว้าง · 366 × 260</b></div>
+    <div><span>เล็กสุด</span><b>220 × 160</b></div>
+    <div><span>ล็อกเมื่อ</span><b>ยังไม่อัปโหลด insight</b></div>
+  </div>
+  <div class="two">
+    <div class="tray">
+      <div class="tray-h"><b>Insight</b></div>
+      <div class="trow"><span class="tl">แบบ</span><div class="thumbs"><i class="t-p on"></i><i class="t-c"></i><i class="t-g"></i><i class="t-n"></i><i class="t-m"></i></div></div>
+      <div class="trow spec"><span class="tl">จากช่อง</span><div class="segm"><span class="on">Instagram</span><span>TikTok</span></div></div>
+      <div class="trow spec"><span class="tl">ข้อมูลที่แสดง</span><div class="cbs"><span class="cb on">เมืองหลัก</span><span class="cb on">เพศ</span><span class="cb on">อายุ</span><span class="cb dis">การเข้าถึง<em>รอเชื่อมบัญชี</em></span></div></div>
+      <div class="tnote">ตามด้วยแถวกลาง</div>
+    </div>
+    <div class="stack">
+      <div class="scroll"><table class="t-mid">
+        <thead><tr><th>ข้อมูล</th><th>มาจาก</th><th>ตัวอย่าง / รูปแบบ</th></tr></thead>
+        <tbody>
+          <tr><td>เมืองหลัก</td><td>ภาพหน้าจอ insight ของช่องนั้น</td><td>3 อันดับ + % · กรุงเทพ 42% · ชลบุรี 13% · เชียงใหม่ 8%</td></tr>
+          <tr><td>เพศ</td><td>ภาพหน้าจอ insight</td><td>หญิง 84% · ชาย 16%</td></tr>
+          <tr><td>อายุ</td><td>ภาพหน้าจอ insight</td><td>3 ช่วง เรียงตามอายุ · 18–24 46% · 25–34 37% · 35+ 17%</td></tr>
+          <tr><td>การเข้าถึง</td><td>ยังเป็นข้อมูลจำลอง</td><td>1,240,000 คน/เดือน <span class="tag ask">รอตัดสินใจ</span><span class="sub">ปิดไว้จนกว่าจะเชื่อมบัญชีด้วย OAuth</span></td></tr>
+        </tbody>
+      </table></div>
+      <ul class="notes">
+        <li><b>จากช่อง:</b> แสดงเฉพาะช่องที่อัปโหลด insight แล้ว ตั้งต้นที่ช่องผู้ติดตามมากสุด มีช่องเดียวไม่ต้องโชว์แถวนี้</li>
+        <li><b>ข้อมูลที่แสดง:</b> ช่องทำเครื่องหมาย ต้องเหลืออย่างน้อย 1 · หัวข้อที่ไม่ได้อัปโหลดเป็นสีเทา</li>
+        <li><b>ติ๊กแดง:</b> <span class="tag ask">รอตัดสินใจ</span> ตอนนี้แอปติ๊กเสมอ แต่ตัวเลขมาจากภาพที่ผู้ใช้อัปโหลด เสนอให้ติ๊กเมื่อมาจาก OAuth เท่านั้น</li>
+        <li><b>ต้องมีครบทุกสไตล์:</b> เมือง 3 อันดับ · เพศ · อายุ 3 ช่วง (Canva สไตล์กลางคืนกับ Mac เหลือค่าเดียว)</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<!-- ===================== DEV ===================== -->
+<details class="dev">
+  <summary>สำหรับ dev: ฟิลด์ที่ต้องเพิ่มใน <code>WidgetInstance</code></summary>
+  <pre>// ใหม่ — ลักษณะ (ถาดกลาง)
+style: WidgetStyle        // purple · cream · gingham · night · mac
+fill: Fill                // solid · gradient · clear     (แทน surface)
+fillColor: Hex?           // nil = ค่าตั้งต้นของสไตล์
+border: Bool              // มีแล้ว
+borderShape: Corner       // round · square
+borderColor: Hex?         // nil = ค่าตั้งต้นของสไตล์
+
+// ใหม่ — เนื้อหาเฉพาะ widget (เก็บที่ widget ไม่ใช่ที่ profile)
+channel: SocialType?      // โปรไฟล์ (แฮนเดิล) · Insight (จากช่อง)
+include: [String]         // Social: ช่อง · เรท: แถว · ติดต่อ: ช่องทาง · สายงาน · สัดส่วน · Insight · วันเวลา/พื้นที่
+rateMode: RateMode        // perChannel · perFormat
+count: Int                // ผลงาน: 1 · 2 · 4 · 6
+showViews: Bool           // ผลงาน (ระยะ 2)
+showQR: Bool              // ติดต่อ
+
+// ระดับการ์ด
+CardTheme.dataFont: CardFont   // ฟอนต์ธีม ใช้กับข้อมูลจากระบบ + ป้ายรอง ทุก widget</pre>
+  <p class="small muted" style="margin-top:10px">ตอนนี้ช่องที่เลือกของ <code>socialWindow</code> เก็บเป็นโน้ตซ่อนช่อง 9 ใน profile · ชุดใหม่ควรเก็บที่ widget ตรง ๆ</p>
+</details>
+
+<!-- ===================== DECISIONS ===================== -->
+<section class="sec" id="decide">
+  <div class="sec-head">
+    <h2>ต้องตัดสินใจ</h2>
+    <p>รวมทุกจุดที่ติด <span class="tag ask">รอตัดสินใจ</span> ในหน้านี้ เรียงจากกระทบงานมากไปน้อย</p>
+  </div>
+  <div class="qs">
+    <div class="q"><span class="n">01</span><p><b>ไล่สี เลือกสีเดียวแล้วระบบไล่ให้ หรือเลือกเองสองสี?</b> สีเดียวง่ายกว่าและไม่ออกมาน่าเกลียด สองสีตรงกับคำว่า "เลือกเปลี่ยนเฉดสี" ใน Canva มากกว่า</p></div>
+    <div class="q"><span class="n">02</span><p><b>ป้ายรอง ("ผู้ติดตาม" "ส่วนสูง") แก้คำได้ไหม?</b> ตัดสินแล้ว 19 ต.ค.: ล็อก — ข้อความบน widget แก้ไม่ได้ทั้งหมด</p></div>
+    <div class="q"><span class="n">03</span><p><b>Bio แก้บนการ์ดได้ไหม?</b> ตัดสินแล้ว 19 ต.ค.: ไม่ได้ · แก้ใน Star Profile เท่านั้น</p></div>
+    <div class="q"><span class="n">04</span><p><b>อีเมลในช่องทางติดต่อ:</b> เพิ่มช่องอีเมลใน Star Profile หรือใช้เว็บไซต์ที่มีอยู่แทน</p></div>
+    <div class="q"><span class="n">05</span><p><b>ไซซ์เสื้อในสัดส่วน กับยอดวิวในผลงาน:</b> เพิ่มข้อมูล หรือตัดออกจาก Canva</p></div>
+    <div class="q"><span class="n">06</span><p><b>บรรทัดสายงานในโปรไฟล์:</b> ตัดสินแล้ว 19 ต.ค.: ใช้สายที่ใช่ต่อกัน ("แฟชั่น · คาเฟ่") · ไม่ให้พิมพ์เอง</p></div>
+    <div class="q"><span class="n">07</span><p><b>ติ๊กแดงของ Insight:</b> ติ๊กเสมอเหมือนตอนนี้ หรือเฉพาะข้อมูลจาก OAuth</p></div>
+    <div class="q"><span class="n">08</span><p><b>ป้ายยืนยันสองป้ายในโปรไฟล์ (หน้า 18):</b> ใส่ไหม</p></div>
+  </div>
+</section>
+
+<p class="foot">ที่มา: Canva DAHXOY1w-iM หน้า 1–18 · ค่าที่ Canva ไม่ได้ระบุ (ขนาด ค่าตั้งต้น กรณีขอบ) เป็นข้อเสนอจากกติกาเดิมของแอป: ฟิลด์ชุดเดียวกันทุกสไตล์ · การ์ดถูก export เป็นรูป · ตัวเลือกหลายข้อใช้ช่องทำเครื่องหมาย จำนวนใช้สเต็ปเปอร์ ของเสริมใช้สวิตช์</p>
+
+</div>

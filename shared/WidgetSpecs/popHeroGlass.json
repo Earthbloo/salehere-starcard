@@ -1,0 +1,332 @@
+{
+ "kind": "popHeroGlass",
+ "design": {
+  "w": 277,
+  "h": 250
+ },
+ "widget": {
+  "title": "ป้ายชื่อ กระจกชมพู",
+  "category": "hero",
+  "symbol": "person.crop.square.fill",
+  "order": 48,
+  "ownSurface": true,
+  "ownBorder": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "photo": true,
+  "skin": "glass",
+  "motion": "mid"
+ },
+ "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระจก) — ชื่อยักษ์ + รูป 42% + คอลัมน์ @handle/พื้นที่รับงาน/VERIFIED ในกล่องกระจกใบเดียว · แปลงจาก PopWidgets.swift (PopHero + PopSheet ไม่มีป้าย) · ใบวาดแผ่นเอง (drawsOwnSurface) เว้นขอบ 4 ให้เงา · กระจกจริงใช้ไล่สีขอบขาว ที่นี่เป็น stroke ขาวจาง · สี: ถ่านคงที่ pop.ink · ชมพู rawAccent/rawAccentSoft · แผ่น pop.sheet ตาม surface + ประกายขอบเฉพาะ glass + ขอบชมพูเมื่อ bordered · @ กับ handle เป็นสองข้อความ (ต้นฉบับข้อความเดียว ย่อพร้อมกัน)",
+ "root": {
+  "type": "col",
+  "pad": 4,
+  "children": [
+   {
+    "type": "stack",
+    "id": "sheet",
+    "grow": 1,
+    "h": "fill",
+    "fill": "pop.sheet",
+    "radius": 20,
+    "shadow": {
+     "x": 0,
+     "sigma": 4.5,
+     "y": 5,
+     "color": "pop.shadow"
+    },
+    "children": [
+     {
+      "type": "rect",
+      "id": "glassEdge",
+      "if": "surface=glass",
+      "radius": 20,
+      "stroke": {
+       "color": "white@0.6",
+       "width": 1.2
+      }
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "if": "bordered",
+      "radius": 20,
+      "stroke": {
+       "color": "rawAccent",
+       "width": 1.6
+      }
+     },
+     {
+      "type": "col",
+      "pad": 10,
+      "gap": 6,
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "name",
+        "slot": "name",
+        "face": "noto",
+        "weight": 900,
+        "size": 59,
+        "sizeWhen": [
+         {
+          "when": "w<200",
+          "size": 42
+         },
+         {
+          "when": "w<240",
+          "size": 50
+         }
+        ],
+        "kerning": -0.5,
+        "maxLines": 1,
+        "shrinkTo": 29.5,
+        "color": "pop.ink",
+        "w": "fill"
+       },
+       {
+        "type": "row",
+        "gap": 10,
+        "align": "stretch",
+        "grow": 1,
+        "h": "fill",
+        "children": [
+         {
+          "type": "image",
+          "id": "portrait",
+          "photo": 1,
+          "w": 100,
+          "radius": 14,
+          "stroke": {
+           "color": "rawAccentSoft",
+           "width": 2.5
+          }
+         },
+         {
+          "type": "col",
+          "id": "info",
+          "grow": 1,
+          "w": "fill",
+          "pad": [
+           10,
+           8
+          ],
+          "align": "start",
+          "children": [
+           {
+            "type": "row",
+            "gap": 5,
+            "align": "center",
+            "pad": [
+             10,
+             0,
+             0,
+             0
+            ],
+            "children": [
+             {
+              "type": "icon",
+              "icon": "sh:instagram",
+              "size": 15
+             },
+             {
+              "type": "row",
+              "gap": 0,
+              "align": "end",
+              "shrink": 1,
+              "children": [
+               {
+                "type": "text",
+                "text": "@",
+                "face": "noto",
+                "weight": 500,
+                "size": 11.5,
+                "color": "pop.ink",
+                "maxLines": 1,
+                "shrink": 0
+               },
+               {
+                "type": "text",
+                "id": "handle",
+                "slot": "handle",
+                "face": "noto",
+                "weight": 500,
+                "size": 11.5,
+                "color": "pop.ink",
+                "maxLines": 1,
+                "shrinkTo": 6.5
+               }
+              ]
+             },
+             {
+              "type": "rect",
+              "w": 0.8,
+              "h": 15,
+              "fill": "pop.ink@0.5",
+              "if": "has:stat:creatorKind"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:user-fill",
+              "size": 11,
+              "tint": "pop.ink",
+              "if": "has:stat:creatorKind"
+             },
+             {
+              "type": "text",
+              "face": "noto",
+              "weight": 500,
+              "size": 11.5,
+              "color": "pop.ink",
+              "maxLines": 1,
+              "shrink": 0,
+              "slot": "stat:creatorKind",
+              "if": "has:stat:creatorKind"
+             }
+            ]
+           },
+           {
+            "type": "spacer",
+            "grow": 1,
+            "minH": 6
+           },
+           {
+            "type": "col",
+            "gap": 5,
+            "align": "stretch",
+            "children": [
+             {
+              "type": "row",
+              "gap": 0,
+              "align": "end",
+              "children": [
+               {
+                "type": "text",
+                "text": "พื้นที่รับงาน : ",
+                "face": "noto",
+                "weight": 700,
+                "size": 11,
+                "color": "pop.ink",
+                "maxLines": 1,
+                "shrink": 0
+               },
+               {
+                "type": "text",
+                "id": "workArea",
+                "slot": "workArea",
+                "face": "noto",
+                "weight": 400,
+                "size": 11,
+                "color": "pop.ink",
+                "maxLines": 1,
+                "shrinkTo": 7.7,
+                "grow": 1
+               }
+              ]
+             },
+             {
+              "type": "line",
+              "h": 1,
+              "fill": "pop.ink@0.85"
+             }
+            ]
+           },
+           {
+            "type": "spacer",
+            "grow": 1,
+            "minH": 6
+           },
+           {
+            "type": "row",
+            "id": "verified",
+            "if": "owner.verified",
+            "gap": 5,
+            "align": "center",
+            "pad": [
+             3,
+             8,
+             3,
+             3
+            ],
+            "radius": 9,
+            "gradient": {
+             "from": "#4DA8F5",
+             "to": "#2166D6",
+             "angle": 0
+            },
+            "children": [
+             {
+              "type": "stack",
+              "w": 36,
+              "h": 36,
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:seal-check-fill",
+                "size": 36,
+                "tint": "#6BCCFA",
+                "place": "center"
+               },
+               {
+                "type": "rect",
+                "w": 23,
+                "h": 23,
+                "circle": true,
+                "fill": "white",
+                "place": "center"
+               },
+               {
+                "type": "icon",
+                "icon": "ph:check",
+                "size": 13,
+                "tint": "#2980E6",
+                "place": "center"
+               }
+              ]
+             },
+             {
+              "type": "col",
+              "gap": -4,
+              "align": "start",
+              "grow": 1,
+              "children": [
+               {
+                "type": "text",
+                "text": "VERIFIED",
+                "face": "noto",
+                "weight": 900,
+                "size": 19,
+                "kerning": 0.2,
+                "color": "white",
+                "maxLines": 1,
+                "shrinkTo": 11.4
+               },
+               {
+                "type": "text",
+                "text": "BY SALE HERE",
+                "face": "noto",
+                "weight": 900,
+                "size": 10,
+                "kerning": 0.3,
+                "color": "white",
+                "maxLines": 1,
+                "shrinkTo": 6
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

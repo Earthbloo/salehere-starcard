@@ -1,0 +1,210 @@
+{
+ "kind": "portfolioGingham",
+ "design": {
+  "w": 366,
+  "h": 626
+ },
+ "widget": {
+  "title": "พอร์ตผ้าปิกนิก",
+  "category": "hero",
+  "symbol": "person.crop.artframe",
+  "order": 4,
+  "ownSurface": true,
+  "photo": true,
+  "keepAspect": true,
+  "motion": "anchored"
+ },
+ "notes": "โปสเตอร์พอร์ตผ้าปิกนิก · สีทั้งชุดเป็นของดีไซน์ (Picnic) ไม่ใช่ของธีม — ตามโค้ดเดิม ไม่อ่านพื้นผิว/ธีม · กระดาษครีมไล่ #FAF1E4→#F5EAD9 มุม 33 ขอบ #962A1E 1.3 · ผืนผ้าตาราง (pattern gingham size 41 สี #93B5DA บนครีม #F7F1E7) ห่างซ้าย/ขวา/ล่าง 14.8 บน 186 · ภาพพิมพ์บนผ้า (รูปทึบ — ยังไม่มีคัตเอาต์ ซึ่งบนซิมูเลเตอร์เป็นเสมอ): ห่างขอบผ้า ข้าง 20 บน 14 ล่าง 20 · ขอบครีม #F9F1E6 6 มุม 9 เส้น #962A1E@0.9 0.9 เงา σ3.5 y3 · รูปมุม 4 · กรอบแดง #B42A1F 1.6 ห่างขอบ 10.7 มุม 22.3 · ชื่อกลาง (serif 25 ศูนย์กลาง 47) + starSeal แดงเมื่อยืนยัน · เส้นแดง 77 สองข้างประกายสี่แฉก ศูนย์กลาง 68.5 · คำพาดหัว note#1 เซริฟแดง ย่อให้พอดีกว้าง 86% กลางแถบ 76–184 · คนคัตเอาต์ (photo 1 · lift) อยู่ใต้ธง `cutout` (ตัววาดยังไม่มี) · แปลงจาก GinghamWidgets.swift (PortfolioGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: กรอบคลื่น WavyFrame (เส้นเรียบแทน) · เซริฟบีบแนวนอน 0.72 (คำพาดหัวจึงเตี้ยกว่าต้นฉบับ capHeight 101) · grain/เส้นทอ/blur ของผ้า · CutoutStatus",
+ "root": {
+  "type": "stack",
+  "id": "poster",
+  "clip": true,
+  "radius": 33,
+  "gradient": {
+   "from": "#FAF1E4",
+   "to": "#F5EAD9",
+   "angle": 90
+  },
+  "stroke": {
+   "color": "#962A1E",
+   "width": 1.3
+  },
+  "children": [
+   {
+    "type": "stack",
+    "id": "clothFrame",
+    "pad": [
+     186,
+     14.8,
+     14.8,
+     14.8
+    ],
+    "children": [
+     {
+      "type": "rect",
+      "id": "cloth",
+      "fill": "#F7F1E7",
+      "pattern": {
+       "kind": "gingham",
+       "color": "#6FA8E7",
+       "size": 41
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "printArea",
+    "if": "!cutout",
+    "pad": [
+     200,
+     34.8,
+     34.8,
+     34.8
+    ],
+    "children": [
+     {
+      "type": "stack",
+      "id": "print",
+      "pad": 6,
+      "fill": "#F9F1E6",
+      "radius": 9,
+      "stroke": {
+       "color": "#962A1E@0.9",
+       "width": 0.9
+      },
+      "shadow": {
+       "sigma": 3.5,
+       "y": 3,
+       "color": "black@0.16"
+      },
+      "children": [
+       {
+        "type": "image",
+        "id": "photo",
+        "photo": 1,
+        "fit": "cover",
+        "radius": 4
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "waveFrame",
+    "pad": 10.7,
+    "children": [
+     {
+      "type": "rect",
+      "id": "wave",
+      "radius": 22.3,
+      "stroke": {
+       "color": "#B42A1F",
+       "width": 1.6
+      }
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "nameRow",
+    "w": "100%",
+    "h": 34,
+    "place": "top-center",
+    "dy": 30,
+    "gap": 6,
+    "justify": "center",
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "slot": "name",
+      "face": "noto",
+      "size": 25,
+      "weight": 500,
+      "color": "#24211E",
+      "maxLines": 1,
+      "shrinkTo": 12,
+      "maxW": 183
+     },
+     {
+      "type": "icon",
+      "icon": "starSeal",
+      "size": 9,
+      "tint": "#9C1E1A",
+      "if": "owner.verified"
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "sparkleRow",
+    "w": "100%",
+    "h": 11,
+    "place": "top-center",
+    "dy": 63,
+    "gap": 6,
+    "justify": "center",
+    "align": "center",
+    "children": [
+     {
+      "type": "rect",
+      "w": 77,
+      "h": 0.8,
+      "fill": "#9C1E1A@0.8"
+     },
+     {
+      "type": "icon",
+      "icon": "ph:sparkle",
+      "w": 9,
+      "h": 11,
+      "tint": "#9C1E1A"
+     },
+     {
+      "type": "rect",
+      "w": 77,
+      "h": 0.8,
+      "fill": "#9C1E1A@0.8"
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "headBand",
+    "h": 108,
+    "place": "top-center",
+    "dy": 76,
+    "justify": "center",
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "id": "headline",
+      "face": "noto",
+      "weight": 900,
+      "size": 141,
+      "shrinkTo": 30,
+      "textCase": "upper",
+      "textAlign": "center",
+      "color": "#9C1E1A",
+      "maxLines": 1,
+      "w": "86%",
+      "text": "PORTFOLIO"
+     }
+    ]
+   },
+   {
+    "type": "image",
+    "id": "subject",
+    "photo": 1,
+    "fit": "contain",
+    "w": "100%",
+    "h": "80%",
+    "place": "bottom-center",
+    "dy": 19,
+    "if": "cutout"
+   }
+  ]
+ }
+}

@@ -1,0 +1,2822 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        342,
+        111
+      ],
+      "boxes" : [
+        {
+          "h" : 111,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 37,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 10.57
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 122.01,
+          "x" : 48,
+          "y" : 8.68
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 161.99,
+          "x" : 180.01,
+          "y" : 18.5
+        },
+        {
+          "h" : 37,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 37
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 47.57
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 74.37,
+          "x" : 48,
+          "y" : 45.68
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 209.63,
+          "x" : 132.37,
+          "y" : 55.5
+        },
+        {
+          "h" : 37,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 74
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 84.57
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 97.93,
+          "x" : 48,
+          "y" : 82.68
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 186.07,
+          "x" : 155.93,
+          "y" : 92.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        246
+      ],
+      "boxes" : [
+        {
+          "h" : 246,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 82,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 33.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 122.01,
+          "x" : 48,
+          "y" : 31.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 161.99,
+          "x" : 180.01,
+          "y" : 41
+        },
+        {
+          "h" : 82,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 82
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 115.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 74.37,
+          "x" : 48,
+          "y" : 113.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 209.63,
+          "x" : 132.37,
+          "y" : 123
+        },
+        {
+          "h" : 82,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 164
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 197.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 97.93,
+          "x" : 48,
+          "y" : 195.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 186.07,
+          "x" : 155.93,
+          "y" : 205
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 114,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 33.37,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 22.09,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 79.93,
+          "x" : 0,
+          "y" : 40.32
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 236.9,
+          "x" : 89.93,
+          "y" : 37.93
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 5.17,
+          "x" : 336.83,
+          "y" : 57
+        },
+        {
+          "h" : 114,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 114
+        },
+        {
+          "h" : 33.37,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 22.09,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 79.93,
+          "x" : 0,
+          "y" : 154.32
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 144.39,
+          "x" : 89.93,
+          "y" : 151.93
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 97.68,
+          "x" : 244.32,
+          "y" : 171
+        },
+        {
+          "h" : 114,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 228
+        },
+        {
+          "h" : 33.37,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 22.09,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 79.93,
+          "x" : 0,
+          "y" : 268.32
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 190.15,
+          "x" : 89.93,
+          "y" : 265.93
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 51.92,
+          "x" : 290.08,
+          "y" : 285
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.086206896551726,
+            "outWeight" : 600,
+            "size" : 22.086206896551726,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "slot" : "website",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 22.086206896551726,
+          "v" : 33.37,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 50.16,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 236.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 32.52,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 31.96,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 190.15,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 236.9,
+          "weight" : 700,
+          "width" : 236.9
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 700,
+          "width" : 144.39
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 190.15,
+          "weight" : 700,
+          "width" : 190.15
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        },
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 50.16,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 236.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 32.52,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 33.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 22.086206896551726,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 31.96,
+          "weight" : 600,
+          "width" : 79.93103448275862
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 190.15,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 236.9,
+          "weight" : 700,
+          "width" : 236.9
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 700,
+          "width" : 144.39
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 190.15,
+          "weight" : 700,
+          "width" : 190.15
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 114,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 49.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 122.01,
+          "x" : 48,
+          "y" : 47.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 161.99,
+          "x" : 180.01,
+          "y" : 57
+        },
+        {
+          "h" : 114,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 114
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 163.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 74.37,
+          "x" : 48,
+          "y" : 161.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 209.63,
+          "x" : 132.37,
+          "y" : 171
+        },
+        {
+          "h" : 114,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 228
+        },
+        {
+          "h" : 15.87,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 10.5,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 38,
+          "x" : 0,
+          "y" : 277.07
+        },
+        {
+          "h" : 19.64,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 13,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 97.93,
+          "x" : 48,
+          "y" : 275.18
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 186.07,
+          "x" : 155.93,
+          "y" : 285
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        586,
+        111
+      ],
+      "boxes" : [
+        {
+          "h" : 111,
+          "id" : "r",
+          "type" : "col",
+          "w" : 586,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 37,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 586,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 26.44,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 17.5,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 63.33,
+          "x" : 0,
+          "y" : 5.28
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 187.7,
+          "x" : 73.33,
+          "y" : 3.39
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 314.97,
+          "x" : 271.03,
+          "y" : 18.5
+        },
+        {
+          "h" : 37,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 586,
+          "x" : 0,
+          "y" : 37
+        },
+        {
+          "h" : 26.44,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 17.5,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 63.33,
+          "x" : 0,
+          "y" : 42.28
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 114.4,
+          "x" : 73.33,
+          "y" : 40.39
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 388.27,
+          "x" : 197.73,
+          "y" : 55.5
+        },
+        {
+          "h" : 37,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 586,
+          "x" : 0,
+          "y" : 74
+        },
+        {
+          "h" : 26.44,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 17.5,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 63.33,
+          "x" : 0,
+          "y" : 79.28
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 150.67,
+          "x" : 73.33,
+          "y" : 77.39
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 352,
+          "x" : 234,
+          "y" : 92.5
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.5,
+            "outWeight" : 600,
+            "size" : 17.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "slot" : "website",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.5,
+          "v" : 26.44,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 39.75,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 187.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 25.77,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 25.33,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 150.67,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 187.7,
+          "weight" : 700,
+          "width" : 187.7
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 700,
+          "width" : 114.4
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 150.67,
+          "weight" : 700,
+          "width" : 150.67
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 39.75,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 187.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 25.77,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 25.33,
+          "weight" : 600,
+          "width" : 63.333333333333336
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 150.67,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 187.7,
+          "weight" : 700,
+          "width" : 187.7
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 700,
+          "width" : 114.4
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 150.67,
+          "weight" : 700,
+          "width" : 150.67
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        264.225
+      ],
+      "boxes" : [
+        {
+          "h" : 264.23,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 88.08,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 24.19,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 16.01,
+          "text" : "LINE",
+          "type" : "text",
+          "w" : 57.95,
+          "x" : 0,
+          "y" : 31.94
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 171.75,
+          "x" : 67.95,
+          "y" : 30.21
+        },
+        {
+          "h" : 0,
+          "id" : "r\/0\/2",
+          "type" : "spacer",
+          "w" : 92.3,
+          "x" : 249.7,
+          "y" : 44.04
+        },
+        {
+          "h" : 88.08,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 88.08
+        },
+        {
+          "h" : 24.19,
+          "id" : "r\/1\/0",
+          "lines" : 1,
+          "size" : 16.01,
+          "text" : "โทร",
+          "type" : "text",
+          "w" : 57.95,
+          "x" : 0,
+          "y" : 120.02
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 104.68,
+          "x" : 67.95,
+          "y" : 118.29
+        },
+        {
+          "h" : 0,
+          "id" : "r\/1\/2",
+          "type" : "spacer",
+          "w" : 159.37,
+          "x" : 182.63,
+          "y" : 132.11
+        },
+        {
+          "h" : 88.08,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 176.15
+        },
+        {
+          "h" : 24.19,
+          "id" : "r\/2\/0",
+          "lines" : 1,
+          "size" : 16.01,
+          "text" : "เว็บ",
+          "type" : "text",
+          "w" : 57.95,
+          "x" : 0,
+          "y" : 208.09
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 137.86,
+          "x" : 67.95,
+          "y" : 206.36
+        },
+        {
+          "h" : 0,
+          "id" : "r\/2\/2",
+          "type" : "spacer",
+          "w" : 126.19,
+          "x" : 215.81,
+          "y" : 220.19
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.012500000000003,
+            "outWeight" : 600,
+            "size" : 16.012500000000003,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "slot" : "website",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.5,
+            "outWeight" : 600,
+            "size" : 10.5,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "lineId",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "phone",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13,
+            "outWeight" : 700,
+            "size" : 13,
+            "slot" : "website",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.012500000000003,
+          "v" : 24.19,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.5,
+          "v" : 15.87,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13,
+          "v" : 19.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 36.37,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 171.75,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 23.58,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 23.18,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 137.86,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 171.75,
+          "weight" : 700,
+          "width" : 171.75
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 700,
+          "width" : 104.68
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 137.86,
+          "weight" : 700,
+          "width" : 137.86
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 23.85,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 15.46,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 15.87,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.5,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 15.2,
+          "weight" : 600,
+          "width" : 38
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 122.01,
+          "weight" : 700,
+          "width" : 122.01
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 74.37,
+          "weight" : 700,
+          "width" : 74.37
+        },
+        {
+          "face" : "noto",
+          "h" : 19.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 97.93,
+          "weight" : 700,
+          "width" : 97.93
+        },
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "LINE",
+          "tracking" : 0,
+          "w" : 36.37,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 171.75,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "โทร",
+          "tracking" : 0,
+          "w" : 23.58,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.19,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.012500000000003,
+          "t" : "เว็บ",
+          "tracking" : 0,
+          "w" : 23.18,
+          "weight" : 600,
+          "width" : 57.95000000000002
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 137.86,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 171.75,
+          "weight" : 700,
+          "width" : 171.75
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 700,
+          "width" : 104.68
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 137.86,
+          "weight" : 700,
+          "width" : 137.86
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    135
+  ],
+  "inset" : 12,
+  "kind" : "contactCard",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

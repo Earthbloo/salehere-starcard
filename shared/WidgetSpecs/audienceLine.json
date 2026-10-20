@@ -1,0 +1,482 @@
+{
+ "kind": "audienceLine",
+ "design": {
+  "w": 366,
+  "h": 153
+ },
+ "widget": {
+  "title": "ประโยคเดียว",
+  "category": "audience",
+  "symbol": "text.alignleft",
+  "order": 42,
+  "stamp": "insight",
+  "stampAt": {
+   "tone": "ink",
+   "top": 12,
+   "trailing": 12
+  },
+  "motion": "anchored"
+ },
+ "notes": "ประโยคเดียวพิมพ์ใหญ่สามบรรทัด (เพศ · อายุ · เมือง) + บรรทัดเปอร์เซ็นต์จิ๋ว · แปลงจาก InsightWidgets.swift (AudienceLineWidget) · คำเพศของต้นฉบับ 'ผู้หญิง/ผู้ชาย/เพศอื่น' = chips gender (ไม่ sort) แต่ละชิ้นมีข้อความสามแบบเลือกด้วย `$shareRaw=max & $i<1 / $i>=1&$i<2 / $i>=2` (ชิ้นที่ไม่ใช่ค่าสูงสุดว่าง กว้าง 0) · อายุ/เมือง = sort shareRaw desc + limit 1 · ขนาดใหญ่: โค้ดเดิมตั้ง min(30, W×0.093) แต่ VStack ล้นความสูงแล้ว .minimumScaleFactor(0.55) ย่อทั้งสามบรรทัดให้พอดีความสูง → ขนาดที่วาดจริง ≈ (h − 47) / 4.98 (กล่องกรอบออกแบบ h 129 = 16.5 · ไม่มีขอบใน h 153 ≈ 21) — ผังใช้ sizeWhen ตาม h ทีละ 1pt ถึง 30 (ความกว้างไม่เคยคุมเพราะ box กว้าง ≥ 342 เสมอ) · padding.bottom 7 ของหัวเรื่องใช้ spacer h 6 + gap 1 · ตรา Verified (stamped) chrome วางมุมขวาบนให้ (stampOverlay) · หมึก ink / accent ของพื้นที่ใบนั่ง",
+ "root": {
+  "type": "col",
+  "gap": 1,
+  "align": "start",
+  "children": [
+   {
+    "type": "text",
+    "id": "lead",
+    "text": "คนที่ตามฉันส่วนใหญ่คือ",
+    "face": "noto",
+    "size": 11.5,
+    "weight": 600,
+    "color": "ink@0.45",
+    "maxLines": 1,
+    "shrinkTo": 8.05
+   },
+   {
+    "type": "spacer",
+    "h": 6
+   },
+   {
+    "type": "chips",
+    "id": "gender",
+    "list": "gender",
+    "gap": 0,
+    "wrap": false,
+    "each": {
+     "type": "col",
+     "gap": 0,
+     "align": "start",
+     "children": [
+      {
+       "type": "text",
+       "text": "ผู้หญิง",
+       "face": "noto",
+       "weight": 900,
+       "size": 16.5,
+       "sizeWhen": [
+        {
+         "when": "h>=196.4",
+         "size": 30
+        },
+        {
+         "when": "h>=191.4",
+         "size": 29
+        },
+        {
+         "when": "h>=186.4",
+         "size": 28
+        },
+        {
+         "when": "h>=181.5",
+         "size": 27
+        },
+        {
+         "when": "h>=176.5",
+         "size": 26
+        },
+        {
+         "when": "h>=171.5",
+         "size": 25
+        },
+        {
+         "when": "h>=166.5",
+         "size": 24
+        },
+        {
+         "when": "h>=161.5",
+         "size": 23
+        },
+        {
+         "when": "h>=156.6",
+         "size": 22
+        },
+        {
+         "when": "h>=151.6",
+         "size": 21
+        },
+        {
+         "when": "h>=146.6",
+         "size": 20
+        },
+        {
+         "when": "h>=141.6",
+         "size": 19
+        },
+        {
+         "when": "h>=136.6",
+         "size": 18
+        },
+        {
+         "when": "h>=131.7",
+         "size": 17
+        }
+       ],
+       "tracking": -0.8,
+       "color": "ink@0.96",
+       "maxLines": 1,
+       "shrinkTo": 9,
+       "if": "$shareRaw=max & $i<1"
+      },
+      {
+       "type": "text",
+       "text": "ผู้ชาย",
+       "face": "noto",
+       "weight": 900,
+       "size": 16.5,
+       "sizeWhen": [
+        {
+         "when": "h>=196.4",
+         "size": 30
+        },
+        {
+         "when": "h>=191.4",
+         "size": 29
+        },
+        {
+         "when": "h>=186.4",
+         "size": 28
+        },
+        {
+         "when": "h>=181.5",
+         "size": 27
+        },
+        {
+         "when": "h>=176.5",
+         "size": 26
+        },
+        {
+         "when": "h>=171.5",
+         "size": 25
+        },
+        {
+         "when": "h>=166.5",
+         "size": 24
+        },
+        {
+         "when": "h>=161.5",
+         "size": 23
+        },
+        {
+         "when": "h>=156.6",
+         "size": 22
+        },
+        {
+         "when": "h>=151.6",
+         "size": 21
+        },
+        {
+         "when": "h>=146.6",
+         "size": 20
+        },
+        {
+         "when": "h>=141.6",
+         "size": 19
+        },
+        {
+         "when": "h>=136.6",
+         "size": 18
+        },
+        {
+         "when": "h>=131.7",
+         "size": 17
+        }
+       ],
+       "tracking": -0.8,
+       "color": "ink@0.96",
+       "maxLines": 1,
+       "shrinkTo": 9,
+       "if": "$shareRaw=max & $i>=1 & $i<2"
+      },
+      {
+       "type": "text",
+       "text": "เพศอื่น",
+       "face": "noto",
+       "weight": 900,
+       "size": 16.5,
+       "sizeWhen": [
+        {
+         "when": "h>=196.4",
+         "size": 30
+        },
+        {
+         "when": "h>=191.4",
+         "size": 29
+        },
+        {
+         "when": "h>=186.4",
+         "size": 28
+        },
+        {
+         "when": "h>=181.5",
+         "size": 27
+        },
+        {
+         "when": "h>=176.5",
+         "size": 26
+        },
+        {
+         "when": "h>=171.5",
+         "size": 25
+        },
+        {
+         "when": "h>=166.5",
+         "size": 24
+        },
+        {
+         "when": "h>=161.5",
+         "size": 23
+        },
+        {
+         "when": "h>=156.6",
+         "size": 22
+        },
+        {
+         "when": "h>=151.6",
+         "size": 21
+        },
+        {
+         "when": "h>=146.6",
+         "size": 20
+        },
+        {
+         "when": "h>=141.6",
+         "size": 19
+        },
+        {
+         "when": "h>=136.6",
+         "size": 18
+        },
+        {
+         "when": "h>=131.7",
+         "size": 17
+        }
+       ],
+       "tracking": -0.8,
+       "color": "ink@0.96",
+       "maxLines": 1,
+       "shrinkTo": 9,
+       "if": "$shareRaw=max & $i>=2"
+      }
+     ]
+    }
+   },
+   {
+    "type": "chips",
+    "id": "age",
+    "list": "ages",
+    "sort": "shareRaw desc",
+    "limit": 1,
+    "each": {
+     "type": "text",
+     "text": "อายุ {label}",
+     "face": "noto",
+     "weight": 900,
+     "size": 16.5,
+     "sizeWhen": [
+      {
+       "when": "h>=196.4",
+       "size": 30
+      },
+      {
+       "when": "h>=191.4",
+       "size": 29
+      },
+      {
+       "when": "h>=186.4",
+       "size": 28
+      },
+      {
+       "when": "h>=181.5",
+       "size": 27
+      },
+      {
+       "when": "h>=176.5",
+       "size": 26
+      },
+      {
+       "when": "h>=171.5",
+       "size": 25
+      },
+      {
+       "when": "h>=166.5",
+       "size": 24
+      },
+      {
+       "when": "h>=161.5",
+       "size": 23
+      },
+      {
+       "when": "h>=156.6",
+       "size": 22
+      },
+      {
+       "when": "h>=151.6",
+       "size": 21
+      },
+      {
+       "when": "h>=146.6",
+       "size": 20
+      },
+      {
+       "when": "h>=141.6",
+       "size": 19
+      },
+      {
+       "when": "h>=136.6",
+       "size": 18
+      },
+      {
+       "when": "h>=131.7",
+       "size": 17
+      }
+     ],
+     "tracking": -0.8,
+     "color": "accent",
+     "maxLines": 1,
+     "shrinkTo": 9
+    }
+   },
+   {
+    "type": "chips",
+    "id": "place",
+    "list": "places",
+    "sort": "shareRaw desc",
+    "limit": 1,
+    "each": {
+     "type": "text",
+     "text": "ใน{name}",
+     "face": "noto",
+     "weight": 900,
+     "size": 16.5,
+     "sizeWhen": [
+      {
+       "when": "h>=196.4",
+       "size": 30
+      },
+      {
+       "when": "h>=191.4",
+       "size": 29
+      },
+      {
+       "when": "h>=186.4",
+       "size": 28
+      },
+      {
+       "when": "h>=181.5",
+       "size": 27
+      },
+      {
+       "when": "h>=176.5",
+       "size": 26
+      },
+      {
+       "when": "h>=171.5",
+       "size": 25
+      },
+      {
+       "when": "h>=166.5",
+       "size": 24
+      },
+      {
+       "when": "h>=161.5",
+       "size": 23
+      },
+      {
+       "when": "h>=156.6",
+       "size": 22
+      },
+      {
+       "when": "h>=151.6",
+       "size": 21
+      },
+      {
+       "when": "h>=146.6",
+       "size": 20
+      },
+      {
+       "when": "h>=141.6",
+       "size": 19
+      },
+      {
+       "when": "h>=136.6",
+       "size": 18
+      },
+      {
+       "when": "h>=131.7",
+       "size": 17
+      }
+     ],
+     "tracking": -0.8,
+     "color": "ink@0.96",
+     "maxLines": 1,
+     "shrinkTo": 9
+    }
+   },
+   {
+    "type": "spacer",
+    "grow": 1,
+    "minH": 6
+   },
+   {
+    "type": "spacer",
+    "h": 2
+   },
+   {
+    "type": "row",
+    "id": "foot",
+    "gap": 0,
+    "align": "center",
+    "children": [
+     {
+      "type": "chips",
+      "list": "gender",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "each": {
+       "type": "text",
+       "text": "{share} · ",
+       "face": "noto",
+       "size": 10,
+       "weight": 500,
+       "color": "ink@0.34",
+       "maxLines": 1
+      }
+     },
+     {
+      "type": "chips",
+      "list": "ages",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "each": {
+       "type": "text",
+       "text": "{share} · ",
+       "face": "noto",
+       "size": 10,
+       "weight": 500,
+       "color": "ink@0.34",
+       "maxLines": 1
+      }
+     },
+     {
+      "type": "chips",
+      "list": "places",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "each": {
+       "type": "text",
+       "text": "{share} ตามลำดับ",
+       "face": "noto",
+       "size": 10,
+       "weight": 500,
+       "color": "ink@0.34",
+       "maxLines": 1,
+       "shrinkTo": 6.5
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

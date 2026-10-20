@@ -31,7 +31,7 @@ open http://localhost:8787           # หน้าดูประวัติ +
   "photos": {                            // เฉพาะช่องที่มีรูปของตัวเอง หรือถูกจัดกรอบ
     "<WIDGET-UUID>#<slot>": { "imageId": "9f2c…", "fit": { "dx": 0, "dy": -0.08, "zoom": 1.3 } }
   },
-  "notes": { "<WIDGET-UUID>[#i]": "ข้อความ" },   // Profile.notes ของชิ้นที่อยู่บนการ์ดนี้เท่านั้น
+  "notes": { "<WIDGET-UUID>": "ข้อความ" },   // ข้อความของชั้นข้อความ (textBlock) เท่านั้น — widget ไม่มีช่องพิมพ์ (19 ต.ค. 2569)
   "backgroundImageId": "…",              // มีเฉพาะตอน theme.backdrop == "photo" และมีรูปพื้นหลัง
   "owner": {                             // ข้อมูลเจ้าของการ์ด (ของจริง = owner: User ไม่อยู่ในก้อนการ์ด)
     "values": { "name": "kll", … },      // Profile.values — ค่าที่พิมพ์เอง คีย์ = ProfileField.rawValue

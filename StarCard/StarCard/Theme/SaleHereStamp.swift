@@ -90,7 +90,7 @@ struct SaleHereStamp: View {
 
                 VStack(spacing: 0) {
                     Text("VERIFIED")
-                        .font(.system(size: width * 0.095, weight: .heavy, design: .monospaced))
+                        .font(.sh(width * 0.095, .heavy).monospacedDigit())
                         .tracking(width * 0.012)
                         .lineLimit(1).fixedSize()
                     Spacer(minLength: 0)
@@ -100,7 +100,7 @@ struct SaleHereStamp: View {
                         .frame(width: width * 0.60)
                     Spacer(minLength: 0)
                     Text("★ STAR ★")
-                        .font(.system(size: width * 0.085, weight: .bold, design: .monospaced))
+                        .font(.sh(width * 0.085, .bold).monospacedDigit())
                         .tracking(width * 0.01)
                         .lineLimit(1).fixedSize()
                 }
@@ -130,7 +130,7 @@ struct SaleHereStamp: View {
                     .foregroundStyle(ink)
                     .frame(width: d, height: d)
                 Text(date)
-                    .font(.system(size: d * 0.12, weight: .bold, design: .monospaced))
+                    .font(.sh(d * 0.12, .bold).monospacedDigit())
                     .foregroundStyle(ink)
                     .lineLimit(1).fixedSize()
             }
@@ -217,7 +217,7 @@ private struct StampRingText: View {
             ForEach(chars.indices, id: \.self) { i in
                 let a = Double(i) / Double(chars.count) * 360 - 90
                 Text(String(chars[i]))
-                    .font(.system(size: size, weight: .bold, design: .monospaced))
+                    .font(.sh(size, .bold).monospacedDigit())
                     .fixedSize()
                     .offset(y: -radius)
                     .rotationEffect(.degrees(a + 90))
@@ -248,39 +248,21 @@ enum StampFacts {
 }
 
 extension WidgetKind {
-    /// widget ที่แสดงข้อมูลซึ่งมาจาก Sale Here — ตัวอื่น (รูป · เรต · สายงาน · ข้อความที่พิมพ์เอง) ไม่ได้เครื่องหมาย
-    ///
-    /// เฉพาะใบที่ **มีช่องให้บรรทัดยืนยันอยู่ในตัว** (ท้ายบรรทัดหัวข้อ หรือแถบเว้นของโปสเตอร์) —
-    /// ใบที่ไม่มีช่องจะไม่ได้บรรทัดนี้จนกว่าจะออกแบบช่องให้ ไม่แปะทับเนื้อหา
+    /// widget ที่แสดงข้อมูลซึ่งมาจาก Sale Here (`widget.stamp`) — ตัวอื่น (รูป · เรต · สายงาน · ข้อความที่พิมพ์เอง) ไม่ได้เครื่องหมาย
     var stampFacts: StampFacts? {
-        if popRole == .stats { return .followers }
-        switch self {
-        case .statGiant, .socialChips, .socialTiles, .statPoster, .statWrapped, .socialWindow, .socialGingham:
-            return .followers
-        case .audienceSplit, .audienceAge, .audienceLine, .audienceMap, .audiencePoster, .scrapStats:
-            return .insight
-        case .proofBrandGrid, .proofBrandRail, .proofBrandCoins, .proofWork, .proofTicket, .wallPolaroid:
-            return .work
-        default:
-            return nil
+        switch meta.stamp {
+        case "followers": return .followers
+        case "insight": return .insight
+        case "work": return .work
+        default: return nil
         }
     }
-}
 
-extension WidgetKind {
-    /// ใบที่ **ไม่มีช่องหัวข้อ** ให้ป้าย — chrome วางป้ายมุมขวาบนด้านในให้ (ตำแหน่งจูนทีละใบจากหน้าตาจริง)
-    /// ใบที่มีช่องแล้ว (ท้าย `WidgetLabel` · โปสเตอร์สถิติ) คืน nil
+    /// ใบที่ **ไม่มีช่องหัวข้อ** ให้ป้าย (`widget.stampAt`) — chrome วางป้ายมุมขวาบนด้านในให้
     var stampOverlay: (tone: SaleHereByline.Tone, top: CGFloat, trailing: CGFloat)? {
-        switch self {
-        case .statWrapped:    return (.dark, 12, 12)
-        case .socialWindow:   return (.light, 1.5, 10)
-        case .socialGingham:  return (.light, 5, 12)
-        case .audienceLine:   return (.ink, 12, 12)
-        case .audiencePoster: return (.dark, 12, 12)
-        case .scrapStats:     return (.light, 6, 14)
-        case .wallPolaroid:   return (.light, 4, 8)
-        default:              return nil
-        }
+        guard let a = meta.stampAt else { return nil }
+        let tone: SaleHereByline.Tone = a.tone == "dark" ? .dark : a.tone == "light" ? .light : .ink
+        return (tone, CGFloat(a.top), CGFloat(a.trailing))
     }
 }
 

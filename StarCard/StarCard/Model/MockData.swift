@@ -729,48 +729,28 @@ enum Mock {
         bookingState: .available
     )
 
-    /// การ์ดเริ่มต้น — พอร์ต 3 หน้า: ตัวตน · ขนาดและผู้ชม · ราคาและติดต่อ
+    /// การ์ดเริ่มต้นของแต่ละรูปแบบ — ผังเป็นข้อมูล (`shared/starter-cards.json` — ไฟล์เดียวกับ Android) ไม่ใช่ชื่อ widget ในโค้ด
     ///
-    /// หน่วยพิกัด = **pt บนพื้นที่ออกแบบกว้าง 402** · `y` คือขอบบนของตัวนั้น
-    /// ผังบอกแค่ `x`, `y`, `w` — **ความสูงมาจากสัดส่วนของชนิด** (ดู `WidgetKind.aspect`)
-    /// จำนวนชิ้นต่อหน้าจึงถูกกำหนดด้วยความสูงที่ชิ้นเหล่านั้นกินจริง ไม่ใช่ด้วยการบีบให้พอ
-    static let starterPages: [CardPage] = [
-        CardPage([
-            WidgetInstance(.artTypeOver,  x:  18, y:  18, w: 366),
-            WidgetInstance(.typeMarquee,  x:  18, y: 426, w: 366),
-            WidgetInstance(.artFilmstrip, x:  18, y: 513, w: 366),
-        ]),
-        CardPage([
-            WidgetInstance(.proofWork, x:  18, y:  36, w: 366),
-            WidgetInstance(.statGiant, x:  18, y: 387, w: 366),
-        ]),
-        CardPage([
-            WidgetInstance(.rateTags,    x:  18, y:  18, w: 366),
-            WidgetInstance(.contactCard, x:  18, y: 310, w: 366),
-            WidgetInstance(.socialTiles, x:  18, y: 495, w: 366),
-        ]),
-    ]
-
-    /// การ์ดเริ่มต้นแบบสตอรี่ — หน้าเดียว 540×960 (= 1080×1920 px)
-    ///
-    /// # ทำไม widget ขนาดเท่ากับบนพอร์ตเป๊ะ
-    ///
-    /// สตอรี่มีแคนวาสกว้างกว่าพอร์ต 34% (540 เทียบ 402) — และเพราะสัดส่วนของทุกชิ้นล็อก
-    /// ชิ้นที่กว้างขึ้นก็ **ใหญ่ขึ้นทั้งใบ** ไม่ใช่แค่ถ่างออก ผังของสตอรี่จึงเป็นของตัวเอง:
-    /// ฮีโร่คู่กับเฟรมสตอรี่แนวตั้ง แล้วไล่ตัวเลข/ราคา/ช่องทางเป็นสองคอลัมน์
-    ///
-    /// เรียงตามลำดับที่คนอ่านตัดสินใจ: **นี่ใคร → ทำแนวไหน → ตัวใหญ่แค่ไหน →
-    /// อยู่ช่องทางไหน → ใครเคยจ้าง → เริ่มที่เท่าไหร่**
-    static let storyPage = CardPage([
-        WidgetInstance(.artTypeOver,    x:  18, y:  18, w: 360),
-        WidgetInstance(.galleryStory,   x: 392, y:  18, w: 130),
-        WidgetInstance(.typeMarquee,    x:  18, y: 425, w: 504),
-        WidgetInstance(.statGiant,      x:  18, y: 534, w: 245),
-        WidgetInstance(.rateTags,       x: 277, y: 534, w: 245),
-        WidgetInstance(.proofBrandRail, x:  18, y: 718, w: 245),
-        WidgetInstance(.socialTiles,    x: 277, y: 718, w: 245),
-        WidgetInstance(.contactBar,     x:  18, y: 842, w: 504),
-    ])
+    /// หน่วยพิกัด = **pt บนพื้นที่ออกแบบ** · ผังบอกแค่ `x`, `y`, `w` — **ความสูงมาจากสัดส่วนของชนิด** (ดู `WidgetKind.aspect`)
+    /// ชนิดที่ไม่มีไฟล์ผังแล้วถูกข้าม (ใบนั้นไม่ขึ้น ไม่ใช่การ์ดพัง)
+    private struct StarterItem: Decodable { let kind: String; let x, y, w: CGFloat }
+    private static let starterFile: [String: [[StarterItem]]] = {
+        guard let url = Bundle.main.url(forResource: "starter-cards", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let out = try? JSONDecoder().decode([String: [[StarterItem]]].self, from: data) else { return [:] }
+        return out
+    }()
+    static func starter(_ format: String) -> [CardPage] {
+        #if DEBUG
+        // วัดความลื่นตอนยืด (DEBUG): env BENCH_STARTER=<kind> = การ์ดหน้าเดียวมีใบนั้นใบเดียว
+        if let k = ProcessInfo.processInfo.environment["BENCH_STARTER"].flatMap(WidgetKind.init(rawValue:)) {
+            return [CardPage([WidgetInstance(k, x: 18, y: 18, w: 366)])]
+        }
+        #endif
+        return (starterFile[format] ?? []).map { page in
+            CardPage(page.compactMap { i in WidgetKind(rawValue: i.kind).map { WidgetInstance($0, x: i.x, y: i.y, w: i.w) } })
+        }
+    }
 
     /// ตู้รางวัล — ทุก widget ที่เพิ่มได้
     ///

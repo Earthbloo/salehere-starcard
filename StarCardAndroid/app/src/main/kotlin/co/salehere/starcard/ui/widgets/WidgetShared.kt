@@ -57,7 +57,10 @@ import co.salehere.starcard.model.Fmt
 import co.salehere.starcard.model.LocalPhotoStore
 import co.salehere.starcard.model.LocalPopSkin
 import co.salehere.starcard.model.Profile
+import co.salehere.starcard.model.SpecCatalog
 import co.salehere.starcard.model.VerifiedWork
+import co.salehere.starcard.theme.LocalScrapTone
+import co.salehere.starcard.theme.ScrapTone
 import co.salehere.starcard.model.WidgetFamily
 import co.salehere.starcard.model.WidgetKind
 import co.salehere.starcard.model.contract
@@ -427,100 +430,26 @@ fun WidgetBody(kind: WidgetKind, theme: CardTheme, size: Size, modifier: Modifie
         }
     }
 
+    val spec = SpecCatalog.spec(kind)
+    // สีของชิ้นส่วนสแครปบุ๊กมาจากธีมของการ์ด — ใบไหนเรียกชิ้นส่วนพวกนี้ก็ได้ค่าชุดเดียวกัน (= `.environment(\.scrapTone, …)` ของ iOS)
+    val scrapTone = remember(theme) { ScrapTone(theme) }
     CompositionLocalProvider(
         // สีเน้นคิดจากพื้นที่ชิ้นนี้นั่งอยู่ ไม่ใช่จากหมึกของการ์ด — บนแผ่นเข้มทึบที่วางบนการ์ดกระดาษ
         // สีเน้นแบบ "ย้อมให้เข้มพอสำหรับพื้นขาว" จะจมหายไปกับแผ่น ต้องใช้ตัวดิบที่จูนมาสำหรับพื้นมืด
         LocalCardAccent provides (if (ink.isLight) theme.rawAccent.onLightSurface() else theme.rawAccent),
         // วัสดุของแผ่นสติกเกอร์ — ชิ้นส่วนร่วมอยู่ลึกหลายชั้น ส่งทาง CompositionLocal แล้วทั้งกิ่งได้พร้อมกัน
         LocalPopSkin provides kind.popSkin,
+        LocalScrapTone provides scrapTone,
     ) {
         Box(modifier.fillMaxSize(), contentAlignment = Alignment.TopStart) {
             if (pending != null) {
                 SystemPending(text = pending, family = kind.family)
-            } else {
-                when (kind) {
-                    WidgetKind.artPortrait -> ArtPortrait(theme, size)
-                    WidgetKind.artTypeOver -> ArtTypeOver(theme, size)
-                    WidgetKind.artNameBehind -> ArtNameBehind(theme, size)
-                    WidgetKind.artBreakout -> ArtBreakout(theme, size)
-                    WidgetKind.artPortfolio -> ArtPortfolioPoster(theme, size)
-                    WidgetKind.artPolaroid -> ArtPolaroid(theme)
-                    WidgetKind.heroMinimal -> HeroMinimal(theme, size)
-                    WidgetKind.aboutText -> AboutText(theme)
-                    WidgetKind.interestTags -> InterestTags(theme)
-                    WidgetKind.proofBrandGrid -> ProofBrandGrid(theme)
-                    WidgetKind.proofBrandRail -> ProofBrandRail(theme)
-                    WidgetKind.proofBrandCoins -> ProofBrandCoins(theme)
-                    WidgetKind.proofWork -> ProofWork(theme)
-                    WidgetKind.proofTicket -> ProofTicket(theme)
-                    WidgetKind.statGiant -> StatGiant(theme, size)
-                    WidgetKind.socialChips -> SocialChips(theme, size.width)
-                    WidgetKind.socialTiles -> SocialTiles(theme, size.width)
-                    // โปสเตอร์ผู้ติดตาม — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-                    WidgetKind.statPoster -> StatPosterWidget(theme, size)
-                    WidgetKind.artFilmstrip -> ArtFilmstrip(theme)
-                    WidgetKind.artDuo -> ArtDuo(theme)
-                    WidgetKind.artPair -> ArtPair(theme)
-                    WidgetKind.workFeatured -> WorkFeatured(theme)
-                    WidgetKind.workReel -> WorkReel(theme)
-                    // สำรับกองรูป
-                    WidgetKind.galleryStack -> GalleryStack(theme)
-                    WidgetKind.galleryCarousel -> GalleryCarousel(theme)
-                    WidgetKind.galleryMasonry -> GalleryMasonry(theme)
-                    WidgetKind.galleryMosaic -> GalleryMosaic(theme)
-                    WidgetKind.galleryPost -> GalleryPost(theme)
-                    WidgetKind.galleryStory -> GalleryStory(theme)
-                    WidgetKind.galleryFilm -> GalleryFilm(theme)
-                    WidgetKind.galleryTape -> GalleryTape(theme)
-                    // แผ่นโชว์คลิป
-                    WidgetKind.reelShowcase -> ReelShowcase(theme, size)
-                    WidgetKind.typeMarquee -> TypeMarquee(theme)
-                    WidgetKind.typeQuote -> TypeQuote(theme, size)
-                    WidgetKind.textBlock -> TextBlock(theme, size)
-                    WidgetKind.nicheTags -> NicheTags(theme)
-                    // โปสเตอร์สายงาน
-                    WidgetKind.nichePoster -> NichePosterWidget(theme, size)
-                    WidgetKind.heroAura -> HeroAura(theme, size)
-                    WidgetKind.statWrapped -> StatWrapped(theme, size)
-                    WidgetKind.artPhotobooth -> ArtPhotobooth(theme)
-                    WidgetKind.stickerTags -> StickerTags(theme)
-                    // สำรับรอบสอง — เรตราคาและช่องทางติดต่อ
-                    WidgetKind.rateTags -> RateTagsWidget(theme)
-                    WidgetKind.rateNeon -> RateNeonWidget(theme)
-                    WidgetKind.contactCard -> ContactCardWidget(theme)
-                    WidgetKind.contactQR -> ContactQRWidget(theme)
-                    WidgetKind.contactBar -> ContactBarWidget(theme)
-                    WidgetKind.contactStack -> ContactStackWidget(theme)
-                    WidgetKind.contactLine -> ContactLineWidget(theme, size)
-                    WidgetKind.contactChips -> ContactChipsWidget(theme)
-                    // โปสเตอร์ติดต่อ
-                    WidgetKind.contactPoster -> ContactPosterWidget(theme, size)
-                    WidgetKind.proofSeal -> VerifiedSealWidget(theme, size)
-                    // ประชากรผู้ติดตาม
-                    WidgetKind.audienceLine -> AudienceLineWidget(theme, size)
-                    WidgetKind.audienceSplit -> AudienceSplitWidget(theme)
-                    WidgetKind.audienceAge -> AudienceAgeWidget(theme)
-                    WidgetKind.audiencePoster -> InsightPosterWidget(theme, size)
-                    WidgetKind.audienceMap -> AudienceMapWidget(theme)
-                    // สำรับแผ่นสติกเกอร์ — วัสดุส่งลงไปทาง `LocalPopSkin`
-                    WidgetKind.popHeroPaper, WidgetKind.popHeroGlass -> PopHero(theme, size)
-                    WidgetKind.popVideoPaper, WidgetKind.popVideoGlass -> PopVideo(theme)
-                    WidgetKind.popStatsGlass -> PopStats(theme)
-                    WidgetKind.popWorkPaper, WidgetKind.popWorkGlass -> PopWork(theme)
-                    WidgetKind.popRatePaper, WidgetKind.popRateGlass -> PopRate(theme)
-                    WidgetKind.popNichePaper, WidgetKind.popNicheGlass -> PopNiche(theme)
-                    WidgetKind.popBodyPaper, WidgetKind.popBodyGlass -> PopBody(theme)
-                    WidgetKind.popContactPaper, WidgetKind.popContactGlass -> PopContact(theme)
-                    // สำรับบรรณาธิการ
-                    WidgetKind.wallPolaroid -> WallPolaroid(theme, size)
-                    WidgetKind.wallMemory -> WallMemory(theme, size)
-                    WidgetKind.zineCover -> ZineCover(theme, size)
-                    WidgetKind.aboutEditorial -> AboutEditorial(theme, size)
-                    WidgetKind.aboutBehind -> AboutBehind(theme, size)
-                    WidgetKind.sayClarity -> SayClarity(theme, size)
-                    WidgetKind.sayPitch -> SayPitch(theme, size)
-                    WidgetKind.flowCards -> FlowCards(theme, size)
-                }
+            } else if (kind.isTextLayer) {
+                // ชั้นข้อความของการ์ด — ไม่ใช่ widget จึงไม่มีผัง
+                TextBlock(theme, size)
+            } else if (spec != null) {
+                // ทุก widget วาดผ่านตัวคำนวณ+ตัววาดกลางตัวเดียว
+                SpecPainter(spec = spec, kind = kind, theme = theme, size = size)
             }
         }
     }

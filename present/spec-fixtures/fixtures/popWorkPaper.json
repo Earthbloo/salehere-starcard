@@ -1,0 +1,4171 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        350,
+        172
+      ],
+      "boxes" : [
+        {
+          "h" : 172,
+          "id" : "r",
+          "type" : "col",
+          "w" : 350,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 322,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 102,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 82.4,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 18,
+          "y" : 128.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 20,
+          "y" : 134.4
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 102,
+          "x" : 124,
+          "y" : 42
+        },
+        {
+          "h" : 82.4,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 128,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 128,
+          "y" : 128.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 130,
+          "y" : 134.4
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 102,
+          "x" : 234,
+          "y" : 42
+        },
+        {
+          "h" : 82.4,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 238,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 238,
+          "y" : 128.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 240,
+          "y" : 134.4
+        },
+        {
+          "h" : 26,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 130,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 12.25
+        },
+        {
+          "h" : 18.89,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 12.5,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 90,
+          "x" : 40,
+          "y" : 7.56
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        350,
+        344
+      ],
+      "boxes" : [
+        {
+          "h" : 344,
+          "id" : "r",
+          "type" : "col",
+          "w" : 350,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 323,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 323,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 323,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 288,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 322,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 288,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 102,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 254.4,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 18,
+          "y" : 300.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 20,
+          "y" : 306.4
+        },
+        {
+          "h" : 288,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 102,
+          "x" : 124,
+          "y" : 42
+        },
+        {
+          "h" : 254.4,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 128,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 128,
+          "y" : 300.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 130,
+          "y" : 306.4
+        },
+        {
+          "h" : 288,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 102,
+          "x" : 234,
+          "y" : 42
+        },
+        {
+          "h" : 254.4,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 238,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 238,
+          "y" : 300.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 240,
+          "y" : 306.4
+        },
+        {
+          "h" : 26,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 130,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 12.25
+        },
+        {
+          "h" : 18.89,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 12.5,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 90,
+          "x" : 40,
+          "y" : 7.56
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        350,
+        350
+      ],
+      "boxes" : [
+        {
+          "h" : 350,
+          "id" : "r",
+          "type" : "col",
+          "w" : 350,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 322,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 102,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 251.18,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 34.82,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 18,
+          "y" : 297.18
+        },
+        {
+          "h" : 22.82,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 15.1,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 20,
+          "y" : 303.18
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 102,
+          "x" : 124,
+          "y" : 42
+        },
+        {
+          "h" : 251.18,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 128,
+          "y" : 46
+        },
+        {
+          "h" : 34.82,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 128,
+          "y" : 297.18
+        },
+        {
+          "h" : 22.82,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 15.1,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 130,
+          "y" : 303.18
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 102,
+          "x" : 234,
+          "y" : 42
+        },
+        {
+          "h" : 251.18,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 238,
+          "y" : 46
+        },
+        {
+          "h" : 34.82,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 238,
+          "y" : 297.18
+        },
+        {
+          "h" : 22.82,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 15.1,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 240,
+          "y" : 303.18
+        },
+        {
+          "h" : 50.21,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 251.03,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 20.6
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 20.6
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 24.35
+        },
+        {
+          "h" : 36.47,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 24.14,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 211.03,
+          "x" : 40,
+          "y" : 10.87
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.103448275862068,
+            "outWeight" : 700,
+            "size" : 18.103448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.603448275862068,
+            "outWeight" : 700,
+            "size" : 17.603448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.103448275862068,
+            "outWeight" : 700,
+            "size" : 17.103448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.603448275862068,
+            "outWeight" : 700,
+            "size" : 16.603448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.103448275862068,
+            "outWeight" : 700,
+            "size" : 16.103448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.603448275862068,
+            "outWeight" : 700,
+            "size" : 15.603448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.103448275862068,
+            "outWeight" : 700,
+            "size" : 15.103448275862068,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 24.137931034482758,
+            "outWeight" : 700,
+            "size" : 24.137931034482758,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.103448275862068,
+          "v" : 27.35,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15.103448275862068,
+          "v" : 22.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 24.137931034482758,
+          "v" : 36.47,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 36.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.137931034482758,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 154.99,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 36.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.137931034482758,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 154.99,
+          "weight" : 700,
+          "width" : 211.03448275862067
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 106.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 54.7,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 18.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 64.11,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 53.2,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 62.34,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 51.68,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 17.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 60.57,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 50.18,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 58.8,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 48.66,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 16.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 57.03,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 47.16,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 2,
+          "size" : 15.603448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 55.26,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.82,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.103448275862068,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 36.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.137931034482758,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 154.99,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 36.47,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 24.137931034482758,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 154.99,
+          "weight" : 700,
+          "width" : 211.03448275862067
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.49714285714285716,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        349.99999999999994,
+        349.99999999999994
+      ],
+      "boxes" : [
+        {
+          "h" : 350,
+          "id" : "r",
+          "type" : "col",
+          "w" : 350,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 329,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 322,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 102,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 260.4,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 18,
+          "y" : 306.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 20,
+          "y" : 312.4
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 102,
+          "x" : 124,
+          "y" : 42
+        },
+        {
+          "h" : 260.4,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 128,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 128,
+          "y" : 306.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 130,
+          "y" : 312.4
+        },
+        {
+          "h" : 294,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 102,
+          "x" : 234,
+          "y" : 42
+        },
+        {
+          "h" : 260.4,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 238,
+          "y" : 46
+        },
+        {
+          "h" : 25.6,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 238,
+          "y" : 306.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 240,
+          "y" : 312.4
+        },
+        {
+          "h" : 26,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 130,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 8.5
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 12.25
+        },
+        {
+          "h" : 18.89,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 12.5,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 90,
+          "x" : 40,
+          "y" : 7.56
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 89.99999999999999
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 89.99999999999999
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 89.99999999999999
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.0457142857142858,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        172
+      ],
+      "boxes" : [
+        {
+          "h" : 172,
+          "id" : "r",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 602,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 602,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 151,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 602,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 582,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 188.67,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 73.33,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 180.67,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 34.67,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 180.67,
+          "x" : 18,
+          "y" : 119.33
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 176.67,
+          "x" : 20,
+          "y" : 125.33
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 188.67,
+          "x" : 210.67,
+          "y" : 42
+        },
+        {
+          "h" : 73.33,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 180.67,
+          "x" : 214.67,
+          "y" : 46
+        },
+        {
+          "h" : 34.67,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 180.67,
+          "x" : 214.67,
+          "y" : 119.33
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 176.67,
+          "x" : 216.67,
+          "y" : 125.33
+        },
+        {
+          "h" : 116,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 188.67,
+          "x" : 407.33,
+          "y" : 42
+        },
+        {
+          "h" : 73.33,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 180.67,
+          "x" : 411.33,
+          "y" : 46
+        },
+        {
+          "h" : 34.67,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 180.67,
+          "x" : 411.33,
+          "y" : 119.33
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 176.67,
+          "x" : 413.33,
+          "y" : 125.33
+        },
+        {
+          "h" : 41.6,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 208,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 16.3
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 16.3
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 20.05
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 20,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 168,
+          "x" : 40,
+          "y" : 9.69
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 700,
+            "size" : 15,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 128.43,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 128.43,
+          "weight" : 700,
+          "width" : 168
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 87.89,
+          "weight" : 700,
+          "width" : 176.66666666666666
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 128.43,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 128.43,
+          "weight" : 700,
+          "width" : 168
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        350,
+        351.16666666666663
+      ],
+      "boxes" : [
+        {
+          "h" : 351.17,
+          "id" : "r",
+          "type" : "col",
+          "w" : 350,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330.17,
+          "id" : "r\/0",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 330.17,
+          "id" : "r\/0\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 330.17,
+          "id" : "r\/0\/2",
+          "type" : "col",
+          "w" : 342,
+          "x" : 4,
+          "y" : 17
+        },
+        {
+          "h" : 295.17,
+          "id" : "r\/0\/2\/0",
+          "type" : "chips",
+          "w" : 322,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 295.17,
+          "id" : "r\/0\/2\/0\/c0",
+          "type" : "col",
+          "w" : 102,
+          "x" : 14,
+          "y" : 42
+        },
+        {
+          "h" : 255.34,
+          "id" : "r\/0\/2\/0\/c0\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 18,
+          "y" : 46
+        },
+        {
+          "h" : 31.83,
+          "id" : "r\/0\/2\/0\/c0\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 18,
+          "y" : 301.34
+        },
+        {
+          "h" : 19.83,
+          "id" : "r\/0\/2\/0\/c0\/1\/0",
+          "lines" : 1,
+          "size" : 13.13,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 20,
+          "y" : 307.34
+        },
+        {
+          "h" : 295.17,
+          "id" : "r\/0\/2\/0\/c1",
+          "type" : "col",
+          "w" : 102,
+          "x" : 124,
+          "y" : 42
+        },
+        {
+          "h" : 255.34,
+          "id" : "r\/0\/2\/0\/c1\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 128,
+          "y" : 46
+        },
+        {
+          "h" : 31.83,
+          "id" : "r\/0\/2\/0\/c1\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 128,
+          "y" : 301.34
+        },
+        {
+          "h" : 19.83,
+          "id" : "r\/0\/2\/0\/c1\/1\/0",
+          "lines" : 1,
+          "size" : 13.13,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 130,
+          "y" : 307.34
+        },
+        {
+          "h" : 295.17,
+          "id" : "r\/0\/2\/0\/c2",
+          "type" : "col",
+          "w" : 102,
+          "x" : 234,
+          "y" : 42
+        },
+        {
+          "h" : 255.34,
+          "id" : "r\/0\/2\/0\/c2\/0",
+          "type" : "image",
+          "w" : 94,
+          "x" : 238,
+          "y" : 46
+        },
+        {
+          "h" : 31.83,
+          "id" : "r\/0\/2\/0\/c2\/1",
+          "type" : "col",
+          "w" : 94,
+          "x" : 238,
+          "y" : 301.34
+        },
+        {
+          "h" : 19.83,
+          "id" : "r\/0\/2\/0\/c2\/1\/0",
+          "lines" : 1,
+          "size" : 13.13,
+          "text" : "รอข้อมูลโพสต์",
+          "type" : "text",
+          "w" : 90,
+          "x" : 240,
+          "y" : 307.34
+        },
+        {
+          "h" : 36.4,
+          "id" : "r\/0\/3",
+          "type" : "row",
+          "w" : 182,
+          "x" : 12,
+          "y" : 4
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0",
+          "type" : "stack",
+          "w" : 17,
+          "x" : 17,
+          "y" : 13.7
+        },
+        {
+          "h" : 17,
+          "id" : "r\/0\/3\/0\/0",
+          "type" : "rect",
+          "w" : 17,
+          "x" : 17,
+          "y" : 13.7
+        },
+        {
+          "h" : 9.5,
+          "id" : "r\/0\/3\/0\/1",
+          "type" : "icon",
+          "w" : 9.5,
+          "x" : 20.75,
+          "y" : 17.45
+        },
+        {
+          "h" : 26.44,
+          "id" : "r\/0\/3\/1",
+          "lines" : 1,
+          "size" : 17.5,
+          "text" : "ผลงานที่ผ่านมา",
+          "type" : "text",
+          "w" : 142,
+          "x" : 40,
+          "y" : 8.98
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "bordered" : false,
+          "surface=glass" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.125,
+            "outWeight" : 700,
+            "size" : 13.125,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.5,
+            "outWeight" : 700,
+            "size" : 17.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.5,
+            "outWeight" : 700,
+            "size" : 12.5,
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "works" : [
+            {
+              "fields" : {
+                "brand" : "Sivanna Colors",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "campaign" : "Ballet Dream",
+                "comments" : "1.9K",
+                "cover" : "",
+                "engageRaw" : "147630",
+                "engagement" : "6.8%",
+                "ep" : "EP.1335",
+                "format" : "คลิปยาว",
+                "icon" : "about-social-tiktok",
+                "likes" : "84.2K",
+                "photo" : "4",
+                "platform" : "tiktok",
+                "saves" : "42.6K",
+                "savesRaw" : "42600",
+                "shares" : "18.9K",
+                "sharesRaw" : "18900",
+                "tint" : "#33F0EB",
+                "views" : "1.2M",
+                "viewsRaw" : "1240000",
+                "viralTag" : "1M+ Views",
+                "workPhoto" : "0"
+              },
+              "i" : 0,
+              "id" : "B3AB115B-DE26-4A27-A218-A9F73EB70BF2"
+            },
+            {
+              "fields" : {
+                "brand" : "Cathy Doll",
+                "brandLogo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "campaign" : "Glow Serum Launch",
+                "comments" : "1.2K",
+                "cover" : "",
+                "engageRaw" : "94440",
+                "engagement" : "7.4%",
+                "ep" : "EP.1206",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "52.6K",
+                "photo" : "5",
+                "platform" : "instagram",
+                "saves" : "31.2K",
+                "savesRaw" : "31200",
+                "shares" : "9.4K",
+                "sharesRaw" : "9400",
+                "tint" : "#E85C9E",
+                "views" : "820K",
+                "viewsRaw" : "820000",
+                "viralTag" : "High Conversion",
+                "workPhoto" : "4"
+              },
+              "i" : 1,
+              "id" : "3357B93F-F975-4BCE-9862-A08D5C54D5F0"
+            },
+            {
+              "fields" : {
+                "brand" : "Srichand",
+                "brandLogo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "campaign" : "Oil Control Challenge",
+                "comments" : "760",
+                "cover" : "",
+                "engageRaw" : "57360",
+                "engagement" : "5.9%",
+                "ep" : "EP.1189",
+                "format" : "Short",
+                "icon" : "about-social-youtube",
+                "likes" : "31.8K",
+                "photo" : "6",
+                "platform" : "youtube",
+                "saves" : "18.7K",
+                "savesRaw" : "18700",
+                "shares" : "6.1K",
+                "sharesRaw" : "6100",
+                "tint" : "#FF524D",
+                "views" : "615K",
+                "viewsRaw" : "615000",
+                "viralTag" : "",
+                "workPhoto" : "5"
+              },
+              "i" : 2,
+              "id" : "9CEA8FDB-13D6-431D-BBFC-F0B18B09A877"
+            },
+            {
+              "fields" : {
+                "brand" : "Mistine",
+                "brandLogo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "campaign" : "Sunscreen Everyday",
+                "comments" : "640",
+                "cover" : "",
+                "engageRaw" : "48240",
+                "engagement" : "6.2%",
+                "ep" : "EP.1142",
+                "format" : "คลิปสั้น",
+                "icon" : "about-social-tiktok",
+                "likes" : "27.9K",
+                "photo" : "7",
+                "platform" : "tiktok",
+                "saves" : "14.3K",
+                "savesRaw" : "14300",
+                "shares" : "5.4K",
+                "sharesRaw" : "5400",
+                "tint" : "#33F0EB",
+                "views" : "486K",
+                "viewsRaw" : "486000",
+                "viralTag" : "",
+                "workPhoto" : "6"
+              },
+              "i" : 3,
+              "id" : "7C2D49CA-EF86-4877-AE28-AC4BF99A51FB"
+            },
+            {
+              "fields" : {
+                "brand" : "Scotch",
+                "brandLogo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "campaign" : "Collagen 30 Days",
+                "comments" : "1.1K",
+                "cover" : "",
+                "engageRaw" : "50880",
+                "engagement" : "8.1%",
+                "ep" : "EP.1098",
+                "format" : "Reel",
+                "icon" : "about-social-instagram",
+                "likes" : "24.1K",
+                "photo" : "8",
+                "platform" : "instagram",
+                "saves" : "21.5K",
+                "savesRaw" : "21500",
+                "shares" : "4.2K",
+                "sharesRaw" : "4200",
+                "tint" : "#E85C9E",
+                "views" : "352K",
+                "viewsRaw" : "352000",
+                "viralTag" : "High Save Rate",
+                "workPhoto" : "7"
+              },
+              "i" : 4,
+              "id" : "79808C1E-0F9D-4D67-8277-939DBA1A4A28"
+            }
+          ]
+        },
+        "texts" : [
+
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.125,
+          "v" : 19.83,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.5,
+          "v" : 26.44,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12.5,
+          "v" : 18.89,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 112.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 112.37,
+          "weight" : 700,
+          "width" : 142
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 52.74,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.89,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 80.27,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 19.83,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.125,
+          "t" : "รอข้อมูลโพสต์",
+          "tracking" : 0,
+          "w" : 76.9,
+          "weight" : 700,
+          "width" : 90
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 112.37,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.44,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.5,
+          "t" : "ผลงานที่ผ่านมา",
+          "tracking" : 0,
+          "w" : 112.37,
+          "weight" : 700,
+          "width" : 142
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6857142857142857,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    350,
+    172
+  ],
+  "inset" : 0,
+  "kind" : "popWorkPaper",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

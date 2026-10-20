@@ -1,0 +1,574 @@
+{
+ "kind": "kitSocialGingham",
+ "design": {
+  "w": 330,
+  "h": 330
+ },
+ "widget": {
+  "title": "Social Media",
+  "category": "followers",
+  "symbol": "person.2.fill",
+  "order": 78,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "gingham"
+  },
+  "stamp": "followers",
+  "motion": "mid",
+  "replaces": [
+   "kitSocial"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "kit.fill",
+      "radius": 20
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 20,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     },
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "grid",
+      "radius": 20,
+      "pattern": {
+       "kind": "grid",
+       "color": "#383F1A@0.22",
+       "size": 13,
+       "width": 1
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 20
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 20,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "grid",
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "grid",
+        "radius": 3,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "inner",
+    "pad": 11,
+    "children": [
+     {
+      "type": "stack",
+      "if": "!cfg:corner=square",
+      "children": [
+       {
+        "type": "rect",
+        "id": "card",
+        "fill": "white",
+        "radius": 13
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 13,
+        "stroke": {
+         "color": "kit.border",
+         "width": 2
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "cfg:corner=square",
+      "children": [
+       {
+        "type": "stack",
+        "if": "!bordered",
+        "children": [
+         {
+          "type": "rect",
+          "id": "card",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 13,
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          }
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "if": "bordered",
+        "children": [
+         {
+          "type": "rect",
+          "id": "card",
+          "fill": "white",
+          "radius": 2
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 2,
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "content",
+      "pad": [
+       14,
+       14,
+       14,
+       14
+      ],
+      "gap": 8,
+      "children": [
+       {
+        "type": "stack",
+        "id": "header",
+        "children": [
+         {
+          "type": "col",
+          "if": "!stamped",
+          "children": [
+           {
+            "type": "text",
+            "face": "noto",
+            "size": 19,
+            "weight": 800,
+            "color": "kit.title",
+            "maxLines": 2,
+            "id": "title",
+            "shrinkTo": 13.3,
+            "text": "Social Media"
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "pad": [
+           0,
+           99,
+           0,
+           0
+          ],
+          "if": "stamped",
+          "children": [
+           {
+            "type": "text",
+            "face": "noto",
+            "size": 19,
+            "weight": 800,
+            "color": "kit.title",
+            "maxLines": 2,
+            "id": "title",
+            "shrinkTo": 13.3,
+            "text": "Social Media"
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "pill",
+          "if": "stamped",
+          "shrink": 0,
+          "children": [
+           {
+            "type": "row",
+            "if": "!kit.dark",
+            "gap": 3.23,
+            "align": "center",
+            "circle": true,
+            "fill": "white@0.92",
+            "stroke": {
+             "color": "black@0.08",
+             "width": 0.5
+            },
+            "pad": [
+             2.21,
+             2.55,
+             2.21,
+             3.57
+            ],
+            "children": [
+             {
+              "type": "stack",
+              "w": 12.32,
+              "h": 12.32,
+              "children": [
+               {
+                "type": "rect",
+                "shape": "scallop:10",
+                "fill": "#DA3832"
+               },
+               {
+                "type": "icon",
+                "icon": "ph:check",
+                "size": 6.63,
+                "tint": "white",
+                "place": "center"
+               }
+              ]
+             },
+             {
+              "type": "text",
+              "text": "Verified by",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 600,
+              "color": "#1A1A1A@0.85",
+              "maxLines": 1,
+              "shrink": 0
+             },
+             {
+              "type": "stack",
+              "w": 14.45,
+              "h": 14.45,
+              "children": [
+               {
+                "type": "rect",
+                "circle": true,
+                "fill": "#DA3832"
+               },
+               {
+                "type": "icon",
+                "icon": "sh:wordmark",
+                "w": 8.38,
+                "h": 8.38,
+                "tint": "white",
+                "place": "center"
+               }
+              ]
+             }
+            ],
+            "w": 74,
+            "h": 18.9,
+            "justify": "center"
+           },
+           {
+            "type": "row",
+            "if": "kit.dark",
+            "gap": 3.23,
+            "align": "center",
+            "circle": true,
+            "fill": "black@0.38",
+            "stroke": {
+             "color": "white@0.22",
+             "width": 0.5
+            },
+            "pad": [
+             2.21,
+             2.55,
+             2.21,
+             3.57
+            ],
+            "children": [
+             {
+              "type": "stack",
+              "w": 12.32,
+              "h": 12.32,
+              "children": [
+               {
+                "type": "rect",
+                "shape": "scallop:10",
+                "fill": "#DA3832"
+               },
+               {
+                "type": "icon",
+                "icon": "ph:check",
+                "size": 6.63,
+                "tint": "white",
+                "place": "center"
+               }
+              ]
+             },
+             {
+              "type": "text",
+              "text": "Verified by",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 600,
+              "color": "white@0.92",
+              "maxLines": 1,
+              "shrink": 0
+             },
+             {
+              "type": "stack",
+              "w": 14.45,
+              "h": 14.45,
+              "children": [
+               {
+                "type": "rect",
+                "circle": true,
+                "fill": "#DA3832"
+               },
+               {
+                "type": "icon",
+                "icon": "sh:wordmark",
+                "w": 8.38,
+                "h": 8.38,
+                "tint": "white",
+                "place": "center"
+               }
+              ]
+             }
+            ],
+            "w": 74,
+            "h": 18.9,
+            "justify": "center"
+           }
+          ],
+          "place": "top-right",
+          "dy": 4,
+          "w": 74,
+          "h": 18.9
+         }
+        ]
+       },
+       {
+        "type": "chips",
+        "id": "rows",
+        "direction": "col",
+        "gap": 0,
+        "grow": 1,
+        "each": {
+         "type": "col",
+         "grow": 1,
+         "children": [
+          {
+           "type": "rect",
+           "if": "!$i=first",
+           "h": 1,
+           "fill": "#D9D9D9"
+          },
+          {
+           "type": "col",
+           "grow": 1,
+           "pad": [
+            8,
+            0
+           ],
+           "justify": "center",
+           "children": [
+            {
+             "type": "row",
+             "gap": 10,
+             "align": "center",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "size": 28
+              },
+              {
+               "type": "col",
+               "gap": 0,
+               "align": "start",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$name",
+                 "face": "noto",
+                 "size": 12.5,
+                 "weight": 600,
+                 "color": "#141417",
+                 "maxLines": 1
+                },
+                {
+                 "type": "text",
+                 "slot": "$handle",
+                 "face": "noto",
+                 "size": 10.5,
+                 "weight": 400,
+                 "color": "black@0.52",
+                 "maxLines": 1
+                }
+               ]
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 6
+              },
+              {
+               "type": "text",
+               "slot": "$followersFull",
+               "face": "noto",
+               "size": 18,
+               "weight": 400,
+               "color": "#141417",
+               "maxLines": 1,
+               "id": "followers",
+               "shrink": 0
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "list": "socials",
+        "where": "!hidden:$platform"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

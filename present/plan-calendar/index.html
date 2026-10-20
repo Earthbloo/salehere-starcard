@@ -1,0 +1,329 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>แผนงาน Star Profile → ST★R Card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* layout: one scan page — stat strip → 5-week calendar (hero) → 3 lanes → 4 platform × 2 release matrix */
+:root{
+  --bg:#F9FAFB; --card:#FFFFFF; --ink:#1A1D21; --muted:#6B7280; --line:#E5E7EB; --cell:#FFFFFF; --past:#F3F4F6;
+  --p1:#F3C84B; --p1-ink:#3A2E05; --p1-soft:#FBF1C9;
+  --ds:#1F2937; --ds-ink:#FFFFFF; --ds-soft:#E6E9EE;
+  --p2:#E0262D; --p2-ink:#FFFFFF; --p2-soft:#FBE3E4;
+  --font:'Anuphan',system-ui,-apple-system,sans-serif; --serif:'Instrument Serif',Georgia,serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1114; --card:#171A1F; --ink:#F3F4F6; --muted:#9CA3AF; --line:#2A2F37; --cell:#171A1F; --past:#111419;
+  --p1:#E6BD3F; --p1-ink:#1F1800; --p1-soft:#3A3217;
+  --ds:#C3CCD8; --ds-ink:#0F1114; --ds-soft:#262C35;
+  --p2:#F0484E; --p2-ink:#FFFFFF; --p2-soft:#3B1E20; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0F1114; --card:#171A1F; --ink:#F3F4F6; --muted:#9CA3AF; --line:#2A2F37; --cell:#171A1F; --past:#111419;
+  --p1:#E6BD3F; --p1-ink:#1F1800; --p1-soft:#3A3217;
+  --ds:#C3CCD8; --ds-ink:#0F1114; --ds-soft:#262C35;
+  --p2:#F0484E; --p2-ink:#FFFFFF; --p2-soft:#3B1E20; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-block:40px 56px;padding-inline:20px;display:grid;gap:28px}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px}
+header h1{font-weight:600;font-size:clamp(26px,3.4vw,38px);line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+header h1 i{font-family:var(--serif);font-style:italic;font-weight:400}
+header h1 .star{color:var(--p2);font-style:normal}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+.stats{display:flex;flex-wrap:wrap;gap:0}
+.stat{padding-inline:22px;border-left:1px solid var(--line)}
+.stat:first-child{padding-left:0;border-left:0}
+.stat b{display:block;font-size:30px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.stat b small{font-size:14px;font-weight:500;color:var(--muted);margin-left:4px;letter-spacing:0}
+.stat span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+.stat.p1 b small,.stat.p2 b small{color:var(--ink)}
+.stat.p1 b small::before,.stat.p2 b small::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.stat.p1 b small::before{background:var(--p1)} .stat.p2 b small::before{background:var(--p2)}
+
+/* calendar */
+.calcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 16px;overflow-x:auto}
+.cal{min-width:700px;display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.dow{padding:8px 10px 6px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.dow.we{color:var(--p2);opacity:.75}
+.day{position:relative;min-height:104px;padding:8px 0 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--cell);display:flex;flex-direction:column;gap:6px}
+.day.past{background:var(--past)}
+.day.rel.p1{background:var(--p1-soft)} .day.rel.p2{background:var(--p2-soft)}
+.day.rel .n{font-size:22px} .day.rel.p2 .n{color:var(--p2)}
+.b.rel{letter-spacing:.08em;font-size:11px;justify-content:center} .b.rel .lbl{position:static}
+.day.we,.day.hol{background:var(--past)} .day.we .n,.day.hol .n{color:var(--muted);font-weight:500}
+.day .head{display:flex;align-items:baseline;gap:5px;padding-inline:10px;min-height:22px}
+.day .n{font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1}
+.day.past .n{color:var(--muted);font-weight:500}
+.day .m{font-size:11px;color:var(--muted);font-weight:600}
+.day .hol{font-size:10.5px;color:var(--p2);margin-left:auto;font-weight:600;white-space:nowrap}
+.day.today .n{background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 7px;margin:-4px -3px}
+.day .today-tag{position:absolute;top:8px;right:10px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.bars{display:grid;gap:4px;margin-top:auto}
+.b{position:relative;height:22px;display:flex;align-items:center;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b.empty{background:transparent}
+.b.p1{background:var(--p1);color:var(--p1-ink)}
+.b.ds{background:var(--ds);color:var(--ds-ink)}
+.b.p2{background:var(--p2);color:var(--p2-ink)}
+.b.uat{color:var(--ink);border-top:2px solid var(--u);border-bottom:2px solid var(--u)}
+.b.uat.start{border-left:2px solid var(--u)} .b.uat.end{border-right:2px solid var(--u)}
+.u1{--u:var(--p1);background:var(--p1-soft)} .u2{--u:var(--p2);background:var(--p2-soft)}
+.b.hatch{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.28) 0 5px,transparent 5px 10px)}
+.b.start{border-radius:999px 0 0 999px;margin-left:8px}
+.b.end{border-radius:0 999px 999px 0;margin-right:8px}
+.b.start.end{border-radius:999px}
+.b .lbl{position:absolute;left:10px;top:0;height:100%;display:flex;align-items:center;z-index:5;pointer-events:none;background:inherit;padding-right:10px;border-radius:0 999px 999px 0}
+.b.start .lbl{left:12px}
+.flag{align-self:flex-start;margin:-2px 8px 0;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;white-space:nowrap}
+.flag.p1{background:var(--p1);color:var(--p1-ink)}
+.flag.p2{background:var(--p2);color:var(--p2-ink)}
+.flag::before{content:"";display:inline-block;width:0;height:0;border-left:7px solid currentColor;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;margin-right:6px;vertical-align:0}
+
+/* lanes */
+.lanes{display:grid;gap:10px}
+.lane{display:grid;grid-template-columns:14px 1fr auto;align-items:center;gap:0 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.lane .sw{width:14px;height:44px;border-radius:999px}
+.lane .sw.p1{background:var(--p1)} .lane .sw.ds{background:var(--ds)} .lane .sw.p2{background:var(--p2)}
+.lane h3{margin:0;font-size:17px;font-weight:600;line-height:1.2}
+.lane h3 .star{color:var(--p2)}
+.lane .sub{color:var(--muted);font-size:13.5px;margin-top:2px}
+.lane .right{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;align-items:center}
+.chip{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+.chip.rel{border-color:transparent}
+.chip.rel.p1{background:var(--p1);color:var(--p1-ink)}
+.chip.rel.p2{background:var(--p2);color:var(--p2-ink)}
+.chip.dur{background:transparent;border-style:dashed}
+.chip.uat{border:2px solid var(--u)}
+.lane .plats{display:flex;gap:4px}
+.lane .plats span{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:4px 8px;border-radius:6px;background:var(--p1-soft);color:var(--ink)}
+.lane.ds .plats span{background:var(--ds-soft)}
+.lane.p2 .plats span{background:var(--p2-soft)}
+.arrow{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;padding-inline:30px}
+.arrow::before{content:"";width:1px;height:14px;background:var(--line);margin-left:6px}
+
+
+/* features */
+.feat{display:grid;grid-template-columns:1.1fr .8fr 1.1fr;gap:12px}
+.fcol{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;min-width:0}
+.fcol h4{margin:0 0 10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:8px}
+.fcol h4::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
+.fcol.p1{--c:var(--p1)} .fcol.ds{--c:var(--ds)} .fcol.p2{--c:var(--p2)}
+.fcol ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.fcol .sub2{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin:4px 0 6px}
+.fcol ul+.sub2{margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.fcol li{font-size:14px;line-height:1.35;padding-left:14px;position:relative}
+.fcol li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:2px;background:var(--c)}
+.fcol li .t{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:5px;background:var(--bg);border:1px solid var(--line);color:var(--muted);margin-left:5px;vertical-align:1px}
+@media (max-width:760px){.feat{grid-template-columns:1fr}}
+
+/* matrix */
+.matrix{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+th .date{display:block;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:600;margin-top:2px}
+td.plat{font-weight:600;width:110px}
+td .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+td .dot.p1{background:var(--p1)} td .dot.p2{background:var(--p2)}
+td .note{color:var(--muted)}
+footer{color:var(--muted);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 18px}
+footer i{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+@media (max-width:640px){
+  .lane{grid-template-columns:14px 1fr}
+  .lane .right{grid-column:2;justify-content:flex-start;margin-top:10px}
+  .stat{padding-inline:14px}
+  .stat b{font-size:24px}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Sale Here · 12 ต.ค. – 18 พ.ย. 2569</div>
+      <h1>แผนงาน <i>Star Profile</i> → <span class="star">ST★R</span> <i>Card</i> + ตารางงาน</h1>
+    </div>
+    <div class="stats num">
+      <div class="stat"><b>26<small>วันทำงาน</small></b><span>ไม่นับ ส.–อา. และวันหยุด 13, 23 ต.ค.</span></div>
+      <div class="stat p1"><b>7<small>วัน · Phase 1</small></b><span>ทำ 4 · UAT 3 · Release พ. 21 ต.ค.</span></div>
+      <div class="stat p2"><b>19<small>วัน · Phase 2</small></b><span>ทำ 16 · UAT 2 · Release พ. 18 พ.ย.</span></div>
+      <div class="stat"><b>4<small>Platform</small></b><span>iOS · Android · Web · API</span></div>
+    </div>
+  </header>
+
+  <section class="calcard" aria-label="ปฏิทินแผนงาน">
+    <div class="cal" id="cal"></div>
+  </section>
+
+  <section class="lanes" aria-label="งานแต่ละช่วง">
+    <div class="lane p1">
+      <div class="sw p1"></div>
+      <div>
+        <h3>Phase 1 · Star Profile ทั้ง flow</h3>
+        <div class="sub">ยังใช้ Star Card เก่า · ทำอยู่ตอนนี้ · UAT 3 วันก่อนขึ้น</div>
+      </div>
+      <div class="right">
+        <div class="plats"><span>iOS</span><span>Android</span><span>Web</span><span>API</span></div>
+        <span class="chip dur num">ทำ → ศ. 16 ต.ค.</span>
+        <span class="chip uat u1 num">UAT 19–21 ต.ค. · 3 วัน</span>
+        <span class="chip rel p1 num">Release พ. 21 ต.ค.</span>
+      </div>
+    </div>
+    <div class="lane ds">
+      <div class="sw ds"></div>
+      <div>
+        <h3>วิเคราะห์ + ออกแบบ Widget</h3>
+        <div class="sub">ทำคู่ขนานกับ Phase 1 · ส่งแบบให้ Phase 2</div>
+      </div>
+      <div class="right">
+        <div class="plats"><span>Design</span></div>
+        <span class="chip dur num">12 → 21 ต.ค. · 7 วัน</span>
+      </div>
+    </div>
+    <div class="lane p2">
+      <div class="sw p2"></div>
+      <div>
+        <h3>Phase 2 · <span class="star">ST★R</span> Card ใหม่ + ตารางงาน</h3>
+        <div class="sub">เริ่มวันถัดจาก Phase 1 ขึ้น · การ์ดใหม่ตามแบบ widget + ตารางงาน ST★R ใน Star Profile · UAT 2 วันก่อนขึ้น</div>
+      </div>
+      <div class="right">
+        <div class="plats"><span>iOS</span><span>Android</span><span>Web</span><span>API</span></div>
+        <span class="chip dur num">ทำ 22 ต.ค. → 13 พ.ย. · 16 วัน</span>
+        <span class="chip uat u2 num">UAT 16–17 พ.ย. · 2 วัน</span>
+        <span class="chip rel p2 num">Release พ. 18 พ.ย.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="feat" aria-label="Feature แต่ละช่วง">
+    <div class="fcol p1">
+      <h4>Phase 1 · Star Profile</h4>
+      <ul>
+        <li>สมัครเป็น ST★R 8 ขั้น (คำถามที่แบรนด์ใช้เลือก + KYC)</li>
+        <li>KYC gate: รอตรวจ / ไม่ผ่าน / ผ่าน → ตราน้ำเงินข้างชื่อ</li>
+        <li>ฟอร์มลงทะเบียน: ชื่อ · Line ID · ที่อยู่</li>
+        <li>Wizard 13 หัวข้อ: ประเภท · ช่องทาง · หมวด · จังหวัด · เวลาว่าง · สัดส่วน · ข้อจำกัด · About + รูป/ผลงาน/วิดีโอ</li>
+        <li>หน้า Star Profile: วงแหวน % + เติมข้อมูลต่อ · กลุ่ม "เติมเมื่อถึงเวลา"</li>
+        <li>การ์ดช่องทาง: ผูกบัญชี · เรทราคา · Insight อัปโหลด screenshot</li>
+        <li>Banner ชวนสมัคร + คำถามแรกเป็น sheet</li>
+        <li>Star Card เก่าอยู่ท้ายหน้า ยังไม่แตะ</li>
+        <li>ฟิลด์ใหม่ creatorType ที่เหลือใช้ฟิลด์เดิม <span class="t">API</span></li>
+      </ul>
+    </div>
+    <div class="fcol ds">
+      <h4>ออกแบบ Widget</h4>
+      <ul>
+        <li>ไล่ widget ทั้งหมดใน prototype → เลือกชุดที่จะทำจริง</li>
+        <li>แบบสุดท้ายต่อ widget: ขนาด · ช่องข้อความ · สีตาม theme การ์ด</li>
+        <li>กติกา Verified by Sale Here บนการ์ด (ตราติดทุกใบ ลบไม่ได้)</li>
+        <li>สเปก iOS/Android ให้ render ตรงกัน <span class="t">PARITY</span></li>
+        <li>โครง JSON ของการ์ด 1 ชุดใช้ทุก platform <span class="t">API</span></li>
+      </ul>
+    </div>
+    <div class="fcol p2">
+      <h4>Phase 2 · ST★R Card + ตารางงาน</h4>
+      <div class="sub2">ST★R Card</div>
+      <ul>
+        <li>เลือก Template → แต่งการ์ด ข้อมูลดึงจาก Star Profile อัตโนมัติ</li>
+        <li>Widget ตามแบบ: โปสเตอร์/คนตัดพื้นหลัง · โซเชียล · ผลงาน · Insight · สแครปบุ๊ก</li>
+        <li>แก้ข้อความแบบ IG Story · ฟอนต์ไทยไม่มีหัว</li>
+        <li>ตรา Verified by Sale Here ติดทุกการ์ด</li>
+        <li>Export รูป + ใบรับรองท้ายการ์ด · ส่งลิงก์ · โหมดดู (โทร / ไปโซเชียล / ติดต่อ)</li>
+        <li>ST★R Insight: ใครมาดู + แจ้งเตือน</li>
+        <li>หน้าเปิดลิงก์การ์ด (ตอนนี้ลิงก์ 404) <span class="t">WEB</span></li>
+        <li>เก็บการ์ดเป็น JSON · render native · PNG สำรองสำหรับแชร์ <span class="t">API</span></li>
+      </ul>
+      <div class="sub2">ตารางงาน ST★R</div>
+      <ul>
+        <li>แถวเข้าตารางงานบน Star Profile · สลับมุมมอง วัน | เดือน</li>
+        <li>ลงงาน 3 ขั้น: แบรนด์+งาน · ลงอะไรบ้าง (platform, จำนวน, วันลง) · ไปหน้างานไหม + ค่าตัว</li>
+        <li>การ์ดงาน 1 ใบต่องาน: ลงคอนเทนต์ · ไปหน้างาน · ติ๊กเสร็จ · รับเงินแล้ว</li>
+        <li>งาน Sale Here เข้าอัตโนมัติ แยกชัดจากงานทั่วไป (เห็นคนเดียว)</li>
+        <li>แจ้งเตือนก่อนวันลง / วันไปหน้างาน <span class="t">PUSH</span></li>
+        <li>เก็บงาน + ผูก campaign Sale Here <span class="t">API</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="matrix" aria-label="สิ่งที่ขึ้นแต่ละ platform">
+    <table class="num">
+      <thead><tr>
+        <th>Platform</th>
+        <th>Release 1<span class="date">พ. 21 ต.ค.</span></th>
+        <th>Release 2<span class="date">พ. 18 พ.ย.</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="plat">iOS</td><td><i class="dot p1"></i>Star Profile flow <span class="note">· Star Card เก่า</span></td><td><i class="dot p2"></i>ST★R Card ใหม่ + ตารางงาน</td></tr>
+        <tr><td class="plat">Android</td><td><i class="dot p1"></i>Star Profile flow <span class="note">· Star Card เก่า</span></td><td><i class="dot p2"></i>ST★R Card ใหม่ + ตารางงาน</td></tr>
+        <tr><td class="plat">Web</td><td><i class="dot p1"></i>Star Profile flow <span class="note">· Star Card เก่า</span></td><td><i class="dot p2"></i>ST★R Card ใหม่ + ตารางงาน</td></tr>
+        <tr><td class="plat">API</td><td><i class="dot p1"></i>Star Profile flow <span class="note">· Star Card เก่า</span></td><td><i class="dot p2"></i>ST★R Card ใหม่ + ตารางงาน</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <span><i style="background:var(--p1)"></i>Phase 1 · Star Profile</span>
+    <span><i style="background:var(--p1-soft);box-shadow:inset 0 0 0 2px var(--p1)"></i>UAT Phase 1</span>
+    <span><i style="background:var(--p2-soft);box-shadow:inset 0 0 0 2px var(--p2)"></i>UAT Phase 2</span>
+    <span><i style="background:var(--ds)"></i>ออกแบบ Widget</span>
+    <span><i style="background:var(--p2)"></i>Phase 2 · ST★R Card + ตารางงาน</span>
+    <span><i style="background:var(--past);border:1px solid var(--line)"></i>ผ่านมาแล้ว</span>
+    <span>นับเฉพาะ จ.–ศ. · วันหยุด อ. 13 ต.ค. (นวมินทรมหาราช) และ ศ. 23 ต.ค. (ปิยมหาราช) ไม่มีงาน</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cal = document.getElementById('cal');
+  var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+  var START = new Date(2026,9,5);          // จ. 5 ต.ค.
+  var DAYS = 49;                           // 7 สัปดาห์ → อา. 22 พ.ย.
+  var TH_M = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var DOW = ['จ','อ','พ','พฤ','ศ','ส','อา'];
+  var HOL = {'2026-10-13':'หยุด · นวมินทรมหาราช','2026-10-23':'หยุด · ปิยมหาราช'};
+  var REL = {'2026-10-21':{cls:'p1',txt:'Release Phase 1'},'2026-11-18':{cls:'p2',txt:'Release Phase 2'}};
+  // row 1: build phases, row 2: design
+  var SEG = [
+    {row:0,cls:'p1',from:'2026-10-05',to:'2026-10-18',lbl:'Phase 1 · Star Profile',hatchBefore:'2026-10-12'},
+    {row:0,cls:'uat u1',from:'2026-10-19',to:'2026-10-20',lbl:'UAT Phase 1'},
+    {row:0,cls:'p1 rel',from:'2026-10-21',to:'2026-10-21',lbl:'RELEASE'},
+    {row:0,cls:'p2',from:'2026-10-22',to:'2026-11-13',lbl:'Phase 2 · ST★R Card + ตารางงาน'},
+    {row:0,cls:'uat u2',from:'2026-11-16',to:'2026-11-17',lbl:'UAT Phase 2'},
+    {row:0,cls:'p2 rel',from:'2026-11-18',to:'2026-11-18',lbl:'RELEASE'},
+    {row:1,cls:'ds',from:'2026-10-12',to:'2026-10-21',lbl:'ออกแบบ Widget'}
+  ];
+  function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  DOW.forEach(function(n,i){var h=document.createElement('div');h.className='dow'+(i>=5?' we':'');h.textContent=n;cal.appendChild(h)});
+  for(var i=0;i<DAYS;i++){
+    var d=new Date(START); d.setDate(START.getDate()+i); var k=key(d);
+    var dow=(d.getDay()+6)%7, past=d<TODAY, today=k===key(TODAY);
+    var cell=document.createElement('div');
+    cell.className='day'+(past?' past':'')+(today?' today':'')+(dow>=5?' we':'')+(REL[k]?' rel '+REL[k].cls:'')+(HOL[k]?' hol':'');
+    var head='<div class="head"><span class="n num">'+d.getDate()+'</span>';
+    if(i===0||d.getDate()===1) head+='<span class="m">'+TH_M[d.getMonth()]+'</span>';
+    if(HOL[k]) head+='<span class="hol">'+HOL[k]+'</span>';
+    head+='</div>';
+    if(today) head+='<span class="today-tag">วันนี้</span>';
+    var bars='<div class="bars">';
+    for(var r=0;r<2;r++){
+      var s=SEG.filter(function(x){return x.row===r&&k>=x.from&&k<=x.to})[0];
+      if(!s||dow>=5||HOL[k]){bars+='<i class="b empty"></i>';continue}
+      var c='b '+s.cls;
+      var prev=new Date(d);prev.setDate(d.getDate()-1);var next=new Date(d);next.setDate(d.getDate()+1);
+      if(k===s.from||dow===0||HOL[key(prev)])c+=' start'; if(k===s.to||dow===4||HOL[key(next)])c+=' end';
+      if(s.hatchBefore&&k<s.hatchBefore)c+=' hatch';
+      var lbl='';
+      if(k===s.from) lbl=s.lbl+(s.hatchBefore?' · กำลังทำอยู่':'');
+      else if(dow===0) lbl=s.lbl;
+      bars+='<i class="'+c+'">'+(lbl?'<span class="lbl">'+lbl+'</span>':'')+'</i>';
+    }
+    bars+='</div>';
+    var flag=REL[k]?'<span class="flag '+REL[k].cls+'">'+REL[k].txt+'</span>':'';
+    cell.style.zIndex=String(DAYS-i);   // earlier cells paint above later ones so labels can overflow
+    cell.innerHTML=head+flag+bars;
+    cal.appendChild(cell);
+  }
+})();
+</script>

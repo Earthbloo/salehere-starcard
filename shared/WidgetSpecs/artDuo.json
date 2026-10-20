@@ -1,0 +1,81 @@
+{
+ "kind": "artDuo",
+ "design": {
+  "w": 366,
+  "h": 260
+ },
+ "widget": {
+  "title": "เบนโตะ",
+  "category": "photo",
+  "symbol": "square.grid.2x2.fill",
+  "order": 19,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored"
+ },
+ "notes": "เบนโตะ: ช่องสูงซ้าย 56% (รูป 7 มุม 20) · ขวา 44% = ช่องกว้าง 58% (รูป 8 มุม 18) + สองช่องเล็ก (รูป 9, 10 มุม 14) · ร่อง 8 · ขอบเส้นผม line@0.12 0.6 · สัดส่วนคิดจากที่ว่างหลังหักร่อง = grow · แปลงจาก ArtWidgets.swift (ArtDuo)",
+ "root": {
+  "type": "row",
+  "gap": 8,
+  "children": [
+   {
+    "type": "image",
+    "photo": 7,
+    "radius": 20,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 56,
+    "id": "tall"
+   },
+   {
+    "type": "col",
+    "gap": 8,
+    "grow": 44,
+    "children": [
+     {
+      "type": "image",
+      "photo": 8,
+      "radius": 18,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 58,
+      "id": "wide"
+     },
+     {
+      "type": "row",
+      "gap": 8,
+      "grow": 42,
+      "children": [
+       {
+        "type": "image",
+        "photo": 9,
+        "radius": 14,
+        "stroke": {
+         "color": "line@0.12",
+         "width": 0.6
+        },
+        "grow": 1,
+        "id": "smallA"
+       },
+       {
+        "type": "image",
+        "photo": 10,
+        "radius": 14,
+        "stroke": {
+         "color": "line@0.12",
+         "width": 0.6
+        },
+        "grow": 1,
+        "id": "smallB"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -63,17 +63,6 @@ enum Cutout {
         return .init(image: out, isCutout: true)
     }
 
-    /// ครอปรูปที่ **รู้อยู่แล้วว่าตัดมา** (ผลของ `PhotoLift`) — ข้ามเกณฑ์ `looksCut`
-    ///
-    /// หน้ากากจาก Vision ถูกต้องตามนิยามอยู่แล้ว แต่คนครึ่งตัวที่กินเต็มเฟรมจะชนมุมล่างทั้งสองมุม
-    /// แล้วตกเกณฑ์มุมใส — ถ้าส่งเข้า `inspect` ใบที่เพิ่งลบพื้นให้จะถูกตีกลับไปโหมดกรอบเฉย ๆ
-    static func trim(_ ui: UIImage) -> Result {
-        guard let cg = upright(ui).cgImage, let a = alphaGrid(cg), let box = subjectBox(a),
-              let out = crop(cg, to: box, scale: ui.scale),
-              out.size.width >= 24, out.size.height >= 24 else { return .framed(ui) }
-        return .init(image: out, isCutout: true)
-    }
-
     // MARK: ขั้นตอน
 
     /// ปรับภาพให้ตั้งตรงก่อนแตะ `cgImage`

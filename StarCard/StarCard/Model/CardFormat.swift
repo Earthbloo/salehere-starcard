@@ -100,8 +100,8 @@ enum CardFormat: String, CaseIterable, Identifiable, Codable {
     /// หน้าตั้งต้นของการ์ดแบบนี้
     var starterPages: [CardPage] {
         switch self {
-        case .portfolio: return Mock.starterPages
-        case .story:     return [Mock.storyPage]
+        case .portfolio: return Mock.starter("portfolio")
+        case .story:     return Mock.starter("story")
         }
     }
 }

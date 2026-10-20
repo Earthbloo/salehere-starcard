@@ -1,4 +1,7 @@
 package co.salehere.starcard.ui.widgets
+import co.salehere.starcard.model.SocialProfile
+import co.salehere.starcard.theme.Provenance
+import co.salehere.starcard.theme.VerifiedFacts
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -73,7 +76,6 @@ import co.salehere.starcard.model.LocalPhotoStore
 import co.salehere.starcard.model.PhotoStore
 import co.salehere.starcard.model.Profile
 import co.salehere.starcard.model.ProfileField
-import co.salehere.starcard.model.SubjectLift
 import co.salehere.starcard.model.TextSlotID
 import co.salehere.starcard.model.WidgetPhoto
 import co.salehere.starcard.model.WidgetSurface
@@ -325,7 +327,7 @@ fun EdSelectionHandles(tint: Color, dot: Float = 9f, line: Float = 1.4f, modifie
 }
 
 // ============================================================================================
-// CutoutWidgets.swift — CutoutPlane · CutoutSample · cutoutPlane() · cutoutLifting() · CutoutSubject · CutoutStatus
+// CutoutWidgets.swift — CutoutPlane · CutoutSample · cutoutPlane() · CutoutSubject
 // ============================================================================================
 
 /** สิ่งที่ช่องรูปของตระกูลคัตเอาต์ได้มาจริง (= `enum CutoutPlane`) */
@@ -349,28 +351,14 @@ object CutoutSample {
 }
 
 /**
- * `lift` = ชิ้นนี้ลบพื้นหลังให้เอง — รูปทึบถูกส่งเข้าตัวลบพื้นหลัง ระหว่างรอยังเป็นโหมดกรอบ (= `cutoutPlane`)
- * บน Android ตัวลบพื้นหลังยังเป็น stub — รูปทึบจึงเป็นโหมดกรอบเสมอ · PNG ใสยังเป็นคนยืนบนการ์ดได้
+ * คนยืนบนการ์ดได้เมื่อรูปของผู้ใช้ **ตัดพื้นมาเองแล้ว** (PNG ใส) — แอปไม่ลบพื้นหลังให้ (ถอด 19 ต.ค. 2569 · = `cutoutPlane`)
+ * รูปทึบ = โหมดกรอบเงียบ ๆ
  */
-fun cutoutPlane(store: PhotoStore, slot: Int, widget: UUID?, lift: Boolean = false): CutoutPlane {
+fun cutoutPlane(store: PhotoStore, slot: Int, widget: UUID?): CutoutPlane {
     val ui = store.userImage(slot, widget)
         ?: return CutoutSample.image?.let { CutoutPlane.Subject(it, own = false) } ?: CutoutPlane.Framed
     val r = CutoutCache.shared.result(ui)
-    if (r.isCutout) return CutoutPlane.Subject(r.image, own = true)
-    if (!lift) return CutoutPlane.Framed
-    val lifted = SubjectLift.shared.result(ui)
-    if (lifted == null) {
-        SubjectLift.shared.request(ui)
-        return CutoutPlane.Framed
-    }
-    return if (lifted.isCutout) CutoutPlane.Subject(lifted.image, own = true) else CutoutPlane.Framed
-}
-
-/** ช่องนี้กำลังรอตัวลบพื้นหลังอยู่ไหม (= `cutoutLifting`) */
-fun cutoutLifting(store: PhotoStore, slot: Int, widget: UUID?, lift: Boolean): Boolean {
-    if (!lift) return false
-    val ui = store.userImage(slot, widget) ?: return false
-    return SubjectLift.shared.isRunning(ui)
+    return if (r.isCutout) CutoutPlane.Subject(r.image, own = true) else CutoutPlane.Framed
 }
 
 /**
@@ -415,33 +403,6 @@ fun CutoutSubject(image: Bitmap, height: Float, d: Float, drift: Float, shadow: 
                 alpha = Scrub.fade(t, 0.86).toFloat()
             },
         )
-    }
-}
-
-/** สถานะของช่องรูป — ป้ายบอกสถานะอย่างเดียว โผล่เฉพาะตอนแต่งการ์ด (= `CutoutStatus`) */
-@Composable
-fun CutoutStatus(plane: CutoutPlane, theme: CardTheme, lifting: Boolean = false, modifier: Modifier = Modifier) {
-    val editing = LocalTextEditMode.current
-    val good = plane is CutoutPlane.Subject && plane.own
-    val label: String = when {
-        lifting -> "กำลังลบพื้นหลัง…"
-        plane is CutoutPlane.Subject && plane.own -> "พื้นหลังใส"
-        plane is CutoutPlane.Subject -> "รูปตัวอย่าง"
-        else -> "ใส่รูปพื้นหลังใสได้อีกแบบ"
-    }
-    if (!editing) return
-    val icon = if (good) "checkmark" else if (lifting) "hourglass" else "sparkles"
-    val fg = if (good) Color.Black.opacity(0.85) else Color.White.opacity(0.9)
-    Row(
-        modifier
-            .background(if (good) theme.accent else Color.Black.opacity(0.55), CircleShape)
-            .border(0.5.dp, Color.White.opacity(if (good) 0.0 else 0.22), CircleShape)
-            .padding(horizontal = 7.dp, vertical = 3.5.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        SFSymbol(icon, size = 7.5f, tint = fg)
-        Text(label, style = sh(8.5f, FontWeight.SemiBold), color = fg, maxLines = 1)
     }
 }
 
@@ -581,7 +542,9 @@ fun VerifiedSeal(radius: Float, punch: Color, tint: Color = Color.White, compact
             .size(d.dp)
             .let {
                 if (compact) it
-                else it.shadow(6.dp, shape, clip = false, ambientColor = Color.Black.opacity(0.30), spotColor = Color.Black.opacity(0.30))
+                // เงาวงกลมแทนเงาทรงกลีบ — เงาของรูปทรงเว้าถูกคำนวณใหม่ทุกเฟรมบน RenderThread (ANR 14 ต.ค. 2569)
+                // กลีบลึกแค่ 7.5% ของรัศมี เงาวงกลมจึงตาแยกไม่ออก แต่ระบบแคชไว้ได้
+                else it.shadow(6.dp, CircleShape, clip = false, ambientColor = Color.Black.opacity(0.30), spotColor = Color.Black.opacity(0.30))
             },
     ) {
         val px = size.width
@@ -697,3 +660,13 @@ fun BrandPlate(brand: Brand, side: Float, modifier: Modifier = Modifier) {
         }
     }
 }
+
+/** ที่มาของยอดผู้ติดตาม — ชุดช่องทางทั้งหมดต้องเชื่อม OAuth จึงนับว่า "จากแพลตฟอร์ม" (ย้ายมาจาก SocialWidgets.kt) */
+val List<SocialProfile>.provenance: Provenance
+    get() {
+        // โต๊ะตรวจงานบังคับสถานะ "ยอดจากแพลตฟอร์ม" ได้ (ดู `VerifiedFacts.labForce`)
+        if (VerifiedFacts.labForce && isNotEmpty()) return Provenance.Connected(firstOrNull()?.syncedAgo ?: "2 ชม.")
+        if (isEmpty() || !all { it.source.isVerified }) return Provenance.manual
+        return Provenance.Connected(firstOrNull()?.syncedAgo ?: "วันนี้")
+    }
+

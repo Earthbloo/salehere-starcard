@@ -160,7 +160,7 @@ enum WidgetMatrixExport {
     static func baseInstance(_ kind: WidgetKind) -> WidgetInstance {
         let s = kind.defaultSize
         var w = WidgetInstance(kind, x: margin, y: margin, w: s.width, h: s.height, id: fixedID)
-        if kind == .textBlock { fitTextBlock(&w) }
+        if kind.isTextLayer { fitTextBlock(&w) }
         return w
     }
 
@@ -188,7 +188,7 @@ enum WidgetMatrixExport {
                  _ change: (inout WidgetInstance) -> Void = { _ in }) {
             var w = baseInstance(kind)
             change(&w)
-            if kind == .textBlock { fitTextBlock(&w) }
+            if kind.isTextLayer { fitTextBlock(&w) }
             out.append(Config(id: configID(kind.rawValue, label), kind: kind.rawValue,
                               group: group, label: label,
                               page: PageSpec(w: Double(w.w + margin * 2), h: Double(w.h + margin * 2),
@@ -202,17 +202,12 @@ enum WidgetMatrixExport {
         }
         let border = !kind.defaultBorder
         add("border", "border=\(border ? "on" : "off")") { $0.border = border }
-        if kind.takesPattern {
-            for p in [PlatePattern.stripe, .diamond] {
-                add("pattern", "pattern=\(p.rawValue)") { $0.surface = .glass; $0.pattern = p }
+        // ตัวเลือกแบบเลือกหนึ่งของไฟล์ผัง (`widget.controls` ชนิด segment) — ทุกค่าที่ไม่ใช่ค่าตั้งต้น
+        for ctl in kind.controls where ctl.type == "segment" {
+            guard let opt = ctl.opt else { continue }
+            for v in (ctl.options ?? []).compactMap({ $0.first ?? nil }) {
+                add(opt, "\(opt)=\(v)") { $0.surface = .glass; $0.options[opt] = v }
             }
-        }
-        if kind.takesEmboss {
-            add("emboss", "emboss=blind") { $0.embossBlind = true }
-            add("emboss", "emboss=off") { $0.emboss = false }
-        }
-        if kind.liftsSubject {
-            add("lift", "lift=off") { $0.liftPhoto = false }
         }
         for (label, theme) in themeVariants {
             add("theme", label, theme: theme)
@@ -236,7 +231,7 @@ enum WidgetMatrixExport {
                 add("text", "slot=\(key)_color=\(c.rawValue)") { $0.textStyle.slotTints[key] = c }
             }
         }
-        if kind == .textBlock {
+        if kind.isTextLayer {
             for f in CardFont.allCases {
                 add("textBlock", "face=\(f.rawValue)") { $0.textStyle.face = f }
             }
@@ -276,19 +271,19 @@ enum WidgetMatrixExport {
     /// ธีมจริงจาก JSON ของธีม — ผ่าน `CardStore.restore` ตัวเดียวกับที่เปิดการ์ด
     /// (restore ต้องมีชิ้นอย่างน้อยหนึ่งชิ้น จึงยัดชิ้นหลอกไว้แล้วเอาแค่ธีม)
     static func restoreTheme(_ t: CardSnapshot.Theme) -> CardTheme? {
-        let dummy = itemSnapshot(WidgetInstance(.textBlock, id: fixedID))
+        let dummy = itemSnapshot(WidgetInstance(.textLayer, id: fixedID))
         return CardStore.restore(CardSnapshot(pages: [.init(items: [dummy])], theme: t, index: 0))?.theme
     }
 
     static func render(_ cfg: Config, photos: PhotoStore, scale: CGFloat,
-                       editMode: Bool = false, sink: SlotSink? = nil) -> UIImage? {
+                       editMode: Bool = false, sink: SlotSink? = nil, sample: Bool = false) -> UIImage? {
         let page = CGSize(width: cfg.page.w, height: cfg.page.h)
         let content: AnyView
         if let item = cfg.item {
             let snap = CardSnapshot(pages: [.init(items: [item])], theme: cfg.theme, index: 0)
             guard let (pages, theme, _) = CardStore.restore(snap),
                   let w = pages.first?.items.first else { return nil }
-            content = AnyView(MatrixWidgetPage(item: w, theme: theme, page: page)
+            content = AnyView(MatrixWidgetPage(item: w, theme: theme, page: page, sample: sample)
                 .environment(\.textEditMode, editMode)
                 .modifier(SlotProbe(sink: sink)))
         } else {
@@ -342,22 +337,6 @@ enum WidgetMatrixExport {
         log.add("preloaded \(urls.count - missing.count)/\(urls.count) remote images"
                 + (missing.isEmpty ? "" : " — MISSING: " + missing.map(\.absoluteString).sorted().joined(separator: ", ")))
 
-        // 1.5) ลบพื้นหลังรูปคนให้เสร็จก่อน — ท่าเดียวกับ `TemplateThumbs.warm`
-        var lifted: [String] = []
-        for slot in 0..<4 {
-            guard let person = photos.userImage(slot: slot, for: fixedID) else {
-                lifted.append("slot \(slot): no user image (CutoutSample fallback)")
-                continue
-            }
-            if CutoutCache.shared.result(for: person).isCutout {
-                lifted.append("slot \(slot): already a cutout PNG")
-                continue
-            }
-            await SubjectLift.shared.prepare(person)
-            let r = SubjectLift.shared.result(for: person)
-            lifted.append("slot \(slot): SubjectLift → \(r.map { $0.isCutout ? "cutout" : "framed (no subject found)" } ?? "nil")")
-        }
-        log.add("subject lift: " + lifted.joined(separator: " · "))
         log.flush()
 
         // 2) หาช่องข้อความของแต่ละชนิด — วาดใบตั้งต้นในโหมดแก้ข้อความแล้วเก็บ `TextSlotKey`
@@ -378,8 +357,6 @@ enum WidgetMatrixExport {
             log.add("\(kind.rawValue): \(desc.isEmpty ? "—" : desc.joined(separator: ", "))")
             await Task.yield()
         }
-        // คำขอลบพื้นหลังที่ตัววาดเพิ่งยิง (`SubjectLift.request`) — ให้เวลามันจบก่อนอบจริง
-        try? await Task.sleep(for: .milliseconds(1500))
         log.add("slot discovery: \(Int(Date().timeIntervalSince(tDiscover) * 1000)) ms")
 
         log.add("")
@@ -489,14 +466,16 @@ private struct MatrixWidgetPage: View {
     let item: WidgetInstance
     let theme: CardTheme
     let page: CGSize
+    var sample = false
 
     var body: some View {
-        let solved = PageLayout.solve([item], page: page)
+        // วางตรง ๆ ที่กรอบของชิ้น — ไม่ผ่าน `PageLayout.solve` ซึ่งปัดเข้าสามขนาด *ของหน้าเมทริกซ์* (ที่เล็กกว่าหน้าจริง)
+        let solved = [Placed(item: item, frame: item.rect)]
         ZStack {
             CardBackdrop(theme: theme, ignoreSafeArea: false, signed: false)
             ZStack {
                 ForEach(solved) { p in
-                    WidgetChrome(placed: p, theme: theme)
+                    WidgetChrome(placed: p, theme: theme, forceSample: sample)
                         .frame(width: p.frame.width, height: p.frame.height)
                         .position(x: p.frame.midX, y: p.frame.midY)
                 }
@@ -511,6 +490,110 @@ private struct MatrixWidgetPage: View {
         .environment(\.colorScheme, theme.activeInk.isLight ? .light : .dark)
         .environment(\.previewStatic, true)
         .transaction { $0.animation = nil }
+    }
+}
+
+// MARK: - เมทริกซ์สามขนาด — ทุกชนิด × ทุกขนาดที่รับได้ × สองรูปแบบหน้า (DEBUG เท่านั้น)
+//
+// เปิดแอปด้วย `-exportShapeMatrix` → `Documents/ShapeMatrix/`:
+//   <kind>.png   — แถบของชนิดนั้น: สตอรี่ (เล็ก · แนวนอน · ใหญ่) แล้วพอร์ต (เล็ก · แนวนอน · ใหญ่) เฉพาะที่รับได้
+//   sheet-N.png  — แถบ 8 ชนิดต่อแผ่น ไว้เปิดดูทีเดียว
+//   shapes.txt   — ชนิด → ขนาดที่รับได้
+@MainActor
+enum ShapeMatrixExport {
+    static let folder = "ShapeMatrix"
+    static let pages: [(String, CGSize)] = [("story", CardTemplate.previewPageSize(for: .story)),
+                                           ("port", CardTemplate.previewPageSize(for: .portfolio))]
+
+    /// สามกรอบทดสอบต่อหน้า — ครึ่ง×ครึ่ง · เต็ม×ครึ่ง · เต็ม×เต็ม (ความกว้างหน้าหักขอบกระดาษ)
+    /// ไม่ใช่ "ขนาดของระบบ" อีกแล้ว (ผู้ใช้ 13 ต.ค. 2569 ดึก: resize อิสระ) — แค่สามจุดไว้ส่องว่าผังจัดตัวเองได้
+    static func probeSizes(_ page: CGSize) -> [(name: String, size: CGSize)] {
+        let full = PageLayout.content(page).width
+        let half = ((full - PageLayout.gap) / 2).rounded(.down)
+        return [("เล็ก", CGSize(width: half, height: half)),
+                ("แนวนอน", CGSize(width: full, height: half)),
+                ("ใหญ่", CGSize(width: full, height: full))]
+    }
+
+    static func run(photos: PhotoStore) async {
+        let fm = FileManager.default
+        let dir = URL.documentsDirectory.appending(path: folder)
+        try? fm.removeItem(at: dir)
+        try? fm.createDirectory(at: dir, withIntermediateDirectories: true)
+        PhotoStore.exportPerson = ProcessInfo.processInfo.arguments.contains("-exportPerson")
+        defer { PhotoStore.exportPerson = false }
+        let m = WidgetMatrixExport.margin
+        var lines: [String] = []
+        var strips: [(String, UIImage)] = []
+        // รูปจากเน็ตต้องอยู่ในแคชก่อน — `ImageRenderer` ไม่รัน `.task` (โลโก้แบรนด์ในใบแรก ๆ จะว่าง)
+        var urls = Set((0..<PhotoLib.count).map { PhotoLib.url($0) })
+        for brand in Profile.me.shownTrack(.brand).brands { if let raw = brand.logo, let u = URL(string: raw) { urls.insert(u) } }
+        await withTaskGroup(of: Void.self) { group in for u in urls { group.addTask { _ = await ImageCache.shared.load(u) } } }
+
+        for kind in WidgetKind.allCases where kind.canResize {
+            lines.append("\(kind.rawValue): small · wide · large · default=\(Int(kind.defaultSize.width))×\(Int(kind.defaultSize.height))")
+            var cells: [UIImage] = []
+            for (_, page) in pages {
+                for (si, shape) in probeSizes(page).enumerated() {
+                    var w = WidgetMatrixExport.baseInstance(kind)
+                    w.x = m; w.y = m
+                    w.rect.size = shape.size
+                    let cfg = WidgetMatrixExport.Config(
+                        id: kind.rawValue, kind: kind.rawValue, group: "shape", label: shape.name,
+                        page: .init(w: Double(w.w + m * 2), h: Double(w.h + m * 2), strip: false),
+                        theme: WidgetMatrixExport.baseTheme, item: WidgetMatrixExport.itemSnapshot(w))
+                    _ = WidgetMatrixExport.render(cfg, photos: photos, scale: 1, sample: true)
+                    if let ui = WidgetMatrixExport.render(cfg, photos: photos, scale: 1, sample: true) { cells.append(ui) }
+                    // ใบเดี่ยว @2x ต่อ ชนิด × ขนาด × หน้า — เอาไปวางเทียบกับแบบ HTML (present/widget-sizes)
+                    if let ui2 = WidgetMatrixExport.render(cfg, photos: photos, scale: 2, sample: true) {
+                        let pageName = page.width > 500 ? "story" : "port"
+                        let sizeName = ["small", "wide", "large"][si]
+                        try? ui2.pngData()?.write(to: dir.appending(path: "cell-\(kind.rawValue)-\(sizeName)-\(pageName).png"))
+                    }
+                    await Task.yield()
+                }
+            }
+            let strip = compose(cells, title: kind.rawValue + "  [เล็ก·แนวนอน·ใหญ่]")
+            strips.append((kind.rawValue, strip))
+            try? strip.pngData()?.write(to: dir.appending(path: "\(kind.rawValue).png"))
+        }
+        for (n, chunk) in stride(from: 0, to: strips.count, by: 8).enumerated() {
+            let sheet = stack(Array(strips[chunk..<min(chunk + 8, strips.count)]).map(\.1))
+            try? sheet.pngData()?.write(to: dir.appending(path: "sheet-\(n).png"))
+        }
+        try? (lines.joined(separator: "\n") + "\n").write(to: dir.appending(path: "shapes.txt"), atomically: true, encoding: .utf8)
+        print("[shapes] wrote \(strips.count) strips → \(dir.path)")
+    }
+
+    /// เรียงช่องในแถวเดียว พร้อมชื่อชนิดบนหัว
+    static func compose(_ cells: [UIImage], title: String) -> UIImage {
+        let gap: CGFloat = 10, head: CGFloat = 22
+        let w = cells.reduce(gap) { $0 + $1.size.width + gap }
+        let h = (cells.map(\.size.height).max() ?? 0) + gap * 2 + head
+        let f = UIGraphicsImageRendererFormat(); f.scale = 1
+        return UIGraphicsImageRenderer(size: CGSize(width: max(w, 200), height: h), format: f).image { ctx in
+            UIColor(white: 0.12, alpha: 1).setFill()
+            ctx.fill(CGRect(origin: .zero, size: CGSize(width: max(w, 200), height: h)))
+            (title as NSString).draw(at: CGPoint(x: gap, y: 4), withAttributes: [
+                .font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.white])
+            var x = gap
+            for c in cells {
+                c.draw(at: CGPoint(x: x, y: head + gap))
+                x += c.size.width + gap
+            }
+        }
+    }
+
+    static func stack(_ strips: [UIImage]) -> UIImage {
+        let w = strips.map(\.size.width).max() ?? 1
+        let h = strips.reduce(0) { $0 + $1.size.height }
+        let f = UIGraphicsImageRendererFormat(); f.scale = 1
+        return UIGraphicsImageRenderer(size: CGSize(width: w, height: h), format: f).image { ctx in
+            UIColor(white: 0.12, alpha: 1).setFill()
+            ctx.fill(CGRect(x: 0, y: 0, width: w, height: h))
+            var y: CGFloat = 0
+            for s in strips { s.draw(at: CGPoint(x: 0, y: y)); y += s.size.height }
+        }
     }
 }
 #endif

@@ -1,0 +1,2582 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        366,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.15,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 7,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 307.44,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 79.2,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 336.72,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 268.95,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 135.42,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 179.85,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 55.89,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 38.07,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 9,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 13.82,
+          "x" : 252.57,
+          "y" : 130.4
+        },
+        {
+          "h" : 161.25,
+          "id" : "r\/7\/1",
+          "lines" : 2,
+          "size" : 8,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 149
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 29.5,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 125.4,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        660
+      ],
+      "boxes" : [
+        {
+          "h" : 660,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 660,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 660,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 36.3,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 7,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 307.44,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 158.4,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 336.72,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 537.9,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 135.42,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 359.7,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 55.89,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 38.07,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 9,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 13.82,
+          "x" : 252.57,
+          "y" : 130.4
+        },
+        {
+          "h" : 341.1,
+          "id" : "r\/7\/1",
+          "lines" : 2,
+          "size" : 8,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 149
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 29.5,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 125.4,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        366
+      ],
+      "boxes" : [
+        {
+          "h" : 366,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.13,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 14.72,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 307.44,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 87.84,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 336.72,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 298.29,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 135.42,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 199.47,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 28.6,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 113.14,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 28.6,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 18.93,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 80.08,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 28.6,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 18.93,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 29.06,
+          "x" : 294.58,
+          "y" : 130.4
+        },
+        {
+          "h" : 165.87,
+          "id" : "r\/7\/1",
+          "lines" : 4,
+          "size" : 16.83,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 164
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.724137931034484,
+            "outWeight" : 600,
+            "size" : 14.724137931034484,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.931034482758623,
+            "outWeight" : 700,
+            "size" : 18.931034482758623,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.931034482758623,
+            "outWeight" : 700,
+            "size" : 18.931034482758623,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.82758620689655,
+            "outWeight" : 400,
+            "size" : 16.82758620689655,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.724137931034484,
+          "v" : 22.25,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.931034482758623,
+          "v" : 28.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 16.82758620689655,
+          "v" : 31.02,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 22.25,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.724137931034484,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 185.52,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 80.08,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 29.06,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 124.08,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 4,
+          "size" : 16.82758620689655,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 135.8,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 80.08,
+          "weight" : 700,
+          "width" : 80.08
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 29.06,
+          "weight" : 700,
+          "width" : 29.06
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 29.5,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 125.4,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        },
+        {
+          "face" : "noto",
+          "h" : 22.25,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.724137931034484,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 185.52,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 80.08,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 29.06,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 124.08,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 4,
+          "size" : 16.82758620689655,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 135.8,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 80.08,
+          "weight" : 700,
+          "width" : 80.08
+        },
+        {
+          "face" : "noto",
+          "h" : 28.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.931034482758623,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 29.06,
+          "weight" : 700,
+          "width" : 29.06
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        366
+      ],
+      "boxes" : [
+        {
+          "h" : 366,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 366,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.13,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 7,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 307.44,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 87.84,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 336.72,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 298.29,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 135.42,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 199.47,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 55.89,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 9,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 38.07,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 13.6,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 9,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 13.82,
+          "x" : 252.57,
+          "y" : 130.4
+        },
+        {
+          "h" : 180.87,
+          "id" : "r\/7\/1",
+          "lines" : 2,
+          "size" : 8,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 149
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 29.5,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 125.4,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        330
+      ],
+      "boxes" : [
+        {
+          "h" : 330,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 330,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 18.15,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 11.67,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 512.4,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 79.2,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 561.2,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 268.95,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 225.7,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 179.85,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 234.85,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 90.48,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 15,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 63.45,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 22.67,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 15,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 23.03,
+          "x" : 277.95,
+          "y" : 130.4
+        },
+        {
+          "h" : 152.18,
+          "id" : "r\/7\/1",
+          "lines" : 2,
+          "size" : 13.33,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 234.85,
+          "x" : 210.5,
+          "y" : 158.07
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.666666666666668,
+            "outWeight" : 600,
+            "size" : 11.666666666666668,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 700,
+            "size" : 15,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15,
+            "outWeight" : 700,
+            "size" : 15,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.333333333333334,
+            "outWeight" : 400,
+            "size" : 13.333333333333334,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.666666666666668,
+          "v" : 17.63,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15,
+          "v" : 22.67,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 13.333333333333334,
+          "v" : 24.58,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 154.85,
+          "weight" : 600,
+          "width" : 512.4
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 561.2
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 63.45,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 23.03,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 49.16,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 13.333333333333334,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 209.01,
+          "weight" : 400,
+          "width" : 234.85
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 63.45,
+          "weight" : 700,
+          "width" : 63.45
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 23.03,
+          "weight" : 700,
+          "width" : 23.03
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 512.4
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 561.2
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 14.75,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 1,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 197.67,
+          "weight" : 400,
+          "width" : 234.85
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        },
+        {
+          "face" : "noto",
+          "h" : 17.63,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.666666666666668,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 154.85,
+          "weight" : 600,
+          "width" : 512.4
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 561.2
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 63.45,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 23.03,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 49.16,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 13.333333333333334,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 209.01,
+          "weight" : 400,
+          "width" : 234.85
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 63.45,
+          "weight" : 700,
+          "width" : 63.45
+        },
+        {
+          "face" : "noto",
+          "h" : 22.67,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 23.03,
+          "weight" : 700,
+          "width" : 23.03
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        366,
+        704.55
+      ],
+      "boxes" : [
+        {
+          "h" : 704.55,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 704.55,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 704.55,
+          "id" : "r\/1",
+          "type" : "rect",
+          "w" : 366,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.75,
+          "id" : "r\/4",
+          "lines" : 1,
+          "size" : 10.68,
+          "slot" : "tagline",
+          "text" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "type" : "text",
+          "w" : 307.44,
+          "x" : 29.3,
+          "y" : 14.9
+        },
+        {
+          "h" : 169.09,
+          "id" : "r\/5",
+          "lines" : 1,
+          "size" : 99,
+          "text" : "รู้จักฉัน",
+          "type" : "text",
+          "w" : 336.72,
+          "x" : 14.6,
+          "y" : 38
+        },
+        {
+          "h" : 574.21,
+          "id" : "r\/6",
+          "type" : "image",
+          "w" : 135.42,
+          "x" : 67.7,
+          "y" : 61
+        },
+        {
+          "h" : 383.98,
+          "id" : "r\/7",
+          "type" : "col",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 20.74,
+          "id" : "r\/7\/0",
+          "type" : "row",
+          "w" : 83.13,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 20.74,
+          "id" : "r\/7\/0\/0",
+          "lines" : 1,
+          "size" : 13.73,
+          "text" : "รู้จักฉัน —",
+          "type" : "text",
+          "w" : 58.06,
+          "x" : 210.5,
+          "y" : 130.4
+        },
+        {
+          "h" : 20.74,
+          "id" : "r\/7\/0\/1",
+          "lines" : 1,
+          "size" : 13.73,
+          "slot" : "name",
+          "text" : "klll",
+          "type" : "text",
+          "w" : 21.07,
+          "x" : 272.56,
+          "y" : 130.4
+        },
+        {
+          "h" : 358.24,
+          "id" : "r\/7\/1",
+          "lines" : 3,
+          "size" : 12.2,
+          "slot" : "about",
+          "text" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "type" : "text",
+          "w" : 140.91,
+          "x" : 210.5,
+          "y" : 156.14
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "duo" : false,
+          "papered" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.675,
+            "outWeight" : 600,
+            "size" : 10.675,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 99,
+            "outWeight" : 900,
+            "size" : 99,
+            "weight" : 900
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.725000000000001,
+            "outWeight" : 700,
+            "size" : 13.725000000000001,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.725000000000001,
+            "outWeight" : 700,
+            "size" : 13.725000000000001,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12.200000000000001,
+            "outWeight" : 400,
+            "size" : 12.200000000000001,
+            "slot" : "about",
+            "weight" : 400
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 7,
+            "outWeight" : 600,
+            "size" : 7,
+            "slot" : "tagline",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 9,
+            "outWeight" : 700,
+            "size" : 9,
+            "slot" : "name",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8,
+            "outWeight" : 400,
+            "size" : 8,
+            "slot" : "about",
+            "weight" : 400
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "tagline",
+            "v" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว"
+          },
+          {
+            "slot" : "name",
+            "v" : "klll"
+          },
+          {
+            "slot" : "about",
+            "v" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.675,
+          "v" : 16.13,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 99,
+          "v" : 149.59,
+          "weight" : 900
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.725000000000001,
+          "v" : 20.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 12.200000000000001,
+          "v" : 22.49,
+          "weight" : 400
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 7,
+          "v" : 10.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 9,
+          "v" : 13.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1.22,
+          "size" : 8,
+          "v" : 14.75,
+          "weight" : 400
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 16.13,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.675,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 144.9,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 58.06,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 21.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 67.47,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 3,
+          "size" : 12.200000000000001,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 138.67,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 58.06,
+          "weight" : 700,
+          "width" : 58.06
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 21.07,
+          "weight" : 700,
+          "width" : 21.07
+        },
+        {
+          "face" : "noto",
+          "h" : 10.58,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 7,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 108.03,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 29.5,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 2,
+          "size" : 8,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 125.4,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 38.07,
+          "weight" : 700,
+          "width" : 38.07
+        },
+        {
+          "face" : "noto",
+          "h" : 13.6,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 13.82,
+          "weight" : 700,
+          "width" : 13.82
+        },
+        {
+          "face" : "noto",
+          "h" : 16.13,
+          "kerning" : 1.8,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.675,
+          "t" : "แฟชั่น · คาเฟ่ · ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 144.9,
+          "weight" : 600,
+          "width" : 307.44
+        },
+        {
+          "face" : "noto",
+          "h" : 149.59,
+          "kerning" : -2,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 99,
+          "t" : "รู้จักฉัน",
+          "tracking" : 0,
+          "w" : 292.65,
+          "weight" : 900,
+          "width" : 336.72
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 58.06,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 21.07,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 67.47,
+          "kerning" : 0,
+          "lineHeight" : 1.22,
+          "lines" : 3,
+          "size" : 12.200000000000001,
+          "t" : "ชอบพาไปเที่ยว ทานอาหารอร่อยๆ แวะจิบกาแฟที่ร้านคาเฟ่น่ารักๆ",
+          "tracking" : 0,
+          "w" : 138.67,
+          "weight" : 400,
+          "width" : 140.91
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "รู้จักฉัน —",
+          "tracking" : 0,
+          "w" : 58.06,
+          "weight" : 700,
+          "width" : 58.06
+        },
+        {
+          "face" : "noto",
+          "h" : 20.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.725000000000001,
+          "t" : "klll",
+          "tracking" : 0,
+          "w" : 21.07,
+          "weight" : 700,
+          "width" : 21.07
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    330
+  ],
+  "inset" : 0,
+  "kind" : "aboutBehind",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

@@ -267,6 +267,8 @@ final class Profile {
             let items = items(f)
             return items.indices.contains(i) ? items[i] : ""
         }
+        // สายงานใต้ชื่อไม่มีที่กรอก (API ไม่มีฟิลด์นี้) — สร้างจากสายที่ใช่ของ Star Profile เสมอ ค่าเก่าที่เคยพิมพ์ไม่ใช้
+        if f == .tagline { return fallback(f) }
         // ค่าว่างที่ค้างอยู่ (ปิดแอปกลางคันขณะช่องยังโฟกัส) นับว่ายังไม่กรอก — ไม่ใช่ชื่อว่างเปล่า
         if let v = values[f.rawValue], !v.isEmpty { return v }
         return fallback(f)

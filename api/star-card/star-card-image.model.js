@@ -19,12 +19,12 @@ export default (sequelize, { DATE, INTEGER, STRING }, dbConfig, Sequelize) => {
       type: INTEGER,
       allowNull: false
     },
-    // slot = รูปในช่อง widget · lift = รูปที่ลบพื้นหลังแล้ว (PNG โปร่งใส)
+    // slot = รูปในช่อง widget (ไม่มีรูปที่ลบพื้นหลังให้แล้ว — 19 ต.ค. 2569)
     // background = รูปพื้นหลังการ์ด · page = PNG ทั้งหน้าตอนเผยแพร่
     role: {
       type: STRING(16),
       allowNull: false,
-      validate: { isIn: { args: [['slot', 'lift', 'background', 'page']], msg: 'ประเภทรูปไม่ถูกต้อง' } }
+      validate: { isIn: { args: [['slot', 'background', 'page']], msg: 'ประเภทรูปไม่ถูกต้อง' } }
     },
     createdAt: { type: DATE, defaultValue: fnDateNow },
     updatedAt: { type: DATE, defaultValue: fnDateNow }

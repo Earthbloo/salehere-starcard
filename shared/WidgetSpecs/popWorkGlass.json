@@ -1,0 +1,171 @@
+{
+ "kind": "popWorkGlass",
+ "design": {
+  "w": 350,
+  "h": 172
+ },
+ "widget": {
+  "title": "ผลงานสามใบ กระจกชมพู",
+  "category": "photo",
+  "symbol": "rosette",
+  "order": 53,
+  "ownSurface": true,
+  "ownBorder": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "photo": true,
+  "skin": "glass",
+  "motion": "mid"
+ },
+ "notes": "สำรับสติกเกอร์ · ผลงานสามใบ (กระจก) — ป้ายเม็ดยา 'ผลงานที่ผ่านมา' · รูปสามใบมุมมนขอบชมพู ช่องรูป 4 5 6 · แปลงจาก PopWidgets.swift (PopWork สกิน glass + PopSheet) · ป้ายหัวข้อกว้างตายตัว",
+ "root": {
+  "type": "col",
+  "pad": [
+   17,
+   4,
+   4,
+   4
+  ],
+  "children": [
+   {
+    "type": "stack",
+    "id": "sheet",
+    "grow": 1,
+    "h": "fill",
+    "fill": "pop.sheet",
+    "radius": 20,
+    "shadow": {
+     "x": 0,
+     "sigma": 4.5,
+     "y": 5,
+     "color": "pop.shadow"
+    },
+    "children": [
+     {
+      "type": "rect",
+      "id": "glassEdge",
+      "if": "surface=glass",
+      "radius": 20,
+      "stroke": {
+       "color": "white@0.6",
+       "width": 1.2
+      }
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "if": "bordered",
+      "radius": 20,
+      "stroke": {
+       "color": "rawAccent",
+       "width": 1.6
+      }
+     },
+     {
+      "type": "col",
+      "pad": [
+       25,
+       10,
+       10,
+       10
+      ],
+      "children": [
+       {
+        "type": "row",
+        "gap": 9,
+        "grow": 1,
+        "h": "fill",
+        "align": "stretch",
+        "children": [
+         {
+          "type": "image",
+          "photo": 4,
+          "w": "fill",
+          "radius": 10,
+          "stroke": {
+           "color": "rawAccent@0.7",
+           "width": 2.5
+          }
+         },
+         {
+          "type": "image",
+          "photo": 5,
+          "w": "fill",
+          "radius": 10,
+          "stroke": {
+           "color": "rawAccent@0.7",
+           "width": 2.5
+          }
+         },
+         {
+          "type": "image",
+          "photo": 6,
+          "w": "fill",
+          "radius": 10,
+          "stroke": {
+           "color": "rawAccent@0.7",
+           "width": 2.5
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "row",
+      "id": "label",
+      "w": 130,
+      "h": 26,
+      "gap": 6,
+      "pad": [
+       0,
+       12,
+       0,
+       5
+      ],
+      "align": "center",
+      "fill": "rawAccent",
+      "circle": true,
+      "place": "top-left",
+      "dx": 10,
+      "dy": -13,
+      "children": [
+       {
+        "type": "stack",
+        "w": 17,
+        "h": 17,
+        "children": [
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "white"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:medal",
+          "size": 9.5,
+          "tint": "rawAccent",
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "ผลงานที่ผ่านมา",
+        "face": "noto",
+        "weight": 700,
+        "size": 12.5,
+        "color": "white",
+        "maxLines": 1,
+        "shrinkTo": 8.75,
+        "grow": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

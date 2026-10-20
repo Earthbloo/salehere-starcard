@@ -252,6 +252,9 @@ struct CardScreen: View {
     /// ระยะที่ลากเลยขีดจำกัดไปแล้ว — **ขยับแค่กรอบ ไม่ขยับตัว widget**
     /// ปล่อยนิ้วแล้วสปริงกลับเป็นศูนย์ ผู้ใช้จึงรู้ว่า "สุดแล้ว" โดยไม่ต้องมีข้อความบอก
     @State private var overshoot: CGSize = .zero
+    /// **ขนาดที่นิ้วอยู่จริง** ระหว่างลากหมุดปรับขนาด — ใช้วาดทั้งใบ (กรอบ + ข้างใน) ตรง ๆ ทุกเฟรม
+    /// ข้อมูลจริงไม่ถูกแตะจนกว่าจะปล่อยนิ้ว (ดู `endResize`) · nil = ไม่ได้ลากอยู่
+    @State private var resizeLive: CGSize?
     @State private var resizeW: CGFloat = 0
     @State private var resizeH: CGFloat = 0
     /// สเกลที่ชิ้นงานถูกยกขึ้นในโชว์รูม ณ วินาทีที่เริ่มลากหมุด
@@ -290,6 +293,30 @@ struct CardScreen: View {
     ///
     /// คำนวณในพิกัด "หน้ากระดาษ" ไม่ใช่พิกัดจอ เพราะ tile ทุกตัวถูกวางด้วย `.offset` ในระบบนั้น
     /// แปลงกลับด้วย `canvasScale` ทีเดียวตรงนี้ ที่เหลือจึงบวกลบกันตรง ๆ ได้
+    /// **ดันใบอื่นลงตามนิ้ว** ระหว่างลากหมุดปรับขนาด (ผู้ใช้ 13 ต.ค. 2569: "ตอนลากแล้วดัน widget อื่นยังเหมือนเดิม")
+    ///
+    /// ใบที่ยืดกินที่ตามนิ้วจริง (`resizeLive`) — ใบที่ซ้อนแนวนอนกับมันและอยู่ต่ำกว่าถูกเลื่อนลงให้พ้น
+    /// แล้วดันต่อเป็นลูกโซ่ · ไม่ดึงขึ้น · ไม่เว้นร่อง (ให้ตรงกับที่ `PageLayout.solve` จะวางตอนปล่อยนิ้ว
+    /// ของที่ถูกดันจึงไม่กระโดดตอนปล่อย) · เป็นแค่ offset ตอนวาด ข้อมูลไม่ถูกแตะ
+    private func resizePush(_ p: Placed) -> CGFloat {
+        guard let rid = resizeID, rid != p.id, !p.item.pinned,
+              let live = resizeLive, let r = placed.first(where: { $0.id == rid })?.frame else { return 0 }
+        let liveRect = CGRect(origin: r.origin, size: live)
+        func overlapX(_ a: CGRect, _ b: CGRect) -> Bool { a.minX < b.maxX - 0.5 && a.maxX > b.minX + 0.5 }
+        var blockers = [liveRect]
+        let others = placed.filter { $0.id != rid && !$0.item.pinned }
+            .sorted { abs($0.frame.minY - $1.frame.minY) > 0.5 ? $0.frame.minY < $1.frame.minY : $0.frame.minX < $1.frame.minX }
+        for o in others {
+            var f = o.frame
+            let need = blockers.filter { overlapX($0, f) && $0.minY < f.minY + 0.5 }.map { $0.maxY }.max() ?? 0
+            let dy = max(0, need - f.minY)
+            f.origin.y += dy
+            if o.id == p.id { return dy }
+            blockers.append(f)
+        }
+        return 0
+    }
+
     private func showroom(_ p: Placed) -> (scale: CGFloat, dx: CGFloat, dy: CGFloat) {
         guard showroomID == p.id else { return (1, 0, 0) }
         let s = max(canvasScale, 0.01)
@@ -327,7 +354,7 @@ struct CardScreen: View {
 
     /// มุมของกรอบชิ้น — ก้อนข้อความมุมเล็ก (กล่องหุ้มตัวอักษรพอดี มุมมนใหญ่จะกินมุมตัวอักษร)
     private func chromeRadius(_ kind: WidgetKind) -> CGFloat {
-        kind == .textBlock ? min(theme.radius, TextBlock.radius) : theme.radius
+        kind.isTextLayer ? min(theme.radius, TextBlock.radius) : theme.radius
     }
 
     init(viewOnly: Bool = false, cardID: String? = nil, discardIfUntouched: Bool = false,
@@ -477,7 +504,7 @@ struct CardScreen: View {
                 // (ไม่นับเป็นจังหวะแก้ไข — ผู้ใช้ยังไม่ได้ทำอะไร ↶ ต้องไม่มีอะไรให้ย้อน)
                 if isEditing {
                     skipHistory = true
-                    for id in pages.flatMap(\.items).filter({ $0.kind == .textBlock }).map(\.id) {
+                    for id in pages.flatMap(\.items).filter({ $0.kind.isTextLayer }).map(\.id) {
                         fitTextBlock(id)
                     }
                     DispatchQueue.main.async { skipHistory = false }
@@ -929,12 +956,12 @@ struct CardScreen: View {
             // ของทับกันได้แล้ว ถ้าวาดตามชั้นซ้อนจริง หมุดปรับขนาดจะถูกตัวที่อยู่หน้ากว่าทับจนกดไม่ได้
             // ตอนพิมพ์ (โชว์รูม) ไม่มีกรอบกับหมุด — ก้อนถูกยกขึ้นกลางจอ กรอบจะอ่านเป็นของที่ต้องลาก
             if isEditing, current, dragID == nil, showroomID == nil,
-               let sel = solved.first(where: { $0.id == selected }) {
+               let snapped = solved.first(where: { $0.id == selected }) {
+                // ระหว่างลากหมุด กรอบเลือก (เส้น · จุดมุม · หมุด) วาดที่ขนาดนิ้วจริง — ชุดเดียวกับตัว widget (ดู `resizeLive`)
+                let sel = (resizeID == snapped.id ? resizeLive : nil).map {
+                    Placed(item: snapped.item, frame: CGRect(origin: snapped.frame.origin, size: $0))
+                } ?? snapped
                 selectionLayer(sel, interactive: interactive)
-                    // ยืดเฉพาะกรอบ ไม่แตะตัว widget — นี่คือ "ไปแค่กรอบ" ที่ตั้งใจ
-                    .frame(width: sel.frame.width + (resizeID == sel.id ? overshoot.width : 0),
-                           height: sel.frame.height + (resizeID == sel.id ? overshoot.height : 0),
-                           alignment: .topLeading)
                     // กรอบเลือก/หมุด/ปุ่มประแจ ต้องถูกท่าโชว์รูมพาไปพร้อมตัว widget
                     // ไม่งั้นมันค้างอยู่ที่ตำแหน่งเดิมแล้วชี้ไปยังที่ว่าง
                     .scaleEffect(showroomScale(sel), anchor: .center)
@@ -971,7 +998,8 @@ struct CardScreen: View {
 
         // ก้อนข้อความที่กำลังพิมพ์วาดที่ **ขนาดแก้ไขมาตรฐาน** ไม่ใช่ขนาดบนการ์ด (ดู `editBox`)
         // กรอบจากผังยังเป็นของเดิม — มันคือที่ที่กล่องจะไหลกลับไปตอนกด เสร็จ
-        let drawn = drawnSize(p)
+        // กำลังลากหมุดปรับขนาดชิ้นนี้ = ทั้งใบยืด/หดตามนิ้ว **และผังข้างในจัดใหม่ตามกรอบทุกเฟรม**
+        let drawn = (resizeID == p.id ? resizeLive : nil) ?? drawnSize(p)
         let pd = drawn == p.frame.size ? p : Placed(item: p.item, frame: CGRect(origin: p.frame.origin, size: drawn))
 
         WidgetChrome(placed: pd, theme: theme, lockBadge: isEditing && interactive)
@@ -1032,14 +1060,14 @@ struct CardScreen: View {
                             // ตั้งแต่แตะแรก คีย์บอร์ดจะเด้งขึ้นทุกครั้งที่ผู้ใช้แค่จะเลือกหรือจะลาก
                             // ก้อนข้อความ: แตะแรก = เลือก (ได้หมุดมุมย่อขยาย · ลากย้ายได้) · แตะซ้ำ = พิมพ์
                             // ถ้าแตะแล้วขึ้นแป้นพิมพ์ทันทีทุกครั้ง จะไม่มีจังหวะไหนได้จับหมุดเลย
-                            if p.item.kind == .textBlock {
+                            if p.item.kind.isTextLayer {
                                 if selected == p.id { enterTextMode(p.id) } else { select(p.id) }
                                 return
                             }
                             // ใบที่ล็อก: แตะ **ปุ่มปลดล็อก** = กรอกข้อมูลนั้น (กรอกเสร็จใบปลดล็อกในที่เดิม)
                             // แตะส่วนอื่นของใบ = เลือก/ลาก/ลบ ตามปกติ (ผู้ใช้ 29 ก.ย. 2569)
                             // ตรารับรองล็อกตาม "ยืนยันตัวตนผ่านแล้วหรือยัง" ไม่ใช่ตามว่าหัวข้อถูกกรอก (ดู `WidgetChrome`)
-                            let sealLocked = p.item.kind == .proofSeal && !VerifiedFacts.sealed
+                            let sealLocked = p.item.kind.family == .seal && p.item.kind.family.missing
                             if let t = p.item.kind.family.topic, !t.filled || sealLocked,
                                WidgetChrome.lockHitRect(in: drawn).contains(at) {
                                 Haptics.impact(.light)
@@ -1084,7 +1112,7 @@ struct CardScreen: View {
             .overlayPreferenceValue(TextSlotKey.self) { slots in
                 if isEditing, interactive {
                     // ก้อนข้อความไม่มีเส้นประชั้นใน — ทั้งก้อนคือช่องเดียว กรอบเลือกบอกอยู่แล้ว
-                    textSlotLayer(slots, on: p, focused: selected == p.id && p.item.kind != .textBlock)
+                    textSlotLayer(slots, on: p, focused: selected == p.id && !p.item.kind.isTextLayer)
                 }
             }
             // ช่องพิมพ์บนการ์ด — ทับตำแหน่งก้อนพอดี อยู่เหนือ catcher จึงรับทัชวางเคอร์เซอร์ได้
@@ -1093,6 +1121,8 @@ struct CardScreen: View {
             }
             .environment(\.canvasTyping, dock == .text(p.id))
             .opacity(isDrag ? 0 : 1)
+            // ระหว่างลาก ชิ้นอื่น**นิ่ง** — ท่าสั่นแบบหน้าโฮม iOS อ่านออกมาเป็น "บั๊ก" (และ repeatForever
+            // ไปปนกับสปริงตอนชิ้นอื่นหลบให้ ทำให้ตำแหน่งกระดิกไปด้วย) · การหลบให้คือสัญญาณพอแล้ว
             .pageChoreo(p.item.kind, order, d: dist, flat: p.item.surface == .glass)
             // ตอนพิมพ์: ก้อนที่พิมพ์ถูกยกขึ้นกลางที่ว่าง · ที่เหลือถอยออกแล้วหรี่ลง
             // หรี่ด้วย opacity + ย่อ ไม่ใช่ถอดออกจากต้นไม้ view — ผังต้องนิ่งอยู่ที่เดิม
@@ -1105,12 +1135,12 @@ struct CardScreen: View {
             .allowsHitTesting(showroomID == nil || showroomID == p.id)
             .offset(x: p.frame.minX - parallaxShift(p.item, parallax: parallax, pageWidth: pageWidth)
                        + showroom(p).dx,
-                    y: p.frame.minY + showroom(p).dy)
+                    y: p.frame.minY + showroom(p).dy + resizePush(p))
             // ลำดับในลิสต์คือชั้นซ้อนจริง — ห้ามยกตัวที่เลือกขึ้นหน้า
             // ไม่งั้นกดปุ่มสลับชั้นแล้วจะไม่เห็นอะไรเกิดขึ้นเลยตอนมันยังถูกเลือกอยู่
             // ยกเว้นในโชว์รูม ซึ่งตัวที่แต่งอยู่ต้องอยู่หน้าสุดตามนิยาม
             // ชิ้นที่ตรึง (ตรารับรอง) อยู่เหนือของทุกชิ้นบนหน้า แต่ใต้ชั้นลอยตอนลาก (200)
-            .zIndex(showroomID == p.id ? 400 : p.item.pinned ? 150 : Double(order))
+            .zIndex(showroomID == p.id ? 400 : resizeID == p.id ? 300 : p.item.pinned ? 150 : Double(order))
             .animation(Motion.settle, value: showroomID)
             // เป้าหมายกลางจอขยับตามความสูงแป้นพิมพ์ — เปลี่ยนเมื่อไหร่ต้องไหลตาม ไม่ใช่กระโดด
             .animation(Motion.settle, value: keyboard)
@@ -1194,7 +1224,7 @@ struct CardScreen: View {
         }
         w.w = newW
         w.h = newH
-        w.rect = PageLayout.clamp(w.rect, page: pageSize, min: PageLayout.minSize(for: .textBlock))
+        w.rect = PageLayout.clamp(w.rect, page: pageSize, min: PageLayout.minSize(for: .textLayer))
         guard w != pages[pi].items[i] else { return }
         pages[pi].items[i] = w
     }
@@ -1360,13 +1390,18 @@ struct CardScreen: View {
     private func selectionLayer(_ p: Placed, interactive: Bool) -> some View {
         let shape = RoundedRectangle(cornerRadius: chromeRadius(p.item.kind), style: .continuous)
         return ZStack {
+            // ระหว่างลากหมุดปรับขนาด กล่องที่ยืดตามนิ้วมี "วัสดุ" ให้เห็น — จางพอให้เห็นว่าเป็นกล่องเดียวกับชิ้น
+            if resizeID == p.id {
+                shape.fill(theme.accent.opacity(0.10))
+                shape.fill(.white.opacity(0.06))
+            }
             shape.strokeBorder(theme.accent, lineWidth: 1.5)
             shape.strokeBorder(theme.accent.opacity(0.18), lineWidth: 7).blur(radius: 5)
                 .matchedGeometryEffect(id: "selectionGlow", in: selectionNS)
             // จุดมุมสี่จุดบอกว่า "ขอบลากได้" — ก้อนข้อความไม่มีหมุดขอบ และกล่องเล็กเท่าตัวอักษร
             // จุดจะไปนั่งทับตัวแรกกับตัวสุดท้าย · มีแค่กรอบกับปุ่มมุมพอ
             // ชิ้นที่ตรึงก็ไม่มีจุด — จุดแปลว่า "ลากขอบได้" ซึ่งมันทำไม่ได้
-            if p.item.kind != .textBlock, !p.item.pinned {
+            if !p.item.kind.isTextLayer, !p.item.pinned {
                 ForEach(0..<4, id: \.self) { i in
                     Circle().fill(.white).frame(width: 8, height: 8)
                         .overlay(Circle().strokeBorder(theme.accent, lineWidth: 1.6))
@@ -1387,88 +1422,58 @@ struct CardScreen: View {
         // ที่จัดหน้ามาตายตัว (โปสเตอร์) แล้วกรอบสัดส่วนอื่นทำให้มันเหลือที่ว่าง · พอทุกใบ
         // จัดตัวเองได้ทั้งสองแกน ท่านั้นก็ไม่เหลือความหมาย: มันคือสองหมุดที่ลากพร้อมกัน
         // แต่ *ห้าม* ผู้ใช้เลือกสัดส่วนเอง ซึ่งเป็นสิ่งเดียวที่การยืดกรอบมีไว้ให้ทำ
-        .overlay(alignment: .trailing) {
-            if interactive, p.item.kind.canResize, !p.item.pinned { widthHandle(p) }
-        }
-        .overlay(alignment: .bottom) {
-            if interactive, p.item.kind.canResize, !p.item.pinned { heightHandle(p) }
+        //
+        // **หมุดมุมเดียว** (ผู้ใช้ 13 ต.ค. 2569): ลากแล้วกว้างกับสูงตามนิ้ว **อิสระทั้งสองแกน** ไม่สแนป
+        // ไม่มีสามขนาด — ความสูงตามใจ · ความกว้างได้ถึงขอบหน้า · ข้างในจัดผังตัวเองตามกติกาเดียวของ `WidgetChrome`
+        .overlay(alignment: .bottomTrailing) {
+            if interactive, p.item.kind.canResize, !p.item.pinned { sizeHandle(p) }
         }
         // ก้อนข้อความยังมีหมุดมุม — แต่ของมันไม่ใช่การยืดกรอบ มันปรับ *ขนาดตัวอักษร*
         // แล้วกล่องวิ่งตามตัวอักษร (ใบเดียวในตู้ที่กรอบเป็นผลลัพธ์ ไม่ใช่ตัวตั้ง)
         .overlay(alignment: .bottomTrailing) {
-            if interactive, p.item.kind == .textBlock { cornerHandle(p) }
+            if interactive, p.item.kind.isTextLayer { cornerHandle(p) }
         }
     }
 
-    /// หมุดขอบขวา — **ความกว้างอย่างเดียว** ความสูงไม่ขยับ
-    private func widthHandle(_ p: Placed) -> some View {
-        HandleGrip(theme: theme, axis: .horizontal)
-            // นั่งนอกกรอบ ไม่ใช่คร่อมขอบ — ดูเหตุผลที่ `HandleGrip`
-            .offset(x: 11)
+    /// **หมุดมุมเดียว** — กว้าง/สูงตามนิ้วอิสระ (ผู้ใช้ 13 ต.ค. 2569: "ให้ความสูงตามใจเลย")
+    ///
+    /// ระหว่างลาก ใบที่ยืดวาดที่ขนาดนิ้วจริง (`resizeLive`) และดันใบอื่นลงเป็นลูกโซ่ (`resizePush`)
+    /// ข้อมูลจริงไม่ถูกแตะจนกว่าจะปล่อยนิ้ว — ผังข้างใต้จึงนิ่ง ไม่มีสองชั้นวิ่งแข่งกัน
+    /// พ้นขนาดเล็กสุด/ขอบหน้าแล้วยังตามนิ้วแต่หนืด (ยางยืดแบบ iOS) · ปล่อยแล้วสปริงกลับเข้าขอบ
+    private func sizeHandle(_ p: Placed) -> some View {
+        cornerGrip
+            .offset(x: 14, y: 14)
             .gesture(
-                // วัดใน space ของหน้า ไม่ใช่ของหมุด — หมุดเกาะขอบขวาของตัวที่กำลังยืด
-                // พอความกว้างเปลี่ยน หมุดขยับตาม ระยะลากใน local space จะถูกหักออกเท่านั้นพอดี
-                // กลายเป็นวงป้อนกลับ โต→ระยะลดลงต่ำกว่าเกณฑ์→หด→ระยะเด้งขึ้น→โต วนไม่จบ
+                // วัดใน space ของหน้า ไม่ใช่ของหมุด — หมุดเกาะมุมของตัวที่กำลังยืด
+                // ถ้าวัดใน local space ระยะลากจะถูกหักออกเท่าที่ยืดไปพอดี กลายเป็นวงป้อนกลับ
                 DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
                     .onChanged { g in
                         guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
                         if resizeID != p.id {
                             resizeID = p.id
                             resizeW = pages[index].items[i].w
-                            resizeScale = max(showroomScale(p), 0.01)
-                        }
-                        // เพดานคือขอบขวาของหน้า — ยืดเลยขอบไปก็ไม่มีที่ให้วาด
-                        let room = PageLayout.roomWidth(from: pages[index].items[i].x, page: pageSize)
-                        let want = resizeW + g.translation.width / resizeScale
-                        let cur = pages[index].items[i].w
-                        // ฮิสเทอรีซิส — ต้องลากพ้นครึ่งขั้นไปอีกหน่อยจึงเปลี่ยน
-                        // กันนิ้วสั่นคาเส้นแบ่งแล้วขนาดวูบไปมา
-                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
-                        let next = PageLayout.snap(min(max(want, PageLayout.minSize.width), room))
-                        if abs(next - cur) > 0.5 {
-                            pages[index].items[i].w = next
-                            Haptics.impact(.light)
-                        }
-                        // ลากเลยขีดแล้ว — ให้ "กรอบ" ยืดตามนิ้วแบบหนืด ตัว widget ไม่ขยับ
-                        let over = want - next
-                        overshoot.width = abs(over) < 0.5 ? 0 : rubber(over)
-                    }
-                    .onEnded { _ in
-                        endResize()
-                        Haptics.impact(.medium)
-                    }
-            )
-    }
-
-    /// หมุดขอบล่าง — **ความสูงอย่างเดียว**
-    ///
-    /// ไม่มีเพดานล่างจากเนื้อหาอีกแล้ว (เคยมี `minHeight` ที่วัดความสูงที่เนื้อหาขอจริง)
-    /// เพราะการโชว์สเกลด้วยแกนที่คับที่สุดเสมอ — บีบเตี้ยลงได้เนื้อหาที่เล็กลงทั้งก้อน
-    /// ไม่ใช่เนื้อหาที่ถูกตัดครึ่ง จึงไม่มีอะไรให้ต้องกัน
-    private func heightHandle(_ p: Placed) -> some View {
-        HandleGrip(theme: theme, axis: .vertical)
-            .offset(y: 11)
-            .gesture(
-                // ดูเหตุผลที่ใช้ space ของหน้าใน `widthHandle`
-                DragGesture(minimumDistance: 1, coordinateSpace: .named("page"))
-                    .onChanged { g in
-                        guard let i = pages[index].items.firstIndex(where: { $0.id == p.id }) else { return }
-                        if resizeID != p.id {
-                            resizeID = p.id
                             resizeH = pages[index].items[i].h
                             resizeScale = max(showroomScale(p), 0.01)
                         }
-                        let room = PageLayout.roomHeight(from: pages[index].items[i].y, page: pageSize)
-                        let want = resizeH + g.translation.height / resizeScale
-                        let cur = pages[index].items[i].h
-                        guard abs(want - cur) > PageLayout.step * 0.6 else { return }
-                        let next = PageLayout.snap(min(max(want, PageLayout.minSize.height), room))
-                        if abs(next - cur) > 0.5 {
-                            pages[index].items[i].h = next
-                            Haptics.impact(.light)
+                        let wantW = resizeW + g.translation.width / resizeScale
+                        let wantH = resizeH + g.translation.height / resizeScale
+                        // เพดานคือขอบหน้า (ยืดจนเต็มขอบได้) · พื้นคือขนาดเล็กสุดของชนิดนั้น
+                        let f = placed.first { $0.id == p.id }?.frame ?? p.frame
+                        let lo = PageLayout.minSize(for: p.item.kind)
+                        let roomW = PageLayout.roomWidth(from: f.minX, page: pageSize)
+                        let roomH = PageLayout.roomHeight(from: f.minY, page: pageSize)
+                        func band(_ v: CGFloat, _ lo: CGFloat, _ hi: CGFloat) -> CGFloat {
+                            v < lo ? lo - rubber(lo - v) : (v > hi ? hi + rubber(v - hi) : v)
                         }
-                        let over = want - next
-                        overshoot.height = abs(over) < 0.5 ? 0 : rubber(over)
+                        let live = CGSize(width: band(wantW, lo.width, roomW), height: band(wantH, lo.height, roomH))
+                        // ชนขอบ/ชนพื้น = สะกิดหนึ่งที บอกว่า "สุดแล้ว" โดยไม่ต้องมีข้อความ
+                        if let old = resizeLive {
+                            let hitW = (wantW >= roomW) != (old.width >= roomW), hitH = (wantH >= roomH) != (old.height >= roomH)
+                            let lowW = (wantW <= lo.width) != (old.width <= lo.width), lowH = (wantH <= lo.height) != (old.height <= lo.height)
+                            if hitW || hitH || lowW || lowH { Haptics.impact(.light) }
+                        }
+                        // ตามนิ้วด้วยสปริงสั้นมาก (ท่าเดียวกับชิ้นที่ลอยตอนลาก)
+                        withAnimation(Motion.homeFollow) { resizeLive = live }
                     }
                     .onEnded { _ in
                         endResize()
@@ -1540,14 +1545,13 @@ struct CardScreen: View {
         // ใบที่ล็อกต้องหน้าตาเดิมตอนถูกยกขึ้นลาก (ตัวอย่าง + ชั้นเทา) — ไม่ใช่กลายเป็นป้ายรอข้อมูลกลางนิ้ว
         WidgetChrome(placed: p, theme: theme, lockBadge: true)
             .frame(width: p.frame.width, height: p.frame.height)
-            .scaleEffect(lifted ? 1.05 : 1.0)
-            .shadow(color: .black.opacity(lifted ? 0.55 : 0), radius: lifted ? 30 : 0, y: lifted ? 16 : 0)
-            .overlay {
-                RoundedRectangle(cornerRadius: chromeRadius(p.item.kind), style: .continuous)
-                    .strokeBorder(theme.accent, lineWidth: 1.5)
-            }
+            // ยกขึ้น = โต 1.1 + เงานุ่มใต้ชิ้น (หน้าจอ iPhone) — ไม่มีกรอบสีเน้น: ของที่ลอยอยู่ไม่ต้องมีอะไรชี้
+            .scaleEffect(lifted ? 1.1 : 1.0)
+            .shadow(color: .black.opacity(lifted ? 0.38 : 0), radius: lifted ? 22 : 0, y: lifted ? 12 : 0)
             .offset(x: dragStart.minX + dragTranslation.width,
                     y: dragStart.minY + dragTranslation.height)
+            // ตามนิ้วแบบมีแรงเฉื่อยนิด ๆ
+            .animation(Motion.homeFollow, value: dragTranslation)
             .allowsHitTesting(false)
             .zIndex(200)
     }
@@ -1610,7 +1614,7 @@ struct CardScreen: View {
         let room = PageLayout.freeWidth(from: probe.x, y: probe.y, height: probe.h,
                                         page: pageSize, avoiding: page.items, excluding: p.id)
         let floor = PageLayout.minSize.width
-        if p.item.kind != .textBlock, room >= floor {
+        if !p.item.kind.isTextLayer, room >= floor {
             probe.w = min(p.item.w, max(floor, PageLayout.snap(room)))
         }
         return PageLayout.clamp(probe, page: pageSize)
@@ -1731,7 +1735,7 @@ struct CardScreen: View {
 
     /// เข้าโหมดพิมพ์ก้อนข้อความ — ก้อนยกขึ้นกลางที่ว่าง แป้นพิมพ์ขึ้นพร้อมแถวฟอนต์ (ดู `TextTools` · พิมพ์บนการ์ดผ่าน `CanvasTextField`)
     private func enterTextMode(_ id: UUID) {
-        guard pages.contains(where: { $0.items.contains { $0.id == id && $0.kind == .textBlock } })
+        guard pages.contains(where: { $0.items.contains { $0.id == id && $0.kind.isTextLayer } })
         else { return }
         photos.framing = nil
         // หนึ่งรอบพิมพ์ = หนึ่งจังหวะใน ↶ — บันทึกก่อนเข้า แล้วไม่บันทึกทุกครั้งที่กล่องขยับตามตัวอักษร
@@ -1768,7 +1772,7 @@ struct CardScreen: View {
 
     /// ปุ่ม "ข้อความ" บนแถบหลัก — วางก้อนใหม่แล้วเข้าโหมดพิมพ์ทันที ไม่มีขั้นเลือกแบบคั่นกลาง
     private func addText() {
-        guard let id = addWidget(.textBlock) else { return }
+        guard let id = addWidget(.textLayer) else { return }
         // ก้อนใหม่จัดกลางเหมือนข้อความบน Story — ตอนยกขึ้นพิมพ์กลางจอ ตัวอักษรชิดซ้ายจะดูหลุดกรอบ
         for pi in pages.indices {
             if let i = pages[pi].items.firstIndex(where: { $0.id == id }) {
@@ -1873,7 +1877,7 @@ struct CardScreen: View {
         // ของที่โผล่มาเล็กกว่าที่เห็นในตู้ต้องมีคำอธิบาย ไม่งั้นอ่านเป็น "แอปวางผิด"
         if shrunk {
             flash("ที่ว่างไม่พอขนาดเต็ม — ย่อให้พอดีแล้ว ลากหมุดมุมปรับต่อได้")
-        } else if moved, kind != .textBlock {
+        } else if moved, !kind.isTextLayer {
             // ลงหน้าอื่นเพราะหน้านี้เต็ม — หน้าปัดไปแล้วแต่ต้องบอกด้วยว่าทำไม ไม่งั้นอ่านเป็นแอปเปลี่ยนหน้าเอง
             flash("หน้านี้เต็ม — เพิ่มไว้หน้า \(index + 1) แล้ว")
         }
@@ -1900,7 +1904,7 @@ struct CardScreen: View {
         dragOrigin = CGPoint(x: p.item.x, y: p.item.y)
         dragWidth = p.item.w
         Haptics.impact(.medium)
-        withAnimation(Motion.lift) { lifted = true }
+        withAnimation(Motion.homeLift) { lifted = true }
     }
 
     private func endDrag(_ p: Placed) {
@@ -2052,8 +2056,23 @@ struct CardScreen: View {
     /// แล้ว `resizeID` ค้าง ซึ่งบล็อกการปัดเปลี่ยนหน้า และทำให้การยืดครั้งถัดไปอ่านค่าตั้งต้นผิด
     /// (มันเห็นว่าตัวเองยืดอยู่แล้วเลยไม่จับค่าเริ่มต้นใหม่) · จึงล้างจากทางออกทุกทาง ไม่ใช่แค่ปล่อยนิ้ว
     private func endResize() {
-        guard resizeID != nil else { return }
+        guard let id = resizeID else { return }
         resizeID = nil
+        // เขียนขนาดที่นิ้วปล่อยลงข้อมูล — รูดกลับเข้าขอบหน้า/ขนาดเล็กสุด ปัดเป็นจุดเต็ม (ไม่สแนปขั้น)
+        // ผัง (`PageLayout.solve`) ดันของที่ทับให้เองตอน `pages` เปลี่ยน — ตรงกับที่ `resizePush` วาดไว้ระหว่างลาก
+        if let live = resizeLive, let i = pages[index].items.firstIndex(where: { $0.id == id }) {
+            let f = placed.first { $0.id == id }?.frame ?? pages[index].items[i].rect
+            let lo = PageLayout.minSize(for: pages[index].items[i].kind)
+            let w = min(max(live.width, lo.width), PageLayout.roomWidth(from: f.minX, page: pageSize)).rounded()
+            let h = min(max(live.height, lo.height), PageLayout.roomHeight(from: f.minY, page: pageSize)).rounded()
+            withAnimation(Motion.homeDrop) {
+                pages[index].items[i].w = w
+                pages[index].items[i].h = h
+                resizeLive = nil
+            }
+        } else {
+            withAnimation(Motion.homeDrop) { resizeLive = nil }
+        }
         withAnimation(.interpolatingSpring(stiffness: 300, damping: 20)) { overshoot = .zero }
     }
 
@@ -2609,6 +2628,28 @@ struct CardScreen: View {
             // มุมกับแถบผู้ออกบัตรไม่ใช่ของที่ต้องถาม — ค่าตั้งต้นของธีมตัดสินให้ (ดู `CardTheme.corner` · `strip`)
             toneRow
             signatureRow
+            // ฟอนต์ของข้อมูลจากระบบ — ใช้กับชุดห้าสไตล์ทั้งการ์ด (ข้อมูลแก้ฟอนต์รายช่องไม่ได้)
+            if pages.contains(where: { $0.items.contains { $0.kind.isKit } }) {
+                DockRow(label: "ฟอนต์ข้อมูล") {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(CardFont.allCases) { f in
+                                let on = theme.dataFont == f
+                                Button {
+                                    withAnimation(Motion.flow) { theme.dataFont = f }
+                                    Haptics.impact(.light)
+                                } label: {
+                                    Text(f.name).font(f.font(13, .semibold))
+                                        .foregroundStyle(on ? Color.black.opacity(0.86) : .white.opacity(0.78))
+                                        .padding(.horizontal, 12).frame(height: 30)
+                                        .background(Capsule().fill(on ? Color.white.opacity(0.92) : Color.white.opacity(0.08)))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                }
+            }
         }
         .animation(Motion.settle, value: colorOpen)
         .animation(Motion.settle, value: theme.backdrop == .photo)
@@ -2862,19 +2903,17 @@ struct CardScreen: View {
     /// หัวชีต (‹ + หมวดของชิ้น) อยู่ที่ `DockSheet` · ทุกอย่างในนี้คือของที่กดแล้วเกิดผลทันที
     /// ก้อนข้อความไม่มีกล่อง/ขอบ (แตะซ้ำแล้วทุกอย่างอยู่เหนือแป้นพิมพ์แบบ IG) เหลือแค่แถวท้าย
     private func pieceTray(_ sel: WidgetInstance) -> some View {
-        let isText = sel.kind == .textBlock
+        let isText = sel.kind.isTextLayer
         let resizable = sel.kind.canResize
         let hint = sel.pinned ? "Sale Here วางให้ทุกการ์ด · ย้ายหรือลบไม่ได้"
                  : isText ? "แตะซ้ำเพื่อพิมพ์ · ลากเพื่อย้าย · หมุดมุมย่อขยาย"
-                 : resizable ? "หมุดข้างยืดกว้าง/สูง · หมุดมุมย่อขยายทั้งชิ้น · แตะตัวอักษรเพื่อแก้"
+                 : resizable ? "ลากเพื่อย้าย · หมุดมุมยืดกว้าง/สูง · แตะตัวอักษรเพื่อแก้"
                  : "ลากเพื่อย้าย · ขนาดล็อก หลักฐานต้องเทียบกันได้"
         return VStack(spacing: 10) {
             if !isText {
                 // ตรารับรองที่ตรึงไว้ไม่มีแบบอื่นให้สลับ — ขนาดกับที่ของมันคิดจากแบบนี้แบบเดียว
                 if !sel.pinned { variantsRow(sel) }
-                // กล่องเหลือสองแบบ: เข้ม หรือ กระจก — "ไม่มีพื้น" ไม่ใช่ตัวเลือกอีกแล้ว
-                // ชิ้นที่วาดวัสดุของตัวเอง (กระดาษ · ฟิล์ม · ป้ายไฟ · รูปเต็มกรอบ) ไม่มีแถวนี้
-                // เพราะพื้นของมันคือวัสดุนั้น ไม่ใช่แผ่นที่ chrome วาดให้
+                // พื้นผิวที่ chrome วาดให้ (`widget.surfaces`) — ใบที่วาดพื้นเองไม่มีแถวนี้
                 if sel.kind.usesSurfaceChoice {
                     DockRow(label: "กล่อง") {
                         DockSegment(options: sel.kind.surfaceOptions.map {
@@ -2882,48 +2921,8 @@ struct CardScreen: View {
                                     selection: sel.surface) { setSurface(sel, $0) }
                     }
                 }
-                // ลายทางบนแผ่น — มีเฉพาะตอนแผ่นของมันยังอยู่ (กระจก/ไม่มีพื้นไม่มีแผ่นให้ลาย)
-                if sel.kind.takesPattern && sel.surface == .glass {
-                    DockRow(label: "ลาย") {
-                        DockSegment(options: PlatePattern.allCases.map { .init(value: $0, title: $0.name) },
-                                    selection: sel.pattern) { setPattern(sel, $0) }
-                    }
-                }
-                // หน้าต่างช่องทาง: โชว์ช่องไหน — ตั้งต้นคือช่องที่ยอดเยอะสุด (ดู `WindowChannel`)
-                if sel.kind.picksChannel, Profile.me.creator.socials.count > 1 {
-                    DockRow(label: "ช่องทาง") {
-                        DockSegment(options: Profile.me.creator.socials.map {
-                                        .init(value: $0.type, title: $0.type.shortName) },
-                                    selection: WindowChannel.current(sel.id)?.type ?? .tiktok) {
-                            WindowChannel.pick($0, for: sel.id)
-                            Haptics.impact(.light)
-                        }
-                    }
-                }
-                // รูปคน: ลบพื้นหลังให้เอง (ตั้งต้น) หรือคงรูปเต็มไว้ในกรอบ
-                if sel.kind.liftsSubject {
-                    DockRow(label: "พื้นหลังรูป") {
-                        DockSegment(options: [.init(value: true, title: "ลบออก"),
-                                              .init(value: false, title: "คงไว้")],
-                                    selection: sel.liftPhoto) { setLiftPhoto(sel, $0) }
-                    }
-                }
-                // ตรารับรอง: หน้าตาสามแบบ เลือกรายชิ้น (ผู้ใช้เลือกจากผังตัวเลือก 1 ต.ค. 2569)
-                if sel.kind == .proofSeal {
-                    DockRow(label: "แบบ") {
-                        DockSegment(options: SealStyle.allCases.map { .init(value: $0, title: $0.name) },
-                                    selection: sel.sealStyle) { setSealStyle(sel, $0) }
-                    }
-                }
-                // ตราปั๊มนูน Sale Here STAR บนแผ่นของใบนี้ — สีเดียวกับแผ่น ปิดได้รายชิ้น
-                if sel.kind.takesEmboss {
-                    DockRow(label: "ตรา") {
-                        DockSegment(options: [.init(value: 0, title: "พิมพ์"),
-                                              .init(value: 1, title: "ปั๊มนูน"),
-                                              .init(value: 2, title: "ไม่มี")],
-                                    selection: !sel.emboss ? 2 : (sel.embossBlind ? 1 : 0)) { setEmboss(sel, $0) }
-                    }
-                }
+                // ตัวเลือกของใบนี้ — ทั้งหมดมาจาก `widget.controls` (ลาย · พื้นหลัง · มุม · เนื้อหา)
+                controlRows(sel)
                 DockRow(label: "ขอบ") {
                     DockSegment(options: [.init(value: true, title: "มีขอบ"),
                                           .init(value: false, title: "ไม่มีขอบ")],
@@ -2965,38 +2964,182 @@ struct CardScreen: View {
 
     /// แบบอื่นในตระกูลเดียวกัน — สิ่งแรกที่คนอยากรู้เวลาแตะชิ้นคือ "มันมีหน้าตาแบบอื่นไหม"
     /// ชิ้นที่มีแบบเดียวไม่มีแถวนี้เลย ไม่ใช่แถวว่าง
+    ///
+    /// แถว "แบบ" ของหัวข้อ — **ทุกแบบของหัวข้อนี้อยู่แถวเดียว** (ผู้ใช้ 13 ต.ค. 2569: "มันต้องมีทุกโปรไฟล์ให้เลือกสิ")
+    /// ห้าหน้าตาของชุดใหม่เป็นชนิดแยกกันแล้ว (19 ต.ค. 2569) จึงเรียงอยู่ในแถวเดียวกับแบบอื่นตามลำดับตู้
+    /// แตะแล้วสลับในที่เดิม
     @ViewBuilder
     private func variantsRow(_ sel: WidgetInstance) -> some View {
-        let siblings = WidgetKind.allCases.filter { $0.family == sel.kind.family }
+        let fam = sel.kind.family
+        let siblings = WidgetGallery.orderedEntries().map(\.kind).filter { $0.family == fam }
         if siblings.count > 1 {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 10) {
                     ForEach(siblings) { k in
-                        let active = k == sel.kind
-                        Button { swap(sel, to: k) } label: {
-                            VStack(spacing: 5) {
-                                WidgetThumb(kind: k, theme: theme.toolTheme, width: 92)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                            .strokeBorder(active ? theme.rawAccent : .white.opacity(0.14),
-                                                          lineWidth: active ? 2 : 0.6)
-                                    )
-                                Text(k.title)
-                                    .font(.sh(9.5, active ? .semibold : .regular))
-                                    .foregroundStyle(active ? .white : .white.opacity(0.5))
-                                    .lineLimit(1).minimumScaleFactor(0.7)
-                                    .frame(width: 92)
-                            }
-                            // พรีวิวปิด hit testing ไว้ (กันไม่ให้ widget ข้างในกินทัช)
-                            // ถ้าไม่ประกาศ contentShape ปุ่มจะกดติดแค่ตรงข้อความใต้รูป
-                            .contentShape(Rectangle())
-                        }
-                        .buttonStyle(.plain)
-                        .animation(Motion.snap, value: active)
+                        variantButton(k.isKit ? k.kitStyle.name : k.title, active: k == sel.kind) {
+                            WidgetThumb(kind: k, theme: theme.toolTheme, width: 127, ratio: 84 / 127)
+                        } action: { swap(sel, to: k) }
                     }
                 }
                 .padding(.vertical, 2).padding(.horizontal, 1)
             }
+        }
+    }
+
+    /// ช่องเดียวในแถวแบบ — รูปย่อสูง 84 เท่ากันทุกช่อง · กรอบสีเน้นที่ช่องที่ใช้อยู่
+    private func variantButton<T: View>(_ title: String, active: Bool, @ViewBuilder thumb: () -> T,
+                                        action: @escaping () -> Void) -> some View {
+        let t = thumb()
+        return Button(action: action) {
+            VStack(spacing: 5) {
+                t.overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .strokeBorder(active ? theme.rawAccent : .white.opacity(0.14), lineWidth: active ? 2 : 0.6))
+                Text(title)
+                    .font(.sh(9.5, active ? .semibold : .regular))
+                    .foregroundStyle(active ? .white : .white.opacity(0.5))
+                    .lineLimit(1).minimumScaleFactor(0.7)
+            }
+            // พรีวิวปิด hit testing ไว้ (กันไม่ให้ widget ข้างในกินทัช)
+            // ถ้าไม่ประกาศ contentShape ปุ่มจะกดติดแค่ตรงข้อความใต้รูป
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .animation(Motion.snap, value: active)
+    }
+
+    // MARK: - ตัวเลือกของชิ้น (`widget.controls`)
+
+    /// แถวตัวเลือกทั้งหมดของใบนี้ — **มาจาก `widget.controls` ในไฟล์ผังอย่างเดียว** (19 ต.ค. 2569: ทุกใบกติกาเดียว)
+    /// ที่นี่รู้จักแค่ชนิดของตัวควบคุมกับแหล่งรายการของหมวด · ค่าที่เลือกเก็บที่ `options[opt]` (ค่าตั้งต้น = ไม่เก็บ)
+    @ViewBuilder
+    private func controlRows(_ sel: WidgetInstance) -> some View {
+        ForEach(Array(sel.kind.controls.enumerated()), id: \.offset) { _, ctl in
+            controlRow(sel, ctl)
+        }
+    }
+
+    /// รายการของตัวควบคุม — คู่ (คีย์, ชื่อ) จากไฟล์ผัง หรือจากแหล่งข้อมูลของหมวด
+    private func controlItems(_ items: KitControl.Items?) -> [(String, String)] {
+        switch items {
+        case .fixed(let pairs)?: return pairs.compactMap { $0.count >= 2 ? ($0[0], $0[1]) : nil }
+        case .source("socials")?: return Profile.me.creator.socials.map { ($0.type.rawValue, $0.type.shortName) }
+        case .source("shownSocials")?: return Profile.me.shownSocials.map { ($0.type.rawValue, $0.type.shortName) }
+        case .source("rates")?: return Profile.me.shownRates.filter { $0.price > 0 }.map { ($0.id, $0.label) }
+        case .source("ratePlatforms")?:
+            let rates = Profile.me.shownRates.filter { $0.price > 0 }
+            return SocialType.allCases.filter { t in rates.contains { $0.platform == t } }.map { ($0.rawValue, $0.shortName) }
+        case .source("categories")?: return StarFlow.shared.categories.map { ($0, KitNiche.clean($0)) }
+        default: return []
+        }
+    }
+
+    /// เงื่อนไขของแถว — `opt:k=v` · `opt:k` · `hidden:key` · `surface=glass` · `bordered` · นำหน้า `!` = กลับค่า
+    private func controlCondition(_ cond: String?, _ sel: WidgetInstance) -> Bool {
+        guard var t = cond?.trimmingCharacters(in: .whitespaces), !t.isEmpty else { return true }
+        let neg = t.hasPrefix("!")
+        if neg { t.removeFirst() }
+        var v = false
+        if t.hasPrefix("opt:") {
+            let kv = t.dropFirst(4).split(separator: "=", maxSplits: 1).map(String.init)
+            v = kv.count == 2 ? sel.options[kv[0]] == kv[1] : sel.options[kv.first ?? ""] != nil
+        } else if t.hasPrefix("hidden:") {
+            v = sel.kit.list(KitOpt.hide).contains(String(t.dropFirst(7)))
+        } else if t.hasPrefix("surface=") {
+            v = sel.surface.rawValue == String(t.dropFirst(8))
+        } else if t == "bordered" {
+            v = sel.border
+        }
+        return neg ? !v : v
+    }
+
+    @ViewBuilder
+    private func controlRow(_ sel: WidgetInstance, _ ctl: KitControl) -> some View {
+        let c = sel.kit
+        let refit = ctl.refit ?? true
+        if controlCondition(ctl.if, sel) {
+            switch ctl.type {
+            case "pick":
+                let items = controlItems(ctl.items)
+                if items.count >= (ctl.minItems ?? 0), let opt = ctl.opt {
+                    let pick = sel.options[opt] ?? items.first?.0 ?? ""
+                    DockRow(label: ctl.label) {
+                        DockSegment(options: items.map { .init(value: $0.0, title: $0.1) },
+                                    selection: pick) { v in editOptions(sel, refit: refit) { $0.options[opt] = v } }
+                    }
+                }
+            case "segment":
+                if let opt = ctl.opt {
+                    let opts = (ctl.options ?? []).map { (value: $0.first ?? nil, title: ($0.count > 1 ? $0[1] : nil) ?? "") }
+                    DockRow(label: ctl.label) {
+                        DockSegment(options: opts.map { .init(value: $0.value, title: $0.title) },
+                                    selection: sel.options[opt]) { v in
+                            editOptions(sel, refit: refit) { w in
+                                w.options[opt] = v
+                                for k in ctl.clears ?? [] { w.options[k] = nil }
+                            }
+                        }
+                    }
+                }
+            case "stepper":
+                if let opt = ctl.opt {
+                    DockRow(label: ctl.label) {
+                        KitStepper(values: ctl.values ?? [], value: c.int(opt, default: ctl.default?.int ?? 0)) { v in
+                            editOptions(sel, refit: refit) { $0.options[opt] = String(v) }
+                        }
+                    }
+                }
+            case "switch":
+                if let opt = ctl.opt {
+                    let d = ctl.default?.bool ?? false
+                    KitSwitchRow(label: ctl.label, on: c.flag(opt, default: d)) { v in
+                        editOptions(sel, refit: refit) { $0.options[opt] = v == d ? nil : (v ? "1" : "0") }
+                    }
+                }
+            case "checks":
+                let items = controlItems(ctl.items)
+                if items.count >= (ctl.minItems ?? 0) {
+                    controlChecks(sel, label: ctl.label, opt: ctl.opt ?? KitOpt.hide, items: items, flags: ctl.flags)
+                }
+            default:
+                EmptyView()
+            }
+        }
+    }
+
+    /// ช่องติ๊ก — เก็บสิ่งที่ **ซ่อน** (ของใหม่ใน Star Profile ขึ้นเอง) · เหลือได้น้อยสุดหนึ่งช่องเสมอ
+    /// `flags` = รายการที่เก็บเป็นธงแยก (เช่น วันเวลา/พื้นที่ → "noTime"/"noArea") แทนรายการ `opt`
+    private func controlChecks(_ sel: WidgetInstance, label: String, opt: String, items: [(String, String)],
+                               flags: [String: String]? = nil) -> some View {
+        let c = sel.kit
+        let hidden: Set<String> = flags.map { f in
+            Set(items.map(\.0).filter { k in f[k].map { c.flag($0, default: false) } ?? false })
+        } ?? c.list(opt)
+        let shown = items.filter { !hidden.contains($0.0) }.count
+        return DockRow(label: label) {
+            KitCheckRow(items: items, hidden: hidden, minShown: 1, shownCount: shown) { key in
+                editOptions(sel) { w in
+                    if let k = flags?[key] {
+                        w.options[k] = w.options[k] == "1" ? nil : "1"
+                    } else {
+                        var h = Set((w.options[opt] ?? "").split(separator: ",").map(String.init).filter { !$0.isEmpty })
+                        if h.contains(key) { h.remove(key) } else { h.insert(key) }
+                        w.options[opt] = h.isEmpty ? nil : h.sorted().joined(separator: ",")
+                    }
+                }
+            }
+        }
+    }
+
+    /// แก้ตัวเลือกของชิ้น แล้ว (ถ้าเนื้อหาเปลี่ยนสูง) รูดกรอบกลับเข้าหน้า
+    private func editOptions(_ sel: WidgetInstance, refit: Bool = true, _ change: (inout WidgetInstance) -> Void) {
+        for pi in pages.indices {
+            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
+            var w = pages[pi].items[i]
+            change(&w)
+            if refit { w.rect = PageLayout.clamp(w, page: pageSize) }
+            withAnimation(Motion.flow) { pages[pi].items[i] = w }
+            Haptics.impact(.light)
+            return
         }
     }
 
@@ -3007,46 +3150,6 @@ struct CardScreen: View {
             guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
             // ไม่สั่นตรงนี้ — ชิปที่เรียกมา (`FontChip` ฯลฯ) สั่นเองแล้ว สองที่จะกลายเป็นสั่นซ้อน
             withAnimation(Motion.flow) { change(&pages[pi].items[i].textStyle) }
-            return
-        }
-    }
-
-    private func setPattern(_ sel: WidgetInstance, _ on: PlatePattern) {
-        for pi in pages.indices {
-            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
-            withAnimation(Motion.flow) { pages[pi].items[i].pattern = on }
-            Haptics.impact(.light)
-            return
-        }
-    }
-
-    private func setSealStyle(_ sel: WidgetInstance, _ style: SealStyle) {
-        for pi in pages.indices {
-            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
-            withAnimation(Motion.flow) { pages[pi].items[i].sealStyle = style }
-            Haptics.impact(.light)
-            return
-        }
-    }
-
-    /// 0 = ฟอยล์ · 1 = ปั๊มนูน · 2 = ไม่มี
-    private func setEmboss(_ sel: WidgetInstance, _ mode: Int) {
-        for pi in pages.indices {
-            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
-            withAnimation(Motion.flow) {
-                pages[pi].items[i].emboss = mode != 2
-                pages[pi].items[i].embossBlind = mode == 1
-            }
-            Haptics.impact(.light)
-            return
-        }
-    }
-
-    private func setLiftPhoto(_ sel: WidgetInstance, _ on: Bool) {
-        for pi in pages.indices {
-            guard let i = pages[pi].items.firstIndex(where: { $0.id == sel.id }) else { continue }
-            withAnimation(Motion.flow) { pages[pi].items[i].liftPhoto = on }
-            Haptics.impact(.light)
             return
         }
     }

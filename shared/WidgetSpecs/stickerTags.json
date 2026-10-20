@@ -1,0 +1,151 @@
+{
+ "kind": "stickerTags",
+ "design": {
+  "w": 366,
+  "h": 135
+ },
+ "widget": {
+  "title": "สติกเกอร์สายงาน",
+  "category": "tags",
+  "symbol": "seal.fill",
+  "order": 31,
+  "ownSurface": true,
+  "motion": "anchored"
+ },
+ "notes": "หัวข้อ 'สายงาน' (WidgetLabel: 13.5 bold ink@0.88 + เส้นไล่ line@0.2→0.04) + สติกเกอร์แคปซูลขอบขาวหนา เอียงคนละองศา สามสีวน (ไล่สี rawAccent→rawAccentSoft · ขาว · มาร์กเกอร์เขียว) · ดาวเฉพาะใบคู่ (i%2==0 เขียนเป็นช่วง $i) · เงาของต้นฉบับตกทุกชิ้น (พื้น ขอบ ดาว ตัวอักษร) · แปลงจาก GenZWidgets.swift (StickerTags)",
+ "root": {
+  "type": "col",
+  "gap": 12,
+  "align": "start",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "w": "fill",
+    "children": [
+     {
+      "type": "text",
+      "text": "สายงาน",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "stickers",
+    "list": "categories",
+    "gap": 10,
+    "grow": 1,
+    "w": "fill",
+    "align": "start",
+    "each": {
+     "type": "stack",
+     "rotateCycle": [
+      -4,
+      2.5,
+      -1.5,
+      3.5,
+      -2.5
+     ],
+     "children": [
+      {
+       "type": "rect",
+       "circle": true,
+       "fillCycle": [
+        "rawAccent",
+        "white",
+        "#9EF5B8"
+       ],
+       "shadow": {
+        "sigma": 2.5,
+        "x": 0,
+        "y": 3,
+        "color": "black@0.32"
+       }
+      },
+      {
+       "type": "rect",
+       "circle": true,
+       "if": "$i<1|$i>2&$i<4|$i>5&$i<7|$i>8&$i<10",
+       "gradient": {
+        "from": "rawAccent",
+        "to": "rawAccentSoft",
+        "angle": 45
+       }
+      },
+      {
+       "type": "row",
+       "gap": 5,
+       "pad": [
+        8,
+        13
+       ],
+       "align": "center",
+       "children": [
+        {
+         "type": "icon",
+         "icon": "ph:star-fill",
+         "size": 9,
+         "tint": "#1A1224@0.7",
+         "if": "$i<1|$i>1&$i<3|$i>3&$i<5|$i>5&$i<7|$i>7&$i<9",
+         "shadow": {
+          "sigma": 2.5,
+          "x": 0,
+          "y": 3,
+          "color": "black@0.32"
+         }
+        },
+        {
+         "type": "text",
+         "slot": "categories#$i",
+         "face": "noto",
+         "size": 13,
+         "weight": 800,
+         "color": "#1A1224",
+         "maxLines": 1,
+         "shadow": {
+          "sigma": 2.5,
+          "x": 0,
+          "y": 3,
+          "color": "black@0.32"
+         }
+        }
+       ]
+      },
+      {
+       "type": "rect",
+       "circle": true,
+       "stroke": {
+        "color": "white",
+        "width": 2.5
+       },
+       "shadow": {
+        "sigma": 2.5,
+        "x": 0,
+        "y": 3,
+        "color": "black@0.32"
+       }
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

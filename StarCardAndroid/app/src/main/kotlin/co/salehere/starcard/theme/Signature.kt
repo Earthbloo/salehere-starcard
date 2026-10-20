@@ -88,14 +88,9 @@ object Signature {
     /** ที่อยู่ของการ์ด — โดเมนเดียวกับแอปหลัก */
     fun url(slug: String): String = "${ClipInvocation.host}/star/$slug"
 
-    /** ฟอนต์โมโนของ "บรรทัดที่เครื่องอ่าน" — ที่อยู่ ซีเรียล วันที่ */
-    fun mono(size: Float, weight: FontWeight = FontWeight.Medium): TextStyle = TextStyle(
-        fontFamily = FontFamily.Monospace,
-        fontWeight = weight,
-        fontSize = size.sp,
-        platformStyle = ShPlatformStyle,
-        lineHeightStyle = ShLineHeightStyle,
-    )
+    /** ฟอนต์ของ "บรรทัดที่เครื่องอ่าน" — ที่อยู่ ซีเรียล วันที่ · Noto ตัวเลขกว้างเท่ากัน (= `.sh().monospacedDigit()` ของ iOS) */
+    fun mono(size: Float, weight: FontWeight = FontWeight.Medium): TextStyle =
+        sh(size, weight).copy(fontFeatureSettings = "tnum")
 }
 
 /** หน้าตาของแถบผู้ออกบัตร — ทุกแบบพิมพ์สามอย่างเดียวกัน (ใคร · เมื่อไหร่ · ตรวจที่ไหน) */
@@ -525,7 +520,7 @@ data class EmbossSpot(val page: Int, val center: Offset)
 object SignatureEmboss {
     /** มุมที่จะปั๊ม — null = การ์ดใบนี้มีใบที่ปั๊มตราของตัวเองแล้ว */
     fun spot(pages: List<CardPage>, pageSize: Size, mark: Size, inset: Size): EmbossSpot? {
-        if (pages.any { p -> p.items.any { it.kind.takesEmboss && it.emboss } }) return null
+        if (pages.any { p -> p.items.any { it.kind.carriesEmboss } }) return null
 
         val y = pageSize.height - inset.height - mark.height / 2f
         val right = Offset(pageSize.width - inset.width - mark.width / 2f, y)

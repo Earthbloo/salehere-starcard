@@ -4,7 +4,7 @@
   --line: #E5E7EB; --line2: #D1D5DB; --field: #F3F4F6; --pick: #F1F2F4; --charcoal: #2B2D33;
   --red: #ED1C24; --red-d: #C81017; --red-t: #FDE8E9; --green: #12B76A; --green-ink: #067647; --green-t: #E7F6EF;
   --warn: #B54708; --warn-t: #FFF4E0; --gold: #C9A227; --gold-ink: #8A6718; --rim: rgba(255, 222, 140, .85); --star: #FFC200; --verified: #1C8CED;
-  --font: "Noto Sans Thai", -apple-system, "Segoe UI", sans-serif; --serif: "Instrument Serif", Didot, "Bodoni 72", serif;
+  --font: "Noto Sans Thai", -apple-system, "Segoe UI", sans-serif; --serif: "Noto Sans Thai", sans-serif; /* หัวข้อ Card/Profile — Didot/Bodoni ของ Apple ถอดออก (= GL.serif ของ iOS) */
   --r: 16px; --sh: 0 1px 2px rgba(22, 24, 29, .04), 0 12px 28px -12px rgba(22, 24, 29, .10); --ease: cubic-bezier(.16, 1, .3, 1);
 }
 * { box-sizing: border-box; }
@@ -234,7 +234,7 @@ input[type="radio"], input[type="checkbox"] { width: 18px; height: 18px; accent-
 .ins-grid.loading .iv-num, .ins-grid.loading .chart, .ins-grid.loading .meter, .ins-grid.loading .bars, .ins-grid.loading .rowhead b { opacity: .28; animation: pulse 1s ease-in-out infinite; } @keyframes pulse { 50% { opacity: .5; } }
 .wz-side { position: sticky; top: 96px; padding-top: 50px; } .wz-side .eyebrow { margin-bottom: 12px; } .oncard { font-size: 13px; color: var(--muted); margin-top: 12px; display: flex; gap: 6px; align-items: center; }
 .wz-intro { padding-top: 12vh; } .wz-intro h1 { font-size: 40px; } .wz-intro .lead { margin-top: 12px; }
-.glass-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-weight: 800; letter-spacing: -.02em; } .glass-title em { font: italic 400 1.25em/1 var(--serif); background: linear-gradient(#16181D 58%, #8A6718); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 4px; }
+.glass-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-weight: 800; letter-spacing: -.02em; } .glass-title em { font: 500 calc(1.25em * .82)/1 var(--serif); background: linear-gradient(#16181D 58%, #8A6718); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 4px; }
 .brand-ask { margin-top: 26px; max-width: 480px; } .ba-head { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; } .ba-head span { flex: 1; } .ba-head b { display: block; } .ba-head small, .brand-ask li small { color: var(--muted); font-size: 13px; display: block; } .ba-head > .ic { color: var(--gold-ink); }
 .brand-ask li { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); } .brand-ask li i { width: 38px; height: 38px; border-radius: 11px; border: 1px dashed var(--line2); display: grid; place-items: center; }
 .sec { margin-bottom: 24px; } .sec-h { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; } .sec-h b { font-size: 15.5px; } .sec-h small { color: var(--muted); font-size: 13px; } .sec-h .n { font-style: normal; font-weight: 700; font-size: 13px; color: var(--muted); } .okc { color: var(--green); font-style: normal; display: inline-flex; }
@@ -277,7 +277,7 @@ button.plain { border-radius: 50%; } button.plain:hover .camb { background: var(
 .gc-sec { border-top: 1px solid rgba(22, 24, 29, .08); padding-top: 12px; } .gc-label { font-size: 12.5px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 8px; }
 .gc-socs { display: flex; flex-wrap: wrap; gap: 8px; } .gc-socs span { display: inline-flex; gap: 6px; align-items: center; height: 34px; padding: 0 12px 0 6px; background: rgba(255, 255, 255, .85); border: 1px solid #fff; border-radius: 999px; } .gc-socs img { filter: grayscale(1) contrast(1.3) brightness(.7); } .gc-socs b { font-size: 14px; }
 .gc-about { font-size: 15px; line-height: 1.6; } .gc-works { display: flex; gap: 6px; } .gc-works img { width: 64px; height: 64px; border-radius: 8px; border: 2px solid #fff; object-fit: cover; }
-.sc-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; } .sc-title { display: inline-flex; align-items: baseline; gap: 6px; } .sc-title em { font: italic 400 24px/1 var(--serif); background: linear-gradient(#16181D 40%, #9A7420); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 3px; } .sc-note { font-size: 12.5px; color: var(--muted); }
+.sc-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; } .sc-title { display: inline-flex; align-items: baseline; gap: 6px; } .sc-title em { font: 500 calc(24px * .82)/1 var(--serif); background: linear-gradient(#16181D 40%, #9A7420); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 3px; } .sc-note { font-size: 12.5px; color: var(--muted); }
 .sc-row { display: flex; gap: 18px; align-items: center; margin-top: 20px; padding-left: 8px; } .sc-thumb { position: relative; flex: none; border-radius: 8px; } .sc-thumb:hover .mini-card { transform: translateY(-2px) rotate(-1deg); }
 .mini-card { width: 52px; height: 92px; border-radius: 8px; background: linear-gradient(#5A1420, #2A0A10); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #fff; box-shadow: 0 6px 12px -4px rgba(22, 24, 29, .35); transition: transform .25s var(--ease); overflow: hidden; }
 .mini-card img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid #fff; } .mini-card b { font-size: 6.5px; } .mini-card small { color: #FFD34E; display: flex; }
@@ -310,7 +310,7 @@ button.plain { border-radius: 50%; } button.plain:hover .camb { background: var(
 .levelup { position: fixed; inset: 0; z-index: 90; background: radial-gradient(circle at 50% 40%, #FFF9E8, #F6EFDD); display: grid; place-items: center; animation: luout .5s ease-in 2.2s both; } .lu-in { text-align: center; animation: blurin 1s var(--ease) both .15s; }
 .starmark.gold { color: #C9A227; filter: drop-shadow(0 6px 22px rgba(201, 162, 39, .45)); } .lu-in p { font-size: 22px; font-weight: 800; margin-top: 18px; } @keyframes luout { to { opacity: 0; visibility: hidden; } }
 .stub { min-height: 100vh; background: radial-gradient(circle at 50% 30%, #5A1420, #1C0509); color: #fff; display: grid; place-items: center; text-align: center; padding: 32px; } .stub > div { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 460px; }
-.stub h1 { display: flex; align-items: baseline; gap: 10px; color: #FFD34E; } .stub h1 em { font: italic 400 56px/1 var(--serif); color: #fff; } .stub p { color: rgba(255, 255, 255, .78); } .stub .qr-box { color: var(--ink); text-align: left; }
+.stub h1 { display: flex; align-items: baseline; gap: 10px; color: #FFD34E; } .stub h1 em { font: 500 calc(56px * .82)/1 var(--serif); color: #fff; } .stub p { color: rgba(255, 255, 255, .78); } .stub .qr-box { color: var(--ink); text-align: left; }
 
 /* dialog / toast / lab */
 .scrim { position: fixed; inset: 0; z-index: 70; background: rgba(22, 24, 29, .5); display: grid; place-items: center; padding: 24px; animation: fade .18s; } @keyframes fade { from { opacity: 0; } }
@@ -666,7 +666,7 @@ input[type="radio"], input[type="checkbox"] { width: 16px; height: 16px; }
 @media (prefers-reduced-motion: reduce) { .wzcard { animation: none; } .wzbar i, .wzdeck .sheet { transition: none; } }
 /* ตรา ST★R Profile + ขนาดใหญ่ขึ้น (ผู้ใช้ 6 ต.ค. 2569: "เอา icon Star Profile มาใส่ · เนื้อหาตรงกลางใหญ่กว่านี้") */
 .wz-brand { position: absolute; left: 36px; top: 28px; display: flex; align-items: baseline; gap: 8px; color: var(--ink); font-weight: 800; z-index: 1; }
-.wz-brand em { font: italic 400 30px/1 var(--serif); background: linear-gradient(#16181D 40%, #9A7420); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.wz-brand em { font: 500 calc(30px * .82)/1 var(--serif); background: linear-gradient(#16181D 40%, #9A7420); -webkit-background-clip: text; background-clip: text; color: transparent; }
 /* 7 ต.ค. 2569 ("scroll น้อยที่สุด"): การ์ดสูงเกือบเต็มจอ · หัว/ท้ายบางลง · ไม่มีไอคอนเหนือหัวข้อ → พื้นที่กรอกจาก ~120px เป็น ~280px บนจอสูง 670 */
 .wzstage { padding: 48px 24px 24px; } .wzdeck { width: min(780px, 100%); height: min(800px, calc(100dvh - 88px)); margin-top: 16px; }
 .wzcard-h { padding: 20px 24px 4px 48px; } .wzbar { height: 7px; } .wzcard-h .x { width: 40px; height: 40px; }

@@ -50,7 +50,7 @@ enum PageLayout {
     /// ตัวอักษร 9pt ได้กล่องราว 40×15 ถ้าบังคับ 100×40 เท่าวิดเจ็ตอื่น กล่องจะใหญ่กว่าตัวอักษรสามเท่า
     /// เหลือแค่พื้นกันเศษ — กล่องศูนย์คือกล่องที่แตะไม่ได้
     static func minSize(for kind: WidgetKind) -> CGSize {
-        kind == .textBlock ? CGSize(width: 8, height: 8) : minSize
+        kind.isTextLayer ? CGSize(width: 8, height: 8) : minSize
     }
 
     // MARK: - ขอบเขตของหน้า

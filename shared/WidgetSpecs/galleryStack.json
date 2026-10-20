@@ -1,0 +1,247 @@
+{
+ "kind": "galleryStack",
+ "design": {
+  "w": 366,
+  "h": 224
+ },
+ "widget": {
+  "title": "กองรูปซ้อน",
+  "category": "photo",
+  "symbol": "square.stack.fill",
+  "order": 23,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored",
+  "replaces": [
+   "galleryTape"
+  ]
+ },
+ "notes": "กองรูป 3 ใบกลางกรอบ (ล่าง→บน: รูป 6, 5, 4) กระดาษ #FCFCFA มุม 14 pad 5 รูปมุม 10 · เอียง −8 / 4.5 / −1.5 (ทั้งใบ) · ใบล่างย่อ 90% / 95% ขยับ (+3·rest, +5·rest) เงา σ(5−rest) y5 black@0.34 · ขนาดกอง = min(0.78w, 0.74h) × min(0.94h, 1.3·กว้าง): กรอบปกติ สูง 94% สัดส่วน 0.787 (= 0.74/0.94) · variant ratio>1.05 กว้าง 78% สัดส่วน 0.769 (= 0.78/1.014) · ท่าลอกใบบน (scrub) ไม่อยู่ในผัง · แปลงจาก GalleryWidgets.swift (GalleryStack) · 14 ต.ค.: ขนาดใบรวม pad 5 แล้ว (ต้นฉบับ frame(cardW,cardH).padding(5)) → กรอบปกติ สูง 98.5% สัดส่วน 0.797 · แนวตั้ง กว้าง 80.7% สัดส่วน 0.776 · เงาของใบตกบนรูปด้วย (SwiftUI .shadow ต่อชิ้น)",
+ "variants": [
+  {
+   "when": "ratio>1.05",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "id": "pile",
+      "aspect": 0.776,
+      "place": "center",
+      "children": [
+       {
+        "type": "col",
+        "id": "bottom",
+        "place": "center",
+        "dx": 6,
+        "dy": 10,
+        "rotate": -8,
+        "fill": "#FCFCFA",
+        "radius": 14,
+        "pad": 5,
+        "shadow": {
+         "sigma": 3,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        },
+        "children": [
+         {
+          "type": "image",
+          "photo": 6,
+          "radius": 10,
+          "h": "fill",
+          "shadow": {
+           "sigma": 3,
+           "x": 0,
+           "y": 5,
+           "color": "black@0.34"
+          }
+         }
+        ],
+        "w": "90%",
+        "h": "90%"
+       },
+       {
+        "type": "col",
+        "id": "middle",
+        "place": "center",
+        "dx": 3,
+        "dy": 5,
+        "rotate": 4.5,
+        "fill": "#FCFCFA",
+        "radius": 14,
+        "pad": 5,
+        "shadow": {
+         "sigma": 4,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        },
+        "children": [
+         {
+          "type": "image",
+          "photo": 5,
+          "radius": 10,
+          "h": "fill",
+          "shadow": {
+           "sigma": 4,
+           "x": 0,
+           "y": 5,
+           "color": "black@0.34"
+          }
+         }
+        ],
+        "w": "95%",
+        "h": "95%"
+       },
+       {
+        "type": "col",
+        "id": "top",
+        "place": "center",
+        "dx": 0,
+        "dy": 0,
+        "rotate": -1.5,
+        "fill": "#FCFCFA",
+        "radius": 14,
+        "pad": 5,
+        "shadow": {
+         "sigma": 5,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        },
+        "children": [
+         {
+          "type": "image",
+          "photo": 4,
+          "radius": 10,
+          "h": "fill",
+          "shadow": {
+           "sigma": 5,
+           "x": 0,
+           "y": 5,
+           "color": "black@0.34"
+          }
+         }
+        ]
+       }
+      ],
+      "w": "80.7%"
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "id": "pile",
+    "aspect": 0.797,
+    "place": "center",
+    "children": [
+     {
+      "type": "col",
+      "id": "bottom",
+      "place": "center",
+      "dx": 6,
+      "dy": 10,
+      "rotate": -8,
+      "fill": "#FCFCFA",
+      "radius": 14,
+      "pad": 5,
+      "shadow": {
+       "sigma": 3,
+       "x": 0,
+       "y": 5,
+       "color": "black@0.34"
+      },
+      "children": [
+       {
+        "type": "image",
+        "photo": 6,
+        "radius": 10,
+        "h": "fill",
+        "shadow": {
+         "sigma": 3,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        }
+       }
+      ],
+      "w": "90%",
+      "h": "90%"
+     },
+     {
+      "type": "col",
+      "id": "middle",
+      "place": "center",
+      "dx": 3,
+      "dy": 5,
+      "rotate": 4.5,
+      "fill": "#FCFCFA",
+      "radius": 14,
+      "pad": 5,
+      "shadow": {
+       "sigma": 4,
+       "x": 0,
+       "y": 5,
+       "color": "black@0.34"
+      },
+      "children": [
+       {
+        "type": "image",
+        "photo": 5,
+        "radius": 10,
+        "h": "fill",
+        "shadow": {
+         "sigma": 4,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        }
+       }
+      ],
+      "w": "95%",
+      "h": "95%"
+     },
+     {
+      "type": "col",
+      "id": "top",
+      "place": "center",
+      "dx": 0,
+      "dy": 0,
+      "rotate": -1.5,
+      "fill": "#FCFCFA",
+      "radius": 14,
+      "pad": 5,
+      "shadow": {
+       "sigma": 5,
+       "x": 0,
+       "y": 5,
+       "color": "black@0.34"
+      },
+      "children": [
+       {
+        "type": "image",
+        "photo": 4,
+        "radius": 10,
+        "h": "fill",
+        "shadow": {
+         "sigma": 5,
+         "x": 0,
+         "y": 5,
+         "color": "black@0.34"
+        }
+       }
+      ]
+     }
+    ],
+    "h": "98.5%"
+   }
+  ]
+ }
+}

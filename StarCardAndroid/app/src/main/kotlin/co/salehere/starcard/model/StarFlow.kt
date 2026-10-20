@@ -34,7 +34,9 @@ internal object StarDataKeySerializer : RawSerializer<StarDataKey>(
 enum class StarDataKey(val raw: String) {
     kind("kind"), socials("socials"), categories("categories"), about("about"), media("media"), rate("rate"),
     insight("insight"), province("province"), availability("availability"), address("address"), bank("bank"),
-    draftRounds("draftRounds");
+    draftRounds("draftRounds"),
+    /** สัดส่วน = `bodyMeasurement` ของ salehere-ios — กรอกเองใน Star Profile ไม่ถามใน flow สมัคร (ผู้ใช้ 6 ต.ค. 2569) */
+    body("body");
 
     val id: String get() = raw
 
@@ -52,6 +54,7 @@ enum class StarDataKey(val raw: String) {
         address -> "ที่อยู่รับของ"
         bank -> "บัญชีรับเงิน"
         draftRounds -> "รอบแก้งาน"
+        body -> "สัดส่วน"
     }
 
     companion object {
@@ -230,6 +233,7 @@ data class StarRow(
         StarDataKey.about -> "ขึ้นบรรทัดแนะนำตัวใต้ชื่อ"
         StarDataKey.media -> "ขึ้นรูปหลัก กำแพงผลงาน และคลิปบนการ์ด"
         StarDataKey.insight -> "ขึ้นกราฟผู้ชมบนการ์ด"
+        StarDataKey.body -> "ขึ้นช่องสัดส่วนบนการ์ดสายแฟชั่น"
         StarDataKey.province -> "ขึ้นป้ายพื้นที่รับงาน"
         StarDataKey.availability -> "ขึ้นวันว่างในส่วนรับงาน"
         StarDataKey.socials -> "ขึ้นยอดผู้ติดตามรายช่อง"
@@ -393,12 +397,17 @@ class StarFlow private constructor() {
     // MARK: กติกา
 
     /** การ์ดเกิดจากสิ่งที่มีอยู่แล้ว (ช่องโซเชียล + สายที่ใช่) — ไม่มี "ระดับ": มีการ์ด = เป็น STAR แล้ว */
-    val hasCard: Boolean get() = have.contains(StarDataKey.socials) && have.contains(StarDataKey.categories)
+    val hasCard: Boolean get() = cardReady
+    /** ด่านเปิด Star Card = 3 ข้อ (ผู้ใช้ 19 ต.ค. 2569: เกี่ยวกับฉัน · สายงาน · social) — หัวข้ออื่นล็อกในตู้วิดเจ็ตจนกว่าจะกรอก (= iOS `StarFlow.cardSteps`) */
+    val cardMissing: List<WizStep> get() = cardSteps.filter { !has(it.dataKey!!) }
+    val cardReady: Boolean get() = cardMissing.isEmpty()
     val isVerified: Boolean get() = verify == VerifyStatus.approved
     /** STAR เต็มตัว = การ์ด + ยืนยันตัวตนผ่าน */
     val isStar: Boolean get() = hasCard && isVerified
 
     fun has(k: StarDataKey): Boolean = have.contains(k)
+    /** = iOS `StarFlow.cardSteps` */
+    val cardSteps: List<WizStep> get() = listOf(WizStep.media, WizStep.categories, WizStep.socials)
     fun done(row: StarRow): Boolean = row.key?.let { has(it) } ?: isVerified
 
     /**
@@ -437,6 +446,7 @@ class StarFlow private constructor() {
             StarDataKey.kind -> listOf(if (creatorKind == "page") "Page (เพจ)" else "Creator (บุคคล)")
             StarDataKey.rate -> listOf("IG ฿3,000", "TikTok ฿10,300", "+3 รูปแบบ")
             StarDataKey.about -> listOf(about.take(28) + (if (about.length > 28) "…" else ""))
+            StarDataKey.body -> listOf("สัดส่วน")
             StarDataKey.media -> {
                 val f = Portfolio.shared
                 listOf("รูป ${max(f.creatorImages.size, minPhotos)}", "ผลงาน ${max(f.works.size, minWorks)}", "คลิป ${max(f.videos.size, minVideos)}")

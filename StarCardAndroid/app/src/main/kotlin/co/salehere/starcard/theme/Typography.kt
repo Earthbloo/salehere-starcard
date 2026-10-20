@@ -89,10 +89,8 @@ fun systemFont(size: Float, weight: FontWeight = FontWeight.Normal, serif: Boole
 fun statNumber(size: Float): TextStyle = sh(size, FontWeight.Bold)
 fun display(size: Float, weight: FontWeight = FontWeight.SemiBold): TextStyle = sh(size, weight)
 
-/** ตัวเอียงเซริฟแบบ "Didot-Italic" (= `GL.serif`) — Android ไม่มี Didot ใช้เซริฟระบบเอียงแทน */
-fun serifItalic(size: Float, weight: FontWeight = FontWeight.Normal): TextStyle =
-    TextStyle(fontFamily = FontFamily.Serif, fontWeight = weight, fontSize = size.sp, fontStyle = FontStyle.Italic,
-              platformStyle = ShPlatformStyle, lineHeightStyle = ShLineHeightStyle)
+/** หัวข้อ "Card / Profile / Insight" (= `GL.serif`) — เคยเป็น Didot Italic · ตอนนี้ Noto Sans Thai ย่อ 0.82 */
+fun serifItalic(size: Float, weight: FontWeight = FontWeight.Medium): TextStyle = sh(size * 0.82f, weight)
 
 // MARK: - ไอคอน
 

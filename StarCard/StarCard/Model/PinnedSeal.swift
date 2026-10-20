@@ -4,7 +4,7 @@ import SwiftUI
 //
 // # ทำไมมีใบที่ลบไม่ได้
 //
-// ตรารับรอง (`proofSeal`) คือคำยืนยันของ Sale Here ไม่ใช่ของตกแต่งของเจ้าของการ์ด —
+// ตรารับรอง (ใบที่ประกาศ `widget.pinned`) คือคำยืนยันของ Sale Here ไม่ใช่ของตกแต่งของเจ้าของการ์ด —
 // ถ้าเจ้าของถอดได้ คนดูจะแยกไม่ออกว่าการ์ดที่ไม่มีตราคือ "ยังไม่ผ่าน" หรือ "ถอดออกเอง"
 // ทุกการ์ดจึงมีตรานี้หนึ่งใบ **ที่เดิมเสมอ** (ผู้ใช้ 1 ต.ค. 2569):
 //
@@ -15,15 +15,15 @@ import SwiftUI
 // รูปที่แชร์ · พรีวิวในคลัง · JSON ที่ซิงก์ เห็นมันทางเดียวกับ widget อื่นโดยไม่ต้องรู้จักเป็นพิเศษ
 // สิ่งเดียวที่ต่างคือธง `pinned`: ห้องแต่งไม่ให้ลบ/ย้าย/ยืด และ `PageLayout` ให้ที่มันก่อนใคร
 enum PinnedSeal {
-    static let kind: WidgetKind = .proofSeal
+    /// ชนิดที่ไฟล์ผังประกาศ `widget.pinned` — ไม่มีไฟล์ไหนประกาศ = การ์ดไม่มีใบตรึง
+    static var kind: WidgetKind? { WidgetKind.allCases.first(where: \.isPinnedKind) }
 
     /// หน้าที่ตราอยู่ — หน้าสุดท้ายของรูปแบบนั้น
     static func page(for format: CardFormat) -> Int { format.pageCount - 1 }
 
     /// ตราใบใหม่ในขนาดและตำแหน่งของรูปแบบนั้น
-    static func make(for format: CardFormat) -> WidgetInstance {
+    static func make(for format: CardFormat, kind: WidgetKind) -> WidgetInstance {
         var w = WidgetInstance(kind)
-        w.pinned = true
         place(&w, format: format)
         return w
     }
@@ -40,7 +40,7 @@ enum PinnedSeal {
         case .portfolio:
             w.w = box.width
         }
-        w.h = kind.height(forWidth: w.w)
+        w.h = w.kind.height(forWidth: w.w)
         w.x = box.maxX - w.w
         w.y = box.maxY - w.h
     }
@@ -51,9 +51,10 @@ enum PinnedSeal {
     /// ที่ถูกตั้งใหม่มีแค่ขนาดกับตำแหน่ง ซึ่งไม่ใช่ของที่เจ้าของเลือกได้
     static func ensure(_ pages: inout [CardPage], format: CardFormat) {
         while pages.count < format.pageCount { pages.append(CardPage()) }
+        guard let kind else { return }
         let target = page(for: format)
 
-        var seal = pages.flatMap(\.items).first { $0.pinned && $0.kind == kind } ?? make(for: format)
+        var seal = pages.flatMap(\.items).first { $0.pinned && $0.kind == kind } ?? make(for: format, kind: kind)
         place(&seal, format: format)
         for i in pages.indices { pages[i].items.removeAll(where: \.pinned) }
         pages[target].items.append(seal)
@@ -83,7 +84,7 @@ enum PinnedSeal {
                 continue
             }
             // ก้อนข้อความไม่ย่อ — ความกว้างของมันคือตัวอักษร (ดู `CardScreen.fitTextBlock`)
-            guard w.kind != .textBlock else { continue }
+            guard !w.kind.isTextLayer else { continue }
             let ratio = w.h / max(w.w, 1)
             let floor = max(PageLayout.minSize.width, PageLayout.snap(w.w * 0.5))
             var width = PageLayout.snap(w.w) - PageLayout.step

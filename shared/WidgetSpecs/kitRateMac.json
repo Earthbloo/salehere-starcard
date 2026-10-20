@@ -1,0 +1,620 @@
+{
+ "kind": "kitRateMac",
+ "design": {
+  "w": 300,
+  "h": 290
+ },
+ "widget": {
+  "title": "เรทรับงาน",
+  "category": "rate",
+  "symbol": "tag.fill",
+  "order": 85,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "mac"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitRate"
+  ],
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ราคา",
+    "opt": "mode",
+    "options": [
+     [
+      null,
+      "ต่อช่อง"
+     ],
+     [
+      "fmt",
+      "ต่อรูปแบบงาน"
+     ]
+    ],
+    "clears": [
+     "hide"
+    ]
+   },
+   {
+    "type": "checks",
+    "label": "แถว",
+    "items": "rates",
+    "if": "opt:mode=fmt",
+    "opt": "hide"
+   },
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "ratePlatforms",
+    "if": "!opt:mode=fmt",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา mac · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "kit.fill",
+      "radius": 12,
+      "shadow": {
+       "sigma": 6,
+       "y": 6,
+       "color": "black@0.12"
+      }
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 12,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 12,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 12,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 3,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "h": 46,
+      "place": "top",
+      "clip": true,
+      "radius": 12,
+      "children": [
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "#FAFAFA",
+        "if": "cfg:fill=clear & !kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "#222222",
+        "if": "cfg:fill=clear & kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "black@0.055",
+        "if": "!kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "white@0.1",
+        "if": "kit.dark"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "stack",
+        "h": 46,
+        "place": "top",
+        "clip": true,
+        "radius": 12,
+        "children": [
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#FAFAFA",
+          "if": "cfg:fill=clear & !kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#222222",
+          "if": "cfg:fill=clear & kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "black@0.055",
+          "if": "!kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "white@0.1",
+          "if": "kit.dark"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "stack",
+        "h": 46,
+        "place": "top",
+        "clip": true,
+        "radius": 3,
+        "children": [
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#FAFAFA",
+          "if": "cfg:fill=clear & !kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#222222",
+          "if": "cfg:fill=clear & kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "black@0.055",
+          "if": "!kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "white@0.1",
+          "if": "kit.dark"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "window",
+    "children": [
+     {
+      "type": "stack",
+      "id": "bar",
+      "h": 34,
+      "children": [
+       {
+        "type": "row",
+        "id": "dots",
+        "pad": [
+         0,
+         12
+        ],
+        "gap": 6,
+        "align": "center",
+        "children": [
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FF5F57"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FEBC2E"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#28C840"
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "pad": [
+         0,
+         64
+        ],
+        "align": "center",
+        "justify": "center",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 13,
+          "weight": 600,
+          "color": "kit.title",
+          "maxLines": 2,
+          "id": "title",
+          "textAlign": "center",
+          "shrinkTo": 9.1,
+          "text": "เรทรับงาน"
+         }
+        ]
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "place": "bottom",
+        "fill": "black@0.07"
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "content",
+      "pad": [
+       6,
+       16,
+       12,
+       16
+      ],
+      "gap": 8,
+      "children": [
+       {
+        "type": "col",
+        "grow": 1,
+        "children": [
+         {
+          "type": "chips",
+          "if": "opt:mode=fmt",
+          "id": "rowsFmt",
+          "direction": "col",
+          "gap": 0,
+          "grow": 1,
+          "each": {
+           "type": "col",
+           "grow": 1,
+           "children": [
+            {
+             "type": "rect",
+             "if": "!$i=first",
+             "h": 1,
+             "fill": "kit.mut@0.17"
+            },
+            {
+             "type": "col",
+             "grow": 1,
+             "pad": [
+              9,
+              0
+             ],
+             "justify": "center",
+             "children": [
+              {
+               "type": "row",
+               "gap": 8,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$label",
+                 "face": "noto",
+                 "size": 13,
+                 "weight": 400,
+                 "color": "kit.ink",
+                 "maxLines": 1,
+                 "shrinkTo": 9.75
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 6
+                },
+                {
+                 "type": "text",
+                 "slot": "$price",
+                 "face": "noto",
+                 "size": 13,
+                 "weight": 600,
+                 "color": "kit.accent",
+                 "maxLines": 1,
+                 "id": "price",
+                 "shrink": 0
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          "list": "rates"
+         },
+         {
+          "type": "chips",
+          "if": "!opt:mode=fmt",
+          "id": "rowsChannel",
+          "direction": "col",
+          "gap": 0,
+          "grow": 1,
+          "each": {
+           "type": "col",
+           "grow": 1,
+           "children": [
+            {
+             "type": "rect",
+             "if": "!$i=first",
+             "h": 1,
+             "fill": "kit.mut@0.17"
+            },
+            {
+             "type": "col",
+             "grow": 1,
+             "pad": [
+              9,
+              0
+             ],
+             "justify": "center",
+             "children": [
+              {
+               "type": "row",
+               "gap": 8,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$platformName",
+                 "face": "noto",
+                 "size": 13,
+                 "weight": 400,
+                 "color": "kit.ink",
+                 "maxLines": 1,
+                 "shrinkTo": 9.75
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 6
+                },
+                {
+                 "type": "text",
+                 "text": "เริ่ม",
+                 "face": "noto",
+                 "size": 10.5,
+                 "weight": 400,
+                 "color": "kit.mut",
+                 "maxLines": 1,
+                 "shrink": 0
+                },
+                {
+                 "type": "text",
+                 "slot": "$price",
+                 "face": "noto",
+                 "size": 13,
+                 "weight": 600,
+                 "color": "kit.accent",
+                 "maxLines": 1,
+                 "id": "price",
+                 "shrink": 0
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          "list": "rates",
+          "sort": "platformOrder asc, priceRaw asc",
+          "where": "!hidden:$platform",
+          "group": "platform"
+         }
+        ]
+       }
+      ],
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 12,
+      "stroke": {
+       "color": "kit.border",
+       "width": 1
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 3,
+      "stroke": {
+       "color": "kit.border",
+       "width": 1
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

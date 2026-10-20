@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="th">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star Card Model &amp; API</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: อธิบายด้วยภาพก่อน ข้อความสั้นใต้ภาพ · คอลัมน์เดียวกว้าง 960 · รายละเอียดเทคนิคพับไว้ท้ายหน้า */
+  :root {
+    --bg: #f7f5f6; --paper: #ffffff; --ink: #1d1416; --mute: #6c5d61; --line: #e4d9dc;
+    --accent: #9c2236; --accent-soft: #f6e3e6; --code: #f1ecee;
+    --a: #3d6fd8; --a-soft: #e3ebfb;    /* การ์ด */
+    --b: #c2711b; --b-soft: #fbeedd;    /* แบบ widget */
+    --c: #23875a; --c-soft: #dff2e8;    /* ข้อมูล/รูป */
+    --display: "Anuphan", "IBM Plex Sans Thai", system-ui, sans-serif;
+    --body: "IBM Plex Sans Thai", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #141012; --paper: #1d181a; --ink: #f1e9eb; --mute: #a8999d; --line: #372d31;
+    --accent: #ff8597; --accent-soft: #3b2329; --code: #241d20;
+    --a: #8aaeff; --a-soft: #1f2a44; --b: #f2a65a; --b-soft: #3a2a17; --c: #6fd3a0; --c-soft: #17352a; color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --bg: #141012; --paper: #1d181a; --ink: #f1e9eb; --mute: #a8999d; --line: #372d31;
+    --accent: #ff8597; --accent-soft: #3b2329; --code: #241d20;
+    --a: #8aaeff; --a-soft: #1f2a44; --b: #f2a65a; --b-soft: #3a2a17; --c: #6fd3a0; --c-soft: #17352a; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font: 15.5px/1.7 var(--body); padding-inline: 16px; padding-block: 0 72px; }
+  .page { max-width: 960px; margin: 0 auto; }
+  header { padding-block: 44px 8px; }
+  .eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  h1 { font: 700 clamp(28px, 5vw, 42px)/1.2 var(--display); margin: 10px 0 10px; text-wrap: balance; }
+  .sub { color: var(--mute); max-width: 62ch; margin: 0; }
+  section { padding-block: 40px 8px; scroll-margin-top: 70px; }
+  h2 { font: 600 clamp(20px, 3vw, 26px)/1.35 var(--display); margin: 0 0 6px; text-wrap: balance; }
+  .say { color: var(--mute); margin: 0 0 18px; max-width: 62ch; }
+  code { font: 13px/1.5 var(--mono); background: var(--code); padding: 1px 6px; border-radius: 4px; }
+  .tag { display: inline-block; font: 600 11px/1 var(--mono); letter-spacing: .04em; padding: 5px 8px; border-radius: 6px; }
+  .ta { background: var(--a-soft); color: var(--a); } .tb { background: var(--b-soft); color: var(--b); } .tc { background: var(--c-soft); color: var(--c); }
+
+  /* ภาพรวม */
+  .map { display: grid; grid-template-columns: 1fr minmax(0, 1.5fr) 1fr; gap: 14px; align-items: center; }
+  @media (max-width: 720px) { .map { grid-template-columns: 1fr; } .map .arrow { transform: rotate(90deg); } }
+  .devs { display: grid; gap: 12px; }
+  .dev { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; align-items: center; }
+  .dev .icon { width: 42px; height: 42px; border-radius: 10px; background: var(--code); display: grid; place-items: center; font: 600 12px/1 var(--mono); color: var(--mute); }
+  .dev b { display: block; font: 600 15px/1.3 var(--display); }
+  .dev small { color: var(--mute); font-size: 13px; }
+  .cloud { background: var(--paper); border: 2px solid var(--accent); border-radius: 18px; padding: 16px; display: grid; gap: 10px; }
+  .cloud .head { font: 600 13px/1 var(--mono); color: var(--accent); text-align: center; letter-spacing: .06em; }
+  .box { border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
+  .box b { font: 600 15px/1.3 var(--display); }
+  .box small { font-size: 13px; color: var(--mute); }
+  .ba { background: var(--a-soft); } .ba b { color: var(--a); }
+  .bb { background: var(--b-soft); } .bb b { color: var(--b); }
+  .bc { background: var(--c-soft); } .bc b { color: var(--c); }
+  .arrowcol { display: grid; gap: 12px; }
+  .arrow { text-align: center; font: 500 13px/1.3 var(--body); color: var(--mute); }
+  .arrow span { display: block; font-size: 22px; color: var(--ink); }
+
+  /* การ์ด = ตำแหน่ง */
+  .split { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (max-width: 640px) { .split { grid-template-columns: minmax(0, 1fr); } }
+  .phone { position: relative; width: 100%; max-width: 220px; aspect-ratio: 402 / 670; border-radius: 18px; background: linear-gradient(#5b1220, #2a070e); border: 1px solid var(--line); overflow: hidden; }
+  .w { position: absolute; border-radius: 6px; display: grid; place-items: center; font: 600 10.5px/1.2 var(--mono); color: #fff; text-align: center; padding: 2px; }
+  .w1 { background: rgba(80,130,255,.55); outline: 2px solid #8aaeff; }
+  .w2 { background: rgba(240,150,60,.55); outline: 2px solid #f2a65a; }
+  .w3 { background: rgba(60,190,130,.55); outline: 2px solid #6fd3a0; }
+  pre.json { margin: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow-x: auto; font: 12.5px/1.75 var(--mono); }
+  .k1 { color: var(--a); font-weight: 500; } .k2 { color: var(--b); font-weight: 500; } .k3 { color: var(--c); font-weight: 500; }
+  .dim { color: var(--mute); }
+
+  /* แบบ + ข้อมูล = widget */
+  .eq { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.1fr); gap: 12px; align-items: center; }
+  @media (max-width: 760px) { .eq { grid-template-columns: minmax(0, 1fr); } .eq .op { text-align: center; } }
+  .op { font: 600 26px/1 var(--display); color: var(--mute); }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px; min-width: 0; }
+  .card h4 { margin: 0 0 8px; font: 600 13px/1 var(--mono); letter-spacing: .04em; }
+  .card pre { margin: 0; font: 12px/1.6 var(--mono); overflow-x: auto; }
+  .facts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fact { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--c-soft); color: var(--c); }
+
+  /* ตัวอย่าง widget ที่วาดแล้ว */
+  .mini { position: relative; width: 100%; aspect-ratio: 366 / 156; border-radius: 12px; background: #3a0b15; color: #f7e6e9; overflow: hidden; container-type: inline-size; }
+  .mini .t1 { position: absolute; left: 0; right: 0; top: 7%; text-align: center; font: 700 7.2cqw/1 var(--display); }
+  .mini .t1 i { font-family: Georgia, serif; font-weight: 400; }
+  .mini .t2 { position: absolute; left: 0; right: 0; top: 23%; text-align: center; font: 700 7.2cqw/1 var(--display); }
+  .mini .rule { position: absolute; left: 8%; right: 8%; top: 42%; height: 1px; background: rgba(255,255,255,.4); }
+  .mini .stats { position: absolute; left: 8%; right: 8%; top: 52%; bottom: 10%; display: grid; grid-template-columns: repeat(3, 1fr); }
+  .mini .stat { display: grid; place-items: center; align-content: center; gap: 2px; }
+  .mini .stat b { font: 700 8.4cqw/1 var(--display); }
+  .mini .stat small { font-size: 3.6cqw; opacity: .7; }
+  .mini.boxes .t1, .mini.boxes .t2, .mini.boxes .rule, .mini.boxes .stat { outline: 1.5px dashed #ffd36b; outline-offset: 1px; color: transparent; background: rgba(255,211,107,.08); }
+  .mini.boxes .stat b, .mini.boxes .stat small, .mini.boxes i { color: transparent; }
+
+  /* ตัววาด 4 ขั้น */
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 860px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+  .step { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .step .n { font: 600 12px/1 var(--mono); color: var(--accent); }
+  .step b { font: 600 16px/1.3 var(--display); }
+  .step p { margin: 0; font-size: 13.5px; color: var(--mute); }
+  .vis { height: 120px; border-radius: 10px; background: var(--code); position: relative; overflow: hidden; display: grid; place-items: center; }
+  .vis .pg { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); width: 64px; height: 100px; border-radius: 8px; background: #3a0b15; }
+  .vis .pg .fr { position: absolute; left: 6px; right: 6px; top: 26px; height: 26px; border: 2px solid #f2a65a; border-radius: 3px; }
+  .vis .pg .lbl { position: absolute; left: 68px; top: 30px; white-space: nowrap; font: 500 10.5px/1.3 var(--mono); color: var(--mute); }
+  .sz { display: flex; align-items: flex-end; gap: 12px; }
+  .sz div { border: 2px solid #f2a65a; border-radius: 4px; display: grid; place-items: center; font: 500 10px/1.2 var(--mono); color: var(--mute); text-align: center; }
+  .vis .mini { width: 88%; }
+  .dev { font: 11.5px/1.55 var(--mono); color: var(--mute); background: var(--code); border-radius: 8px; padding: 8px 10px; overflow-wrap: anywhere; }
+  .dev b { color: var(--ink); font-weight: 500; }
+  .pipe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; font: 12px/1.3 var(--mono); }
+  .pipe span { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; display: grid; gap: 2px; }
+  .pipe small { color: var(--mute); font-size: 10.5px; }
+  .pipe i { font-style: normal; color: var(--mute); }
+  .layer { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; padding-block: 18px; border-top: 1px solid var(--line); }
+  @media (max-width: 720px) { .layer { grid-template-columns: minmax(0, 1fr); gap: 8px; } }
+  .lh { display: grid; gap: 4px; align-content: start; }
+  .lh .n { font: 600 12px/1 var(--mono); color: var(--accent); }
+  .lh b { font: 600 17px/1.3 var(--display); }
+  .lb { min-width: 0; display: grid; gap: 10px; }
+  .lb p { margin: 0; max-width: 70ch; }
+  .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 860px) { .trio { grid-template-columns: minmax(0, 1fr); } }
+  .trio small { display: block; font: 600 12px/1.4 var(--display); color: var(--mute); margin-bottom: 6px; }
+  pre.code { margin: 0; background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font: 12px/1.65 var(--mono); }
+  .c { color: var(--mute); }
+  .sub-steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  .sub-steps li { max-width: 72ch; }
+  .hint { color: var(--mute); font-size: 13.5px; }
+  .tabs { display: flex; gap: 6px; }
+  .tabs button { font: 500 12px/1 var(--mono); padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--mute); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .stepper { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  @media (max-width: 760px) { .stepper { grid-template-columns: minmax(0, 1fr); } }
+  .stage { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  #sv { display: block; width: 100%; height: min(470px, 120vw); }
+  #sv text { font-family: var(--mono); }
+  .frame-on { fill: rgba(242,166,90,.18); stroke: #f2a65a; stroke-width: 3; transition: fill .4s, stroke-opacity .4s; }
+  .frame-on.done { stroke-opacity: 0; }
+  #fr.over { fill: none; }
+  .frame-off { fill: rgba(255,255,255,.06); stroke: rgba(255,255,255,.25); stroke-width: 2; stroke-dasharray: 6 5; }
+  .fl { fill: #fff; font-size: 26px; font-weight: 600; text-anchor: middle; }
+  .fs { fill: #f2a65a; font-size: 16px; text-anchor: middle; }
+  .fo { fill: rgba(255,255,255,.45); font-size: 18px; text-anchor: middle; }
+  .design { fill: rgba(138,174,255,.16); stroke: #8aaeff; stroke-width: 2; stroke-dasharray: 7 5; }
+  .fl2 { fill: #fff; font-size: 24px; font-weight: 600; text-anchor: middle; }
+  .fs3 { fill: #8aaeff; font-size: 15px; text-anchor: middle; }
+  #lbl1, #ghost, #real { transition: opacity .5s ease; }
+  .bxi { opacity: 0; transition: opacity .3s ease; }
+  #bx.on .bxi { opacity: 1; }
+  #bx.stagger .bxi { transition-delay: var(--d); }
+  .bxi rect { stroke-width: 1.4; transition: fill .4s; }
+  .bxi.t rect { stroke: #f2a65a; fill: rgba(242,166,90,.14); }
+  .bxi.i rect { stroke: #6fd3a0; fill: rgba(111,211,160,.14); }
+  .bxi.r rect { stroke: #8aaeff; fill: rgba(138,174,255,.12); }
+  .bxi.g rect { stroke: rgba(200,200,210,.55); stroke-dasharray: 3 3; fill: none; }
+  .bxi .wt { fill: rgba(255,255,255,.75); text-anchor: middle; dominant-baseline: central; transition: opacity .4s; }
+  #bx.over rect { fill: none; }
+  #bx.over .wt { opacity: 0; }
+  .panel { display: grid; gap: 14px; align-content: start; }
+  .tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; position: relative; }
+  .tl li button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 9px 10px; border: 0; border-radius: 10px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .tl li button:hover { background: var(--paper); }
+  .tl .n { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 12px/1 var(--mono); border: 1.5px solid var(--line); color: var(--mute); transition: all .3s; }
+  .tl .tt { font-weight: 600; }
+  .tl li button code { margin-left: auto; font-size: 11.5px; }
+  .tl li.next { opacity: .45; }
+  .tl li.past .n { background: var(--c, #3a9d6a); border-color: transparent; color: #fff; }
+  .tl li.now .n { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .tl li.now { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+  .tl li.now .tt { font: 600 18px/1.3 var(--display); }
+  .tl .body { padding: 0 12px 12px 46px; animation: tlin .35s ease; }
+  @keyframes tlin { from { opacity: 0; transform: translateY(-4px); } }
+  .tl .body p { margin: 0 0 8px; }
+  .io { display: grid; gap: 4px; font-size: 13.5px; }
+  .io div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+  .io b { font: 600 11px/1 var(--mono); color: var(--mute); }
+  .nav { display: flex; gap: 10px; }
+  .nav button { flex: 1; font: 600 14px/1 var(--display); padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+  .nav button#next { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .nav button:disabled { opacity: .35; cursor: default; }
+  .nav button:focus-visible, .tl button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .bxi, #lbl1, #ghost, #real, .frame-on { transition: none; } #bx.stagger .bxi { transition-delay: 0s; } }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 13px; color: var(--mute); }
+  .lg::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1.5px solid; }
+  .lg.t::before { border-color: #f2a65a; } .lg.i::before { border-color: #6fd3a0; } .lg.r::before { border-color: #8aaeff; } .lg.g::before { border-color: #9aa; border-style: dashed; }
+  details.devwrap > summary { font-size: 15px; }
+  /* แถบสลับบนสุด */
+  .toptabs { position: sticky; top: 0; z-index: 20; display: flex; gap: 4px; padding: 6px; margin: 16px 0 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 14px; width: fit-content; }
+  .toptabs button { font: 600 14.5px/1 var(--display); padding: 11px 18px; border-radius: 10px; border: 0; background: none; color: var(--mute); cursor: pointer; }
+  .toptabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+  .toptabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* JSON ละเอียด */
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 680px) { .two { grid-template-columns: minmax(0, 1fr); } }
+  .jcard { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .jcard.ja { border-top: 3px solid var(--a); } .jcard.jb { border-top: 3px solid var(--b); }
+  .jh { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+  .jcard ul { margin: 0; padding-left: 18px; font-size: 14.5px; }
+  .join td:nth-child(2) { color: var(--mute); width: 24px; }
+  .flagbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13.5px; color: var(--mute); margin-bottom: 12px; }
+  .flag { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--ink); }
+  .flag.skip { opacity: .5; }
+  .xp { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 820px) { .xp { grid-template-columns: minmax(0, 1fr); } .side { position: static; } .tree { max-height: 420px; } }
+  .tree { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 8px 0; max-height: 640px; overflow: auto; font: 12.5px/1.5 var(--mono); }
+  .tn { padding: 5px 10px; cursor: pointer; white-space: nowrap; border-left: 3px solid transparent; }
+  .tn:hover { background: var(--code); }
+  .tn.sel { background: var(--accent-soft); border-left-color: var(--accent); }
+  .tn:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .tn.off { opacity: .38; }
+  .tnote { font: italic 12px/1.6 var(--body); color: var(--mute); padding: 2px 10px; }
+  .tt { display: inline-block; font-weight: 600; padding: 0 6px; border-radius: 4px; margin-right: 6px; background: var(--code); }
+  .ty-text { color: #c2711b; } .ty-icon, .ty-image { color: #23875a; } .ty-rect, .ty-line { color: #3d6fd8; } .ty-col, .ty-row, .ty-stack, .ty-chips, .ty-spacer { color: var(--mute); }
+  .tid { font-weight: 600; margin-right: 8px; }
+  .ta2 { margin-right: 8px; } .jk { color: var(--a); } .js { color: var(--c); } .jn { color: var(--b); } .jb { color: var(--accent); } .jo { color: var(--mute); }
+  .cnt, .tm { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 999px; margin-left: 4px; background: var(--c-soft); color: var(--c); }
+  .tm { background: var(--b-soft); color: var(--b); }
+  .side { position: sticky; top: 76px; display: grid; gap: 12px; }
+  .pic { background: #0d0f1f; border-radius: 14px; padding: 10px; }
+  #xsv { display: block; width: 100%; }
+  #xhl rect { fill: rgba(255,133,151,.28); stroke: #ff8597; stroke-width: 1.6; }
+  .keys { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; max-height: 420px; overflow: auto; }
+  .keys h4 { margin: 0 0 4px; font: 600 16px/1.4 var(--display); }
+  .kst { margin: 0 0 10px; font-size: 13.5px; } .kst.ok { color: var(--c); } .kst.no { color: var(--mute); }
+  .krs { display: grid; gap: 8px; }
+  .kr { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; font-size: 13.5px; align-items: baseline; }
+  .kr .kk { color: var(--a); font-weight: 600; } .kr .kv { color: var(--mute); background: none; overflow-wrap: anywhere; }
+  .kr span { grid-column: 1 / -1; color: var(--ink); }
+  .ex { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; }
+  .exh { display: flex; gap: 12px; align-items: flex-start; }
+  .exh .no { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font: 600 14px/1 var(--mono); }
+  .exh h3 { margin: 2px 0 4px; font: 600 18px/1.35 var(--display); } .exh p { margin: 0; color: var(--mute); max-width: 66ch; }
+  .exb { margin: 12px 0 0 42px; }
+  @media (max-width: 600px) { .exb { margin-left: 0; } }
+  pre.code { background: var(--code); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font: 12.5px/1.7 var(--mono); margin: 0; }
+  pre.code .gone { opacity: .45; text-decoration: line-through; } .ok { color: var(--c); font-weight: 600; } .no2 { color: var(--mute); }
+  .cap { margin: 10px 0 0; font-size: 14px; color: var(--mute); max-width: 72ch; }
+  .chipsdemo { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.4fr); gap: 14px; align-items: center; }
+  @media (max-width: 700px) { .chipsdemo { grid-template-columns: minmax(0, 1fr); } }
+  .cd-in { display: grid; gap: 4px; font: 12px/1.5 var(--mono); } .cd-in b { font-family: var(--display); }
+  .cd-in span { background: var(--c-soft); color: var(--c); border-radius: 6px; padding: 3px 8px; overflow-wrap: anywhere; }
+  .cd-op { font-size: 13px; text-align: center; color: var(--mute); }
+  .cd-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #12152b; border-radius: 10px; padding: 8px; }
+  .cd-row > div { display: grid; justify-items: center; gap: 1px; padding: 6px 2px; border-left: 1px solid rgba(255,255,255,.18); color: #f3ead7; position: relative; }
+  .cd-row > div:first-child { border-left: 0; }
+  .cd-row i { font: 600 10px/1 var(--mono); color: #f2a65a; font-style: normal; }
+  .cd-row b { font: 700 19px/1.2 var(--display); } .cd-row small { font-size: 10.5px; opacity: .7; } .cd-row em { font: 10px/1.4 var(--mono); color: #8aaeff; font-style: normal; }
+  .growdemo { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 560px) { .growdemo { grid-template-columns: 120px minmax(0, 1fr); } }
+  .gbar { display: grid; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; height: 428px; font: 10.5px/1.1 var(--mono); }
+  .gbar div { display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 6px; overflow: hidden; border-top: 1px solid var(--bg); }
+  .gbar .pd { background: var(--code); color: var(--mute); } .gbar .fx { background: var(--a-soft); color: var(--a); } .gbar .gr { background: var(--accent); color: #fff; font-weight: 600; }
+  .gnote p { margin: 0 0 8px; } .gnote .mut { color: var(--mute); font-size: 14px; }
+  .steps4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+  @media (max-width: 700px) { .steps4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .steps4 div { background: var(--code); border-radius: 10px; padding: 10px; font-size: 13px; display: grid; gap: 4px; }
+  .steps4 b { font: 600 13px/1.3 var(--display); }
+  .h3 { font: 600 16px/1.4 var(--display); margin: 18px 0 8px; }
+  .kgroups details summary small { color: var(--mute); font: 500 12px var(--mono); margin-left: 6px; }
+  .kgroups .tbl { margin-top: 10px; }
+  .cardx { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 820px) { .cardx { grid-template-columns: minmax(0, 1fr); } .ckey { position: static; } }
+  .ckb { font: inherit; color: var(--a); background: var(--a-soft); border: 0; border-radius: 4px; padding: 0 3px; cursor: pointer; }
+  .ckb.sel { background: var(--a); color: var(--paper); }
+  .ckb:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .ckey { position: sticky; top: 76px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; font-size: 14.5px; }
+  .ckey h4 { margin: 0 0 6px; } .ckey ul { padding-left: 18px; margin: 6px 0; } .ckey p { margin: 0 0 6px; }
+  .note { margin-top: 16px; padding: 12px 16px; border-radius: 12px; background: var(--accent-soft); color: var(--ink); font-size: 14.5px; }
+  .note b { color: var(--accent); }
+
+  /* ซิงก์ */
+  .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 720px) { .rules { grid-template-columns: minmax(0, 1fr); } }
+  .rule { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .rule .when { font: 600 12px/1 var(--mono); color: var(--mute); letter-spacing: .04em; }
+  .rule b { display: block; font: 600 18px/1.35 var(--display); margin: 8px 0 4px; }
+  .rule p { margin: 0; font-size: 13.5px; color: var(--mute); }
+
+  /* API */
+  .tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  th { font: 600 12px/1.4 var(--display); color: var(--mute); background: var(--code); }
+
+  /* รายละเอียด */
+  details { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin: 10px 0; }
+  summary { cursor: pointer; font: 600 15px/1.4 var(--display); }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+  details pre { background: var(--code); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 12.5px/1.6 var(--mono); }
+  details ul { padding-left: 20px; } details li { max-width: 70ch; }
+  .mcap { margin: 8px 0 0; font-size: 12.5px; color: var(--mute); }
+  .fact.off { background: var(--code); color: var(--mute); text-decoration: line-through; }
+  .mpick { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .mpick button { font: 500 13px/1 var(--body); padding: 7px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+  .mpick button small { color: var(--mute); margin-left: 4px; font-size: 11px; }
+  .mpick button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .mpick button[aria-selected="true"] small { color: var(--bg); opacity: .7; }
+  .mbox { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+  @media (max-width: 760px) { .mbox { grid-template-columns: minmax(0, 1fr); } }
+  .mbox pre.code { max-height: 360px; overflow: auto; }
+  .mbox pre.code .mk { color: var(--accent); }
+  .minfo { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; display: grid; gap: 8px; }
+  .minfo div { display: grid; grid-template-columns: 64px 1fr; gap: 8px; }
+  .minfo b { font: 600 11px/1.6 var(--mono); color: var(--mute); letter-spacing: .04em; }
+  .minfo .miss { color: var(--accent); }
+  pre.code.sdl { max-height: 520px; overflow: auto; font-size: 12px; line-height: 1.6; }
+  .mmap { display: grid; gap: 6px; }
+  .mhead, .mrow { display: grid; grid-template-columns: minmax(0, 1.2fr) 28px minmax(0, 1fr); gap: 10px; align-items: center; }
+  .mhead { font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--mute); padding: 0 4px 4px; }
+  .mrow { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .md, .mc { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+  .mf { font: 12.5px/1 var(--mono); padding: 5px 8px; border-radius: 6px; background: var(--c-soft); color: var(--c); }
+  .mf.miss { background: var(--accent-soft); color: var(--accent); }
+  .mcat { font: 500 13px/1 var(--body); padding: 5px 10px; border-radius: 999px; background: var(--b-soft); color: var(--b); }
+  .mc small { color: var(--mute); font-size: 12px; }
+  .arr { text-align: center; color: var(--mute); font: 600 18px/1 var(--display); }
+  @media (max-width: 640px) { .mhead { display: none; } .mrow { grid-template-columns: minmax(0, 1fr); } .arr { display: none; } }
+</style>
+
+<div class="page">
+  <header>
+    <div class="eyebrow">Star Card · สำหรับทีม Android / Web</div>
+    <h1>Star Card ทำงานยังไง</h1>
+    <p class="sub">การ์ดหนึ่งใบเก็บเป็น JSON ไฟล์เดียวบน API · หน้าตาของ widget แต่ละแบบเป็น JSON อีกไฟล์ · ทุกแอปเอาสองไฟล์นี้มาวาดด้วยวิธีเดียวกัน เลยออกมาเหมือนกันทุกเครื่อง</p>
+  </header>
+  <nav class="toptabs" role="tablist" aria-label="เลือกมุมมอง">
+    <button type="button" role="tab" data-pane="overview" aria-selected="true">ภาพรวม</button>
+    <button type="button" role="tab" data-pane="json" aria-selected="false">JSON ละเอียด</button>
+  </nav>
+  <div class="pane" id="pane-overview">
+
+  <section>
+    <h2>ภาพเดียวจบ</h2>
+    <p class="say">API เก็บของแค่ 3 อย่าง แอปทุกตัวอ่าน/เขียนที่เดียวกัน</p>
+    <div class="map">
+      <div class="devs">
+        <div class="dev"><div class="icon">iOS</div><div><b>iPhone</b><small>แก้การ์ด + ดู</small></div></div>
+        <div class="dev"><div class="icon">AND</div><div><b>Android</b><small>แก้การ์ด + ดู</small></div></div>
+      </div>
+      <div class="cloud">
+        <div class="head">API (GraphQL)</div>
+        <div class="box ba"><b>การ์ดของเจ้าของ</b><small>วาง widget อะไร ตรงไหน ขนาดเท่าไหร่ + ชื่อ ยอดผู้ติดตาม เรต</small></div>
+        <div class="box bb"><b>แบบของ widget (82 แบบ)</b><small>widget แต่ละชนิดหน้าตาเป็นยังไง + นิสัยในตู้/ถาด · อ่านข้อมูลได้ตาม Model ของหมวด</small></div>
+        <div class="box bc"><b>รูป</b><small>รูปโปรไฟล์ รูปผลงาน</small></div>
+      </div>
+      <div class="devs">
+        <div class="dev"><div class="icon">WEB</div><div><b>เว็บ</b><small>ดูอย่างเดียว</small></div></div>
+        <div class="arrow"><span>⇄</span>ทุกตัวคุยกับ API เดียวกัน</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>การ์ด = บอกแค่ว่า widget ไหนวางตรงไหน</h2>
+    <p class="say">ในการ์ดไม่มีภาพ มีแค่รายการชิ้น: ชนิด (<code>kind</code>) กับกรอบ (<code>x y w h</code>)</p>
+    <div class="split">
+      <div class="phone" role="img" aria-label="หน้าการ์ดที่มี widget 3 ชิ้น">
+        <div class="w w1" style="left:4.5%;top:2.7%;width:91%;height:23%">statPoster</div>
+        <div class="w w2" style="left:3%;top:28%;width:92.5%;height:37.6%">audiencePoster</div>
+        <div class="w w3" style="left:3%;top:69%;width:97%;height:30.4%">reelShowcase</div>
+      </div>
+      <pre class="json">"pages": [ { "items": [
+  { <span class="k1">"kind": "statPoster",     "x": 18, "y": 18,  "w": 366, "h": 156</span> },
+  { <span class="k2">"kind": "audiencePoster", "x": 12, "y": 186, "w": 372, "h": 252</span> },
+  { <span class="k3">"kind": "reelShowcase",   "x": 12, "y": 462, "w": 390, "h": 204</span> }
+] } ]
+
+<span class="dim">+ "theme"  สีพื้นหลัง/โทนของการ์ด
++ "owner"  ข้อมูลเจ้าของ (ชื่อ ยอดผู้ติดตาม เรต)
++ "photos"  รูปที่ใส่ในแต่ละชิ้น · widget ไม่มีข้อความที่พิมพ์เอง</span></pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>widget = แบบ + ข้อมูล</h2>
+    <p class="say">แบบของ widget บอกว่าอะไรอยู่ตรงไหน · ข้อมูลมาจากเจ้าของการ์ด · เอามารวมกันได้ widget หนึ่งชิ้น</p>
+    <div class="eq">
+      <div class="card"><h4 style="color:var(--b)">แบบ (JSON ของ widget)</h4><pre>statPoster.json
+ป้าย "MY Social" (ตายตัว)
+ป้าย "MEDIA STATS" (ตายตัว)
+เส้นคั่น
+แถว 3 ช่อง
+  ช่องละ: ยอด + ชื่อช่องทาง</pre></div>
+      <div class="op">+</div>
+      <div class="card"><h4 style="color:var(--c)">ข้อมูลเจ้าของ</h4><div class="facts"><span class="fact">Instagram 24.8K</span><span class="fact">TikTok 58.3K</span><span class="fact">YouTube 8.9K</span></div></div>
+      <div class="op">=</div>
+      <div class="mini" role="img" aria-label="widget statPoster ที่วาดแล้ว">
+        <div class="t1">MY <i>Social</i></div><div class="t2">MEDIA STATS</div><div class="rule"></div>
+        <div class="stats"><div class="stat"><b>24.8K</b><small>Instagram</small></div><div class="stat"><b>58.3K</b><small>TikTok</small></div><div class="stat"><b>8.9K</b><small>YouTube</small></div></div>
+      </div>
+    </div>
+    <p class="say" style="margin-top:14px">อยากได้ widget แบบใหม่ = เพิ่มไฟล์แบบ 1 ไฟล์บน API · ทุกแอปเห็นทันที ไม่ต้องออกแอปเวอร์ชันใหม่</p>
+  </section>
+
+  <section id="model">
+    <h2>ข้อมูลเจ้าของ → หมวด widget</h2>
+    <p class="say">API เก็บข้อมูลเจ้าของเป็นก้อนเดียว (<code>StarOwner</code>) · widget แต่ละหมวดอ่านได้แค่แถวของตัวเอง + แถวฐาน · <span class="mf miss">แดง</span> = API ยังไม่มี</p>
+    <div class="mmap">
+      <div class="mhead"><div>API เก็บอะไร</div><div></div><div>หมวดไหนใช้ (จำนวน widget)</div></div>
+      <div class="mrow"><div class="md"><span class="mf">name</span> <span class="mf">handle</span> <span class="mf">รูปคน</span> <span class="mf">รูปผลงาน</span> <span class="mf">verified</span></div><div class="arr">→</div><div class="mc"><span class="mcat">ทุกหมวด</span><small>ฐาน</small></div></div>
+      <div class="mrow"><div class="md"><span class="mf">nickname</span> <span class="mf">about</span> <span class="mf" title="ไม่มีใน API — แอปสร้างจาก categories">tagline ← categories</span> <span class="mf">workArea</span> <span class="mf">categories</span></div><div class="arr">→</div><div class="mc"><span class="mcat">โปรไฟล์ 9</span> <span class="mcat">แนะนำตัว 8</span> <span class="mcat">หมวดหมู่ 7</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf">socials[]</span> <span class="mf">followers</span> <span class="mf">views</span> <span class="mf">engagement</span> <span class="mf miss">syncedAt</span> <span class="mf">price ×4</span></div><div class="arr">→</div><div class="mc"><span class="mcat">ผู้ติดตาม 10</span> <span class="mcat">เรตราคา 2</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf miss">audience</span> <span class="mf">เพศ</span> <span class="mf">อายุ</span> <span class="mf">จังหวัด</span> <span class="mf">reach</span></div><div class="arr">→</div><div class="mc"><span class="mcat">ผู้ชม 7</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf miss">trackRecord</span> <span class="mf">brands[]</span> <span class="mf">works[]</span></div><div class="arr">→</div><div class="mc"><span class="mcat">แบรนด์ 4</span> <span class="mcat">ผลงานยืนยัน 3</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf">tel</span> <span class="mf">lineId</span> <span class="mf">website</span> <span class="mf miss">email</span></div><div class="arr">→</div><div class="mc"><span class="mcat">ติดต่อ 11</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf">days</span> <span class="mf">slots</span> <span class="mf">provinces</span></div><div class="arr">→</div><div class="mc"><span class="mcat">วันเวลาและพื้นที่ 1</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf">bodyMeasurement</span></div><div class="arr">→</div><div class="mc"><span class="mcat">สัดส่วน 1</span></div></div>
+      <div class="mrow"><div class="md"><span class="mf">kycStatus</span></div><div class="arr">→</div><div class="mc"><span class="mcat">ตรารับรอง 1</span></div></div>
+    </div>
+    <p class="hint">แมพด้วยชื่อ: ผังเขียน <code>"slot": "name"</code> / <code>"list": "socials"</code> → โค้ด data source ของแต่ละแอปแปลงจาก API ให้ (24800 → "24.8K") · รายชื่อที่หมวดอ่านได้ = <code>shared/category-models.json</code></p>
+    <details style="margin-top:12px"><summary>JSON ของแต่ละหมวด (category-models.json)</summary>
+    <div class="mpick" id="mpick" role="tablist"></div>
+    <div class="mbox">
+      <pre class="code" id="mjson"></pre>
+      <div class="minfo" id="minfo"></div>
+    </div>
+    </details>
+    <details><summary>GraphQL ที่ API ต้องมี (ร่าง · ยังไม่ได้ทำ)</summary>
+    <pre class="code sdl"># ข้อมูลเจ้าของที่ widget ทุกหมวดอ่าน — ให้ทีม API ดูว่าต้องเก็บอะไร
+# ✅ = มีใน API แล้ว (อ่านจาก path ท้ายบรรทัด) · ❗ = ยังไม่มี ต้องเพิ่ม
+# แอปแปลงเป็น field ของ Model เอง (24800 → "24.8K") ชื่อฝั่ง widget ไม่ผูกกับชื่อ API
+
+extend type User { starOwner: StarOwner! }        # StarCard.owner: User → ไม่เก็บซ้ำในการ์ด
+
+type StarOwner {
+  # ฐาน — ทุกหมวด
+  name: String!                 # ✅ myProfile.name
+  handle: String                # ✅ socialProfiles[].profileUrl (ตัด username)
+  isVerified: Boolean!          # ✅ myProfile.isVerify            → owner.verified · หมวด seal
+  profileImages: [Image!]!      # ✅ creatorProfile.profileImages   → รูปช่อง 1–3
+  workImages: [Image!]!         # ✅ creatorProfile.portfolio       → รูปช่อง 4+ · หมวด photo/showcase
+
+  # hero · intro · tags
+  nickname: String              # ✅ myProfile.nickname
+  about: String                 # ✅ myProfile.caption
+  # tagline ไม่ต้องมี — ไม่มีที่กรอก แอปสร้างจาก categories เอง ("แฟชั่น · คาเฟ่")
+  workArea: String              # ✅ creatorProfile.preferredProvinces[0]
+  creatorType: String           # ❗ creator | page (ฟิลด์ใหม่ตัวเดียวของ Star Profile) → stat:creatorKind “บุคคล/เพจ”
+  categories: [String!]!        # ✅ categories(limit: 20).name
+
+  socials: [StarSocial!]!       # followers · rate
+  audience: StarAudience        # ❗ audience ทั้งหมวด
+  trackRecord: StarTrackRecord! # brand · verified
+  contact: StarContact!         # contact
+  availability: StarAvailability!
+  body: StarBody                # ✅ creatorProfile.bodyMeasurement
+  kycStatus: String!            # ✅ userVerify.status             → ล็อก/ปลดตรา
+}
+
+type StarSocial {
+  platform: SocialProfileType!  # ✅ type                         ❗ ยังไม่มี x
+  profileUrl: String!           # ✅
+  username: String              # ✅ accountId / displayName
+  followerCount: Int!           # ✅ followerCount
+  avgViewCount: Int             # ✅ (query เดิมไม่ได้ดึง)
+  avgEngagementCount: Int       # ✅ (query เดิมไม่ได้ดึง)
+  syncedAt: Date                # ❗ มีแค่ statusSyncFollower
+  isLinked: Boolean!            # ✅ OAuth แล้ว vs กรอกเอง         → socials.verified
+  photoPrice: Int               # ✅ รวม short/long/sharing         → rates[]
+  shortVdoPrice: Int
+  longVdoPrice: Int
+  sharingPrice: Int
+}
+
+type StarAudience {             # ❗ ทั้ง type — ตอนนี้ MOCK
+  female: Float!  male: Float!  other: Float!      # % เพศ
+  ages:   [Share!]!             # { label: "18–24", share: 42 }
+  places: [Share!]!             # { label: "กรุงเทพฯ", share: 61 }
+  reach: StarReach              # { accounts delta newShare window platform }
+}
+
+type StarTrackRecord {          # ข้อเสนอเดิมใน star-card.schema.graphql
+  completedCampaigns: Int!      # ❗
+  brands: [StarBrand!]!         # ❗ { name logo industry campaigns }
+  works: [StarWork!]!           # ❗ { brand campaign ep platform cover views saves shares likes comments }
+}
+
+type StarContact {
+  tel: String      showTel: Boolean!        # ✅ creatorProfile
+  lineId: String   showLineId: Boolean!     # ✅
+  website: String  showWebsite: Boolean!    # ✅ (ยังไม่ส่งเข้า owner)
+  email: String                             # ❗
+}
+
+type StarAvailability {
+  days: [CreatorAvailableDays!]!            # ✅ availableTimes.day
+  slots: [CreatorTimeSlots!]!               # ✅ availableTimes.timeSlots
+  provinces: [String!]!                     # ✅ preferredProvinces
+}
+
+type StarBody {                 # ✅ ทั้ง type = bodyMeasurement {value unit}
+  weight: Measure  height: Measure  chest: Measure  waist: Measure  hip: Measure  shoeSize: Measure
+}</pre>
+    </details>
+  </section>
+
+  <section id="renderer">
+    <h2>ตัววาด (renderer) ทำงานยังไง</h2>
+    <p class="say">กดถัดไป — ภาพเดิมจะต่อเติมไปเรื่อย ๆ จนได้ widget <code>statPoster</code> หนึ่งชิ้นบนการ์ด</p>
+    <div class="stepper">
+      <div class="stage">
+        <svg id="sv" viewBox="-20 -20 442 710" preserveAspectRatio="xMidYMin meet" role="img" aria-label="การวาด widget statPoster ทีละขั้น">
+          <defs><clipPath id="clipw"><rect id="clipr" x="18" y="18" width="366" height="214" rx="12"/></clipPath></defs>
+          <rect x="0" y="0" width="402" height="670" rx="22" fill="#3a0b15"/>
+          <rect x="12" y="250" width="372" height="210" rx="6" class="frame-off"/>
+          <rect x="12" y="478" width="378" height="174" rx="6" class="frame-off"/>
+          <text x="198" y="360" class="fo">audiencePoster</text>
+          <text x="201" y="570" class="fo">reelShowcase</text>
+          <image id="real" clip-path="url(#clipw)" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwwAAAHcCAIAAAD0vLoqAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAACQAAAAAQAAAJAAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAwygAwAEAAAAAQAAAdwAAAAAqRtqVgAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAABxpRE9UAAAAAgAAAAAAAADuAAAAKAAAAO4AAADuAABFB8U63kEAAEAASURBVHgB7J0HdBVHnu5nd9/uO7tn3573dt++2cHjAcdxHpICQSSRkwGRo0TOwphgMgYbDCZnMBibHGwMmIxAgAkmZ4yJBjPO9tieWc84v08ULoqq6r6tq7739r36ztHhVFdX/HVJ9VH1r3/9qkjRJP6QAAmQAAmQAAmQAAloBH6lPfORBEiABEiABEiABEgABCiSuJBGAiRAAiRAAiRAAhYCFEkWKJTPJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJECRRJFEAiRAAiRAAiRAAhYCFEkWKNTOJEACJEACJEACJBB3Iim5SNGUIkVTixQtU6RYuSLFyhcpllakWIUixSre/KlUpJj4qVykGH9IgARIgARIgASiRkBOwWJGxtSMCRrTdLm8KTtv4sb0jUk8ntYmgi+SUooUK3sTNKBH7UuzIhIgARIgARIggQgRwIQO/VT2pmwKtGYKpkiC0oQwggiFLI3QF2KxJEACJEACJEACMSeAib5C3qQfyEWmoIkkbKJBG8X8m7EBJEACJEACJEACUSYAtYSNuQCtLQVGJOXtqXFDLcrDkdWRAAmQAAmQQNAIQAxgYSkQUikIIgnyiNtqQRujbA8JkAAJkAAJxJBApZt7cDGWSrEVSTDK5uZaDIcgqyYBEiABEiCBIBPABhzOxMVMKsVOJOXtr3EBKchDk20jARIgARIggZgTgFSI2e5bTERS8s2zfzHnzgaQAAmQAAmQAAnEBYG0mBx/i75I4hZbXAxHNpIESIAESIAEAkUgBltvURZJUEg8whaoMcfGkAAJkAAJkEC8EKgYZROlaIqkVBoh0QUUCZAACZAACZBAAQhUunnDSZRMuaMmkrCGRDPteJHqbCcJkAAJkAAJBJYAdFKUjrxFRyRxly2wQ40NIwESIAESIIG4IxClfbcoiCScZaMzpLgbf2wwCZAACZAACQSZAOy4cdNrZPfdIi+S8m76DTJlto0ESIAESIAESCAeCcAvQFyLpDyPkfHInW0mARIgARIgARIIPoHI+pmM6EoSjbWDP7zYQhIgARIgARKIXwKVImrEHUmRRFMkrqKRAAmQAAmQAAlElgCMkyK16RY5kcSNtvgV5mw5CZAACZAACcQPgaKR2nSLmEiiV6TICuf4GbvkQAIkUCgJFH2g+sNP1C+Z2iytSmZ6zU416nav3aBn3YbZ9Rpl12/chz8JQACfEh8Un7VG3W74xPjQ+Nz46Pj0UTdHxqZbRBaTIiOSaK9dKP8mRv23gkqRBEggWAR+d3+1EslN0mt2rp/RBzNozfo9KtfoVK5Su5S0VqXLtsAMWjy5CX7+kNSYPwlAQHxNfFZ8XHxifGh8bnz0PB2c0QfDAIMBQyJaU0NEFpMiJJJ4QVuw/nJFa4yy1yRAAoWUwL0P1UhLz8LqSNXaXVIrtKESSgANVJAuYABgGGAwYEhgYGB4RH4agntJ/xeTIiGSykSeRSH9M0SwJEACJBA0AsUerC7kUaXqHamNCiIsEjIvhgQGhpBKGCqRHb1Fy/iukyIgkniojXttJEACJFA4CDxaomG9jD6VqnUonswdNBJwJIDhgUGCoYIBE0md5P8xN99FEi4h4TIPCZAACZBAghO4q1jl5HItMe3BHiUhl0DYKScC1ZOeHJBcfUlK2oHU5LOppS6klsQPAnhEJF4hgTUvhgoGDIYNBk+kpILfF5X4LpJ48j9i3z5yo4olkwAJkEB+CNx1T5WKVTvUerIn99esaiAhI0smZfRKrrk5pYxQRe7/IhkSI4uGAgMGwwaDB0MoIjrJb18Afosk7rXl5w9NRIYIG0ACJEACkSSAZQBMcji7pM1/fExgAh2Ta+1ITXUXRuZbZEFGEwsGT55Oisgo9XnHzXeRVIkTPwmQAAmQQAITwHYJFgPMmY8xCUkgNanR7JSKpgDyHoPsKESDgyGEgRSBX5NK/tpu+yuScFkbN5tIgARIgAQSlsCjxfMstb3vshW3uUSyRmqTKB+DQKBqUoP1KWW96yGnlCgERak9whDCQHqseATsuIum+KiTfBVJ9CFJjUgCJEACiUsAnpS9W2rXTa6/NqUs7Hm3pJTpn1y9RFJj/CCAR0SuSymLBOqsyXDQCEDW5KTke4vNSSehKE0nCTvuCLjn9tOrpL8iKY0rSSRAAiRAAolKIK1KFg5ye5nLKyQ1xFkndb6EJa9m84sEFZMaeimNaaJPABtkvqwhqWMABWr7bhhOGFR+/76kBXYliY62E3aN3e9BTFAkQAJxRgBOk+ES0KM/pLEp6ers6BRGsuhP/37VWCKlqV9FBbCcAtohOX1xFKt2FsMJg8pvf9x+ut72dyUpzn7nOfGTAAmQAAl4JFAhPQuuk9UZzgxjQw1rSPWS6x9KTXKaJtV4JENiZEFGs7TYxiSXbzVx6srJ01enVmittqRp62eWr969Z/+Fw8ev7dh1pu/AqU4p1Vwew3Ua9kbJ+HlqwBSnLEtX5iLB6jf2OiUoeDyOpKmfyWP4asO6315777N5s93Ta+fdMKgwtDwOQq/J/LufxEeRRDeS1IgkQAIkkJgEYDhycxnJ8W5aqJzRKemHvWkjcxJFxudS0r1IpTXrD7x95OrWHSetxuOzX1qPt/sOXipXuV0BtUKn7s8fOXEdP92zx8uiMlr0R/kiXvzbvssoa0qZJV+BehnZotgBQ2Y4ZXx93X6k2bDliFOCAsbDuZHLaf8r9WtdrmlfJvzL7tw/79r59bYt5vdVY1C46j8J3xFDy2fLJP9cSvookni0LTH/OHpV7olrrEoCJEACsLFNr+XmGGlUsn3iVGfHkGEUEnKCH/rsPCEjoFe0xEnlWu4/dBlvX1m6XXsVxmPlGh0hxbbtPFWtdleZfdTYhaL2ISPn4sb7Ji0HlC7b3JpSZslXIAgiCU4grV/qw2GDvv/ow59/+vHnH3/8847tFyve4VXySp3q3/3xBpaRvliyyJpdjUQVKhYMLQwwP3/L/Dvg5qNISvWzh5xxSYAESIAEAkOgZr0eyeVbqhObFs7Jv6dBddYUYRSiFWs+Vq/TTciUsROWaG87dB0tXqlrP1qaAj4uWpaDKt46cCFCBklBEEmafb34NNfatPjp228/GDzgYvnky9Uq/e3d8x89O1z9gngF5fSX/Xv/2Le3Gm8Nowr1Q2BoYYD5KSGKpvplu+2jSCrjZw8D86eBnSIBEiCBQk6g6APVsCGizmpm+O1wN9rUSRSFmCWbMWK/CWs82o4b9tqgYLAdploRJZVt0bzNoGHPzst+eqJ5j0qbDsO79nqhQtX2qAUrRv0GTR/z4uJqdfKWjmArg1f4qVKzk2gDYrbknEAVMEUSrxo2fdqaUqTHv1Vrd+nR58Xho+e3zhqmtkomqFA1C0VhgQq2TViRqvVkD6HzQm63rd1wEIXUbtCrT//JKL9th+ElU5uJYjt2ew5lYhNQ1iICNev3EM2G0NReyUdcu6Z+ERn+cPjgH776Uq4e/fXM6Q+HDJRvEfh8wbyv3lz7/UcfXUxLud6h7Z935X40ZpSaQAtr97vd3HGr5tsvWtEywRNJxcr51j0qJBIgARIggcAQeKJ0RvW6jtOqmF9XpZTXZsGQj5eqVbpQtrSaDIXI2dolAAEhlETDZnkaRfxADMEUCfEvLdwkIyEUNBMi2DurYkXorV59J0A9HDh85VaxN6VPu44jxKNQG4OHzzl07JqIkf9OmLoCdWkpRe1YHVnx+h6ZEgFk79xzjGwbAi3bDdm197xMgwb0HThFPIYUSSte2z3iuQUyLwIwJ09Lz0KxM+etE/F1GvRSq5v38kYR7yKScD2t+kVk+FJ62t8unP/bhXehjS6mpX6+4CV8u/eaNvzm6JGvN224UrfGl2tW//D5Z18sefViuaTvP/n4o9EjsPsms5sBVKS2DQMMw8w/FVEugCKpvH/do3EPCZAACZBAUAiUr5JZPpQd9BhvZ/7lZHm9c9Z3N97/eNwYGYOAR48AWHE5cjzPpPr58YvkRJvV+VmhALCOIiIhQYRC2pJzctiol16YsASHwpAG8gKGRCKNEEkrX98jUsKkKXfPORgb4a0mfXo+9eK0Wa8LTfPWgYsI46db7xfMlIjBos6rS7ejrkNH35u3cOPAoTNxJC3v8di1zM7PiqphWr737YuizctX75o5d+3m7SekDgspkg4efQ/H61av3Td11usbtx4T5cxdsAGF4/ydeBz9wiuiLvyLI3hCBaL7MtIMLElJU7+IGsYS0ccvPA+p9MMXn38yeQL23b679t6nM6b+9P3317Naf7l2zc8//XQ1o/61ti2glj6dPuWLZYth4n2psl09oyK1dtDAMPNPRZQPoEiiJ8mg/EXzb5yxRyRAAiRQuXrd7knlWqhTmhbOTK59MvWONSF1cjXD73fv/P0nn/z11EkclVLfohAUpRVufYSqgA6AYbV8C5GBmH1vX4L5tojEfhxi8K+0H2qVOVSoh+ZtB4k0QiQhcnvuabxV9+80kaSm37DlqKwXATMltthERVijEinRBqz0IBL/ipiRv6wDYbNMxEC6CS2FZCFFEtJgJUlkRJehlvJqPH4dG3aIRAvxqJ4B7NJzbF6CE9dlk0Re7V/NBaj8OpcqlcUSkXi8kd0DW29YOsKK0ZV6NX/++Wcc/v/TyuXfXb+GBNh3QwzMt69ntfn2vauwVZKFqAFUpFaNAYZh5t/k5Zs/Sf9skopV8K97/KtEAiRAAiQQFAJ1G2Wr6kGd2xBulVznfGpJdf5zD2MNKU8hnT1zpUEdMyWKQoFaFeYjDHHElN+gSV+8LVWmuViVgVQSibHxJBJICYJ49AKLQIjH2TSRTIqkpq0Gihj5ryl98EqkDymSsA2HWqDYsH4jC+w/OG+X8MChy0K0CT10M81ti/h2HUeKZnsRSaopfeceY0RG6DPUKOpCTONfzgAueHULHrFUpu42yrbJAG6MMT8KYrDRdqNHF/kK60bfXr3yzbEjEEyQRJ9MGo/Hn7779r/f3v/d+9f/eurEj9988+M3//3xC8/JLFoAFclKEcCnwTDzT0VUCOBKEt1tB+Uvmn/jjD0iARIggcruVtsuPnW0eRGPt9eQbApJpEeB6vRpDadVyRQ7U2JHSWoLKBuRvk37YUI0QBXt2vuO/BG5sAUmkgnRA4FlqsCCiCSxroO9NlkvAnJzDR4jUTs2AdFCNEDtIGzGRbNDiiRsC6oZUabIOOLmuhR2r8QGorCagjASj9PnvKHmMsPmJxMxsMjGFpsIv9eyyfeffvrVpjex0fbtlctfvrbyuxs3rnfK+vjFsZ/Nmo79Naw5IQ3MmJxKE/Fa7Rhm/k1evjnd9nEliSKJf0xJgARIIAEJuIsk60SIaRL7L3mnwcvcXplwX0NSy9GmT+ujMPrZvP043sI8CBJhz753S5W5dcJLLjXdFEnnYUuk/syZ/6Yo85eVIYtjxoKIpNy33kF7YDakVirDgif8CCDN4hU71d5B3AitE1IkiY7LvDhGJzLidJ6InHFz/xGVwkAKPhHEW7nPKDNqAfUrqOEPRwzBQtFfT5/62zvnoI1wkA02STDcdlJClyqX+2rDeqmr1KJkWKs64UVSJf80YAL+lSEcEiABEohTAu4iyb6SVLb019s2//DVVx89O0zoJC9rSGL69LKShPlVTvw42Y5lFYiAyTNWy3m3UfN+QhZALclIMxAhkSQE3I7dZ6U5lFn1+k2H0cJ1Gw+pr3DISzQ7pEiC+FMzyv5KkyM4uhRFtcoaOv+VzQibThPUEkTYabsNnwZH2GBghJ+r2iogdPAvUvjzVxZca9cSifO24X766a+nT8LcW6oiNaBtt6F2X0VSpQBut1EkUduRAAmQQAISCM8m6XKNKn/Ztxc66Y/9n3rf1Q5JnTs92iRhTpVbSOMnLxdqQF0mgZWS2GDCyTVTCsiYCIkkGEKJJrXMHCLr0gILF29DGmz/qTfiwROByBhSJCFZvUbZskzssomMUEsy8s3NRxA5btIy4RxBGnrLBGbAyXBb6J6Px46GBbf4XjDQvppRD+HPZs/ADwKXq1eCM8n3u3bMS1CmFA64XapaUSQ2/9UMt/22SaJICowHkTj9ryGbTQIkQAIeCWB5I7zTbdBJf87Z9sOXX946y6atQBjm3t5Pt4nZHS6RIAJg+4x/zWUbXE4idEPvpydKkyN4hnxm2KyyldqKEiIkknBlCs7no/ZVa96Sviix7QWXkrCwFlV37XXruNni5TvgzRItbNC0rzBUQkYvIgmFw+MRFquwViQMnrC8lJJ221T86WemoSjsuAkO6v0qpjwSMU4uAHCW7Zvjx3D+/4vFr0DxXKyQ+tN338HwCGFcSHK5ZhUhg+5YN7rTCZamkzQXADdPt3XzOCA9JAuiSErA/z95+BLsNQmQAAkkOAFYScNWxmlaFfFwcaTNguIxbz3prd2YX61n2bQscLbkXov2Vt4sCxGA9RLtbZmKbVat2Sv0AZZSNm07JhZUECMXbyIkktASaKBbTo+O5+1z5ew6I2ST3BOEuFm34aBoHv4V6164vle4gAopklAmDMOR8VYtN8//Z3YaqUIAAekhE04T1FdOYSdnkp/Pn4vFIbiI/PPOHHw1+NTG+TXNF+i1zFb4uZHdHQm+enMdbL2x6aZ9YvmoOZOEIy4MMz/n3KJJvuy4+Wi4neB/Jvz8eFwGIwESIIH4IVBAj9uXqlW8XMsuoeSUKQIePW7LCR7+gaTuyVC2mWQCLKtMnLoyb9fppvNJSAqsuOCElzyZHzmRhDZAsuCuN2GgLcQQNFD7LqNk8yBi4AUb9t3i7ez567HEBWePeAwpkuC8G94yhT8kpIfeyu43SZYsA9NnrxGF9+gzXka6BJyuJREf6NOZ07CkhDCuHMGZ/w8G9IXh9n8ffBu3lOBQG3xLwrPDF4sWYoXpb+ff+WTieCcnSShBu5bEb4/blX1RSCiEIonajgRIgARIwI1A0O5uc5njnV7BgAl3dOCiNBdLaqe8BYzHPhoUALa61I0wtUz4kIQHSKnb1FdewljkE3fPWRPf8rF58A6PTdaUMtJ6we2VJ2vDAgl66JuTJ/6yd88Pf/rTt5cufjhyKDwhwW8krra9XLsqjr9h1RBSCV4lf/z6K8gp2KL9OXeHEFjqv9oFt6gaVtsYZn4uRnAlyU+a8fNfOvaaBEiABKJPoGa97qrrQjmhykBOaqo6C4YXRiGyQAYKTiC9VmexTDV5+u1zfyGL7ZVc0/x8uGwE17T9/NOP8OxwrU1zHO8XxklYN4KrJNho4wZcuAb44Jl+2GKDr+3vP/wAcgqOJYXdklYgqlCbgaGFAebzqKZI8hkodRIJkAAJkIADgdJlW2DGVSc2LTwq2dOGmjZZao8oRCuWj2EQgLdxfCxYc2/cmnc5CXx847Y77+WUTMqwunWAdTaca8M3Er4alo7+tHwJVo+ghHBT21/2vfXXc2f+du6svGcGJ93e79oB9t3aJ8YjCkcVanvQWgwwn+d0iiSfgTr8aWAtJEACJEACRR+ojg0ReUZMneFEuERS49Ep6YdTb13vZU6N7jHIODo5HYWYJTMmvwQGD58j7JDwL6zF3T1FWQvvmHzHnXri273frZM01v5s7izcOoKr2d7v3gm+tv/4dLa82c39Q+MtClcrxaC6uddW3effMookn4FSJJEACZAACTgTqJCeJQ+FqZOcGobKqZDUsF5y/UPe1BKSITGyUB6pGAsYfvqZqdBGcAcAd964tTe80man6C6OYIWNXTahgSCJbvTserlG5ZCSSEuAYrX2YFBhaPk/oVMk+c/U+a8D6yIBEiCBQk7g3odq3FxM8rTY4+QRQJsykUybMvnoCwEsz7gs+3mpIjWp0fqUW34jta8W9iMKRLFq7cWT80y2MbT8/+WiSPKfKUUSCZAACZCAM4G0KlmVqnVQJzmncMWkhprvZhxo0o5NIQHWkJxKYHzMCVRNapCTYjEqCk8koSgUqHUKwwmDKiKzOUVSRLA6/3VgdSRAAiRQyAnAMqleRh/Y2GpTnfWxbnL9tSllcUXXlpQy/ZOrY0MNPwjgEZF4hQTWjIwMDgHIGl/Wk1CIqZAwkOo1wsl/v62RxDxOkVTI/1qx+yRAAiQQfQKPFm8IneR9K6e4zRbbGhkcZcCWqASwQWbaJ+VrMQnZtV02lI8hhIH0WPGGkRrDFEmRIsvFJBIgARIgAWcCyeVa1nqypzqPMpzwBHAkzeoXwF0tIYt2lk2CwhDCQIrgPE6RFEG4zn8dWCkJkAAJkEDFqh3Sa7q5TZJzIQMJQwDOjeAEUjMscxJJSIbEmj8kiQKDB0Mosr9HFEmR5UudRAIkQAIk4EDgrnuqYJLDYoD3fTc5QTIQ7wRw7Rqup12SkgbTe5iXCZ2EAB4RiVfavWxqfzFgMGwweDCEIjuJUyRFlq/DnwZWSgIkQAIkIAhgu8S7Hbc6UzJcOAnkWWpn9InsLpucuymS+HeKBEiABEggtgQeLZFnx42D3HB4UzgnfvbaCwEMDwwSDBUMmCiNWIqkKIGWspQBEiABEiABg0CxB6rjsjC4BITrZO6+eVEMhSoNhgQGBoYHBgmGSvQmboqk6LE2/iiwahIgARIgAZUAnCYLqVS1dpfUCm2olgqVEjI7iwGAYYDBIORRRHxqu0/NFEnq7yfDJEACJFBICDz4WF3YvUbKBZ/7xBPq7e/ur1YiuQnOLtXP6FOvUXbN+j0q1+hUrlK7lLRWsEcpmdoMcyf1kykp4jRGfE18VnxcfGJ8aHxufHR8egwADAMMBgyJ2PxiUiTFhnuovxFsFQmQgEcC9/y+ZtNWAydNW710Ve7m7Sf2Hby0ftPhOQveHDbqpfZdRtWo1z1mf149/5qXSG7avc/4Og16R+6oToMmT2U/PWnshCWvLNm2dcfJU2c/vHLt63cufHb3fVU9co5VMsi4h5+ojxk0rUpmes1ONep2q92gZ92G2XkzaOM+/EkAAviU+KD4rDXqdscnxofG58ZHD4SCp0iK1W8+6yWBghMoldqsx1MvOv1kdX7WexWZnUY6lYP44slNURQ0hzXN46UyQlbUpccYa94HHqkdMq9TAuTFrH/u3U8x37v8nDzzwZSZr5Wt1NapnNjGQ8adPX+rCxB5kdBJmGzevfyFiWjthoOx7TtrJ4GgE6BICvoX8vyfUXakEBJo0nKAOfPJmMvvfeVFvoDbYyUaXrr6lcxoBho27Ytkw0fPN18hZsKUle7wM1r0t2Z8fd1+94wub+s2yj507Jos9q0DF1+csjy736S2HUcMGjZ7zoIN6lsku3D1y15PTXApMFav3tjwtuwFAljy8b0lxR6s0az1M/2embZ952m1rrEvLvG9LhZIAglFgCIpoT4nFVUhI+AukjAdYv3GywhHMnXuNMNCJGHl5tjJG+bb8xc/d1djGzYfMXMhJr1WZy/NM9Mgo1x9OXP+k27Z4+6+TzdZuP/h2pBNqviDyDOLinlMTu4ZFU6n7s9HrkmPFG+g1tWm/fDI1cWSSSARCFAkJcJXLGTKgJ9MEggpkhYty5GJXQJLVuxQ504zLEQSSujTf5L5FjFjxy92Kv/Jxk9Zs7y8aLNTFvf4+x6pdfTk+6JMrJY1bzPIJT1sfWTt2C50SRmrV30HTpUthKnQE6VD712G3dSkss1lXQiULtM87KKYkQQKBQGKpELxmamiEpRASJEEex3YNbsP8vseromlIHXuNMNSJMG6Zf+hy2YCrOs8XPxJa0Vr1h8w02PzK7l8K2v6kJF9BkyWBc5dsNE9PUx8YHkj0lev09U9cUze3vtQzd59J27ceuzVpdsr1+gY0Ta07TBCooPQjGhdLJwEEoEARVIifMUEVQD8NCEJhBRJmBFhD+ReTou2g+XE6RSQIglFYT3GmmykbTOr9pM9rYknTl3l3iqXt7v3npdlwhjcJaV4JduAzaaQiRM7AezcJbqlK3YmdmfZOxLwgQBFkg8QqVFIIEYEvIikyTNWuw/yWS+tlxOnU0AVSb+9t0pO7h32vyLX6XMfPfBoHa2ulWveMsuEFRFMxbWUHh9he6SaGdXPCG3mjLW0i1e+RPM8VpHAydZtPCQ/x+DhcxK4p+waCfhDgCLJH44xmiPZ+EJOwItIOnjkPZdT5XCTc+L0B3LidAqoIgnMG7ewn6rDsTL1i1Sr3dVaIDwYqcnyFU4q11Its7M3y/ScXWc2bTuer4oSLzH0pbqvqn3TxOsve0QCPhCgSPIBIhUSCcSIgCmSLlz50849Z1UZgbCLpUudhr21xNZVInNC1Q6ui0KOn/ojrKrl79TSlbla4Xg8cvJ9NY1M7DHwh6QmapkLl2zzkhHdxI+XlAmcBldfSXQweP/94/USuLPsGgn4Q4AiyR+OMZoj2fhCTsAUSZgFnx+/SM6FIjD02XlOoF6YuFRNjLlz5HML1BgRNkUSXCCayRDz9MCpoi51SlZT9iyYsyKsiqneI9FguOh16l2+4mGx1LXn2NEvvAIfS7AHH/n8yx26jQ5Dz8EpUavMobDQwj7mjDlr4ee6Zr0eLubzMHhHF3AaH9WFbDA2NDt2f+7ZMQvRwglTVsAFKA6syVzweoDvUr1uNxmjBtSDfnv2nVdfMUwCJGAnQJFk50LRQwLxQMAqknAkXhUlCMOPs9M4xyUeauKN247B5aAaI8KmSEKB8C9gpjx8/DpUAt5ijcd8u2ffu6ZDI6e2OcVrx+XgNFIVCk65XOJxXRT6ggN3ZoNhyQS15PFiEyiYcZOWIYtZDvb74B5dtAGqCB4TcD3Ith2nTp//WCZ2P6kHDTd11uuqQJQZX160BVShw8Q5PkC2dhaKTWaZPX+9NQ0jSYAE7iBAkXQHjniYF9lgEpAErCKpbMW20o2QmBSx3PJEUmOZSwYqpLeXs6YIwKhoyMh5WiQerSKpXOV2qg21zAXH1uUrZ6JSGSMDrbOGydrDDjRq9rQsUAQOHL4C+6fwCoTnJ2mpg7s7YGkOt91Y/lF9RyESizTu5cNT9qGjtzyAo+9QXSgE60MwwBI7mPgoIIZCEKm1XzyiJU5VaO7FIbnGjFsEeyzIJrgaR3bsbOLqOlEO7q2zlrNj9+19WDgdsKZhJAmQwB0EKJLuwEGRRAJxRcAqkqrU6DRz7u01AzFxdu89zhzqph5KS8/CfpPIov5rFUkoUF2ckOkhWV5evFU+ygCWqVxMyM3mucTgPhNZrAhgHaj/oOk4eeeSy3yFjUhZDhbVxBV1MhkKlG+hmWS8GWjZbgiswURiGMLjE8g0MAiT6gSekBAPY3mYn8PzAnwjyfIRcHLjBCcOOJ0nUmLlCR4NZOE3S0tftmqXWo5VAMFbuqpow/Z1rlbNMAkkPgGKpMT/xnE16/Nz5IuAVSThMvmWmUPVWRNhq1OcLTkn1GRQCagdV3mokSLsJJJwff27lyw3p5olIMZH02nsWO3a+45ZC/abUtNae2SIlRhZAvbsSpdrYWZ8be1tNQZZYyZADMyA5FYdXGbDGEtNtnj5Hd7M1VdZnUbKBkBjiW1KNQHCMFeSW2zYyLMumGGZUJaDgFUAYS1KpsGCWSDuV+efJhIIPgGKJO1PEh9JII4IWEUSzudj2UAubIip8Z0Ln8Gzs9o16Bs5a4oA7GmQADs4WjwenUQS0sO8xkxvxmC1Q6294GG0XzOoEpWip16uP4Of8SMnrst2YgvP2iQsEck0W3ecNNNgbQwrZCINpJJpRa5tfapraf0Hz5CFWz0UIDHslmQapwtY7hBAl76wWlANHDpTlrNhy1GzI4whARKwEKBIskAJvrZlC0ngJgGrSMK8jlG9as1eOSmKQNNWA9XRjk0ZLQHmWiSYNW+dFo9HF5H08B/qn37ntvWxmRcx2OjBRp5auy/hh56op1oOqVVjH9DlQBlqV0XD9p2nndqDKtRizcvOsjo/KxO8tHCTWY7q5Fo7ZqhuSlpdkOOTycIhxczCRYzaF9wlbE0GO3FZFBYLrWkYSQIkoBOgSNKJcPYlgfghYBVJbTuOwKg2b6LFEpE62le/sU/Omghgnwi2MkiAM1ZqvAi7iCRkeWb4bDOLGoPD8GrVPoax1gKnA9g/UqsTYdgtWddUUDtcBKG/Mgu2vVyapO4n4hS9mhKLc/DVKcux7oUhDTwL4DZf7IFqJ/vUvB26Ws7/yzUqVOG01oX2wNRJtkEsB6qNFGHsJ8o07v018zKGBAovAYqkwvvt40cK8Bs5EbCKJDHd4vpYOSmKAKZJudcDlSDNaMRbOAcStSx4dbOWEY/uIglbVzj5b+YSMRAZJVOaOnXBl3icGsMWktkACD7ZZbWiEaPny8QQWFZjIJlevdAX7gBkPAKqOszvHpZmSFSmQhu1ZITVQ3xv7b+gvVUfVQHUrqNF8GkeOOHyQM3OMAmQgCMBiiRHNNQQJBB4AlaRJC1yTNNmaTGjmgwLuYBz6eJ3AU53pICQAXeRhIy4aFYm1gI4rB6F3zIsg+Fcnul3AK4XzdqFPyHRzvWbDpsJ1Bh5sB/psYunvlIt358aOEV9FTKsurOCRbYp5tR71iZNc7yADyfyVOBW83P1DuOTZz4w6wrZWiYggUJKgCKpkH74wE///C5eCLiLJKgTdfpEePjo+aJY7P6or7CaAlvvX16FI5KwkQQfhmqZIoy7bGHW46UvvqRp1voZdXcMbYBSNP0C4PoU2VQ4KHevWi1w0vRVMjH6pWoyJ6tqmV4LwGu2bAP8MGlvvReunmQ8dvKGVo54VN06rHhtjzUNI0mABCwEKJIsUCggSCBOCLiLJPgCkNOwCIjzWTj+De2ivlr5+u1JOryVJPweTZu9Ri1ThOHqMMq/Ym07jFC1C5ohDNJlM+C6Wm2nu39L7CSqiVV/j/Aeqb6CZ05ZhZeA6lwAV8FoWeAbSS38wcfqagnko3oLDVxKyng1oNYlhbKagGESIAE7AYokO5c4mSPZ+EJOwF0kYXXHvCIDuzONmvdTJ2CE1fvU4l0kYUhovjThAVwdJ7Xq91C7r/lmVFMiDFMhNbFqPa1tWeJOEi2vyyMWt9QLSbSDh8io+vnE4UGXot54823ZwiEj5popUZeqieEhwkzDGBIgATsBiiQ7F4okEogHAu4iCWN7/iub5AwqAjAemjLzNS1S9TSdACIJ7gbUDuIQvvprrvqQRDJxVYiaQA3DpEktSt6/hjR9BkyWr+DvUc0VMoxKZV4EHi/ZSMsCIySZYPdex8tooYOlq0mkt5qO4YoYWRQCjxZvoNXFRxIgAUcCFEmOaOJhjmTjCzmBkCJJ9eIjZkrsvGgn0WB9rGIMpkhCq6bd6cJAbbMZPnv+U6kMNMtxbQXIFChqaeoeItxUqibPmpOFfIkPGNfL5h04dEWtUYRVdYu1IjOBiHmy8e0tP2wy4tCimVIVhcKpupmGMSRAAnYCFEl2LlRIJBAPBEKKJFzfod7YJSdmNaB7OAzrdBt+j1Q9Icv3yyYJZ7L27HNcUDF/i7H6ItugnTurn3FbWCCNuopmloNKZTnaxbGt7rz7xbqKYxYoYmAALouFEb2ZDNfIyATwaGUmuFWOhwWnyTNuL0pZ3V06Fc54EiCBIhRJHAQkEL8EQookdE09SS7nXTVQqVoHlUAAV5IeL5WBBuOSV9hcq011CasWP7hbTU2JLTO1+9abzkR61fId17wklW2ullO9bje1HNwxor51D8OCXuaFM0wzser33MkhOLweqIuCTh471YtNNL1o1ssYEiCBOwhQJN2BIx4WD9hgEpAEvIgk9c4KOTHLwIHD+l5PAEWSXPuB80bZd5eAapP09uGr6h6ZyJWTe1oScLq2FimXrsqVySZMWanViEOCJ05/IBNgH9OsSMsiHuGDW/XkCUNyM5l6Zu3IyffNBIhRr35DM1Tre5kedUFcykZqelEmY4AESMBOgCLJzoVqiQTigYAXkVS+yh12u3K+FIEJU1ZovwIBFEnZ/SaJ1sK/UUjn3VAqC3+5pwxmOlb3RYOHz5EcZs+3X5lSpUYnmQbG0VbTpfGTl8s0COBImgZTPuIiOYgq8aguQWEzFDpGJpMB1dUkSq5au4t8JQLwqA4akICyAdJTqJpSrQtqyf0+OzUjwyRAAnkEKJI4Dkggfgl4EUnoHUyD5VSqBeDsR+t+AEWSehwPm0fYfdPaLB/vf7i2VEjoKRw2yldqAMmkvIAjTVMAYWdNvetDdY+klpNUrqV6ut5Jk+HUfc6uM+JqPGTHzSHyKyCL9HWp9gv+mWAnLpPhdra770uXVVes2gEm2Djwr9ZetlJbkQCGaPKSOLUuCDK51qXWJYtlgARIQCdAkaQTiYf1A7aZBAQBjyIJW0VyulUDcMBjXgEbQJH0xobbroDQfmxydcsep/klwv1r2Lfasfus7OCqNXtVYaGNGbgmkibtOblnnih9W3hhDQkSRJajGbZr5agqBFlQJoyjW7YbUrlGR/ij6j9o+vLVuxEP62mZUS6MiSpwag834MLsXfOFDa+Psg0ILFu1C1fHQG+NfXEJ9NPm7SeEqZZMA1vvDt1Gjx2/WDWW1+qC3MRhN9SFVsn2MEACJOBIgCLJEQ3VEgkEnoBHkaRelSrnVARwztwc/wEUSTiAhnldta1B47ECBPEERYL71ODFAIbVsmunzn44YMiMkFtLsEY6f/FzkQuG3lAh02e/IVeYEI8jdfChYCLSYrr3HqdeXSKbIQPPjXtVLuEgb52Guid0pIThEc7zqyWj/Ru3HZOFqAEsp+HeEpSp3q8iEkA/oT2yHKe6zBVEmYUBEiCB2wQokm6zCPyMyKaSgEbAo0jCKovqclBOt9Yb4wMokkSvYYUD6QP7aMgj2QUtAIkAReL9tjiYeM9dsFE1oxYFYq8N3pW870nhhOCiZTmajMMj9v4gU7Svhn03FTLW8+Ys2GA9uIcL9Ra8uhlbcrKb+I64w0RetAfXoPItXkHnpaS1UqvDvtsddZ37CDZY2I9T0zBMAiTgSIAiyRENNRMJkEAgCcBeB9exte8yCppp3KRl2EyEzRD2tqCipN1Pvn6vYZNUL6MP9qGwOYX7YuEUwGWfzqVk7NlBtvbuOxG+IqGNHivR0CkxFoHgdBvX8aamtVYXmazpkQadxeE1NNLUfyWSm2IPDjfHOfUd5cNcCQ2DfgpZl7UBjCSBwkuAIqnwfvtAzn/8HCRAAiRAAiQQFAIUSUH5EpQsJEACJEACJEACgSJAkUSRRAIkQAIkQAIkQAIWAhRJFiiBkrFsDAmQAAmQAAmQQEwIUCRRJJEACZAACZAACZCAhQBFkgVKTOQqKyUBEiABEiABEggUAYokiiQSIAESIAESIAESsBCgSLJACZSMZWNIgARIgARIgARiQoAiiSKJBEiABEiABEiABCwEKJIsUGIiV1kpCZAACZAACZBAoAhQJFEkkQAJkAAJkAAJkICFAEWSBUqgZCwbQwIkQAIkQAIkEBMCFEkUSSRAAiRAAiRAAiRgIUCRZIESE7nKSkmABEiABEiABAJFgCKJIokESIAESIAESIAELAQokixQAiVj2RgSIAESIAESIIGYEKBIokgiARIgARIgARIgAQsBiiQLlJjIVVZKAiRAAiRAAiQQKAIUSRRJJEACJEACJEACJGAhQJFkgRIoGcvGkAAJkAAJkAAJxIQARRJFEgn4SKBUarMefV50+snqPMp7XZmdRjqVg/jiyU3UotzrdSnn7vuqynJCFtKh6+gGTfqmpWc9WqLBb++tIjO6B6rX7ebSAO1V45YD3EurVrvr8+MXOf2k1+zsnj2/bx/+w5NZnZ+dPGP1omU56zcd3rHrzMo1b02btWbwiDntu4xC11QOv703XetOeI9NWg402xlGxyPaHrQwX3DMHjGGBOKAAEVSHHykmMhnVhoWAUxvV6597fRz+b2vHy/VyMuQe6xEw0tXv3IqB/ENmvZVy3Gv16Wcex+qJcvJVyHnL30O3QAl98CjdWQJ1gAEjUsDtFfLV++2FiIj57+yScuiPs5dsEGmLGCgYtX20EPuXwFVHz5+/YWJS6vW7oLqij1YQ21M2OGVr+8xGx9GxyPXnjDgmD1iDAnEAQGKpDj4SGHN1uxXTAiE1Bldeo7x0jAkc59iYy6SZPPOX/z8pYWbniid4dQvH0USJN25dz+VVZuBs+c/uef3NZxa4jEei0PjJy8PKY+02rHIdO9DNbXI8B5NkRRexyMhksKGg2Utj/yZjAQCRIAiKUAfg2Io/gmEFElYffEy5Bav2OE+vwZHJIl2njzzQbuOI61d81EktWk/zB0L3rbMHGJthvfIqTNfD1mLmWDWvHWRECWi2eF1PBLtCRuOd/5MSQIBIkCRFKCPEf8SgTBDiiQshIRc6sCyAZZnzGlYjQmaSBJtm/fyRnPBYOTzL6stdw+7i8iFS7a5Z8fblxdtLcg47NV3QsgqrAmq1+kWCVEi+hJex31vT0HgFOSjMC8JxIwARVLM0FMSJSKBkCIJ82vjFv3dR12LtoOt07AaGUyRhBY+P26R1jts0GQ077dsVS5MstQuaOENW47CsL3oA9W17PLx/kdqm9oRK1haOe9c+AwpZa58BX53f9UDh69oBXp53LbzFCryXZSIxofdcX/bU0A4+foQTEwCQSFAkRSUL5GIiqEQsvUiknBUyp3MrJfWh5yYPYqkZat3YXXH5UcVJU6Nf33dfmz/4Qe2MrC8OXXuI/fmtcocau1gUtkWW3ecNPMePXmjSo1O1ixqJIzEzbzDRr1kRuI8mprRe7hluyFmaYh59/IXsFLq1P35pq0G9uk/ecLUlUChKrYe2eNRS9EHqkHqWX8uXP6TWfLRE+9bE6Mutc1hd9zf9hQQjtojhkkgbghQJMXNp6KKigcCTjpDnSAPHr161z2O5+dxJv/EaX11RM0uwh5FUlqVTO8j3KnxWiFofL2MPvNf3Wy2SsTAevoPpRtb6124eKuZa9fe89bEWuTi5bqdFpamHine4Mw7H2tlQs9peT0+DhkxVysKj6gFx+/NEh58tE7nHmOgINGAkGtX+OhmyROnrTSLNWMi0fEw2hM5OGaXGUMCQSFAkRSULxEPCoCsQhIwdQaWEHbuOadNkJVrdHQqqm7D3lri7bmntRg8xlAkyZZjZQVLLGbbEDNo+GyZTA2ELZIefKyuWde2HXmbXKaGQMrfP15PrddjeMactWZ3Nm877p4dask9Ad6GIUpEmRHqeBjtiRyckPSYgARiRoAiKWboqYoSkYApkjDpwkxHm3qHPjvPaeDB6Y6aGMsYVsPnIIgkdOGp/lPU1srwW/svWFfLwhZJ8GMpC5eBMS8uRhus1sRY43Ei7BKPfUlZuAwcOvqeaY3uUoj1VRiiRJQToY6H0Z7IwbESYyQJBIIARVIgPkMiyoXCCdYqkpq3GSRnXBHYvN1xcWLfwUtq4k3bjvUbNE2NEeGAiCSoByznmM1DTO0GvcwxELZIgt23WQvswVFFSlor8xX8QJq1h4x5ZthssyjEwHF2yLzuCcIQJaLACHU8jPZEDo47Or4lgVgSoEiKJX1qo4QjYBVJZSq2hW2yOvtifchqtVOhans1GcLYtxoy0mIoExCRhF+f7H6TtDaLR7hHMn+5whNJDz1R3zR8xp6adBeuKUs04OLVL3F3itkA9xjr5xPdgRukkL7FXQoPQ5SgtMh1PIz2RA6OCze+IoEYE6BIivEHSDiVUMh5WicSHN2aOVc3dunWe5zJytRDuCht9AuvmCrEo0iCgmnWZpDTD+7eUttgbTyq1gy31SwIJ5e3LOQgF67R0FLiMTyRZPU//trafbL8ydNXm4jCWP4pkdLULEfGHDt1o9+g6fc9fPsiF9mAkIEwRAnKjFzHw2hP5OCEpMcEJBAzAhRJMUNPeZSIBKw6o06D3nADLedaEViyYqc59rbknFCTYYEEaV6cvFyNFGGPIsnMqMagYWobrI1HeneRhBJOnv1QLVaE1244qBYuwuGJJJy3N8vHLqQsHyfzzQRvvPm2TOA9ENKj9PHTf8TynlzE8lhyGKIEJUeu4+G1J0JwPDJkMhKIAQGKpBhAT0RxQIyCgFVn4GZ77NRoG0bweYirvlRu5v/Ux01ahgTWmSlQImnP/ndNjbL37Ytq70Q4DJGEQ/7YOzPLxyamLD/PR/kl3Uc59jSLJ9k9EciMZgBf6u0jluP6WgNgzd2+yyircbpZJmLCECUR7XgY7UEvIgTHSoyRJBAIAhRJgfgMlE2JQsAqkuCFD8Ns1Zq92kSL9Q91+PXuO1FLUK9RNhLAGkaLx2OgRNKbmw+bLYRqUXsnwmGIpO7Z48zCTQUGt5lmsqcGTDHbEDKmVv0epiNvs3DEbNx6FLeRhCwQCcIQJRHteBjtEd2MBBwvAJmGBGJDgCIpNtwTRROQnkbAKpLadhiBZPDUrE20WCJSs69+4w4VhT0sOJZEgrkvb9Ay4jFQIglawWwh2q/2ToTDEEmvrdtvFo4tSK1wqyMANExL5vGxVJnm2tan2QYRgwXC+hl9QhYbhiiJaMfDaI/so+9wZMkMkEDgCFAkBe6TUD/FMwGrSIKrGwwz08D50LFrcr8Gzg8vXrljU2nugg1icFp9WwdKJOF6DVND7Nh91vzlyq9Ieqxko0tXvzILb9j0aa1wzNxmMsSULttCS+nxERefDR/1kunO26wFaXAs0b3Y/IqSSHc8v+3ReucvHK1wPpJAgAhQJAXoY8SzOCBGQcAqkuCZWrzd9dY72hSbXrOzeIXrxrRXbdoPE69wrb32Co8eRRK8Ra9Zf8Dpp+KdU7u18ajL3XD7nt/XMJuHGKunovyKJOv60Ll3P8UkLeCo/5qezdGMgUNnqmnyG8YBQPgyQI3WPspImChZfTrI6vIrSiLd8fy2R3ZEDfgFRy2TYRIIFgGKpGB9D+qkOCdg1RlSJGG6ldOqCGCtQozABa9uUV/BCZD0ylMQkeSub7TBb208WuVeSJkKbdSWyzBMqbTy8ZhfkYQjcrJANYBNLvMHltpqGhHetjPv6pIC/sDl0qixr7ivKsExukst+RUlke54ftvj0rWCw3EpnK9IIMYEKJJi/AEK/Oeb7Q8UAavOkCIJR+61WXzrjpNof9EHquNSWPUVzn7LfgVcJOGQl9pyGR7x3ALZBRnIl0jC2TSr7pFVeAyo5+BkS8IIwLWj9aShaAZuYnEpM1+iJAodz1d7XPolXxUEjiyEARIIHAGKpMB9EsqmeCbgLpJ+d3/VU+c+0qb24slNcL2GFtnzqdv3YARZJOFakl17z2uNF49Va3cxf7nyJZJMU3drRSEjh/2yXGe2J4wYeOY03Q2gDbCdEob21jLzJUqi0PF8tcfaI2tkeHCsRTGSBAJBgCIpEJ8hnmUBAaoE3EUSUsIPtTapwzH0lJmvaZFQTrLYIIukjt2e01ouHmEeJNuvBvIlkqyeBazVuUfCFExtQ8HD1qte0YYnSmc4FZ4vURKFjuerPU6dssaHAcdaDiNJIBAEKJIC8RkokhKFQEiRlNVZ35zC9RqHj19Xp3kcPleHZWBFEq5McfK72H/wDLULMuxdJJVMaaYyKWBYM1GX7VEDOGlYKrWZGuMUxnFFa3sefKyuUxbvoiQ6HffeHtGjiMJxgsZ4Eog9AYqk2H+DRNEHJAkCIUUSDgRZz7Srk+7QZ+epMAMokrDL9szQWbAuV5stwzCpdlpT8S6ScOuILLDgAZhdq0itYWyGwgQKPj8zO43EkT1rGhFprvyhhVa/ULIQ76IkOh333h7RhYjCkZQYIIHAEaBICtwnoWaKZwIhRRLG27qNh9xn/UrVOqjDsiAiCU69cfrM5Uc6akKN1sajqaKQ8pUzkQBT+PQ5b1gP28tO4fi62n417F0kbdp2TBYoA7ifpHGL/nDe6PJjdZYtbsFTW2KGoQNkRTAdmzxjNZb94KPh/kdqy8QwscclxFaZ635VnHdREp2Oe2+P6HtE4Ui8DJBA4AhQJAXuk8SzRCBMq86Qp9sEH3jukZOxGThw+IqGsSAiySxfi1EvarU2Xksf8nHO/De19ovHpLIt4AHh9LmPzRKw8jRjztrKNTrKjEhsJkOM9dJcmUsEXlqoW32JoqrV7qql1B5VHaDVDjdI0EA4v2a9RU4khqcrrUD10aMoiVrHPbZHdiGicGQtDJBA4AhQJAXuk1AkxTMBq87QRBLcDmlzsPo4YcoKbUzGkUjanntau7UXfcFizNKVuV4O88NgGQCRxUlHYo9Pg2M+OrkkeGHiUjOxGuOiA9QPZA1DRRV9oJpamhb2KEqi1nGP7ZG9iCgcWQsDJBA4AhRJgfsk8SwRCNOLSAKlA4cuW+daRDZo0lfDGC8iaebctVbLZdOFplPfEb989W50f9uOU9Y0Xuyv4dvQKsigY357bxWNrfoYtg44f/HzkNfcehQlUeu4x/ZIPhGFI2thgAQCR4AiKXCfhCIpngl4FEkTpq60igDsRpkLEsEXSTidJ1aArL9N+RVJqRVaW+GoV91ZK5KRVrMelFm7QS+ZxgyEpwPgM6l11q0LZMwyZYwXURLNjntpj2w8AhGFo1bEMAkEiwBFUrC+RzzrA5IEAY8iqVEz3XukkAXwomRiDKxIgoEO/BfAzxNu5zWbLWPyK5IGj5hjFUnTZq+RZboHcNmLtYRJ01a5ZMQ605IVO12sjswyYSPl0Z23F1ESzY57aY/KKqJw1IoYJoFgEaBICtb3oEiKcwIeRRLuZ7Xemdqu40hzQAZEJGFTaf/By29uPvLq0hyc/OrSc+wjxRuYrTVj8iuSduw6Y8oRxLTMHGIWbo2Bjba1hKMnb7g4xRZFwXnBgCEz4AjA9I0uyzx26gYUW+OWA9SzgdaWyEgvoiSaHffSHtl4GYgQHFk+AyQQOAIUSYH7JHGuEsiTBBKDAAQQ9r/qZfSBOOvSc0yP7PEI1H6yJ/wpwE1UYvQx7F4QTtjomDHOCFAkxdkHo4QiARIgARIgARKIDgGKJIokEiABEiABEiABErAQoEiyQImOPmUtJEACJEACJEACQSZAkUSRRAIkQAIkQAIkQAIWAhRJFihBVrVsGwmQAAmQAAmQQHQIUCRRJJEACZAACZAACZCAhQBFkgVKdPQpayEBEiABEiABEggyAYokiiQSIAESIAESIAESsBCgSLJACbKqZdtIgARIgARIgASiQ4AiiSKJBEiABEiABEiABCwEKJIsUKKjT1kLCZAACZAACZBAkAlQJFEkkQAJkAAJkAAJkICFAEWSBUqQVS3bRgIkQAIkQAIkEB0CFEkUSSRAAiRAAiRAAiRgIUCRZIESHX3KWkiABEiABEiABIJMgCKJIokESIAESIAESIAELAQokixQgqxq2TYSIAESIAESIIHoEKBIokgiARIgARIgARIgAQsBiiQLlOjoU9ZCAiRAAiRAAiQQZAIUSRRJJEACJEACJEACJGAhQJFkgRJkVcu2kQAJkAAJkAAJRIcARRJFEgmQAAmQAAmQAAlYCFAkWaBER5+yFhIgARIgARIggSAToEiiSCIBEiABEiABEiABCwEnUm0pAAAEx0lEQVSKJAuUIKtato0ESIAESIAESCA6BCiSKJJIgARIgARIgARIwEKAIskCJTr6lLWQAAmQAAmQAAkEmQBFEkUSCZAACZAACZAACVgIUCRZoARZ1bJtJEACJEACJEAC0SFAkUSRRAIkQAIkQAIkQAIWAhRJFijR0aeshQRIgARIgARIIMgEKJIokkiABEiABEiABEjAQoAiyQIlyKqWbSMBEiABEiABEogOAYokiiQSIAESIAESIAESsBCgSLJAiY4+ZS0kQAIkQAIkQAJBJkCRRJFEAiRAAiRAAiRAAhYCFEkWKEFWtWwbCZAACZAACZBAdAhQJFEkkQAJkAAJkAAJkICFAEWSBUp09ClrIQESIAESIAESCDKBwiySRs39mT8kQAIkQAIkQAJxRCCqSxsUSXE0MthUEiABEiABEijkBCiSKkcHQSEfZ+w+CZAACZAACcQdgegohFu1FOaVpKiCDvKeK9tGAiRAAiRAAiRgEqBIolQiARIgARIgARIgAQsBiiQLFFNLMoYESIAESIAESKCwEaBIokgiARIgARIgARIgAQsBiiQLlMKmlNlfEiABEiABEiABkwBFEkUSCZAA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" x="6" y="6" width="390" height="238" opacity="0"/>
+          <rect id="fr" x="18" y="18" width="366" height="214" rx="6" class="frame-on"/>
+          <g id="lbl1"><text x="201" y="128" class="fl">statPoster</text><text x="201" y="150" class="fs">x 18 · y 18 · w 366 · h 214</text></g>
+          <g id="ghost" transform="translate(18 18)" opacity="0">
+            <g id="ghs"><rect id="ghr" x="0" y="0" width="366" height="214" rx="6" class="design"/>
+              <text id="ght1" x="183" y="98" class="fl2">แบบ 366 × 214</text>
+              <text id="ght2" x="183" y="128" class="fs3">s = 1.00</text></g>
+          </g>
+          <g id="bx" transform="translate(18 18)"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <ol class="tl" id="tl"></ol>
+        <div class="nav"><button type="button" id="prev">◀ ก่อนหน้า</button><button type="button" id="next">ถัดไป ▶</button></div>
+      </div>
+    </div>
+    <div class="legend"><span class="lg t">ข้อความ</span><span class="lg i">ไอคอน/รูป</span><span class="lg r">เส้น/แผ่น</span><span class="lg g">กล่องจัดวาง (ไม่วาดอะไร)</span></div>
+  </section>
+
+  <section>
+    <h2>โค้ดของแต่ละชั้น</h2>
+    <p class="say">สำหรับ dev ที่จะ port — เปิดเฉพาะตอนต้องใช้</p>
+    <details class="devwrap"><summary>เปิดดูโค้ดทีละชั้น (SwiftUI · Compose · Web)</summary>
+    <p class="say" style="margin-top:12px">ตัวอย่างจริง: <code>statPoster</code> กรอบ 366×214 · ตัวเลขกล่องมาจากรอบที่ iOS วาดจริง</p>
+
+    <div class="layer">
+      <div class="lh"><span class="n">เข้า</span><b>ของ 3 อย่าง</b></div>
+      <div class="lb">
+        <div class="trio">
+          <div><small>ชิ้นในการ์ด (StarCard)</small><pre class="code">{ "kind": "statPoster",
+  "x": 18, "y": 18,
+  "w": 366, "h": 214,
+  "surface": "glass" }</pre></div>
+          <div><small>แบบ (WidgetSpec) — ตัดมาบางส่วน</small><pre class="code">"design": { "w": 366, "h": 214 },
+"root": { "type": "stack", "children": [
+  { "type": "rect", "fill": "plate" },
+  { "type": "col", "pad": [18,18,16,18], "children": [
+    { "type": "text", "text": "MY Social",
+      "size": 22 },
+    { "type": "chips", "list": "socials",
+      "each": { … "slot": "$followers",
+                "size": 22, "weight": 800 } }
+  ] } ] }</pre></div>
+          <div><small>ข้อมูลเจ้าของ (owner)</small><pre class="code">"intake": { "socials": [
+  { "type": "instagram",
+    "followers": 24800 },
+  { "type": "tiktok",
+    "followers": 86200 },
+  { "type": "youtube",
+    "followers": 12400 } ] }</pre></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="n">ชั้น 1</span><b>PageLayout</b></div>
+      <div class="lb">
+        <p>เรียงทุกชิ้นตาม <code>y</code> แล้ว <code>x</code> · ทีละชิ้น: ที่ที่ขอว่างไหม → ทับ = เลื่อนลงทีละ 6pt จนว่าง → ได้กรอบจริงบนหน้า</p>
+        <pre class="code">solve(items, page: 402×670)
+→ [ Placed(statPoster, frame: x 18, y 18, w 366, h 214), … ]</pre>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="n">ชั้น 2</span><b>WidgetChrome</b></div>
+      <div class="lb">
+        <p>เทียบกรอบจริงกับขนาดที่ออกแบบ แล้วได้ "กล่องราก" ที่ solver จะจัดผังลงไป · วาดแผ่น (glass/dim) และเว้นขอบในถ้ามี</p>
+        <pre class="code">s   = min(366 / 366, 214 / 214) = 1
+box = (366 / s, 214 / s) − inset 0  = 366 × 214     <span class="c">// statPoster วาดแผ่นเอง จึงไม่เว้นขอบ</span>
+
+<span class="c">// ถ้าผู้ใช้ย่อกรอบเป็น 366×156:</span>
+s   = min(1, 0.73) = 0.73   →   box = 502 × 214    <span class="c">// ผังได้ที่กว้างขึ้นแล้วจัดใหม่เอง · วาดเสร็จย่อทั้งก้อน ×0.73</span></pre>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="n">ชั้น 3</span><b>SpecSolver</b></div>
+      <div class="lb">
+        <ol class="sub-steps">
+          <li><b>ขยายต้นไม้</b> — ตัดโหนดที่ <code>if</code> เป็นเท็จ (ถาม <code>data.flag("papered")</code>) · <code>chips</code> ถาม <code>data.list("socials")</code> ได้ 3 ชิ้น → ก๊อป <code>each</code> 3 ชุด แทน <code>$followers</code> = "24.8K" "86.2K" "12.4K"</li>
+          <li><b>วัดตัวอักษร</b> — <code>measurer.measure("24.8K", noto 800 22pt)</code> → กว้าง 59.32 · สูง 33.24 · 1 บรรทัด (ใช้ไฟล์ฟอนต์เดียวกันทุก platform)</li>
+          <li><b>จัดแบบ flex</b> — <code>col</code>/<code>row</code> แจกที่ตาม <code>pad</code> <code>gap</code> <code>grow</code> · 3 คอลัมน์ได้ช่องละ 110</li>
+          <li><b>คืนกล่องทุกโหนด</b> เป็นพิกัดสัมบูรณ์ในกล่องราก ปัด 2 ทศนิยม</li>
+        </ol>
+        <pre class="code">[ { id: "r",                    type: stack, x: 0,     y: 0,      w: 366,   h: 214 },
+  { id: "r/2/1/0",              type: text,  x: 74.1,  y: 26,     w: 217.8, h: 33.24, text: "MY Social", size: 22 },
+  { id: "r/2/3",                type: rect,  x: 18,    y: 95.88,  w: 330,   h: 1.4 },
+  { id: "r/2/6/c0/2/0",         type: icon,  x: 59.5,  y: 104.95, w: 27,    h: 27 },
+  { id: "r/2/6/c0/2/1/0/0",     type: text,  x: 43.34, y: 136.95, w: 59.32, h: 33.24, text: "24.8K", size: 22 },
+  { id: "r/2/6/c0/2/3",         type: text,  x: 44.53, y: 175.19, w: 56.94, h: 14.35, text: "Instagram", size: 9.5 },
+  … ]   <span class="c">// รวม 40 กล่อง · ใช้เวลาเฉลี่ย ~0.3 ms</span></pre>
+        <p class="hint">เป็น pure function: input เดิม → output เดิมเสมอ จึงจำผลไว้ได้ · เทสต์ = เอา input ที่ iOS บันทึกไว้ (fixture) มารัน แล้วเทียบกล่องทุกกล่อง</p>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="n">ชั้น 4</span><b>SpecPainter</b></div>
+      <div class="lb">
+        <p>เดินต้นไม้ของกล่อง (ลูกของ <code>r/2</code> คือ <code>r/2/0</code>, <code>r/2/1</code>, …) · ทุกโหนดเป็น <b>ZStack ที่วางลูกด้วย offset</b> ไม่ใช่ VStack/HStack เพราะตำแหน่งคิดเสร็จแล้วในชั้น 3 · แปลง token สี (<code>rawAccent</code>) เป็นสีจริงจากธีม</p>
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" aria-selected="true" data-tab="swift">SwiftUI</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="compose">Compose</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="web">Web</button>
+        </div>
+        <pre class="code" data-panel="swift"><span class="c">// กล่อง "r/2/6/c0/2/1/0/0" → Text</span>
+Text("24.8K")
+    .font(.custom("NotoSansThai-ExtraBold", size: 22))
+    .foregroundStyle(theme.rawAccent)          <span class="c">// "color": "rawAccent"</span>
+    .lineLimit(1)                              <span class="c">// lines: 1 จาก solver</span>
+    .frame(width: 59.32, height: 33.24, alignment: .topLeading)
+    .offset(x: 43.34 - parent.x, y: 136.95 - parent.y)
+
+<span class="c">// กล่อง "r/2/3" → เส้นสี</span>
+Rectangle().fill(theme.rawAccent).frame(width: 330, height: 1.4).offset(…)
+
+<span class="c">// กล่อง "r/2/6/c0/2/0" → ไอคอน "$icon" = "sh:instagram"</span>
+Image("about-social-instagram").resizable().scaledToFit().frame(width: 27, height: 27).offset(…)</pre>
+        <pre class="code" data-panel="compose" hidden><span class="c">// กล่อง "r/2/6/c0/2/1/0/0" → Text</span>
+Box(Modifier.offset((43.34 - parent.x).dp, (136.95 - parent.y).dp).size(59.32.dp, 33.24.dp)) {
+    Text("24.8K", style = noto(22.sp, FontWeight.W800), color = theme.rawAccent, maxLines = 1)
+}
+
+<span class="c">// กล่อง "r/2/3" → เส้นสี</span>
+Box(Modifier.offset(…).size(330.dp, 1.4.dp).background(theme.rawAccent))
+
+<span class="c">// กล่อง "r/2/6/c0/2/0" → ไอคอน</span>
+Image(painterResource(R.drawable.about_social_instagram), null, Modifier.offset(…).size(27.dp))</pre>
+        <pre class="code" data-panel="web" hidden><span class="c">&lt;!-- กล่อง "r/2/6/c0/2/1/0/0" → div ข้อความ --&gt;</span>
+&lt;div style="position:absolute; left:25.34px; top:32px; width:59.32px; height:33.24px;
+            font:800 22px 'Noto Sans Thai'; color:#FF6B78; white-space:pre"&gt;24.8K&lt;/div&gt;
+
+<span class="c">&lt;!-- กล่อง "r/2/3" → เส้นสี --&gt;</span>
+&lt;div style="position:absolute; left:18px; top:95.88px; width:330px; height:1.4px; background:#FF6B78"&gt;&lt;/div&gt;
+
+<span class="c">&lt;!-- กล่อง "r/2/6/c0/2/0" → ไอคอน --&gt;</span>
+&lt;img src="/card/icon/sh:instagram" style="position:absolute; left:41.5px; top:0; width:27px; height:27px"&gt;</pre>
+        <div class="tbl" style="margin-top:12px"><table>
+          <thead><tr><th>type ในผัง</th><th>SwiftUI</th><th>Compose</th><th>Web</th></tr></thead>
+          <tbody>
+            <tr><td><code>col</code> <code>row</code> <code>stack</code> <code>chips</code></td><td>ZStack + offset</td><td>Box + offset</td><td>div absolute</td></tr>
+            <tr><td><code>text</code></td><td>Text + font + frame</td><td>Text + style</td><td>div + font (บรรทัดตามที่วัด)</td></tr>
+            <tr><td><code>rect</code> <code>line</code></td><td>Shape.fill / stroke</td><td>Box.background / drawBehind</td><td>SVG path</td></tr>
+            <tr><td><code>image</code></td><td>Image.resizable.scaledToFill.clipped</td><td>Image(ContentScale.Crop)</td><td>img object-fit:cover</td></tr>
+            <tr><td><code>icon</code></td><td>Image(asset) ย้อมสี</td><td>Icon(painter, tint)</td><td>img / mask สี</td></tr>
+          </tbody>
+        </table></div>
+        <p class="hint">กติกาเดียวของชั้นนี้: <b>ห้ามให้ระบบจัดผังเอง</b> — ไม่ใช้ VStack/Column/flexbox จัดตำแหน่ง ไม่ใช้ autosize ของตัวอักษร ทุกอย่างวางตาม x y w h ที่ชั้น 3 ให้มา</p>
+      </div>
+    </div>
+    </details>
+  </section>
+
+  <section id="when">
+    <h2>วาดตอนไหนบ้าง</h2>
+    <p class="say">แต่ละหน้าในแอปวาดการ์ด/widget ไม่เหมือนกัน — บางหน้าวาดสด บางหน้าแค่โชว์รูปที่อบไว้</p>
+    <div class="tbl"><table>
+      <thead><tr><th>หน้า</th><th>วาดยังไง</th></tr></thead>
+      <tbody>
+        <tr><td>หน้าแต่ง / ดูการ์ด</td><td><span class="tag tb">วาดสด</span> ทุกชิ้น ทุกหน้า</td></tr>
+        <tr><td>ตู้ widget (+)</td><td><span class="tag tb">วาดสด</span> เฉพาะช่องที่เห็นบนจอ ด้วยข้อมูลจริงหรือข้อมูลตัวอย่าง (หัวข้อที่ยังไม่กรอก)</td></tr>
+        <tr><td>Star Card ของฉัน · การ์ดใน Star Profile</td><td><span class="tag tb">วาดสด</span> แล้วย่อทั้งใบ</td></tr>
+        <tr><td>เลือก Template</td><td><span class="tag tc">รูปที่อบไว้</span> ไม่วาด · แตะเลือกแล้วค่อยวาดสดในหน้าแต่ง</td></tr>
+        <tr><td>แชร์ / ส่งออก</td><td><span class="tag ta">วาดนอกจอ</span> ที่ความละเอียดสูง แล้วบันทึกเป็น PNG</td></tr>
+      </tbody>
+    </table></div>
+
+    <details><summary>ระหว่างแต่ง: ทำอะไรแล้ววาดใหม่ขั้นไหน</summary>
+      <div class="tbl" style="margin-top:10px"><table>
+        <thead><tr><th>ทำอะไร</th><th>เกิดอะไรขึ้น</th><th>ขั้นที่ทำ</th><th>ชิ้นไหน</th></tr></thead>
+        <tbody>
+          <tr><td>เปิดหน้า Star Card</td><td>โหลดการ์ด → วาดพื้นหลังผืนเดียว → วางทุกหน้า → วาดทุกชิ้น</td><td>1 2 3 4</td><td>ทุกชิ้น</td></tr>
+          <tr><td>แตะเลือก widget ในตู้</td><td>สร้างชิ้นใหม่ขนาดตั้งต้น → หาที่ว่าง (หน้านี้ → หน้าถัดไป → ย่อได้ถึง 60% → ไม่ลงขึ้น "หน้าเต็ม") · ต้องใช้ข้อมูลที่ยังไม่กรอก = ถามคำถามข้อเดียวก่อน</td><td>1 ทั้งหน้า · 2 3 4 ชิ้นใหม่</td><td>ชิ้นใหม่ (ชิ้นอื่นแค่ถูกดัน)</td></tr>
+          <tr><td>ลากย้าย</td><td>เปลี่ยนแค่ตำแหน่ง</td><td>1</td><td>ทั้งหน้า (เนื้อในไม่คิดใหม่)</td></tr>
+          <tr><td>ลากมุมย่อ/ขยาย</td><td>กรอบเปลี่ยนทุกเฟรม ผังข้างในจัดใหม่</td><td>1 2 3 4 ทุกเฟรม</td><td>ชิ้นที่ลาก</td></tr>
+          <tr><td>แก้ข้อความ/รูปในชิ้น</td><td>ข้อมูลของช่องนั้นเปลี่ยน</td><td>3 4</td><td>ทุกชิ้นที่ใช้ช่องนั้น</td></tr>
+          <tr><td>เปลี่ยนธีม/พื้นหลัง</td><td>พื้นหลังใหม่ · สีทุกชิ้นเปลี่ยน</td><td>4 (3 ด้วยถ้าสลับสว่าง/มืด)</td><td>ทุกชิ้น</td></tr>
+          <tr><td>แก้ข้อมูลใน Star Profile</td><td>ข้อมูลเจ้าของเปลี่ยน</td><td>3 4 ตอนเปิดการ์ดครั้งถัดไป</td><td>ชิ้นที่ใช้ข้อมูลนั้น</td></tr>
+          <tr><td>ได้การ์ดใหม่จากเครื่องอื่น / แบบ widget บน API เปลี่ยน</td><td>โหลดของใหม่</td><td>1 2 3 4</td><td>ทั้งการ์ด</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+
+    <div class="note"><b>กติกาที่ทุก platform ต้องทำเหมือนกัน:</b> ขั้น 3 แพงสุด ให้จำผลไว้แล้วคิดใหม่เฉพาะตอนกรอบหรือข้อมูลของชิ้นเปลี่ยน · ลากย้ายคิดแค่ขั้น 1 · ตัวอย่างในตู้ต้องวาดที่ขนาดจริงของแบบแล้วค่อยย่อ · แชร์/ส่งออกใช้ตัววาดเดียวกับในแอป · รูปเทมเพลตใช้ชุดเดียวกับ iOS ได้เลย</div>
+  </section>
+
+  <section>
+    <h2>ซิงก์: เปลี่ยนเครื่องแล้วเห็นของล่าสุด</h2>
+    <p class="say">เจ้าของใช้คนเดียว ไม่ต้องอัปเดตตลอดเวลาแบบ Figma</p>
+    <div class="rules">
+      <div class="rule"><div class="when">เปิดแอป / กลับเข้าแอป</div><b>ดึงของล่าสุด</b><p>ถาม API ว่าการ์ดเลขฉบับ (rev) เท่าไหร่ · ใหม่กว่าในเครื่อง = โหลดมาใช้</p></div>
+      <div class="rule"><div class="when">แก้เสร็จ / พับแอป</div><b>ส่งขึ้น API</b><p>ส่งเฉพาะตอนแก้จริง ระหว่างใช้ไม่ยิง API เลย</p></div>
+      <div class="rule"><div class="when">แก้สองเครื่องพร้อมกัน</div><b>อันที่บันทึกล่าสุดชนะ</b><p>ไม่ถามผู้ใช้ · เกิดยากเพราะเจ้าของใช้ทีละเครื่อง</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>API ที่ต้องใช้</h2>
+    <p class="say">ทั้งหมดผ่าน <code>POST /graphql</code> · รูปแยกเป็นไฟล์ · ซ้าย = ของทดลอง (<code>sync-server/graphql.mjs</code>) · ขวา = ข้อเสนอของจริง (<code>api/star-card/star-card.schema.graphql</code> — <code>doc</code> ส่งเป็นข้อความ JSON ทั้งก้อน server ไม่แตก field จึงไม่ปฏิเสธ kind ใหม่)</p>
+    <div class="tbl"><table>
+      <thead><tr><th>อยากทำอะไร</th><th>ทดลอง</th><th>ของจริง (ข้อเสนอ)</th><th>เมื่อไหร่</th></tr></thead>
+      <tbody>
+        <tr><td>เช็กว่าการ์ดเปลี่ยนไหม</td><td><code>starCard { rev }</code></td><td><code>myStarCard(id) { draftRev }</code></td><td>เปิด/กลับเข้าแอป</td></tr>
+        <tr><td>โหลดการ์ดทั้งใบ (เจ้าของ)</td><td><code>starCard { … owner photos }</code> (<code>notes</code> = ชั้นข้อความเท่านั้น)</td><td><code>myStarCard(id) { draftDoc images { image role } owner { … } }</code></td><td>เมื่อ rev ใหม่กว่า</td></tr>
+        <tr><td>เปิดการ์ดคนอื่น (เว็บ · ลิงก์)</td><td><code>starCard</code> ใบเดียว (ยังไม่มี login)</td><td><code>slug(slug) { starCard(shortId) { published { doc pageImages kinds } owner } }</code> · ไม่ต้องล็อกอิน ไม่มี draft</td><td>เปิดลิงก์ <code>salehere.co.th/star/{slug}</code></td></tr>
+        <tr><td>บันทึกการ์ด</td><td><code>saveStarCard(card, baseRev) { ok rev conflict }</code></td><td><code>saveStarCardDraft(id, doc, baseRev)</code> · rev ไม่ตรง = <code>successful false</code> + <code>errors[0].path "baseRev"</code> + ฉบับล่าสุดใน <code>entity</code></td><td>แก้เสร็จ / พับแอป</td></tr>
+        <tr><td>เผยแพร่</td><td>— (ทดลองไม่มี draft/published)</td><td><code>publishStarCard(id, rev, pageImageIds, ogImageId, platform, appVersion)</code> → แถวใหม่ใน <code>star_card_versions</code></td><td>กด "เผยแพร่"</td></tr>
+        <tr><td>เช็กว่าแบบ widget เปลี่ยนไหม</td><td><code>widgetSpecsVersion</code> · <code>GET /api/specs?known=&lt;hash&gt;</code> (204 = ไม่เปลี่ยน)</td><td>ยังไม่ออกแบบ — แอปฝังผังมากับตัว · <code>starWidgetCatalog(platform, appVersion)</code> (Remote Config) บอกว่าเวอร์ชันนี้วาง kind ไหนได้</td><td>เปิด/กลับเข้าแอป</td></tr>
+        <tr><td>โหลดแบบ widget ทั้งหมด</td><td><code>widgetSpecs { kind json }</code> · โหมดลองทำของแอป → <code>SpecCatalog.replace</code></td><td>แจกผ่าน CDN (ยังไม่ออกแบบ) · แอปที่ไม่รู้จัก kind ใน <code>published.kinds</code> โชว์ <code>pageImages</code> แทน</td><td>เมื่อเวอร์ชันเปลี่ยน</td></tr>
+        <tr><td>อัปโหลด / โหลดรูป</td><td><code>POST /api/images</code> → imageId · <code>GET /api/images/:id</code></td><td>S3 ผ่าน <code>generatePreSignedUrl</code> → <code>addStarCardImage(id, image, role)</code> → imageId ไปใส่ใน doc · โหลดผ่าน CDN ย่อขนาด</td><td>ตอนใส่รูป / ตอนวาด</td></tr>
+        <tr><td>ข้อมูลเจ้าของ (ชื่อ ช่องทาง เรต …)</td><td>อยู่ในการ์ด <code>owner</code> (แอปเขียน)</td><td>ไม่เก็บซ้ำ — <code>StarCard.owner: User</code> + <code>User.starTrackRecord</code> (ตารางหัวข้อก่อนหน้า)</td><td>พร้อมการ์ด</td></tr>
+        <tr><td>จัดการใบ</td><td>การ์ดมีใบเดียว</td><td><code>myStarCards</code> · <code>createStarCard(format, templateId)</code> · <code>setPrimaryStarCard</code> · <code>renameStarCard</code> · <code>deleteStarCard</code></td><td>คลังการ์ด</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>รายละเอียดสำหรับคนลงมือ</h2>
+    <p class="say">เปิดดูเฉพาะตอนต้องใช้</p>
+
+    <details><summary>JSON ของการ์ดแบบเต็ม</summary>
+<pre>{
+  "schemaVersion": 1,
+  "format": "portfolio",          // story = 1 หน้า 540×960 · portfolio = 3 หน้า กว้าง 402
+  "name": "สปอตไลต์ โปสเตอร์",
+  "theme": { "palette": "ruby", "ink": "night", "backdrop": "solid", "brightness": 0.2, "corner": "soft", "duo": "cocoa" },
+  "pages": [ { "items": [
+    { "id": "C6BF…", "kind": "typeMarquee", "x": 18, "y": 0, "w": 366, "h": 46,
+      "surface": "glass", "border": true,                    // glass · dim · pane · clear
+      "pattern": "diamond", "kit": { "style": "cream" }, "pinned": true }
+  ] } ],
+  "notes":  { "&lt;textBlockId&gt;": "ข้อความ" },                // เฉพาะชั้นข้อความ (ก้อนข้อความแบบ IG) — widget ไม่มีช่องพิมพ์
+  "photos": { "&lt;widgetId&gt;#7": { "imageId": "3b1e…", "fit": { "dx": 0.12, "dy": -0.05, "zoom": 1.4 } } },
+  "owner": { "values": { "name": "…" }, "list": { "categories": ["แฟชั่น"] }, "intake": { "socials": [], "rates": [] },
+             "creatorImageIds": [], "workImageIds": [] }      // ทดลองเท่านั้น — ของจริงไม่เก็บซ้ำ อ่านจาก User (ดู "หมวด = Model")
+}</pre>
+    </details>
+
+    <details><summary>JSON แบบของ widget</summary>
+<pre>{
+  "kind": "aboutNote",
+  "design": { "w": 366, "h": 336 },                  // ขนาดที่ออกแบบไว้ (ใช้ในขั้น 2)
+  "widget": { "title": "ABOUT ME โน้ต", "category": "intro", "symbol": "note.text", "order": 7, "ownSurface": true },
+                                                      // นิสัยทั้งหมดของใบ · อ่านข้อมูลได้แค่ Model ของหมวด intro (ดู "หมวด = Model")
+  "root": { "type": "stack", "children": [
+    { "type": "rect", "fill": "white" },
+    { "type": "text", "slot": "name", "size": 8.5, "color": "#272C8C" },   // slot = ช่องข้อมูลของเจ้าของ
+    { "type": "image", "photo": 1, "mono": true }
+  ] }
+}</pre>
+      <ul>
+        <li>ชนิดของชิ้นในแบบ: <code>col</code> <code>row</code> <code>stack</code> <code>text</code> <code>image</code> <code>rect</code> <code>icon</code> <code>chips</code> <code>spacer</code> <code>line</code> · สัญญาเต็ม <code>StarCard/WIDGET-SPEC.md</code></li>
+        <li><code>slot</code> ชี้ไปที่ข้อมูลเจ้าของ เช่น <code>name</code> · <code>categories#0</code> · <code>stat:totalFollowers</code> — ใช้ได้เฉพาะ field ใน Model ของหมวด (<code>shared/category-models.json</code> · <code>check-widgets.mjs</code> ตรวจ)</li>
+      </ul>
+    </details>
+
+    <details><summary>บันทึกการ์ด (saveStarCard) · แปลงชิ้นไป/กลับ</summary>
+<pre>mutation Save($c: StarCardInput!, $r: Int!, $by: String) {
+  saveStarCard(card: $c, baseRev: $r, by: $by) { ok rev conflict }
+}
+// ok: true      → บันทึกแล้ว จำ rev ใหม่
+// conflict: true → มีเครื่องอื่นบันทึกก่อน → ขอ rev ล่าสุดแล้วส่งซ้ำ</pre>
+      <ul><li>ชิ้นใน API แยกเป็น <code>id kind x y w h surface border</code> + <code>options</code> (ฟิลด์ที่เหลือทั้งหมด) · ตอนรับกลับให้รวม <code>options</code> คืนเป็นก้อนเดียว</li></ul>
+    </details>
+
+    <details><summary>ตัววาด: ไฟล์ต้นฉบับและเทสต์</summary>
+      <ul>
+        <li>ขั้น 1 วางบนหน้า: iOS <code>Layout/CardLayout.swift</code> · Android <code>layout/CardLayout.kt</code></li>
+        <li>ขั้น 2 ย่อ/ขยาย: <code>WidgetChrome</code> · สูตร <code>s = min(W ÷ w0, H ÷ h0)</code> · เว้นขอบใน 12 เมื่อมีแผ่น/ขอบ</li>
+        <li>ขั้น 3 จัดกล่อง: iOS <code>Layout/SpecSolver.swift</code> · Android <code>layout/SpecSolver.kt</code> · Web <code>sync-server/web/js/spec-solver.js</code></li>
+        <li>ขั้น 4 ทาสี: <code>SpecPainter</code> ของแต่ละแอป</li>
+        <li>เทสต์ขั้น 3: เทียบกับ fixture ของ iOS ใน <code>present/spec-fixtures/fixtures/</code> · Android ผ่าน 81/81 · Web ผ่าน 81/81 (aboutNote ยังไม่มี fixture) · เร็วเฉลี่ย 0.33 ms ต่อ widget</li>
+        <li>รูปของช่อง: รูปที่ใส่ในชิ้นเอง → ช่อง 1–3 ใช้รูปครีเอเตอร์ → ช่องอื่นใช้รูปผลงาน</li>
+      </ul>
+    </details>
+
+    <details><summary>เก็บที่ไหน (ทดลอง → ของจริง)</summary>
+      <div class="tbl" style="margin-top:10px"><table>
+        <thead><tr><th>อะไร</th><th>ทดลอง (sync-server)</th><th>ของจริง (ข้อเสนอ <code>api/star-card/</code>)</th></tr></thead>
+        <tbody>
+          <tr><td>การ์ด (ร่าง)</td><td><code>sync-server/data/state.json</code> — ใบเดียว · <code>rev</code></td><td>ตาราง <code>star_cards</code>: <code>draft_doc JSONB</code> (ทั้งก้อนตามที่แอปส่ง · ห้ามตัด kind/field ที่ server ไม่รู้จัก) · <code>draft_rev</code> +1 ทุกครั้งที่บันทึก · <code>short_id</code> (ท้ายลิงก์) · <code>format</code> · <code>name</code> · <code>is_primary</code> (ใบเดียวต่อคน) · <code>template_id</code> · <code>schema_version</code> · <code>published_version_id</code></td></tr>
+          <tr><td>การ์ด (เผยแพร่)</td><td>—</td><td>ตาราง <code>star_card_versions</code>: สำเนา <code>doc</code> ณ ตอนกดเผยแพร่ (แก้ไม่ได้ · เผยแพร่ใหม่ = แถวใหม่) · <code>page_image_ids</code> PNG ต่อหน้า · <code>og_image_id</code> 1200×630 · <code>kinds[]</code> ที่ใบนี้ใช้ · <code>platform</code> <code>app_version</code> ของเครื่องที่แต่ง</td></tr>
+          <tr><td>ข้อมูลเจ้าของ</td><td>ก้อน <code>owner</code> ในการ์ด (<code>values</code> <code>list</code> <code>intake</code> <code>*ImageIds</code>) · เว็บเติม <code>MOCK</code> ส่วนที่ไม่มี</td><td>ไม่เก็บซ้ำ — field เดิมของ <code>User</code> / <code>creatorProfile</code> / <code>socialProfiles</code> + <code>starTrackRecord</code> (ดูตาราง "ข้อมูลเจ้าของเก็บยังไง")</td></tr>
+          <tr><td>แบบ widget (ผัง + บล็อก <code>widget</code>)</td><td>ไฟล์ <code>shared/WidgetSpecs/*.json</code> (82) อ่านสด → <code>GET /api/specs</code> · GraphQL <code>widgetSpecs</code></td><td>DB/storage + เวอร์ชัน · แจกผ่าน CDN · ยังไม่ออกแบบ — วันนี้ฝังมากับแอป (iOS folder ref · Android assets) · Model ของหมวด = <code>shared/category-models.json</code> ฝังเหมือนกัน</td></tr>
+          <tr><td>รูป</td><td><code>sync-server/data/images/</code> · <code>POST /api/images</code></td><td>image-service / S3 (presign) + CDN · ตาราง <code>star_card_images (card_id, image_id, role)</code> — role: <code>slot</code> รูปในช่อง · <code>lift</code> รูปตัดพื้น · <code>background</code> พื้นหลังการ์ด · <code>page</code> PNG ทั้งหน้า — ไว้เช็กว่ารูปใน doc เป็นของเจ้าของจริง + เก็บกวาดรูปที่เลิกใช้</td></tr>
+        </tbody>
+      </table></div>
+      <p class="hint">ไฟล์ตัวอย่างให้ทีม API: <code>api/star-card/</code> — <code>star-card.schema.graphql</code> · <code>star-card.model.js</code> <code>star-card-version.model.js</code> <code>star-card-image.model.js</code> (Sequelize · ไม่มี migration · SQL ให้ ops ใน <code>star-card.sql</code>) · <code>example-doc.json</code> (doc จริงจาก iOS) · API ที่มีอยู่แล้วใน salehere-ios: <code>api/existing-starcard.graphql</code></p>
+    </details>
+
+    <details><summary>ที่ยังต่างกันได้ระหว่าง platform</summary>
+      <ul>
+        <li>ความสูงหน้า portfolio: แอปสูงตามจอ · เว็บใช้ 402×670 → ชิ้นที่ล้นอาจถูกดันไปคนละที่</li>
+        <li>สถานะล็อกของ widget อยู่ในเครื่อง ไม่อยู่ในการ์ด</li>
+        <li>ความกว้างตัวอักษรต่างกันเศษจุด · กระจกบนเว็บเป็น blur</li>
+        <li>ของทดลอง: การ์ดมีใบเดียว · ยังไม่มี login · มีรูป mock ชุดเดียวกันทุกเครื่อง</li>
+      </ul>
+    </details>
+  </section>
+  </div>
+  <div class="pane" id="pane-json" hidden>
+
+  <section>
+    <h2>JSON มี 2 ไฟล์ ทำคนละหน้าที่</h2>
+    <p class="say">ไฟล์การ์ดบอก "วางอะไร ตรงไหน ใส่อะไร" · ไฟล์แบบบอก "ชนิดนี้หน้าตาเป็นยังไง" · เจอกันด้วยชื่อไม่กี่ตัว</p>
+    <div class="two">
+      <div class="jcard ja">
+        <div class="jh"><span class="tag ta">การ์ด JSON</span><b>1 ไฟล์ ต่อเจ้าของ</b></div>
+        <ul><li>แอปเขียน (ทุกครั้งที่แก้) → <code>saveStarCard</code></li><li>มีกรอบของทุกชิ้น + ข้อความ/รูปที่ใส่ + ข้อมูลเจ้าของ</li><li>ไม่มีหน้าตาของ widget เลย</li></ul>
+      </div>
+      <div class="jcard jb">
+        <div class="jh"><span class="tag tb">แบบ JSON (WidgetSpec)</span><b>1 ไฟล์ ต่อชนิด</b></div>
+        <ul><li>ดีไซเนอร์เขียน → <code>widgetSpecs</code> (82 ไฟล์)</li><li>เป็นต้นไม้ของกล่อง: แถว คอลัมน์ ข้อความ รูป ไอคอน</li><li>ไม่มีข้อมูลของใครเลย มีแต่ "ช่อง" ให้เติม</li></ul>
+      </div>
+    </div>
+    <div class="tbl join"><table>
+      <thead><tr><th>ในการ์ด JSON</th><th></th><th>ในแบบ JSON</th><th>ได้อะไร</th></tr></thead>
+      <tbody>
+        <tr><td><code>items[].kind: "statPoster"</code></td><td>→</td><td>ไฟล์ <code>statPoster.json</code></td><td>เลือกแบบที่จะใช้วาด</td></tr>
+        <tr><td><code>items[].w h</code></td><td>→</td><td><code>design: {w, h}</code></td><td>ตัวคูณ s (ขั้น 2 ของตัววาด)</td></tr>
+        <tr><td>—</td><td>→</td><td><code>"text": "MY Social"</code></td><td>ป้ายตายตัวของดีไซน์ · widget ไม่มีข้อความที่ผู้ใช้พิมพ์ (ตัดแล้ว 19 ต.ค. 2569)</td></tr>
+        <tr><td><code>owner.values.name</code></td><td>→</td><td><code>"slot": "name"</code></td><td>ข้อมูลเจ้าของ (ชื่อ เบอร์ …) · แท็กไลน์สร้างจาก categories</td></tr>
+        <tr><td><code>owner.intake.socials[]</code></td><td>→</td><td><code>"list": "socials"</code></td><td>ช่องทางทั้งหมด → วาดซ้ำทีละช่อง</td></tr>
+        <tr><td><code>photos["&lt;id&gt;#1"]</code></td><td>→</td><td><code>"photo": 1</code></td><td>รูปในช่องที่ 1 ของชิ้น</td></tr>
+        <tr><td><code>items[].surface: "glass"</code></td><td>→</td><td><code>"if": "papered"</code></td><td>เลือกกิ่งของผังตามพื้นผิว</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="explorer">
+    <h2>เปิดแบบ JSON จริงทีละโหนด</h2>
+    <p class="say">ไฟล์จริง <code>statPoster.json</code> · กดโหนดไหนก็ได้ ภาพขวาจะชี้ว่ามันกลายเป็นกล่องไหน และอธิบายทุก key ของโหนดนั้น</p>
+    <div class="flagbar">รอบนี้: <span class="flag">surface = glass → <b>papered</b> = จริง</span><span class="flag"><b>stamped</b> = จริง (มีป้าย Verified)</span><span class="flag">socials มี <b>3</b> ช่อง</span><span class="flag skip">จาง = <b>if</b> เป็นเท็จ ไม่ถูกวาด</span></div>
+    <div class="xp">
+      <div class="tree" id="tree" role="tree" aria-label="โหนดของ statPoster.json"></div>
+      <div class="side">
+        <div class="pic"><svg id="xsv" viewBox="-12 -12 390 238" role="img" aria-label="กล่องของโหนดที่เลือก บนภาพที่ iOS วาด"><image id="ximg" x="-12" y="-12" width="390" height="238"/><g id="xhl"></g></svg></div>
+        <div class="keys" id="keys"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>มันทำงานยังไง: 4 เรื่องที่ต้องเข้าใจ</h2>
+    <p class="say">ตัวเลขทุกตัวข้างล่างมาจากรอบที่ iOS วาด statPoster จริง</p>
+
+    <div class="ex">
+      <div class="exh"><span class="no">1</span><div><h3>โหนดซ้ำ + <code>if</code> = เลือกกิ่ง</h3><p>ผังเขียนโหนดเดียวกันหลายแบบ แต่ละแบบมีเงื่อนไข ตัวคำนวณตัดโหนดที่เงื่อนไขเท็จทิ้ง <b>ก่อน</b>จัดกล่อง</p></div></div>
+      <div class="exb">
+        <pre class="code"><span class="hit">{ "type": "text", "id": "line1", <b>"if": "papered"</b>,  "color": "plateInk" }</span>   <span class="ok">✓ วาด</span>
+<span class="gone">{ "type": "text", "id": "line1", <b>"if": "!papered"</b>, "color": "ink@0.95" }</span>   <span class="no2">✗ ข้าม</span></pre>
+        <p class="cap">ชิ้นนี้พื้นผิว <code>glass</code> → <code>papered</code> จริง → ใช้หมึกครีมบนแผ่นเข้ม · ถ้าผู้ใช้เปลี่ยนเป็น <code>clear</code> จะได้อีกบรรทัด (หมึกของการ์ด) · <code>!</code> = ไม่ · <code>&amp;</code> = และ · <code>|</code> = หรือ</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="exh"><span class="no">2</span><div><h3><code>chips</code> + <code>list</code> + <code>each</code> = วาดซ้ำตามข้อมูล</h3><p><code>each</code> คือแม่พิมพ์ 1 ช่อง · ตัวคำนวณปั๊มแม่พิมพ์ 1 ครั้งต่อ 1 รายการใน <code>list</code> และแทน <code>$field</code> ด้วยค่าของรายการนั้น</p></div></div>
+      <div class="exb">
+        <div class="chipsdemo">
+          <div class="cd-in"><b>list "socials"</b><span>{ name: "Instagram", followers: "24.8K" }</span><span>{ name: "TikTok", followers: "58.3K" }</span><span>{ name: "YouTube", followers: "8.9K" }</span></div>
+          <div class="cd-op">× แม่พิมพ์ <code>each</code><br><small><code>"slot": "$followers"</code><br><code>"slot": "$name"</code></small></div>
+          <div class="cd-out">
+            <div class="cd-row"><div><i>c0</i><b>24.8K</b><small>Instagram</small><em>x 18 · w 110</em></div><div><i>c1</i><b>58.3K</b><small>TikTok</small><em>x 128 · w 110</em></div><div><i>c2</i><b>8.9K</b><small>YouTube</small><em>x 238 · w 110</em></div></div>
+          </div>
+        </div>
+        <p class="cap">แม่พิมพ์มี <code>"w": "fill"</code> → 3 ช่องแบ่ง 330 เท่ากัน = 110 · เส้นคั่นตั้งมี <code>"if": "!$i=first"</code> → ช่องแรกไม่มี · ช่องทางเพิ่มเป็น 4 → <code>"if": "list:socials=4"</code> เลือกตัวเลขเล็กลง (19 แทน 22)</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="exh"><span class="no">3</span><div><h3><code>col</code> + <code>grow</code> = แจกที่ว่างที่เหลือ</h3><p>คอลัมน์ <code>body</code> สูง 214 · เอาของที่ขนาดตายตัวลงก่อน ที่เหลือแจกให้ลูกที่มี <code>grow</code> ตามน้ำหนัก</p></div></div>
+      <div class="exb">
+        <div class="growdemo">
+          <div class="gbar" id="gbar"></div>
+          <div class="gnote">
+            <p>214 − ระยะขอบ (18 + 16) − ของตายตัว 164.67 = <b>15.32</b></p>
+            <p>มี <code>spacer</code> <code>"grow": 1</code> สองตัว → ได้ตัวละ <b>7.66</b></p>
+            <p class="mut">ลากกรอบให้สูงขึ้น 40 → สองตัวนี้ได้เพิ่มตัวละ 20 · ของอื่นอยู่ที่เดิม · นี่คือเหตุผลที่ตอน resize ผังไม่เละ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="exh"><span class="no">4</span><div><h3>ข้อความ: วัด → ย่อ → บอกจำนวนบรรทัด</h3><p>ตัวคำนวณวัดความกว้างตัวอักษรจากไฟล์ฟอนต์เดียวกันทุกเครื่อง แล้วตัดสินขนาด/บรรทัดเอง ห้ามให้ระบบย่อเอง</p></div></div>
+      <div class="exb">
+        <pre class="code">{ "text": "MY Social",
+  "face": "noto", "weight": 800, "size": 22,
+  "maxLines": 1, "shrinkTo": 12, "w": "66%" }</pre>
+        <div class="steps4">
+          <div><b>1 หาข้อความ</b><span>ป้ายตายตัว "MY Social" (ช่องข้อมูลอ่านจาก Model เช่น <code>"slot": "name"</code>)</span></div>
+          <div><b>2 หาความกว้าง</b><span>66% ของ 330 = 217.8</span></div>
+          <div><b>3 วัด</b><span>noto 800 ขนาด 22 → พอดี 1 บรรทัด ไม่ต้องย่อ</span></div>
+          <div><b>4 ออก</b><span>กล่อง 217.8 × 33.24 · size 22 · lines 1</span></div>
+        </div>
+        <p class="cap">ถ้าข้อความยาวจนไม่พอ (เช่นชื่อยาว) → ลดทีละ 0.5 จนพอหรือถึง <code>shrinkTo</code> (12) · ยังไม่พอ → ตัววาดตัดท้ายด้วย … · ความสูง 33.24 = ความสูงบรรทัดของฟอนต์ noto ที่ 22</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>ภาษาเล็ก ๆ ในค่าที่เป็นสตริง</h2>
+    <p class="say">หลาย key รับสตริงที่มีความหมายพิเศษ ต้อง parse แบบเดียวกันทุก platform</p>
+    <div class="tbl"><table>
+      <thead><tr><th>รูปแบบ</th><th>ใช้กับ</th><th>อ่านว่า</th></tr></thead>
+      <tbody>
+        <tr><td><code>22</code> · <code>"72%"</code> · <code>"fill"</code> · <code>"hug"</code></td><td><code>w</code> <code>h</code></td><td>ตายตัว 22pt · 72% ของที่ว่างในแม่ · กินที่เหลือ (= grow 1) · เท่าเนื้อหา</td></tr>
+        <tr><td><code>8</code> · <code>[3, 0]</code> · <code>[18, 18, 16, 18]</code></td><td><code>pad</code></td><td>ทุกด้าน · [บนล่าง, ซ้ายขวา] · [บน, ขวา, ล่าง, ซ้าย]</td></tr>
+        <tr><td><code>"ink"</code> · <code>"ink@0.95"</code> · <code>"plateInk@0.24"</code> · <code>"#E85C9E"</code></td><td><code>fill</code> <code>color</code> <code>tint</code></td><td>ชื่อสีของธีม (token) · <code>@</code> = ความทึบ · หรือ hex ตรง ๆ</td></tr>
+        <tr><td><code>"name"</code> · <code>"stat:totalFollowers"</code> · <code>"categories#$i"</code></td><td><code>slot</code></td><td>ช่องของเจ้าของ · ค่าที่ระบบคิดให้ · ช่องตามลำดับในรายการ (อ่านอย่างเดียวทุกช่อง)</td></tr>
+        <tr><td><code>"$followers"</code> · <code>"$icon"</code></td><td>ใน <code>each</code></td><td>ค่าฟิลด์ของรายการที่กำลังปั๊ม</td></tr>
+        <tr><td><code>"papered"</code> · <code>"!papered"</code> · <code>"stamped &amp; papered"</code></td><td><code>if</code></td><td>ธงของชิ้น · ไม่ · และ (<code>|</code> = หรือ)</td></tr>
+        <tr><td><code>"$i=first"</code> · <code>"$i&lt;1 | $i&gt;=2&amp;$i&lt;3"</code></td><td><code>if</code> ใน each</td><td>ช่องแรก · ช่องที่ 0 หรือ 2 (สลับสีคู่/คี่)</td></tr>
+        <tr><td><code>"list:socials&gt;3"</code> · <code>"list:socials=4"</code></td><td><code>if</code></td><td>จำนวนรายการ มากกว่า 3 · เท่ากับ 4</td></tr>
+        <tr><td><code>"has:tagline"</code> · <code>"cfg:style=mac"</code> · <code>"surface=clear"</code></td><td><code>if</code></td><td>ช่องนั้นมีค่า · ตั้งค่าของชุดห้าสไตล์ · พื้นผิวของชิ้น</td></tr>
+        <tr><td><code>"w&lt;260"</code> · <code>"ratio&lt;0.6"</code></td><td><code>variants.when</code> <code>sizeWhen</code></td><td>ขึ้นกับขนาดกล่อง (ratio = สูง/กว้าง) → เปลี่ยนผังเมื่อกรอบแคบ/เตี้ย</td></tr>
+        <tr><td><code>"ph:heart"</code> · <code>"sh:instagram"</code> · <code>"byline"</code> · <code>"url:https…"</code></td><td><code>icon</code></td><td>ไอคอน Phosphor · asset ของแอป · ไอคอนพิเศษที่ตัววาดรู้จัก · รูปจากเน็ต</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>key ทั้งหมดของแบบ JSON</h2>
+    <p class="say">ทุก key เป็น optional · ไม่ใส่ = ค่าตั้งต้น · สัญญาเต็มอยู่ที่ <code>StarCard/WIDGET-SPEC.md</code></p>
+    <h3 class="h3">ระดับไฟล์</h3>
+    <div class="tbl"><table><thead><tr><th>key</th><th>ตัวอย่าง</th><th>ความหมาย</th></tr></thead><tbody>
+      <tr><td><code>kind</code></td><td><code>"statPoster"</code></td><td>ชื่อชนิด = ค่า <code>kind</code> ในการ์ด</td></tr>
+      <tr><td><code>design</code></td><td><code>{"w": 366, "h": 214}</code></td><td>ขนาดที่ออกแบบ ใช้คิด s · ตัวเลขทุกตัวในไฟล์เป็นหน่วยนี้</td></tr>
+      <tr><td><code>root</code></td><td><code>{"type": "stack", …}</code></td><td>โหนดราก — ต้นไม้ทั้งหมดอยู่ใต้นี้</td></tr>
+      <tr><td><code>variants</code></td><td><code>[{"when": "ratio&lt;0.5", "root": {…}}]</code></td><td>ผังทางเลือก · อันแรกที่ <code>when</code> จริงชนะ <code>root</code></td></tr>
+      <tr><td><code>fitScale</code></td><td><code>[1, 0.9, … 0.42]</code></td><td>เนื้อหาสูงเกินกรอบ → ลองย่อทั้งก้อนทีละขั้น ใช้ขั้นแรกที่พอดี</td></tr>
+      <tr><td><code>widget</code></td><td><code>{"title": "about me.", "category": "intro", "symbol": "note.text", "order": 7, "ownSurface": true, "stamp": "followers", "motion": "mid", …}</code></td><td>นิสัยทั้งหมดของใบ (ชื่อ/ไอคอน/ลำดับในตู้ · tier · พื้นผิว/ขอบ · แถวในถาด · ป้าย Verified · ท่าเข้า · <code>pinned</code> · <code>replaces</code> ชื่อเก่า) — <b>แอปไม่รู้จักชื่อ widget</b> อ่านจากบล็อกนี้อย่างเดียว · <code>category</code> กำหนดว่าอ่านข้อมูลอะไรได้ (Model ของหมวด) · รายการคีย์เต็ม <code>StarCard/WIDGET-SPEC.md</code> §3.3c</td></tr>
+      <tr><td><code>notes</code></td><td>ข้อความ</td><td>บันทึกของคนเขียน ไม่ใช้ตอนวาด</td></tr>
+    </tbody></table></div>
+    <h3 class="h3">ระดับโหนด</h3>
+    <div class="kgroups" id="kgroups"></div>
+  </section>
+
+  <section>
+    <h2>key ทั้งหมดของการ์ด JSON</h2>
+    <p class="say">ตัวอย่างจริงจากการ์ด rev 44 (ตัดให้สั้น) · กด key เพื่อดูความหมาย</p>
+    <div class="cardx">
+      <pre class="code ctree" id="ctree"></pre>
+      <div class="ckey" id="ckey"></div>
+    </div>
+  </section>
+  </div>
+</div>
+<script>
+  // ตัวดูทีละขั้นของ renderer — ฉากเดียว ทุกขั้นต่อจากขั้นก่อน · กล่องจริงจาก SpecSolver (fixture ของ iOS) + ภาพที่ iOS วาดจริง
+  const BOXES = [["r", "stack", 0, 0, 366, 214, "", 0], ["r/0", "rect", 0, 0, 366, 214, "", 0], ["r/1", "rect", 0, 0, 366, 214, "", 0], ["r/2", "col", 0, 0, 366, 214, "", 0], ["r/2/0", "spacer", 18, 18, 330, 8, "", 0], ["r/2/1", "col", 18, 26, 330, 59.88, "", 0], ["r/2/1/0", "text", 74.1, 26, 217.8, 33.24, "MY Social", 22], ["r/2/1/2", "text", 18, 52.64, 330, 33.24, "MEDIA STATS", 22], ["r/2/2", "spacer", 18, 85.88, 330, 10, "", 0], ["r/2/3", "rect", 18, 95.88, 330, 1.4, "", 0], ["r/2/5", "spacer", 18, 97.28, 330, 7.66, "", 0], ["r/2/6", "chips", 18, 104.95, 330, 84.59, "", 0], ["r/2/6/c0", "row", 18, 104.95, 110, 84.59, "", 0], ["r/2/6/c0/2", "col", 18, 104.95, 110, 84.59, "", 0], ["r/2/6/c0/2/0", "icon", 59.5, 104.95, 27, 27, "", 0], ["r/2/6/c0/2/1", "col", 43.34, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c0/2/1/0", "col", 43.34, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c0/2/1/0/0", "text", 43.34, 136.95, 59.32, 33.24, "24.8K", 22], ["r/2/6/c0/2/3", "text", 44.53, 175.19, 56.94, 14.35, "Instagram", 9.5], ["r/2/6/c1", "row", 128, 104.95, 110, 84.59, "", 0], ["r/2/6/c1/0", "col", 128, 104.95, 0.8, 84.59, "", 0], ["r/2/6/c1/0/0", "rect", 128, 107.95, 0.8, 78.59, "", 0], ["r/2/6/c1/2", "col", 128.8, 104.95, 109.2, 84.59, "", 0], ["r/2/6/c1/2/0", "icon", 169.9, 104.95, 27, 27, "", 0], ["r/2/6/c1/2/1", "col", 153.74, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c1/2/1/0", "col", 153.74, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c1/2/1/0/1", "text", 153.74, 136.95, 59.32, 33.24, "58.3K", 22], ["r/2/6/c1/2/3", "text", 165.6, 175.19, 35.6, 14.35, "TikTok", 9.5], ["r/2/6/c2", "row", 238, 104.95, 110, 84.59, "", 0], ["r/2/6/c2/0", "col", 238, 104.95, 0.8, 84.59, "", 0], ["r/2/6/c2/0/0", "rect", 238, 107.95, 0.8, 78.59, "", 0], ["r/2/6/c2/2", "col", 238.8, 104.95, 109.2, 84.59, "", 0], ["r/2/6/c2/2/0", "icon", 279.9, 104.95, 27, 27, "", 0], ["r/2/6/c2/2/1", "col", 263.74, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c2/2/1/0", "col", 263.74, 136.95, 59.32, 33.24, "", 0], ["r/2/6/c2/2/1/0/0", "text", 263.74, 136.95, 59.32, 33.24, "8.9K", 22], ["r/2/6/c2/2/3", "text", 270.23, 175.19, 46.34, 14.35, "YouTube", 9.5], ["r/2/7", "spacer", 18, 189.54, 330, 7.66, "", 0], ["r/2/8", "rect", 18, 197.2, 330, 0.8, "", 0], ["r/3", "icon", 250, 10, 104, 23.3, "", 0]]
+  const NS = 'http://www.w3.org/2000/svg'
+  const $ = (id) => document.getElementById(id)
+  const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e }
+  const kind = (t) => (t === 'text' ? 't' : t === 'icon' || t === 'image' ? 'i' : t === 'rect' || t === 'line' ? 'r' : 'g')
+  const ORDER = { g: 0, t: 1, i: 2, r: 3 }
+  const seen = { g: 0, t: 0, i: 0, r: 0 }
+  const bx = $('bx'), sv = $('sv')
+  for (const [id, t, x, y, w, h, txt, size] of BOXES) {
+    if (w >= 366 && h >= 214) continue // กล่องพื้นหลังเต็มชิ้น — ไม่ต้องโชว์
+    const k = kind(t), g = el('g', { class: 'bxi ' + k })
+    g.style.setProperty('--d', `${ORDER[k] * 420 + seen[k]++ * 45}ms`)
+    const r = el('rect', { x, y, width: Math.max(w, 0.8), height: Math.max(h, 0.8), rx: 1.5 })
+    const tt = el('title', {}); tt.textContent = `${id} · ${t} · ${x},${y} ${w}×${h}`; r.appendChild(tt); g.appendChild(r)
+    if (txt) { const l = el('text', { x: x + w / 2, y: y + h / 2, 'font-size': Math.min(size * 0.8, 16), class: 'wt' }); l.textContent = txt; g.appendChild(l) }
+    bx.appendChild(g)
+  }
+  const PAGE = [-20, -20, 442, 710], ZOOM = [-4, -6, 410, 262]
+  const STEPS = [
+    { t: 'วางบนหน้า', d: 'อ่านกรอบของชิ้นจากการ์ด (x y w h) แล้ววางบนหน้า ถ้าทับกันจะดันลงจนไม่ทับ', i: 'items[] ของการ์ด', o: 'กรอบจริงของชิ้น', fn: 'PageLayout.solve' },
+    { t: 'ย่อ/ขยายทั้งก้อน', d: 'แบบออกแบบไว้ที่ 366×214 · ดูกรอบหดลง: ทั้งก้อนย่อด้วยตัวเลขเดียว (s) และผังได้กล่องกว้างขึ้นเอง ไม่บีบแกนไหน', i: 'กรอบจริง + ขนาดแบบ', o: 's + กล่องให้ผังจัด', fn: 'WidgetChrome' },
+    { t: 'จัดกล่อง', d: 'อ่าน JSON แบบ + ข้อมูลเจ้าของ → บอกตำแหน่ง/ขนาดของทุกชิ้นข้างใน ทีละกลุ่ม: กล่องจัดวาง → ข้อความ → ไอคอน → เส้น · ยังไม่วาดอะไร', i: 'JSON แบบ + ยอดผู้ติดตาม', o: 'กล่อง x y w h ทุกชิ้น', fn: 'SpecSolver' },
+    { t: 'ทาสีตามกล่อง', d: 'ใส่สี ตัวอักษร ไอคอน ลงในกล่องเดิม — ภาพที่ขึ้นคือที่ iOS วาดจริง กล่องตรงกันเป๊ะ', i: 'กล่อง + สีของธีม', o: 'ภาพ widget', fn: 'SpecPainter' },
+    { t: 'อยู่บนการ์ด', d: 'ถอยออกมาดูทั้งหน้า · ทุก platform ใช้กล่องชุดเดียวกันจึงได้ภาพเดียวกัน — ทีม Android/Web ทำขั้น 3 ให้ตัวเลขเท่า iOS แล้วขั้น 4 วาดตาม', i: '', o: 'widget บนการ์ด', fn: '' },
+  ]
+  // ---- tween ----
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2)
+  let token = 0
+  const tween = (ms, fn, tk) => new Promise((done) => {
+    const t0 = performance.now()
+    const f = (now) => { if (tk !== token) return done(false); const p = Math.min(1, (now - t0) / ms); fn(ease(p)); p < 1 ? requestAnimationFrame(f) : done(true) }
+    requestAnimationFrame(f)
+  })
+  const wait = (ms, tk) => new Promise((d) => setTimeout(() => d(tk === token), ms))
+  let vb = PAGE.slice()
+  const setVB = (v) => { vb = v; sv.setAttribute('viewBox', v.join(' ')) }
+  const zoomTo = (to, tk, ms = 800) => { const from = vb.slice(); return tween(ms, (p) => setVB(from.map((a, k) => a + (to[k] - a) * p)), tk) }
+  const setFrameH = (h) => { $('fr').setAttribute('height', h); $('clipr').setAttribute('height', h) }
+  const setGhost = (H) => { // กรอบสูง H → s = min(366/366, H/214) · กล่องของผัง = 366/s × 214
+    const sc = Math.min(1, H / 214)
+    $('ghs').setAttribute('transform', `scale(${sc})`)
+    $('ghr').setAttribute('width', 366 / sc)
+    ;['ght1', 'ght2'].forEach((id) => $(id).setAttribute('x', 183 / sc))
+    $('ght2').textContent = `s = ${sc.toFixed(2)} · ผังได้กล่อง ${Math.round(366 / sc)} × 214`
+  }
+  // ---- สถานะของแต่ละขั้น (ใช้ตอนกระโดด/ย้อน) ----
+  function setState(i) {
+    setVB(i === 0 || i === 4 ? PAGE : ZOOM); setFrameH(214); setGhost(214)
+    $('lbl1').style.opacity = i === 0 ? 1 : 0
+    $('ghost').style.opacity = i === 1 ? 1 : 0
+    $('real').style.opacity = i >= 3 ? 1 : 0
+    $('fr').classList.toggle('done', i === 4); $('fr').classList.toggle('over', i >= 3)
+    bx.classList.toggle('on', i === 2 || i === 3); bx.classList.toggle('over', i === 3); bx.classList.remove('stagger')
+  }
+  // ---- เดินหน้า: เล่นต่อจากภาพเดิม ----
+  async function play(i, tk) {
+    if (i === 1) {
+      $('lbl1').style.opacity = 0
+      if (!(await zoomTo(ZOOM, tk))) return
+      $('ghost').style.opacity = 1
+      if (!(await wait(500, tk))) return
+      if (!(await tween(1100, (p) => { const H = 214 - 58 * p; setFrameH(H); setGhost(H) }, tk))) return
+      if (!(await wait(900, tk))) return
+      await tween(900, (p) => { const H = 156 + 58 * p; setFrameH(H); setGhost(H) }, tk)
+    } else if (i === 2) {
+      $('ghost').style.opacity = 0
+      bx.classList.add('stagger', 'on')
+    } else if (i === 3) {
+      bx.classList.remove('stagger'); bx.classList.add('over'); $('fr').classList.add('over'); $('real').style.opacity = 1
+    } else if (i === 4) {
+      bx.classList.remove('on', 'over'); $('fr').classList.add('done')
+      await wait(350, tk); await zoomTo(PAGE, tk, 900)
+    }
+  }
+  const tl = $('tl')
+  let cur = 0
+  function panel(i) {
+    tl.innerHTML = STEPS.map((s, k) => `<li class="${k < i ? 'past' : k === i ? 'now' : 'next'}"><button type="button" data-k="${k}">`
+      + `<span class="n">${k < i ? '✓' : k + 1}</span><span class="tt">${s.t}</span>${s.fn ? `<code>${s.fn}</code>` : ''}</button>`
+      + (k === i ? `<div class="body"><p>${s.d}</p><div class="io">${s.i ? `<div><b>เข้า</b><span>${s.i}</span></div>` : ''}<div><b>ออก</b><span>${s.o}</span></div></div></div>` : '')
+      + `</li>`).join('')
+    tl.querySelectorAll('button').forEach((b) => (b.onclick = () => go(Number(b.dataset.k))))
+    $('prev').disabled = i === 0
+    $('next').textContent = i === STEPS.length - 1 ? '↺ เริ่มใหม่' : 'ถัดไป ▶'
+  }
+  function go(i) {
+    const tk = ++token
+    if (i === cur + 1) play(i, tk); else setState(i)
+    cur = i; panel(i)
+  }
+  $('prev').onclick = () => go(Math.max(0, cur - 1))
+  $('next').onclick = () => go(cur === STEPS.length - 1 ? 0 : cur + 1)
+  setState(0); panel(0)
+</script>
+<script>
+  // แถบสลับบนสุด · #json เปิดแท็บ JSON ตรง ๆ
+  ;(() => {
+    const tabs = document.querySelectorAll('.toptabs button')
+    const pick = (name, push) => {
+      tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.pane === name)))
+      document.querySelectorAll('.pane').forEach((p) => { p.hidden = p.id !== 'pane-' + name })
+      if (push) history.replaceState(null, '', name === 'json' ? '#json' : '#')
+    }
+    tabs.forEach((b) => (b.onclick = () => { pick(b.dataset.pane, true); window.scrollTo({ top: 0 }) }))
+    if (location.hash === '#json') pick('json')
+  })()
+
+  // ---------- ตัวเปิด JSON ทีละโหนด ----------
+  const SPEC = {"kind": "statPoster", "design": {"w": 366, "h": 214}, "widget": {"title": "โปสเตอร์ผู้ติดตาม", "category": "followers", "symbol": "number.square.fill", "order": 15, "ownSurface": true, "surfaces": ["glass", "pane", "clear"], "surfaceNames": {"glass": "มีพื้น"}, "pattern": true, "emboss": true, "keepAspect": true, "stamp": "followers", "motion": "anchored", "replaces": ["statWrapped"]}, "notes": "โปสเตอร์ผู้ติดตาม · (ข้อความยาว ไม่ใช้ตอนวาด)", "root": {"type": "stack", "id": "sheet", "clip": true, "radius": 20, "children": [{"type": "rect", "id": "plate", "fill": "plate", "if": "papered"}, {"type": "rect", "id": "platePattern", "if": "papered", "platePattern": "plate"}, {"type": "col", "id": "body", "pad": [18, 18, 16, 18], "gap": 0, "align": "stretch", "children": [{"type": "spacer", "h": 8, "if": "stamped"}, {"type": "col", "id": "headline", "gap": -6.6, "align": "center", "children": [{"type": "text", "id": "line1", "if": "papered", "mixHead": true, "face": "noto", "weight": 800, "size": 22, "kerning": -0.66, "textAlign": "center", "maxLines": 1, "shrinkTo": 12, "color": "plateInk", "w": "66%", "text": "MY Social"}, {"type": "text", "id": "line1", "if": "!papered", "mixHead": true, "face": "noto", "weight": 800, "size": 22, "kerning": -0.66, "textAlign": "center", "maxLines": 1, "shrinkTo": 12, "color": "ink@0.95", "w": "66%", "text": "MY Social"}, {"type": "text", "id": "line2", "if": "papered", "face": "noto", "weight": 800, "size": 22, "kerning": -0.77, "textCase": "upper", "textAlign": "center", "maxLines": 1, "shrinkTo": 13, "color": "plateInk", "w": "fill", "text": "MEDIA STATS"}, {"type": "text", "id": "line2", "if": "!papered", "face": "noto", "weight": 800, "size": 22, "kerning": -0.77, "textCase": "upper", "textAlign": "center", "maxLines": 1, "shrinkTo": 13, "color": "ink@0.95", "w": "fill", "text": "MEDIA STATS"}]}, {"type": "spacer", "h": 10}, {"type": "rect", "id": "rule", "if": "papered", "h": 1.4, "fill": "rawAccent"}, {"type": "rect", "id": "rule", "if": "!papered", "h": 1.4, "fill": "accent"}, {"type": "spacer", "grow": 1, "minH": 6}, {"type": "chips", "id": "stats", "list": "socials", "wrap": false, "gap": 0, "align": "stretch", "each": {"type": "row", "w": "fill", "gap": 0, "align": "stretch", "children": [{"type": "col", "if": "!$i=first & papered", "w": 0.8, "pad": [3, 0], "children": [{"type": "rect", "grow": 1, "fill": "plateInk@0.24"}]}, {"type": "col", "if": "!$i=first & !papered", "w": 0.8, "pad": [3, 0], "children": [{"type": "rect", "grow": 1, "fill": "line@0.24"}]}, {"type": "col", "id": "column", "grow": 1, "gap": 5, "align": "center", "pad": [0, 4], "children": [{"type": "icon", "icon": "$icon", "size": 27}, {"type": "col", "if": "papered", "gap": 0, "align": "center", "children": [{"type": "col", "if": "!list:socials>3", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 22, "color": "rawAccent", "maxLines": 1, "shrinkTo": 11}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 22, "color": "plateInk", "maxLines": 1, "shrinkTo": 11}]}, {"type": "col", "if": "list:socials=4", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 19, "color": "rawAccent", "maxLines": 1, "shrinkTo": 9.5}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 19, "color": "plateInk", "maxLines": 1, "shrinkTo": 9.5}]}, {"type": "col", "if": "list:socials>4", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 16, "color": "rawAccent", "maxLines": 1, "shrinkTo": 8}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 16, "color": "plateInk", "maxLines": 1, "shrinkTo": 8}]}]}, {"type": "col", "if": "!papered", "gap": 0, "align": "center", "children": [{"type": "col", "if": "!list:socials>3", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 22, "color": "accent", "maxLines": 1, "shrinkTo": 11}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 22, "color": "ink@0.95", "maxLines": 1, "shrinkTo": 11}]}, {"type": "col", "if": "list:socials=4", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 19, "color": "accent", "maxLines": 1, "shrinkTo": 9.5}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 19, "color": "ink@0.95", "maxLines": 1, "shrinkTo": 9.5}]}, {"type": "col", "if": "list:socials>4", "gap": 0, "align": "center", "children": [{"type": "text", "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5", "slot": "$followers", "face": "noto", "weight": 800, "size": 16, "color": "accent", "maxLines": 1, "shrinkTo": 8}, {"type": "text", "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6", "slot": "$followers", "face": "noto", "weight": 800, "size": 16, "color": "ink@0.95", "maxLines": 1, "shrinkTo": 8}]}]}, {"type": "text", "if": "papered", "slot": "$name", "face": "noto", "weight": 600, "size": 9.5, "kerning": 0.95, "color": "plateInk@0.66", "maxLines": 1, "shrinkTo": 5.7}, {"type": "text", "if": "!papered", "slot": "$name", "face": "noto", "weight": 600, "size": 9.5, "kerning": 0.95, "color": "ink@0.58", "maxLines": 1, "shrinkTo": 5.7}]}]}}, {"type": "spacer", "grow": 1, "minH": 6}, {"type": "rect", "id": "foot", "if": "papered", "h": 0.8, "fill": "plateInk@0.24"}, {"type": "rect", "id": "foot", "if": "!papered", "h": 0.8, "fill": "line@0.24"}]}, {"type": "icon", "id": "stamp", "if": "stamped & papered", "icon": "byline", "tint": "plateInk@0.9", "w": 104, "h": 23.3, "place": "top-right", "dx": -12, "dy": 10}, {"type": "icon", "id": "stamp", "if": "stamped & !papered", "icon": "byline", "tint": "ink@0.9", "w": 104, "h": 23.3, "place": "top-right", "dx": -12, "dy": 10}]}}
+  const K = {"type": ["ชนิดโหนด", "ชนิดของโหนด: <code>col</code> เรียงลง · <code>row</code> เรียงขวา · <code>stack</code> ซ้อนกัน · <code>text</code> · <code>image</code> · <code>icon</code> · <code>rect</code> แผ่น/เส้น · <code>chips</code> วาดซ้ำตามรายการ · <code>spacer</code> ที่ว่าง · <code>line</code>", "\"col\""], "id": ["ชนิดโหนด", "ชื่อไว้อ้าง (fixture/ดีบัก) · ไม่มีผลกับการวาด · ซ้ำได้ถ้าเป็นกิ่งทางเลือก", "\"line1\""], "children": ["ชนิดโหนด", "ลูกของคอนเทนเนอร์ (col/row/stack) เรียงตามลำดับ", "[ … ]"], "w": ["ขนาด", "กว้าง: ตัวเลข · <code>\"66%\"</code> ของที่ว่างในแม่ · <code>\"fill\"</code> กินที่เหลือ · <code>\"hug\"</code> เท่าเนื้อหา", "\"66%\""], "h": ["ขนาด", "สูง: แบบเดียวกับ <code>w</code>", "1.4"], "grow": ["ขนาด", "น้ำหนักแบ่งที่เหลือในแกนหลักของแม่ (0 = ไม่เอา)", "1"], "shrink": ["ขนาด", "ยอมหดเมื่อที่ไม่พอ (ตั้งต้น: ขนาดตายตัว 0 · ข้อความ/คอนเทนเนอร์ 1)", "0"], "minW": ["ขนาด", "กว้างอย่างน้อย", "40"], "maxW": ["ขนาด", "กว้างไม่เกิน", "200"], "minH": ["ขนาด", "สูงอย่างน้อย — spacer ที่ grow แต่ไม่ยอมแบนกว่านี้", "6"], "maxH": ["ขนาด", "สูงไม่เกิน", "120"], "aspect": ["ขนาด", "กว้าง ÷ สูง · ระบุแกนเดียว อีกแกนคิดให้", "1"], "pad": ["ระยะ/การจัด", "ระยะขอบใน: <code>8</code> · <code>[บนล่าง, ซ้ายขวา]</code> · <code>[บน, ขวา, ล่าง, ซ้าย]</code>", "[18, 18, 16, 18]"], "gap": ["ระยะ/การจัด", "ระยะระหว่างลูก · ติดลบ = ให้ซ้อนกัน (พาดหัวสองบรรทัดชิดกัน)", "-6.6"], "align": ["ระยะ/การจัด", "จัดลูกในแกนขวาง: <code>start</code> <code>center</code> <code>end</code> <code>stretch</code> (เต็ม)", "\"center\""], "alignSelf": ["ระยะ/การจัด", "จัดตัวเองในแกนขวาง (ชนะ <code>align</code> ของแม่)", "\"end\""], "justify": ["ระยะ/การจัด", "จัดลูกในแกนหลัก: <code>start</code> <code>center</code> <code>end</code> <code>between</code> <code>around</code>", "\"between\""], "wrap": ["ระยะ/การจัด", "ล้นแล้วขึ้นบรรทัดใหม่ (chips ตั้งต้น true)", "false"], "place": ["ระยะ/การจัด", "ใน <code>stack</code>: มุม/ขอบที่วาง <code>top-left</code> … <code>center</code> … <code>bottom-right</code>", "\"top-right\""], "dx": ["ระยะ/การจัด", "ขยับแนวนอนหลังวาง (ใช้กับ place)", "-12"], "dy": ["ระยะ/การจัด", "ขยับแนวตั้งหลังวาง", "10"], "rotate": ["ระยะ/การจัด", "หมุน (องศา) ตอนวาด ทั้งกิ่ง · ไม่กระทบการคำนวณกล่อง", "-3"], "fill": ["การทาสี", "สีพื้น: token ของธีม (<code>plate</code> <code>accent</code> <code>ink@0.24</code> …) หรือ hex", "\"plate\""], "gradient": ["การทาสี", "ไล่สี <code>{from, to, angle}</code> · 0 = ซ้าย→ขวา · 90 = บน→ล่าง", "{\"from\":\"accent\",\"to\":\"plate\",\"angle\":90}"], "radius": ["การทาสี", "มุมโค้ง", "20"], "circle": ["การทาสี", "มุม = ครึ่งด้านสั้น (วงกลม/แคปซูล)", "true"], "stroke": ["การทาสี", "เส้นขอบด้านใน <code>{color, width, dash?}</code>", "{\"color\":\"line@0.3\",\"width\":1}"], "opacity": ["การทาสี", "ความทึบทั้งกิ่ง", "0.6"], "shadow": ["การทาสี", "เงา <code>{sigma, x, y, color}</code> หน่วย sigma (ต้องแปลงต่อ platform)", "{\"sigma\":4,\"y\":2}"], "clip": ["การทาสี", "ตัดลูกทุกตัวด้วยกล่องนี้ (ตามมุม/รูปร่าง)", "true"], "shape": ["การทาสี", "รูปร่างพิเศษ: <code>tag:16</code> <code>heart</code> <code>scallop:8</code> <code>zigzag:10</code> <code>circle</code>", "\"scallop:8\""], "pattern": ["การทาสี", "ลายทับพื้น <code>{kind, color, size, …}</code> · gingham stripes dots grid …", "{\"kind\":\"dots\",\"size\":6}"], "platePattern": ["การทาสี", "ลายแผ่นที่ผู้ใช้เลือกในถาด (ค่า <code>pattern</code> ของชิ้นในการ์ด) วางบนแผ่นสีนี้", "\"plate\""], "slot": ["ข้อความ", "ข้อความมาจากไหน: ช่องของเจ้าของใน Model ของหมวด (<code>name</code> …) · ใน each <code>$field</code> · อ่านอย่างเดียว แตะแก้ไม่ได้", "\"name\""], "text": ["ข้อความ", "ข้อความตายตัวของดีไซน์ (ใช้เมื่อไม่มี slot) · ใส่ <code>{field}</code> ได้", "\"ABOUT ME\""], "face": ["ข้อความ", "ฟอนต์: <code>noto</code> <code>mitr</code> <code>serif</code> <code>rounded</code> … (ไฟล์ฟอนต์เดียวกันทุก platform) · ผู้ใช้เลือกฟอนต์ช่องไว้ = ชนะ", "\"noto\""], "weight": ["ข้อความ", "น้ำหนัก 100–900", "800"], "size": ["ข้อความ", "ขนาดตัวอักษร (หน่วยออกแบบ) · คูณขั้นขนาดที่ผู้ใช้ตั้ง", "22"], "maxLines": ["ข้อความ", "บรรทัดสูงสุด · 0 = ไม่จำกัด", "1"], "shrinkTo": ["ข้อความ", "ไม่พอที่ → ลดทีละ 0.5 ได้ถึงขนาดนี้ · ไม่ใส่ = ไม่ย่อ ตัด …", "12"], "growTo": ["ข้อความ", "ขยายจาก size จนบรรทัดเดียวเต็มกว้าง (พาดหัวแบบเต็มบรรทัด)", "64"], "role": ["ข้อความ", "บทบาทต่อขนาดต่ำสุดที่อ่านออก: <code>title</code> (18) · <code>content</code> (12) · <code>deco</code> (ไม่มี)", "\"title\""], "kerning": ["ข้อความ", "ระยะตัวอักษร (pt)", "-0.66"], "tracking": ["ข้อความ", "ระยะตัวอักษร (pt)", "1.2"], "lineHeight": ["ข้อความ", "ตัวคูณความสูงบรรทัด (1 = ของฟอนต์)", "1.1"], "textCase": ["ข้อความ", "<code>upper</code> / <code>lower</code>", "\"upper\""], "textAlign": ["ข้อความ", "<code>left</code> <code>center</code> <code>right</code>", "\"center\""], "italic": ["ข้อความ", "ตัวเอียง", "true"], "color": ["ข้อความ", "สีตัวอักษร (token หรือ hex)", "\"plateInk\""], "sizeWhen": ["ข้อความ", "เปลี่ยนขนาดตามกล่อง <code>[{when, size}]</code>", "[{\"when\":\"w<260\",\"size\":18}]"], "mixHead": ["ข้อความ", "พาดหัวสองเสียง: คำแรกตามฟอนต์ ที่เหลือเซริฟเอียง (เช่น MY <i>Social</i>)", "true"], "photo": ["รูป/ไอคอน", "รูปช่องที่ N ของชิ้น (ใน each: <code>$photo</code>)", "1"], "fit": ["รูป/ไอคอน", "<code>cover</code> (ตั้งต้น) / <code>contain</code>", "\"cover\""], "lift": ["รูป/ไอคอน", "ใช้รูปที่ลบพื้นหลังแล้ว (คัตเอาต์)", "true"], "icon": ["รูป/ไอคอน", "ชื่อไอคอน: <code>ph:</code> Phosphor · <code>sh:</code> asset แอป · <code>byline</code> <code>qr</code> … · <code>$icon</code> จากรายการ", "\"$icon\""], "tint": ["รูป/ไอคอน", "สีของไอคอน", "\"plateInk@0.9\""], "list": ["รายการ", "ชื่อรายการที่จะวาดซ้ำ: <code>socials</code> <code>rates</code> <code>works</code> <code>categories</code> <code>brands</code> <code>contacts</code> …", "\"socials\""], "each": ["รายการ", "แม่พิมพ์ 1 ชิ้นของรายการ · ใช้ <code>$field</code> <code>$i</code> ข้างในได้", "{ \"type\": \"row\", … }"], "limit": ["รายการ", "เอาไม่เกิน N ชิ้น", "4"], "where": ["รายการ", "กรองชิ้นก่อนวาด (เงื่อนไขแบบ if)", "\"$viewsRaw>0\""], "sort": ["รายการ", "เรียงก่อนวาด", "\"followersRaw desc\""], "group": ["รายการ", "เก็บชิ้นแรกของแต่ละค่า", "\"platform\""], "direction": ["รายการ", "<code>row</code> (ตั้งต้น ขึ้นบรรทัดเอง) / <code>col</code> เรียงลง", "\"col\""], "pct": ["รายการ", "ขนาดแกนหลัก = ค่า % ของที่ว่าง (แถบกราฟ)", "\"$shareRaw\""], "fillCycle": ["รายการ", "สีพื้นวนตามลำดับชิ้น", "[\"accent\",\"white\"]"], "rotateCycle": ["รายการ", "องศาวนตามลำดับชิ้น", "[-4, 2.5]"], "if": ["เงื่อนไข", "วาดโหนดนี้เฉพาะเมื่อจริง · ธง <code>papered</code> <code>stamped</code> <code>bordered</code> <code>has:slot</code> <code>list:x&gt;N</code> <code>$i=first</code> … · <code>!</code> ไม่ <code>&amp;</code> และ <code>|</code> หรือ", "\"!papered\""], "photoRef": ["รูป/ไอคอน", "ช่องรูปจากฟิลด์ของรายการ (ชนะ <code>photo</code>) — รูปผลงานของชิ้นที่กำลังปั๊ม", "\"$workPhoto\""], "src": ["รูป/ไอคอน", "รูปจาก asset/URL ของรายการ (<code>$cover</code> <code>$brandLogo</code>) · ว่าง = กลับไปใช้ช่องรูป", "\"$cover\""], "mono": ["รูป/ไอคอน", "วาดรูปเป็นขาวดำ", "true"]}
+  const T = document.getElementById('tree'), KP = document.getElementById('keys'), HL = document.getElementById('xhl')
+  document.getElementById('ximg').setAttribute('href', document.getElementById('real').getAttribute('href'))
+  const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+  const val = (v) => (typeof v === 'string' ? `<span class="js">"${esc(v)}"</span>` : typeof v === 'number' ? `<span class="jn">${v}</span>` : typeof v === 'boolean' ? `<span class="jb">${v}</span>` : `<span class="jo">${esc(JSON.stringify(v))}</span>`)
+  const re = (path) => new RegExp('^' + path.replace(/\//g, '\\/').replace(/\*/g, 'c\\d+') + '$')
+  const boxesOf = (path) => { const r = re(path); return BOXES.filter((b) => r.test(b[0])) }
+  const nodes = []
+  function build(node, path, depth, tmpl) {
+    const i = nodes.length, bs = boxesOf(path)
+    nodes.push({ node, path, depth, tmpl, bs })
+    const kids = node.children || []
+    const line = document.createElement('div')
+    line.className = 'tn' + (bs.length ? '' : ' off')
+    line.setAttribute('role', 'treeitem'); line.tabIndex = 0; line.dataset.i = i
+    line.style.paddingLeft = 10 + depth * 16 + 'px'
+    const attrs = Object.entries(node).filter(([k]) => k !== 'children' && k !== 'each' && k !== 'type' && k !== 'id')
+    line.innerHTML = `<span class="tt ty-${node.type}">${node.type}</span>${node.id ? `<span class="tid">${esc(node.id)}</span>` : ''}`
+      + attrs.map(([k, v]) => `<span class="ta2"><span class="jk">${k}</span>:${val(v)}</span>`).join('')
+      + (bs.length > 1 ? `<span class="cnt">×${bs.length}</span>` : '') + (tmpl ? '<span class="tm">ต่อช่อง</span>' : '')
+    T.appendChild(line)
+    if (node.each) {
+      const h = document.createElement('div'); h.className = 'tnote'; h.style.paddingLeft = 10 + (depth + 1) * 16 + 'px'
+      h.textContent = 'each — แม่พิมพ์ 1 ช่อง · ปั๊มตาม list "' + node.list + '"'; T.appendChild(h)
+      build(node.each, path + '/*', depth + 1, true)
+    }
+    kids.forEach((c, k) => build(c, path + '/' + k, depth + 1, tmpl))
+  }
+  build(SPEC.root, 'r', 0, false)
+  function select(i) {
+    const n = nodes[i]
+    T.querySelectorAll('.tn').forEach((e) => e.classList.toggle('sel', Number(e.dataset.i) === i))
+    HL.innerHTML = n.bs.map(([id, t, x, y, w, h]) => `<rect x="${x}" y="${y}" width="${Math.max(w, 1.2)}" height="${Math.max(h, 1.2)}" rx="1.5"/>`).join('')
+    const rows = Object.entries(n.node).filter(([k]) => k !== 'children').map(([k, v]) => {
+      const d = K[k] || ['', 'key ของตัววาด/ตัวคำนวณ']
+      let shown = k === 'each' ? '{ แม่พิมพ์ … }' : JSON.stringify(v)
+      if (shown.length > 60) shown = shown.slice(0, 57) + '…'
+      return `<div class="kr"><code class="kk">${k}</code><code class="kv">${esc(shown)}</code><span>${d[1]}</span></div>`
+    }).join('')
+    const b = n.bs[0]
+    const st = n.bs.length ? `<p class="kst ok">วาด ${n.bs.length > 1 ? n.bs.length + ' กล่อง' + (n.tmpl ? ' (ช่องที่เงื่อนไขจริง ช่องละ 1)' : '') : '1 กล่อง'} · ${b[2]}, ${b[3]} · ${b[4]} × ${b[5]}${b[6] ? ' · "' + esc(b[6]) + '" ขนาด ' + b[7] : ''}</p>`
+      : `<p class="kst no">ไม่ถูกวาดในรอบนี้ — <code>if</code> เป็นเท็จ${n.node.if ? ' (<code>' + esc(n.node.if) + '</code>)' : ' (อยู่ใต้โหนดที่ถูกตัด)'}</p>`
+    KP.innerHTML = `<h4><span class="tt ty-${n.node.type}">${n.node.type}</span> ${n.node.id ? esc(n.node.id) : ''}</h4>${st}<div class="krs">${rows}</div>`
+  }
+  T.addEventListener('click', (e) => { const l = e.target.closest('.tn'); if (l) select(Number(l.dataset.i)) })
+  T.addEventListener('keydown', (e) => {
+    const l = e.target.closest('.tn'); if (!l) return
+    const all = [...T.querySelectorAll('.tn')], k = all.indexOf(l)
+    if (e.key === 'ArrowDown' && all[k + 1]) { all[k + 1].focus(); select(Number(all[k + 1].dataset.i)); e.preventDefault() }
+    if (e.key === 'ArrowUp' && all[k - 1]) { all[k - 1].focus(); select(Number(all[k - 1].dataset.i)); e.preventDefault() }
+    if (e.key === 'Enter' || e.key === ' ') { select(Number(l.dataset.i)); e.preventDefault() }
+  })
+  select(nodes.findIndex((n) => n.node.id === 'line1' && n.bs.length))
+
+  // ---------- ตารางคีย์ระดับโหนด (จากพจนานุกรมเดียวกับตัวเปิด) ----------
+  const groups = {}
+  Object.entries(K).forEach(([k, [g, m, ex]]) => { if (g) (groups[g] = groups[g] || []).push([k, m, ex]) })
+  document.getElementById('kgroups').innerHTML = Object.entries(groups).map(([g, rows], gi) => `<details${gi === 0 ? ' open' : ''}><summary>${g} <small>${rows.length} key</small></summary><div class="tbl"><table><thead><tr><th>key</th><th>ตัวอย่าง</th><th>ความหมาย</th></tr></thead><tbody>`
+    + rows.map(([k, m, ex]) => `<tr><td><code>${k}</code></td><td>${ex ? `<code>${esc(ex)}</code>` : ''}</td><td>${m}</td></tr>`).join('') + `</tbody></table></div></details>`).join('')
+
+  // ---------- การ์ด JSON ----------
+  const CK = {"schemaVersion": ["schemaVersion", "<p>รุ่นของรูปแบบไฟล์ · เปลี่ยนเมื่อโครงสร้างเปลี่ยนจนอ่านของเก่าไม่ได้</p>"], "format": ["format", "<p><code>\"story\"</code> = 1 หน้า 540×960 · <code>\"portfolio\"</code> = 3 หน้า กว้าง 402 (สูงตามจอ)</p>"], "name": ["name", "<p>ชื่อการ์ดที่ผู้ใช้ตั้ง (หรือชื่อเทมเพลตที่เริ่ม)</p>"], "theme": ["theme", "<p>หน้าตาของการ์ดทั้งใบ — ทุก widget อ่านสีจากที่นี่ผ่าน token (<code>ink</code> <code>accent</code> <code>plate</code> …)</p><ul><li><code>palette</code> ชุดสี · <code>duo</code> คู่สี · <code>duoFlipped</code> สลับคู่</li><li><code>ink</code> หมึก <code>night</code>/<code>day</code> · <code>inkAuto</code> เลือกหมึกเองตามพื้น</li><li><code>backdrop</code> พื้นหลัง (solid/gradient/photo) · <code>brightness</code> <code>hueShift</code></li><li><code>corner</code> มุมของชิ้น · <code>strip</code> แถบผู้ออกบัตร · <code>photoEffect</code> <code>photoDim</code> ของรูปพื้นหลัง</li></ul>"], "pages": ["pages[]", "<p>หน้าของการ์ด (story 1 หน้า · portfolio 3 หน้า) · แต่ละหน้ามีแค่ <code>items</code></p>"], "items": ["pages[].items[]", "<p>ชิ้นบนหน้า — <b>ลำดับในอาร์เรย์ = ใครได้ที่ก่อน</b> เวลาสองชิ้นขอที่เดียวกัน (ชิ้นหลังถูกดันลง)</p><ul><li><code>id</code> UUID — กุญแจของรูปของชิ้นนี้ใน <code>photos</code> (ก้อนข้อความ: ข้อความใน <code>notes</code>)</li><li><code>kind</code> ชื่อแบบ → ไฟล์แบบ JSON</li><li><code>x y w h</code> กรอบที่ผู้ใช้ <b>ขอ</b> (หน่วยออกแบบของหน้า) · ตำแหน่งที่ได้จริงคิดตอนวาด ไม่เขียนกลับ</li><li><code>surface</code> <code>glass</code> <code>dim</code> <code>clear</code> <code>pane</code> → ธง <code>papered</code>/<code>surface=</code> ในแบบ · <code>border</code> → ธง <code>bordered</code></li></ul>"], "opts": ["items[] ตัวเลือกรายชิ้น", "<p>มีเฉพาะบางชนิด · ไม่มี = ค่าตั้งต้น</p><ul><li><code>face</code> <code>tint</code> <code>scale</code> <code>align</code> <code>points</code> หน้าตาตัวอักษรของก้อนข้อความ <b>เท่านั้น</b> — widget วาดตามแบบ + ธีม ไม่มีการปรับฟอนต์/ขนาด/สีรายช่อง</li><li><code>pattern</code> ลายแผ่น · <code>kit</code> ตั้งค่าชุดห้าสไตล์ (<code>style</code> <code>corner</code> <code>fill</code> <code>opts</code>)</li><li><code>pinned</code> ตรา Sale Here ที่ตรึงก้นหน้า · <code>sealStyle</code> <code>blindEmboss</code> <code>noEmboss</code> <code>keepPhotoBG</code></li></ul>"], "notes": ["notes", "<p>ข้อความของ <b>ก้อนข้อความ</b> (ชั้นข้อความแบบ IG) เท่านั้น · คีย์ = id ของก้อน · widget ไม่มีช่องพิมพ์ — ข้อความบน widget มาจาก Model ของหมวดหรือป้ายตายตัวในแบบ</p>"], "photos": ["photos", "<p>รูปในช่องของชิ้น · คีย์ <code>\"&lt;id&gt;#&lt;ช่อง&gt;\"</code> → <code>\"photo\": 1</code> ในแบบ</p><ul><li><code>imageId</code> ไฟล์รูป (อัปโหลดแยก ไม่ส่งผ่าน GraphQL)</li><li><code>fit</code> <code>{dx, dy, zoom}</code> ที่ผู้ใช้เลื่อน/ซูมไว้</li></ul><p>ไม่มีคีย์ = ใช้รูปของเจ้าของตามลำดับ (creatorImageIds → workImageIds)</p>"], "owner": ["owner", "<p>ข้อมูลของเจ้าของการ์ด ที่ <code>slot</code>/<code>list</code> ในแบบอ่าน</p><ul><li><code>values</code> ช่องข้อความ: <code>name</code> <code>about</code> <code>handle</code> <code>phone</code> <code>lineId</code> … → <code>\"slot\": \"name\"</code></li><li><code>intake</code> ข้อมูลจาก Star Profile: <code>socials[]</code> <code>rates</code> <code>availability</code> … → <code>\"list\": \"socials\"</code></li><li><code>creatorImageIds</code> <code>workImageIds</code> <code>libraryImageIds</code> รูปของเจ้าของ</li></ul>"], "backgroundImageId": ["backgroundImageId", "<p>รูปพื้นหลังของการ์ด (ถ้า <code>theme.backdrop</code> เป็นรูป) · <code>null</code> = ลบ</p>"]}
+  const CT = "{\n  [[schemaVersion|\"schemaVersion\"]]: 1,\n  [[format|\"format\"]]: \"portfolio\",\n  [[name|\"name\"]]: \"สปอตไลต์ โปสเตอร์\",\n  [[theme|\"theme\"]]: { \"palette\": \"ruby\", \"ink\": \"night\", \"corner\": \"soft\",\n             \"backdrop\": \"solid\", \"brightness\": 0.2, \"duo\": \"cocoa\", … },\n  [[pages|\"pages\"]]: [ {\n    [[items|\"items\"]]: [\n      { \"id\": \"F834…7036\", \"kind\": \"statPoster\",\n        \"x\": 18, \"y\": 18, \"w\": 366, \"h\": 214,\n        \"surface\": \"glass\", \"border\": true,\n        [[opts|\"pattern\": \"diamond\"]] },\n      { \"id\": \"3C25…BEB2\", \"kind\": \"kitProfile\", …,\n        [[opts|\"kit\": { \"style\": \"cream\", \"corner\": \"round\" }]] }\n    ] },\n    { \"items\": [ … ] }, { \"items\": [ … ] }\n  ],\n  [[notes|\"notes\"]]:  { \"9A0D…11C2\": \"ข้อความในก้อนข้อความ\" },\n  [[photos|\"photos\"]]: { \"73EB…2A9E#7\": { \"imageId\": \"3b1e…bcf2\",\n                           \"fit\": { \"dx\": 0.12, \"dy\": -0.05, \"zoom\": 1.4 } } },\n  [[owner|\"owner\"]]: {\n    \"values\": { \"name\": \"มณีรัตน์\", … },\n    \"intake\": { \"socials\": [ { \"type\": \"instagram\", \"followers\": 24800 }, … ] },\n    \"creatorImageIds\": [ \"b2fa…\", \"52ef…\", \"7ddb…\" ], \"workImageIds\": [ … ]\n  },\n  [[backgroundImageId|\"backgroundImageId\"]]: null\n}"
+  const ct = document.getElementById('ctree'), ck = document.getElementById('ckey')
+  ct.innerHTML = CT.replace(/\[\[(.+?)\|(.+?)\]\]/g, (_, key, label) => `<button type="button" class="ckb" data-k="${key}">${label}</button>`)
+  const showCK = (k) => {
+    ct.querySelectorAll('.ckb').forEach((b) => b.classList.toggle('sel', b.dataset.k === k))
+    const [title, body] = CK[k]; ck.innerHTML = `<h4><code>${title}</code></h4>${body}`
+  }
+  ct.addEventListener('click', (e) => { const b = e.target.closest('.ckb'); if (b) showCK(b.dataset.k) })
+  showCK('items')
+  // แถบความสูงของคอลัมน์ body (จาก fixture) — 214 → ×2 px
+  ;(() => {
+    const seg = [['pd', 'pad บน', 18], ['fx', 'spacer (stamped)', 8], ['fx', 'headline', 59.88], ['fx', 'spacer', 10], ['fx', 'rule', 1.4], ['gr', 'grow 1', 7.66], ['fx', 'stats (chips)', 84.59], ['gr', 'grow 1', 7.66], ['fx', 'foot', 0.8], ['pd', 'pad ล่าง', 16]]
+    const g = document.getElementById('gbar')
+    g.style.gridTemplateRows = seg.map((x) => x[2] * 2 + 'px').join(' ')
+    g.innerHTML = seg.map(([c, n, h]) => `<div class="${c}" title="${n} ${h}">${h >= 7 ? `<span>${n}</span><span>${h}</span>` : ''}</div>`).join('')
+  })()
+</script>
+<script>
+  // แท็บโค้ดของชั้น 4 (SwiftUI · Compose · Web)
+  document.querySelectorAll('.tabs').forEach((tabs) => {
+    const box = tabs.parentElement
+    tabs.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-tab]')
+      if (!b) return
+      tabs.querySelectorAll('button').forEach((x) => x.setAttribute('aria-selected', String(x === b)))
+      box.querySelectorAll('[data-panel]').forEach((p) => { p.hidden = p.dataset.panel !== b.dataset.tab })
+    })
+  })
+</script>
+<script>
+  // ---------- หมวด = Model: JSON ต่อหมวดจาก shared/category-models.json ----------
+  const CM = {"hero": {"l": "โปรไฟล์", "lock": "สายงาน", "trial": "values.nickname · intake.availability.provinces[0] · intake.interests[] (tagline = interests ต่อกัน)", "real": "nickname · caption · preferredProvinces[0] · categories{name} · tagline แอปสร้างจาก categories", "miss": "", "n": 9, "fields": ["slot:nickname", "slot:tagline", "slot:workArea", "slot:categories#N", "list:categories", "list:categories.text"], "borrow": ["list:socials", "list:socials.handle", "list:socials.followersRaw", "list:socials.platform"]}, "seal": {"l": "ตรารับรอง", "lock": "ยืนยันตัวตน (KYC)", "trial": "intake.status", "real": "isVerify · userVerify.status", "miss": "", "n": 1, "fields": [], "borrow": ["count:socials"]}, "intro": {"l": "แนะนำตัว", "lock": "แนะนำตัว", "trial": "values.{about nickname} · tagline = intake.interests ต่อกัน", "real": "caption · nickname · tagline แอปสร้างจาก categories", "miss": "", "n": 8, "fields": ["slot:about", "slot:tagline", "slot:nickname", "slot:workArea"], "borrow": ["slot:categories#N", "list:categories", "list:categories.text"]}, "text": {"l": "ข้อความ", "lock": "—", "trial": "— (ชั้นข้อความ พิมพ์เองในการ์ด)", "real": "—", "miss": "", "n": 0, "fields": [], "borrow": []}, "followers": {"l": "ผู้ติดตาม", "lock": "ช่องทาง", "trial": "intake.socials[] {type link followers source}", "real": "socialProfiles {type profileUrl followerCount avgViewCount avgEngagementCount statusSyncFollower}", "miss": "ไม่มี syncedAt · X ไม่อยู่ใน SocialProfileType", "n": 10, "fields": ["list:socials", "list:socials.platform", "list:socials.name", "list:socials.short", "list:socials.icon", "list:socials.tint", "list:socials.handle", "list:socials.followers", "list:socials.followersFull", "list:socials.followersRaw", "list:socials.views", "list:socials.viewsRaw", "list:socials.engagement", "list:socials.engagementRaw", "list:socials.verified", "list:socials.synced", "stat:totalFollowers", "count:socials"], "borrow": ["slot:tagline"]}, "audience": {"l": "ผู้ชม", "lock": "insight ผู้ชม", "trial": "MOCK ทั้งก้อน", "real": "ไม่มี", "miss": "ต้องเพิ่ม: เพศ/อายุ/จังหวัดผู้ติดตาม · reach", "n": 7, "fields": ["list:gender", "list:gender.label", "list:gender.share", "list:gender.shareRaw", "list:gender.tint", "list:ages", "list:ages.label", "list:ages.share", "list:ages.shareRaw", "list:places", "list:places.name", "list:places.share", "list:places.shareRaw", "count:places", "stat:reach", "stat:reachDelta", "stat:reachNew", "stat:reachWindow"], "borrow": ["list:socials", "list:socials.name", "list:socials.engagementRaw"]}, "tags": {"l": "หมวดหมู่", "lock": "สายงาน", "trial": "intake.interests[]", "real": "categories(limit: 20){name}", "miss": "", "n": 7, "fields": ["slot:categories#N", "list:categories", "list:categories.text"], "borrow": []}, "brand": {"l": "แบรนด์", "lock": "งานผ่าน Sale Here ≥ 1", "trial": "MOCK track.brands[]", "real": "ข้อเสนอ starTrackRecord.brands{name logo campaigns}", "miss": "ยังไม่ทำ (อยู่ใน api/star-card schema)", "n": 4, "fields": ["list:brands", "list:brands.name", "list:brands.logo", "list:brands.industry", "stat:brandCount"], "borrow": []}, "verified": {"l": "ผลงานยืนยัน", "lock": "งานผ่าน Sale Here ≥ 1", "trial": "MOCK track.works[]", "real": "ไม่มี", "miss": "ผลงานต่อแคมเปญ (วิว saves shares) ยังไม่มีแม้ในข้อเสนอ", "n": 3, "fields": ["list:works", "list:works.brand", "list:works.brandLogo", "list:works.campaign", "list:works.ep", "list:works.platform", "list:works.icon", "list:works.tint", "list:works.format", "list:works.cover", "list:works.workPhoto", "list:works.views", "list:works.viewsRaw", "list:works.saves", "list:works.shares", "list:works.likes", "list:works.comments", "list:works.engagement", "list:works.viralTag", "stat:workCount"], "borrow": []}, "photo": {"l": "รูปผลงาน", "lock": "—", "trial": "photos · workImageIds", "real": "portfolio.images/videos", "miss": "", "n": 17, "fields": [], "borrow": ["list:works", "list:works.icon"]}, "showcase": {"l": "แผ่นโชว์ผลงาน", "lock": "—", "trial": "photos · workImageIds", "real": "portfolio.images/videos", "miss": "", "n": 1, "fields": [], "borrow": []}, "rate": {"l": "เรตราคา", "lock": "เรต", "trial": "intake.rates[] {platform formatKey price}", "real": "socialProfiles.{photo short long sharing}Price (+ suggested*)", "miss": "", "n": 2, "fields": ["slot:rateLabels#N", "slot:ratePrices#N", "list:rates", "list:rates.label", "list:rates.price", "list:rates.priceRaw", "list:rates.priceNum", "list:rates.unit", "list:rates.platform", "list:rates.platformName", "list:rates.platformOrder", "list:rates.icon", "list:rates.tint", "list:rates.format", "stat:rateCount"], "borrow": []}, "availability": {"l": "วันเวลาและพื้นที่", "lock": "วันเวลารับงาน", "trial": "intake.availability {days slots provinces}", "real": "availableTimes{day timeSlots} · preferredProvinces", "miss": "avail เป็นข้อความยังไม่แปลงจาก days/slots", "n": 1, "fields": ["list:avail", "list:avail.text", "list:areas", "list:areas.text", "slot:workArea"], "borrow": []}, "body": {"l": "สัดส่วน", "lock": "สัดส่วน", "trial": "MOCK", "real": "bodyMeasurement{weight height chest waist hip shoeSize}{value unit}", "miss": "มีใน API แล้ว แต่ยังไม่ต่อเข้า owner", "n": 1, "fields": ["list:body", "list:body.kind", "list:body.label", "list:body.value", "list:body.num", "list:body.unit", "list:body.wide"], "borrow": []}, "contact": {"l": "ติดต่อ", "lock": "—", "trial": "values.{phone email lineId}", "real": "creatorProfile.{tel lineId website} (+ show* toggle)", "miss": "email · เว็บไซต์ยังไม่ส่งเข้า owner", "n": 11, "fields": ["slot:phone", "slot:email", "slot:lineId", "slot:website", "list:contacts", "stat:phoneFmt", "stat:site", "stat:lineFlow"], "borrow": []}};
+  const mp = document.getElementById('mpick'), mj = document.getElementById('mjson'), mi = document.getElementById('minfo')
+  const mesc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+  mp.innerHTML = Object.entries(CM).map(([c, d]) => `<button type="button" role="tab" data-c="${c}" aria-selected="false">${c}<small>${d.l} · ${d.n}</small></button>`).join('')
+  function pickCat(c) {
+    const d = CM[c]
+    mp.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.c === c)))
+    const list = (a) => a.length ? '[\n    ' + a.map((f) => `"${f}"`).join(',\n    ') + '\n  ]' : '[]'
+    mj.innerHTML = `<span class="mk">"${c}"</span>: {\n  "fields": ${list(d.fields)}${d.borrow.length ? `,\n  "borrow": ${list(d.borrow)}` : ''}\n}`
+    mi.innerHTML = `<div><b>WIDGET</b><span>${d.n} ใบในหมวดนี้ · ใช้ได้แค่ field ข้างซ้าย + ฐาน</span></div>`
+      + `<div><b>ล็อกจน</b><span>${mesc(d.lock)}</span></div>`
+      + `<div><b>ทดลอง</b><span><code>owner</code> → ${mesc(d.trial)}</span></div>`
+      + `<div><b>ของจริง</b><span><code>User</code> → ${mesc(d.real)}</span></div>`
+      + (d.miss ? `<div><b>❗</b><span class="miss">${mesc(d.miss)}</span></div>` : '')
+  }
+  mp.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) pickCat(b.dataset.c) })
+  pickCat('followers')
+</script>

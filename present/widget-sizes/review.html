@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget Keep Review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Kanit:wght@500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#F4F4F2;--panel:#fff;--ink:#16181D;--ink-2:#5B616E;--ink-3:#8D93A0;--line:#E3E4E8;--chip:#F0F1F3;--keep:#1B8A3A;--keep-bg:#E6F5EA;--drop:#C2410C;--drop-bg:#FDECE4;--maybe:#8D93A0;--f:"Anuphan",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1115;--panel:#191C22;--ink:#F2F3F5;--ink-2:#B3B9C5;--ink-3:#7E8796;--line:#2B2F37;--chip:#22262D;--keep:#6BD38B;--keep-bg:#12301B;--drop:#FB923C;--drop-bg:#33190B;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1115;--panel:#191C22;--ink:#F2F3F5;--ink-2:#B3B9C5;--ink-3:#7E8796;--line:#2B2F37;--chip:#22262D;--keep:#6BD38B;--keep-bg:#12301B;--drop:#FB923C;--drop-bg:#33190B;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding:20px 16px 120px}
+h1{font-family:Kanit,var(--f);font-weight:600;font-size:28px;margin:0 0 4px}
+.sub{color:var(--ink-2);margin:0 0 14px}
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);margin:0 -16px;padding:10px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+#nav a{flex:none;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;white-space:nowrap}
+#nav a.done{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#tally{font-size:13px;color:var(--ink-2);white-space:nowrap}
+#tally b.k{color:var(--keep)} #tally b.d{color:var(--drop)}
+section{scroll-margin-top:64px}
+section>h2{font-family:Kanit,var(--f);font-weight:600;font-size:22px;margin:26px 0 12px;display:flex;gap:10px;align-items:baseline}
+section>h2 small{color:var(--ink-3);font-weight:400;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.w{background:var(--panel);border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,opacity .15s}
+.w.keep{border-color:var(--keep)}
+.w.drop{border-color:var(--drop)}
+.w.drop .shot{opacity:.35;filter:grayscale(1)}
+.shot{background:#1B1C20;display:flex;flex-direction:column;gap:6px;align-items:center;padding:12px;cursor:zoom-in}
+.shot img{display:block;width:100%;height:auto;border-radius:6px}
+.shot img.wide{width:100%}
+.meta{padding:10px 12px 0;display:flex;flex-direction:column;gap:2px}
+.meta h3{margin:0;font-family:Kanit,var(--f);font-weight:600;font-size:15px}
+.meta code{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;background:var(--chip);color:var(--ink-2);margin-top:4px;align-self:flex-start}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px 12px;margin-top:auto}
+.btns button{font:inherit;font-weight:600;font-size:14px;padding:9px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.w.keep .b-keep{background:var(--keep);border-color:var(--keep);color:#fff}
+.w.drop .b-drop{background:var(--drop);border-color:var(--drop);color:#fff}
+.famBtns{margin-left:auto;display:flex;gap:6px}
+.famBtns button{font:inherit;font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);cursor:pointer}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:24px;z-index:10;cursor:zoom-out;overflow:auto}
+#zoom.on{display:flex}
+#zoom img{max-width:min(92vw,560px);height:auto;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>เลือก widget ที่จะเก็บ</h1>
+  <p class="sub">กด <b>เอา</b> หรือ <b>ทิ้ง</b> ทีละใบ · แตะรูปเพื่อดูครบ 3 ขนาด · ป้าย "อยู่ในเทมเพลต" = ทิ้งแล้วเทมเพลตนั้นต้องเปลี่ยน · ชุดใหม่ (kit) มี 5 สไตล์ ภาพนี้คือสไตล์แรก</p>
+  <div class="bar"><nav id="nav"></nav><span id="tally"></span></div>
+  <main id="root"></main>
+</div>
+<div id="zoom"></div>
+<script>document.write(`<script src="catalog.js?t=${Date.now()}"><\/script>`)</script>
+<script>
+const TPL = {popHeroGlass:1,popVideoGlass:1,popStatsGlass:1,popWorkGlass:1,popRateGlass:1,popNicheGlass:1,popContactGlass:1,artPortfolio:4,aboutEditorial:3,typeMarquee:3,reelShowcase:3,wallMemory:2,nichePoster:3,proofBrandCoins:3,statPoster:3,contactPoster:4,aboutText:1,audiencePoster:3,artDuo:2,contactQR:1};
+const KEY = 'widget-keep-review';
+let S = {}; try { S = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const img = (id, size) => `ios/cell-${id}-${size}-port.png?v=${BUILT}`;
+const LIST = CATALOG.filter(w => w.id !== 'textBlock');
+let html = '', nav = '';
+for (const fam of FAMILY_ORDER) {
+  const ws = LIST.filter(w => w.family === fam); if (!ws.length) continue;
+  nav += `<a href="#f-${fam}" data-fam="${fam}">${FAMILY_TH[fam]} ${ws.length}</a>`;
+  html += `<section id="f-${fam}"><h2>${FAMILY_TH[fam]}<small>${ws.length} ใบ</small><span class="famBtns"><button data-all="keep" data-fam="${fam}">เอาทั้งหมวด</button><button data-all="drop" data-fam="${fam}">ทิ้งทั้งหมวด</button></span></h2><div class="grid">`;
+  for (const w of ws) {
+    const t = TPL[w.id] ? `<span class="tag">อยู่ในเทมเพลต ${TPL[w.id]} ใบ</span>` : '';
+    html += `<article class="w" id="w-${w.id}" data-id="${w.id}"><div class="shot" data-zoom="${w.id}"><img src="${img(w.id,'large')}" alt="" loading="lazy"></div><div class="meta"><h3>${w.title}</h3><code>${w.id}</code>${t}</div><div class="btns"><button class="b-keep" data-v="keep">เอา</button><button class="b-drop" data-v="drop">ทิ้ง</button></div></article>`;
+  }
+  html += '</div></section>';
+}
+document.getElementById('root').innerHTML = html;
+document.getElementById('nav').innerHTML = nav;
+function paint() {
+  let k = 0, d = 0;
+  for (const w of LIST) {
+    const el = document.getElementById('w-' + w.id); const v = S[w.id];
+    el.classList.toggle('keep', v === 'keep'); el.classList.toggle('drop', v === 'drop');
+    if (v === 'keep') k++; if (v === 'drop') d++;
+  }
+  for (const a of document.querySelectorAll('#nav a')) {
+    const f = a.dataset.fam; a.classList.toggle('done', LIST.filter(w => w.family === f).every(w => S[w.id]));
+  }
+  document.getElementById('tally').innerHTML = `<b class="k">เอา ${k}</b> · <b class="d">ทิ้ง ${d}</b> · เหลือ ${LIST.length - k - d}`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.btns button');
+  if (b) { const id = b.closest('.w').dataset.id; S[id] = S[id] === b.dataset.v ? undefined : b.dataset.v; if (!S[id]) delete S[id]; save(); paint(); return; }
+  const all = e.target.closest('[data-all]');
+  if (all) { LIST.filter(w => w.family === all.dataset.fam).forEach(w => S[w.id] = all.dataset.all); save(); paint(); return; }
+  const z = e.target.closest('[data-zoom]');
+  const zoom = document.getElementById('zoom');
+  if (z) { const id = z.dataset.zoom; zoom.innerHTML = ['small','wide','large'].map(s => `<img src="${img(id,s)}" alt="">`).join(''); zoom.classList.add('on'); return; }
+  if (e.target.closest('#zoom')) zoom.classList.remove('on');
+});
+window.reviewState = () => S;
+paint();
+</script>
+</body>
+</html>

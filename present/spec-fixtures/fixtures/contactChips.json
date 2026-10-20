@@ -1,0 +1,2012 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        342,
+        93
+      ],
+      "boxes" : [
+        {
+          "h" : 93,
+          "id" : "r",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 149.81,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 109.81,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 108.64,
+          "x" : 157.81,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 169.81,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 68.64,
+          "x" : 185.81,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 128.5,
+          "x" : 0,
+          "y" : 42.13
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 54.19
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 88.5,
+          "x" : 28,
+          "y" : 50.13
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        210
+      ],
+      "boxes" : [
+        {
+          "h" : 210,
+          "id" : "r",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 149.81,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 109.81,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 108.64,
+          "x" : 157.81,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 169.81,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 68.64,
+          "x" : 185.81,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 128.5,
+          "x" : 0,
+          "y" : 42.13
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 54.19
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 88.5,
+          "x" : 28,
+          "y" : 50.13
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 54.14,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 270.96,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 22.07
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 230.96,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 54.14,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 184.39,
+          "x" : 0,
+          "y" : 62.14
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 84.21
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 144.39,
+          "x" : 28,
+          "y" : 70.14
+        },
+        {
+          "h" : 54.14,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 226.16,
+          "x" : 0,
+          "y" : 124.28
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 146.35
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 186.16,
+          "x" : 28,
+          "y" : 132.28
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "website",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 230.96,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 186.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 230.96,
+          "weight" : 600,
+          "width" : 230.96
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 600,
+          "width" : 144.39
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 186.16,
+          "weight" : 600,
+          "width" : 186.16
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 230.96,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 186.16,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 230.96,
+          "weight" : 600,
+          "width" : 230.96
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 144.39,
+          "weight" : 600,
+          "width" : 144.39
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 186.16,
+          "weight" : 600,
+          "width" : 186.16
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 149.81,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 109.81,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 108.64,
+          "x" : 157.81,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 169.81,
+          "y" : 12.06
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 68.64,
+          "x" : 185.81,
+          "y" : 8
+        },
+        {
+          "h" : 34.13,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 128.5,
+          "x" : 0,
+          "y" : 42.13
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 54.19
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 88.5,
+          "x" : 28,
+          "y" : 50.13
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        586,
+        93.00000000000001
+      ],
+      "boxes" : [
+        {
+          "h" : 93,
+          "id" : "r",
+          "type" : "row",
+          "w" : 586,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 46.22,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 223,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 18.11
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 183,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 46.22,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 154.4,
+          "x" : 231,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 243,
+          "y" : 18.11
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 114.4,
+          "x" : 259,
+          "y" : 8
+        },
+        {
+          "h" : 46.22,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 187.51,
+          "x" : 393.4,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 405.4,
+          "y" : 18.11
+        },
+        {
+          "h" : 30.22,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 20,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 147.51,
+          "x" : 421.4,
+          "y" : 8
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 600,
+            "size" : 20,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 600,
+            "size" : 20,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 600,
+            "size" : 20,
+            "slot" : "website",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 183,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 147.51,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 183,
+          "weight" : 600,
+          "width" : 183
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 600,
+          "width" : 114.4
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 147.51,
+          "weight" : 600,
+          "width" : 147.51
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 183,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 147.51,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 183,
+          "weight" : 600,
+          "width" : 183
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 114.4,
+          "weight" : 600,
+          "width" : 114.4
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 147.51,
+          "weight" : 600,
+          "width" : 147.51
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        225.795
+      ],
+      "boxes" : [
+        {
+          "h" : 225.8,
+          "id" : "r",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 43.65,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 207.45,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 10,
+          "id" : "r\/0\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 16.83
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "lineId",
+          "text" : "@maneerat.review",
+          "type" : "text",
+          "w" : 167.45,
+          "x" : 28,
+          "y" : 8
+        },
+        {
+          "h" : 43.65,
+          "id" : "r\/1",
+          "type" : "row",
+          "w" : 144.68,
+          "x" : 0,
+          "y" : 51.65
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 12,
+          "y" : 68.47
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/1\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "phone",
+          "text" : "0891234567",
+          "type" : "text",
+          "w" : 104.68,
+          "x" : 28,
+          "y" : 59.65
+        },
+        {
+          "h" : 43.65,
+          "id" : "r\/2",
+          "type" : "row",
+          "w" : 174.97,
+          "x" : 152.68,
+          "y" : 51.65
+        },
+        {
+          "h" : 10,
+          "id" : "r\/2\/0",
+          "type" : "icon",
+          "w" : 10,
+          "x" : 164.68,
+          "y" : 68.47
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/2\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "website",
+          "text" : "yourname.com",
+          "type" : "text",
+          "w" : 134.97,
+          "x" : 180.68,
+          "y" : 59.65
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "website",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "lineId",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "website",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "lineId",
+            "v" : "@maneerat.review"
+          },
+          {
+            "slot" : "phone",
+            "v" : "0891234567"
+          },
+          {
+            "slot" : "website",
+            "v" : "yourname.com"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 167.45,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 134.97,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 167.45,
+          "weight" : 600,
+          "width" : 167.45
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 600,
+          "width" : 104.68
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 134.97,
+          "weight" : 600,
+          "width" : 134.97
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 109.81,
+          "weight" : 600,
+          "width" : 109.81
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 68.64,
+          "weight" : 600,
+          "width" : 68.64
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 88.5,
+          "weight" : 600,
+          "width" : 88.5
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 167.45,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 134.97,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "@maneerat.review",
+          "tracking" : 0,
+          "w" : 167.45,
+          "weight" : 600,
+          "width" : 167.45
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "0891234567",
+          "tracking" : 0,
+          "w" : 104.68,
+          "weight" : 600,
+          "width" : 104.68
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "yourname.com",
+          "tracking" : 0,
+          "w" : 134.97,
+          "weight" : 600,
+          "width" : 134.97
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    117
+  ],
+  "inset" : 12,
+  "kind" : "contactChips",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

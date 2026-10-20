@@ -1,0 +1,165 @@
+/* widgets.css — ระบบดีไซน์ของ widget ทั้ง 3 ขนาด
+   ฟอนต์: Anuphan (ตัวอ่าน) · Kanit (หัวข้อหนา) · Playfair Display (เซริฟพาดหัว) · Bebas Neue (ตัวพิมพ์ใหญ่โปสเตอร์) · Pattaya (ลายมือไทย) · IBM Plex Mono (ตั๋ว/ใบเสร็จ)
+   ไม่มีฟอนต์ไทยมีหัว */
+
+.wg{
+  --w:366px; --h:178px;
+  --ink:#FFF4EA; --ink2:rgba(255,244,234,.72); --ink3:rgba(255,244,234,.46); --line:rgba(255,244,234,.16);
+  --glass:rgba(255,255,255,.075); --glass2:rgba(255,255,255,.13); --accent:#F3E1B6; --red:#E5322D;
+  --paper:#FBF6EC; --paper-ink:#22181A; --paper-ink2:#6A5A5C; --pink:#F9DDE4; --pink-ink:#4A1F2C;
+  --f-ui:"Anuphan","Noto Sans Thai",system-ui,sans-serif; --f-head:"Kanit",var(--f-ui); --f-serif:"Playfair Display",Georgia,serif;
+  --f-caps:"Bebas Neue","Kanit",sans-serif; --f-script:"Pattaya",cursive; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --r:22px;
+  width:var(--w); height:var(--h); border-radius:var(--r); position:relative; overflow:hidden; flex:none;
+  color:var(--ink); font-family:var(--f-ui); font-size:13px; line-height:1.25; -webkit-font-smoothing:antialiased;
+}
+.wg *{box-sizing:border-box; margin:0}
+.wg b{font-weight:700}
+.wg img{display:block; width:100%; height:100%; object-fit:cover}
+.wg i.ico{display:inline-flex; width:1em; height:1em; vertical-align:-.12em}
+.wg i.ico svg{width:100%; height:100%}
+
+/* พื้นผิว */
+.wg.glass{background:var(--glass); box-shadow:inset 0 0 0 1px var(--line), inset 0 1px 0 rgba(255,255,255,.08)}
+.wg.glass2{background:var(--glass2); box-shadow:inset 0 0 0 1px var(--line)}
+.wg.slab{background:#1B0A0E; box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.wg.paper{background:var(--paper); color:var(--paper-ink); --ink:var(--paper-ink); --ink2:var(--paper-ink2); --ink3:#9A8E90; --line:rgba(0,0,0,.1); --glass:rgba(0,0,0,.05); --glass2:rgba(0,0,0,.08); --accent:#5A0F1E; --seal-fill:#5A0F1E; --seal-ink:#FBF6EC}
+.wg.white{background:#fff; color:#15151A; --ink:#15151A; --ink2:#5B5B66; --ink3:#9A9AA6; --line:rgba(0,0,0,.1); --glass:rgba(0,0,0,.05); --glass2:rgba(0,0,0,.08); --accent:#15151A}
+.wg.pinkp{background:var(--pink); color:var(--pink-ink); --ink:var(--pink-ink); --ink2:#7A4A58; --ink3:#A7808C; --line:rgba(74,31,44,.14); --glass:rgba(255,255,255,.55); --glass2:rgba(255,255,255,.8); --accent:#C2185B;
+  background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px); background-size:18px 18px}
+.wg.night{background:#0B0F14; --accent:#5AC8F0}
+.wg.pad{padding:16px}
+.s-small.pad{padding:14px}
+.wg.clip{overflow:hidden}
+
+/* กรอบ/ขอบ */
+.wg.bordered{box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* ชื่อ/ป้าย */
+.wlabel{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); font-weight:600}
+.wlabel.on{color:var(--ink2)}
+.vby{display:inline-flex; align-items:center; gap:4px; font-size:9.5px; font-weight:600; letter-spacing:.02em; color:var(--ink2); background:var(--glass2); border-radius:999px; padding:3px 8px 3px 6px; white-space:nowrap}
+.vby i,.vby svg{width:11px; height:11px; color:var(--red)}
+.byline{display:flex; align-items:center; gap:4px; font-size:10px; color:var(--ink3)}
+.byline svg{width:11px; height:11px; color:var(--red)}
+.byline em{font-style:normal; font-weight:700; color:var(--ink2)}
+.corner-tr{position:absolute; top:10px; right:10px}
+.corner-br{position:absolute; bottom:10px; right:12px}
+.corner-bl{position:absolute; bottom:10px; left:12px}
+
+/* ตัวอักษรพาดหัว */
+.h-serif{font-family:var(--f-serif); font-weight:400; letter-spacing:-.01em}
+.h-serif i,.h-serif em{font-style:italic}
+.h-caps{font-family:var(--f-caps); font-weight:400; letter-spacing:.04em; line-height:.92}
+.h-kanit{font-family:var(--f-head); font-weight:700; letter-spacing:-.01em; line-height:1.05}
+.h-script{font-family:var(--f-script); font-weight:400; line-height:1}
+.mono{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.02em}
+.num{font-family:var(--f-head); font-weight:700; letter-spacing:-.02em; line-height:1}
+.muted{color:var(--ink2)} .dim{color:var(--ink3)}
+
+/* รูป */
+.avatar{--s:64px; width:var(--s); height:var(--s); border-radius:50%; overflow:hidden; flex:none; box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.avatar.sq{border-radius:18px}
+.avatar.ring{box-shadow:0 0 0 2px var(--accent), 0 0 0 5px rgba(243,225,182,.25)}
+.photo{overflow:hidden; border-radius:12px; background:#333; flex:none; min-width:0; min-height:0}
+.photo.fill{position:absolute; inset:0; border-radius:0}
+.person{position:absolute; inset:0}
+.person img{object-position:top}
+.fade-b{position:absolute; inset:0; background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.75) 100%)}
+.fade-t{position:absolute; inset:0; background:linear-gradient(0deg,transparent 40%,rgba(0,0,0,.6) 100%)}
+
+/* โซเชียล */
+.sbadge{--s:26px; width:var(--s); height:var(--s); border-radius:30%; display:inline-flex; align-items:center; justify-content:center; color:#fff; flex:none}
+.sbadge svg{width:58%; height:58%}
+.stat-cols{display:flex; justify-content:space-around; align-items:flex-start; gap:6px; width:100%}
+.stat{--big:26px; display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:0}
+.stat b{font-family:var(--f-head); font-size:var(--big); line-height:1; letter-spacing:-.02em}
+.stat small{font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3)}
+.stat-cols.divided .stat+.stat{border-left:1px solid var(--line)}
+.srow{display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:10px; background:var(--glass)}
+.srow .h{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--ink2); font-size:11.5px}
+.srow b{font-family:var(--f-head); font-size:14px}
+.srow.bare{background:none; padding:4px 0; border-bottom:1px solid var(--line); border-radius:0}
+
+/* ชิป */
+.chip{display:inline-flex; align-items:center; font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px; background:var(--glass2); color:var(--ink); white-space:nowrap; line-height:1.2}
+.chip.outline{background:none; box-shadow:inset 0 0 0 1px var(--line)}
+.chip.lg{font-size:13px; padding:7px 13px}
+.chip.xl{font-size:15px; padding:9px 16px; font-family:var(--f-head); font-weight:600}
+.chip.acc{background:var(--accent); color:#1B0A0E}
+.chip.red{background:var(--red); color:#fff}
+.chipwrap{display:flex; flex-wrap:wrap; gap:6px}
+
+/* แถบ/โดนัท */
+.bar{height:5px; border-radius:999px; background:var(--glass2); overflow:hidden}
+.bar i{display:block; height:100%; background:var(--accent); border-radius:999px}
+.bar.thick{height:9px}
+.donut{--s:56px; --p:50; width:var(--s); height:var(--s); border-radius:50%; display:grid; place-items:center; flex:none;
+  background:conic-gradient(var(--accent) calc(var(--p)*1%), var(--glass2) 0)}
+.donut::before{content:""; position:absolute; width:calc(var(--s) - 14px); height:calc(var(--s) - 14px); border-radius:50%; background:var(--hole,#2A0B12)}
+.donut{position:relative}
+.donut b{position:relative; font-family:var(--f-head); font-size:calc(var(--s)*.26)}
+.paper .donut::before,.white .donut::before{--hole:var(--paper)}
+.white .donut::before{--hole:#fff}
+
+/* QR */
+.qr{--n:15; display:grid; grid-template-columns:repeat(var(--n),1fr); gap:0; width:64px; aspect-ratio:1; background:#fff; padding:4px; border-radius:6px}
+.qr i{background:#fff} .qr i.on{background:#111}
+.qr.lg{width:120px; padding:7px; border-radius:10px}
+
+/* เหรียญโลโก้ */
+.coin{--s:44px; --hue:0; width:var(--s); height:var(--s); border-radius:50%; display:grid; place-items:center; flex:none;
+  background:hsl(var(--hue) 35% 92%); color:hsl(var(--hue) 40% 25%); font-family:var(--f-head); font-weight:700; font-size:calc(var(--s)*.2); letter-spacing:-.02em; text-align:center; line-height:1}
+.coin span{padding:0 4px}
+.coins{display:flex; gap:8px; flex-wrap:wrap}
+
+/* ตรา */
+.seal{--s:64px; width:var(--s); height:var(--s); flex:none; filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.seal svg{width:100%; height:100%}
+
+/* เรท */
+.rate{display:flex; align-items:baseline; gap:6px; padding:8px 10px; border-radius:12px; background:var(--glass)}
+.rate .l{display:inline-flex; align-items:center; gap:6px; flex:1; min-width:0; color:var(--ink2); font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; align-self:center}
+.rate b{font-family:var(--f-head); font-size:15px}
+.rate small{color:var(--ink3); font-size:10px}
+
+/* เลย์เอาต์ช่วย */
+.row{display:flex; align-items:center; gap:10px}
+.col{display:flex; flex-direction:column; gap:6px}
+.between{justify-content:space-between}
+.fill{flex:1; min-width:0}
+.center{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:4px}
+.abs{position:absolute}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.ellip{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.clamp2{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.clamp3{display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.rule{height:1px; background:var(--line)}
+.vrule{width:1px; align-self:stretch; background:var(--line)}
+
+/* สำรับกระดาษ/สติกเกอร์ (pop) */
+.pop-box{background:#fff; color:#17171C; border-radius:14px; box-shadow:0 1px 0 rgba(0,0,0,.08), 0 6px 18px rgba(0,0,0,.18); --ink:#17171C; --ink2:#5F5F6B; --ink3:#9A9AA6; --line:rgba(0,0,0,.1); --glass:#F3F3F6; --glass2:#E9E9EF}
+.pop-tab{position:absolute; top:-1px; left:14px; background:#E5322D; color:#fff; font-family:var(--f-head); font-weight:600; font-size:10.5px; padding:4px 10px 3px; border-radius:0 0 10px 10px; letter-spacing:.02em}
+.sticker{display:inline-block; background:#fff; color:#111; padding:5px 10px; border-radius:8px; font-family:var(--f-head); font-weight:700; box-shadow:0 2px 0 rgba(0,0,0,.25); transform:rotate(-2deg)}
+.tape{position:absolute; width:58px; height:16px; background:rgba(255,230,160,.75); transform:rotate(-6deg); box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.polaroid{background:#fff; padding:6px 6px 16px; border-radius:3px; box-shadow:0 6px 14px rgba(0,0,0,.3); color:#333; display:flex; flex-direction:column; gap:5px; flex:none}
+.polaroid .photo{border-radius:2px; width:100%; aspect-ratio:1}
+.polaroid small{font-family:var(--f-script); font-size:12px; color:#555; text-align:center}
+
+/* หน้าต่าง Mac */
+.macbar{display:flex; align-items:center; gap:6px; height:26px; padding:0 10px; background:#ECECEF; border-bottom:1px solid #D6D6DC; color:#6E6E78; font-size:10.5px; font-weight:600}
+.macbar i{width:10px; height:10px; border-radius:50%; background:#FF5F57} .macbar i:nth-child(2){background:#FEBC2E} .macbar i:nth-child(3){background:#28C840}
+.macbar span{margin-left:auto}
+
+/* สแครปบุ๊ก */
+.scrap-paper{background:#FFF8F3; color:#4A1F2C; border-radius:6px; box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.doodle{font-family:var(--f-script); color:#C2185B}
+
+/* ชุดใหม่ 5 สไตล์ — สไตล์ม่วงสติกเกอร์ */
+.wg.kit{background:#B57EF7; color:#141414; --ink:#141414; --ink2:#3F3550; --ink3:#6E6380; --line:rgba(20,20,20,.5); --glass:rgba(255,255,255,.55); --glass2:rgba(255,255,255,.8); --accent:#141414; --hole:#B57EF7; box-shadow:inset 0 0 0 2.5px #141414, 5px 5px 0 #141414; border-radius:18px}
+.wg.kit .vby{background:#fff}
+
+/* ขนาดเล็ก: ตัวหนังสือฐาน */
+.s-small{font-size:12px}
+.s-small .wlabel{font-size:9.5px}

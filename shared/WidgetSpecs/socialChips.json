@@ -1,0 +1,424 @@
+{
+ "kind": "socialChips",
+ "design": {
+  "w": 366,
+  "h": 224
+ },
+ "widget": {
+  "title": "ผู้ติดตามแบบแถว",
+  "category": "followers",
+  "symbol": "list.bullet.rectangle.fill",
+  "order": 13,
+  "stamp": "followers",
+  "motion": "mid"
+ },
+ "notes": "หัวข้อ 'ผู้ติดตาม' + ป้ายที่มา (ขนาดจริง: ใบมีแสตมป์ = SaleHereByline 8.5 ≈ 84×19 · ไม่มีแสตมป์ = ป้าย 'กรอกเอง · รอตรวจสอบ' ≈ 101×17) · ช่องละหนึ่งแถว (โลโก้ · ยอดฟอลโลว์/ชื่อช่อง · ▶ วิว · ER) · แปลงจาก SocialWidgets.swift (SocialChips) · chips direction col + แต่ละแถว grow 1 (= maxHeight infinity) · ค่ารอง: $verified & วิว > 0 → ▶ วิว + ER · $verified & วิว = 0 → 'รอซิงก์ข้อมูล' · ไม่ verified → 'รอเชื่อมบัญชี' · ชื่อช่อง 9.5×0.7 = 6.65 (ต้นฉบับถูก VStack บีบตามความกว้างมิเตอร์ตัวเลขจนย่อถึง minimumScaleFactor 0.7 เสมอ) · 'tight' (กว้าง < 190) = variant w<170 ตัดค่ารอง · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · ขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว · เงาที่สอง (ink.lift) ตัดทิ้ง · ไอคอน ▶ = ph:play-fill (ชุด Phosphor ที่ฝังยังไม่มี play)",
+ "variants": [
+  {
+   "when": "w<170",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "provenance:socials",
+        "w": 84,
+        "h": 19,
+        "if": "stamped"
+       },
+       {
+        "type": "icon",
+        "icon": "provenance:socials",
+        "w": 101,
+        "h": 17,
+        "if": "!stamped"
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "rows",
+      "list": "socials",
+      "direction": "col",
+      "gap": 8,
+      "grow": 1,
+      "each": {
+       "type": "stack",
+       "grow": 1,
+       "children": [
+        {
+         "type": "rect",
+         "if": "ink.light",
+         "radius": 15,
+         "gradient": {
+          "from": "white@0.92",
+          "to": "white@0.7",
+          "angle": 90
+         },
+         "stroke": {
+          "color": "$tint@0.3",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 5,
+          "y": 4,
+          "color": "$tint@0.16"
+         }
+        },
+        {
+         "type": "rect",
+         "if": "!ink.light",
+         "radius": 15,
+         "gradient": {
+          "from": "white@0.1",
+          "to": "white@0.045",
+          "angle": 90
+         },
+         "stroke": {
+          "color": "$tint@0.3",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 5,
+          "y": 4,
+          "color": "$tint@0.28"
+         }
+        },
+        {
+         "type": "row",
+         "gap": 10,
+         "align": "center",
+         "pad": [
+          8,
+          11
+         ],
+         "children": [
+          {
+           "type": "stack",
+           "w": 34,
+           "h": 34,
+           "children": [
+            {
+             "type": "rect",
+             "radius": 9,
+             "fill": "$tint@0.16",
+             "stroke": {
+              "color": "$tint@0.28",
+              "width": 0.6
+             }
+            },
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "size": 17,
+             "place": "center"
+            }
+           ]
+          },
+          {
+           "type": "col",
+           "gap": 0,
+           "align": "start",
+           "grow": 1,
+           "children": [
+            {
+             "type": "text",
+             "slot": "$followers",
+             "face": "noto",
+             "size": 17,
+             "weight": 800,
+             "color": "ink@0.98",
+             "maxLines": 1
+            },
+            {
+             "type": "text",
+             "slot": "$name",
+             "face": "noto",
+             "size": 6.65,
+             "weight": 500,
+             "color": "ink@0.42",
+             "maxLines": 1
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ผู้ติดตาม",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:socials",
+      "w": 84,
+      "h": 19,
+      "if": "stamped"
+     },
+     {
+      "type": "icon",
+      "icon": "provenance:socials",
+      "w": 101,
+      "h": 17,
+      "if": "!stamped"
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "rows",
+    "list": "socials",
+    "direction": "col",
+    "gap": 8,
+    "grow": 1,
+    "each": {
+     "type": "stack",
+     "grow": 1,
+     "children": [
+      {
+       "type": "rect",
+       "if": "ink.light",
+       "radius": 15,
+       "gradient": {
+        "from": "white@0.92",
+        "to": "white@0.7",
+        "angle": 90
+       },
+       "stroke": {
+        "color": "$tint@0.3",
+        "width": 0.8
+       },
+       "shadow": {
+        "sigma": 5,
+        "y": 4,
+        "color": "$tint@0.16"
+       }
+      },
+      {
+       "type": "rect",
+       "if": "!ink.light",
+       "radius": 15,
+       "gradient": {
+        "from": "white@0.1",
+        "to": "white@0.045",
+        "angle": 90
+       },
+       "stroke": {
+        "color": "$tint@0.3",
+        "width": 0.8
+       },
+       "shadow": {
+        "sigma": 5,
+        "y": 4,
+        "color": "$tint@0.28"
+       }
+      },
+      {
+       "type": "row",
+       "gap": 10,
+       "align": "center",
+       "pad": [
+        8,
+        11
+       ],
+       "children": [
+        {
+         "type": "stack",
+         "w": 34,
+         "h": 34,
+         "children": [
+          {
+           "type": "rect",
+           "radius": 9,
+           "fill": "$tint@0.16",
+           "stroke": {
+            "color": "$tint@0.28",
+            "width": 0.6
+           }
+          },
+          {
+           "type": "icon",
+           "icon": "$icon",
+           "size": 17,
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "gap": 0,
+         "align": "start",
+         "children": [
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "size": 17,
+           "weight": 800,
+           "color": "ink@0.98",
+           "maxLines": 1
+          },
+          {
+           "type": "text",
+           "slot": "$name",
+           "face": "noto",
+           "size": 6.65,
+           "weight": 500,
+           "color": "ink@0.42",
+           "maxLines": 1
+          }
+         ]
+        },
+        {
+         "type": "spacer",
+         "grow": 1,
+         "minW": 6
+        },
+        {
+         "type": "row",
+         "id": "metrics",
+         "gap": 11,
+         "align": "center",
+         "if": "$verified & $viewsRaw>0",
+         "children": [
+          {
+           "type": "row",
+           "gap": 4,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:play-fill",
+             "size": 9,
+             "tint": "ink@0.47"
+            },
+            {
+             "type": "text",
+             "slot": "$views",
+             "face": "noto",
+             "size": 12,
+             "weight": 700,
+             "color": "ink@0.88",
+             "maxLines": 1
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "gap": 4,
+           "align": "center",
+           "children": [
+            {
+             "type": "text",
+             "text": "ER",
+             "face": "noto",
+             "size": 9.5,
+             "weight": 900,
+             "tracking": 0.3,
+             "color": "$tint@0.9",
+             "maxLines": 1
+            },
+            {
+             "type": "text",
+             "slot": "$engagement",
+             "face": "noto",
+             "size": 12,
+             "weight": 700,
+             "color": "ink@0.88",
+             "maxLines": 1
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "id": "pending",
+         "text": "รอเชื่อมบัญชี",
+         "if": "!$verified",
+         "face": "noto",
+         "size": 10,
+         "weight": 600,
+         "color": "ink@0.42",
+         "maxLines": 1
+        },
+        {
+         "type": "text",
+         "id": "syncing",
+         "text": "รอซิงก์ข้อมูล",
+         "if": "$verified & !$viewsRaw>0",
+         "face": "noto",
+         "size": 10,
+         "weight": 600,
+         "color": "ink@0.42",
+         "maxLines": 1
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

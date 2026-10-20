@@ -1,0 +1,538 @@
+{
+ "kind": "scrapTags",
+ "design": {
+  "w": 370,
+  "h": 220
+ },
+ "widget": {
+  "title": "ป้ายห้อยสายงาน",
+  "category": "tags",
+  "symbol": "tag.fill",
+  "size": {
+   "w": 366,
+   "h": 218
+  },
+  "order": 65,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก 05 ป้ายห้อยสายงาน — แผ่นกระดาษโทน (scrap.paper + เม็ดกระดาษสองชั้น = ScrapPaper) วาดเฉพาะ `papered` (ScrapSkin) · ขอบขาวบางเมื่อแผ่นมืด · ป้ายกล่องคำ 'สายที่' (แถบขาวเอียง −2 · note#1) + 'ใช่' (แถบ band เอียง 1.5 ลงต่ำ 0.48·size · note#2) · ป้ายห้อยทรงตัดมุม (shape tag:16) 150×52 สูงสุด 4 ใบ ที่ตำแหน่งตายตัวของต้นฉบับ (22,64 −4° · 199,58 3° · 32,132 2.5° · 207,136 −3° — ใบขวาเกาะขอบขวา) สกินวนตามลำดับ: ครีม/ดำ/band · ดำ/ขาว/paperAccent · เหลืองเนย/ดำ/ขาว · mid/ดำ/ขาว (ป้ายละ chips กรอง $i เพราะสีตัวหนังสือ/ไอคอนไม่มี cycle) · วงไอคอน 30 + ชื่อสายงาน categories#i ดำหนัก 17 · รูเจาะ scrap.paper ซ้าย · หัวใจ/ประกาย/โบว์ · แปลงจาก ScrapbookWidgets.swift (ScrapTagsWidget) · ใช้ไม่ได้: ไอคอนตามคำสายงาน (Pop.nicheIcon → SF Symbol — ชุด Phosphor ที่ฝังไม่มี tag/t-shirt/airplane จึงใช้ star-fill ทุกใบ) · ใบขวาขยับครึ่งหนึ่งของความกว้างที่เพิ่ม (spread) — ที่นี่เกาะขอบขวาเต็ม",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "row",
+    "id": "labelWrap",
+    "pad": [
+     13,
+     0,
+     0,
+     15
+    ],
+    "align": "start",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": -2,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "first",
+        "pad": [
+         0,
+         6.6,
+         1.8,
+         6.6
+        ],
+        "fill": "white",
+        "rotate": -2,
+        "shadow": {
+         "sigma": 1.5,
+         "y": 1.5,
+         "color": "scrap.shade@0.12"
+        },
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 900,
+          "size": 22,
+          "color": "#141414",
+          "maxLines": 1,
+          "text": "สายที่"
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "pad": [
+         10.6,
+         0,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "second",
+          "pad": [
+           0.4,
+           7.5
+          ],
+          "fill": "scrap.band",
+          "rotate": 1.5,
+          "children": [
+           {
+            "type": "text",
+            "face": "mitr",
+            "weight": 400,
+            "size": 19,
+            "color": "#141414",
+            "maxLines": 1,
+            "text": "ใช่"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "tag0",
+    "list": "categories",
+    "where": "$i<1",
+    "wrap": false,
+    "w": 150,
+    "h": 52,
+    "place": "top-left",
+    "dx": 22,
+    "dy": 64,
+    "each": {
+     "type": "stack",
+     "w": 150,
+     "h": 52,
+     "shape": "tag:16",
+     "fill": "#FFFDF8",
+     "rotate": -4,
+     "shadow": {
+      "sigma": 3,
+      "y": 5,
+      "color": "scrap.shade@0.2"
+     },
+     "children": [
+      {
+       "type": "row",
+       "pad": [
+        0,
+        10,
+        0,
+        26
+       ],
+       "gap": 8,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "w": 30,
+         "h": 30,
+         "circle": true,
+         "fill": "scrap.band",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:star-fill",
+           "size": 13,
+           "tint": "#141414",
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "slot": "categories#$i",
+         "face": "noto",
+         "weight": 800,
+         "size": 17,
+         "color": "#141414",
+         "maxLines": 1,
+         "shrinkTo": 8.5,
+         "grow": 1
+        }
+       ]
+      },
+      {
+       "type": "rect",
+       "id": "hole",
+       "w": 10,
+       "h": 10,
+       "circle": true,
+       "fill": "scrap.paper",
+       "stroke": {
+        "color": "#E0DFDA",
+        "width": 2
+       },
+       "place": "center-left",
+       "dx": 9
+      }
+     ]
+    }
+   },
+   {
+    "type": "chips",
+    "id": "tag1",
+    "list": "categories",
+    "where": "$i>=1 & $i<2",
+    "wrap": false,
+    "w": 150,
+    "h": 52,
+    "place": "top-right",
+    "dx": -21,
+    "dy": 58,
+    "each": {
+     "type": "stack",
+     "w": 150,
+     "h": 52,
+     "shape": "tag:16",
+     "fill": "#141414",
+     "rotate": 3,
+     "shadow": {
+      "sigma": 3,
+      "y": 5,
+      "color": "scrap.shade@0.2"
+     },
+     "children": [
+      {
+       "type": "row",
+       "pad": [
+        0,
+        10,
+        0,
+        26
+       ],
+       "gap": 8,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "w": 30,
+         "h": 30,
+         "circle": true,
+         "fill": "scrap.paperAccent",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:star-fill",
+           "size": 13,
+           "tint": "white",
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "slot": "categories#$i",
+         "face": "noto",
+         "weight": 800,
+         "size": 17,
+         "color": "white",
+         "maxLines": 1,
+         "shrinkTo": 8.5,
+         "grow": 1
+        }
+       ]
+      },
+      {
+       "type": "rect",
+       "id": "hole",
+       "w": 10,
+       "h": 10,
+       "circle": true,
+       "fill": "scrap.paper",
+       "stroke": {
+        "color": "#121212",
+        "width": 2
+       },
+       "place": "center-left",
+       "dx": 9
+      }
+     ]
+    }
+   },
+   {
+    "type": "chips",
+    "id": "tag2",
+    "list": "categories",
+    "where": "$i>=2 & $i<3",
+    "wrap": false,
+    "w": 150,
+    "h": 52,
+    "place": "top-left",
+    "dx": 32,
+    "dy": 132,
+    "each": {
+     "type": "stack",
+     "w": 150,
+     "h": 52,
+     "shape": "tag:16",
+     "fill": "#F8E7B0",
+     "rotate": 2.5,
+     "shadow": {
+      "sigma": 3,
+      "y": 5,
+      "color": "scrap.shade@0.2"
+     },
+     "children": [
+      {
+       "type": "row",
+       "pad": [
+        0,
+        10,
+        0,
+        26
+       ],
+       "gap": 8,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "w": 30,
+         "h": 30,
+         "circle": true,
+         "fill": "white",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:star-fill",
+           "size": 13,
+           "tint": "#141414",
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "slot": "categories#$i",
+         "face": "noto",
+         "weight": 800,
+         "size": 17,
+         "color": "#141414",
+         "maxLines": 1,
+         "shrinkTo": 8.5,
+         "grow": 1
+        }
+       ]
+      },
+      {
+       "type": "rect",
+       "id": "hole",
+       "w": 10,
+       "h": 10,
+       "circle": true,
+       "fill": "scrap.paper",
+       "stroke": {
+        "color": "#DACB9B",
+        "width": 2
+       },
+       "place": "center-left",
+       "dx": 9
+      }
+     ]
+    }
+   },
+   {
+    "type": "chips",
+    "id": "tag3",
+    "list": "categories",
+    "where": "$i>=3 & $i<4",
+    "wrap": false,
+    "w": 150,
+    "h": 52,
+    "place": "top-right",
+    "dx": -13,
+    "dy": 136,
+    "each": {
+     "type": "stack",
+     "w": 150,
+     "h": 52,
+     "shape": "tag:16",
+     "fill": "scrap.mid",
+     "rotate": -3,
+     "shadow": {
+      "sigma": 3,
+      "y": 5,
+      "color": "scrap.shade@0.2"
+     },
+     "children": [
+      {
+       "type": "row",
+       "pad": [
+        0,
+        10,
+        0,
+        26
+       ],
+       "gap": 8,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "w": 30,
+         "h": 30,
+         "circle": true,
+         "fill": "white",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "ph:star-fill",
+           "size": 13,
+           "tint": "#141414",
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "slot": "categories#$i",
+         "face": "noto",
+         "weight": 800,
+         "size": 17,
+         "color": "#141414",
+         "maxLines": 1,
+         "shrinkTo": 8.5,
+         "grow": 1
+        }
+       ]
+      },
+      {
+       "type": "rect",
+       "id": "hole",
+       "w": 10,
+       "h": 10,
+       "circle": true,
+       "fill": "scrap.paper",
+       "stroke": {
+        "color": "black@0.12",
+        "width": 2
+       },
+       "place": "center-left",
+       "dx": 9
+      }
+     ]
+    }
+   },
+   {
+    "type": "rect",
+    "id": "heart",
+    "shape": "heart",
+    "w": 20,
+    "h": 20,
+    "fill": "scrap.accent",
+    "place": "top-right",
+    "dx": -20,
+    "dy": 15
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "size": 13,
+    "tint": "white",
+    "dx": 200,
+    "dy": 20
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "size": 15,
+    "tint": "white",
+    "place": "bottom-right",
+    "dx": -15,
+    "dy": -13
+   },
+   {
+    "type": "icon",
+    "icon": "bow",
+    "w": 28,
+    "h": 21,
+    "place": "bottom-center",
+    "dx": -6,
+    "dy": -9
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

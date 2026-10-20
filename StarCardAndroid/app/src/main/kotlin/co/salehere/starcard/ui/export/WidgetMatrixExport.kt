@@ -163,7 +163,7 @@ object WidgetMatrix {
  * ไม่ย่อ ไม่มีมุมมน ไม่มีเส้นขอบของพรีวิว
  */
 @Composable
-private fun MatrixSheet(job: WidgetMatrix.Job) {
+internal fun MatrixSheet(job: WidgetMatrix.Job) {
     val theme = job.theme
     val size = Size(job.page.w, job.page.h)
     CompositionLocalProvider(
@@ -284,7 +284,6 @@ fun WidgetMatrixExporter(onDone: () -> Unit) {
         runCatching { CardExport.preload() }.onFailure { line("preload ล้ม: ${it.message}") }
         line("preload รูปตัวอย่าง ${SystemClock.elapsedRealtime() - tp} ms")
         line("pageContentWidth (widget configs) = ${WidgetMatrix.contentWidth}")
-        line("subject lift: stub บน Android (PhotoLift/SubjectLift คืน \"ไม่มี cutout\" เสมอ) — iOS ใช้ Vision")
         line("owner บนเครื่อง: name=\"${Profile.me.creator.name}\" · creators=${Portfolio.shared.creators.count { it != null }} · works=${Portfolio.shared.works.size} · library=${photos.uploaded.size} · avatar=${photos.profile != null}")
         val pending = WidgetKind.entries.mapNotNull { k -> pendingNote(k)?.let { "${k.raw}: $it" } }
         line("SystemPending: " + if (pending.isEmpty()) "none" else pending.joinToString(" · "))

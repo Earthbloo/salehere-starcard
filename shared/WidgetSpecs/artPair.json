@@ -1,0 +1,45 @@
+{
+ "kind": "artPair",
+ "design": {
+  "w": 366,
+  "h": 188
+ },
+ "widget": {
+  "title": "คู่แนวตั้ง",
+  "category": "photo",
+  "symbol": "rectangle.split.2x1.fill",
+  "order": 20,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored"
+ },
+ "notes": "สองรูปแนวตั้งเท่ากัน ช่องรูป 4 และ 6 (ไม่ใช่ 5 — เลี่ยงรูปซ้ำกับ workReel) มุม 16 ขอบขาว 0.14 · scrubDolly/scrubAperture ไม่อยู่ในผัง · แปลงจาก ArtWidgets.swift (ArtPair)",
+ "root": {
+  "type": "row",
+  "gap": 8,
+  "children": [
+   {
+    "type": "image",
+    "photo": 4,
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.14",
+     "width": 0.7
+    },
+    "grow": 1,
+    "id": "left"
+   },
+   {
+    "type": "image",
+    "photo": 6,
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.14",
+     "width": 0.7
+    },
+    "grow": 1,
+    "id": "right"
+   }
+  ]
+ }
+}

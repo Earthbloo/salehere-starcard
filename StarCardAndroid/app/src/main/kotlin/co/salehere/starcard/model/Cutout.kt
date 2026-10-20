@@ -59,18 +59,6 @@ object Cutout {
         return Result(out, true)
     }
 
-    /**
-     * ครอปรูปที่ **รู้อยู่แล้วว่าตัดมา** (ผลของ `PhotoLift`) — ข้ามเกณฑ์ `looksCut`
-     * คนครึ่งตัวที่กินเต็มเฟรมจะชนมุมล่างทั้งสองมุมแล้วตกเกณฑ์มุมใส
-     */
-    fun trim(ui: Bitmap): Result {
-        val a = alphaGrid(ui) ?: return Result.framed(ui)
-        val box = subjectBox(a) ?: return Result.framed(ui)
-        val out = crop(ui, box) ?: return Result.framed(ui)
-        if (out.width < 24 || out.height < 24) return Result.framed(ui)
-        return Result(out, true)
-    }
-
     // MARK: ขั้นตอน
     //
     // `upright` ของ iOS ไม่จำเป็น — Bitmap ของ Android ไม่มี orientation แยก (ImageDecoder หมุนให้ตอนถอดรหัส)

@@ -1,0 +1,2103 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        179,
+        224
+      ],
+      "boxes" : [
+        {
+          "h" : 224,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 32.89
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 32.89
+        },
+        {
+          "h" : 31.22,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 153,
+          "x" : 13,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 77.98,
+          "x" : 50.51,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@",
+          "type" : "text",
+          "w" : 10.32,
+          "x" : 50.51,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 67.66,
+          "x" : 60.83,
+          "y" : 159.89
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 82.12,
+          "x" : 48.44,
+          "y" : 178.27
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 179.69
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 179.69
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 51.14,
+          "y" : 182.39
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 8.5,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 68.62,
+          "x" : 61.94,
+          "y" : 178.27
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        179,
+        448
+      ],
+      "boxes" : [
+        {
+          "h" : 448,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 448,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 448,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 448,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 144.89
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 144.89
+        },
+        {
+          "h" : 31.22,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 153,
+          "x" : 13,
+          "y" : 271.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 77.98,
+          "x" : 50.51,
+          "y" : 271.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@",
+          "type" : "text",
+          "w" : 10.32,
+          "x" : 50.51,
+          "y" : 271.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 67.66,
+          "x" : 60.83,
+          "y" : 271.89
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 82.12,
+          "x" : 48.44,
+          "y" : 290.27
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 291.69
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 291.69
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 51.14,
+          "y" : 294.39
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 8.5,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 68.62,
+          "x" : 61.94,
+          "y" : 290.27
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        224,
+        224
+      ],
+      "boxes" : [
+        {
+          "h" : 224,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 53,
+          "y" : 28.55
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 53,
+          "y" : 28.55
+        },
+        {
+          "h" : 39.9,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 198,
+          "x" : 13,
+          "y" : 155.55
+        },
+        {
+          "h" : 22.37,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 100.38,
+          "x" : 61.81,
+          "y" : 155.55
+        },
+        {
+          "h" : 22.37,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 14.8,
+          "text" : "@",
+          "type" : "text",
+          "w" : 13.28,
+          "x" : 61.81,
+          "y" : 155.55
+        },
+        {
+          "h" : 22.37,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 14.8,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 87.1,
+          "x" : 75.09,
+          "y" : 155.55
+        },
+        {
+          "h" : 16.53,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 101.83,
+          "x" : 61.09,
+          "y" : 178.92
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 61.09,
+          "y" : 182.19
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 61.09,
+          "y" : 182.19
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 63.79,
+          "y" : 184.89
+        },
+        {
+          "h" : 16.53,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 10.94,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 88.33,
+          "x" : 74.59,
+          "y" : 178.92
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.804597701149426,
+            "outWeight" : 800,
+            "size" : 14.804597701149426,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.804597701149426,
+            "outWeight" : 800,
+            "size" : 14.804597701149426,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 10.942528735632184,
+            "outWeight" : 600,
+            "size" : 10.942528735632184,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.804597701149426,
+          "v" : 22.37,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 10.942528735632184,
+          "v" : 16.53,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 13.28,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 87.1,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 16.53,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.942528735632184,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 88.33,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 13.28,
+          "weight" : 800,
+          "width" : 13.28
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 87.1,
+          "weight" : 800,
+          "width" : 87.1
+        },
+        {
+          "face" : "noto",
+          "h" : 16.53,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.942528735632184,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 88.33,
+          "weight" : 600,
+          "width" : 88.33
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 13.28,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 87.1,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 16.53,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.942528735632184,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 88.33,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 13.28,
+          "weight" : 800,
+          "width" : 13.28
+        },
+        {
+          "face" : "noto",
+          "h" : 22.37,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.804597701149426,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 87.1,
+          "weight" : 800,
+          "width" : 87.1
+        },
+        {
+          "face" : "noto",
+          "h" : 16.53,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 10.942528735632184,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 88.33,
+          "weight" : 600,
+          "width" : 88.33
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.7767857142857143,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        224,
+        224
+      ],
+      "boxes" : [
+        {
+          "h" : 224,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 53,
+          "y" : 32.89
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 53,
+          "y" : 32.89
+        },
+        {
+          "h" : 31.22,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 198,
+          "x" : 13,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 77.98,
+          "x" : 73.01,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@",
+          "type" : "text",
+          "w" : 10.32,
+          "x" : 73.01,
+          "y" : 159.89
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 67.66,
+          "x" : 83.33,
+          "y" : 159.89
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 82.12,
+          "x" : 70.94,
+          "y" : 178.27
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 70.94,
+          "y" : 179.69
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 70.94,
+          "y" : 179.69
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 73.64,
+          "y" : 182.39
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 8.5,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 68.62,
+          "x" : 84.44,
+          "y" : 178.27
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 224,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1.6339285714285714,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        610,
+        224.00000000000003
+      ],
+      "boxes" : [
+        {
+          "h" : 224,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 224,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 246,
+          "y" : 22.82
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 246,
+          "y" : 22.82
+        },
+        {
+          "h" : 51.37,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 584,
+          "x" : 13,
+          "y" : 149.82
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 129.96,
+          "x" : 240.02,
+          "y" : 149.82
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 19.17,
+          "text" : "@",
+          "type" : "text",
+          "w" : 17.2,
+          "x" : 240.02,
+          "y" : 149.82
+        },
+        {
+          "h" : 28.96,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 19.17,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 112.76,
+          "x" : 257.22,
+          "y" : 149.82
+        },
+        {
+          "h" : 21.41,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 127.86,
+          "x" : 241.07,
+          "y" : 179.78
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 241.07,
+          "y" : 185.48
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 241.07,
+          "y" : 185.48
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 243.77,
+          "y" : 188.18
+        },
+        {
+          "h" : 21.41,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 14.17,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 114.36,
+          "x" : 254.57,
+          "y" : 179.78
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 610,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.166666666666668,
+            "outWeight" : 800,
+            "size" : 19.166666666666668,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 19.166666666666668,
+            "outWeight" : 800,
+            "size" : 19.166666666666668,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.166666666666668,
+            "outWeight" : 600,
+            "size" : 14.166666666666668,
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 19.166666666666668,
+          "v" : 28.96,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.166666666666668,
+          "v" : 21.41,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 17.2,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 112.76,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 114.36,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 17.2,
+          "weight" : 800,
+          "width" : 17.2
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 112.76,
+          "weight" : 800,
+          "width" : 112.76
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 114.36,
+          "weight" : 600,
+          "width" : 114.36
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 17.2,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 112.76,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 114.36,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 17.2,
+          "weight" : 800,
+          "width" : 17.2
+        },
+        {
+          "face" : "noto",
+          "h" : 28.96,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 19.166666666666668,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 112.76,
+          "weight" : 800,
+          "width" : 112.76
+        },
+        {
+          "face" : "noto",
+          "h" : 21.41,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.166666666666668,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 114.36,
+          "weight" : 600,
+          "width" : 114.36
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        179,
+        233.89333333333332
+      ],
+      "boxes" : [
+        {
+          "h" : 233.89,
+          "id" : "r",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 233.89,
+          "id" : "r\/0",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 233.89,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 233.89,
+          "id" : "r\/1\/0",
+          "type" : "col",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0",
+          "type" : "col",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 37.84
+        },
+        {
+          "h" : 118,
+          "id" : "r\/1\/0\/0\/0",
+          "type" : "icon",
+          "w" : 118,
+          "x" : 30.5,
+          "y" : 37.84
+        },
+        {
+          "h" : 31.22,
+          "id" : "r\/1\/0\/1",
+          "type" : "col",
+          "w" : 153,
+          "x" : 13,
+          "y" : 164.84
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0",
+          "type" : "row",
+          "w" : 77.98,
+          "x" : 50.51,
+          "y" : 164.84
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/0",
+          "lines" : 1,
+          "size" : 11.5,
+          "text" : "@",
+          "type" : "text",
+          "w" : 10.32,
+          "x" : 50.51,
+          "y" : 164.84
+        },
+        {
+          "h" : 17.38,
+          "id" : "r\/1\/0\/1\/0\/1",
+          "lines" : 1,
+          "size" : 11.5,
+          "slot" : "handle",
+          "text" : "mae.review",
+          "type" : "text",
+          "w" : 67.66,
+          "x" : 60.83,
+          "y" : 164.84
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1",
+          "type" : "row",
+          "w" : 82.12,
+          "x" : 48.44,
+          "y" : 183.22
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0",
+          "type" : "stack",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 184.64
+        },
+        {
+          "h" : 10,
+          "id" : "r\/1\/0\/1\/1\/0\/0",
+          "type" : "rect",
+          "w" : 10,
+          "x" : 48.44,
+          "y" : 184.64
+        },
+        {
+          "h" : 4.6,
+          "id" : "r\/1\/0\/1\/1\/0\/1",
+          "type" : "icon",
+          "w" : 4.6,
+          "x" : 51.14,
+          "y" : 187.34
+        },
+        {
+          "h" : 12.84,
+          "id" : "r\/1\/0\/1\/1\/1",
+          "lines" : 1,
+          "size" : 8.5,
+          "text" : "สแกนเพื่อตรวจสอบ",
+          "type" : "text",
+          "w" : 68.62,
+          "x" : 61.94,
+          "y" : 183.22
+        },
+        {
+          "h" : 5,
+          "id" : "r\/2",
+          "type" : "rect",
+          "w" : 179,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "data" : {
+        "flags" : {
+          "owner.verified" : true
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 11.5,
+            "outWeight" : 800,
+            "size" : 11.5,
+            "slot" : "handle",
+            "weight" : 800
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 8.5,
+            "outWeight" : 600,
+            "size" : 8.5,
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+
+        },
+        "texts" : [
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 11.5,
+          "v" : 17.38,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 8.5,
+          "v" : 12.84,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "@",
+          "tracking" : 0,
+          "w" : 10.32,
+          "weight" : 800,
+          "width" : 10.32
+        },
+        {
+          "face" : "noto",
+          "h" : 17.38,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 11.5,
+          "t" : "mae.review",
+          "tracking" : 0,
+          "w" : 67.66,
+          "weight" : 800,
+          "width" : 67.66
+        },
+        {
+          "face" : "noto",
+          "h" : 12.84,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 8.5,
+          "t" : "สแกนเพื่อตรวจสอบ",
+          "tracking" : 0,
+          "w" : 68.62,
+          "weight" : 600,
+          "width" : 68.62
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 1.3407821229050279,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    179,
+    224
+  ],
+  "inset" : 0,
+  "kind" : "contactQR",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

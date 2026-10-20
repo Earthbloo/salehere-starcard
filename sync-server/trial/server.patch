@@ -1,0 +1,143 @@
+--- trial/orig/sync-server/server.mjs	2026-10-14 16:02:13
++++ server.mjs	2026-10-14 16:29:05
+@@ -11,6 +11,8 @@
+ import path from 'node:path'
+ import crypto from 'node:crypto'
+ import { fileURLToPath } from 'node:url'
++import { iconResolver } from './web-icons.mjs'
++import { graphqlHandler } from './graphql.mjs'
+ 
+ const here = path.dirname(fileURLToPath(import.meta.url))
+ const dataDir = path.join(here, 'data')
+@@ -27,6 +29,33 @@
+ const saveState = () => fs.writeFileSync(statePath, JSON.stringify(state))
+ const current = () => state.history[state.history.length - 1] || null
+ 
++// ── ทดลอง: โฟลเดอร์กลาง ───────────────────────────────────────────────────
++const repo = path.resolve(here, '..')
++const specDir = path.join(repo, 'shared', 'WidgetSpecs')
++const webDir = path.join(here, 'web')
++const fontDir = path.join(repo, 'StarCard', 'StarCard', 'Resources', 'Fonts')
++const fixtureDir = path.join(repo, 'present', 'spec-fixtures')
++const androidRes = path.join(repo, 'StarCardAndroid', 'app', 'src', 'main', 'res')
++const iosAssets = path.join(repo, 'StarCard', 'StarCard', 'Assets.xcassets')
++const resolveIcon = iconResolver(repo)
++
++function readSpecs() {
++  const specs = {}
++  const h = crypto.createHash('sha1')
++  for (const f of fs.readdirSync(specDir).filter((f) => f.endsWith('.json')).sort()) {
++    const raw = fs.readFileSync(path.join(specDir, f), 'utf8')
++    h.update(f).update(raw)
++    try { specs[f.slice(0, -5)] = JSON.parse(raw) } catch (e) { log(`spec ${f} อ่านไม่ได้: ${e.message}`) }
++  }
++  return { hash: h.digest('hex').slice(0, 16), specs }
++}
++
++const mime = (f) => ({
++  '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
++  '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml',
++  '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ttf': 'font/ttf', '.otf': 'font/otf', '.xml': 'text/xml',
++}[path.extname(f).toLowerCase()] || 'application/octet-stream')
++
+ // ── diff ──────────────────────────────────────────────────────────────────
+ // เทียบค่าต่อค่า · ตัวเลขเทียบแบบ JS (18 กับ 18.0 ถือว่าเท่ากัน — ต่างกันแค่การเขียน)
+ // รายการใน items[] จับคู่ด้วย id ไม่ใช่ลำดับ ย้ายลำดับแล้วจะไม่ขึ้นว่าเปลี่ยนทั้งแถว
+@@ -68,6 +97,24 @@
+   return out
+ }
+ 
++/** เขียนการ์ดฉบับใหม่ — baseRev ไม่ตรงกับ rev ล่าสุด = มีคนเขียนก่อน (conflict) */
++function writeCard(doc, baseRev, by) {
++  const cur = current()
++  if (Number(baseRev) !== state.rev) {
++    log(`409 ${by.platform} baseRev=${baseRev} rev=${state.rev}`)
++    return { conflict: true, rev: state.rev }
++  }
++  const changes = diff(cur?.doc ?? {}, doc)
++  if (cur && changes.length === 0) return { rev: state.rev, unchanged: true }
++  state.rev += 1
++  const entry = { rev: state.rev, doc, by, at: new Date().toISOString(), changes }
++  state.history.push(entry)
++  saveState()
++  log(`rev ${state.rev} ← ${by.platform} (${changes.length} จุด)`)
++  return { rev: state.rev }
++}
++const gql = graphqlHandler({ current, write: writeCard, specs: readSpecs })
++
+ // ── http ──────────────────────────────────────────────────────────────────
+ const send = (res, code, body, type = 'application/json; charset=utf-8') => {
+   res.writeHead(code, { 'Content-Type': type, 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' })
+@@ -116,21 +163,16 @@
+     if (p === '/api/card' && req.method === 'PUT') {
+       const b = await readJSON(req)
+       if (!isObj(b.doc)) return send(res, 400, { error: 'doc ต้องเป็น object' })
+-      const cur = current()
+-      if (Number(b.baseRev) !== state.rev) {
+-        log(`409 ${who(b).platform} baseRev=${b.baseRev} rev=${state.rev}`)
+-        return send(res, 409, { rev: state.rev, doc: cur?.doc ?? null, by: cur?.by, at: cur?.at })
+-      }
+-      const changes = diff(cur?.doc ?? {}, b.doc)
+-      if (cur && changes.length === 0) return send(res, 200, { rev: state.rev, unchanged: true })
+-      state.rev += 1
+-      const entry = { rev: state.rev, doc: b.doc, by: who(b), at: new Date().toISOString(), changes }
+-      state.history.push(entry)
+-      saveState()
+-      log(`rev ${state.rev} ← ${entry.by.platform} (${changes.length} จุด)`)
+-      return send(res, 200, { rev: state.rev })
++      const r = writeCard(b.doc, b.baseRev, who(b))
++      if (r.conflict) return send(res, 409, { rev: state.rev, doc: current()?.doc ?? null, by: current()?.by, at: current()?.at })
++      return send(res, 200, r.unchanged ? { rev: r.rev, unchanged: true } : { rev: r.rev })
+     }
+ 
++    // GraphQL — model เดียวของการ์ด + ผัง widget (graphql.mjs · MODEL.md) · เก็บที่เดียวกับ /api/card
++    if (p === '/graphql' && req.method === 'POST') {
++      return send(res, 200, await gql(await readJSON(req)))
++    }
++
+     // "อ่านแล้วเขียนกลับ" — แอปที่เพิ่งรับ rev N มา ส่ง doc ที่ตัวเองจะเขียนจากสถานะที่เพิ่งโหลด
+     // server เทียบกับ doc ของ rev N ตรง ๆ: ว่าง = อ่านครบไม่มีค่าเพี้ยน
+     if (p === '/api/echo' && req.method === 'POST') {
+@@ -186,6 +228,42 @@
+       return res.end(fs.readFileSync(file))
+     }
+ 
++    // ── ทดลอง: โฟลเดอร์กลาง + เว็บดูการ์ด (sync-server/trial/README.md) ──────────────
++    // ผัง widget = shared/WidgetSpecs/*.json อ่านสดทุกครั้ง · ?known=<hash> แล้วไม่เปลี่ยน = 204
++    if (p === '/api/specs' && req.method === 'GET') {
++      const { hash, specs } = readSpecs()
++      if (url.searchParams.get('known') === hash) return send(res, 204, '')
++      return send(res, 200, { hash, specs })
++    }
++
++    // เว็บดูการ์ด (ดูอย่างเดียว) — /card/ = sync-server/web · ฟอนต์ชุดเดียวกับแอป · fixture ไว้ทดสอบตัววาด
++    if (p === '/card') { res.writeHead(302, { Location: '/card/' }); return res.end() }
++    if (p.startsWith('/card/')) {
++      const rel = decodeURIComponent(p.slice(6)) || 'index.html'
++      // ไอคอนของแอป — /card/icon/<ชื่อในผัง> (ph:… · sh:… · ชื่อ asset)
++      if (rel.startsWith('icon/')) {
++        const hit = resolveIcon(rel.slice(5))
++        if (!hit) return send(res, 404, { error: 'no icon' })
++        if (hit.svg) return send(res, 200, hit.svg, 'image/svg+xml')
++        res.writeHead(200, { 'Content-Type': mime(hit.file), 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' })
++        return res.end(fs.readFileSync(hit.file))
++      }
++      const roots = rel.startsWith('fonts/') ? [[fontDir, rel.slice(6)]]
++        : rel.startsWith('fixtures/') ? [[fixtureDir, rel.slice(9)]]
++        : rel.startsWith('android-res/') ? [[androidRes, rel.slice(12)]]
++        : rel.startsWith('ios-assets/') ? [[iosAssets, rel.slice(11)]]
++        : [[webDir, rel]]
++      for (const [root, r] of roots) {
++        const file = path.resolve(root, r)
++        if (!file.startsWith(path.resolve(root))) return send(res, 403, { error: 'no' })
++        if (fs.existsSync(file) && fs.statSync(file).isFile()) {
++          res.writeHead(200, { 'Content-Type': mime(file), 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' })
++          return res.end(fs.readFileSync(file))
++        }
++      }
++      return send(res, 404, { error: 'not found' })
++    }
++
+     // ล้างการ์ดกลาง (รูปเก็บไว้ — ไม่มีผลกับผลลัพธ์ และอัปซ้ำได้ฟรี)
+     if (p === '/api/reset' && req.method === 'POST') {
+       state = { rev: 0, history: [], echoes: [] }

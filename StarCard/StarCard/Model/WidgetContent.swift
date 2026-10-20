@@ -141,6 +141,12 @@ extension WidgetFamily {
             return .init(editable: [.init("note", "ข้อความ", .paragraph, limit: 200)],
                          system: [], source: .none)
 
+        // ชุดห้าสไตล์ — สองหัวข้อนี้ไม่มีช่องพิมพ์บนการ์ดเลย ข้อมูลทั้งหมดมาจาก Star Profile
+        case .availability:
+            return .init(editable: [], system: ["availability", "provinces"], source: .profile)
+        case .body:
+            return .init(editable: [], system: ["bodyMeasurement"], source: .profile)
+
         case .contact:
             // ช่องทางติดต่อที่ Star Profile มี = ชื่อ + LINE ID (จากฟอร์มสมัคร) · เบอร์/อีเมล/สถานะผู้รับงาน/เวลาตอบกลับ
             // ไม่มีใน Star Profile จึงไม่อยู่บนการ์ด (30 ก.ย. 2569: ข้อมูลบนการ์ดต้องมีใน Star Profile ทั้งหมด)

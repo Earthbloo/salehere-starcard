@@ -329,6 +329,10 @@ fun EditableText(
     softWrap: Boolean = false,
     autoSizeMin: Float? = null,
     textAlign: TextAlign? = null,
+    /** ความสูงบรรทัดตายตัว (sp) — ตัววาดผังส่งค่าที่ตัววัดใช้ บรรทัดที่วาดจึงสูงเท่าที่คำนวณไว้ */
+    lineHeight: Float? = null,
+    /** ตัววาดผังส่ง `Visible` — สระบน/ล่างของตัวใหญ่ล้นกล่องบรรทัดได้ ไม่ถูกตัด (= SwiftUI) */
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     val id = TextSlotID(field = field, index = index, widget = widget, preset = preset, hint = hint)
     val tune = LocalWidgetTextStyle.current
@@ -344,6 +348,7 @@ fun EditableText(
     val shown = if (slotStyle.uppercase) value.uppercase() else value
     var ts = slotStyle.textStyle
     if (textAlign != null) ts = ts.copy(textAlign = textAlign)
+    if (lineHeight != null) ts = ts.copy(lineHeight = lineHeight.sp)
     val autoSize = autoSizeMin?.let {
         TextAutoSize.StepBased(
             minFontSize = (slotStyle.size * it.coerceIn(0.05f, 1f)).sp,
@@ -359,7 +364,7 @@ fun EditableText(
             color = slotStyle.color,
             maxLines = maxLines,
             softWrap = softWrap,
-            overflow = TextOverflow.Ellipsis,
+            overflow = overflow,
             autoSize = autoSize,
             modifier = modifier
                 .editableSlot(id, slotStyle)

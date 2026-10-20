@@ -1,0 +1,651 @@
+{
+ "kind": "kitContactMac",
+ "design": {
+  "w": 236,
+  "h": 400
+ },
+ "widget": {
+  "title": "ช่องทางติดต่อ",
+  "category": "contact",
+  "symbol": "qrcode",
+  "order": 100,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "mac"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitContact"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องทาง",
+    "items": [
+     [
+      "line",
+      "LINE"
+     ],
+     [
+      "phone",
+      "เบอร์โทร"
+     ],
+     [
+      "web",
+      "เว็บไซต์"
+     ]
+    ],
+    "opt": "hide"
+   },
+   {
+    "type": "switch",
+    "label": "QR LINE",
+    "opt": "qr",
+    "default": true,
+    "if": "!hidden:line"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ช่องทางติดต่อ (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (contact) · root = ม่วงสติกเกอร์ (ขอบ+ทึบ → เงาเยื้อง 5pt) · variants ตาม cfg:style / bordered / cfg:fill=clear · ซ่อนช่องด้วย hidden:line|phone|web · QR เปิด/ปิดด้วย opt:qr (ตั้งต้นเปิด = `!opt:qr=0`) และโชว์เฉพาะเมื่อมี LINE · ทำไม่ได้: จัดรูปเบอร์ 081-234-5678 และตัด https:// (ช่องให้ค่าดิบ) · QR ของผังชี้ลิงก์การ์ด ไม่ใช่ line.me · QR ไม่โตตามความสูง (คงที่ 120/112/96/104) · สองเงื่อนไข (ไม่ซ่อน + มีค่า) ต้องซ้อนสองชั้น — ชั้นนอกที่ grow ยังกินที่แม้ค่าว่าง · โลโก้ LINE วาดจาก primitive (ไม่มี asset)",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 12,
+      "shadow": {
+       "sigma": 6,
+       "y": 6,
+       "color": "black@0.12"
+      },
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 12,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        }
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 12
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "shadow": {
+           "sigma": 6,
+           "y": 6,
+           "color": "black@0.12"
+          }
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 12,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 12,
+          "shadow": {
+           "sigma": 6,
+           "y": 6,
+           "color": "black@0.12"
+          }
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 12
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "if": "!cfg:fill=clear"
+       },
+       {
+        "type": "rect",
+        "fill": "#FAFAFA",
+        "if": "cfg:fill=clear & !kit.dark"
+       },
+       {
+        "type": "rect",
+        "fill": "#222222",
+        "if": "cfg:fill=clear & kit.dark"
+       },
+       {
+        "type": "rect",
+        "fill": "black@0.055",
+        "if": "!kit.dark"
+       },
+       {
+        "type": "rect",
+        "fill": "white@0.1",
+        "if": "kit.dark"
+       },
+       {
+        "type": "row",
+        "children": [
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FF5F57"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FEBC2E"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#28C840"
+         }
+        ],
+        "gap": 6,
+        "align": "center",
+        "pad": [
+         0,
+         12
+        ],
+        "place": "left",
+        "id": "dots"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 13,
+          "weight": 600,
+          "color": "kit.title",
+          "maxLines": 1,
+          "shrinkTo": 9,
+          "textAlign": "center",
+          "id": "title",
+          "text": "ช่องทางติดต่อ"
+         }
+        ],
+        "pad": [
+         0,
+         64
+        ],
+        "justify": "center",
+        "align": "stretch"
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "black@0.07",
+        "place": "bottom"
+       }
+      ],
+      "h": 34,
+      "id": "bar"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "LINE:",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 400,
+                  "color": "kit.mut",
+                  "maxLines": 1,
+                  "w": 58
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:lineFlow",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 400,
+                  "color": "kit.ink",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 12,
+                "align": "center",
+                "pad": [
+                 9,
+                 0
+                ]
+               }
+              ],
+              "align": "stretch"
+             }
+            ],
+            "if": "has:stat:lineFlow"
+           }
+          ],
+          "if": "!hidden:line",
+          "id": "line"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "line",
+                "fill": "kit.ink@0.1"
+               },
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "โทร:",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 400,
+                  "color": "kit.mut",
+                  "maxLines": 1,
+                  "w": 58
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:phoneFmt",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 400,
+                  "color": "kit.ink",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 12,
+                "align": "center",
+                "pad": [
+                 9,
+                 0
+                ]
+               }
+              ],
+              "align": "stretch"
+             }
+            ],
+            "if": "has:stat:phoneFmt"
+           }
+          ],
+          "if": "!hidden:phone",
+          "id": "phone"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "line",
+                "fill": "kit.ink@0.1"
+               },
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เว็บไซต์:",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 400,
+                  "color": "kit.mut",
+                  "maxLines": 1,
+                  "w": 58
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:site",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 400,
+                  "color": "kit.ink",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 12,
+                "align": "center",
+                "pad": [
+                 9,
+                 0
+                ]
+               }
+              ],
+              "align": "stretch"
+             }
+            ],
+            "if": "has:stat:site"
+           }
+          ],
+          "if": "!hidden:web",
+          "id": "web"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "grow": 1,
+                "justify": "center",
+                "align": "center",
+                "children": [
+                 {
+                  "type": "stack",
+                  "id": "qrBox",
+                  "h": "fill",
+                  "minH": 108,
+                  "maxH": 184,
+                  "maxW": 184,
+                  "pad": 6,
+                  "fill": "white",
+                  "radius": 6,
+                  "children": [
+                   {
+                    "type": "icon",
+                    "icon": "qr",
+                    "tint": "#141417",
+                    "w": "fill",
+                    "h": "fill"
+                   }
+                  ],
+                  "w": "fill"
+                 }
+                ],
+                "w": "fill"
+               },
+               {
+                "type": "text",
+                "text": "สแกนเพิ่มเพื่อน LINE",
+                "face": "noto",
+                "size": 9.5,
+                "weight": 600,
+                "color": "kit.mut",
+                "maxLines": 1
+               }
+              ],
+              "gap": 4,
+              "align": "center",
+              "justify": "center",
+              "grow": 1,
+              "if": "!opt:qr=0",
+              "id": "qr",
+              "w": "fill"
+             }
+            ],
+            "pad": [
+             8,
+             0
+            ],
+            "grow": 1,
+            "if": "has:stat:lineFlow"
+           }
+          ],
+          "if": "!hidden:line",
+          "grow": 1,
+          "id": "qrRow"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 0,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       6,
+       16,
+       12,
+       16
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content",
+      "grow": 1
+     }
+    ],
+    "clip": true,
+    "radius": 12,
+    "align": "stretch",
+    "id": "window"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 1
+      },
+      "radius": 12,
+      "if": "bordered"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 1
+        },
+        "radius": 3,
+        "if": "bordered"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 1
+        },
+        "radius": 12,
+        "if": "bordered"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   }
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

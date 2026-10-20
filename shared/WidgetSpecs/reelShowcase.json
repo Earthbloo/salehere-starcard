@@ -1,0 +1,1349 @@
+{
+ "kind": "reelShowcase",
+ "design": {
+  "w": 366,
+  "h": 254
+ },
+ "widget": {
+  "title": "คลิปล่าสุด",
+  "category": "showcase",
+  "symbol": "iphone",
+  "order": 28,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ลาย",
+    "opt": "pattern",
+    "options": [
+     [
+      null,
+      "เรียบ"
+     ],
+     [
+      "stripe",
+      "ลายทาง"
+     ],
+     [
+      "diamond",
+      "ข้าวหลามตัด"
+     ]
+    ],
+    "if": "surface=glass"
+   }
+  ]
+ },
+ "notes": "แผ่นโชว์คลิป · แปลงจาก ShowcaseWidgets.swift (Reel + ReelSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น `plate` + เส้นขอบใน rim (`plateInk@0.16` · เว้น 5 · มุม 17) + หมึก `plateInk` · ตัวเครื่อง #121212 · เงา black@0.45 · `pane` = ไม่มีแผ่น แต่ยังมีเส้นขอบใน rim `line@0.22` · หมึก `ink@0.95` · ตัวเครื่อง #1A1A1A (การ์ดสว่าง) / #292929 (การ์ดมืด) · เงา @0.45 · `clear` = เหมือน pane แต่ไม่มี rim และเงา @0.3 · หัวเรื่อง 'Recent' (note#0 เซริฟเอียง 19 กล่อง 23) คร่อม 'VIDEOGRAPHY' (note#1 black growTo 30 กว้าง 252 กล่อง 36 ซ้อน −3 · ตัวอักษรจัดกลางกล่อง = stack place center ให้ล้นกล่องเท่ากันบนล่างแบบ SwiftUI) · เว้น 9 · เครื่องสี่เครื่อง 82×153 ร่อง 7 · ชื่อลูกค้า note#2–5 · ไม่มี: มุม min(theme.radius,22) · ลายแผ่น PlatePatternLayer · scrubLouver/scrubDolly",
+ "root": {
+  "type": "stack",
+  "id": "sheet",
+  "clip": true,
+  "radius": 22,
+  "children": [
+   {
+    "type": "rect",
+    "id": "plate",
+    "fill": "plate",
+    "if": "papered"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered",
+    "platePattern": "plate"
+   },
+   {
+    "type": "col",
+    "id": "rimPad",
+    "if": "papered",
+    "pad": 5,
+    "children": [
+     {
+      "type": "rect",
+      "id": "rim",
+      "grow": 1,
+      "radius": 17,
+      "stroke": {
+       "color": "plateInk@0.16",
+       "width": 0.8
+      }
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "rimPadPane",
+    "if": "surface=pane",
+    "pad": 5,
+    "children": [
+     {
+      "type": "rect",
+      "id": "rim",
+      "grow": 1,
+      "radius": 17,
+      "stroke": {
+       "color": "line@0.22",
+       "width": 0.8
+      }
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "papered",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     10,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "col",
+      "id": "header",
+      "gap": -3,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "stack",
+        "h": 23,
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "plateInk",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "place": "center",
+          "text": "Recent"
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "h": 36,
+        "children": [
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "plateInk",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "w": 252,
+          "place": "center",
+          "dy": -5.5,
+          "text": "VIDEOGRAPHY"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 9
+     },
+     {
+      "type": "row",
+      "id": "columns",
+      "gap": 7,
+      "align": "start",
+      "justify": "center",
+      "children": [
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone0",
+          "if": "papered",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#121212",
+          "stroke": {
+           "color": "plateInk@0.16",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 4,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone1",
+          "if": "papered",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#121212",
+          "stroke": {
+           "color": "plateInk@0.16",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 5,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone2",
+          "if": "papered",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#121212",
+          "stroke": {
+           "color": "plateInk@0.16",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 6,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone3",
+          "if": "papered",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#121212",
+          "stroke": {
+           "color": "plateInk@0.16",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 7,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1,
+      "minH": 0
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "surface=pane",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     10,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "col",
+      "id": "header",
+      "gap": -3,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "stack",
+        "h": 23,
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "place": "center",
+          "text": "Recent"
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "h": 36,
+        "children": [
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "w": 252,
+          "place": "center",
+          "dy": -5.5,
+          "text": "VIDEOGRAPHY"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 9
+     },
+     {
+      "type": "row",
+      "id": "columns",
+      "gap": 7,
+      "align": "start",
+      "justify": "center",
+      "children": [
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone0",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 4,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone0",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 4,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone1",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 5,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone1",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 5,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone2",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 6,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone2",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 6,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone3",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 7,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone3",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.45"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 7,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1,
+      "minH": 0
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "surface=clear",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     10,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "col",
+      "id": "header",
+      "gap": -3,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "stack",
+        "h": 23,
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "place": "center",
+          "text": "Recent"
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "h": 36,
+        "children": [
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "w": 252,
+          "place": "center",
+          "dy": -5.5,
+          "text": "VIDEOGRAPHY"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 9
+     },
+     {
+      "type": "row",
+      "id": "columns",
+      "gap": 7,
+      "align": "start",
+      "justify": "center",
+      "children": [
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone0",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 4,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone0",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 4,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone1",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 5,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone1",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 5,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone2",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 6,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone2",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 6,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "w": 82,
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "stack",
+          "id": "phone3",
+          "if": "ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#1A1A1A",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 7,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "stack",
+          "id": "phone3",
+          "if": "!ink.light",
+          "w": 82,
+          "h": 153,
+          "radius": 12,
+          "clip": true,
+          "fill": "#292929",
+          "stroke": {
+           "color": "line@0.22",
+           "width": 0.8
+          },
+          "shadow": {
+           "sigma": 3,
+           "y": 3,
+           "color": "black@0.3"
+          },
+          "children": [
+           {
+            "type": "col",
+            "pad": 2.5,
+            "children": [
+             {
+              "type": "image",
+              "photo": 7,
+              "grow": 1,
+              "radius": 9.5
+             }
+            ]
+           },
+           {
+            "type": "rect",
+            "w": 20,
+            "h": 5.5,
+            "circle": true,
+            "fill": "black@0.92",
+            "place": "top-center",
+            "dy": 6
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "h": 6
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1,
+      "minH": 0
+     }
+    ]
+   }
+  ]
+ }
+}

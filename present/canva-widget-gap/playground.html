@@ -1,0 +1,669 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Widget Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Anuphan:wght@400;500;600;700&family=Kanit:wght@400;600;700;800&family=Prompt:wght@400;600;800&family=Bai+Jamjuree:wght@400;600;700&display=swap">
+<style>
+/* Layout: widget tabs on top; live stage (sticky) on the left, the widget's tray on the right; stacks on phones */
+:root{
+  --bg:#F4F4F2; --panel:#FFFFFF; --ink:#16181D; --ink-2:#5B616E; --ink-3:#8D93A0;
+  --line:#E3E4E8; --chip:#F0F1F3; --sel:#16181D; --sel-ink:#FFFFFF; --accent:#E5322D; --warn:#B45309; --warn-bg:#FDF2E3; --new:#1D4ED8; --new-bg:#E8EEFC;
+  --f-ui:"Anuphan","Noto Sans Thai",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1115; --panel:#191C22; --ink:#F2F3F5; --ink-2:#B3B9C5; --ink-3:#7E8796; --line:#2B2F37; --chip:#22262D; --sel:#F2F3F5; --sel-ink:#16181D; --accent:#FF5A54; --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1115; --panel:#191C22; --ink:#F2F3F5; --ink-2:#B3B9C5; --ink-3:#7E8796; --line:#2B2F37; --chip:#22262D; --sel:#F2F3F5; --sel-ink:#16181D; --accent:#FF5A54; --warn:#FBBF24; --warn-bg:#2E2412; --new:#93B4FF; --new-bg:#17223D; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 60px;display:flex;flex-direction:column;gap:18px}
+h1{font-family:"Kanit",var(--f-ui);font-weight:600;font-size:clamp(26px,4vw,34px);line-height:1.2;margin:0}
+.sub{color:var(--ink-2);max-width:70ch}
+.sub a{color:var(--new)}
+.top{display:flex;flex-direction:column;gap:6px}
+.globals{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-size:13px;color:var(--ink-2)}
+.globals label{display:flex;align-items:center;gap:8px}
+select{font:inherit;font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+:focus-visible{outline:2px solid var(--new);outline-offset:2px}
+
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tabs button{flex:none;font:inherit;font-size:13.5px;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;white-space:nowrap}
+.tabs button small{color:var(--ink-3);font-weight:400;margin-left:4px}
+.tabs button[aria-pressed="true"]{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.tabs button[aria-pressed="true"] small{color:inherit;opacity:.65}
+
+.app{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;align-items:start}
+@media (max-width:900px){.app{grid-template-columns:1fr}}
+.left{position:sticky;top:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+@media (max-width:900px){.left{position:static}}
+.stage{border-radius:18px;min-height:460px;display:flex;align-items:center;justify-content:center;padding:40px 20px;overflow:auto}
+.stage.dots{background-color:#F1EEE9;background-image:radial-gradient(rgba(0,0,0,.07) 1.2px,transparent 1.2px);background-size:14px 14px}
+.stage.white{background:#FFFFFF;box-shadow:inset 0 0 0 1px #E6E6E6}
+.stage.black{background:#121316}
+.stage.photo{background:linear-gradient(135deg,#F7B7A3 0%,#E58AB5 35%,#8C7BF0 70%,#5CC8F0 100%)}
+.stage>.wg,.stage .lab>.wg{max-width:100%}
+.stage.all{flex-wrap:wrap;gap:34px 30px;align-items:flex-start;justify-content:center}
+.stage .lab{display:flex;flex-direction:column;align-items:center;gap:10px}
+.stage .lab>span{font-size:12px;font-weight:600;color:#6B6B6B;background:rgba(255,255,255,.75);padding:2px 10px;border-radius:999px}
+.stage.black .lab>span{background:rgba(255,255,255,.12);color:#DDD}
+.cap{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-2)}
+.cap .lock{display:flex;gap:6px;align-items:center}
+.note{display:inline-flex;gap:6px;align-items:flex-start;background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:6px 10px;font-size:12.5px}
+.note.new{background:var(--new-bg);color:var(--new)}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:16px}
+.grp{display:flex;flex-direction:column;gap:8px}
+.grp>.gl{font-size:12px;font-weight:600;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px}
+.grp>.gl em{font-style:normal;font-weight:400}
+.sep{height:1px;background:var(--line);margin:2px -16px}
+.sect{font-family:"Kanit",var(--f-ui);font-size:15px;font-weight:600;color:var(--ink)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:13.5px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.sw{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw button,.sw label.pick{width:28px;height:28px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:0 0 0 1px rgba(0,0,0,.15) inset;position:relative}
+.sw button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--sel)}
+.sw button.auto{width:auto;border-radius:999px;padding:0 10px;font:inherit;font-size:12px;background:var(--chip);color:var(--ink);box-shadow:none;height:28px}
+.sw button.auto[aria-pressed="true"]{background:var(--sel);color:var(--sel-ink)}
+.sw label.pick{background:conic-gradient(#f43,#fd3,#3d6,#3cf,#63f,#f3c,#f43);display:block;overflow:hidden}
+.sw label.pick input{opacity:0;width:100%;height:100%;cursor:pointer}
+.checks{display:flex;flex-direction:column;gap:2px}
+.checks label{display:flex;align-items:center;gap:10px;padding:5px 2px;cursor:pointer;font-size:13.5px}
+.checks input{width:17px;height:17px;accent-color:var(--sel);margin:0}
+.checks label em{margin-left:auto;font-style:normal;color:var(--ink-3);font-size:12px;font-variant-numeric:tabular-nums}
+.checks label.off{opacity:.4;cursor:not-allowed}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.switch{position:relative;width:44px;height:26px;flex:none}
+.switch input{opacity:0;width:100%;height:100%;margin:0;cursor:pointer;position:absolute;inset:0;z-index:1}
+.switch span{position:absolute;inset:0;border-radius:13px;background:var(--line);transition:background .15s}
+.switch span::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+.switch input:checked+span{background:#34C759}
+.switch input:checked+span::after{left:21px}
+.switch input:disabled+span{opacity:.4}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stepper button{font:inherit;font-size:16px;width:36px;height:32px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.stepper button:disabled{opacity:.3;cursor:not-allowed}
+.stepper b{min-width:34px;text-align:center;border-inline:1px solid var(--line);line-height:32px;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--sel)}
+.hint{font-size:12px;color:var(--ink-3)}
+.minis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.mini{border:1px solid var(--line);border-radius:12px;background:var(--chip);height:86px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;position:relative}
+.mini[aria-pressed="true"]{box-shadow:0 0 0 2px var(--sel);border-color:var(--sel)}
+.mini .sc{transform-origin:center;pointer-events:none}
+.mininame{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;font-size:10.5px;color:var(--ink-3);text-align:center;margin-top:-2px}
+.btnline{font:inherit;font-size:13px;border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:10px;padding:7px 12px;cursor:pointer}
+.upl{font-size:12.5px;color:var(--new);cursor:pointer;text-decoration:underline}
+.upl input{display:none}
+
+/* ============ WIDGETS (artwork; fixed colours by design) ============ */
+.wg{width:var(--w);position:relative;font-family:var(--df);color:var(--ink);line-height:1.3;flex:none;-webkit-font-smoothing:antialiased}
+.wg .t{font-family:var(--tf);color:var(--tc);font-weight:800;font-size:22px;line-height:1.2;outline:none;border-radius:4px;min-width:20px}
+.wg .t:focus{box-shadow:0 0 0 2px #2F6BF0}
+.wg .mut{color:var(--mut)}
+.wg .acc{color:var(--acc)}
+.wg .ico{display:inline-block;flex:none;vertical-align:middle}
+.wg .ico svg{display:block;width:100%;height:100%}
+.wg .col{display:flex;flex-direction:column;min-width:0}
+.wg .stack{display:flex;flex-direction:column;gap:7px}
+.wg .cen{display:flex;flex-direction:column;align-items:center;text-align:center}
+.wg .rw{display:flex;align-items:center;gap:10px;min-width:0}
+.wg .rw .end{margin-left:auto;text-align:right;white-space:nowrap}
+.wg .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.wg .full{grid-column:1/-1}
+.wg .ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wg .ph{background:#D6D6D6;display:flex;align-items:center;justify-content:center;color:#8E8E8E;aspect-ratio:16/10;border-radius:5px}
+.wg .avatar{border-radius:50%;overflow:hidden;flex:none}
+.wg .avatar img,.wg .avatar svg{width:100%;height:100%;object-fit:cover;display:block}
+
+/* purple sticker */
+.s-purple{background:var(--bgc);border:2.5px solid var(--bcx);border-radius:var(--r);box-shadow:var(--sh);padding:12px 12px 14px}
+.s-purple .blk{background:#fff;border:2px solid #141414;border-radius:8px;color:#141414}
+.s-purple .btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:2px solid #141414;border-radius:8px;box-shadow:3px 3px 0 #141414;padding:5px 14px;font-weight:700;font-size:13px;color:#141414}
+/* cream soft */
+.s-cream{background:var(--bgc);border:1.5px solid var(--bcx);border-radius:var(--r);box-shadow:var(--sh);padding:14px}
+.s-cream .t{font-weight:700;font-size:20px}
+.s-cream .blk{background:var(--blk);border-radius:12px}
+.s-cream .pill{display:inline-block;background:var(--blk2);border-radius:999px;padding:5px 14px;font-weight:600;font-size:12.5px}
+/* sage grid frame */
+.s-gingham{background:var(--bgc);border-radius:var(--r);padding:var(--gp)}
+.s-gingham .card{background:#fff;border:2px solid var(--bcx);border-radius:var(--r2);padding:14px;color:#151515}
+.s-gingham .card .mut{color:#7A7A7A}
+.s-gingham .sepl{height:1px;background:#D9D9D9;margin:8px 0}
+.s-gingham .box{background:#F2F2F2;border-radius:8px}
+/* night neon */
+.s-night{background:var(--bgc);border-radius:var(--r);padding:20px 20px 18px}
+.s-night .t{font-weight:700;font-size:19px}
+.s-night .br{position:absolute;width:30px;height:30px;border:3px solid var(--bc);pointer-events:none;display:var(--brd)}
+.s-night .br.a{top:6px;left:6px;border-right:0;border-bottom:0;border-top-left-radius:var(--brr)}
+.s-night .br.b{top:6px;right:6px;border-left:0;border-bottom:0;border-top-right-radius:var(--brr)}
+.s-night .br.c{bottom:6px;left:6px;border-right:0;border-top:0;border-bottom-left-radius:var(--brr)}
+.s-night .br.d{bottom:6px;right:6px;border-left:0;border-top:0;border-bottom-right-radius:var(--brr)}
+.s-night .blk{background:var(--blk);border:1px solid var(--blkb);border-radius:10px}
+.s-night .ibox{width:38px;height:38px;border:1.5px solid var(--acc);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--acc);flex:none}
+/* mac window */
+.s-mac{background:var(--bgc);border:1px solid var(--bcx);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.08),0 10px 26px rgba(0,0,0,.12)}
+.s-mac .bar{display:grid;grid-template-columns:62px 1fr auto;align-items:center;height:34px;padding:0 10px;background:var(--barc);border-bottom:1px solid rgba(0,0,0,.07)}
+.s-mac .lights{display:flex;gap:6px}
+.s-mac .lights i{width:11px;height:11px;border-radius:50%;display:block}
+.s-mac .bt{text-align:center;min-width:0}
+.s-mac .bt .t{font-size:13px;font-weight:600;color:var(--tc2)}
+.s-mac .tools{display:flex;gap:7px;color:var(--mut)}
+.s-mac .tools .ico{width:14px;height:14px}
+.s-mac .body{padding:4px 16px 10px}
+.s-mac .ln{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair)}
+.s-mac .ln:last-child{border-bottom:0}
+.s-mac .chip{background:var(--blk);border-radius:7px;padding:5px 11px;font-weight:500;font-size:12.5px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="igG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".3" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
+    <linearGradient id="avG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D3C4"/><stop offset="1" stop-color="#C98F7E"/></linearGradient>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Widget Playground</h1>
+    <p class="sub">ทุก widget จาก Canva (หน้า 3–12) ครบ 5 สไตล์ ลองแต่งได้แบบเดียวกับในแอป · ข้อความบน widget แก้ไม่ได้ (ข้อมูลจริง + ป้ายตายตัว) · ภาพรวมอยู่ที่ <a href="https://claude.ai/artifact/H7S14KAMn2jncUBK31p64C">Widget ชุด 5 สไตล์</a> สเปกอยู่ที่ <a href="https://claude.ai/artifact/Xu2a5Gfca89MrJUkXVTD7Z">Widget Config ทีละใบ</a></p>
+    <div class="globals">
+      <label for="g-font">ฟอนต์ข้อมูล (ฟอนต์ธีมของการ์ด)
+        <select id="g-font"><option value="noto">Noto Sans Thai</option><option value="anuphan">Anuphan</option><option value="kanit">Kanit</option><option value="prompt">Prompt</option><option value="bai">Bai Jamjuree</option></select></label>
+      <span style="display:flex;align-items:center;gap:8px">พื้นการ์ด <span class="seg" id="g-stage">
+        <button type="button" id="st-dots" data-v="dots">ครีมจุด</button><button type="button" id="st-white" data-v="white">ขาว</button><button type="button" id="st-black" data-v="black">ดำ</button><button type="button" id="st-photo" data-v="photo">รูป</button></span></span>
+      <span style="display:flex;align-items:center;gap:8px">มุมมอง <span class="seg" id="g-view">
+        <button type="button" id="vw-one" data-v="one">ทีละแบบ</button><button type="button" id="vw-all" data-v="all">ทั้ง 5 แบบ</button></span></span>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="เลือก widget"></nav>
+
+  <div class="app">
+    <div class="left">
+      <div class="stage dots" id="stage"></div>
+      <div class="cap" id="cap"></div>
+    </div>
+    <aside class="panel" id="panel" aria-label="ถาดแต่ง widget"></aside>
+  </div>
+</div>
+
+<script>
+(function(){
+/* ---------------- icons ---------------- */
+const S=(inner,vb='0 0 24 24')=>`<svg viewBox="${vb}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+const IC={
+  calendar:(fill)=>fill?`<svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="3" fill="currentColor"/><rect x="7" y="2.5" width="2.2" height="4.5" rx="1" fill="currentColor"/><rect x="14.8" y="2.5" width="2.2" height="4.5" rx="1" fill="currentColor"/><g fill="#fff"><rect x="5" y="8.5" width="14" height="1.4"/><circle cx="8" cy="12.6" r="1.15"/><circle cx="12" cy="12.6" r="1.15"/><circle cx="16" cy="12.6" r="1.15"/><circle cx="8" cy="16.6" r="1.15"/><circle cx="12" cy="16.6" r="1.15"/><circle cx="16" cy="16.6" r="1.15"/></g></svg>`
+    :S('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><g fill="currentColor" stroke="none"><circle cx="8" cy="13" r="1"/><circle cx="12" cy="13" r="1"/><circle cx="16" cy="13" r="1"/><circle cx="8" cy="16.6" r="1"/><circle cx="12" cy="16.6" r="1"/><circle cx="16" cy="16.6" r="1"/></g>'),
+  pin:(fill)=>fill?`<svg viewBox="0 0 24 24"><path d="M12 22s-7-6.6-7-12a7 7 0 0 1 14 0c0 5.4-7 12-7 12z" fill="currentColor"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>`:S('<path d="M12 21.5s-6.5-6.2-6.5-11.3a6.5 6.5 0 0 1 13 0c0 5.1-6.5 11.3-6.5 11.3z"/><circle cx="12" cy="10.2" r="2.4"/>'),
+  phone:(fill)=>fill?`<svg viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 3h3l1.6 4.2-2.1 1.4a12.5 12.5 0 0 0 6.3 6.3l1.4-2.1L21 14.4v3a2.2 2.2 0 0 1-2.4 2.2A17.6 17.6 0 0 1 4.4 5.4 2.2 2.2 0 0 1 6.6 3z"/></svg>`:S('<path d="M6.6 3.5h3l1.5 4-2 1.3a12 12 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>'),
+  mail:(fill)=>fill?`<svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="currentColor"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="#fff" stroke-width="1.6"/></svg>`:S('<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7 12 13l8.5-6"/>'),
+  image:()=>S('<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="15.5" cy="9" r="1.6"/><path d="M4 17.5l5-5 4 4 2.5-2.5 4.5 4"/>'),
+  play:()=>`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M10 7.8v8.4l6.6-4.2z" fill="#fff"/></svg>`,
+  sparkle:()=>S('<path d="M10 3.5l1.6 4.9 4.9 1.6-4.9 1.6L10 16.5l-1.6-4.9L3.5 10l4.9-1.6z"/><path d="M17.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>'),
+  utensils:()=>S('<path d="M6 3v6.5a2.5 2.5 0 0 0 5 0V3M8.5 3v18M17 3c-2 0-3.2 2.4-3.2 5 0 2.4 1.3 4 3.2 4.2V21"/><path d="M17 3v9.2"/>'),
+  sun:()=>S('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'),
+  lipstick:()=>S('<path d="M7.5 21h6v-8.5h-6zM8.5 12.5V8.3L12.5 5v7.5"/><circle cx="17.5" cy="17" r="3.5"/><path d="M15.2 19.3l4.6-4.6"/>'),
+  bowl:()=>S('<path d="M3.5 11.5h17a8.5 8.5 0 0 1-17 0z"/><path d="M8.5 21h7M9 4.5c-1 1 1 2 0 3M12 3.5c-1 1 1 2 0 3M15 4.5c-1 1 1 2 0 3"/>'),
+  bag:()=>S('<path d="M5 8h14l-1 13H6z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/>'),
+  cup:()=>S('<path d="M4.5 9h11.5v5a5 5 0 0 1-5 5h-1.5a5 5 0 0 1-5-5z"/><path d="M16 10.5h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8.8.8 1.7 0 2.5M11.5 3.5c-.8.8.8 1.7 0 2.5"/>'),
+  plane:()=>S('<path d="M21 4 3 11l6.5 2.5L12 20l3-6 6-10z"/><path d="M9.5 13.5 21 4"/>'),
+  ruler:()=>S('<rect x="2.5" y="8" width="19" height="8" rx="1.5" transform="rotate(-35 12 12)"/><path d="M8.3 9.6l1.3 1.9M11 7.7l1.9 2.7M13.7 5.8l1.3 1.9M16.4 3.9l1.9 2.7" transform="translate(-1.3 3.3)"/>'),
+  hanger:()=>S('<path d="M10 6.5a2 2 0 1 1 2.8 1.8c-.5.3-.8.7-.8 1.3V10"/><path d="M12 10 3.4 16.3c-.8.6-.4 1.7.6 1.7h16c1 0 1.4-1.1.6-1.7z"/>'),
+  chart:()=>`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="13" width="4" height="8" rx="1"/><rect x="10" y="8.5" width="4" height="12.5" rx="1"/><rect x="16" y="3.5" width="4" height="17.5" rx="1"/></svg>`,
+  people:()=>`<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c.4-3.8 3-6 6.5-6s6.1 2.2 6.5 6z"/><circle cx="5.5" cy="9.5" r="2.4" opacity=".75"/><path d="M1 18.5c.3-2.6 2-4.1 4.4-4.1.9 0 1.6.2 2.2.5-1.3 1-2.1 2.3-2.5 3.6z" opacity=".75"/><circle cx="18.5" cy="9.5" r="2.4" opacity=".75"/><path d="M23 18.5c-.3-2.6-2-4.1-4.4-4.1-.9 0-1.6.2-2.2.5 1.3 1 2.1 2.3 2.5 3.6z" opacity=".75"/></svg>`,
+  eye:()=>`<svg viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z" fill="currentColor"/><circle cx="12" cy="12" r="3.6" fill="#fff"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>`,
+  female:()=>`<svg viewBox="0 0 24 32" fill="currentColor"><circle cx="12" cy="5" r="4.2"/><path d="M7.5 10.5h9l3.5 11h-4.2V31h-2.8v-9.5h-2V31H8.2v-9.5H4z"/></svg>`,
+  male:()=>`<svg viewBox="0 0 24 32" fill="currentColor"><circle cx="12" cy="5" r="4.2"/><path d="M6.5 10.5h11a2 2 0 0 1 2 2v8.5h-3V31h-3v-9h-3v9h-3V21h-3v-8.5a2 2 0 0 1 2-2z"/></svg>`,
+  check:()=>`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M7 12.3l3.2 3.2L17 8.7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  plus:()=>S('<path d="M12 5v14M5 12h14"/>'),
+  info:()=>S('<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>'),
+  search:()=>S('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>'),
+  share:()=>S('<path d="M8 9H6.5A1.5 1.5 0 0 0 5 10.5v9A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 17.5 9H16M12 15V3M8.5 6.5 12 3l3.5 3.5"/>'),
+  pencil:()=>S('<path d="M15.5 4.5l4 4L8 20H4v-4z"/>'),
+  copy:()=>S('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>'),
+  more:()=>`<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>`,
+  person:()=>`<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#D2D2D2"/><circle cx="50" cy="40" r="16" fill="#fff"/><path d="M20 82c3-16 15-24 30-24s27 8 30 24z" fill="#fff"/></svg>`
+};
+const BR={ /* colour brand marks */
+  fb:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path d="M13.4 19.6v-6.2h2.1l.3-2.5h-2.4V9.4c0-.7.2-1.2 1.2-1.2h1.3V6c-.2 0-1-.1-1.9-.1-1.9 0-3.1 1.1-3.1 3.2v1.8H8.8v2.5h2.1v6.2z" fill="#fff"/></svg>`,
+  ig:`<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="15.9" cy="8.1" r="1" fill="#fff"/></svg>`,
+  tt:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#111"/><path d="M13.6 5.2h2.2c.2 1.5 1.3 2.6 2.8 2.8v2.2c-1.1 0-2.1-.3-2.9-.9v4.5a4 4 0 1 1-4-4h.4v2.2h-.4a1.8 1.8 0 1 0 1.9 1.8z" fill="#25F4EE" transform="translate(-.7 -.4)"/><path d="M13.6 5.2h2.2c.2 1.5 1.3 2.6 2.8 2.8v2.2c-1.1 0-2.1-.3-2.9-.9v4.5a4 4 0 1 1-4-4h.4v2.2h-.4a1.8 1.8 0 1 0 1.9 1.8z" fill="#FE2C55" transform="translate(.6 .4)"/><path d="M13.6 5.2h2.2c.2 1.5 1.3 2.6 2.8 2.8v2.2c-1.1 0-2.1-.3-2.9-.9v4.5a4 4 0 1 1-4-4h.4v2.2h-.4a1.8 1.8 0 1 0 1.9 1.8z" fill="#fff"/></svg>`,
+  l8:`<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#F8E43C"/><text x="12" y="14.2" font-size="6.4" font-weight="800" font-style="italic" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" fill="#111">lemon8</text></svg>`,
+  x:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#111"/><path d="M7 6.6h2.8l7.2 10.8h-2.8z" fill="#fff"/><path d="M16.6 6.6 7.4 17.4" stroke="#fff" stroke-width="1.5"/></svg>`,
+  yt:`<svg viewBox="0 0 24 24"><rect x="0" y="4" width="24" height="16" rx="5" fill="#FF0000"/><path d="M9.8 8.6v6.8l5.8-3.4z" fill="#fff"/></svg>`,
+  line:`<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#06C755"/><path d="M12 5.2c-4.4 0-8 2.9-8 6.4 0 3.2 2.8 5.8 6.6 6.3.3.1.6.2.7.5l-.1 1.3c0 .4.3.6.7.4 3-1.6 8.1-4.9 8.1-8.5 0-3.5-3.6-6.4-8-6.4z" fill="#fff"/><text x="12" y="13.3" font-size="4.3" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" fill="#06C755">LINE</text></svg>`
+};
+const MONO={ /* night-style line marks */
+  fb:S('<path d="M14 21v-8h2.6l.4-3H14V8.2c0-.9.3-1.5 1.5-1.5H17V4.1c-.3 0-1.2-.1-2.2-.1C12.6 4 11 5.4 11 7.9V10H8.5v3H11v8"/>'),
+  ig:S('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r=".6" fill="currentColor"/>'),
+  tt:S('<path d="M14 3.5v11.2a3.6 3.6 0 1 1-3.6-3.6M14 3.5c.4 2.4 2.1 4 4.6 4.2"/>'),
+  l8:S('<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M10 7.5v8.5h4.5"/>'),
+  x:S('<path d="M5 4.5h4l10 15h-4zM19 4.5 5 19.5"/>'),
+  yt:S('<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.3-2.5z"/>'),
+  line:S('<path d="M12 4.5c-4.7 0-8.5 3-8.5 6.7 0 3.4 3 6.1 7 6.6.3 0 .7.2.8.5l-.1 1.6c0 .3.3.5.6.3 3.1-1.7 8.7-5.3 8.7-9 0-3.7-3.8-6.7-8.5-6.7z"/>')
+};
+const ico=(svg,sz,col)=>`<span class="ico" style="width:${sz}px;height:${sz}px${col?';color:'+col:''}">${svg}</span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* QR placeholder: three finder squares + seeded modules */
+function qr(px,seed){
+  const n=25,c=px/n;let r='';let s=seed||7;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
+  const fin=(x,y)=>`<rect x="${x*c}" y="${y*c}" width="${7*c}" height="${7*c}" fill="#111"/><rect x="${(x+1)*c}" y="${(y+1)*c}" width="${5*c}" height="${5*c}" fill="#fff"/><rect x="${(x+2)*c}" y="${(y+2)*c}" width="${3*c}" height="${3*c}" fill="#111"/>`;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);if(!inF&&rnd()>.52)r+=`<rect x="${(x*c).toFixed(2)}" y="${(y*c).toFixed(2)}" width="${(c+.3).toFixed(2)}" height="${(c+.3).toFixed(2)}" fill="#111"/>`}
+  return `<svg viewBox="0 0 ${px} ${px}" width="${px}" height="${px}" style="display:block;background:#fff">${r}${fin(0,0)}${fin(n-7,0)}${fin(0,n-7)}</svg>`;
+}
+
+/* ---------------- data (one creator for every style) ---------------- */
+const CH=[
+  {k:'fb',name:'Facebook',handle:'Nira Beauty',fol:92000,rate:18000},
+  {k:'ig',name:'Instagram',handle:'@nira.beauty',fol:184000,rate:25000},
+  {k:'tt',name:'TikTok',handle:'@nira.beauty',fol:321000,rate:35000},
+  {k:'l8',name:'Lemon8',handle:'@nira.beauty',fol:18500,rate:12000},
+  {k:'x',name:'X',handle:'@nirabeauty',fol:7200,rate:8000},
+  {k:'yt',name:'YouTube',handle:'Nira Beauty',fol:45300,rate:30000}
+];
+const FMT=[
+  {k:'tt_sv',ch:'tt',label:'TikTok · Short Video',price:35000},{k:'ig_sv',ch:'ig',label:'IG · Short Video',price:25000},
+  {k:'ig_ph',ch:'ig',label:'IG · Photo',price:15000},{k:'fb_ph',ch:'fb',label:'Facebook · Photo',price:18000},
+  {k:'l8_ph',ch:'l8',label:'Lemon8 · Photo',price:12000},{k:'yt_lv',ch:'yt',label:'YouTube · Long Video',price:30000}
+];
+const WORKS=[['Sivanna Colors','Ballet Dream','1.2M'],['Cathy Doll','Glow Serum Launch','820K'],['Srichand','Oil Control Challenge','615K'],['Mistine','Sunscreen Test','430K'],['Cute Press','Matte Lip Review','280K'],['Beauty Buffet','7 Days Challenge','190K']];
+const NICHE=[{k:'beauty',n:'บิวตี้',c:'sparkle',d:'lipstick'},{k:'food',n:'อาหาร',c:'utensils',d:'bowl'},{k:'life',n:'ไลฟ์สไตล์',c:'sun',d:'bag'},{k:'cafe',n:'คาเฟ่',c:'cup',d:'cup'},{k:'travel',n:'ท่องเที่ยว',c:'plane',d:'plane'}];
+const PROV=['กรุงเทพ','สมุทรปราการ','นนทบุรี'];
+const BODY=[{k:'h',l:'ส่วนสูง',v:'162 cm',n:'162',u:'ซม.'},{k:'w',l:'น้ำหนัก',v:'46 kg',n:'46',u:'กก.'},{k:'p',l:'สัดส่วน',v:'32 / 24 / 35',n:'32/24/35',u:'นิ้ว'},{k:'s',l:'ไซซ์เสื้อ',v:'M',n:'M',u:''},{k:'f',l:'ไซซ์รองเท้า',v:'37',n:'37',u:''}];
+const BIO_LONG='รีวิวสกินแคร์แบบคนผิวแพ้ง่ายรีวิวให้คนผิวแพ้ง่ายฟัง ใช้จริงอย่างน้อย 14 วันก่อนพูดถึง ไม่อวย ไม่เคลมเกินจริง ถ่ายเอง ตัดต่อเอง พากย์เสียงเอง';
+const BIO_SHORT='รีวิวสกินแคร์สำหรับคนผิวแพ้ง่าย ใช้จริงก่อนพูดทุกครั้ง';
+const fmt=n=>n.toLocaleString('en-US');
+
+/* ---------------- styles ---------------- */
+const STY=['purple','cream','gingham','night','mac'];
+const SNAME={purple:'ม่วงสติกเกอร์',cream:'ครีมนุ่ม',gingham:'กรอบตาราง',night:'กลางคืนนีออน',mac:'หน้าต่าง Mac'};
+const LOOK0={
+  purple:{mode:'solid',fill:'#B57EF7',border:true,corner:'round',bc:'#141414'},
+  cream:{mode:'solid',fill:'#ECE8E2',border:false,corner:'round',bc:'#2A2A2A'},
+  gingham:{mode:'solid',fill:'#C9D4A6',border:true,corner:'round',bc:'#141414'},
+  night:{mode:'solid',fill:'#0B0F14',border:true,corner:'round',bc:'#5AC8F0'},
+  mac:{mode:'solid',fill:'#FAFAFA',border:true,corner:'round',bc:'#D4D4D8'}
+};
+const RAD={purple:14,cream:20,gingham:20,night:16,mac:12};
+const FILLS=['#B57EF7','#ECE8E2','#C9D4A6','#0B0F14','#FAFAFA','#F7C6D9','#BFE3F7','#FFD66B','#E5322D'];
+const BCOLS=['#141414','#FFFFFF','#5AC8F0','#E5322D','#D4D4D8','#B57EF7'];
+const TCOLS=['#141414','#FFFFFF','#E5322D','#5AC8F0','#7C3AED','#0F766E'];
+const FONTS={noto:"'Noto Sans Thai',sans-serif",anuphan:"'Anuphan',sans-serif",kanit:"'Kanit',sans-serif",prompt:"'Prompt',sans-serif",bai:"'Bai Jamjuree',sans-serif"};
+const FNAME={noto:'Noto Sans Thai',anuphan:'Anuphan',kanit:'Kanit',prompt:'Prompt',bai:'Bai Jamjuree'};
+
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return [(n>>16)&255,(n>>8)&255,n&255]}
+function lum(h){const [r,g,b]=hex2rgb(h);return (0.299*r+0.587*g+0.114*b)/255}
+function mix(a,b,t){const A=hex2rgb(a),B=hex2rgb(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')}
+const shade=(h,t)=>t>=0?mix(h,'#ffffff',t):mix(h,'#000000',-t);
+
+/* ---------------- widget definitions ---------------- */
+const STATE_OPT={k:'state',label:'ข้อมูล',type:'seg',items:[['full','มีข้อมูล'],['empty','ยังไม่มีข้อมูล']],def:'full'};
+const W=[
+ {id:'profile',name:'โปรไฟล์',title:'รูปโปรไฟล์',page:3,w:{purple:270,cream:300,gingham:270,night:290,mac:270},
+  opts:[{k:'photo',label:'รูป',type:'seg',items:[['has','มีรูป'],['none','ยังไม่มีรูป']],def:'none',upload:true},
+        {k:'chan',label:'แฮนเดิลจากช่อง',type:'seg',items:[['ig','Instagram'],['tt','TikTok'],['fb','Facebook']],def:'ig'},
+        {k:'badges',label:'ป้ายยืนยัน',sub:'หน้า 18 (ร่าง)',type:'switch',def:false}]},
+ {id:'social',name:'Social Media',title:'Social Media',page:4,w:{purple:340,cream:330,gingham:300,night:320,mac:300},
+  opts:[{k:'show',label:'ช่องที่แสดง',type:'checks',min:1,items:CH.map(c=>[c.k,c.name,fmt(c.fol)]),def:['fb','ig','tt','l8','x']}]},
+ {id:'rate',name:'เรทรับงาน',title:'เรทรับงาน',page:5,w:{purple:300,cream:340,gingham:330,night:340,mac:260},
+  opts:[{k:'mode',label:'แสดงราคา',type:'seg',items:[['ch','ต่อช่อง'],['fmt','ต่อรูปแบบงาน']],def:'ch'},
+        {k:'show',label:'ช่องที่แสดง',type:'checks',min:1,max:6,items:CH.map(c=>[c.k,c.name,'฿'+fmt(c.rate)]),def:['fb','ig','tt','l8','x'],when:o=>o.mode==='ch'},
+        {k:'rows',label:'แถวที่แสดง',type:'checks',min:1,max:6,items:FMT.map(f=>[f.k,f.label,'฿'+fmt(f.price)]),def:['tt_sv','ig_sv','fb_ph'],when:o=>o.mode==='fmt'}]},
+ {id:'works',name:'รูปผลงาน',title:'รูปผลงาน',page:6,w:{purple:250,cream:290,gingham:270,night:290,mac:250},
+  opts:[STATE_OPT,{k:'count',label:'จำนวนรูป',type:'step',values:[1,2,4,6],def:6},
+        {k:'views',label:'ยอดวิว',type:'switch',def:true,styles:['purple','cream','gingham']}]},
+ {id:'time',name:'วันเวลา + พื้นที่',title:'วันเวลาและพื้นที่รับงาน',page:7,w:{purple:330,cream:330,gingham:330,night:380,mac:360},
+  opts:[{k:'show',label:'ข้อมูลที่แสดง',type:'checks',min:1,items:[['time','วันเวลาที่สะดวก',''],['area','พื้นที่รับงาน','']],def:['time','area']},
+        {k:'prov',label:'จำนวนจังหวัด',type:'step',values:[1,2,3],def:2}]},
+ {id:'contact',name:'ช่องทางติดต่อ',title:'ช่องทางติดต่อ',page:8,w:{purple:236,cream:230,gingham:220,night:330,mac:290},
+  opts:[{k:'show',label:'ช่องทางที่แสดง',type:'checks',min:1,items:[['line','LINE','@nirabeauty'],['phone','เบอร์โทร','081-234-5678'],['mail','อีเมล','nira@beautyworks.co']],def:['line','phone','mail']},
+        {k:'qr',label:'QR LINE',type:'switch',def:true,styles:['purple','cream','gingham']}]},
+ {id:'niche',name:'สายงาน',title:'สายงาน',page:9,w:{purple:330,cream:210,gingham:330,night:330,mac:330},
+  opts:[{k:'show',label:'สายที่แสดง',type:'checks',min:1,max:5,items:NICHE.map(n=>[n.k,n.n,'']),def:['beauty','food','life']}]},
+ {id:'bio',name:'Bio',title:'About Me',page:10,w:{purple:330,cream:330,gingham:310,night:340,mac:400},
+  opts:[STATE_OPT,{k:'len',label:'ความยาวข้อความ',type:'seg',items:[['long','ยาว (ตาม Canva)'],['short','สั้น']],def:'long'}]},
+ {id:'body',name:'สัดส่วน',title:'สัดส่วน',page:11,w:{purple:270,cream:330,gingham:250,night:300,mac:260},
+  opts:[STATE_OPT,{k:'show',label:'ช่องที่แสดง',type:'checks',min:1,items:BODY.map(b=>[b.k,b.l,b.v]),def:['h','w','p','s','f'],off:{night:['p'],mac:['p']}}]},
+ {id:'insight',name:'Insight',title:'Insight',page:12,w:{purple:350,cream:290,gingham:240,night:300,mac:340},
+  opts:[STATE_OPT,{k:'show',label:'ข้อมูลที่แสดง',type:'checks',min:1,items:[['city','เมืองหลัก',''],['gender','เพศ',''],['age','อายุ',''],['reach','การเข้าถึง','']],def:['city','gender','age','reach']}]}
+];
+/* what Canva has / lacks per style — shown under the stage */
+const NOTES={
+ profile:{night:'Canva ไม่มีบรรทัดสายงานในสไตล์นี้',mac:'Canva ไม่มีบรรทัดสายงานในสไตล์นี้'},
+ social:{night:'Canva ไม่มีแฮนเดิลในสไตล์นี้',mac:'Canva ไม่มีแฮนเดิลและโลโก้ในสไตล์นี้'},
+ works:{night:'Canva มีแค่รูป ไม่มีชื่องาน/ยอดวิว',mac:'Canva มีแค่รูป ไม่มีชื่องาน/ยอดวิว'},
+ contact:{night:'Canva ไม่มี QR ในสไตล์นี้',mac:'Canva ไม่มี QR ในสไตล์นี้'},
+ body:{night:'Canva ไม่มีช่องสัดส่วน 32/24/35',mac:'Canva ไม่มีช่องสัดส่วน 32/24/35'},
+ insight:{night:'Canva แสดงค่าเดียวต่อหัวข้อ',mac:'Canva แสดงค่าเดียวต่อหัวข้อ'}
+};
+const EMPTY_CANVA={works:['purple','cream','gingham'],bio:['purple','cream','gingham'],body:['purple','cream','gingham'],insight:['purple','cream','gingham']};
+
+/* ---------------- state ---------------- */
+let S0={wid:'social',font:'noto',stage:'dots',view:'one',per:{}};
+let ST; try{ST=JSON.parse(localStorage.getItem('wpg-v1'))||S0}catch(e){ST=S0}
+const save=()=>{try{localStorage.setItem('wpg-v1',JSON.stringify(ST))}catch(e){}};
+let PHOTO=null; /* uploaded photo stays in memory only */
+function wstate(id){
+  const def=W.find(w=>w.id===id);
+  if(!ST.per[id]){const o={};def.opts.forEach(p=>o[p.k]=Array.isArray(p.def)?[...p.def]:p.def);
+    ST.per[id]={style:'purple',o,title:def.title,tfont:'same',tcol:'auto',look:{},w:{}}}
+  const s=ST.per[id];STY.forEach(k=>{if(!s.look[k])s.look[k]={...LOOK0[k]}});return s;
+}
+const hashId=(location.hash||'').slice(1);if(W.some(w=>w.id===hashId))ST.wid=hashId;
+
+/* ---------------- rendering ---------------- */
+function cssVars(st,look,ws,width,stageDark){
+  const clear=look.mode==='clear';
+  const baseDark=clear?stageDark:lum(look.fill)<.45;
+  let bgc=look.mode==='solid'?look.fill:look.mode==='grad'?`linear-gradient(160deg,${shade(look.fill,.25)},${shade(look.fill,-.22)})`:'transparent';
+  const r=look.corner==='round'||!look.border?RAD[st]:3;
+  const ink=baseDark?'#F4F6F8':'#151515', mut=baseDark?'rgba(255,255,255,.6)':'rgba(0,0,0,.52)';
+  const v={'--w':width+'px','--r':r+'px','--bc':look.bc,'--bcx':look.border?look.bc:'transparent','--ink':ink,'--mut':mut,
+    '--df':FONTS[ST.font],'--tf':FONTS[ST.font]};
+  let tc=ink;
+  if(st==='purple'){v['--sh']=look.border&&!clear?`5px 5px 0 ${look.bc}`:'none'}
+  if(st==='cream'){v['--sh']=clear?'none':'0 1px 2px rgba(0,0,0,.05),0 8px 18px rgba(0,0,0,.06)';
+    v['--blk']=baseDark?mix(clear?'#222222':look.fill,'#ffffff',.08):mix(clear?'#FFFFFF':look.fill,'#ffffff',.55);
+    v['--blk2']=baseDark?mix(clear?'#222222':look.fill,'#ffffff',.16):mix(clear?'#E6E1DA':look.fill,'#000000',.06);
+    if(!baseDark)tc='#2B2B2B'}
+  if(st==='gingham'){const grid='repeating-linear-gradient(0deg,rgba(55,65,25,.20) 0 1px,transparent 1px 13px),repeating-linear-gradient(90deg,rgba(55,65,25,.20) 0 1px,transparent 1px 13px)';
+    bgc=clear?'transparent':`${grid},${look.mode==='grad'?bgc:`linear-gradient(${look.fill},${look.fill})`}`;
+    v['--gp']=clear?'0px':'11px';v['--r2']=(look.corner==='round'||!look.border?RAD.gingham-7:2)+'px';
+    tc='#111111'}
+  if(st==='night'){v['--brd']=look.border?'block':'none';v['--brr']=look.corner==='round'?'10px':'0';
+    v['--acc']=look.border?look.bc:(baseDark?'#5AC8F0':'#0E7FB0');
+    v['--blk']=baseDark?'rgba(255,255,255,.035)':'rgba(0,0,0,.04)';
+    v['--blkb']=look.border?`color-mix(in srgb,${look.bc} 30%,transparent)`:(baseDark?'rgba(255,255,255,.1)':'rgba(0,0,0,.1)')}
+  if(st==='mac'){const f=clear?'#FAFAFA':look.fill;v['--barc']=lum(f)<.45?shade(f,.1):shade(f,-.055);
+    v['--acc']=baseDark?'#6AA8FF':'#2F6FE4';v['--hair']=baseDark?'rgba(255,255,255,.1)':'rgba(0,0,0,.08)';
+    v['--blk']=baseDark?'rgba(255,255,255,.08)':'#EDEDEF';v['--tc2']=lum(f)<.45?'#E8E8EA':'#4A4A4A'}
+  if(st==='purple'||st==='cream')v['--acc']=ink;
+  v['--tc']=tc;v['--bgc']=bgc;
+  return Object.entries(v).map(([k,x])=>`${k}:${x}`).join(';');
+}
+
+function shell(st,html,bar,T){
+  if(st==='gingham')return `<div class="card">${html}</div>`;
+  if(st==='night')return `<i class="br a"></i><i class="br b"></i><i class="br c"></i><i class="br d"></i>${html}`;
+  if(st==='mac')return `<div class="bar"><span class="lights"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></span><span class="bt">${bar?T:''}</span><span class="tools">${['info','search','share','pencil','copy','more'].map(k=>ico(IC[k](),14)).join('')}</span></div><div class="body">${html}</div>`;
+  return html;
+}
+
+/* empty block shared by night/mac (not drawn in Canva) */
+function emptyOther(st,icon,line){
+  if(st==='night')return `<div class="blk cen" style="padding:22px 12px;border-style:dashed;gap:8px">${ico(IC[icon](),30,'var(--acc)')}<div style="font-weight:600;font-size:13.5px">${line}</div></div>`;
+  return `<div class="cen" style="padding:18px 0 8px;gap:8px">${ico(IC[icon](),30,'#A0A0A0')}<div style="font-size:13px;color:#7A7A7A">${line}</div></div>`;
+}
+
+const R={};
+R.profile=(st,o,T)=>{
+  const ch=CH.find(c=>c.k===o.chan),handle=ch.handle,role='Beauty & Skincare Creator';
+  const pic=(sz,square)=>{
+    const inner=o.photo==='has'?(PHOTO?`<img src="${PHOTO}" alt="">`:`<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="url(#avG)"/><circle cx="50" cy="42" r="16" fill="#FBE7DD"/><path d="M17 100c3-21 17-31 33-31s30 10 33 31z" fill="#FBE7DD"/><path d="M31 46c-3-20 8-31 19-31 12 0 23 9 20 31-3-9-9-15-20-15s-16 6-19 15z" fill="#5A3B30"/></svg>`)
+      :(square?'':IC.person());
+    if(square)return `<div style="width:${sz}px;height:${sz}px;border-radius:10px;overflow:hidden;background:#A3A3A3">${inner}</div>`;
+    return `<div class="avatar" style="width:${sz}px;height:${sz}px">${inner}</div>`;
+  };
+  const badges=(kind)=>{if(!o.badges)return '';
+    const b=(t)=>kind==='purple'?`<span style="display:inline-flex;align-items:center;gap:4px;border:1.5px solid #141414;border-radius:6px;padding:2px 6px;font-size:9.5px;font-weight:700;background:#fff">${ico(IC.check(),12,'#141414')}${t}</span>`
+      :kind==='night'?`<span style="display:inline-flex;align-items:center;gap:4px;border:1px solid var(--acc);border-radius:999px;padding:2px 8px;font-size:10px;color:var(--acc)">${ico(IC.check(),11,'var(--acc)')}${t}</span>`
+      :`<span style="display:inline-flex;align-items:center;gap:4px;border:1px solid #CFCFCF;background:${kind==='cream'?'transparent':'#F4F4F4'};border-radius:999px;padding:2px 8px;font-size:9.5px;color:#555">${ico(IC.check(),11,'#555')}${t}</span>`;
+    return `<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px">${b('ยืนยันตัวตนแล้ว')}${b('ผลงานยืนยันแล้ว')}</div>`};
+  if(st==='purple')return {h:`${T}<div class="blk cen" style="margin-top:8px;padding:18px 10px 14px">${pic(96,true)}<div style="font-weight:800;font-size:19px;margin-top:12px">นิรา ภัทรวดี</div><div style="font-weight:600;font-size:12.5px">${role}</div><div style="font-size:11px;color:#555;margin-top:2px">${esc(handle)}</div>${badges('purple')}</div>`};
+  if(st==='cream')return {h:`${T}<div class="cen" style="padding:14px 0 6px">${pic(118)}<div style="font-weight:700;font-size:22px;margin-top:14px">นิรา ภัทรวดี</div><div class="mut" style="font-size:14px">${role}</div><div class="mut" style="font-size:12px;opacity:.8;margin-top:2px">${esc(handle)}</div>${badges('cream')}</div>`};
+  if(st==='gingham')return {h:`${T}<div class="cen" style="padding:12px 0 4px">${pic(96)}<div style="font-weight:800;font-size:19px;margin-top:12px">นิรา ภัทรวดี</div><div style="font-size:12.5px;font-weight:500">${role}</div><div class="mut" style="font-size:11px;margin-top:2px">${esc(handle)}</div>${badges('gingham')}</div>`};
+  if(st==='night')return {h:`${T}<div class="cen" style="padding:12px 0 10px">${pic(104)}<div style="font-weight:700;font-size:16px;margin-top:12px">นิรา ภัทรวดี</div><div class="mut" style="font-size:12px">${esc(handle)}</div>${badges('night')}</div>`};
+  return {h:`<div class="cen" style="padding:12px 0 8px">${T.replace('class="t','class="t" style="font-size:17px;font-weight:700;margin-bottom:12px" data-x="')}${pic(112)}<div style="font-weight:700;font-size:16px;margin-top:12px">นิรา ภัทรวดี</div><div class="mut" style="font-size:12px">${esc(handle)}</div>${badges('mac')}</div>`,bar:false};
+};
+R.social=(st,o,T)=>{
+  const rows=CH.filter(c=>o.show.includes(c.k));
+  if(st==='purple')return {h:`<div class="rw" style="align-items:flex-end;margin-bottom:8px">${T}<span class="end" style="font-weight:700;font-size:12px;padding-bottom:3px">ผู้ติดตาม</span></div><div class="stack">${rows.map(c=>`<div class="blk rw" style="padding:6px 10px">${ico(BR[c.k],30)}<span class="ell" style="font-weight:700;font-size:15px">${esc(c.handle)}</span><span class="end" style="font-weight:800;font-size:17px">${fmt(c.fol)}</span></div>`).join('')}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:10px">${T}</div><div class="stack">${rows.map(c=>`<div class="blk rw" style="padding:9px 12px">${ico(BR[c.k],32)}<span class="ell" style="font-size:14px;margin-left:6px">${esc(c.handle)}</span><span class="end" style="font-weight:700;font-size:17px">${fmt(c.fol)}</span></div>`).join('')}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:8px">${T}</div><div class="stack" style="gap:8px">${rows.map(c=>`<div class="rw">${ico(BR[c.k],30)}<span class="col"><span style="font-weight:600;font-size:12.5px">${c.name}</span><span class="mut" style="font-size:10.5px">${esc(c.handle)}</span></span><span class="end" style="font-size:18px">${fmt(c.fol)}</span></div>`).join('')}</div>`};
+  if(st==='night')return {h:`<div style="margin-bottom:10px">${T}</div><div class="stack">${rows.map(c=>`<div class="blk rw" style="padding:9px 12px">${ico(MONO[c.k],20,'var(--acc)')}<span style="font-weight:600;font-size:12.5px;margin-left:4px">${c.name}</span><span class="end acc" style="font-weight:700;font-size:16px">${fmt(c.fol)}</span></div>`).join('')}</div>`};
+  return {h:rows.map(c=>`<div class="ln"><span style="font-size:13.5px;font-weight:500">${c.name}</span><span class="acc" style="font-weight:600;font-size:13.5px">${fmt(c.fol)}</span></div>`).join(''),bar:true};
+};
+R.rate=(st,o,T)=>{
+  const rows=o.mode==='ch'?CH.filter(c=>o.show.includes(c.k)).map(c=>[c.name,c.rate]):FMT.filter(f=>o.rows.includes(f.k)).map(f=>[f.label,f.price]);
+  const p=n=>'฿'+fmt(n);
+  if(st==='purple')return {h:`<div style="margin-bottom:6px">${T}</div><div class="stack">${rows.map(([n,v])=>`<div class="blk rw" style="padding:8px 9px"><span style="font-weight:600;font-size:12.5px">${n}</span><span class="end" style="font-weight:800;font-size:17px">${p(v)}</span></div>`).join('')}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:10px">${T}</div><div class="stack">${rows.map(([n,v])=>`<div class="blk rw" style="padding:12px 14px"><span style="font-size:16px;font-weight:500">${n}</span><span class="end" style="font-weight:600;font-size:18px">${p(v)}</span></div>`).join('')}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:4px">${T.replace('class="t"','class="t" style="font-size:26px"')}</div>${rows.map(([n,v],i)=>`${i?'<div class="sepl" style="margin:0"></div>':''}<div class="rw" style="padding:9px 0"><span style="font-size:15px">${n}</span><span class="end" style="font-weight:800;font-size:19px">${p(v)}</span></div>`).join('')}`};
+  if(st==='night')return {h:`<div style="margin-bottom:10px">${T}</div><div class="stack">${rows.map(([n,v])=>`<div class="blk rw" style="padding:11px 12px"><span style="font-weight:600;font-size:13.5px">${n}</span><span class="end acc" style="font-weight:700;font-size:17px">${p(v)}</span></div>`).join('')}</div>`};
+  return {h:rows.map(([n,v])=>`<div class="ln"><span style="font-size:12.5px">${n}</span><span class="acc" style="font-weight:600;font-size:12.5px">${p(v)}</span></div>`).join(''),bar:true};
+};
+R.works=(st,o,T)=>{
+  const n=o.count,items=WORKS.slice(0,n),cols=n===1?1:2;
+  const grid=(inner,gap=7)=>`<div style="display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:${gap}px">${inner}</div>`;
+  if(o.state==='empty'){
+    if(st==='purple')return {h:`<div style="margin-bottom:6px">${T}</div><div class="blk cen" style="padding:14px 10px;gap:6px">${ico(IC.image(),30,'#8E8E8E')}<div style="font-weight:600;font-size:11.5px">พื้นที่สำหรับผลงานชิ้นแรก</div><span class="btn">${ico(IC.plus(),13)}เพิ่มผลงาน</span></div>`};
+    if(st==='cream')return {h:`<div style="margin-bottom:8px">${T}</div><div class="blk cen" style="padding:22px 10px;gap:4px">${ico(IC.image(),34,'#8E8E8E')}<div style="font-weight:700;font-size:13px;margin-top:6px">ยังไม่มีผลงาน</div><div class="mut" style="font-size:10.5px">ผลงานใหม่จะแสดงที่นี่</div></div>`};
+    if(st==='gingham')return {h:`${T}<div class="cen" style="padding:14px 0 6px;gap:6px">${ico(IC.image(),32,'#8E8E8E')}<div style="font-size:11.5px">ยังไม่มีผลงาน</div></div>`};
+    return {h:(st==='mac'?`<div class="cen" style="padding-top:10px">${T}</div>`:`<div style="margin-bottom:10px">${T}</div>`)+emptyOther(st,'image','ยังไม่มีผลงาน'),bar:false};
+  }
+  const views=(v,kind)=>!o.views?'':kind==='purple'?`<div class="rw" style="gap:4px;margin-top:4px">${ico(IC.play(),14,'#141414')}<span style="font-weight:700;font-size:11px">${v} วิว</span></div>`
+    :kind==='cream'?`<div style="margin-top:3px"><b style="font-size:15px;font-weight:800">${v}</b> <span style="font-size:11px">วิว</span></div>`:`<div class="mut" style="font-size:9.5px">${v} วิว</div>`;
+  const cap=()=>''; // ชื่องานใต้รูปตัดแล้ว (19 ต.ค. 2569) — ไม่มีข้อมูลจริงรองรับ
+  if(st==='purple')return {h:`<div style="margin-bottom:6px">${T}</div>${grid(items.map(w=>`<div class="blk" style="padding:6px">${`<div class="ph">${ico(IC.image(),26)}</div>`}${cap(w,'purple')}${views(w[2],'purple')}</div>`).join(''),6)}`};
+  if(st==='cream')return {h:`<div style="margin-bottom:8px">${T}</div>${grid(items.map(w=>`<div class="blk" style="padding:8px">${`<div class="ph" style="border-radius:7px;background:#D9D9D9">${ico(IC.image(),24)}</div>`}${cap(w,'cream')}${views(w[2],'cream')}</div>`).join(''))}`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:8px">${T}</div>${grid(items.map(w=>`<div><div class="ph" style="background:#D4D4D4">${ico(IC.image(),26)}</div>${cap(w,'gingham')}${views(w[2],'gingham')}</div>`).join(''),9)}`};
+  if(st==='night')return {h:`<div style="margin-bottom:10px">${T}</div>${grid(items.map(()=>`<div class="blk" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center">${ico(IC.image(),28,'var(--mut)')}</div>`).join(''),8)}`};
+  return {h:`<div class="cen" style="padding:8px 0 10px">${T.replace('class="t"','class="t" style="font-size:16px;font-weight:700"')}</div>${grid(items.map(()=>`<div style="aspect-ratio:1;background:var(--blk);border:1px solid var(--hair);border-radius:6px;display:flex;align-items:center;justify-content:center">${ico(IC.image(),26,'#9A9A9A')}</div>`).join(''),8)}<div style="height:6px"></div>`,bar:false};
+};
+R.time=(st,o,T)=>{
+  const showT=o.show.includes('time'),showA=o.show.includes('area'),pv=PROV.slice(0,o.prov);
+  if(st==='purple')return {h:`<div style="margin-bottom:8px">${T}</div><div class="stack" style="gap:9px">${showT?`<div class="blk rw" style="padding:12px;align-items:flex-start;gap:14px">${ico(IC.calendar(true),32,'#141414')}<div class="col"><b style="font-size:15px">วันที่สะดวกรับงาน</b><span style="font-size:15px">ส - อา.</span><span style="font-size:15px">เวลา 18.00 เป็นต้นไป</span></div></div>`:''}${showA?`<div class="blk rw" style="padding:12px;align-items:flex-start;gap:14px">${ico(IC.pin(true),32,'#141414')}<div class="col"><b style="font-size:15px">พื้นที่รับงาน</b>${pv.map(x=>`<span style="font-size:15px">${x}</span>`).join('')}</div></div>`:''}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:10px">${T}</div><div class="stack" style="gap:9px">${showT?`<div class="blk rw" style="padding:14px;align-items:flex-start;gap:16px">${ico(IC.calendar(false),30,'#6B6B6B')}<div class="col"><b style="font-size:15px">วันที่สะดวกรับงาน</b><span style="font-size:14px;opacity:.75">ส - อา.</span><span style="font-size:14px;opacity:.75">เวลา 18.00 เป็นต้นไป</span></div></div>`:''}${showA?`<div class="blk rw" style="padding:14px;align-items:flex-start;gap:16px">${ico(IC.pin(false),30,'#6B6B6B')}<div class="col" style="gap:6px;align-items:flex-start"><b style="font-size:15px">พื้นที่รับงาน</b>${pv.map(x=>`<span class="pill">${x}</span>`).join('')}</div></div>`:''}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:10px">${T}</div>${showT?`<div class="rw" style="align-items:flex-start;gap:14px">${ico(IC.calendar(true),30,'#141414')}<div class="col"><b style="font-size:14px">วันที่สะดวกรับงาน</b><span style="font-size:13px">ส - อา.</span><span style="font-size:13px">เวลา 18.00 เป็นต้นไป</span></div></div>`:''}${showT&&showA?'<div class="sepl" style="margin:12px 0"></div>':''}${showA?`<div class="rw" style="align-items:flex-start;gap:14px">${ico(IC.pin(true),30,'#141414')}<div class="col"><b style="font-size:14px">พื้นที่รับงาน</b>${pv.map(x=>`<span style="font-size:13px">${x}</span>`).join('')}</div></div>`:''}`};
+  if(st==='night')return {h:`<div style="margin-bottom:12px">${T}</div><div class="stack" style="gap:10px">${showT?`<div class="blk rw" style="padding:14px 16px;gap:16px">${ico(IC.calendar(false),40,'var(--acc)')}<div class="col"><span class="mut" style="font-size:12px">วันที่สะดวกรับงาน:</span><span style="font-weight:600;font-size:15px">ส. – อา. เวลา 18.00 เป็นต้นไป</span></div></div>`:''}${showA?`<div class="blk rw" style="padding:14px 16px;gap:16px">${ico(IC.pin(false),40,'var(--acc)')}<div class="col"><span class="mut" style="font-size:12px">พื้นที่รับงาน:</span><span style="font-weight:600;font-size:15px">${pv.join(', ')}</span></div></div>`:''}</div>`};
+  return {h:`${showT?`<div class="ln" style="flex-direction:column;align-items:flex-start;gap:2px;padding:12px 0"><span class="mut" style="font-size:12px">วันที่สะดวกรับงาน</span><b style="font-size:17px">ส. – อา. เวลา 18.00 เป็นต้นไป</b></div>`:''}${showA?`<div class="ln" style="flex-direction:column;align-items:flex-start;gap:2px;padding:12px 0"><span class="mut" style="font-size:12px">พื้นที่รับงาน</span><b style="font-size:17px">${pv.join(', ')}</b></div>`:''}`,bar:true};
+};
+R.contact=(st,o,T)=>{
+  const L=o.show.includes('line'),P=o.show.includes('phone'),M=o.show.includes('mail'),Q=o.qr&&L;
+  if(st==='purple')return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:19px"')}</div><div class="stack">${L?`<div class="blk" style="padding:10px"><div class="rw">${ico(BR.line,32)}<div class="col"><b style="font-size:14px">LINE</b><b style="font-size:14px">@nirabeauty</b></div></div>${Q?`<div class="cen" style="margin-top:8px">${qr(118,11)}<div style="font-size:10px;font-weight:600;margin-top:4px">QR ตัวอย่าง</div></div>`:''}</div>`:''}${P?`<div class="blk rw" style="padding:8px 10px">${ico(IC.phone(true),17,'#141414')}<b style="font-size:13px">081-234-5678</b></div>`:''}${M?`<div class="blk rw" style="padding:8px 10px">${ico(IC.mail(true),17,'#141414')}<b style="font-size:12.5px" class="ell">nira@beautyworks.co</b></div>`:''}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:10px">${T.replace('class="t"','class="t" style="font-size:19px"')}</div><div class="stack">${L?`<div class="blk" style="padding:12px"><div class="rw">${ico(BR.line,32)}<div class="col"><span style="font-weight:600;font-size:14px">LINE</span><span class="mut" style="font-size:12px">@nirabeauty</span></div></div>${Q?`<div class="cen" style="margin-top:10px"><div style="background:#fff;padding:10px;border-radius:6px">${qr(110,23)}</div><div class="mut" style="font-size:10px;margin-top:5px">QR ตัวอย่าง</div></div>`:''}</div>`:''}${P?`<div class="blk rw" style="padding:10px 12px">${ico(IC.phone(false),19,'#6B6B6B')}<span style="font-size:13.5px">081-234-5678</span></div>`:''}${M?`<div class="blk rw" style="padding:10px 12px">${ico(IC.mail(false),19,'#6B6B6B')}<span style="font-size:13px" class="ell">nira@beautyworks.co</span></div>`:''}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:16px"')}</div>${L?`<div class="rw">${ico(BR.line,32)}<b style="font-size:16px">@nirabeauty</b></div>${Q?`<div class="cen" style="margin:8px 0 4px">${qr(96,5)}<div class="mut" style="font-size:9.5px;margin-top:4px">QR ตัวอย่าง</div></div>`:''}`:''}<div class="col" style="gap:4px;margin-top:6px">${P?`<div class="rw" style="gap:8px">${ico(IC.phone(true),14,'#141414')}<span style="font-size:12.5px">081-234-5678</span></div>`:''}${M?`<div class="rw" style="gap:8px">${ico(IC.mail(true),14,'#141414')}<span style="font-size:12.5px" class="ell">nira@beautyworks.co</span></div>`:''}</div>`};
+  const items=[L&&['line','LINE:','@nirabeauty'],M&&['mail','อีเมล:','nira@beautyworks.co'],P&&['phone','โทร:','081-234-5678']].filter(Boolean);
+  if(st==='night')return {h:`<div style="margin-bottom:12px">${T.replace('class="t"','class="t" style="font-size:22px"')}</div><div class="stack" style="gap:10px">${items.map(([k,l,v])=>`<div class="blk rw" style="padding:12px;gap:14px"><span class="ibox">${ico(k==='line'?MONO.line:IC[k](false),22)}</span><div class="col"><span class="mut" style="font-size:11.5px">${l}</span><b class="ell" style="font-size:17px">${v}</b></div></div>`).join('')}</div>`};
+  return {h:items.map(([k,l,v])=>`<div class="ln" style="justify-content:flex-start;gap:12px"><span class="mut" style="font-size:12px;width:42px">${l}</span><span style="font-size:13px" class="ell">${v}</span></div>`).join(''),bar:true};
+};
+R.niche=(st,o,T)=>{
+  const it=NICHE.filter(n=>o.show.includes(n.k));
+  if(st==='purple')return {h:`<div style="margin-bottom:8px">${T}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(3,it.length)},minmax(0,1fr));gap:7px">${it.map(n=>`<div class="blk cen" style="padding:10px 4px;font-weight:700;font-size:14px">${n.n}</div>`).join('')}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:15px"')}</div><div class="stack">${it.map(n=>`<div class="blk rw" style="padding:12px 14px;gap:12px">${ico(IC[n.c](),22,'#6B6B6B')}<span style="font-weight:600;font-size:13px">${n.n}</span></div>`).join('')}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:6px">${T.replace('class="t"','class="t" style="font-size:17px"')}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(3,it.length)},minmax(0,1fr));gap:6px">${it.map(n=>`<div class="cen" style="background:#DCDCDC;border-radius:7px;padding:6px 4px;font-weight:600;font-size:11.5px">${n.n}</div>`).join('')}</div>`};
+  if(st==='night')return {h:`<div style="margin-bottom:10px">${T}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(3,it.length)},minmax(0,1fr));gap:8px">${it.map(n=>`<div class="blk cen" style="padding:12px 4px;gap:6px">${ico(IC[n.d](),30,'var(--acc)')}<span style="font-weight:600;font-size:11.5px">${n.n}</span></div>`).join('')}</div>`};
+  return {h:`<div style="display:flex;flex-wrap:wrap;gap:7px;padding:10px 0 4px">${it.map(n=>`<span class="chip">${n.n}</span>`).join('')}</div>`,bar:true};
+};
+R.bio=(st,o,T)=>{
+  const txt=o.len==='short'?BIO_SHORT:BIO_LONG,empty=o.state==='empty';
+  if(st==='purple')return {h:`${T.replace('class="t"','class="t" style="font-size:24px"')}${empty?`<div style="font-weight:700;font-size:12.5px;margin-top:2px">เล่าเรื่องตัวคุณให้แบรนด์รู้จัก</div><div style="margin-top:6px"><span class="btn">เพิ่ม About Me</span></div>`:`<div style="font-weight:700;font-size:12.5px;margin-top:6px;line-height:1.55">${txt}</div>`}<div style="width:26px;height:3px;background:var(--bc);margin-top:12px;border-radius:2px"></div>`};
+  if(st==='cream')return {h:`${T.replace('class="t"','class="t" style="font-size:19px;font-weight:600"')}${empty?`<div class="mut" style="font-size:13px;margin-top:6px;line-height:1.6">เล่าเรื่องตัวคุณให้แบรนด์รู้จัก<br>เริ่มจากสิ่งที่ชอบและสไตล์การรีวิวของคุณ</div><div style="margin-top:10px"><span class="pill">เพิ่มข้อความ</span></div>`:`<div style="font-size:13px;margin-top:8px;line-height:1.7;opacity:.72">${txt}</div>`}<div style="width:28px;height:3px;background:color-mix(in srgb,var(--ink) 18%,transparent);margin-top:14px;border-radius:2px"></div>`};
+  if(st==='gingham')return {h:`${T.replace('class="t"','class="t" style="font-size:20px"')}<div style="font-size:12.5px;margin-top:10px;line-height:1.7">${empty?'ยังไม่มีข้อมูลแนะนำตัว':txt}</div><div style="width:40px;height:2.5px;background:#141414;margin-top:12px"></div>`};
+  if(st==='night')return {h:`<div style="padding:10px 6px 4px">${T.replace('class="t"','class="t" style="font-size:24px"')}<div style="width:58px;height:3px;background:var(--acc);border-radius:2px;margin:8px 0 14px"></div>${empty?emptyOther('night','pencil','ยังไม่มีข้อมูลแนะนำตัว'):`<div style="font-size:14px;line-height:1.65">${txt}</div>`}<div style="height:26px"></div></div>`};
+  return {h:empty?emptyOther('mac','pencil','ยังไม่มีข้อมูลแนะนำตัว'):`<div style="font-size:14px;line-height:1.7;padding:10px 0 8px;font-weight:500">${txt}</div>`,bar:true};
+};
+R.body=(st,o,T)=>{
+  const f=BODY.filter(b=>o.show.includes(b.k));
+  if(o.state==='empty'){
+    if(st==='purple')return {h:`<div style="margin-bottom:8px">${T}</div><div class="blk cen" style="padding:14px 10px;gap:6px">${ico(IC.hanger(),40,'#141414')}<div style="font-weight:700;font-size:12.5px">เพิ่มข้อมูลสำหรับงานเสื้อผ้า</div><span class="btn">เพิ่มข้อมูล</span></div>`};
+    if(st==='cream')return {h:`<div style="margin-bottom:10px">${T}</div><div class="blk cen" style="padding:18px 10px;gap:8px">${ico(IC.ruler(),36,'#8E8E8E')}<div class="mut" style="font-size:12px">เพิ่มข้อมูลสัดส่วนสำหรับการรับงาน</div><span class="pill">เพิ่มข้อมูล</span></div>`};
+    if(st==='gingham')return {h:`${T}<div class="cen" style="padding:12px 0 4px;gap:6px">${ico(IC.ruler(),30,'#141414')}<div style="font-size:11.5px">ยังไม่มีข้อมูลสัดส่วน</div></div>`};
+    return {h:(st==='night'?`<div style="margin-bottom:10px">${T}</div>`:'')+emptyOther(st,'ruler','ยังไม่มีข้อมูลสัดส่วน'),bar:st==='mac'};
+  }
+  const cell=(b,kind)=>{const full=b.k==='p'?' full':'';
+    if(kind==='purple')return `<div class="blk${full}" style="padding:7px 10px"><div style="font-weight:700;font-size:12px">${b.l}</div><div style="font-weight:800;font-size:22px;line-height:1.15">${b.v}</div></div>`;
+    if(kind==='cream')return `<div class="blk${full}" style="padding:11px 14px"><div class="mut" style="font-size:12.5px">${b.l}</div><div style="font-weight:700;font-size:19px">${b.v}</div></div>`;
+    return `<div class="box${full}" style="padding:7px 9px"><div style="font-size:10.5px">${b.l}</div><div style="font-weight:800;font-size:15px">${b.v}</div></div>`};
+  if(st==='purple')return {h:`<div style="margin-bottom:6px">${T}</div><div class="grid2" style="gap:6px">${f.map(b=>cell(b,'purple')).join('')}</div>`};
+  if(st==='cream')return {h:`<div style="margin-bottom:10px">${T}</div><div class="grid2" style="gap:8px">${f.map(b=>cell(b,'cream')).join('')}</div>`};
+  if(st==='gingham')return {h:`<div style="margin-bottom:6px">${T.replace('class="t"','class="t" style="font-size:18px"')}</div><div class="grid2" style="gap:6px">${f.map(b=>cell(b,'g')).join('')}</div>`};
+  const nf=f.filter(b=>b.k!=='p'),lab={h:'ส่วนสูง',w:'น้ำหนัก',s:'เสื้อ',f:'รองเท้า'},unit={h:'ซม.',w:'กก.'};
+  const order=['h','w','f','s'],nn=order.map(k=>nf.find(b=>b.k===k)).filter(Boolean);
+  if(st==='night')return {h:`<div style="margin-bottom:10px">${T}</div><div class="grid2" style="gap:8px">${nn.map(b=>`<div class="blk" style="padding:12px 14px"><div style="font-weight:600;font-size:13px">${lab[b.k]}</div><div class="acc" style="font-weight:800;font-size:30px;line-height:1.15;margin-top:4px">${b.n}</div>${unit[b.k]?`<div class="mut" style="font-size:12px">${unit[b.k]}</div>`:''}</div>`).join('')}</div>`};
+  return {h:nn.map(b=>`<div class="ln"><span style="font-size:13px">${lab[b.k]}</span><span class="acc" style="font-weight:600;font-size:15px">${b.n}${unit[b.k]?' <span style="font-weight:400;font-size:12px">'+unit[b.k]+'</span>':''}</span></div>`).join(''),bar:true};
+};
+R.insight=(st,o,T)=>{
+  const has=k=>o.show.includes(k);
+  if(o.state==='empty'){
+    if(st==='purple')return {h:`<div style="margin-bottom:6px">${T}</div><div class="blk cen" style="padding:16px 10px;gap:8px">${ico(IC.chart(),34,'#6B6B6B')}<div style="font-weight:800;font-size:14px">ยังไม่มีข้อมูล Insight</div><span class="btn">เพิ่มข้อมูล</span></div>`};
+    if(st==='cream')return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:16px"')}</div><div class="blk cen" style="padding:16px 10px;gap:8px">${ico(IC.people(),30,'#9A9A9A')}<div style="font-weight:700;font-size:14px">เพิ่มข้อมูลผู้ติดตามของคุณ</div><span class="pill">เพิ่ม Insight</span></div>`};
+    if(st==='gingham')return {h:`${T.replace('class="t"','class="t" style="font-size:15px"')}<div class="cen" style="padding:16px 0 8px;gap:8px">${ico(IC.chart(),34,'#BDBDBD')}<div style="font-size:11px">ยังไม่มีข้อมูล Insight</div></div>`};
+    return {h:(st==='night'?`<div style="margin-bottom:10px">${T}</div>`:'')+emptyOther(st,'chart','ยังไม่มีข้อมูล Insight'),bar:st==='mac'};
+  }
+  const cities=[['กรุงเทพฯ',42],['ชลบุรี',11],['เชียงใหม่',8]],ages=[['18–24',46],['25–34',37],['35+',17]];
+  if(st==='purple'){
+    const bar=(c)=>`<div class="rw" style="gap:6px;margin-top:5px"><span style="font-size:11px;font-weight:600;width:50px">${c[0]}</span><span style="flex:1;height:9px;background:#E6E6E6;border-radius:5px;overflow:hidden"><span style="display:block;height:100%;width:${c[1]*1.6}%;background:#B57EF7;border-radius:5px"></span></span><span style="font-size:11px;font-weight:700;width:26px;text-align:right">${c[1]}%</span></div>`;
+    const blocks=[];
+    if(has('city'))blocks.push(`<div class="blk" style="padding:8px 9px"><b style="font-size:12px">เมืองหลักของผู้ติดตาม</b>${cities.map(bar).join('')}</div>`);
+    if(has('gender'))blocks.push(`<div class="blk" style="padding:8px 9px"><b style="font-size:12px">เพศ</b><div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:6px;margin-top:6px;text-align:center"><div class="cen">${ico(IC.female(),20,'#EC4FA4')}<span style="font-size:10.5px;font-weight:600">หญิง</span><b style="font-size:16px">84%</b></div><span style="background:#DDD"></span><div class="cen">${ico(IC.male(),20,'#2F80ED')}<span style="font-size:10.5px;font-weight:600">ชาย</span><b style="font-size:16px">16%</b></div></div></div>`);
+    if(has('age'))blocks.push(`<div class="blk" style="padding:8px 9px"><b style="font-size:12px">อายุ</b><div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:6px">${ages.map((a,i)=>`<div class="cen" style="${i?'border-left:1px solid #DDD':''}"><span style="font-size:10.5px;font-weight:600">${a[0]}</span><b style="font-size:16px">${a[1]}%</b></div>`).join('')}</div></div>`);
+    if(has('reach'))blocks.push(`<div class="blk" style="padding:8px 9px"><b style="font-size:12px">การเข้าถึง</b><div class="cen" style="margin-top:6px"><b style="font-size:19px;font-weight:800">1,240,000</b><span style="font-size:11px;font-weight:600">ต่อเดือน</span></div></div>`);
+    return {h:`<div style="margin-bottom:6px">${T}</div><div style="display:grid;grid-template-columns:${blocks.length>1?'1.35fr 1fr':'1fr'};gap:6px">${blocks.join('')}</div>`};
+  }
+  if(st==='cream'){
+    const b=[];
+    if(has('city'))b.push(`<div class="blk" style="padding:10px 12px"><div class="mut" style="font-size:11px">เมืองหลักของผู้ติดตาม</div><div class="rw" style="gap:6px;margin:2px 0 6px">${ico(IC.pin(true),18,'#D9534F')}<b style="font-size:17px">กรุงเทพฯ 42%</b></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${cities.slice(1).map(c=>`<span class="pill" style="border-radius:8px;text-align:center">${c[0]} ${c[1]}%</span>`).join('')}</div></div>`);
+    if(has('gender'))b.push(`<div class="blk" style="padding:10px 12px"><div class="mut" style="font-size:11px">เพศ</div><div class="rw" style="gap:8px;margin-top:4px"><span style="color:#E24C9A;font-size:20px;line-height:1">♀</span><span style="font-size:14px">หญิง <b>84%</b></span><span style="width:1px;height:18px;background:rgba(0,0,0,.15);margin:0 6px"></span><span style="color:#2F80ED;font-size:20px;line-height:1">♂</span><span style="font-size:14px">ชาย <b>16%</b></span></div></div>`);
+    if(has('age'))b.push(`<div class="blk" style="padding:10px 12px"><div class="mut" style="font-size:11px">อายุ</div><div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:4px">${ages.map((a,i)=>`<div class="cen" style="${i?'border-left:1px solid rgba(0,0,0,.1)':''}"><span class="mut" style="font-size:11px">${a[0]}</span><b style="font-size:16px">${a[1]}%</b></div>`).join('')}</div></div>`);
+    if(has('reach'))b.push(`<div class="blk" style="padding:10px 12px"><div class="mut" style="font-size:11px">การเข้าถึง</div><div class="rw" style="gap:8px;margin-top:2px">${ico(IC.eye(),20,'#2E9E5B')}<b style="font-size:18px">1,240,000</b><span class="mut" style="font-size:11px">ต่อเดือน</span></div></div>`);
+    return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:16px"')}</div><div class="stack">${b.join('')}</div>`};
+  }
+  if(st==='gingham'){
+    const b=[];
+    if(has('city'))b.push(`<b style="font-size:11px">เมืองหลักของผู้ติดตาม</b>${cities.map(c=>`<div class="rw" style="font-size:10.5px"><span>${c[0]}</span><span class="end">${c[1]}%</span></div>`).join('')}`);
+    if(has('gender'))b.push(`<b style="font-size:11px">เพศ</b><div style="display:grid;grid-template-columns:1fr 1fr"><div><div style="font-size:10px">หญิง</div><b style="font-size:14px">84%</b></div><div style="border-left:1px solid #DDD;padding-left:10px"><div style="font-size:10px">ชาย</div><b style="font-size:14px">16%</b></div></div>`);
+    if(has('age'))b.push(`<b style="font-size:11px">อายุ</b><div style="display:grid;grid-template-columns:repeat(3,1fr)">${ages.map((a,i)=>`<div style="${i?'border-left:1px solid #DDD;padding-left:8px':''}"><div style="font-size:10px">${a[0]}</div><b style="font-size:14px">${a[1]}%</b></div>`).join('')}</div>`);
+    if(has('reach'))b.push(`<b style="font-size:11px">การเข้าถึง</b><b style="font-size:18px;font-weight:800">1,240,000</b><div style="font-size:10px;margin-top:-2px">ต่อเดือน</div>`);
+    return {h:`<div style="margin-bottom:8px">${T.replace('class="t"','class="t" style="font-size:15px"')}</div>${b.map(x=>`<div class="col" style="gap:3px">${x}</div>`).join('<div class="sepl"></div>')}`};
+  }
+  if(st==='night'){
+    const b=[];
+    if(has('city'))b.push(['เมืองหลักของผู้ติดตาม:',`<span style="font-weight:600;font-size:17px">กรุงเทพ</span><span class="end acc" style="font-weight:800;font-size:24px">42%</span>`]);
+    if(has('gender'))b.push(['เพศ:',`<span style="font-size:17px;font-weight:600">หญิง <b class="acc" style="font-size:22px">84%</b> <span class="mut">/</span> ชาย <b class="acc" style="font-size:22px">16%</b></span>`]);
+    if(has('age'))b.push(['อายุ:',`<span style="font-weight:600;font-size:17px">18–24 ปี</span><span class="end acc" style="font-weight:800;font-size:24px">46%</span>`]);
+    if(has('reach'))b.push(['การเข้าถึง:',`<span class="acc" style="font-weight:800;font-size:32px;line-height:1.1">1.2M</span><span style="font-size:14px;margin-left:4px">/ เดือน</span>`]);
+    return {h:`<div style="margin-bottom:10px">${T.replace('class="t"','class="t" style="font-size:24px"')}</div><div class="stack" style="gap:8px">${b.map(([l,v])=>`<div class="blk" style="padding:9px 14px"><div class="mut" style="font-size:11px">${l}</div><div class="rw" style="gap:6px">${v}</div></div>`).join('')}</div>`};
+  }
+  const rows=[];const B=(x)=>`<b class="acc">${x}</b>`;
+  if(has('city'))rows.push(['เมืองหลักของผู้ติดตาม',`<span class="mut">กรุงเทพ</span> ${B('42%')}`]);
+  if(has('gender'))rows.push(['เพศ',`<span class="mut">หญิง</span> ${B('84%')} <span class="mut">/ ชาย</span> ${B('16%')}`]);
+  if(has('age'))rows.push(['อายุ',`<span class="mut">18–24 ปี</span> ${B('46%')}`]);
+  if(has('reach'))rows.push(['การเข้าถึง',`${B('1.2M')} <span class="mut">/ เดือน</span>`]);
+  return {h:rows.map(([l,v])=>`<div class="ln"><b style="font-size:13.5px">${l}</b><span style="font-size:13px;white-space:nowrap">${v}</span></div>`).join(''),bar:true};
+};
+
+function widgetHTML(id,st,ws,opts,forMini,noEdit){
+  const def=W.find(w=>w.id===id),look=forMini?LOOK0[st]:ws.look[st];
+  const width=forMini?def.w[st]:(ws.w[st]||def.w[st]);
+  const stageDark=ST.stage==='black'||ST.stage==='photo';
+  const T=`<div class="t">${esc(def.title)}</div>`;
+  const r=R[id](st,opts,T);
+  return `<div class="wg s-${st}" style="${cssVars(st,look,ws,width,stageDark)}">${shell(st,r.h,r.bar,T)}</div>`;
+}
+
+/* ---------------- UI ---------------- */
+const $=s=>document.querySelector(s);
+const tabs=$('#tabs'),stage=$('#stage'),panel=$('#panel'),cap=$('#cap');
+tabs.innerHTML=W.map(w=>`<button type="button" id="tab-${w.id}" data-id="${w.id}">${w.name}<small>หน้า ${w.page}</small></button>`).join('');
+tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ST.wid=b.dataset.id;try{history.replaceState(null,'','#'+b.dataset.id)}catch(_){}save();renderAll()});
+$('#g-font').addEventListener('change',e=>{ST.font=e.target.value;save();renderStage();renderMinis()});
+$('#g-view').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ST.view=b.dataset.v;save();renderAll()});
+$('#g-stage').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ST.stage=b.dataset.v;save();renderAll()});
+
+function renderStage(){
+  const ws=wstate(ST.wid);
+  const all=ST.view==='all';
+  stage.className='stage '+ST.stage+(all?' all':'');
+  stage.innerHTML=all?STY.map(st=>`<div class="lab">${widgetHTML(ST.wid,st,ws,ws.o,false,true)}<span>${SNAME[st]}</span></div>`).join(''):widgetHTML(ST.wid,ws.style,ws,ws.o,false);
+  const t=stage.querySelector('[data-title]');
+  if(t){t.addEventListener('input',()=>{ws.title=t.textContent.trim()||W.find(w=>w.id===ST.wid).title;save()});
+    t.addEventListener('blur',()=>renderMinis());
+    t.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();t.blur()}})}
+  const n=all?Object.entries(NOTES[ST.wid]||{}).map(([k,v])=>SNAME[k]+': '+v).join(' · '):(NOTES[ST.wid]||{})[ws.style];
+  const emptyNew=ws.o.state==='empty'&&EMPTY_CANVA[ST.wid]&&(all||!EMPTY_CANVA[ST.wid].includes(ws.style));
+  cap.innerHTML=`<div class="lock">🔒 ข้อความบน widget แก้ไม่ได้ · ข้อมูลดึงจาก Star Profile · หัวข้อเป็นป้ายตายตัว</div>`
+    +(n?`<div><span class="note">Canva: ${n}</span></div>`:'')
+    +(emptyNew?`<div><span class="note new">${all?'กลางคืนนีออนกับหน้าต่าง Mac: ':''}หน้าตอนยังไม่มีข้อมูลของสไตล์นี้ไม่มีใน Canva · ต้องออกแบบเพิ่ม</span></div>`:'');
+}
+function renderMinis(){
+  const ws=wstate(ST.wid),box=$('#minis');if(!box)return;
+  box.innerHTML=STY.map(st=>`<button type="button" class="mini" id="mini-${st}" data-st="${st}" aria-pressed="${st===ws.style}" aria-label="${SNAME[st]}"><div class="sc">${widgetHTML(ST.wid,st,ws,ws.o,true)}</div></button>`).join('');
+  requestAnimationFrame(()=>box.querySelectorAll('.mini').forEach(m=>{const sc=m.firstElementChild,w=sc.scrollWidth||1,h=sc.scrollHeight||1;const k=Math.min((m.clientWidth-8)/w,(m.clientHeight-8)/h);sc.style.transform=`scale(${k})`}));
+}
+function seg(id,items,cur,dis){return `<div class="seg" data-seg="${id}">${items.map(([v,l])=>`<button type="button" id="${id}-${v}" data-v="${v}" aria-pressed="${String(cur)===String(v)}"${dis?' disabled':''}>${l}</button>`).join('')}</div>`}
+function swatches(id,cols,cur,withAuto,withPick){
+  return `<div class="sw" data-sw="${id}">${withAuto?`<button type="button" class="auto" id="${id}-auto" data-v="auto" aria-pressed="${cur==='auto'}">อัตโนมัติ</button>`:''}${cols.map(c=>`<button type="button" id="${id}-${c.slice(1)}" data-v="${c}" style="background:${c}" aria-label="${c}" aria-pressed="${cur&&cur.toLowerCase()===c.toLowerCase()}"></button>`).join('')}${withPick?`<label class="pick" title="เลือกสีเอง"><input type="color" id="${id}-pick" data-pick="${id}" value="${cur&&cur.startsWith('#')?cur:'#888888'}" aria-label="เลือกสีเอง"></label>`:''}</div>`}
+
+function renderPanel(){
+  const def=W.find(w=>w.id===ST.wid),ws=wstate(ST.wid),st=ws.style,look=ws.look[st],o=ws.o;
+  let h=`<div class="grp"><div class="gl"><span class="sect" style="font-size:15px">${def.name}</span><em>Canva หน้า ${def.page}</em></div></div>`;
+  h+=`<div class="grp"><div class="gl">แบบ <em>${SNAME[st]}</em></div><div class="minis" id="minis"></div><div class="mininame">${STY.map(s=>`<span>${SNAME[s]}</span>`).join('')}</div></div><div class="sep"></div>`;
+  h+=`<div class="sect">เนื้อหา</div>`;
+  def.opts.forEach(p=>{
+    if(p.when&&!p.when(o))return;
+    const na=p.styles&&!p.styles.includes(st);
+    const hint=na?`<div class="hint">สไตล์${SNAME[st]}ใน Canva ไม่มีส่วนนี้</div>`:'';
+    if(p.type==='seg'){h+=`<div class="grp"><div class="gl">${p.label}${p.sub?`<em>${p.sub}</em>`:''}</div>${seg('o-'+p.k,p.items,o[p.k],na)}${p.upload&&o.photo==='has'?`<label class="upl">อัปโหลดรูปของคุณ<input type="file" accept="image/*" id="o-upload"></label>`:''}${hint}</div>`}
+    if(p.type==='switch'){h+=`<div class="grp"><div class="row"><span>${p.label}${p.sub?` <span class="hint">· ${p.sub}</span>`:''}</span><label class="switch"><input type="checkbox" id="o-${p.k}" data-sw-opt="${p.k}" ${o[p.k]&&!na?'checked':''} ${na?'disabled':''}><span></span></label></div>${hint}</div>`}
+    if(p.type==='step'){const i=p.values.indexOf(o[p.k]);h+=`<div class="grp"><div class="row"><span>${p.label}</span><span class="stepper" data-step="${p.k}"><button type="button" id="o-${p.k}-dec" data-d="-1" ${i<=0?'disabled':''} aria-label="ลด">−</button><b>${o[p.k]}</b><button type="button" id="o-${p.k}-inc" data-d="1" ${i>=p.values.length-1?'disabled':''} aria-label="เพิ่ม">+</button></span></div></div>`}
+    if(p.type==='checks'){const off=(p.off&&p.off[st])||[];
+      h+=`<div class="grp"><div class="gl">${p.label}${p.max?`<em>สูงสุด ${p.max}</em>`:''}</div><div class="checks" data-checks="${p.k}">${p.items.map(([k,l,sub])=>{const isOff=off.includes(k),on=o[p.k].includes(k);
+        const last=on&&o[p.k].length<=(p.min||0),full=!on&&p.max&&o[p.k].length>=p.max;
+        return `<label class="${isOff?'off':''}" for="c-${p.k}-${k}"><input type="checkbox" id="c-${p.k}-${k}" data-k="${k}" ${on&&!isOff?'checked':''} ${isOff||last||full?'disabled':''}>${l}<em>${isOff?'ไม่มีใน Canva':(sub||'')}</em></label>`}).join('')}</div></div>`}
+  });
+  h+=`<div class="sep"></div><div class="sect">กล่อง</div>
+    <div class="grp"><div class="gl">พื้นหลัง</div>${seg('l-mode',[['solid','สีพื้น'],['grad','ไล่สี'],['clear','โปร่ง']],look.mode)}</div>
+    ${look.mode!=='clear'?`<div class="grp"><div class="gl">สีพื้น</div>${swatches('l-fill',FILLS,look.fill,false,true)}</div>`:''}
+    <div class="grp"><div class="gl">ขอบ</div>${seg('l-border',[['on','มีขอบ'],['off','ไม่มีขอบ']],look.border?'on':'off')}</div>
+    ${look.border?`<div class="grp"><div class="gl">มุม</div>${seg('l-corner',[['round','มน'],['square','เหลี่ยม']],look.corner)}</div>
+    <div class="grp"><div class="gl">สีขอบ${st==='night'?' <em>สีตัวเลขตามสีนี้</em>':st==='purple'?' <em>เงาตามสีนี้</em>':''}</div>${swatches('l-bc',BCOLS,look.bc,false,true)}</div>`:''}
+    <div class="grp"><div class="gl">ความกว้าง <em>${ws.w[st]||def.w[st]} px</em></div><input type="range" id="l-w" min="200" max="440" step="2" value="${ws.w[st]||def.w[st]}" aria-label="ความกว้าง widget"></div>
+    <button type="button" class="btnline" id="l-reset">คืนค่าสไตล์นี้ตาม Canva</button>`;
+  panel.innerHTML=h;
+  renderMinis();
+}
+function renderAll(){
+  tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===ST.wid)));
+  $('#g-font').value=ST.font;
+  document.querySelectorAll('#g-stage button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===ST.stage)));
+  document.querySelectorAll('#g-view button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===(ST.view||'one'))));
+  renderStage();renderPanel();
+}
+panel.addEventListener('click',e=>{
+  const ws=wstate(ST.wid),st=ws.style,look=ws.look[st],def=W.find(w=>w.id===ST.wid);
+  const mini=e.target.closest('.mini');if(mini){ws.style=mini.dataset.st;save();renderStage();renderPanel();return}
+  const b=e.target.closest('button');if(!b)return;
+  const sg=b.closest('[data-seg]'),sw=b.closest('[data-sw]'),stp=b.closest('[data-step]');
+  if(sg){const id=sg.dataset.seg,v=b.dataset.v;
+    if(id.startsWith('o-'))ws.o[id.slice(2)]=v;
+    if(id==='t-font')ws.tfont=v;
+    if(id==='l-mode')look.mode=v;
+    if(id==='l-border')look.border=v==='on';
+    if(id==='l-corner')look.corner=v;}
+  if(sw){const id=sw.dataset.sw,v=b.dataset.v;
+    if(id==='t-col')ws.tcol=v;
+    if(id==='l-fill'){look.fill=v;ws.tcol='auto'}
+    if(id==='l-bc')look.bc=v;}
+  if(stp){const p=def.opts.find(q=>q.k===stp.dataset.step),i=p.values.indexOf(ws.o[p.k])+(+b.dataset.d);if(i>=0&&i<p.values.length)ws.o[p.k]=p.values[i]}
+  if(b.id==='l-reset'){ws.look[st]={...LOOK0[st]};delete ws.w[st];ws.tcol='auto';ws.tfont='same'}
+  save();renderStage();renderPanel();
+});
+panel.addEventListener('change',e=>{
+  const ws=wstate(ST.wid),st=ws.style,look=ws.look[st],t=e.target;
+  if(t.matches('[data-checks] input')){const k=t.closest('[data-checks]').dataset.checks,arr=ws.o[k];
+    if(t.checked){if(!arr.includes(t.dataset.k))arr.push(t.dataset.k)}else ws.o[k]=arr.filter(x=>x!==t.dataset.k)}
+  if(t.dataset.swOpt){ws.o[t.dataset.swOpt]=t.checked}
+  if(t.dataset.pick){const id=t.dataset.pick;if(id==='t-col')ws.tcol=t.value;if(id==='l-fill'){look.fill=t.value;ws.tcol='auto'}if(id==='l-bc')look.bc=t.value}
+  if(t.id==='o-upload'&&t.files&&t.files[0]){const r=new FileReader();r.onload=()=>{PHOTO=r.result;renderStage();renderMinis()};r.readAsDataURL(t.files[0]);return}
+  save();renderStage();renderPanel();
+});
+panel.addEventListener('input',e=>{if(e.target.id==='l-w'){const ws=wstate(ST.wid);ws.w[ws.style]=+e.target.value;save();renderStage();const em=e.target.previousElementSibling.querySelector('em');if(em)em.textContent=e.target.value+' px'}});
+document.fonts&&document.fonts.ready.then(()=>renderMinis());
+renderAll();
+})();
+</script>

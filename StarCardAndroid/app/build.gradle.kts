@@ -33,7 +33,11 @@ android {
     }
 
     sourceSets["main"].kotlin.srcDirs("src/main/kotlin")
+    // ผังวิดเจ็ตมีชุดเดียวที่โฟลเดอร์กลาง `shared/WidgetSpecs` (iOS อ่านโฟลเดอร์เดียวกัน) — ไม่คัดลอก
+    // เพิ่มโฟลเดอร์ `shared` เป็นแหล่ง assets ตรง ๆ จึงได้ `assets/WidgetSpecs/*.json` (WIDGET-SPEC.md §3)
+    sourceSets["main"].assets.srcDirs("src/main/assets", "../../shared")
 }
+
 
 dependencies {
     val bom = platform("androidx.compose:compose-bom:2026.09.00")
@@ -53,4 +57,6 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
     implementation("com.google.zxing:core:3.5.4")
     debugImplementation("androidx.compose.ui:ui-tooling")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }

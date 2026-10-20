@@ -165,15 +165,6 @@ class PhotoStore {
     private val _fits = mutableStateMapOf<UUID, Map<Int, PhotoFit>>()
     val fits: Map<UUID, Map<Int, PhotoFit>> get() = _fits
     /**
-     * ช่องที่ถูก **ลบพื้นหลัง** แล้ว — เก็บผลไว้ต่างหาก ไม่ทับรูปต้นฉบับ
-     * ปุ่มนี้ต้องกดคืนได้ทันทีโดยไม่ต้องอัปโหลดใหม่ และรูปต้นฉบับยังเป็นของที่ผู้ใช้เลือกมา
-     */
-    private val _lifted = mutableStateMapOf<UUID, Map<Int, Bitmap>>()
-    val lifted: Map<UUID, Map<Int, Bitmap>> get() = _lifted
-    /** ช่องที่กำลังคำนวณหน้ากากอยู่ — ปุ่มหมุนรอระหว่างนี้ และกดซ้ำไม่ได้ */
-    var lifting: Set<PhotoSlotRef> by mutableStateOf(emptySet())
-        private set
-    /**
      * ช่องที่กำลังถูกจัดกรอบอยู่ · null = ไม่มีใครถูกจัด
      * อยู่ในสโตร์เพราะทั้งปุ่มบนตัวรูปและชั้นการ์ดที่วางแผ่นลากทับต้องอ่านค่าเดียวกัน
      */
@@ -205,21 +196,14 @@ class PhotoStore {
             write(image, slotURL(id, s))
             // รูปใหม่ = กรอบใหม่ · การเก็บค่าเลื่อนของรูปเก่าไว้ทำให้รูปที่เพิ่งวางเข้าไปเบี้ยวทันที
             _fits.putSlot(id,s, null)
-            // และหน้ากากของรูปเก่าก็ใช้กับรูปใหม่ไม่ได้ — ต้องกดลบพื้นหลังใหม่ถ้าต้องการ
-            if (_lifted[id]?.get(s) != null) {
-                _lifted.putSlot(id,s, null)
-                write(null, liftURL(id, s))
-            }
         }
         saveManifest()
     }
 
     fun clear(id: UUID) {
         for (s in (_perWidget[id] ?: emptyMap()).keys) write(null, slotURL(id, s))
-        for (s in (_lifted[id] ?: emptyMap()).keys) write(null, liftURL(id, s))
         _perWidget.remove(id)
         _fits.remove(id)
-        _lifted.remove(id)
         saveManifest()
     }
 
@@ -227,10 +211,7 @@ class PhotoStore {
         _perWidget.putSlot(id,slot, null)
         // คืนรูประบบ = คืนกรอบตั้งต้นด้วย ไม่งั้นรูปใหม่โผล่มาพร้อมกรอบของรูปเก่า
         _fits.putSlot(id,slot, null)
-        // พื้นหลังที่ลบไว้เป็นของ *รูปใบนั้น* — คืนรูปเดิมแล้วหน้ากากของใบเก่าใช้ต่อไม่ได้
-        _lifted.putSlot(id,slot, null)
         write(null, slotURL(id, slot))
-        write(null, liftURL(id, slot))
         saveManifest()
         if (framing == PhotoSlotRef(id, slot)) framing = null
     }
@@ -260,51 +241,12 @@ class PhotoStore {
      * ไล่ลำดับเดียวกับ `image(i, id)` เป๊ะ ๆ รวมถึงรูประบบที่แคชไว้แล้ว
      */
     fun uiImage(slot: Int, id: UUID): Bitmap? {
-        _lifted[id]?.get(slot)?.let { return it }
         _perWidget[id]?.get(slot)?.let { return it }
         library(slot)?.let { return it }
         return ImageCache.shared.cached(PhotoLib.url(slot))
     }
 
     fun count(id: UUID): Int = _perWidget[id]?.size ?: 0
-
-    // MARK: ลบพื้นหลัง
-
-    fun hasLift(slot: Int, id: UUID): Boolean = _lifted[id]?.get(slot) != null
-
-    fun isLifting(slot: Int, id: UUID): Boolean = lifting.contains(PhotoSlotRef(id, slot))
-
-    /** รูปต้นฉบับของช่อง — **ไม่นับใบที่ลบพื้นหลังไปแล้ว** (ตัวที่ส่งไปแยกพื้นต้องมีพื้นหลัง) */
-    private fun sourceImage(slot: Int, id: UUID): Bitmap? {
-        _perWidget[id]?.get(slot)?.let { return it }
-        library(slot)?.let { return it }
-        return ImageCache.shared.cached(PhotoLib.url(slot))
-    }
-
-    /**
-     * ยกตัวแบบออกจากพื้นหลังของช่องนี้ — คืน `false` เมื่อในรูปไม่มีวัตถุที่แยกได้
-     * รูปต้นฉบับไม่ถูกแตะเลย กดคืนพื้นหลังได้ตลอดเวลาด้วย `dropLift` · เรียกจากเธรดหลัก
-     */
-    suspend fun liftBackground(slot: Int, id: UUID): Boolean {
-        val ref = PhotoSlotRef(id, slot)
-        if (lifting.contains(ref)) return false
-        val source = sourceImage(slot, id) ?: return false
-        lifting = lifting + ref
-        val out = PhotoLift.lift(source)
-        lifting = lifting - ref
-        if (out == null) return false
-        _lifted.putSlot(id,slot, out)
-        write(out, liftURL(id, slot), png = true)
-        saveManifest()
-        return true
-    }
-
-    /** คืนพื้นหลังให้ช่องนี้ */
-    fun dropLift(slot: Int, id: UUID) {
-        _lifted.putSlot(id,slot, null)
-        write(null, liftURL(id, slot))
-        saveManifest()
-    }
 
     val hasUploads: Boolean get() = uploaded.isNotEmpty()
     val count: Int get() = max(uploaded.size, PhotoLib.count)
@@ -318,7 +260,6 @@ class PhotoStore {
     @Serializable
     private data class Manifest(
         val slots: Map<String, List<Int>> = emptyMap(),
-        val lifts: Map<String, List<Int>> = emptyMap(),
         val fits: Map<String, Map<Int, PhotoFit>> = emptyMap(),
         val library: List<String> = emptyList(),
     )
@@ -332,8 +273,6 @@ class PhotoStore {
             get() = File(AppContext.filesDir, "starcard-photos").also { runCatching { it.mkdirs() } }
 
         private fun slotURL(id: UUID, s: Int): File = File(photoDir, "slot-$id-$s.jpg")
-        /** PNG ไม่ใช่ JPEG — รูปที่ลบพื้นหลังแล้วต้องเก็บความโปร่งใสไว้ */
-        private fun liftURL(id: UUID, s: Int): File = File(photoDir, "lift-$id-$s.png")
         private fun libraryURL(id: UUID): File = File(photoDir, "lib-$id.jpg")
         private val manifestURL: File get() = File(photoDir, "manifest.json")
 
@@ -421,7 +360,6 @@ class PhotoStore {
     private fun writeManifest() {
         val m = Manifest(
             slots = _perWidget.filterValues { it.isNotEmpty() }.entries.associate { (id, slots) -> id.toString() to slots.keys.toList() },
-            lifts = _lifted.filterValues { it.isNotEmpty() }.entries.associate { (id, slots) -> id.toString() to slots.keys.toList() },
             fits = _fits.filterValues { it.isNotEmpty() }.entries.associate { (id, slots) -> id.toString() to slots },
             library = uploadedIDs.map { it.toString() },
         )
@@ -438,10 +376,6 @@ class PhotoStore {
         for ((key, slots) in m.slots) {
             val id = runCatching { UUID.fromString(key) }.getOrNull() ?: continue
             for (s in slots) readBitmap(slotURL(id, s))?.let { _perWidget.putSlot(id,s, it) }
-        }
-        for ((key, slots) in m.lifts) {
-            val id = runCatching { UUID.fromString(key) }.getOrNull() ?: continue
-            for (s in slots) readBitmap(liftURL(id, s))?.let { _lifted.putSlot(id,s, it) }
         }
         for ((key, slots) in m.fits) {
             val id = runCatching { UUID.fromString(key) }.getOrNull() ?: continue
@@ -604,7 +538,14 @@ class PhotoStore {
      * ช่องครีเอเตอร์ (1–3): รูปโปรไฟล์ครีเอเตอร์ → รูปโปรไฟล์วงกลม · ช่องอื่น: คลังที่อัปโหลด → รูปผลงานจากหน้าแก้ไขโปรไฟล์
      * null = ยังไม่มีรูปของเจ้าของเลย ผู้เรียกตกไปใช้รูปตัวอย่าง
      */
+    /** โหมดลองทำ: รูป mock ชุดเดียวของทุก platform (GraphQL `mockPhotos`) — มีค่า = ช่องที่ไม่ได้ใส่รูปเองใช้ชุดนี้ */
+    private val _labMock = mutableStateOf<LabMockPhotos?>(null)
+    var labMock: LabMockPhotos?
+        get() = _labMock.value
+        set(v) { _labMock.value = v }
+
     fun library(i: Int): Bitmap? {
+        labMock?.let { return it.image(i) }
         val folio = Portfolio.shared
         if (PhotoLib.isProfileSlot(i)) {
             folio.creatorImage(i)?.let { return it }
@@ -622,15 +563,14 @@ class PhotoStore {
     }
 
     /**
-     * รูปลำดับที่ i — ลำดับ: รูปที่ลบพื้นหลัง → รูปที่วางในช่องนี้ของ widget → คลังของเจ้าของ → รูปตั้งต้นจากระบบ
+     * รูปลำดับที่ i — ลำดับ: รูปที่วางในช่องนี้ของ widget → คลังของเจ้าของ → รูปตั้งต้นจากระบบ
      * รูปไม่ถูก redact — ตู้ widget วาดใบที่ "ยังไม่มีข้อมูล" เป็นแท่ง แต่รูปต้องยังเป็นรูป
      * วาดแบบ fill โดยไม่ตัดขอบเอง (เหมือน `Image.resizable` + `.aspectRatio(.fill)`) — ผู้เรียก `.clip()` ที่กรอบเอง
      */
     @Composable
     fun image(i: Int, id: UUID? = null, modifier: Modifier = Modifier) {
-        val cut = id?.let { _lifted[it]?.get(i) }
         val own = id?.let { _perWidget[it]?.get(i) }
-        val bmp = cut ?: own ?: library(i)
+        val bmp = own ?: library(i)
         if (bmp != null) BitmapFill(bmp, modifier) else RemotePhoto(url = PhotoLib.url(i), modifier = modifier)
     }
 }
@@ -1064,8 +1004,7 @@ fun PhotoFitCatcher(theme: CardTheme, scale: Float, modifier: Modifier = Modifie
     fun isCutout(): Boolean {
         val r = store.framing ?: return false
         val img = store.userImage(r.slot, r.widget) ?: return true
-        if (CutoutCache.shared.result(img).isCutout) return true
-        return SubjectLift.shared.result(img)?.isCutout == true
+        return CutoutCache.shared.result(img).isCutout
     }
 
     /** ขนาดที่ภาพถูกวาดจริงในกรอบ (ก่อนซูม) — คำนวณจากสัดส่วนของภาพกับกฎ `.fill` */
@@ -1184,4 +1123,15 @@ private fun <V : Any> androidx.compose.runtime.snapshots.SnapshotStateMap<UUID, 
     val inner = (this[id] ?: emptyMap()).toMutableMap()
     if (value == null) inner.remove(slot) else inner[slot] = value
     if (inner.isEmpty()) remove(id) else this[id] = inner
+}
+
+/** รูป mock ของโหมดลองทำ — กติกาเดียวกับ iOS/เว็บ (ดู `MockPhotos` ใน sync-server/graphql.mjs) */
+class LabMockPhotos(val creators: List<Bitmap>, val works: List<Bitmap>) {
+    /** ช่อง 1…3 (ช่องรูปครีเอเตอร์) → creators · ที่เหลือ → works */
+    fun image(i: Int): Bitmap? {
+        val n = ((i % PhotoLib.count) + PhotoLib.count) % PhotoLib.count
+        if (n in 1..3 && creators.isNotEmpty()) return creators[(n - 1) % creators.size]
+        if (works.isNotEmpty()) return works[kotlin.math.abs(i) % works.size]
+        return creators.firstOrNull()
+    }
 }

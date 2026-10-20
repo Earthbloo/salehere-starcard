@@ -1,0 +1,325 @@
+{
+ "kind": "popHeroPaper",
+ "design": {
+  "w": 277,
+  "h": 250
+ },
+ "widget": {
+  "title": "ป้ายชื่อ กระดาษเทป",
+  "category": "hero",
+  "symbol": "person.crop.square.fill",
+  "order": 47,
+  "ownSurface": true,
+  "ownBorder": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "photo": true,
+  "skin": "paper",
+  "motion": "mid"
+ },
+ "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระดาษ) — ตามต้นฉบับใบนี้ **ไม่มีแผ่น**: ชื่อลอยบนการ์ด · รูปอัดขอบขาวแปะเทปเอียง · ข้อมูลอยู่บนกระดาษโน้ตขาว (มุมพับ PopFold วาดไม่ได้) · แปลงจาก PopWidgets.swift (PopHero สกิน paper, inner.padding(6)) · สี: ถ่านคงที่ pop.ink (ชื่อเป็นถ่านแม้บนการ์ดมืด ตามต้นฉบับ) · เทป rawAccent@0.62 · ต้นฉบับใบนี้ไม่อ่าน surface/border",
+ "root": {
+  "type": "col",
+  "pad": 6,
+  "gap": 6,
+  "align": "start",
+  "children": [
+   {
+    "type": "text",
+    "id": "name",
+    "slot": "name",
+    "face": "noto",
+    "weight": 900,
+    "size": 59,
+    "sizeWhen": [
+     {
+      "when": "w<200",
+      "size": 42
+     },
+     {
+      "when": "w<240",
+      "size": 50
+     }
+    ],
+    "kerning": -0.5,
+    "maxLines": 1,
+    "shrinkTo": 29.5,
+    "color": "pop.ink",
+    "w": "fill"
+   },
+   {
+    "type": "row",
+    "gap": 10,
+    "align": "stretch",
+    "grow": 1,
+    "h": "fill",
+    "children": [
+     {
+      "type": "stack",
+      "id": "portrait",
+      "w": 107,
+      "children": [
+       {
+        "type": "image",
+        "photo": 1,
+        "radius": 2,
+        "stroke": {
+         "color": "white",
+         "width": 5
+        },
+        "shadow": {
+         "x": 0,
+         "sigma": 3,
+         "y": 4,
+         "color": "black@0.28"
+        },
+        "rotate": -2
+       },
+       {
+        "type": "rect",
+        "id": "tape",
+        "w": 54,
+        "h": 13,
+        "fill": "rawAccent@0.62",
+        "stroke": {
+         "color": "white@0.35",
+         "width": 0.5
+        },
+        "rotate": -8,
+        "place": "top-center",
+        "dx": -18,
+        "dy": -4
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "info",
+      "grow": 1,
+      "w": "fill",
+      "pad": [
+       10,
+       8
+      ],
+      "align": "start",
+      "fill": "white",
+      "radius": 3,
+      "shadow": {
+       "x": 0,
+       "sigma": 2.5,
+       "y": 4,
+       "color": "black@0.2"
+      },
+      "children": [
+       {
+        "type": "row",
+        "gap": 5,
+        "align": "center",
+        "pad": [
+         10,
+         0,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:instagram",
+          "size": 15
+         },
+         {
+          "type": "row",
+          "gap": 0,
+          "align": "end",
+          "shrink": 1,
+          "children": [
+           {
+            "type": "text",
+            "text": "@",
+            "face": "noto",
+            "weight": 500,
+            "size": 11.5,
+            "color": "pop.ink",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "id": "handle",
+            "slot": "handle",
+            "face": "noto",
+            "weight": 500,
+            "size": 11.5,
+            "color": "pop.ink",
+            "maxLines": 1,
+            "shrinkTo": 6.5
+           }
+          ]
+         },
+         {
+          "type": "rect",
+          "w": 0.8,
+          "h": 15,
+          "fill": "pop.ink@0.5",
+          "if": "has:stat:creatorKind"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:user-fill",
+          "size": 11,
+          "tint": "pop.ink",
+          "if": "has:stat:creatorKind"
+         },
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 500,
+          "size": 11.5,
+          "color": "pop.ink",
+          "maxLines": 1,
+          "shrink": 0,
+          "slot": "stat:creatorKind",
+          "if": "has:stat:creatorKind"
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 6
+       },
+       {
+        "type": "col",
+        "gap": 5,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "gap": 0,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "พื้นที่รับงาน : ",
+            "face": "noto",
+            "weight": 700,
+            "size": 11,
+            "color": "pop.ink",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "id": "workArea",
+            "slot": "workArea",
+            "face": "noto",
+            "weight": 400,
+            "size": 11,
+            "color": "pop.ink",
+            "maxLines": 1,
+            "shrinkTo": 7.7,
+            "grow": 1
+           }
+          ]
+         },
+         {
+          "type": "line",
+          "h": 1,
+          "fill": "pop.ink@0.85"
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 6
+       },
+       {
+        "type": "row",
+        "id": "verified",
+        "if": "owner.verified",
+        "gap": 5,
+        "align": "center",
+        "pad": [
+         3,
+         8,
+         3,
+         3
+        ],
+        "radius": 9,
+        "gradient": {
+         "from": "#4DA8F5",
+         "to": "#2166D6",
+         "angle": 0
+        },
+        "children": [
+         {
+          "type": "stack",
+          "w": 36,
+          "h": 36,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "ph:seal-check-fill",
+            "size": 36,
+            "tint": "#6BCCFA",
+            "place": "center"
+           },
+           {
+            "type": "rect",
+            "w": 23,
+            "h": 23,
+            "circle": true,
+            "fill": "white",
+            "place": "center"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:check",
+            "size": 13,
+            "tint": "#2980E6",
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "col",
+          "gap": -4,
+          "align": "start",
+          "grow": 1,
+          "children": [
+           {
+            "type": "text",
+            "text": "VERIFIED",
+            "face": "noto",
+            "weight": 900,
+            "size": 19,
+            "kerning": 0.2,
+            "color": "white",
+            "maxLines": 1,
+            "shrinkTo": 11.4
+           },
+           {
+            "type": "text",
+            "text": "BY SALE HERE",
+            "face": "noto",
+            "weight": 900,
+            "size": 10,
+            "kerning": 0.3,
+            "color": "white",
+            "maxLines": 1,
+            "shrinkTo": 6
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

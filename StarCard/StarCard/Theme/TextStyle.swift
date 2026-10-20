@@ -17,89 +17,45 @@ import UIKit
 
 /// ฟอนต์ที่เลือกได้ — ทุกตัวต้องอ่านภาษาไทยออก ไม่ใช่ฟอนต์ละตินที่ปล่อยให้ไทยตกไป fallback
 ///
-/// `noto` กับ `mitr` มาในแอป · ที่เหลือเป็นฟอนต์ไทยของ iOS เอง
-/// ตัวไหนหาไม่เจอบนเครื่องจะตกกลับไปที่ `noto` เสมอ (ดู `resolved`)
+/// มีแค่ฟอนต์ที่มาในแอปและเป็น SIL Open Font License (`noto` · `mitr`) — การ์ดถูก export เป็นภาพ
+/// และวาดซ้ำบน Android/เว็บ ฟอนต์ของ Apple (สุขุมวิท · ธนบุรี · กรุงเทพ · SF Rounded · New York)
+/// จึงถูกถอดออก · ค่าเก่าที่บันทึกไว้อ่านไม่ออกแล้วตกกลับไปที่ `noto` เอง (`CardFont(rawValue:) ?? .noto`)
 enum CardFont: String, CaseIterable, Identifiable {
-    case noto, mitr, sukhumvit, thonburi, krungthep, rounded, serif
+    case noto, mitr
 
     var id: String { rawValue }
 
     var name: String {
         switch self {
-        case .noto:      return "มาตรฐาน"
-        case .mitr:      return "มิตร"
-        case .sukhumvit: return "สุขุมวิท"
-        case .thonburi:  return "ธนบุรี"
-        case .krungthep: return "กรุงเทพ"
-        case .rounded:   return "มน"
-        case .serif:     return "เซริฟ"
+        case .noto: return "มาตรฐาน"
+        case .mitr: return "มิตร"
         }
     }
 
-    /// ดีไซน์ของฟอนต์ระบบ — nil แปลว่าตัวนี้เป็นฟอนต์ที่มีชื่อจริง ไม่ใช่ระบบ
-    private var design: UIFontDescriptor.SystemDesign? {
-        switch self {
-        case .rounded: return .rounded
-        case .serif:   return .serif
-        default:       return nil
-        }
-    }
-
-    /// ชื่อ PostScript ของน้ำหนักที่ขอ — nil เมื่อเป็นฟอนต์ระบบ
+    /// ชื่อ PostScript ของน้ำหนักที่ขอ
     ///
-    /// ฟอนต์ที่มีน้ำหนักเดียว (มิตร · กรุงเทพ) คืนชื่อเดิมทุกน้ำหนัก — หนาไม่ขึ้นดีกว่าตกไปฟอนต์อื่น
-    /// กลางประโยค เพราะสิ่งที่ผู้ใช้เลือกคือ *หน้าตา* ไม่ใช่ *น้ำหนัก*
-    private func face(_ w: Font.Weight) -> String? {
+    /// มิตรมีน้ำหนักเดียว คืนชื่อเดิมทุกน้ำหนัก — หนาไม่ขึ้นดีกว่าตกไปฟอนต์อื่นกลางประโยค
+    /// เพราะสิ่งที่ผู้ใช้เลือกคือ *หน้าตา* ไม่ใช่ *น้ำหนัก*
+    private func face(_ w: Font.Weight) -> String {
         switch self {
         case .noto: return SHFont.name(w)
         case .mitr: return "Mitr-Regular"
-        case .krungthep: return "Krungthep"
-        case .thonburi:
-            switch w {
-            case .bold, .heavy, .black, .semibold:  return "Thonburi-Bold"
-            case .light, .thin, .ultraLight:        return "Thonburi-Light"
-            default:                                return "Thonburi"
-            }
-        case .sukhumvit:
-            switch w {
-            case .heavy, .black:             return "SukhumvitSet-Bold"
-            case .bold:                      return "SukhumvitSet-Bold"
-            case .semibold:                  return "SukhumvitSet-SemiBold"
-            case .medium:                    return "SukhumvitSet-Medium"
-            case .light, .thin, .ultraLight: return "SukhumvitSet-Light"
-            default:                         return "SukhumvitSet-Text"
-            }
-        case .rounded, .serif: return nil
         }
     }
 
     /// ชื่อที่ **มีอยู่จริงบนเครื่องนี้** — ตัวที่ลงทะเบียนไม่สำเร็จตกกลับไปที่ฟอนต์หลักของแอป
     /// เช็คที่นี่ที่เดียว ทั้ง `Font` และ `UIFont` จึงไม่มีทางได้คนละหน้าตากัน
-    private func resolved(_ w: Font.Weight) -> String? {
-        guard let n = face(w) else { return nil }
-        if UIFont(name: n, size: 12) != nil { return n }
-        return SHFont.name(w)
+    private func resolved(_ w: Font.Weight) -> String {
+        let n = face(w)
+        return UIFont(name: n, size: 12) != nil ? n : SHFont.name(w)
     }
 
     func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
-        if let d = design {
-            return .system(size: size, weight: weight,
-                           design: d == .serif ? .serif : .rounded)
-        }
-        guard let n = resolved(weight) else { return .sh(size, weight) }
-        return .custom(n, fixedSize: size)
+        .custom(resolved(weight), fixedSize: size)
     }
 
     func uiFont(_ size: CGFloat, _ weight: Font.Weight = .regular) -> UIFont {
-        if let d = design {
-            let base = UIFont.systemFont(ofSize: size, weight: weight.ui)
-            guard let desc = base.fontDescriptor.withDesign(d) else { return base }
-            return UIFont(descriptor: desc, size: size)
-        }
-        guard let n = resolved(weight), let f = UIFont(name: n, size: size) else {
-            return .systemFont(ofSize: size, weight: weight.ui)
-        }
-        return f
+        UIFont(name: resolved(weight), size: size) ?? .systemFont(ofSize: size, weight: weight.ui)
     }
 }
 

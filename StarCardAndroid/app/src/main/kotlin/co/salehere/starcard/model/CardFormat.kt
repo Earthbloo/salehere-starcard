@@ -90,8 +90,8 @@ enum class CardFormat {
     /** หน้าตั้งต้นของการ์ดแบบนี้ */
     val starterPages: List<CardPage>
         get() = when (this) {
-            portfolio -> Mock.starterPages
-            story -> listOf(Mock.storyPage)
+            portfolio -> Mock.starter("portfolio")
+            story -> Mock.starter("story")
         }
 
     companion object {

@@ -1,0 +1,449 @@
+{
+ "kind": "scrapPhones",
+ "design": {
+  "w": 370,
+  "h": 270
+ },
+ "widget": {
+  "title": "กำแพงมือถือ",
+  "category": "photo",
+  "symbol": "iphone.gen3",
+  "size": {
+   "w": 366,
+   "h": 267
+  },
+  "order": 69,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก · กำแพงมือถือ — แผ่นกระดาษโทน · พาดหัว 'ผลงาน/ล่าสุด' ชิดขวา (note#1/2) · มือถือดำ 75×145 สี่เครื่อง (รูปช่อง 1–4 มุม 11 ปุ่มเล่นวงกลมขาว) เอียง −3/2/−2/3 สลับสูงต่ำ (75/98) กระจายด้วย spacer จึงยืดตามความกว้าง · ป้าย 'ใหม่!' ดำเอียง −6° · ประกาย 2 · หัวใจ · แปลงจาก ScrapbookWidgets.swift (ScrapPhonesWidget) · ป้ายใหม่ต้นฉบับมุมล่างซ้าย 2 (uneven) ที่นี่มุม 9 ทุกมุม · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "row",
+    "id": "label",
+    "place": "top-left",
+    "dy": 13,
+    "pad": [
+     0,
+     17,
+     0,
+     0
+    ],
+    "gap": -2,
+    "align": "start",
+    "justify": "end",
+    "children": [
+     {
+      "type": "row",
+      "id": "first",
+      "pad": [
+       0,
+       8.1,
+       2.2,
+       8.1
+      ],
+      "fill": "white",
+      "rotate": -2,
+      "shadow": {
+       "sigma": 1.5,
+       "y": 1.5,
+       "color": "scrap.shade@0.12"
+      },
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 27,
+        "weight": 900,
+        "color": "#141414",
+        "maxLines": 1,
+        "text": "ผลงาน"
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "pad": [
+       13,
+       0,
+       0,
+       0
+      ],
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "second",
+        "pad": [
+         0.5,
+         9.2
+        ],
+        "fill": "scrap.band",
+        "rotate": 1.5,
+        "children": [
+         {
+          "type": "text",
+          "face": "mitr",
+          "size": 23.2,
+          "weight": 400,
+          "color": "#141414",
+          "maxLines": 1,
+          "text": "ล่าสุด"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "phones",
+    "place": "top-left",
+    "dy": 75,
+    "pad": [
+     0,
+     18
+    ],
+    "align": "start",
+    "children": [
+     {
+      "type": "stack",
+      "id": "phone0",
+      "w": 75,
+      "h": 145,
+      "pad": 3.5,
+      "fill": "#1B1B1D",
+      "radius": 14,
+      "rotate": -3,
+      "shadow": {
+       "sigma": 3.5,
+       "y": 8,
+       "color": "scrap.shade@0.28"
+      },
+      "children": [
+       {
+        "type": "image",
+        "photo": 1,
+        "radius": 11
+       },
+       {
+        "type": "stack",
+        "w": 23,
+        "h": 23,
+        "circle": true,
+        "fill": "white@0.9",
+        "place": "center",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:play-fill",
+          "w": 10,
+          "h": 10,
+          "tint": "#141414",
+          "place": "center",
+          "dx": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "col",
+      "pad": [
+       23,
+       0,
+       0,
+       0
+      ],
+      "children": [
+       {
+        "type": "stack",
+        "id": "phone1",
+        "w": 75,
+        "h": 145,
+        "pad": 3.5,
+        "fill": "#1B1B1D",
+        "radius": 14,
+        "rotate": 2,
+        "shadow": {
+         "sigma": 3.5,
+         "y": 8,
+         "color": "scrap.shade@0.28"
+        },
+        "children": [
+         {
+          "type": "image",
+          "photo": 2,
+          "radius": 11
+         },
+         {
+          "type": "stack",
+          "w": 23,
+          "h": 23,
+          "circle": true,
+          "fill": "white@0.9",
+          "place": "center",
+          "children": [
+           {
+            "type": "icon",
+            "icon": "ph:play-fill",
+            "w": 10,
+            "h": 10,
+            "tint": "#141414",
+            "place": "center",
+            "dx": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "stack",
+      "id": "phone2",
+      "w": 75,
+      "h": 145,
+      "pad": 3.5,
+      "fill": "#1B1B1D",
+      "radius": 14,
+      "rotate": -2,
+      "shadow": {
+       "sigma": 3.5,
+       "y": 8,
+       "color": "scrap.shade@0.28"
+      },
+      "children": [
+       {
+        "type": "image",
+        "photo": 3,
+        "radius": 11
+       },
+       {
+        "type": "stack",
+        "w": 23,
+        "h": 23,
+        "circle": true,
+        "fill": "white@0.9",
+        "place": "center",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:play-fill",
+          "w": 10,
+          "h": 10,
+          "tint": "#141414",
+          "place": "center",
+          "dx": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "col",
+      "pad": [
+       23,
+       0,
+       0,
+       0
+      ],
+      "children": [
+       {
+        "type": "stack",
+        "id": "phone3",
+        "w": 75,
+        "h": 145,
+        "pad": 3.5,
+        "fill": "#1B1B1D",
+        "radius": 14,
+        "rotate": 3,
+        "shadow": {
+         "sigma": 3.5,
+         "y": 8,
+         "color": "scrap.shade@0.28"
+        },
+        "children": [
+         {
+          "type": "image",
+          "photo": 4,
+          "radius": 11
+         },
+         {
+          "type": "stack",
+          "w": 23,
+          "h": 23,
+          "circle": true,
+          "fill": "white@0.9",
+          "place": "center",
+          "children": [
+           {
+            "type": "icon",
+            "icon": "ph:play-fill",
+            "w": 10,
+            "h": 10,
+            "tint": "#141414",
+            "place": "center",
+            "dx": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "newTag",
+    "place": "top-left",
+    "dx": 15,
+    "dy": 48,
+    "align": "start",
+    "justify": "start",
+    "children": [
+     {
+      "type": "row",
+      "pad": [
+       4,
+       8
+      ],
+      "fill": "#141414",
+      "radius": 9,
+      "rotate": -6,
+      "children": [
+       {
+        "type": "text",
+        "text": "ใหม่!",
+        "face": "mitr",
+        "size": 10,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "w": 18,
+    "h": 18,
+    "tint": "white",
+    "place": "top-left",
+    "dx": 65,
+    "dy": 20
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "w": 13,
+    "h": 13,
+    "tint": "scrap.accent",
+    "place": "bottom-left",
+    "dx": 90,
+    "dy": -17
+   },
+   {
+    "type": "rect",
+    "id": "heart",
+    "w": 20,
+    "h": 20,
+    "shape": "heart",
+    "fill": "scrap.accent",
+    "place": "bottom-right",
+    "dx": -90,
+    "dy": -14
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

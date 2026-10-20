@@ -1,0 +1,1814 @@
+{
+ "kind": "kitContactPurple",
+ "design": {
+  "w": 236,
+  "h": 400
+ },
+ "widget": {
+  "title": "ช่องทางติดต่อ",
+  "category": "contact",
+  "symbol": "qrcode",
+  "order": 96,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "purple"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitContact"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องทาง",
+    "items": [
+     [
+      "line",
+      "LINE"
+     ],
+     [
+      "phone",
+      "เบอร์โทร"
+     ],
+     [
+      "web",
+      "เว็บไซต์"
+     ]
+    ],
+    "opt": "hide"
+   },
+   {
+    "type": "switch",
+    "label": "QR LINE",
+    "opt": "qr",
+    "default": true,
+    "if": "!hidden:line"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ช่องทางติดต่อ (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (contact) · root = ม่วงสติกเกอร์ (ขอบ+ทึบ → เงาเยื้อง 5pt) · variants ตาม cfg:style / bordered / cfg:fill=clear · ซ่อนช่องด้วย hidden:line|phone|web · QR เปิด/ปิดด้วย opt:qr (ตั้งต้นเปิด = `!opt:qr=0`) และโชว์เฉพาะเมื่อมี LINE · ทำไม่ได้: จัดรูปเบอร์ 081-234-5678 และตัด https:// (ช่องให้ค่าดิบ) · QR ของผังชี้ลิงก์การ์ด ไม่ใช่ line.me · QR ไม่โตตามความสูง (คงที่ 120/112/96/104) · สองเงื่อนไข (ไม่ซ่อน + มีค่า) ต้องซ้อนสองชั้น — ชั้นนอกที่ grow ยังกินที่แม้ค่าว่าง · โลโก้ LINE วาดจาก primitive (ไม่มี asset)",
+ "variants": [
+  {
+   "when": "!bordered",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14,
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "ช่องทางติดต่อ"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "stack",
+                  "children": [
+                   {
+                    "type": "rect",
+                    "fill": "#06C755",
+                    "radius": 7.68
+                   },
+                   {
+                    "type": "rect",
+                    "w": 23.04,
+                    "h": 17.92,
+                    "circle": true,
+                    "fill": "white",
+                    "place": "center",
+                    "dy": -0.96
+                   },
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 6.08,
+                    "weight": 900,
+                    "color": "#06C755",
+                    "maxLines": 1,
+                    "textAlign": "center",
+                    "place": "center",
+                    "dy": -0.96,
+                    "role": "deco"
+                   }
+                  ],
+                  "w": 32,
+                  "h": 32,
+                  "id": "lineMark"
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   },
+                   {
+                    "type": "text",
+                    "slot": "stat:lineFlow",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   }
+                  ],
+                  "gap": 0,
+                  "align": "start"
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "row",
+                  "grow": 1,
+                  "justify": "center",
+                  "align": "center",
+                  "children": [
+                   {
+                    "type": "stack",
+                    "id": "qrBox",
+                    "h": "fill",
+                    "minH": 132,
+                    "maxH": 187,
+                    "maxW": 187,
+                    "pad": 6,
+                    "fill": "white",
+                    "radius": 6,
+                    "children": [
+                     {
+                      "type": "icon",
+                      "icon": "qr",
+                      "tint": "#141417",
+                      "w": "fill",
+                      "h": "fill"
+                     }
+                    ],
+                    "w": "fill"
+                   }
+                  ],
+                  "w": "fill"
+                 },
+                 {
+                  "type": "text",
+                  "text": "สแกนเพิ่มเพื่อน LINE",
+                  "face": "noto",
+                  "size": 9.5,
+                  "weight": 600,
+                  "color": "black@0.52",
+                  "maxLines": 1
+                 }
+                ],
+                "gap": 4,
+                "align": "center",
+                "justify": "center",
+                "grow": 1,
+                "if": "!opt:qr=0",
+                "id": "qr",
+                "w": "fill"
+               }
+              ],
+              "pad": 10,
+              "align": "start",
+              "justify": "start",
+              "gap": 8
+             }
+            ],
+            "grow": 1,
+            "if": "has:stat:lineFlow"
+           }
+          ],
+          "if": "!hidden:line",
+          "grow": 1,
+          "id": "line"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:phone-fill",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:phoneFmt",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:phoneFmt"
+           }
+          ],
+          "if": "!hidden:phone",
+          "id": "phone"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:globe",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:site",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:site"
+           }
+          ],
+          "if": "!hidden:web",
+          "id": "web"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 7,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 3
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 3
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 3,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 14
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 14
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 14,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "ช่องทางติดต่อ"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "stack",
+                  "children": [
+                   {
+                    "type": "rect",
+                    "fill": "#06C755",
+                    "radius": 7.68
+                   },
+                   {
+                    "type": "rect",
+                    "w": 23.04,
+                    "h": 17.92,
+                    "circle": true,
+                    "fill": "white",
+                    "place": "center",
+                    "dy": -0.96
+                   },
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 6.08,
+                    "weight": 900,
+                    "color": "#06C755",
+                    "maxLines": 1,
+                    "textAlign": "center",
+                    "place": "center",
+                    "dy": -0.96,
+                    "role": "deco"
+                   }
+                  ],
+                  "w": 32,
+                  "h": 32,
+                  "id": "lineMark"
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   },
+                   {
+                    "type": "text",
+                    "slot": "stat:lineFlow",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   }
+                  ],
+                  "gap": 0,
+                  "align": "start"
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "row",
+                  "grow": 1,
+                  "justify": "center",
+                  "align": "center",
+                  "children": [
+                   {
+                    "type": "stack",
+                    "id": "qrBox",
+                    "h": "fill",
+                    "minH": 132,
+                    "maxH": 187,
+                    "maxW": 187,
+                    "pad": 6,
+                    "fill": "white",
+                    "radius": 6,
+                    "children": [
+                     {
+                      "type": "icon",
+                      "icon": "qr",
+                      "tint": "#141417",
+                      "w": "fill",
+                      "h": "fill"
+                     }
+                    ],
+                    "w": "fill"
+                   }
+                  ],
+                  "w": "fill"
+                 },
+                 {
+                  "type": "text",
+                  "text": "สแกนเพิ่มเพื่อน LINE",
+                  "face": "noto",
+                  "size": 9.5,
+                  "weight": 600,
+                  "color": "black@0.52",
+                  "maxLines": 1
+                 }
+                ],
+                "gap": 4,
+                "align": "center",
+                "justify": "center",
+                "grow": 1,
+                "if": "!opt:qr=0",
+                "id": "qr",
+                "w": "fill"
+               }
+              ],
+              "pad": 10,
+              "align": "start",
+              "justify": "start",
+              "gap": 8
+             }
+            ],
+            "grow": 1,
+            "if": "has:stat:lineFlow"
+           }
+          ],
+          "if": "!hidden:line",
+          "grow": 1,
+          "id": "line"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:phone-fill",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:phoneFmt",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:phoneFmt"
+           }
+          ],
+          "if": "!hidden:phone",
+          "id": "phone"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:globe",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:site",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:site"
+           }
+          ],
+          "if": "!hidden:web",
+          "id": "web"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 7,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "!bordered | cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 14,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 3,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "ช่องทางติดต่อ"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "stack",
+                  "children": [
+                   {
+                    "type": "rect",
+                    "fill": "#06C755",
+                    "radius": 7.68
+                   },
+                   {
+                    "type": "rect",
+                    "w": 23.04,
+                    "h": 17.92,
+                    "circle": true,
+                    "fill": "white",
+                    "place": "center",
+                    "dy": -0.96
+                   },
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 6.08,
+                    "weight": 900,
+                    "color": "#06C755",
+                    "maxLines": 1,
+                    "textAlign": "center",
+                    "place": "center",
+                    "dy": -0.96,
+                    "role": "deco"
+                   }
+                  ],
+                  "w": 32,
+                  "h": 32,
+                  "id": "lineMark"
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "text": "LINE",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   },
+                   {
+                    "type": "text",
+                    "slot": "stat:lineFlow",
+                    "face": "noto",
+                    "size": 14,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1
+                   }
+                  ],
+                  "gap": 0,
+                  "align": "start"
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "row",
+                  "grow": 1,
+                  "justify": "center",
+                  "align": "center",
+                  "children": [
+                   {
+                    "type": "stack",
+                    "id": "qrBox",
+                    "h": "fill",
+                    "minH": 132,
+                    "maxH": 187,
+                    "maxW": 187,
+                    "pad": 6,
+                    "fill": "white",
+                    "radius": 6,
+                    "children": [
+                     {
+                      "type": "icon",
+                      "icon": "qr",
+                      "tint": "#141417",
+                      "w": "fill",
+                      "h": "fill"
+                     }
+                    ],
+                    "w": "fill"
+                   }
+                  ],
+                  "w": "fill"
+                 },
+                 {
+                  "type": "text",
+                  "text": "สแกนเพิ่มเพื่อน LINE",
+                  "face": "noto",
+                  "size": 9.5,
+                  "weight": 600,
+                  "color": "black@0.52",
+                  "maxLines": 1
+                 }
+                ],
+                "gap": 4,
+                "align": "center",
+                "justify": "center",
+                "grow": 1,
+                "if": "!opt:qr=0",
+                "id": "qr",
+                "w": "fill"
+               }
+              ],
+              "pad": 10,
+              "align": "start",
+              "justify": "start",
+              "gap": 8
+             }
+            ],
+            "grow": 1,
+            "if": "has:stat:lineFlow"
+           }
+          ],
+          "if": "!hidden:line",
+          "grow": 1,
+          "id": "line"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:phone-fill",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:phoneFmt",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:phoneFmt"
+           }
+          ],
+          "if": "!hidden:phone",
+          "id": "phone"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "children": [
+                 {
+                  "type": "icon",
+                  "icon": "ph:globe",
+                  "size": 14,
+                  "tint": "#141417",
+                  "w": 18
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:site",
+                  "face": "noto",
+                  "size": 13,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 9.75
+                 },
+                 {
+                  "type": "spacer",
+                  "grow": 1
+                 }
+                ],
+                "gap": 10,
+                "align": "center"
+               }
+              ],
+              "pad": [
+               8,
+               10
+              ],
+              "align": "start",
+              "justify": "center"
+             }
+            ],
+            "if": "has:stat:site"
+           }
+          ],
+          "if": "!hidden:web",
+          "id": "web"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 7,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 14,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 3,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 3,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 3
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 22,
+      "weight": 800,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 15.4,
+      "w": "fill",
+      "id": "title",
+      "text": "ช่องทางติดต่อ"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 8
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "#141417",
+             "width": 2
+            },
+            "radius": 8
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "row",
+              "children": [
+               {
+                "type": "stack",
+                "children": [
+                 {
+                  "type": "rect",
+                  "fill": "#06C755",
+                  "radius": 7.68
+                 },
+                 {
+                  "type": "rect",
+                  "w": 23.04,
+                  "h": 17.92,
+                  "circle": true,
+                  "fill": "white",
+                  "place": "center",
+                  "dy": -0.96
+                 },
+                 {
+                  "type": "text",
+                  "text": "LINE",
+                  "face": "noto",
+                  "size": 6.08,
+                  "weight": 900,
+                  "color": "#06C755",
+                  "maxLines": 1,
+                  "textAlign": "center",
+                  "place": "center",
+                  "dy": -0.96,
+                  "role": "deco"
+                 }
+                ],
+                "w": 32,
+                "h": 32,
+                "id": "lineMark"
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "LINE",
+                  "face": "noto",
+                  "size": 14,
+                  "weight": 800,
+                  "color": "#141417",
+                  "maxLines": 1
+                 },
+                 {
+                  "type": "text",
+                  "slot": "stat:lineFlow",
+                  "face": "noto",
+                  "size": 14,
+                  "weight": 800,
+                  "color": "#141417",
+                  "maxLines": 1
+                 }
+                ],
+                "gap": 0,
+                "align": "start"
+               },
+               {
+                "type": "spacer",
+                "grow": 1
+               }
+              ],
+              "gap": 10,
+              "align": "center"
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "row",
+                "grow": 1,
+                "justify": "center",
+                "align": "center",
+                "children": [
+                 {
+                  "type": "stack",
+                  "id": "qrBox",
+                  "h": "fill",
+                  "minH": 132,
+                  "maxH": 187,
+                  "maxW": 187,
+                  "pad": 6,
+                  "fill": "white",
+                  "radius": 6,
+                  "children": [
+                   {
+                    "type": "icon",
+                    "icon": "qr",
+                    "tint": "#141417",
+                    "w": "fill",
+                    "h": "fill"
+                   }
+                  ],
+                  "w": "fill"
+                 }
+                ],
+                "w": "fill"
+               },
+               {
+                "type": "text",
+                "text": "สแกนเพิ่มเพื่อน LINE",
+                "face": "noto",
+                "size": 9.5,
+                "weight": 600,
+                "color": "black@0.52",
+                "maxLines": 1
+               }
+              ],
+              "gap": 4,
+              "align": "center",
+              "justify": "center",
+              "grow": 1,
+              "if": "!opt:qr=0",
+              "id": "qr",
+              "w": "fill"
+             }
+            ],
+            "pad": 10,
+            "align": "start",
+            "justify": "start",
+            "gap": 8
+           }
+          ],
+          "grow": 1,
+          "if": "has:stat:lineFlow"
+         }
+        ],
+        "if": "!hidden:line",
+        "grow": 1,
+        "id": "line"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 8
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "#141417",
+             "width": 2
+            },
+            "radius": 8
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "row",
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:phone-fill",
+                "size": 14,
+                "tint": "#141417",
+                "w": 18
+               },
+               {
+                "type": "text",
+                "slot": "stat:phoneFmt",
+                "face": "noto",
+                "size": 13,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 9.75
+               },
+               {
+                "type": "spacer",
+                "grow": 1
+               }
+              ],
+              "gap": 10,
+              "align": "center"
+             }
+            ],
+            "pad": [
+             8,
+             10
+            ],
+            "align": "start",
+            "justify": "center"
+           }
+          ],
+          "if": "has:stat:phoneFmt"
+         }
+        ],
+        "if": "!hidden:phone",
+        "id": "phone"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 8
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "#141417",
+             "width": 2
+            },
+            "radius": 8
+           },
+           {
+            "type": "col",
+            "children": [
+             {
+              "type": "row",
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:globe",
+                "size": 14,
+                "tint": "#141417",
+                "w": 18
+               },
+               {
+                "type": "text",
+                "slot": "stat:site",
+                "face": "noto",
+                "size": 13,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 9.75
+               },
+               {
+                "type": "spacer",
+                "grow": 1
+               }
+              ],
+              "gap": 10,
+              "align": "center"
+             }
+            ],
+            "pad": [
+             8,
+             10
+            ],
+            "align": "start",
+            "justify": "center"
+           }
+          ],
+          "if": "has:stat:site"
+         }
+        ],
+        "if": "!hidden:web",
+        "id": "web"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "gap": 7,
+      "align": "stretch"
+     }
+    ],
+    "pad": [
+     12,
+     12,
+     14,
+     12
+    ],
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "pad": [
+   0,
+   5,
+   5,
+   0
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

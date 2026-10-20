@@ -204,6 +204,13 @@ val WidgetFamily.contract: FamilyContract
                 system = emptyList(), source = FamilyContract.Source.none,
             )
 
+        // ชุดห้าสไตล์ — หัวข้อนี้ไม่มีช่องพิมพ์บนการ์ดเลย ข้อมูลทั้งหมดมาจาก Star Profile
+        WidgetFamily.availability ->
+            FamilyContract(
+                editable = emptyList(),
+                system = listOf("availability", "provinces"), source = FamilyContract.Source.profile,
+            )
+
         WidgetFamily.body ->
             // สัดส่วนร่างกาย — พิมพ์เองทุกช่อง (เป็นข้อเท็จจริงที่ระบบไม่มีทางรู้)
             // เก็บเป็นช่องแยกตามธรรมเนียมวงการ: หน่วยผสม กก./ซม./นิ้ว/EU พิมพ์ติดค่ามาเลย

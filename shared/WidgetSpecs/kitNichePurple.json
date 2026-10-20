@@ -1,0 +1,839 @@
+{
+ "kind": "kitNichePurple",
+ "design": {
+  "w": 330,
+  "h": 110
+ },
+ "widget": {
+  "title": "สายงาน",
+  "category": "tags",
+  "symbol": "sparkles",
+  "order": 101,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "purple"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitNiche"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
+ "variants": [
+  {
+   "when": "!bordered",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14,
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "สายงาน"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "chips",
+          "list": "categories",
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "white",
+             "radius": 8
+            },
+            {
+             "type": "rect",
+             "stroke": {
+              "color": "#141417",
+              "width": 2
+             },
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "slot": "categories#$i",
+               "face": "noto",
+               "size": 13.5,
+               "weight": 700,
+               "color": "#141417",
+               "maxLines": 2,
+               "shrinkTo": 10.8,
+               "textAlign": "center",
+               "w": "fill"
+              }
+             ],
+             "pad": [
+              10,
+              4
+             ],
+             "align": "center",
+             "justify": "center"
+            }
+           ],
+           "grow": 1
+          },
+          "where": "!hidden:$text",
+          "wrap": false,
+          "gap": 7,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 3
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 3
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 3,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 14
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 14
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 14,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "สายงาน"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "chips",
+          "list": "categories",
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "white",
+             "radius": 8
+            },
+            {
+             "type": "rect",
+             "stroke": {
+              "color": "#141417",
+              "width": 2
+             },
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "slot": "categories#$i",
+               "face": "noto",
+               "size": 13.5,
+               "weight": 700,
+               "color": "#141417",
+               "maxLines": 2,
+               "shrinkTo": 10.8,
+               "textAlign": "center",
+               "w": "fill"
+              }
+             ],
+             "pad": [
+              10,
+              4
+             ],
+             "align": "center",
+             "justify": "center"
+            }
+           ],
+           "grow": 1
+          },
+          "where": "!hidden:$text",
+          "wrap": false,
+          "gap": 7,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "!bordered | cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 14,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 3,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "สายงาน"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "chips",
+          "list": "categories",
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "white",
+             "radius": 8
+            },
+            {
+             "type": "rect",
+             "stroke": {
+              "color": "#141417",
+              "width": 2
+             },
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "slot": "categories#$i",
+               "face": "noto",
+               "size": 13.5,
+               "weight": 700,
+               "color": "#141417",
+               "maxLines": 2,
+               "shrinkTo": 10.8,
+               "textAlign": "center",
+               "w": "fill"
+              }
+             ],
+             "pad": [
+              10,
+              4
+             ],
+             "align": "center",
+             "justify": "center"
+            }
+           ],
+           "grow": 1
+          },
+          "where": "!hidden:$text",
+          "wrap": false,
+          "gap": 7,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 14,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 3,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 3,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 3
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 22,
+      "weight": 800,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 15.4,
+      "w": "fill",
+      "id": "title",
+      "text": "สายงาน"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "chips",
+        "list": "categories",
+        "each": {
+         "type": "stack",
+         "children": [
+          {
+           "type": "rect",
+           "fill": "white",
+           "radius": 8
+          },
+          {
+           "type": "rect",
+           "stroke": {
+            "color": "#141417",
+            "width": 2
+           },
+           "radius": 8
+          },
+          {
+           "type": "col",
+           "children": [
+            {
+             "type": "text",
+             "slot": "categories#$i",
+             "face": "noto",
+             "size": 13.5,
+             "weight": 700,
+             "color": "#141417",
+             "maxLines": 2,
+             "shrinkTo": 10.8,
+             "textAlign": "center",
+             "w": "fill"
+            }
+           ],
+           "pad": [
+            10,
+            4
+           ],
+           "align": "center",
+           "justify": "center"
+          }
+         ],
+         "grow": 1
+        },
+        "where": "!hidden:$text",
+        "wrap": false,
+        "gap": 7,
+        "grow": 1,
+        "align": "stretch"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "align": "stretch"
+     }
+    ],
+    "pad": [
+     12,
+     12,
+     14,
+     12
+    ],
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "pad": [
+   0,
+   5,
+   5,
+   0
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

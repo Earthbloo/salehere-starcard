@@ -21,7 +21,9 @@ enum GL {
     static let goldInk = Color(red: 154 / 255, green: 116 / 255, blue: 32 / 255)
     static let gold = Color(red: 201 / 255, green: 162 / 255, blue: 39 / 255)
 
-    static func serif(_ size: CGFloat) -> Font { .custom("Didot-Italic", size: size) }
+    /// หัวข้อ "Card / Profile / Insight" — เคยเป็น Didot Italic (ฟอนต์ของ Apple) · ตอนนี้ Noto Sans Thai (OFL)
+    /// ย่อ 0.82 เพราะ Noto กว้างกว่า Didot ที่ขนาดเดียวกัน
+    static func serif(_ size: CGFloat) -> Font { .sh(size * 0.82, .medium) }
 }
 
 /// แสงเบลอ champagne สองก้อน + จุดสว่างขาว บนพื้น #F9FAFB (= `.gl-orbs`)

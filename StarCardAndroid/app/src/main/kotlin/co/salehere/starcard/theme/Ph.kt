@@ -18,6 +18,21 @@ enum class PhWeight { regular, bold, fill }
  * ไฟล์ vector อยู่ที่ `res/drawable/ph_<name>_<weight>.xml` (แปลงจาก SVG ต้นทาง viewBox 256)
  */
 enum class Ph(val raw: String, val regular: Int, val bold: Int, val fill: Int) {
+    // ไอคอนที่ผัง (shared/WidgetSpecs) ใช้ — แปลงจาก SVG ของ PhosphorSwift ตัวเดียวกับ iOS
+    bookmarkSimple("bookmark-simple", R.drawable.ph_bookmark_simple_regular, R.drawable.ph_bookmark_simple_bold, R.drawable.ph_bookmark_simple_fill),
+    cake("cake", R.drawable.ph_cake_regular, R.drawable.ph_cake_bold, R.drawable.ph_cake_fill),
+    dotsThreeCircle("dots-three-circle", R.drawable.ph_dots_three_circle_regular, R.drawable.ph_dots_three_circle_bold, R.drawable.ph_dots_three_circle_fill),
+    export("export", R.drawable.ph_export_regular, R.drawable.ph_export_bold, R.drawable.ph_export_fill),
+    flag("flag", R.drawable.ph_flag_regular, R.drawable.ph_flag_bold, R.drawable.ph_flag_fill),
+    globe("globe", R.drawable.ph_globe_regular, R.drawable.ph_globe_bold, R.drawable.ph_globe_fill),
+    magnifyingGlass("magnifying-glass", R.drawable.ph_magnifying_glass_regular, R.drawable.ph_magnifying_glass_bold, R.drawable.ph_magnifying_glass_fill),
+    magnifyingGlassMinus("magnifying-glass-minus", R.drawable.ph_magnifying_glass_minus_regular, R.drawable.ph_magnifying_glass_minus_bold, R.drawable.ph_magnifying_glass_minus_fill),
+    magnifyingGlassPlus("magnifying-glass-plus", R.drawable.ph_magnifying_glass_plus_regular, R.drawable.ph_magnifying_glass_plus_bold, R.drawable.ph_magnifying_glass_plus_fill),
+    medal("medal", R.drawable.ph_medal_regular, R.drawable.ph_medal_bold, R.drawable.ph_medal_fill),
+    penNib("pen-nib", R.drawable.ph_pen_nib_regular, R.drawable.ph_pen_nib_bold, R.drawable.ph_pen_nib_fill),
+    pencilLine("pencil-line", R.drawable.ph_pencil_line_regular, R.drawable.ph_pencil_line_bold, R.drawable.ph_pencil_line_fill),
+    sidebarSimple("sidebar-simple", R.drawable.ph_sidebar_simple_regular, R.drawable.ph_sidebar_simple_bold, R.drawable.ph_sidebar_simple_fill),
+    speakerHigh("speaker-high", R.drawable.ph_speaker_high_regular, R.drawable.ph_speaker_high_bold, R.drawable.ph_speaker_high_fill),
     arrowRight("arrow-right", R.drawable.ph_arrow_right_regular, R.drawable.ph_arrow_right_bold, R.drawable.ph_arrow_right_fill),
     arrowUpRight("arrow-up-right", R.drawable.ph_arrow_up_right_regular, R.drawable.ph_arrow_up_right_bold, R.drawable.ph_arrow_up_right_fill),
     arrowsClockwise("arrows-clockwise", R.drawable.ph_arrows_clockwise_regular, R.drawable.ph_arrows_clockwise_bold, R.drawable.ph_arrows_clockwise_fill),

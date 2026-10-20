@@ -63,7 +63,6 @@ import co.salehere.starcard.model.DesignedTemplate
 import co.salehere.starcard.model.PhotoStore
 import co.salehere.starcard.model.Portfolio
 import co.salehere.starcard.model.Profile
-import co.salehere.starcard.model.SubjectLift
 import co.salehere.starcard.theme.CardInk
 import co.salehere.starcard.theme.CardTheme
 import co.salehere.starcard.theme.InkStyle
@@ -301,12 +300,6 @@ class TemplateThumbs private constructor() {
             for (i in 0 until PhotoLib.count) urls += PhotoLib.url(i)
             for (brand in Profile.me.creator.track.brands) brand.logo?.let { urls += it }
             coroutineScope { urls.map { u -> async { ImageCache.shared.load(u) } }.awaitAll() }
-
-            // 1.5) ลบพื้นหลังรูปคนของโปสเตอร์ให้เสร็จก่อน (ดู `SubjectLift.prepare`)
-            val person = photos.userImage(1, null)
-            if (person != null && !CutoutCache.shared.result(person).isCutout) {
-                SubjectLift.shared.prepare(person)
-            }
 
             // 2) ทีละใบ เว้นจังหวะให้ UI หายใจ — ใบพวกนี้ผนังวาดสด จึงแค่จำว่าเตรียมจากข้อมูลรุ่นไหน
             for (format in CardFormat.entries) {

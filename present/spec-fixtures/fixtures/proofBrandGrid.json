@@ -1,0 +1,3283 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        342,
+        182
+      ],
+      "boxes" : [
+        {
+          "h" : 182,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 117.08,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 61.94,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 7.73,
+          "x" : 64.94,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 41.41,
+          "x" : 75.67,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 131.92,
+          "x" : 127.08,
+          "y" : 9.78
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 269,
+          "y" : 0.18
+        },
+        {
+          "h" : 151.65,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 0,
+          "y" : 106.35
+        },
+        {
+          "h" : 151.65,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 171,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 171,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 186.4,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 256.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 256.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 271.9,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 106.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 117
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 106.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 106.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 117
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        388
+      ],
+      "boxes" : [
+        {
+          "h" : 388,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 117.08,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 61.94,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 7.73,
+          "x" : 64.94,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 41.41,
+          "x" : 75.67,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 131.92,
+          "x" : 127.08,
+          "y" : 9.8
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 269,
+          "y" : 0.2
+        },
+        {
+          "h" : 357.6,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 0,
+          "y" : 106.4
+        },
+        {
+          "h" : 152,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 171,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 171,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 186.4,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 256.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 256.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 271.9,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 106.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 117.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 106.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 106.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 117.05
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 213.67,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 25.24,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 115.81,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 14.44,
+          "x" : 118.81,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 25.24,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 77.42,
+          "x" : 136.25,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 35.33,
+          "x" : 223.67,
+          "y" : 18.67
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 269,
+          "y" : 9.07
+        },
+        {
+          "h" : 293.86,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 0,
+          "y" : 48.14
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 0,
+          "y" : 124.14
+        },
+        {
+          "h" : 152,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 48.14
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 48.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 58.79
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 48.14
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 48.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 58.79
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 171,
+          "y" : 48.14
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 171,
+          "y" : 48.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 186.4,
+          "y" : 58.79
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 256.5,
+          "y" : 48.14
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 256.5,
+          "y" : 48.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 271.9,
+          "y" : 58.79
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 124.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 134.79
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 124.14
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 124.14
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 134.79
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 115.81,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 14.44,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 77.42,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 115.81,
+          "weight" : 700,
+          "width" : 115.81
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 14.44,
+          "weight" : 700,
+          "width" : 14.44
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 77.42,
+          "weight" : 700,
+          "width" : 77.42
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 115.81,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 14.44,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 77.42,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 115.81,
+          "weight" : 700,
+          "width" : 115.81
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 14.44,
+          "weight" : 700,
+          "width" : 14.44
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 77.42,
+          "weight" : 700,
+          "width" : 77.42
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 117.08,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 61.94,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 7.73,
+          "x" : 64.94,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 41.41,
+          "x" : 75.67,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 131.92,
+          "x" : 127.08,
+          "y" : 9.8
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 269,
+          "y" : 0.2
+        },
+        {
+          "h" : 311.6,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 0,
+          "y" : 106.4
+        },
+        {
+          "h" : 152,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 171,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 171,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 186.4,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 256.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 256.5,
+          "y" : 30.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 271.9,
+          "y" : 41.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 106.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 117.05
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 106.4
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 106.4
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 117.05
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        586,
+        182
+      ],
+      "boxes" : [
+        {
+          "h" : 182,
+          "id" : "r",
+          "type" : "col",
+          "w" : 586,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 586,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 117.08,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 61.94,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 13.5,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 7.73,
+          "x" : 64.94,
+          "y" : 0
+        },
+        {
+          "h" : 20.35,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 41.41,
+          "x" : 75.67,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 375.92,
+          "x" : 127.08,
+          "y" : 9.78
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 513,
+          "y" : 0.18
+        },
+        {
+          "h" : 151.65,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 586,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 586,
+          "x" : 0,
+          "y" : 106.35
+        },
+        {
+          "h" : 151.65,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 586,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 0,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 45.9,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 146.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 146.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 192.4,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 293,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 293,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 338.9,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 439.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 439.5,
+          "y" : 30.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 485.4,
+          "y" : 41
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 0,
+          "y" : 106.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 45.9,
+          "y" : 117
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 146.5,
+          "x" : 146.5,
+          "y" : 106.35
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 146.5,
+          "y" : 106.35
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 192.4,
+          "y" : 117
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 20,
+            "outWeight" : 700,
+            "size" : 20,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.79,
+            "outWeight" : 700,
+            "size" : 17.79,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 17.79,
+            "outWeight" : 700,
+            "size" : 17.79,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.645,
+            "outWeight" : 700,
+            "size" : 15.645,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.645,
+            "outWeight" : 700,
+            "size" : 15.645,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 20,
+          "v" : 30.22,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 17.79,
+          "v" : 26.88,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15.645,
+          "v" : 23.64,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 91.77,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 11.44,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 61.34,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 91.77,
+          "weight" : 700,
+          "width" : 91.77
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 11.44,
+          "weight" : 700,
+          "width" : 11.44
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 61.34,
+          "weight" : 700,
+          "width" : 61.34
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 91.77,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 11.44,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 61.34,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 91.77,
+          "weight" : 700,
+          "width" : 91.77
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 11.44,
+          "weight" : 700,
+          "width" : 11.44
+        },
+        {
+          "face" : "noto",
+          "h" : 30.22,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 61.34,
+          "weight" : 700,
+          "width" : 61.34
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 81.63,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.18,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 54.57,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 81.63,
+          "weight" : 700,
+          "width" : 81.63
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.18,
+          "weight" : 700,
+          "width" : 10.18
+        },
+        {
+          "face" : "noto",
+          "h" : 26.88,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 17.79,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 54.57,
+          "weight" : 700,
+          "width" : 54.57
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 71.78,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 8.95,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 47.99,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 71.78,
+          "weight" : 700,
+          "width" : 71.78
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 8.95,
+          "weight" : 700,
+          "width" : 8.95
+        },
+        {
+          "face" : "noto",
+          "h" : 23.64,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.645,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 47.99,
+          "weight" : 700,
+          "width" : 47.99
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.6,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        415.81
+      ],
+      "boxes" : [
+        {
+          "h" : 415.81,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/0",
+          "type" : "row",
+          "w" : 156.57,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/0\/0",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "ร่วมงานกับ",
+          "type" : "text",
+          "w" : 83.97,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/0\/1",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "stat:brandCount",
+          "text" : "6",
+          "type" : "text",
+          "w" : 10.47,
+          "x" : 86.97,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/0\/2",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "แบรนด์",
+          "type" : "text",
+          "w" : 56.13,
+          "x" : 100.44,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 92.43,
+          "x" : 166.57,
+          "y" : 13.43
+        },
+        {
+          "h" : 20,
+          "id" : "r\/0\/2",
+          "type" : "icon",
+          "w" : 73,
+          "x" : 269,
+          "y" : 3.82
+        },
+        {
+          "h" : 378.16,
+          "id" : "r\/1",
+          "type" : "stack",
+          "w" : 342,
+          "x" : 0,
+          "y" : 37.65
+        },
+        {
+          "h" : 0.5,
+          "id" : "r\/1\/0",
+          "type" : "rect",
+          "w" : 342,
+          "x" : 0,
+          "y" : 113.65
+        },
+        {
+          "h" : 152,
+          "id" : "r\/1\/5",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 37.65
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c0",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 37.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c0\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 48.3
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 37.65
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c1\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 37.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c1\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 48.3
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 171,
+          "y" : 37.65
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c2\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 171,
+          "y" : 37.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c2\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 186.4,
+          "y" : 48.3
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 256.5,
+          "y" : 37.65
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c3\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 256.5,
+          "y" : 37.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c3\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 271.9,
+          "y" : 48.3
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c4",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 0,
+          "y" : 113.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c4\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 15.4,
+          "y" : 124.3
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5",
+          "type" : "stack",
+          "w" : 85.5,
+          "x" : 85.5,
+          "y" : 113.65
+        },
+        {
+          "h" : 76,
+          "id" : "r\/1\/5\/c5\/0",
+          "type" : "rect",
+          "w" : 0.5,
+          "x" : 85.5,
+          "y" : 113.65
+        },
+        {
+          "h" : 54.7,
+          "id" : "r\/1\/5\/c5\/1",
+          "type" : "icon",
+          "w" : 54.7,
+          "x" : 100.9,
+          "y" : 124.3
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "slot" : "stat:brandCount",
+            "weight" : 700
+          }
+        ],
+        "lists" : {
+          "brands" : [
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2025\/05\/07\/fe0pah3cmv3g.jpg",
+                "name" : "Sivanna Colors"
+              },
+              "i" : 0,
+              "id" : "Sivanna Colors"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2023\/12\/06\/yy7womguuk9w.jpg",
+                "name" : "Scotch"
+              },
+              "i" : 1,
+              "id" : "Scotch"
+            },
+            {
+              "fields" : {
+                "industry" : "Supplement",
+                "logo" : "https:\/\/img.salehere.co.th\/p\/300x0\/2019\/12\/20\/oosmvnoxfb8m.jpg",
+                "name" : "BioActive+"
+              },
+              "i" : 2,
+              "id" : "BioActive+"
+            },
+            {
+              "fields" : {
+                "industry" : "Skincare",
+                "logo" : "https:\/\/cathydoll.me\/cdn\/shop\/files\/New_CD_LOGO_2018.png?v=1669460778&width=600",
+                "name" : "Cathy Doll"
+              },
+              "i" : 3,
+              "id" : "Cathy Doll"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/srichand.co.th\/wp-content\/uploads\/2025\/12\/square-big-logo.jpg",
+                "name" : "Srichand"
+              },
+              "i" : 4,
+              "id" : "Srichand"
+            },
+            {
+              "fields" : {
+                "industry" : "Cosmetics",
+                "logo" : "https:\/\/www.mistine.co.th\/pic\/logo.png",
+                "name" : "Mistine"
+              },
+              "i" : 5,
+              "id" : "Mistine"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "stat:brandCount",
+            "v" : "6"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 83.97,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.47,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 56.13,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 83.97,
+          "weight" : 700,
+          "width" : 83.97
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.47,
+          "weight" : 700,
+          "width" : 10.47
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 56.13,
+          "weight" : 700,
+          "width" : 56.13
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 61.94,
+          "weight" : 700,
+          "width" : 61.94
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 7.73,
+          "weight" : 700,
+          "width" : 7.73
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 41.41,
+          "weight" : 700,
+          "width" : 41.41
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 83.97,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.47,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 56.13,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ร่วมงานกับ",
+          "tracking" : 0,
+          "w" : 83.97,
+          "weight" : 700,
+          "width" : 83.97
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "6",
+          "tracking" : 0,
+          "w" : 10.47,
+          "weight" : 700,
+          "width" : 10.47
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แบรนด์",
+          "tracking" : 0,
+          "w" : 56.13,
+          "weight" : 700,
+          "width" : 56.13
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    206
+  ],
+  "inset" : 12,
+  "kind" : "proofBrandGrid",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

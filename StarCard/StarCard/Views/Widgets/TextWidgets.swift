@@ -114,3 +114,15 @@ extension EnvironmentValues {
         set { self[PageContentWidthKey.self] = newValue }
     }
 }
+
+// MARK: - ชั้นข้อความของการ์ด (ไม่ใช่ widget)
+
+extension TextBlock {
+    /// คีย์ของชั้นข้อความในไฟล์การ์ด — คงชื่อเดิม การ์ดเก่าจึงเปิดได้
+    static let layerKey = "textBlock"
+
+    /// นิสัยของชั้นข้อความ — ชุดเดียวกับที่ widget ประกาศใน JSON (ชั้นนี้ไม่มีไฟล์ผังเพราะไม่ใช่ widget)
+    static let layer = WidgetSpec.Widget(
+        title: "ข้อความ", category: "text", symbol: "textformat.size",
+        size: SpecSize(w: 366, h: 117), ownSurface: true, resize: false, motion: "light")
+}

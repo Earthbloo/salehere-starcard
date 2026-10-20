@@ -255,17 +255,22 @@ struct PosterSheet<Content: View>: View {
     let design: CGSize
     /// กรอบจริงที่ชิ้นนี้ได้รับ (`WidgetBody.size`)
     let frame: CGSize
+    /// ยืดผังให้สูงเท่ากรอบด้วยไหม — ใบที่จัดของตามความสูงจริง (คนยืนเต็มแผ่น · คอลัมน์กลาง) ยืดได้
+    /// ใบที่วางของจากขอบบนเป็นพิกัดตายตัว (สแครปบุ๊ก · โปสเตอร์สายงาน) ยืดแล้วก้นแผ่นว่าง → ไม่ยืด แต่วางกลางกรอบแทน
+    var stretch: Bool = true
     /// ผังในหน่วยออกแบบที่ยืดแล้ว — ใบนั้นต้องวาดให้เต็มขนาดนี้ ไม่ใช่เต็ม `design`
     @ViewBuilder var content: (CGSize) -> Content
 
     var body: some View {
         let fw = max(frame.width, 1), fh = max(frame.height, 1)
         let k = max(min(fw / max(design.width, 1), fh / max(design.height, 1)), 0.01)
-        let box = CGSize(width: max(design.width, fw / k), height: max(design.height, fh / k))
+        let box = CGSize(width: max(design.width, fw / k),
+                         height: stretch ? max(design.height, fh / k) : design.height)
         content(box)
             .frame(width: box.width, height: box.height, alignment: .topLeading)
             .scaleEffect(k, anchor: .topLeading)
-            .frame(width: fw, height: fh, alignment: .topLeading)
+            .frame(width: box.width * k, height: box.height * k, alignment: .topLeading)
+            .frame(width: fw, height: fh, alignment: .center)
     }
 }
 
@@ -303,104 +308,12 @@ struct WidgetBody: View {
         Group {
             if let pending {
                 SystemPending(text: pending, family: kind.family)
-            } else {
-            switch kind {
-            case .artTypeOver: ArtTypeOver(theme: theme, size: size)
-            case .artPortfolio: ArtPortfolioPoster(theme: theme, size: size)
-            // สำรับหน้าต่าง — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-            case .portfolioWindow: PortfolioWindowWidget(theme: theme, size: size)
-            case .socialWindow: SocialWindowWidget(theme: theme, size: size)
-            // สำรับผ้าปิกนิก — ผังของมันเป็น *แผ่น* เหมือนกัน
-            case .portfolioGingham: PortfolioGinghamWidget(theme: theme, size: size)
-            case .socialGingham: SocialGinghamWidget(theme: theme, size: size)
-            // สำรับสมุดสแครปบุ๊ก — ผังของมันเป็น *แผ่น* เหมือนกัน
-            case .scrapFolder: ScrapFolderWidget(theme: theme, size: size)
-            case .scrapBadge: ScrapBadgeWidget(theme: theme, size: size)
-            case .scrapKeyTab: ScrapKeyTabWidget(theme: theme, size: size)
-            case .scrapFeed: ScrapFeedWidget(theme: theme, size: size)
-            case .scrapTags: ScrapTagsWidget(theme: theme, size: size)
-            case .scrapAbout: ScrapAboutWidget(theme: theme, size: size)
-            case .scrapInfo: ScrapInfoWidget(theme: theme, size: size)
-            case .scrapReceipt: ScrapReceiptWidget(theme: theme, size: size)
-            case .scrapStats: ScrapStatsWidget(theme: theme, size: size)
-            case .scrapStamp: ScrapStampWidget(theme: theme, size: size)
-            case .scrapPhones: ScrapPhonesWidget(theme: theme, size: size)
-            case .scrapChat: ScrapChatWidget(theme: theme, size: size)
-            case .scrapNote: ScrapNoteWidget(theme: theme, size: size)
-            case .scrapLabel: ScrapLabelWidget(theme: theme, size: size)
-            case .heroMinimal: HeroMinimal(theme: theme, size: size)
-            case .aboutText: AboutText(theme: theme)
-            case .interestTags: InterestTags(theme: theme)
-            case .proofBrandGrid: ProofBrandGrid(theme: theme)
-            case .proofBrandRail: ProofBrandRail(theme: theme)
-            case .proofBrandCoins: ProofBrandCoins(theme: theme)
-            case .proofWork: ProofWork(theme: theme)
-            case .proofTicket: ProofTicket(theme: theme)
-            case .statGiant: StatGiant(theme: theme, size: size)
-            case .socialChips: SocialChips(theme: theme, width: size.width)
-            case .socialTiles: SocialTiles(theme: theme, width: size.width)
-            // โปสเตอร์ผู้ติดตาม — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-            case .statPoster: StatPosterWidget(theme: theme, size: size)
-            case .artFilmstrip: ArtFilmstrip(theme: theme)
-            case .artDuo: ArtDuo(theme: theme)
-            case .artPair: ArtPair(theme: theme)
-            case .workFeatured: WorkFeatured(theme: theme)
-            case .workReel: WorkReel(theme: theme)
-            // สำรับกองรูป
-            case .galleryStack: GalleryStack(theme: theme)
-            case .galleryCarousel: GalleryCarousel(theme: theme)
-            case .galleryMasonry: GalleryMasonry(theme: theme)
-            case .galleryMosaic: GalleryMosaic(theme: theme)
-            case .galleryPost: GalleryPost(theme: theme)
-            case .galleryStory: GalleryStory(theme: theme)
-            case .galleryFilm: GalleryFilm(theme: theme)
-            case .galleryTape: GalleryTape(theme: theme)
-            // แผ่นโชว์คลิป — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-            case .reelShowcase: ReelShowcase(theme: theme, size: size)
-            case .typeMarquee: TypeMarquee(theme: theme)
-            case .textBlock: TextBlock(theme: theme, size: size)
-            case .nicheTags: NicheTags(theme: theme)
-            // โปสเตอร์สายงาน — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-            case .nichePoster: NichePosterWidget(theme: theme, size: size)
-            case .statWrapped: StatWrapped(theme: theme, size: size)
-            case .artPhotobooth: ArtPhotobooth(theme: theme)
-            case .stickerTags: StickerTags(theme: theme)
-            // สำรับรอบสอง — เรตราคาและช่องทางติดต่อ
-            case .rateTags: RateTagsWidget(theme: theme)
-            // สำรับเรตแบบศิลป์
-            case .rateNeon: RateNeonWidget(theme: theme)
-            case .contactCard: ContactCardWidget(theme: theme)
-            case .contactQR: ContactQRWidget(theme: theme)
-            case .contactBar: ContactBarWidget(theme: theme)
-            case .contactStack: ContactStackWidget(theme: theme)
-            case .contactLine: ContactLineWidget(theme: theme, size: size)
-            case .contactChips: ContactChipsWidget(theme: theme)
-            // โปสเตอร์ติดต่อ — ผังของมันเป็น *แผ่น* จึงรับขนาดเต็มไปคำนวณเองทั้งใบ
-            case .contactPoster: ContactPosterWidget(theme: theme, size: size)
-            case .proofSeal: VerifiedSealWidget(theme: theme, size: size)
-            // ประชากรผู้ติดตาม
-            case .audienceLine: AudienceLineWidget(theme: theme, size: size)
-            case .audienceSplit: AudienceSplitWidget(theme: theme)
-            case .audienceAge: AudienceAgeWidget(theme: theme)
-            case .audiencePoster: InsightPosterWidget(theme: theme, size: size)
-            case .audienceMap: AudienceMapWidget(theme: theme)
-            // สำรับแผ่นสติกเกอร์
-            // วัสดุไม่ได้อยู่ในตัววิว — ส่งลงไปทาง environment (ดู `popSkin` ท้ายฟังก์ชันนี้)
-            case .popHeroPaper, .popHeroGlass: PopHero(theme: theme, size: size)
-            case .popVideoPaper, .popVideoGlass: PopVideo(theme: theme)
-            case .popStatsGlass: PopStats(theme: theme)
-            case .popWorkPaper, .popWorkGlass: PopWork(theme: theme)
-            case .popRatePaper, .popRateGlass: PopRate(theme: theme)
-            case .popNichePaper, .popNicheGlass: PopNiche(theme: theme)
-            case .popContactPaper, .popContactGlass: PopContact(theme: theme)
-            // สำรับบรรณาธิการ
-            case .wallPolaroid: WallPolaroid(theme: theme, size: size)
-            case .wallMemory: WallMemory(theme: theme, size: size)
-            case .zineCover: ZineCover(theme: theme, size: size)
-            case .aboutEditorial: AboutEditorial(theme: theme, size: size)
-            case .aboutBehind: AboutBehind(theme: theme, size: size)
-            case .flowCards: FlowCards(theme: theme, size: size)
-            }
+            } else if kind.isTextLayer {
+                // ชั้นข้อความของการ์ด — ไม่ใช่ widget จึงไม่มีผัง
+                TextBlock(theme: theme, size: size)
+            } else if let spec = SpecCatalog.spec(for: kind) {
+                // ผังเป็นข้อมูล (`shared/WidgetSpecs/<kind>.json`) — ทุก widget วาดผ่านตัวคำนวณ+ตัววาดกลางตัวเดียว
+                SpecPainter(spec: spec, kind: kind, theme: theme, size: size)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -412,8 +325,8 @@ struct WidgetBody: View {
         // วัสดุของแผ่นสติกเกอร์ — ชิ้นส่วนร่วม (ป้ายหัวข้อ · แผ่น · เทป) อยู่ลึกหลายชั้น
         // ส่งเป็นพารามิเตอร์แปลว่าต้องไล่ทุกตัวเรียก ส่งทาง environment แล้วทั้งกิ่งได้พร้อมกัน
         .environment(\.popSkin, kind.popSkin)
-        // สำรับสแครปบุ๊ก — สีของแผ่นมาจากธีมของการ์ด (เฉด + มืด/สว่าง) คิดครั้งเดียวต่อชิ้น
-        .environment(\.scrapTone, kind.isScrap ? ScrapTone(theme) : .fallback)
+        // สีของชิ้นส่วนสแครปบุ๊ก (เทป · คลิป · โบว์) มาจากธีมของการ์ด — ใบไหนเรียกชิ้นส่วนพวกนี้ก็ได้ค่าชุดเดียวกัน
+        .environment(\.scrapTone, ScrapTone(theme))
     }
 }
 

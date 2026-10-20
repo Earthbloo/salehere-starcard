@@ -1,0 +1,122 @@
+{
+ "kind": "proofBrandCoins",
+ "design": {
+  "w": 366,
+  "h": 94
+ },
+ "widget": {
+  "title": "เหรียญโลโก้",
+  "category": "brand",
+  "symbol": "circle.grid.2x1.fill",
+  "order": 8,
+  "stamp": "work",
+  "motion": "mid"
+ },
+ "notes": "เหรียญโลโก้แถวเดียว · แปลงจาก ProofWidgets.swift (ProofBrandCoins) · เหรียญ = stack วงกลม (h fill + aspect 1 + maxH 58 → d = min(สูงที่เหลือ, 58)) ขอบไล่สี accent@0.75→line@0.22 (บนซ้าย→ล่างขวา) ทำเป็น *พื้นไล่สีของวงนอก* + pad 1.9 (= max(1.2, d×0.042) ที่ d≈45) แล้ววางหน้าวงขาวทับ (ตัววาดทา stroke ของแม่ใต้ลูก — เส้นเดิมจึงถูกหน้าขาวกลบหาย) · หน้าวง white บนหมึกสว่าง · white@0.93 บนหมึกมืด · โลโก้ 93% ของด้านใน (= d − 2×0.07d) · ของเดิมวาดวงขอบ *ทับ* มุมโลโก้ — ผังวาดขอบไล่สีเป็นพื้นใต้ จึงเห็นมุมโลโก้สี่เหลี่ยมทับขอบเล็กน้อย (ต้องมี stroke ไล่สีวาดบนสุด: ดู renderer gaps) · ระยะ: gap 4.95 + justify between (เท่าของเดิมเมื่อ 6 เหรียญเต็มแถว) · บรรทัดกำกับ 'Trusted by N แบรนด์' กลาง + ตรา Verified ชิดขวา (ของเดิม: ตราเป็น overlay ไม่ดันความสูงบรรทัด 15 → ผัง: แถบกำกับสูง 20 ตามตรา ข้อความชิดบน ตรากลางแถบ · ระยะถึงเหรียญ 5 แทน 8 ให้เหรียญเริ่มที่ y เดิม) · limit 7 · ยังไม่มี: วง '+N' + จำนวนเหรียญตามความกว้าง (ต้องคำนวณ brandCount − ที่โชว์)",
+ "root": {
+  "type": "col",
+  "gap": 5,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "stack",
+    "id": "caption",
+    "children": [
+     {
+      "type": "row",
+      "gap": 5,
+      "justify": "center",
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "text": "Trusted by",
+        "face": "noto",
+        "size": 10.5,
+        "weight": 400,
+        "color": "ink@0.48",
+        "maxLines": 1
+       },
+       {
+        "type": "text",
+        "id": "count",
+        "slot": "stat:brandCount",
+        "face": "noto",
+        "size": 10.5,
+        "weight": 700,
+        "color": "ink@0.72",
+        "maxLines": 1
+       },
+       {
+        "type": "text",
+        "text": "แบรนด์",
+        "face": "noto",
+        "size": 10.5,
+        "weight": 700,
+        "color": "ink@0.72",
+        "maxLines": 1
+       }
+      ]
+     },
+     {
+      "type": "icon",
+      "icon": "verifiedBadge",
+      "w": 73,
+      "h": 20,
+      "place": "right"
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "coins",
+    "list": "brands",
+    "limit": 7,
+    "wrap": false,
+    "gap": 4.95,
+    "grow": 1,
+    "justify": "between",
+    "align": "center",
+    "each": {
+     "type": "stack",
+     "id": "coin",
+     "h": "fill",
+     "aspect": 1,
+     "maxH": 58,
+     "children": [
+      {
+       "type": "rect",
+       "id": "faceLight",
+       "circle": true,
+       "fill": "white",
+       "if": "ink.light"
+      },
+      {
+       "type": "rect",
+       "id": "faceDark",
+       "circle": true,
+       "fill": "white@0.93",
+       "if": "!ink.light"
+      },
+      {
+       "type": "icon",
+       "id": "logo",
+       "icon": "$logo",
+       "w": "93%",
+       "h": "93%",
+       "place": "center"
+      }
+     ],
+     "circle": true,
+     "clip": true,
+     "pad": 1.9,
+     "gradient": {
+      "from": "accent@0.75",
+      "to": "line@0.22",
+      "angle": 45
+     }
+    }
+   }
+  ]
+ }
+}

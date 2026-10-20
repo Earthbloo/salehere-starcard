@@ -1,0 +1,2956 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        342,
+        57
+      ],
+      "boxes" : [
+        {
+          "h" : 57,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 17.86,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 17.86,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 44.7,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 287.3,
+          "x" : 54.7,
+          "y" : 8.53
+        },
+        {
+          "h" : 28.14,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 28.86
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 54.21,
+          "x" : 0,
+          "y" : 28.86
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 30.21,
+          "x" : 12,
+          "y" : 35.86
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 48.85,
+          "x" : 61.21,
+          "y" : 28.86
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.85,
+          "x" : 73.21,
+          "y" : 35.86
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 70.17,
+          "x" : 117.06,
+          "y" : 28.86
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 46.17,
+          "x" : 129.06,
+          "y" : 35.86
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        }
+      ],
+      "probe" : "design",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        138
+      ],
+      "boxes" : [
+        {
+          "h" : 138,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 44.7,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 287.3,
+          "x" : 54.7,
+          "y" : 9.8
+        },
+        {
+          "h" : 106.6,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 31.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 54.21,
+          "x" : 0,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 30.21,
+          "x" : 12,
+          "y" : 38.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 48.85,
+          "x" : 61.21,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.85,
+          "x" : 73.21,
+          "y" : 38.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 70.17,
+          "x" : 117.06,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 46.17,
+          "x" : 129.06,
+          "y" : 38.4
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        }
+      ],
+      "probe" : "tall",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 25.24,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 83.58,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 248.42,
+          "x" : 93.58,
+          "y" : 18.67
+        },
+        {
+          "h" : 292.86,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 49.14
+        },
+        {
+          "h" : 52.14,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 87.54,
+          "x" : 0,
+          "y" : 49.14
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 63.54,
+          "x" : 12,
+          "y" : 56.14
+        },
+        {
+          "h" : 52.14,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 76.25,
+          "x" : 94.54,
+          "y" : 49.14
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 52.25,
+          "x" : 106.54,
+          "y" : 56.14
+        },
+        {
+          "h" : 52.14,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 121.11,
+          "x" : 177.79,
+          "y" : 49.14
+        },
+        {
+          "h" : 38.14,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 25.24,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 97.11,
+          "x" : 189.79,
+          "y" : 56.14
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 700,
+            "size" : 25.24137931034483,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 25.24137931034483,
+            "outWeight" : 600,
+            "size" : 25.24137931034483,
+            "slot" : "categories#2",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 25.24137931034483,
+          "v" : 38.14,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 83.58,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 63.54,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 52.25,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 97.11,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 83.58,
+          "weight" : 700,
+          "width" : 83.58
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 63.54,
+          "weight" : 600,
+          "width" : 63.54
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 52.25,
+          "weight" : 600,
+          "width" : 52.25
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 97.11,
+          "weight" : 600,
+          "width" : 97.11
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 83.58,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 63.54,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 52.25,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 97.11,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 83.58,
+          "weight" : 700,
+          "width" : 83.58
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 63.54,
+          "weight" : 600,
+          "width" : 63.54
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 52.25,
+          "weight" : 600,
+          "width" : 52.25
+        },
+        {
+          "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 97.11,
+          "weight" : 600,
+          "width" : 97.11
+        }
+      ],
+      "probe" : "small",
+      "renderScale" : 0.47540983606557374,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        342
+      ],
+      "boxes" : [
+        {
+          "h" : 342,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 20.4,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 13.5,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 44.7,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 287.3,
+          "x" : 54.7,
+          "y" : 9.8
+        },
+        {
+          "h" : 310.6,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 31.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 54.21,
+          "x" : 0,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 30.21,
+          "x" : 12,
+          "y" : 38.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 48.85,
+          "x" : 61.21,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 24.85,
+          "x" : 73.21,
+          "y" : 38.4
+        },
+        {
+          "h" : 32.13,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 70.17,
+          "x" : 117.06,
+          "y" : 31.4
+        },
+        {
+          "h" : 18.13,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 12,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 46.17,
+          "x" : 129.06,
+          "y" : 38.4
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        }
+      ],
+      "probe" : "large",
+      "renderScale" : 1,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        470.1,
+        57
+      ],
+      "boxes" : [
+        {
+          "h" : 57,
+          "id" : "r",
+          "type" : "col",
+          "w" : 470.1,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 17.87,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 470.1,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 17.87,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 14.39,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 47.65,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 412.45,
+          "x" : 57.65,
+          "y" : 8.53
+        },
+        {
+          "h" : 28.13,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 470.1,
+          "x" : 0,
+          "y" : 28.87
+        },
+        {
+          "h" : 34.23,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 57.7,
+          "x" : 0,
+          "y" : 28.87
+        },
+        {
+          "h" : 20.23,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 13.39,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 33.7,
+          "x" : 12,
+          "y" : 35.87
+        },
+        {
+          "h" : 34.23,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 51.71,
+          "x" : 64.7,
+          "y" : 28.87
+        },
+        {
+          "h" : 20.23,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 13.39,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 27.71,
+          "x" : 76.7,
+          "y" : 35.87
+        },
+        {
+          "h" : 34.23,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 75.5,
+          "x" : 123.41,
+          "y" : 28.87
+        },
+        {
+          "h" : 20.23,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 13.39,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 51.5,
+          "x" : 135.41,
+          "y" : 35.87
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.2,
+            "outWeight" : 700,
+            "size" : 16.2,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.2,
+            "outWeight" : 600,
+            "size" : 16.2,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.2,
+            "outWeight" : 600,
+            "size" : 16.2,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 16.2,
+            "outWeight" : 600,
+            "size" : 16.2,
+            "slot" : "categories#2",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 15.282,
+            "outWeight" : 700,
+            "size" : 15.282,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.772,
+            "outWeight" : 600,
+            "size" : 14.772,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.772,
+            "outWeight" : 600,
+            "size" : 14.772,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.772,
+            "outWeight" : 600,
+            "size" : 14.772,
+            "slot" : "categories#2",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 14.391,
+            "outWeight" : 700,
+            "size" : 14.391,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.386,
+            "outWeight" : 600,
+            "size" : 13.386,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.386,
+            "outWeight" : 600,
+            "size" : 13.386,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.386,
+            "outWeight" : 600,
+            "size" : 13.386,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.2,
+          "v" : 24.48,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 16.2,
+          "v" : 24.48,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 15.282,
+          "v" : 23.09,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.772,
+          "v" : 22.32,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 14.391,
+          "v" : 21.74,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.386,
+          "v" : 20.23,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 53.64,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.78,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.54,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 62.33,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 53.64,
+          "weight" : 700,
+          "width" : 53.64
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.78,
+          "weight" : 600,
+          "width" : 40.78
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.54,
+          "weight" : 600,
+          "width" : 33.54
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 62.33,
+          "weight" : 600,
+          "width" : 62.33
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 53.64,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.78,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.54,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 62.33,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 53.64,
+          "weight" : 700,
+          "width" : 53.64
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 40.78,
+          "weight" : 600,
+          "width" : 40.78
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 33.54,
+          "weight" : 600,
+          "width" : 33.54
+        },
+        {
+          "face" : "noto",
+          "h" : 24.48,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 16.2,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 62.33,
+          "weight" : 600,
+          "width" : 62.33
+        },
+        {
+          "face" : "noto",
+          "h" : 23.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.282,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 50.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 37.19,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 30.58,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 56.83,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 23.09,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 15.282,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 50.6,
+          "weight" : 700,
+          "width" : 50.6
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 37.19,
+          "weight" : 600,
+          "width" : 37.19
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 30.58,
+          "weight" : 600,
+          "width" : 30.58
+        },
+        {
+          "face" : "noto",
+          "h" : 22.32,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.772,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 56.83,
+          "weight" : 600,
+          "width" : 56.83
+        },
+        {
+          "face" : "noto",
+          "h" : 21.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.391,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 47.65,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 33.7,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 27.71,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 51.5,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 21.74,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 14.391,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 47.65,
+          "weight" : 700,
+          "width" : 47.65
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 33.7,
+          "weight" : 600,
+          "width" : 33.7
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 27.71,
+          "weight" : 600,
+          "width" : 27.71
+        },
+        {
+          "face" : "noto",
+          "h" : 20.23,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.386,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 51.5,
+          "weight" : 600,
+          "width" : 51.5
+        }
+      ],
+      "probe" : "strip",
+      "renderScale" : 0.7407407407407407,
+      "scale" : 1
+    },
+    {
+      "box" : [
+        342,
+        148.935
+      ],
+      "boxes" : [
+        {
+          "h" : 148.94,
+          "id" : "r",
+          "type" : "col",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0",
+          "type" : "row",
+          "w" : 342,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/0\/0",
+          "lines" : 1,
+          "size" : 18.3,
+          "text" : "สายงาน",
+          "type" : "text",
+          "w" : 60.6,
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "h" : 0.8,
+          "id" : "r\/0\/1",
+          "type" : "rect",
+          "w" : 271.4,
+          "x" : 70.6,
+          "y" : 13.43
+        },
+        {
+          "h" : 110.29,
+          "id" : "r\/1",
+          "type" : "chips",
+          "w" : 342,
+          "x" : 0,
+          "y" : 38.65
+        },
+        {
+          "h" : 41.65,
+          "id" : "r\/1\/c0",
+          "type" : "row",
+          "w" : 70.07,
+          "x" : 0,
+          "y" : 38.65
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/1\/c0\/0",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "categories#0",
+          "text" : "แฟชั่น",
+          "type" : "text",
+          "w" : 46.07,
+          "x" : 12,
+          "y" : 45.65
+        },
+        {
+          "h" : 41.65,
+          "id" : "r\/1\/c1",
+          "type" : "row",
+          "w" : 61.89,
+          "x" : 77.07,
+          "y" : 38.65
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/1\/c1\/0",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "categories#1",
+          "text" : "คาเฟ่",
+          "type" : "text",
+          "w" : 37.89,
+          "x" : 89.07,
+          "y" : 45.65
+        },
+        {
+          "h" : 41.65,
+          "id" : "r\/1\/c2",
+          "type" : "row",
+          "w" : 94.41,
+          "x" : 145.96,
+          "y" : 38.65
+        },
+        {
+          "h" : 27.65,
+          "id" : "r\/1\/c2\/0",
+          "lines" : 1,
+          "size" : 18.3,
+          "slot" : "categories#2",
+          "text" : "ท่องเที่ยว",
+          "type" : "text",
+          "w" : 70.41,
+          "x" : 157.96,
+          "y" : 45.65
+        }
+      ],
+      "data" : {
+        "flags" : {
+
+        },
+        "fonts" : [
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 700,
+            "size" : 18.3,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 18.3,
+            "outWeight" : 600,
+            "size" : 18.3,
+            "slot" : "categories#2",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 13.5,
+            "outWeight" : 700,
+            "size" : 13.5,
+            "weight" : 700
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#0",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#1",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 12,
+            "outWeight" : 600,
+            "size" : 12,
+            "slot" : "categories#2",
+            "weight" : 600
+          }
+        ],
+        "lists" : {
+          "categories" : [
+            {
+              "fields" : {
+                "text" : "แฟชั่น"
+              },
+              "i" : 0,
+              "id" : "cat0"
+            },
+            {
+              "fields" : {
+                "text" : "คาเฟ่"
+              },
+              "i" : 1,
+              "id" : "cat1"
+            },
+            {
+              "fields" : {
+                "text" : "ท่องเที่ยว"
+              },
+              "i" : 2,
+              "id" : "cat2"
+            }
+          ]
+        },
+        "texts" : [
+          {
+            "slot" : "categories#0",
+            "v" : "แฟชั่น"
+          },
+          {
+            "slot" : "categories#1",
+            "v" : "คาเฟ่"
+          },
+          {
+            "slot" : "categories#2",
+            "v" : "ท่องเที่ยว"
+          }
+        ]
+      },
+      "lineHeights" : [
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 18.3,
+          "v" : 27.65,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 13.5,
+          "v" : 20.4,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "italic" : false,
+          "lineHeight" : 1,
+          "size" : 12,
+          "v" : 18.13,
+          "weight" : 600
+        }
+      ],
+      "measures" : [
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 60.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 46.07,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 37.89,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 70.41,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 60.6,
+          "weight" : 700,
+          "width" : 60.6
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 46.07,
+          "weight" : 600,
+          "width" : 46.07
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 37.89,
+          "weight" : 600,
+          "width" : 37.89
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 70.41,
+          "weight" : 600,
+          "width" : 70.41
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 20.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 13.5,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 44.7,
+          "weight" : 700,
+          "width" : 44.7
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 30.21,
+          "weight" : 600,
+          "width" : 30.21
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 24.85,
+          "weight" : 600,
+          "width" : 24.85
+        },
+        {
+          "face" : "noto",
+          "h" : 18.13,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 12,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 46.17,
+          "weight" : 600,
+          "width" : 46.17
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 60.6,
+          "weight" : 700
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 46.07,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 37.89,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 70.41,
+          "weight" : 600
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "สายงาน",
+          "tracking" : 0,
+          "w" : 60.6,
+          "weight" : 700,
+          "width" : 60.6
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "แฟชั่น",
+          "tracking" : 0,
+          "w" : 46.07,
+          "weight" : 600,
+          "width" : 46.07
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "คาเฟ่",
+          "tracking" : 0,
+          "w" : 37.89,
+          "weight" : 600,
+          "width" : 37.89
+        },
+        {
+          "face" : "noto",
+          "h" : 27.65,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 18.3,
+          "t" : "ท่องเที่ยว",
+          "tracking" : 0,
+          "w" : 70.41,
+          "weight" : 600,
+          "width" : 70.41
+        }
+      ],
+      "probe" : "narrow",
+      "renderScale" : 0.6557377049180327,
+      "scale" : 1
+    }
+  ],
+  "design" : [
+    366,
+    81
+  ],
+  "inset" : 12,
+  "kind" : "nicheTags",
+  "rule" : "s = min(W\/w0, H\/h0); box = (W\/s - 2*inset, H\/s - 2*inset); inset = chrome content inset (12 when the chrome draws a plate or border, else 0); boxes below are in box units"
+}

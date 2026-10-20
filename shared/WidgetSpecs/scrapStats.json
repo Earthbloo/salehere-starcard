@@ -1,0 +1,725 @@
+{
+ "kind": "scrapStats",
+ "design": {
+  "w": 370,
+  "h": 280
+ },
+ "widget": {
+  "title": "สถิติผู้ชม",
+  "category": "audience",
+  "symbol": "chart.bar.xaxis",
+  "size": {
+   "w": 366,
+   "h": 277
+  },
+  "order": 68,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "keepAspect": true,
+  "stamp": "insight",
+  "stampAt": {
+   "tone": "light",
+   "top": 6,
+   "trailing": 14
+  },
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก · สถิติผู้ชม — แผ่นกระดาษโทน · พาดหัว 'สถิติ/ผู้ชม' แบบแถบดำตัวขาว (note#1/2) · สามแถวซ้าย (เพศหลัก · อายุหลัก · เมืองหลัก = รายการ gender/ages/places เรียง shareRaw desc เอาชิ้นแรก) · กล่อง ER ต่อช่องสูงสุด 3 (socials ที่ engagementRaw>0) · จอมือถือขวาเอียง 4° (อายุ = แท่ง $shareRaw/max · เพศ = แถบ $shareRaw/sum · เมือง 3 อันดับ) · แปลงจาก ScrapbookWidgets.swift (ScrapStatsWidget) · ไอคอนแถวใช้ Phosphor แทน SF Symbols · เพศหลักเทียบเฉพาะหญิง/ชาย ($i<2) ข้อความ 'ผู้ชมเป็นผู้{label}' · ยังไม่มีข้อมูล: ต้นฉบับโชว์ '–' และแท่งว่าง (ghostData) — ผังโชว์ 0% · ตัวหนาของชิ้นสูงสุดในแท่งไม่ทำ (ฟอนต์ตามเงื่อนไขไม่มี) · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "row",
+    "id": "label",
+    "place": "top-left",
+    "dx": 15,
+    "dy": 15,
+    "gap": -2,
+    "align": "start",
+    "justify": "start",
+    "children": [
+     {
+      "type": "row",
+      "id": "first",
+      "pad": [
+       0,
+       8.1,
+       2.2,
+       8.1
+      ],
+      "fill": "#141414",
+      "rotate": -2,
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 27,
+        "weight": 900,
+        "color": "white",
+        "maxLines": 1,
+        "text": "สถิติ"
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "pad": [
+       13,
+       0,
+       0,
+       0
+      ],
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "second",
+        "pad": [
+         0.5,
+         9.2
+        ],
+        "fill": "scrap.band",
+        "rotate": 1.5,
+        "children": [
+         {
+          "type": "text",
+          "face": "mitr",
+          "size": 23.2,
+          "weight": 400,
+          "color": "#141414",
+          "maxLines": 1,
+          "text": "ผู้ชม"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "rows",
+    "place": "top-left",
+    "dx": 18,
+    "dy": 70,
+    "w": 195,
+    "gap": 6,
+    "children": [
+     {
+      "type": "chips",
+      "list": "gender",
+      "where": "$i<2",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "direction": "col",
+      "each": {
+       "type": "row",
+       "gap": 9,
+       "align": "center",
+       "children": [
+        {
+         "type": "icon",
+         "icon": "ph:users-three-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "scrap.ink",
+         "if": "papered"
+        },
+        {
+         "type": "icon",
+         "icon": "ph:users-three-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "ink@0.95",
+         "if": "!papered"
+        },
+        {
+         "type": "col",
+         "gap": 0,
+         "align": "start",
+         "children": [
+          {
+           "type": "text",
+           "text": "$share",
+           "face": "noto",
+           "size": 22,
+           "weight": 800,
+           "color": "scrap.strong",
+           "maxLines": 1,
+           "shrinkTo": 11
+          },
+          {
+           "type": "text",
+           "text": "ผู้ชมเป็นผู้{label}",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "scrap.ink",
+           "maxLines": 1,
+           "if": "papered"
+          },
+          {
+           "type": "text",
+           "text": "ผู้ชมเป็นผู้{label}",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "ink@0.95",
+           "maxLines": 1,
+           "if": "!papered"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "type": "chips",
+      "list": "ages",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "direction": "col",
+      "each": {
+       "type": "row",
+       "gap": 9,
+       "align": "center",
+       "children": [
+        {
+         "type": "icon",
+         "icon": "ph:cake-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "scrap.ink",
+         "if": "papered"
+        },
+        {
+         "type": "icon",
+         "icon": "ph:cake-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "ink@0.95",
+         "if": "!papered"
+        },
+        {
+         "type": "col",
+         "gap": 0,
+         "align": "start",
+         "children": [
+          {
+           "type": "text",
+           "text": "$label",
+           "face": "noto",
+           "size": 22,
+           "weight": 800,
+           "color": "scrap.strong",
+           "maxLines": 1,
+           "shrinkTo": 11
+          },
+          {
+           "type": "text",
+           "text": "อายุหลักของผู้ชม",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "scrap.ink",
+           "maxLines": 1,
+           "if": "papered"
+          },
+          {
+           "type": "text",
+           "text": "อายุหลักของผู้ชม",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "ink@0.95",
+           "maxLines": 1,
+           "if": "!papered"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "type": "chips",
+      "list": "places",
+      "sort": "shareRaw desc",
+      "limit": 1,
+      "direction": "col",
+      "each": {
+       "type": "row",
+       "gap": 9,
+       "align": "center",
+       "children": [
+        {
+         "type": "icon",
+         "icon": "ph:map-pin-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "scrap.ink",
+         "if": "papered"
+        },
+        {
+         "type": "icon",
+         "icon": "ph:map-pin-fill",
+         "w": 24,
+         "h": 17,
+         "tint": "ink@0.95",
+         "if": "!papered"
+        },
+        {
+         "type": "col",
+         "gap": 0,
+         "align": "start",
+         "children": [
+          {
+           "type": "text",
+           "text": "$name",
+           "face": "noto",
+           "size": 22,
+           "weight": 800,
+           "color": "scrap.strong",
+           "maxLines": 1,
+           "shrinkTo": 11
+          },
+          {
+           "type": "text",
+           "text": "เมืองหลักของผู้ชม",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "scrap.ink",
+           "maxLines": 1,
+           "if": "papered"
+          },
+          {
+           "type": "text",
+           "text": "เมืองหลักของผู้ชม",
+           "face": "mitr",
+           "size": 10,
+           "weight": 400,
+           "color": "ink@0.95",
+           "maxLines": 1,
+           "if": "!papered"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "er",
+    "list": "socials",
+    "where": "$engagementRaw>0",
+    "limit": 3,
+    "wrap": false,
+    "gap": 6,
+    "h": 40,
+    "place": "bottom-left",
+    "dx": 18,
+    "dy": -14,
+    "each": {
+     "type": "col",
+     "w": 64,
+     "h": 40,
+     "gap": 1,
+     "justify": "center",
+     "align": "center",
+     "fill": "scrap.mid",
+     "shadow": {
+      "sigma": 1.5,
+      "y": 3,
+      "color": "scrap.shade@0.14"
+     },
+     "children": [
+      {
+       "type": "text",
+       "text": "$engagement",
+       "face": "noto",
+       "size": 15,
+       "weight": 800,
+       "color": "#141414",
+       "maxLines": 1,
+       "textAlign": "center"
+      },
+      {
+       "type": "text",
+       "text": "{name} · ER",
+       "textCase": "upper",
+       "face": "noto",
+       "size": 5.5,
+       "weight": 700,
+       "tracking": 0.5,
+       "color": "#141414",
+       "maxLines": 1,
+       "shrinkTo": 3.3,
+       "textAlign": "center"
+      }
+     ]
+    }
+   },
+   {
+    "type": "stack",
+    "id": "phone",
+    "w": 113,
+    "h": 235,
+    "place": "top-right",
+    "dx": -20,
+    "dy": 22,
+    "rotate": 4,
+    "pad": 6,
+    "fill": "#1B1B1D",
+    "radius": 20,
+    "shadow": {
+     "sigma": 5,
+     "y": 10,
+     "color": "scrap.shade@0.3"
+    },
+    "children": [
+     {
+      "type": "col",
+      "id": "screen",
+      "fill": "#FFF8FA",
+      "radius": 15,
+      "pad": [
+       18,
+       9,
+       8,
+       9
+      ],
+      "gap": 4,
+      "children": [
+       {
+        "type": "text",
+        "text": "อายุ",
+        "face": "noto",
+        "size": 9.5,
+        "weight": 800,
+        "color": "#141414",
+        "maxLines": 1
+       },
+       {
+        "type": "chips",
+        "list": "ages",
+        "direction": "col",
+        "gap": 4,
+        "each": {
+         "type": "row",
+         "gap": 4,
+         "align": "center",
+         "children": [
+          {
+           "type": "text",
+           "text": "$label",
+           "w": 30,
+           "face": "noto",
+           "size": 6.5,
+           "weight": 600,
+           "color": "#141414",
+           "maxLines": 1,
+           "shrinkTo": 3.9
+          },
+          {
+           "type": "row",
+           "grow": 1,
+           "h": 6,
+           "circle": true,
+           "fill": "scrap.blush",
+           "align": "start",
+           "children": [
+            {
+             "type": "rect",
+             "h": 6,
+             "circle": true,
+             "pct": "$shareRaw/max",
+             "fill": "scrap.paperAccent",
+             "if": "!$shareRaw=max"
+            },
+            {
+             "type": "rect",
+             "h": 6,
+             "circle": true,
+             "pct": "$shareRaw/max",
+             "fill": "scrap.paperStrong",
+             "if": "$shareRaw=max"
+            }
+           ]
+          },
+          {
+           "type": "text",
+           "text": "$share",
+           "w": 18,
+           "textAlign": "right",
+           "face": "noto",
+           "size": 6.5,
+           "weight": 700,
+           "color": "#141414",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "col",
+        "pad": [
+         2,
+         0
+        ],
+        "children": [
+         {
+          "type": "rect",
+          "h": 1,
+          "stroke": {
+           "color": "scrap.band",
+           "width": 0.8,
+           "dash": [
+            3,
+            2
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "เพศ",
+        "face": "noto",
+        "size": 9.5,
+        "weight": 800,
+        "color": "#141414",
+        "maxLines": 1
+       },
+       {
+        "type": "chips",
+        "id": "genderBar",
+        "list": "gender",
+        "wrap": false,
+        "gap": 0,
+        "h": 7,
+        "circle": true,
+        "clip": true,
+        "fill": "#E9E1E4",
+        "each": {
+         "type": "rect",
+         "h": 7,
+         "pct": "$shareRaw/sum",
+         "fillCycle": [
+          "scrap.paperStrong",
+          "scrap.band",
+          "#E9E1E4"
+         ]
+        }
+       },
+       {
+        "type": "chips",
+        "list": "gender",
+        "where": "$i<2",
+        "wrap": false,
+        "justify": "between",
+        "each": {
+         "type": "text",
+         "text": "{label} {share}",
+         "face": "noto",
+         "size": 6.5,
+         "weight": 600,
+         "color": "#141414",
+         "maxLines": 1
+        }
+       },
+       {
+        "type": "col",
+        "pad": [
+         2,
+         0
+        ],
+        "children": [
+         {
+          "type": "rect",
+          "h": 1,
+          "stroke": {
+           "color": "scrap.band",
+           "width": 0.8,
+           "dash": [
+            3,
+            2
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "เมือง",
+        "face": "noto",
+        "size": 9.5,
+        "weight": 800,
+        "color": "#141414",
+        "maxLines": 1
+       },
+       {
+        "type": "chips",
+        "list": "places",
+        "sort": "shareRaw desc",
+        "limit": 3,
+        "direction": "col",
+        "gap": 4,
+        "each": {
+         "type": "row",
+         "gap": 4,
+         "align": "center",
+         "children": [
+          {
+           "type": "text",
+           "text": "$name",
+           "w": 30,
+           "face": "noto",
+           "size": 6.5,
+           "weight": 600,
+           "color": "#141414",
+           "maxLines": 1,
+           "shrinkTo": 3.9
+          },
+          {
+           "type": "row",
+           "grow": 1,
+           "h": 6,
+           "circle": true,
+           "fill": "scrap.blush",
+           "align": "start",
+           "children": [
+            {
+             "type": "rect",
+             "h": 6,
+             "circle": true,
+             "pct": "$shareRaw/max",
+             "fill": "scrap.paperAccent",
+             "if": "!$shareRaw=max"
+            },
+            {
+             "type": "rect",
+             "h": 6,
+             "circle": true,
+             "pct": "$shareRaw/max",
+             "fill": "scrap.paperStrong",
+             "if": "$shareRaw=max"
+            }
+           ]
+          },
+          {
+           "type": "text",
+           "text": "$share",
+           "w": 18,
+           "textAlign": "right",
+           "face": "noto",
+           "size": 6.5,
+           "weight": 700,
+           "color": "#141414",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "spacer",
+        "grow": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "w": 17,
+    "h": 17,
+    "tint": "white",
+    "place": "top-right",
+    "dx": -141,
+    "dy": 16
+   },
+   {
+    "type": "rect",
+    "id": "heart",
+    "w": 18,
+    "h": 18,
+    "shape": "heart",
+    "fill": "scrap.accent",
+    "place": "bottom-right",
+    "dx": -8,
+    "dy": -8
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

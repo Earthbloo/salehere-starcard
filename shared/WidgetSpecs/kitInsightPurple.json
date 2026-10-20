@@ -1,0 +1,2516 @@
+{
+ "kind": "kitInsightPurple",
+ "design": {
+  "w": 350,
+  "h": 300
+ },
+ "widget": {
+  "title": "Insight",
+  "category": "audience",
+  "symbol": "chart.bar.fill",
+  "order": 116,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "purple"
+  },
+  "stamp": "insight",
+  "motion": "mid",
+  "replaces": [
+   "kitInsight"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ข้อมูล",
+    "items": [
+     [
+      "city",
+      "เมือง"
+     ],
+     [
+      "gender",
+      "เพศ"
+     ],
+     [
+      "age",
+      "อายุ"
+     ],
+     [
+      "reach",
+      "การเข้าถึง"
+     ]
+    ],
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
+ "variants": [
+  {
+   "when": "!bordered",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14,
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "Insight"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เมืองหลักของผู้ติดตาม",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 8,
+                     "minW": 60
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "kit.fill"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": 8
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 8,
+                   "align": "center",
+                   "grow": 1,
+                   "maxH": 30
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 4,
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:places>0"
+             }
+            ],
+            "if": "!hidden:city",
+            "grow": 1,
+            "id": "city"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เพศ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "gender",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "rect",
+                     "w": 1,
+                     "fill": "black@0.12",
+                     "if": "!$i=first"
+                    },
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:user-fill",
+                       "size": 22,
+                       "tint": "$tint"
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$label",
+                       "face": "noto",
+                       "size": 10.5,
+                       "weight": 600,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      }
+                     ],
+                     "gap": 1,
+                     "align": "center",
+                     "justify": "center",
+                     "grow": 1
+                    }
+                   ],
+                   "grow": 1
+                  },
+                  "limit": 2,
+                  "wrap": false,
+                  "gap": 0,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:gender",
+            "grow": 1,
+            "id": "gender"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         },
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "อายุ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "ages",
+                  "each": {
+                   "type": "col",
+                   "children": [
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "col",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill",
+                         "if": "$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        },
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill@0.45",
+                         "if": "!$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        }
+                       ],
+                       "grow": 1,
+                       "align": "center",
+                       "justify": "end"
+                      }
+                     ],
+                     "gap": 3,
+                     "align": "center",
+                     "grow": 1,
+                     "minH": 37.6
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$label",
+                     "face": "noto",
+                     "size": 10.5,
+                     "weight": 600,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.4
+                    }
+                   ],
+                   "gap": 4,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "wrap": false,
+                  "gap": 8,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:ages>0"
+             }
+            ],
+            "if": "!hidden:age",
+            "grow": 1,
+            "id": "age"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "การเข้าถึง",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "face": "noto",
+                    "size": 19,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "shrinkTo": 11.4,
+                    "slot": "stat:reach"
+                   },
+                   {
+                    "type": "text",
+                    "text": "ต่อเดือน",
+                    "face": "noto",
+                    "size": 11,
+                    "weight": 600,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "if": "!has:stat:reachWindow"
+                   },
+                   {
+                    "type": "row",
+                    "gap": 3,
+                    "if": "has:stat:reachWindow",
+                    "children": [
+                     {
+                      "type": "text",
+                      "text": "ใน",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1
+                     },
+                     {
+                      "type": "text",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1,
+                      "slot": "stat:reachWindow"
+                     }
+                    ]
+                   }
+                  ],
+                  "gap": 1,
+                  "align": "center",
+                  "justify": "center",
+                  "grow": 1
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:reach & has:stat:reach",
+            "grow": 1,
+            "id": "reach"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 6,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 3
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 3
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 3,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 14
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 14
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 14,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "Insight"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เมืองหลักของผู้ติดตาม",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 8,
+                     "minW": 60
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "kit.fill"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": 8
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 8,
+                   "align": "center",
+                   "grow": 1,
+                   "maxH": 30
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 4,
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:places>0"
+             }
+            ],
+            "if": "!hidden:city",
+            "grow": 1,
+            "id": "city"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เพศ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "gender",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "rect",
+                     "w": 1,
+                     "fill": "black@0.12",
+                     "if": "!$i=first"
+                    },
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:user-fill",
+                       "size": 22,
+                       "tint": "$tint"
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$label",
+                       "face": "noto",
+                       "size": 10.5,
+                       "weight": 600,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      }
+                     ],
+                     "gap": 1,
+                     "align": "center",
+                     "justify": "center",
+                     "grow": 1
+                    }
+                   ],
+                   "grow": 1
+                  },
+                  "limit": 2,
+                  "wrap": false,
+                  "gap": 0,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:gender",
+            "grow": 1,
+            "id": "gender"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         },
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "อายุ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "ages",
+                  "each": {
+                   "type": "col",
+                   "children": [
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "col",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill",
+                         "if": "$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        },
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill@0.45",
+                         "if": "!$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        }
+                       ],
+                       "grow": 1,
+                       "align": "center",
+                       "justify": "end"
+                      }
+                     ],
+                     "gap": 3,
+                     "align": "center",
+                     "grow": 1,
+                     "minH": 37.6
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$label",
+                     "face": "noto",
+                     "size": 10.5,
+                     "weight": 600,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.4
+                    }
+                   ],
+                   "gap": 4,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "wrap": false,
+                  "gap": 8,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:ages>0"
+             }
+            ],
+            "if": "!hidden:age",
+            "grow": 1,
+            "id": "age"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "การเข้าถึง",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "face": "noto",
+                    "size": 19,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "shrinkTo": 11.4,
+                    "slot": "stat:reach"
+                   },
+                   {
+                    "type": "text",
+                    "text": "ต่อเดือน",
+                    "face": "noto",
+                    "size": 11,
+                    "weight": 600,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "if": "!has:stat:reachWindow"
+                   },
+                   {
+                    "type": "row",
+                    "gap": 3,
+                    "if": "has:stat:reachWindow",
+                    "children": [
+                     {
+                      "type": "text",
+                      "text": "ใน",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1
+                     },
+                     {
+                      "type": "text",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1,
+                      "slot": "stat:reachWindow"
+                     }
+                    ]
+                   }
+                  ],
+                  "gap": 1,
+                  "align": "center",
+                  "justify": "center",
+                  "grow": 1
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:reach & has:stat:reach",
+            "grow": 1,
+            "id": "reach"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 6,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "!bordered | cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 14,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 3,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "Insight"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เมืองหลักของผู้ติดตาม",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 8,
+                     "minW": 60
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "kit.fill"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": 8
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 11.5,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 8,
+                   "align": "center",
+                   "grow": 1,
+                   "maxH": 30
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 4,
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:places>0"
+             }
+            ],
+            "if": "!hidden:city",
+            "grow": 1,
+            "id": "city"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "เพศ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "gender",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "rect",
+                     "w": 1,
+                     "fill": "black@0.12",
+                     "if": "!$i=first"
+                    },
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:user-fill",
+                       "size": 22,
+                       "tint": "$tint"
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$label",
+                       "face": "noto",
+                       "size": 10.5,
+                       "weight": 600,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      }
+                     ],
+                     "gap": 1,
+                     "align": "center",
+                     "justify": "center",
+                     "grow": 1
+                    }
+                   ],
+                   "grow": 1
+                  },
+                  "limit": 2,
+                  "wrap": false,
+                  "gap": 0,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:gender",
+            "grow": 1,
+            "id": "gender"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         },
+         {
+          "type": "row",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "อายุ",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "chips",
+                  "list": "ages",
+                  "each": {
+                   "type": "col",
+                   "children": [
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "text",
+                       "slot": "$share",
+                       "face": "noto",
+                       "size": 16,
+                       "weight": 800,
+                       "color": "#141417",
+                       "maxLines": 1
+                      },
+                      {
+                       "type": "col",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill",
+                         "if": "$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        },
+                        {
+                         "type": "rect",
+                         "fill": "kit.fill@0.45",
+                         "if": "!$shareRaw=max",
+                         "w": "100%",
+                         "maxW": 48,
+                         "minH": 6,
+                         "radius": 5,
+                         "stroke": {
+                          "color": "#141417",
+                          "width": 1.5
+                         },
+                         "pct": "$shareRaw/max"
+                        }
+                       ],
+                       "grow": 1,
+                       "align": "center",
+                       "justify": "end"
+                      }
+                     ],
+                     "gap": 3,
+                     "align": "center",
+                     "grow": 1,
+                     "minH": 37.6
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$label",
+                     "face": "noto",
+                     "size": 10.5,
+                     "weight": 600,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.4
+                    }
+                   ],
+                   "gap": 4,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "wrap": false,
+                  "gap": 8,
+                  "align": "stretch",
+                  "grow": 1,
+                  "w": "fill"
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1,
+              "if": "list:ages>0"
+             }
+            ],
+            "if": "!hidden:age",
+            "grow": 1,
+            "id": "age"
+           },
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "stack",
+              "children": [
+               {
+                "type": "rect",
+                "fill": "white",
+                "radius": 8
+               },
+               {
+                "type": "rect",
+                "stroke": {
+                 "color": "#141417",
+                 "width": 2
+                },
+                "radius": 8
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "text": "การเข้าถึง",
+                  "face": "noto",
+                  "size": 12,
+                  "weight": 700,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 8.4
+                 },
+                 {
+                  "type": "col",
+                  "children": [
+                   {
+                    "type": "text",
+                    "face": "noto",
+                    "size": 19,
+                    "weight": 800,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "shrinkTo": 11.4,
+                    "slot": "stat:reach"
+                   },
+                   {
+                    "type": "text",
+                    "text": "ต่อเดือน",
+                    "face": "noto",
+                    "size": 11,
+                    "weight": 600,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "if": "!has:stat:reachWindow"
+                   },
+                   {
+                    "type": "row",
+                    "gap": 3,
+                    "if": "has:stat:reachWindow",
+                    "children": [
+                     {
+                      "type": "text",
+                      "text": "ใน",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1
+                     },
+                     {
+                      "type": "text",
+                      "face": "noto",
+                      "size": 11,
+                      "weight": 600,
+                      "color": "#141417",
+                      "maxLines": 1,
+                      "slot": "stat:reachWindow"
+                     }
+                    ]
+                   }
+                  ],
+                  "gap": 1,
+                  "align": "center",
+                  "justify": "center",
+                  "grow": 1
+                 }
+                ],
+                "pad": [
+                 8,
+                 9
+                ],
+                "align": "start",
+                "justify": "start",
+                "gap": 5
+               }
+              ],
+              "grow": 1
+             }
+            ],
+            "if": "!hidden:reach & has:stat:reach",
+            "grow": 1,
+            "id": "reach"
+           }
+          ],
+          "gap": 6,
+          "grow": 1,
+          "align": "stretch"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 6,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 14,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 3,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 3,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 3
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 22,
+      "weight": 800,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 15.4,
+      "w": "fill",
+      "id": "title",
+      "text": "Insight"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "row",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "text",
+                "text": "เมืองหลักของผู้ติดตาม",
+                "face": "noto",
+                "size": 12,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 8.4
+               },
+               {
+                "type": "chips",
+                "list": "places",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "text",
+                   "slot": "$name",
+                   "face": "noto",
+                   "size": 11.5,
+                   "weight": 600,
+                   "color": "#141417",
+                   "maxLines": 1,
+                   "shrinkTo": 8,
+                   "minW": 60
+                  },
+                  {
+                   "type": "stack",
+                   "children": [
+                    {
+                     "type": "rect",
+                     "circle": true,
+                     "fill": "black@0.09"
+                    },
+                    {
+                     "type": "row",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "pct": "$shareRaw/max",
+                       "circle": true,
+                       "fill": "kit.fill"
+                      }
+                     ]
+                    }
+                   ],
+                   "grow": 1,
+                   "h": 8
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$share",
+                   "face": "noto",
+                   "size": 11.5,
+                   "weight": 800,
+                   "color": "#141417",
+                   "maxLines": 1
+                  }
+                 ],
+                 "gap": 8,
+                 "align": "center",
+                 "grow": 1,
+                 "maxH": 30
+                },
+                "limit": 3,
+                "direction": "col",
+                "gap": 4,
+                "grow": 1,
+                "w": "fill"
+               }
+              ],
+              "pad": [
+               8,
+               9
+              ],
+              "align": "start",
+              "justify": "start",
+              "gap": 5
+             }
+            ],
+            "grow": 1,
+            "if": "list:places>0"
+           }
+          ],
+          "if": "!hidden:city",
+          "grow": 1,
+          "id": "city"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "text",
+                "text": "เพศ",
+                "face": "noto",
+                "size": 12,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 8.4
+               },
+               {
+                "type": "chips",
+                "list": "gender",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "rect",
+                   "w": 1,
+                   "fill": "black@0.12",
+                   "if": "!$i=first"
+                  },
+                  {
+                   "type": "col",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:user-fill",
+                     "size": 22,
+                     "tint": "$tint"
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$label",
+                     "face": "noto",
+                     "size": 10.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 16,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 1,
+                   "align": "center",
+                   "justify": "center",
+                   "grow": 1
+                  }
+                 ],
+                 "grow": 1
+                },
+                "limit": 2,
+                "wrap": false,
+                "gap": 0,
+                "align": "stretch",
+                "grow": 1,
+                "w": "fill"
+               }
+              ],
+              "pad": [
+               8,
+               9
+              ],
+              "align": "start",
+              "justify": "start",
+              "gap": 5
+             }
+            ],
+            "grow": 1
+           }
+          ],
+          "if": "!hidden:gender",
+          "grow": 1,
+          "id": "gender"
+         }
+        ],
+        "gap": 6,
+        "grow": 1,
+        "align": "stretch"
+       },
+       {
+        "type": "row",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "text",
+                "text": "อายุ",
+                "face": "noto",
+                "size": 12,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 8.4
+               },
+               {
+                "type": "chips",
+                "list": "ages",
+                "each": {
+                 "type": "col",
+                 "children": [
+                  {
+                   "type": "col",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 16,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    },
+                    {
+                     "type": "col",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "fill": "kit.fill",
+                       "if": "$shareRaw=max",
+                       "w": "100%",
+                       "maxW": 48,
+                       "minH": 6,
+                       "radius": 5,
+                       "stroke": {
+                        "color": "#141417",
+                        "width": 1.5
+                       },
+                       "pct": "$shareRaw/max"
+                      },
+                      {
+                       "type": "rect",
+                       "fill": "kit.fill@0.45",
+                       "if": "!$shareRaw=max",
+                       "w": "100%",
+                       "maxW": 48,
+                       "minH": 6,
+                       "radius": 5,
+                       "stroke": {
+                        "color": "#141417",
+                        "width": 1.5
+                       },
+                       "pct": "$shareRaw/max"
+                      }
+                     ],
+                     "grow": 1,
+                     "align": "center",
+                     "justify": "end"
+                    }
+                   ],
+                   "gap": 3,
+                   "align": "center",
+                   "grow": 1,
+                   "minH": 37.6
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$label",
+                   "face": "noto",
+                   "size": 10.5,
+                   "weight": 600,
+                   "color": "black@0.52",
+                   "maxLines": 1,
+                   "shrinkTo": 7.4
+                  }
+                 ],
+                 "gap": 4,
+                 "align": "center",
+                 "grow": 1
+                },
+                "wrap": false,
+                "gap": 8,
+                "align": "stretch",
+                "grow": 1,
+                "w": "fill"
+               }
+              ],
+              "pad": [
+               8,
+               9
+              ],
+              "align": "start",
+              "justify": "start",
+              "gap": 5
+             }
+            ],
+            "grow": 1,
+            "if": "list:ages>0"
+           }
+          ],
+          "if": "!hidden:age",
+          "grow": 1,
+          "id": "age"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "stack",
+            "children": [
+             {
+              "type": "rect",
+              "fill": "white",
+              "radius": 8
+             },
+             {
+              "type": "rect",
+              "stroke": {
+               "color": "#141417",
+               "width": 2
+              },
+              "radius": 8
+             },
+             {
+              "type": "col",
+              "children": [
+               {
+                "type": "text",
+                "text": "การเข้าถึง",
+                "face": "noto",
+                "size": 12,
+                "weight": 700,
+                "color": "#141417",
+                "maxLines": 1,
+                "shrinkTo": 8.4
+               },
+               {
+                "type": "col",
+                "children": [
+                 {
+                  "type": "text",
+                  "face": "noto",
+                  "size": 19,
+                  "weight": 800,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "shrinkTo": 11.4,
+                  "slot": "stat:reach"
+                 },
+                 {
+                  "type": "text",
+                  "text": "ต่อเดือน",
+                  "face": "noto",
+                  "size": 11,
+                  "weight": 600,
+                  "color": "#141417",
+                  "maxLines": 1,
+                  "if": "!has:stat:reachWindow"
+                 },
+                 {
+                  "type": "row",
+                  "gap": 3,
+                  "if": "has:stat:reachWindow",
+                  "children": [
+                   {
+                    "type": "text",
+                    "text": "ใน",
+                    "face": "noto",
+                    "size": 11,
+                    "weight": 600,
+                    "color": "#141417",
+                    "maxLines": 1
+                   },
+                   {
+                    "type": "text",
+                    "face": "noto",
+                    "size": 11,
+                    "weight": 600,
+                    "color": "#141417",
+                    "maxLines": 1,
+                    "slot": "stat:reachWindow"
+                   }
+                  ]
+                 }
+                ],
+                "gap": 1,
+                "align": "center",
+                "justify": "center",
+                "grow": 1
+               }
+              ],
+              "pad": [
+               8,
+               9
+              ],
+              "align": "start",
+              "justify": "start",
+              "gap": 5
+             }
+            ],
+            "grow": 1
+           }
+          ],
+          "if": "!hidden:reach & has:stat:reach",
+          "grow": 1,
+          "id": "reach"
+         }
+        ],
+        "gap": 6,
+        "grow": 1,
+        "align": "stretch"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "gap": 6,
+      "align": "stretch"
+     }
+    ],
+    "pad": [
+     12,
+     12,
+     14,
+     12
+    ],
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "pad": [
+   0,
+   5,
+   5,
+   0
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

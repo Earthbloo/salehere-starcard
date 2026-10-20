@@ -1,0 +1,191 @@
+{
+ "kind": "contactQR",
+ "design": {
+  "w": 179,
+  "h": 224
+ },
+ "widget": {
+  "title": "คิวอาร์การ์ด",
+  "category": "contact",
+  "symbol": "qrcode",
+  "order": 36,
+  "ownSurface": true,
+  "motion": "anchored"
+ },
+ "notes": "บัตรกระดาษ #FAFAF7 มุม 16 เงาลึก + แถบสีเน้นที่หัว 5pt + QR จริง (กว้างสุด 118) + @handle + บรรทัด 'สแกนเพื่อ…' · สี Deal คงที่: ink #1A1224 · inkSoft #615470 · card #FAFAF7 · แถบหัว 5pt อยู่นอก clip (ต้นฉบับ overlay บนบัตร กว้างเต็ม ปลายมน) และมีเงาเหมือนลูกอื่น · แถบหัว = theme.rawAccent (สีดิบ ไม่ปรับตามพื้น — ที่เดียวที่บัตรกระดาษยอมรับสีการ์ด) · ตราข้างบรรทัดสแกน = VerifiedSeal compact ⌀10 สี inkSoft เครื่องหมายถูกสีกระดาษบัตร → rect scallop:8 + ph:check · แปลงจาก BookingWidgets.swift (ContactQRWidget) · เงาของบัตรอยู่ที่ rect แยก (stack ที่ clip ตัดเงาตัวเองทิ้ง) · ต้นฉบับ .shadow บนทั้งก้อนโดยไม่มี compositingGroup จึงกระจายเงาลงลูกทุกตัว (QR และตัวอักษรมีเงา) — ผังใส่เงาเดียวกันที่ QR และข้อความ · เงาของ QR วาดที่แผ่นขาวรองหลัง (icon ไม่รับ shadow)",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "card",
+    "fill": "#FAFAF7",
+    "radius": 16,
+    "shadow": {
+     "sigma": 6,
+     "y": 7,
+     "color": "black@0.35"
+    }
+   },
+   {
+    "type": "stack",
+    "radius": 16,
+    "clip": true,
+    "children": [
+     {
+      "type": "col",
+      "pad": 13,
+      "gap": 9,
+      "justify": "center",
+      "align": "center",
+      "children": [
+       {
+        "type": "col",
+        "id": "qrPlate",
+        "w": "fill",
+        "maxW": 118,
+        "aspect": 1,
+        "shrink": 1,
+        "align": "stretch",
+        "fill": "white",
+        "shadow": {
+         "sigma": 6,
+         "y": 7,
+         "color": "black@0.35"
+        },
+        "children": [
+         {
+          "type": "icon",
+          "id": "qr",
+          "icon": "qr",
+          "w": "fill",
+          "aspect": 1,
+          "tint": "#1A1224"
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "gap": 1,
+        "align": "center",
+        "w": "fill",
+        "children": [
+         {
+          "type": "row",
+          "gap": 0,
+          "justify": "center",
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "@",
+            "face": "noto",
+            "size": 11.5,
+            "weight": 800,
+            "color": "#1A1224",
+            "maxLines": 1,
+            "shadow": {
+             "sigma": 6,
+             "y": 7,
+             "color": "black@0.35"
+            }
+           },
+           {
+            "type": "text",
+            "id": "handle",
+            "slot": "handle",
+            "face": "noto",
+            "size": 11.5,
+            "weight": 800,
+            "color": "#1A1224",
+            "maxLines": 1,
+            "shadow": {
+             "sigma": 6,
+             "y": 7,
+             "color": "black@0.35"
+            }
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "gap": 3.5,
+          "justify": "center",
+          "align": "center",
+          "children": [
+           {
+            "type": "stack",
+            "w": 10,
+            "h": 10,
+            "if": "owner.verified",
+            "children": [
+             {
+              "type": "rect",
+              "shape": "scallop:8",
+              "fill": "#615470"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:check",
+              "size": 4.6,
+              "tint": "#FAFAF7",
+              "place": "center"
+             }
+            ]
+           },
+           {
+            "type": "text",
+            "text": "สแกนเพื่อตรวจสอบ",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 600,
+            "color": "#615470",
+            "maxLines": 1,
+            "shrinkTo": 6,
+            "if": "owner.verified",
+            "shadow": {
+             "sigma": 6,
+             "y": 7,
+             "color": "black@0.35"
+            }
+           },
+           {
+            "type": "text",
+            "text": "สแกนเพื่อดูการ์ดเต็ม",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 600,
+            "color": "#615470",
+            "maxLines": 1,
+            "shrinkTo": 6,
+            "if": "!owner.verified",
+            "shadow": {
+             "sigma": 6,
+             "y": 7,
+             "color": "black@0.35"
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "rect",
+    "id": "topBand",
+    "h": 5,
+    "place": "top-left",
+    "fill": "rawAccent",
+    "circle": true,
+    "shadow": {
+     "sigma": 6,
+     "y": 7,
+     "color": "black@0.35"
+    }
+   }
+  ]
+ }
+}

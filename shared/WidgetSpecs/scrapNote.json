@@ -1,0 +1,344 @@
+{
+ "kind": "scrapNote",
+ "design": {
+  "w": 370,
+  "h": 170
+ },
+ "widget": {
+  "title": "โน้ตติดต่อ",
+  "category": "contact",
+  "symbol": "note.text",
+  "size": {
+   "w": 366,
+   "h": 168
+  },
+  "order": 70,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก · โน้ตติดต่อ — แผ่นกระดาษโทน · กระดาษโน้ตครีม 220×135 มุม 3 เอียง −1.5° มีเส้นบรรทัด #C8D6E8 ทุก 27 เริ่ม y 48 (pattern lines angle 90 บน rect ที่วางให้เส้นลงตรง · เส้นเกินถูก clip) · หัว 'มาทำงาน/ด้วยกันนะ' (note#1/2 ไม่มีแถบ) · แถว LINE/โทร/เว็บ สูง 27 เฉพาะช่องที่มีค่า (has:) ป้าย 7pt #A86A84 กว้าง 29 ค่าเป็นมิตร 12 แก้ได้ · คลิปหนีบดำ 34 ที่ (108,5) · ซองจดหมาย 105×75 #FBF1E6 เอียง 5° มีตราหัวใจวงกลม paperAccent 30 · ประกาย · หัวใจ · แปลงจาก ScrapbookWidgets.swift (ScrapNoteWidget) · ฝาซองสามเหลี่ยม #F5E4D4 ไม่มี primitive จึงตัด · หัวข้อต้นฉบับจัด firstTextBaseline ที่นี่จัดล่าง · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
+ "root": {
+  "type": "stack",
+  "radius": 16,
+  "clip": true,
+  "children": [
+   {
+    "type": "rect",
+    "id": "paper",
+    "if": "papered",
+    "fill": "scrap.paper"
+   },
+   {
+    "type": "rect",
+    "id": "grainLight",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.4",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainLightDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "white@0.05",
+     "size": 3.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeck",
+    "if": "papered & ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.1",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "rect",
+    "id": "grainSpeckDark",
+    "if": "papered & !ink.light",
+    "pattern": {
+     "kind": "dots",
+     "color": "scrap.speck@0.06",
+     "size": 5.5,
+     "width": 1
+    }
+   },
+   {
+    "type": "stack",
+    "id": "pad",
+    "w": 220,
+    "h": 135,
+    "place": "top-left",
+    "dx": 17,
+    "dy": 20,
+    "rotate": -1.5,
+    "fill": "#FFFDF8",
+    "radius": 3,
+    "clip": true,
+    "shadow": {
+     "sigma": 3.5,
+     "y": 7,
+     "color": "scrap.shade@0.2"
+    },
+    "children": [
+     {
+      "type": "rect",
+      "id": "rules",
+      "h": 130,
+      "place": "top-left",
+      "dy": 37,
+      "pattern": {
+       "kind": "lines",
+       "angle": 90,
+       "size": 27,
+       "width": 1,
+       "color": "#C8D6E8"
+      }
+     },
+     {
+      "type": "col",
+      "pad": [
+       12,
+       12,
+       0,
+       17
+      ],
+      "gap": 0,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "heading",
+        "h": 35,
+        "pad": [
+         0,
+         0,
+         4,
+         0
+        ],
+        "gap": 4,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 20,
+          "weight": 900,
+          "color": "#141414",
+          "maxLines": 1,
+          "text": "มาทำงาน"
+         },
+         {
+          "type": "text",
+          "face": "mitr",
+          "size": 20,
+          "weight": 400,
+          "color": "scrap.paperAccent",
+          "maxLines": 1,
+          "text": "ด้วยกันนะ"
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "line",
+        "if": "has:lineId",
+        "h": 27,
+        "gap": 7,
+        "align": "center",
+        "w": "fill",
+        "children": [
+         {
+          "type": "text",
+          "text": "LINE",
+          "w": 29,
+          "face": "noto",
+          "size": 7,
+          "weight": 700,
+          "color": "#A86A84",
+          "maxLines": 1
+         },
+         {
+          "type": "text",
+          "slot": "lineId",
+          "face": "mitr",
+          "size": 12,
+          "weight": 400,
+          "color": "#141414",
+          "maxLines": 1,
+          "shrinkTo": 7.2,
+          "grow": 1
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "phone",
+        "if": "has:phone",
+        "h": 27,
+        "gap": 7,
+        "align": "center",
+        "w": "fill",
+        "children": [
+         {
+          "type": "text",
+          "text": "โทร",
+          "w": 29,
+          "face": "noto",
+          "size": 7,
+          "weight": 700,
+          "color": "#A86A84",
+          "maxLines": 1
+         },
+         {
+          "type": "text",
+          "slot": "phone",
+          "face": "mitr",
+          "size": 12,
+          "weight": 400,
+          "color": "#141414",
+          "maxLines": 1,
+          "shrinkTo": 7.2,
+          "grow": 1
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "web",
+        "if": "has:website",
+        "h": 27,
+        "gap": 7,
+        "align": "center",
+        "w": "fill",
+        "children": [
+         {
+          "type": "text",
+          "text": "เว็บ",
+          "w": 29,
+          "face": "noto",
+          "size": 7,
+          "weight": 700,
+          "color": "#A86A84",
+          "maxLines": 1
+         },
+         {
+          "type": "text",
+          "slot": "website",
+          "face": "mitr",
+          "size": 12,
+          "weight": 400,
+          "color": "#141414",
+          "maxLines": 1,
+          "shrinkTo": 7.2,
+          "grow": 1
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "icon": "binderClip",
+    "w": 34,
+    "h": 33,
+    "place": "top-left",
+    "dx": 108,
+    "dy": 5
+   },
+   {
+    "type": "stack",
+    "id": "envelope",
+    "w": 105,
+    "h": 75,
+    "place": "top-right",
+    "dx": -15,
+    "dy": 47,
+    "rotate": 5,
+    "fill": "#FBF1E6",
+    "shadow": {
+     "sigma": 3.5,
+     "y": 7,
+     "color": "scrap.shade@0.2"
+    },
+    "children": [
+     {
+      "type": "stack",
+      "w": 30,
+      "h": 30,
+      "circle": true,
+      "fill": "scrap.paperAccent",
+      "place": "top-center",
+      "dy": 29,
+      "shadow": {
+       "sigma": 1,
+       "y": 1.5,
+       "color": "scrap.shade@0.3"
+      },
+      "children": [
+       {
+        "type": "rect",
+        "w": 13,
+        "h": 13,
+        "shape": "heart",
+        "fill": "white",
+        "place": "center"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "icon": "spark",
+    "w": 17,
+    "h": 17,
+    "tint": "white",
+    "place": "top-right",
+    "dx": -18,
+    "dy": 20
+   },
+   {
+    "type": "rect",
+    "id": "heart",
+    "w": 18,
+    "h": 18,
+    "shape": "heart",
+    "fill": "scrap.accent",
+    "place": "bottom-right",
+    "dx": -92,
+    "dy": -17
+   },
+   {
+    "type": "rect",
+    "id": "darkEdge",
+    "if": "papered & !ink.light",
+    "radius": 16,
+    "stroke": {
+     "color": "white@0.1",
+     "width": 0.8
+    }
+   }
+  ]
+ }
+}

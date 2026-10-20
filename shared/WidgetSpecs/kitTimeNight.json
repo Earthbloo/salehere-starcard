@@ -1,0 +1,485 @@
+{
+ "kind": "kitTimeNight",
+ "design": {
+  "w": 330,
+  "h": 230
+ },
+ "widget": {
+  "title": "วันเวลาและพื้นที่รับงาน",
+  "category": "availability",
+  "symbol": "calendar",
+  "order": 94,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "night"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitTime"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ข้อมูล",
+    "items": [
+     [
+      "time",
+      "วันเวลา"
+     ],
+     [
+      "area",
+      "พื้นที่รับงาน"
+     ]
+    ],
+    "flags": {
+     "time": "noTime",
+     "area": "noArea"
+    }
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา night · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "kit.fill",
+      "radius": 16
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 16,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 16
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 16,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "bordered",
+    "id": "brackets",
+    "children": [
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-left",
+      "dx": 4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -6,
+      "dy": 4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "top-right",
+      "dx": -4.5,
+      "dy": 6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-left",
+      "dx": 4.5,
+      "dy": -6
+     },
+     {
+      "type": "rect",
+      "w": 30,
+      "h": 3,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -6,
+      "dy": -4.5
+     },
+     {
+      "type": "rect",
+      "w": 3,
+      "h": 30,
+      "circle": true,
+      "fill": "kit.border",
+      "place": "bottom-right",
+      "dx": -4.5,
+      "dy": -6
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "pad": [
+     20,
+     20,
+     18,
+     20
+    ],
+    "gap": 8,
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 19,
+      "weight": 700,
+      "color": "kit.title",
+      "maxLines": 2,
+      "id": "title",
+      "shrinkTo": 13.3,
+      "text": "วันเวลาและพื้นที่รับงาน"
+     },
+     {
+      "type": "col",
+      "grow": 1,
+      "gap": 9,
+      "children": [
+       {
+        "type": "stack",
+        "if": "!opt:noTime & list:avail",
+        "children": [
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "block",
+          "fill": "kit.block",
+          "radius": 10,
+          "stroke": {
+           "color": "kit.border@0.3",
+           "width": 1
+          }
+         },
+         {
+          "type": "rect",
+          "if": "!bordered",
+          "id": "block",
+          "fill": "kit.block",
+          "radius": 10,
+          "stroke": {
+           "color": "kit.mut@0.17",
+           "width": 1
+          }
+         },
+         {
+          "type": "col",
+          "pad": 12,
+          "align": "stretch",
+          "justify": "center",
+          "children": [
+           {
+            "type": "row",
+            "id": "time",
+            "gap": 14,
+            "align": "center",
+            "children": [
+             {
+              "type": "col",
+              "w": 34,
+              "align": "center",
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:calendar-blank",
+                "size": 30,
+                "tint": "kit.accent"
+               }
+              ]
+             },
+             {
+              "type": "col",
+              "gap": 1,
+              "grow": 1,
+              "children": [
+               {
+                "type": "text",
+                "text": "วันที่สะดวกรับงาน:",
+                "face": "noto",
+                "size": 11.5,
+                "weight": 400,
+                "color": "kit.mut",
+                "maxLines": 1
+               },
+               {
+                "type": "chips",
+                "id": "timeValue",
+                "list": "avail",
+                "direction": "col",
+                "gap": 0,
+                "align": "start",
+                "each": {
+                 "type": "text",
+                 "slot": "$text",
+                 "face": "noto",
+                 "size": 15,
+                 "weight": 600,
+                 "color": "kit.ink",
+                 "maxLines": 1
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ],
+        "grow": 1
+       },
+       {
+        "type": "stack",
+        "if": "!opt:noArea & list:areas",
+        "children": [
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "block",
+          "fill": "kit.block",
+          "radius": 10,
+          "stroke": {
+           "color": "kit.border@0.3",
+           "width": 1
+          }
+         },
+         {
+          "type": "rect",
+          "if": "!bordered",
+          "id": "block",
+          "fill": "kit.block",
+          "radius": 10,
+          "stroke": {
+           "color": "kit.mut@0.17",
+           "width": 1
+          }
+         },
+         {
+          "type": "col",
+          "pad": 12,
+          "align": "stretch",
+          "justify": "center",
+          "children": [
+           {
+            "type": "row",
+            "id": "area",
+            "gap": 14,
+            "align": "center",
+            "children": [
+             {
+              "type": "col",
+              "w": 34,
+              "align": "center",
+              "children": [
+               {
+                "type": "icon",
+                "icon": "ph:map-pin",
+                "w": 26,
+                "h": 32,
+                "tint": "kit.accent"
+               }
+              ]
+             },
+             {
+              "type": "col",
+              "gap": 1,
+              "grow": 1,
+              "children": [
+               {
+                "type": "text",
+                "text": "พื้นที่รับงาน:",
+                "face": "noto",
+                "size": 11.5,
+                "weight": 400,
+                "color": "kit.mut",
+                "maxLines": 1
+               },
+               {
+                "type": "chips",
+                "id": "areaValue",
+                "list": "areas",
+                "gap": 0,
+                "align": "start",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "text",
+                   "face": "noto",
+                   "size": 15,
+                   "weight": 600,
+                   "color": "kit.ink",
+                   "maxLines": 1,
+                   "text": ", ",
+                   "if": "!$i=first"
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$text",
+                   "face": "noto",
+                   "size": 15,
+                   "weight": 600,
+                   "color": "kit.ink",
+                   "maxLines": 1
+                  }
+                 ]
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ],
+        "grow": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

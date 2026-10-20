@@ -51,9 +51,9 @@ enum Signature {
     /// ที่อยู่ของการ์ด — โดเมนเดียวกับแอปหลัก ไม่ตั้งโดเมนใหม่ให้ต้องสะสมความจำจากศูนย์
     static func url(slug: String) -> String { "\(ClipInvocation.host)/star/\(slug)" }
 
-    /// ฟอนต์โมโนของ "บรรทัดที่เครื่องอ่าน" — ที่อยู่ ซีเรียล วันที่ (ตัวโรมันกับตัวเลขล้วน)
+    /// ฟอนต์ของ "บรรทัดที่เครื่องอ่าน" — ที่อยู่ ซีเรียล วันที่ · Noto ตัวเลขกว้างเท่ากัน (SF Mono เป็นของ Apple อยู่บนภาพ export ไม่ได้)
     static func mono(_ size: CGFloat, _ weight: Font.Weight = .medium) -> Font {
-        .system(size: size, weight: weight, design: .monospaced)
+        .sh(size, weight).monospacedDigit()
     }
 }
 
@@ -542,7 +542,7 @@ struct SignatureEmboss: View {
     /// มุมที่จะปั๊ม — nil = การ์ดใบนี้มีใบที่ปั๊มตราของตัวเองแล้ว
     static func spot(pages: [CardPage], pageSize: CGSize,
                      mark: CGSize, inset: CGSize) -> (page: Int, center: CGPoint)? {
-        if pages.contains(where: { $0.items.contains { $0.kind.takesEmboss && $0.emboss } }) { return nil }
+        if pages.contains(where: { $0.items.contains { $0.kind.carriesEmboss } }) { return nil }
 
         let y = pageSize.height - inset.height - mark.height / 2
         let right = CGPoint(x: pageSize.width - inset.width - mark.width / 2, y: y)

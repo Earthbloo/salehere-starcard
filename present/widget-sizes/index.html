@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget Sizes</title>
+<meta name="description" content="ทุก widget ของ Star Card จาก iOS จริง ครบ 3 ขนาด (เล็ก · แนวนอน · ใหญ่) — ผังเดียว ย่อขยายแบบ auto layout">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Kanit:wght@500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F4F4F2; --panel:#FFFFFF; --ink:#16181D; --ink-2:#5B616E; --ink-3:#8D93A0; --line:#E3E4E8; --chip:#F0F1F3; --sel:#16181D; --sel-ink:#fff; --new:#1D4ED8; --warn:#B45309; --warn-bg:#FDF2E3; --ok:#1B8A3A; --ok-bg:#E6F5EA;
+  --f-ui:"Anuphan","Noto Sans Thai",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1115;--panel:#191C22;--ink:#F2F3F5;--ink-2:#B3B9C5;--ink-3:#7E8796;--line:#2B2F37;--chip:#22262D;--sel:#F2F3F5;--sel-ink:#16181D;--new:#93B4FF;--warn:#FBBF24;--warn-bg:#2E2412;--ok:#6BD38B;--ok-bg:#12301B;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1115;--panel:#191C22;--ink:#F2F3F5;--ink-2:#B3B9C5;--ink-3:#7E8796;--line:#2B2F37;--chip:#22262D;--sel:#F2F3F5;--sel-ink:#16181D;--new:#93B4FF;--warn:#FBBF24;--warn-bg:#2E2412;--ok:#6BD38B;--ok-bg:#12301B;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 80px;display:flex;flex-direction:column;gap:22px}
+h1{font-family:"Kanit",var(--f-ui);font-weight:600;font-size:clamp(26px,4vw,34px);line-height:1.2;margin:0}
+.sub{color:var(--ink-2);max-width:80ch;margin:0}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.rule-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.rule-card h4{margin:0 0 6px;font-family:"Kanit",var(--f-ui);font-weight:600;font-size:15px}
+.rule-card h4 small{color:var(--ink-3);font-weight:400;margin-left:6px}
+.rule-card p,.rule-card li{margin:0;color:var(--ink-2);font-size:13px}
+.rule-card ul{margin:6px 0 0;padding-left:18px}
+.bar-top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);margin:0 -16px;padding:10px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+#nav a{flex:none;font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;white-space:nowrap}
+#nav a small{color:var(--ink-3);margin-left:4px}
+#count{font-size:12.5px;color:var(--ink-3)}
+.family{display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px}
+.family>h2{font-family:"Kanit",var(--f-ui);font-weight:600;font-size:22px;margin:18px 0 0;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.family>h2 small{color:var(--ink-3);font-weight:400;font-size:13px;margin-left:10px}
+.widget{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:70px}
+.widget header{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.widget header h3{margin:0;font-family:"Kanit",var(--f-ui);font-weight:600;font-size:16px}
+.widget header h3 code{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-left:8px;font-weight:500}
+.widget header .fix{margin:0;font-size:13px;color:var(--warn);background:var(--warn-bg);border-radius:8px;padding:3px 10px}
+.widget header .fix.ok{color:var(--ok);background:var(--ok-bg)}
+.widget header .fix.na{color:var(--ink-3);background:var(--chip)}
+.stage{display:flex;flex-wrap:wrap;gap:16px 20px;align-items:flex-start;padding:14px 18px;border-radius:14px;background:#1B1C20}
+.lab{margin:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.lab img{display:block;border-radius:4px;margin:-12px}
+.lab figcaption{font-size:11.5px;font-weight:600;color:#fff;opacity:.6;display:flex;gap:8px;margin-top:12px}
+.lab figcaption em{font-style:normal;font-weight:400;opacity:.8}
+.lab.missing img{display:none}
+.lab.missing::after{content:"ยังไม่ได้ render";font-size:12px;color:#777;padding:60px 20px;border:1px dashed #333;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Widget ทุกใบ · ครบ 3 ขนาด · จาก iOS จริง</h1>
+    <p class="sub">ภาพทั้งหมดอบจาก simulator (หน้าพอร์ต เต็มหน้า 366 · ครึ่งหน้า 178) · <b>ทุกใบมี 3 ขนาดเสมอ</b> และทุกขนาดคือ <b>ผังเดิมใบเดียวกัน ย่อ/ขยายแบบ auto layout</b> — ไม่มีใบไหนออกแบบใหม่ต่อขนาด · ของข้างในรักษารูปทรงของตัวเอง ที่เปลี่ยนคือการกระจายตัว</p>
+  </div>
+
+  <div class="rules">
+    <div class="rule-card"><h4>กติกา<small>resize ไม่ใช่ redesign</small></h4><ul><li>ทุกใบรับครบ 3 ขนาด ไม่มีขนาดไหนถูกตัดทิ้ง</li><li>ผังเดียวต่อใบ — ต่างกันแค่สเกลและการกระจายตัว</li><li>กรอบคือคอนเทนเนอร์ ของข้างในจัดตัวเองเหมือน auto layout</li></ul></div>
+    <div class="rule-card"><h4>เล็ก 1×1<small>178×178</small></h4><ul><li>ผังจัดตัวเองที่ความกว้างแคบลง แล้วย่อทั้งก้อน (ไม่ต่ำกว่า 0.6)</li><li>โปสเตอร์/สแครปบุ๊ก: แผ่นยืดเป็นจัตุรัสแล้วย่อ</li><li>แถบเตี้ย: หดเท่าเนื้อหา ลอยกลางช่อง</li></ul></div>
+    <div class="rule-card"><h4>แนวนอน 2×1<small>366×178</small></h4><ul><li>= ผังเดิมที่ความกว้างเต็ม</li><li>ผังตั้ง (รีล · โปสเตอร์ตั้ง): ย่อด้วยแกนความสูง ของข้างในครบ</li></ul></div>
+    <div class="rule-card"><h4>ใหญ่ 2×2<small>366×366</small></h4><ul><li>ผังเดิมได้ที่สูงขึ้น: รูปโต · แถวกระจาย · ขยายได้ถึง 2 เท่า</li><li>โปสเตอร์ยืดแผ่นเอง (letterbox)</li><li>แถบเตี้ย: คงสัดส่วน ลอยกลาง</li></ul></div>
+  </div>
+
+  <div class="bar-top">
+    <nav id="nav"></nav>
+    <span id="count"></span>
+  </div>
+
+  <main id="root"></main>
+</div>
+
+<script src="catalog.js"></script>
+<script>
+const SIZE = { small: [178, 178], wide: [366, 178], large: [366, 366] };
+const SIZE_TH = { small: 'เล็ก 1×1', wide: 'แนวนอน 2×1', large: 'ใหญ่ 2×2' };
+function tile(id, size) {
+  const [W, H] = SIZE[size];
+  return `<figure class="lab"><img src="ios/cell-${id}-${size}-port.png?v=${BUILT}" width="${W + 24}" height="${H + 24}" alt="" loading="lazy" onerror="this.parentNode.classList.add('missing')"><figcaption>${SIZE_TH[size]}<em>${W}×${H}</em></figcaption></figure>`;
+}
+const nav = []; let html = '';
+for (const fam of FAMILY_ORDER) {
+  const list = CATALOG.filter(w => w.family === fam && w.id !== 'textBlock'); if (!list.length) continue;
+  nav.push(`<a href="#f-${fam}">${FAMILY_TH[fam]}<small>${list.length}</small></a>`);
+  html += `<section class="family" id="f-${fam}"><h2>${FAMILY_TH[fam]}<small>${list.length} ใบ</small></h2>`;
+  for (const w of list) {
+    const sizes = ['small', 'wide', 'large'];
+    const ok = sizes.every(x => (w.sizes || []).includes(x));
+    html += `<article class="widget" id="w-${w.id}"><header><h3>${w.title}<code>${w.id}</code></h3><p class="fix ${ok ? 'ok' : 'na'}">${ok ? 'ผังเดียว · 3 ขนาด' : 'ยัง render ไม่ครบ'}</p></header><div class="stage">${sizes.map(s => tile(w.id, s)).join('')}</div></article>`;
+  }
+  html += '</section>';
+}
+document.getElementById('root').innerHTML = html;
+document.getElementById('nav').innerHTML = nav.join('');
+document.getElementById('count').textContent = `${CATALOG.length - 1} widget × 3 ขนาด = ${(CATALOG.length - 1) * 3} ใบ`;
+</script>
+</body>
+</html>

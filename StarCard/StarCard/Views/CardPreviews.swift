@@ -202,13 +202,6 @@ final class TemplateThumbs {
             }
         }
 
-        // 1.5) ลบพื้นหลังรูปคนของโปสเตอร์ให้เสร็จก่อน (ดู `SubjectLift.prepare`)
-        // ใบใหม่จากเทมเพลตไม่มีรูปเฉพาะชิ้น ช่องคนจึงเป็นรูปจากคลัง/โปรไฟล์ใบเดียวกันทุกใบ
-        if let person = photos.userImage(slot: 1, for: nil),
-           !CutoutCache.shared.result(for: person).isCutout {
-            await SubjectLift.shared.prepare(person)
-        }
-
         // 2) เรนเดอร์ทีละใบ เว้นจังหวะให้ UI หายใจระหว่างใบ
         for format in CardFormat.allCases {
             // รูปเก่ายังโชว์อยู่ระหว่างอบใหม่ — สลับทีละใบ ไม่กระพริบว่างทั้งผนัง

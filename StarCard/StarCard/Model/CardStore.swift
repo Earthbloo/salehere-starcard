@@ -32,6 +32,10 @@ struct CardSnapshot: Codable {
         // ตัวตนของชิ้น — ข้อความที่พิมพ์เอง (`Profile.note`) ผูกกับ id นี้ ไฟล์เก่าไม่มี = สุ่มใหม่ตอนกู้
         // (ข้อยกเว้นของกติกา "ไม่เก็บ id" ข้างบน: id นี้ไม่ใช่สถานะรันไทม์อีกแล้ว มันคือคีย์ของเนื้อหา)
         var id: String? = nil
+        /// **ค่าที่ผู้ใช้เลือกในถาด** — คีย์ = `opt` ของ `widget.controls` · ชั้นข้อความเก็บ `face` `tint` `scale` `align` `points`
+        /// ก้อนเดียวของทุกใบ (19 ต.ค. 2569) · ไฟล์ก่อนหน้านั้นไม่มีคีย์นี้ → อ่านจากคีย์เก่าข้างล่าง (อ่านอย่างเดียว ไม่เขียนแล้ว)
+        var options: [String: String]? = nil
+        // ── คีย์เก่า (อ่านอย่างเดียว) ──
         // หน้าตาตัวอักษร — ไฟล์เก่าไม่มีสี่คีย์นี้ จึงเป็น optional ทั้งชุด
         // (ตกไปใช้ค่าตั้งต้นของ `WidgetTextStyle` แทนที่จะ decode ไม่ผ่านทั้งการ์ด)
         var face: String? = nil
@@ -47,18 +51,16 @@ struct CardSnapshot: Codable {
         var slotSizes: [String: String]? = nil
         // ลายบนแผ่น — ไฟล์เก่าไม่มี = แผ่นเรียบ
         var pattern: String? = nil
-        // ลบพื้นหลังรูปคน — ไฟล์เก่าไม่มี = เปิด (เก็บเฉพาะตอนปิด)
-        var keepPhotoBG: Bool? = nil
-        // ตราปั๊มนูนบนแผ่น — ไฟล์เก่าไม่มี = เปิด (เก็บเฉพาะตอนปิด)
-        var noEmboss: Bool? = nil
-        // ปั๊มนูนเปล่าแทนฟอยล์ — ไฟล์เก่าไม่มี = ฟอยล์ (เก็บเฉพาะตอนเลือกนูน)
-        var blindEmboss: Bool? = nil
+        // (`keepPhotoBG` `noEmboss` `blindEmboss` ถูกถอด 19 ต.ค. 2569 — ไม่มีการลบพื้นหลังอัตโนมัติ · ตราปั๊มมีตลอด
+        //  ไฟล์เก่าที่ยังมีคีย์พวกนี้อ่านได้ตามปกติ คีย์ถูกข้าม)
         // ชิ้นที่ตรึงกับก้นหน้า (ตรารับรอง Sale Here) — ไฟล์เก่าไม่มี = ชิ้นธรรมดา (เก็บเฉพาะตอนตรึง)
         var pinned: Bool? = nil
         // หน้าตาของตรารับรอง — ไฟล์เก่าไม่มี = เหรียญ (เก็บเฉพาะตอนเลือกแบบอื่น)
         var sealStyle: String? = nil
         // รุ่นแรกเก็บแค่เปิด/ปิดลายทาง — อ่านอย่างเดียว
         var stripes: Bool? = nil
+        // ชุดห้าสไตล์: สไตล์ · พื้นหลัง · มุม · สี · ตัวเลือกเนื้อหา — เก็บเฉพาะชนิดในชุด
+        var kit: KitConfig? = nil
     }
     struct Page: Codable { var items: [Item] }
     struct Theme: Codable {
@@ -83,6 +85,8 @@ struct CardSnapshot: Codable {
         /// คู่สีที่เลือกไว้ (ดู `ColorDuo`) — ไฟล์เก่าไม่มี = ยังใช้พาเลตต์ตามเดิม
         var duo: String? = nil
         var duoFlipped: Bool? = nil
+        /// ฟอนต์ข้อมูลของการ์ด (ชุดห้าสไตล์) — ไฟล์เก่าไม่มี = มาตรฐาน
+        var dataFont: String? = nil
     }
 
     var pages: [Page]
@@ -120,20 +124,7 @@ enum CardStore {
                                       x: $0.x, y: $0.y, w: $0.w, h: $0.h,
                                       surface: $0.surface.rawValue, border: $0.border,
                                       id: $0.id.uuidString,
-                                      face: $0.textStyle.face.rawValue,
-                                      tint: $0.textStyle.tint.rawValue,
-                                      scale: $0.textStyle.scale.rawValue,
-                                      align: $0.textStyle.align.rawValue,
-                                      points: $0.textStyle.points,
-                                      slotFaces: $0.textStyle.slotFaces.mapValues(\.rawValue),
-                                      slotTints: $0.textStyle.slotTints.mapValues(\.rawValue),
-                                      slotSizes: $0.textStyle.slotSizes.mapValues(\.rawValue),
-                                      pattern: $0.pattern == .plain ? nil : $0.pattern.rawValue,
-                                      keepPhotoBG: $0.liftPhoto ? nil : true,
-                                      noEmboss: $0.emboss ? nil : true,
-                                      blindEmboss: $0.embossBlind ? true : nil,
-                                      pinned: $0.pinned ? true : nil,
-                                      sealStyle: $0.sealStyle == .medal ? nil : $0.sealStyle.rawValue)
+                                      options: storedOptions($0))
                 })
             },
             theme: CardSnapshot.Theme(
@@ -144,8 +135,45 @@ enum CardStore {
                 customBri: theme.customBri, inkAuto: theme.inkAuto,
                 photoEffect: theme.photoEffect.rawValue, photoDim: theme.photoDim,
                 strip: theme.strip.rawValue, photoLean: theme.photoLean,
-                duo: theme.duoID, duoFlipped: theme.duoFlipped),
+                duo: theme.duoID, duoFlipped: theme.duoFlipped,
+                dataFont: theme.dataFont == .noto ? nil : theme.dataFont.rawValue),
             index: index)
+    }
+
+    /// คีย์หน้าตาตัวอักษรของชั้นข้อความใน `options`
+    private static let textKeys = ["face", "tint", "scale", "align", "points"]
+
+    /// สิ่งที่เขียนลง `options` ของไฟล์ — ตัวเลือกในถาด · ชั้นข้อความเพิ่มหน้าตาตัวอักษร · ว่าง = ไม่เขียนคีย์
+    private static func storedOptions(_ w: WidgetInstance) -> [String: String]? {
+        var o = w.options
+        if w.kind.usesTextStyle {
+            o["face"] = w.textStyle.face.rawValue
+            o["tint"] = w.textStyle.tint.rawValue
+            o["scale"] = w.textStyle.scale.rawValue
+            o["align"] = w.textStyle.align.rawValue
+            o["points"] = String(Double(w.textStyle.points))
+        }
+        return o.isEmpty ? nil : o
+    }
+
+    /// ไฟล์ก่อน 19 ต.ค. 2569 — ค่าที่เคยกระจายเป็นคีย์ของชิ้น → `options` ก้อนเดียว
+    /// (`sealStyle` · `pinned` · `keepPhotoBG` · `noEmboss` · `blindEmboss` ไม่มีที่ไปแล้ว ถูกข้าม)
+    private static func legacyOptions(_ it: CardSnapshot.Item) -> [String: String] {
+        var o: [String: String] = [:]
+        if let p = it.pattern ?? (it.stripes == true ? PlatePattern.stripe.rawValue : nil), p != PlatePattern.plain.rawValue {
+            o["pattern"] = p
+        }
+        if let k = it.kit {
+            o.merge(k.opts) { a, _ in a }
+            if k.fill != .solid { o["fill"] = k.fill.rawValue }
+            if k.corner != .round { o["corner"] = k.corner.rawValue }
+        }
+        if let v = it.face { o["face"] = v }
+        if let v = it.tint { o["tint"] = v }
+        if let v = it.scale { o["scale"] = v }
+        if let v = it.align { o["align"] = v }
+        if let v = it.points { o["points"] = String(v) }
+        return o
     }
 
     /// แปลงภาพนิ่งกลับเป็นสถานะรันไทม์ — คู่ขาของ `snapshot` และใจดีกับไฟล์เก่าแบบเดียวกับ `load`
@@ -158,23 +186,23 @@ enum CardStore {
         let legacyPopSkin: PopSkin = CornerStyle(rawValue: snap.theme.corner) == .soft ? .paper : .glass
         var pages = snap.pages.map { p in
             CardPage(p.items.compactMap { it -> WidgetInstance? in
-                guard let kind = WidgetKind.decode(it.kind, legacyPopSkin: legacyPopSkin) else { return nil }
+                guard let kind = WidgetKind.decode(it.kind, legacyPopSkin: legacyPopSkin,
+                                                   kitLook: it.kit.map { $0.style.rawValue }) else { return nil }
                 var w = WidgetInstance(kind, x: it.x, y: it.y, w: it.w, h: it.h,
                                        id: it.id.flatMap(UUID.init(uuidString:)) ?? UUID())
                 w.surface = WidgetSurface.decode(it.surface)
                 w.border = it.border
-                w.pattern = it.pattern.flatMap(PlatePattern.init(rawValue:))
-                    ?? (it.stripes == true ? .stripe : .plain)
-                w.liftPhoto = it.keepPhotoBG != true
-                w.emboss = it.noEmboss != true
-                w.embossBlind = it.blindEmboss == true
-                w.pinned = it.pinned == true
-                w.sealStyle = it.sealStyle.flatMap(SealStyle.init(rawValue:)) ?? .medal
-                if let v = it.face.flatMap(CardFont.init(rawValue:)) { w.textStyle.face = v }
-                if let v = it.tint.flatMap(TextTint.init(rawValue:)) { w.textStyle.tint = v }
-                if let v = it.scale.flatMap(TextScale.init(rawValue:)) { w.textStyle.scale = v }
-                if let v = it.align.flatMap(TextAlign.init(rawValue:)) { w.textStyle.align = v }
-                w.textStyle.points = it.points.map { CGFloat($0) } ?? w.textStyle.scale.size
+                var o = it.options ?? legacyOptions(it)
+                if kind.usesTextStyle {
+                    if let v = o["face"].flatMap(CardFont.init(rawValue:)) { w.textStyle.face = v }
+                    if let v = o["tint"].flatMap(TextTint.init(rawValue:)) { w.textStyle.tint = v }
+                    if let v = o["scale"].flatMap(TextScale.init(rawValue:)) { w.textStyle.scale = v }
+                    if let v = o["align"].flatMap(TextAlign.init(rawValue:)) { w.textStyle.align = v }
+                    w.textStyle.points = o["points"].flatMap(Double.init).map { CGFloat($0) } ?? w.textStyle.scale.size
+                }
+                // หน้าตาตัวอักษรเป็นของชั้นข้อความเท่านั้น — ไฟล์เก่าเขียนคีย์พวกนี้ให้ทุกชิ้น ไม่ใช่ตัวเลือกของ widget
+                for k in Self.textKeys { o[k] = nil }
+                w.options = o
                 w.textStyle.slotFaces = (it.slotFaces ?? [:]).compactMapValues(CardFont.init(rawValue:))
                 w.textStyle.slotTints = (it.slotTints ?? [:]).compactMapValues(TextTint.init(rawValue:))
                 w.textStyle.slotSizes = (it.slotSizes ?? [:]).compactMapValues(WidgetTextSize.init(rawValue:))
@@ -202,6 +230,7 @@ enum CardStore {
         // รหัสที่ไม่รู้จักแล้ว (คู่สีถูกถอดออกจากชุด) ตกไปใช้พาเลตต์แทน ไม่ใช่การ์ดไร้สี
         t.duoID = snap.theme.duo.flatMap { ColorDuo.find($0) }?.id
         t.duoFlipped = snap.theme.duoFlipped ?? false
+        t.dataFont = snap.theme.dataFont.flatMap(CardFont.init(rawValue:)) ?? .noto
 
         return (pages, t, min(max(0, snap.index), pages.count - 1))
     }

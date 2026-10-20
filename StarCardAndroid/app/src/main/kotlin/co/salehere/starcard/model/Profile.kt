@@ -243,6 +243,8 @@ class Profile private constructor() {
             val items = items(f)
             return if (i in items.indices) items[i] else ""
         }
+        // สายงานใต้ชื่อไม่มีที่กรอก (API ไม่มีฟิลด์นี้) — สร้างจากสายที่ใช่ของ Star Profile เสมอ ค่าเก่าที่เคยพิมพ์ไม่ใช้
+        if (f == ProfileField.tagline) return fallback(f)
         // ค่าว่างที่ค้างอยู่ (ปิดแอปกลางคันขณะช่องยังโฟกัส) นับว่ายังไม่กรอก — ไม่ใช่ชื่อว่างเปล่า
         val v = values[f.raw]
         if (!v.isNullOrEmpty()) return v
@@ -641,6 +643,8 @@ class Profile private constructor() {
     private fun derived(f: ProfileField): String? {
         val d = intake ?: return null
         return when (f) {
+            // สายงานใต้ชื่อ = สายที่ใช่ที่เลือกใน Star Profile (= iOS `derived(.tagline)`)
+            ProfileField.tagline -> fallbackList(ProfileField.categories).takeIf { it.isNotEmpty() }?.joinToString(" · ")
             ProfileField.handle -> d.enabledSocials.map { it.handle }.firstOrNull { it.isNotEmpty() }
             ProfileField.contactName -> stored(ProfileField.personName)
             ProfileField.nickname -> {

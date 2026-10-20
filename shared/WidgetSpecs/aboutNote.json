@@ -1,0 +1,541 @@
+{
+ "kind": "aboutNote",
+ "design": {
+  "w": 366,
+  "h": 336
+ },
+ "widget": {
+  "title": "ABOUT ME โน้ต",
+  "category": "intro",
+  "symbol": "person.crop.square",
+  "order": 122,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "โน้ตกระดาษฉีก 'ABOUT ME' ทับรูปขาวดำ — แผ่นขาว (papered & !duo · คู่สี = plate) · รูปช่อง 1 ขาวดำ กินที่ที่เหลือ (pad 23/35/30/113 — โตตามกรอบ) · โน้ตกระดาษครีม #EFEDE6 + เม็ดกระดาษ (speckle) 148×211 เกาะซ้ายบน ทับรูป · ขอบฉีก = แถบฟันปลา (shape zigzag) สองชั้นฟันไม่เท่ากันทั้งสี่ด้าน (ซ้าย/ขวาหมุน ±90 · บนหมุน 180) · หมึกปากกาลูกลื่น #272C8C · หัวข้อ note#0 'ABOUT ME' + เส้นใต้ · จุดนำหน้า: ชื่อ (name) · สายงาน (tagline) · พื้นที่ (workArea) / สายงาน categories#0–2 · ท้ายโน้ต note#1 'AND STILL BUILDING...' ชิดขวา · คลิปหนีบกระดาษเทาเข้ม · ลายมือ note#2 'stay tuned for more!' ขวาล่างใต้รูป หมึกเดียวกัน (คู่สี = plateInk · ไม่มีพื้น = ink) · ฟอนต์ลายมือไม่มีในชุดฟอนต์กลาง จึงใช้ Mitr ตัวพิมพ์ใหญ่ + ระยะตัวอักษร · ขอบฉีกจริง (เส้นไม่สม่ำเสมอ) ยังไม่มี shape — ใช้ฟันปลาซ้อนแทน",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "sheet",
+    "if": "papered & !duo",
+    "fill": "white"
+   },
+   {
+    "type": "rect",
+    "id": "sheetDuo",
+    "if": "papered & duo",
+    "fill": "plate"
+   },
+   {
+    "type": "rect",
+    "id": "border",
+    "if": "bordered",
+    "stroke": {
+     "color": "ink@0.35",
+     "width": 1
+    }
+   },
+   {
+    "type": "col",
+    "id": "photoWrap",
+    "pad": [
+     23,
+     35,
+     30,
+     113
+    ],
+    "align": "stretch",
+    "children": [
+     {
+      "type": "image",
+      "id": "photo",
+      "photo": 1,
+      "mono": true,
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "note",
+    "w": 148,
+    "h": 211,
+    "place": "top-left",
+    "dx": 31,
+    "dy": 22,
+    "children": [
+     {
+      "type": "rect",
+      "id": "noteShadow",
+      "w": 144,
+      "h": 207,
+      "place": "top-left",
+      "dx": 2,
+      "dy": 2,
+      "fill": "#EFEDE6",
+      "shadow": {
+       "sigma": 2,
+       "y": 1,
+       "color": "black@0.22"
+      }
+     },
+     {
+      "type": "rect",
+      "id": "edgeB1",
+      "w": 142,
+      "h": 3,
+      "place": "top-left",
+      "dx": 3,
+      "dy": 208,
+      "shape": "zigzag:5.3",
+      "fill": "#EFEDE6"
+     },
+     {
+      "type": "rect",
+      "id": "edgeB2",
+      "w": 142,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": 3,
+      "dy": 208,
+      "shape": "zigzag:2.9",
+      "fill": "#EFEDE6"
+     },
+     {
+      "type": "rect",
+      "id": "edgeT1",
+      "w": 142,
+      "h": 3,
+      "place": "top-left",
+      "dx": 3,
+      "dy": 0,
+      "shape": "zigzag:4.7",
+      "fill": "#EFEDE6",
+      "rotate": 180
+     },
+     {
+      "type": "rect",
+      "id": "edgeT2",
+      "w": 142,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": 3,
+      "dy": 0.8,
+      "shape": "zigzag:3.3",
+      "fill": "#EFEDE6",
+      "rotate": 180
+     },
+     {
+      "type": "rect",
+      "id": "edgeL01",
+      "w": 102.5,
+      "h": 3,
+      "place": "top-left",
+      "dx": -49.75,
+      "dy": 52.75,
+      "shape": "zigzag:5.6",
+      "fill": "#EFEDE6",
+      "rotate": 90
+     },
+     {
+      "type": "rect",
+      "id": "edgeL02",
+      "w": 102.5,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": -49.35,
+      "dy": 53.15,
+      "shape": "zigzag:3.1",
+      "fill": "#EFEDE6",
+      "rotate": 90
+     },
+     {
+      "type": "rect",
+      "id": "edgeL11",
+      "w": 102.5,
+      "h": 3,
+      "place": "top-left",
+      "dx": -49.75,
+      "dy": 155.25,
+      "shape": "zigzag:4.9",
+      "fill": "#EFEDE6",
+      "rotate": 90
+     },
+     {
+      "type": "rect",
+      "id": "edgeL12",
+      "w": 102.5,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": -49.35,
+      "dy": 155.65,
+      "shape": "zigzag:2.7",
+      "fill": "#EFEDE6",
+      "rotate": 90
+     },
+     {
+      "type": "rect",
+      "id": "edgeR01",
+      "w": 102.5,
+      "h": 3,
+      "place": "top-left",
+      "dx": 95.25,
+      "dy": 52.75,
+      "shape": "zigzag:5.6",
+      "fill": "#EFEDE6",
+      "rotate": -90
+     },
+     {
+      "type": "rect",
+      "id": "edgeR02",
+      "w": 102.5,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": 94.85,
+      "dy": 53.15,
+      "shape": "zigzag:3.1",
+      "fill": "#EFEDE6",
+      "rotate": -90
+     },
+     {
+      "type": "rect",
+      "id": "edgeR11",
+      "w": 102.5,
+      "h": 3,
+      "place": "top-left",
+      "dx": 95.25,
+      "dy": 155.25,
+      "shape": "zigzag:4.9",
+      "fill": "#EFEDE6",
+      "rotate": -90
+     },
+     {
+      "type": "rect",
+      "id": "edgeR12",
+      "w": 102.5,
+      "h": 2.2,
+      "place": "top-left",
+      "dx": 94.85,
+      "dy": 155.65,
+      "shape": "zigzag:2.7",
+      "fill": "#EFEDE6",
+      "rotate": -90
+     },
+     {
+      "type": "rect",
+      "id": "paper",
+      "w": 142,
+      "h": 205,
+      "place": "top-left",
+      "dx": 3,
+      "dy": 3,
+      "fill": "#EFEDE6",
+      "pattern": {
+       "kind": "speckle",
+       "color": "#8F8B7E@0.22",
+       "color2": "white@0.7",
+       "size": 3.2,
+       "width": 0.8
+      }
+     },
+     {
+      "type": "col",
+      "id": "noteBody",
+      "pad": [
+       17,
+       12,
+       14,
+       17
+      ],
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "col",
+        "id": "head",
+        "w": 86,
+        "alignSelf": "start",
+        "align": "center",
+        "gap": 0,
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 300,
+          "size": 13,
+          "tracking": 1.4,
+          "lineHeight": 0.8,
+          "textCase": "upper",
+          "color": "#272C8C",
+          "maxLines": 1,
+          "shrinkTo": 9,
+          "text": "ABOUT ME"
+         },
+         {
+          "type": "line",
+          "id": "underline",
+          "h": 1,
+          "fill": "#272C8C@0.85"
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 21
+       },
+       {
+        "type": "col",
+        "id": "facts",
+        "pad": [
+         0,
+         0,
+         0,
+         8
+        ],
+        "gap": 1,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "gap": 4,
+          "align": "start",
+          "children": [
+           {
+            "type": "text",
+            "text": "•",
+            "role": "deco",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "color": "#272C8C"
+           },
+           {
+            "type": "text",
+            "slot": "name",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "tracking": 0.6,
+            "textCase": "upper",
+            "color": "#272C8C",
+            "maxLines": 2,
+            "grow": 1,
+            "lineHeight": 1
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "if": "has:tagline",
+          "gap": 4,
+          "align": "start",
+          "children": [
+           {
+            "type": "text",
+            "text": "•",
+            "role": "deco",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "color": "#272C8C"
+           },
+           {
+            "type": "text",
+            "slot": "tagline",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "tracking": 0.6,
+            "textCase": "upper",
+            "color": "#272C8C",
+            "maxLines": 2,
+            "grow": 1,
+            "lineHeight": 1
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "if": "has:workArea",
+          "gap": 4,
+          "align": "start",
+          "children": [
+           {
+            "type": "text",
+            "text": "•",
+            "role": "deco",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "color": "#272C8C"
+           },
+           {
+            "type": "text",
+            "slot": "workArea",
+            "face": "noto",
+            "weight": 300,
+            "size": 8.5,
+            "tracking": 0.6,
+            "textCase": "upper",
+            "color": "#272C8C",
+            "maxLines": 2,
+            "grow": 1,
+            "lineHeight": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 16
+       },
+       {
+        "type": "chips",
+        "id": "traits",
+        "list": "categories",
+        "limit": 3,
+        "direction": "col",
+        "gap": 1,
+        "pad": [
+         0,
+         0,
+         0,
+         8
+        ],
+        "each": {
+         "type": "row",
+         "gap": 4,
+         "align": "start",
+         "children": [
+          {
+           "type": "text",
+           "text": "•",
+           "role": "deco",
+           "face": "noto",
+           "weight": 300,
+           "size": 8.5,
+           "color": "#272C8C"
+          },
+          {
+           "type": "text",
+           "slot": "categories#$i",
+           "face": "noto",
+           "weight": 300,
+           "size": 8.5,
+           "tracking": 0.6,
+           "textCase": "upper",
+           "color": "#272C8C",
+           "maxLines": 2,
+           "grow": 1,
+           "lineHeight": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minH": 10
+       },
+       {
+        "type": "text",
+        "id": "outro",
+        "alignSelf": "end",
+        "face": "noto",
+        "weight": 300,
+        "size": 8.5,
+        "tracking": 0.6,
+        "textCase": "upper",
+        "color": "#272C8C",
+        "maxLines": 1,
+        "shrinkTo": 6.5,
+        "text": "AND STILL BUILDING..."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "id": "clip",
+    "icon": "paperClip",
+    "w": 19,
+    "h": 45,
+    "tint": "#2B2B2B",
+    "place": "top-left",
+    "dx": 152,
+    "dy": 14
+   },
+   {
+    "type": "text",
+    "id": "caption",
+    "if": "papered & !duo",
+    "face": "noto",
+    "weight": 300,
+    "size": 10,
+    "tracking": 0.4,
+    "color": "#272C8C",
+    "maxLines": 1,
+    "shrinkTo": 7,
+    "rotate": -1.5,
+    "place": "bottom-right",
+    "dx": -39,
+    "dy": -7,
+    "w": 160,
+    "textAlign": "right",
+    "text": "stay tuned for more!"
+   },
+   {
+    "type": "text",
+    "id": "captionDuo",
+    "if": "papered & duo",
+    "face": "noto",
+    "weight": 300,
+    "size": 10,
+    "tracking": 0.4,
+    "color": "plateInk",
+    "maxLines": 1,
+    "shrinkTo": 7,
+    "rotate": -1.5,
+    "place": "bottom-right",
+    "dx": -39,
+    "dy": -7,
+    "w": 160,
+    "textAlign": "right",
+    "text": "stay tuned for more!"
+   },
+   {
+    "type": "text",
+    "id": "captionBare",
+    "if": "!papered",
+    "face": "noto",
+    "weight": 300,
+    "size": 10,
+    "tracking": 0.4,
+    "color": "ink",
+    "maxLines": 1,
+    "shrinkTo": 7,
+    "rotate": -1.5,
+    "place": "bottom-right",
+    "dx": -39,
+    "dy": -7,
+    "w": 160,
+    "textAlign": "right",
+    "text": "stay tuned for more!"
+   }
+  ]
+ }
+}

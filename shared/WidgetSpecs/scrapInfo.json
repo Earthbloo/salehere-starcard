@@ -1,0 +1,293 @@
+{
+ "kind": "scrapInfo",
+ "design": {
+  "w": 180,
+  "h": 240
+ },
+ "widget": {
+  "title": "บัตรข้อมูลของฉัน",
+  "category": "intro",
+  "symbol": "list.bullet.rectangle.portrait",
+  "size": {
+   "w": 178,
+   "h": 237
+  },
+  "order": 67,
+  "ownSurface": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก 07 บัตรข้อมูลของฉัน — วัตถุลอย (ไม่มีแผ่น) · การ์ดครีม #FFFDF8 มุม 3 เอียง -2 เงาเฉดแผ่น กว้างเต็มเว้น 10 (col ห่อ) สูง 212: เส้นสมุด #C8D6E8 ทุก 28.5 เริ่ม 54 · เส้นขอบชมพู #F09AB0 ที่ x 26 · หัว 'ข้อมูล' ดำหนัก 18 + 'ของฉัน' มิตรชมพู · แถวสูง 28.5 ชิดล่าง: ป้าย 7 สี #A86A84 กว้าง 36 + ค่า มิตร 12 — ชื่อเล่น (nickname) · อยู่ (workArea) · สาย (categories#0 · categories#1) · แถวที่ไม่มีค่าหายไป (if has:) · คลิปหนีบดำกลางบน · แปลงจาก ScrapbookWidgets.swift (ScrapInfoWidget) · ใช้ไม่ได้: แถว 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · เส้นสมุดยาวตามความสูงจริง (วาดตายตัว 6 เส้น)",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "col",
+    "id": "cardWrap",
+    "pad": [
+     18,
+     10,
+     10,
+     10
+    ],
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "card",
+      "h": 212,
+      "fill": "#FFFDF8",
+      "radius": 3,
+      "clip": true,
+      "rotate": -2,
+      "shadow": {
+       "sigma": 4,
+       "y": 8,
+       "color": "scrap.shade@0.2"
+      },
+      "children": [
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 54
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 82.5
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 111
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 139.5
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 168
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "fill": "#C8D6E8",
+        "dy": 196.5
+       },
+       {
+        "type": "rect",
+        "w": 1,
+        "fill": "#F09AB0",
+        "dx": 26
+       },
+       {
+        "type": "row",
+        "id": "titleWrap",
+        "pad": [
+         24,
+         0,
+         0,
+         35
+        ],
+        "align": "start",
+        "children": [
+         {
+          "type": "row",
+          "id": "title",
+          "gap": 3,
+          "align": "end",
+          "children": [
+           {
+            "type": "text",
+            "text": "ข้อมูล",
+            "face": "noto",
+            "weight": 900,
+            "size": 18,
+            "color": "#141414",
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "text": "ของฉัน",
+            "face": "mitr",
+            "weight": 400,
+            "size": 18,
+            "color": "scrap.paperAccent",
+            "maxLines": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "id": "rows",
+        "pad": [
+         54,
+         8,
+         0,
+         35
+        ],
+        "gap": 0,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "row",
+          "h": 28.5,
+          "gap": 6,
+          "align": "end",
+          "pad": [
+           0,
+           0,
+           3,
+           0
+          ],
+          "if": "has:nickname",
+          "children": [
+           {
+            "type": "text",
+            "text": "ชื่อเล่น",
+            "face": "noto",
+            "weight": 600,
+            "size": 7,
+            "color": "#A86A84",
+            "w": 36,
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "slot": "nickname",
+            "face": "mitr",
+            "weight": 400,
+            "size": 12,
+            "color": "#141414",
+            "maxLines": 1,
+            "shrinkTo": 7.2
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "h": 28.5,
+          "gap": 6,
+          "align": "end",
+          "pad": [
+           0,
+           0,
+           3,
+           0
+          ],
+          "if": "has:workArea",
+          "children": [
+           {
+            "type": "text",
+            "text": "อยู่",
+            "face": "noto",
+            "weight": 600,
+            "size": 7,
+            "color": "#A86A84",
+            "w": 36,
+            "maxLines": 1
+           },
+           {
+            "type": "text",
+            "slot": "workArea",
+            "face": "mitr",
+            "weight": 400,
+            "size": 12,
+            "color": "#141414",
+            "maxLines": 1,
+            "shrinkTo": 7.2
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "h": 28.5,
+          "gap": 6,
+          "align": "end",
+          "pad": [
+           0,
+           0,
+           3,
+           0
+          ],
+          "if": "has:categories#0",
+          "children": [
+           {
+            "type": "text",
+            "text": "สาย",
+            "face": "noto",
+            "weight": 600,
+            "size": 7,
+            "color": "#A86A84",
+            "w": 36,
+            "maxLines": 1
+           },
+           {
+            "type": "row",
+            "gap": 0,
+            "align": "end",
+            "shrink": 1,
+            "children": [
+             {
+              "type": "text",
+              "slot": "categories#0",
+              "face": "mitr",
+              "weight": 400,
+              "size": 12,
+              "color": "#141414",
+              "maxLines": 1,
+              "shrinkTo": 7.2
+             },
+             {
+              "type": "text",
+              "text": " · ",
+              "if": "has:categories#1",
+              "face": "mitr",
+              "weight": 400,
+              "size": 12,
+              "color": "#141414",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "slot": "categories#1",
+              "if": "has:categories#1",
+              "face": "mitr",
+              "weight": 400,
+              "size": 12,
+              "color": "#141414",
+              "maxLines": 1,
+              "shrinkTo": 7.2
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "icon",
+    "id": "clip",
+    "icon": "binderClip",
+    "w": 34,
+    "h": 33,
+    "place": "top-center",
+    "dy": 0
+   }
+  ]
+ }
+}

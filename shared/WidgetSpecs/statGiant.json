@@ -1,0 +1,157 @@
+{
+ "kind": "statGiant",
+ "design": {
+  "w": 366,
+  "h": 206
+ },
+ "widget": {
+  "title": "ตัวเลขยักษ์",
+  "category": "followers",
+  "symbol": "number.circle.fill",
+  "order": 12,
+  "ownSurface": true,
+  "photo": true,
+  "stamp": "followers",
+  "motion": "anchored"
+ },
+ "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้ายที่มา (ProvenanceTag onPhoto / SaleHereByline เมื่อมีตรา) ขนาดธรรมชาติ ~80×17 — กรอบไอคอน 84×18 ไม่ให้ตัดขอบแคปซูล · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ",
+ "root": {
+  "type": "stack",
+  "clip": true,
+  "radius": 22,
+  "children": [
+   {
+    "type": "image",
+    "id": "photo",
+    "photo": 3,
+    "fit": "cover",
+    "radius": 22
+   },
+   {
+    "type": "rect",
+    "id": "veil",
+    "radius": 22,
+    "gradient": {
+     "from": "black@0.2",
+     "to": "black@0.8",
+     "angle": 90
+    }
+   },
+   {
+    "type": "col",
+    "id": "body",
+    "pad": 18,
+    "gap": 0,
+    "align": "start",
+    "children": [
+     {
+      "type": "row",
+      "id": "head",
+      "gap": 8,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "id": "label",
+        "text": "ผู้ติดตามรวมทุกช่องทาง",
+        "face": "noto",
+        "size": 11,
+        "weight": 700,
+        "tracking": 0.6,
+        "color": "white@0.72",
+        "maxLines": 1,
+        "shrinkTo": 6.6
+       },
+       {
+        "type": "spacer",
+        "grow": 1
+       },
+       {
+        "type": "icon",
+        "id": "provenance",
+        "icon": "provenance:photo",
+        "w": 84,
+        "h": 18
+       }
+      ],
+      "w": "fill"
+     },
+     {
+      "type": "col",
+      "pad": [
+       2,
+       0,
+       0,
+       0
+      ],
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "big",
+        "slot": "stat:totalFollowers",
+        "face": "noto",
+        "weight": 900,
+        "size": 58,
+        "sizeWhen": [
+         {
+          "when": "w<180",
+          "size": 40
+         }
+        ],
+        "color": "white",
+        "maxLines": 1,
+        "shrinkTo": 30
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "grow": 1,
+      "minH": 8
+     },
+     {
+      "type": "chips",
+      "id": "pills",
+      "list": "socials",
+      "wrap": false,
+      "gap": 8,
+      "align": "center",
+      "each": {
+       "type": "row",
+       "gap": 6,
+       "align": "center",
+       "pad": [
+        6,
+        10
+       ],
+       "circle": true,
+       "fill": "white@0.12",
+       "children": [
+        {
+         "type": "icon",
+         "icon": "$icon",
+         "size": 17
+        },
+        {
+         "type": "text",
+         "slot": "$followers",
+         "face": "noto",
+         "size": 14,
+         "weight": 800,
+         "color": "white",
+         "maxLines": 1
+        }
+       ],
+       "stroke": {
+        "color": "white@0.3",
+        "width": 0.5
+       }
+      },
+      "w": "fill"
+     }
+    ]
+   }
+  ]
+ }
+}

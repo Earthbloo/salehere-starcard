@@ -1,0 +1,88 @@
+{
+ "kind": "nicheTags",
+ "design": {
+  "w": 366,
+  "h": 81
+ },
+ "widget": {
+  "title": "สายงาน",
+  "category": "tags",
+  "symbol": "tag",
+  "order": 30,
+  "motion": "mid",
+  "replaces": [
+   "interestTags"
+  ]
+ },
+ "notes": "หัวข้อ 'สายงาน' + ชิปพื้นจาง ขอบบาง ขึ้นบรรทัดเอง · ชิปแก้ได้ทีละใบ (categories#i) · แปลงจาก ContentWidgets.swift (NicheTags)",
+ "root": {
+  "type": "col",
+  "gap": 11,
+  "align": "start",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "w": "fill",
+    "children": [
+     {
+      "type": "text",
+      "text": "สายงาน",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "tags",
+    "list": "categories",
+    "gap": 7,
+    "grow": 1,
+    "w": "fill",
+    "align": "start",
+    "each": {
+     "type": "row",
+     "pad": [
+      7,
+      12
+     ],
+     "circle": true,
+     "align": "center",
+     "fill": "fill@0.07",
+     "stroke": {
+      "color": "line@0.16",
+      "width": 0.6
+     },
+     "children": [
+      {
+       "type": "text",
+       "slot": "categories#$i",
+       "face": "noto",
+       "size": 12,
+       "weight": 600,
+       "color": "ink@0.92",
+       "maxLines": 1
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.Density
 import co.salehere.starcard.model.ClipInvocation
 import co.salehere.starcard.model.LabMode
 import co.salehere.starcard.model.LocalClipInvocation
+import co.salehere.starcard.ui.export.SpecExporter
 import co.salehere.starcard.ui.export.WidgetMatrix
 import co.salehere.starcard.ui.export.WidgetMatrixExporter
 
@@ -39,6 +40,11 @@ class MainActivity : ComponentActivity() {
         // DEBUG: วาดตารางวิดเจ็ตเป็น PNG ไว้เทียบกับ iOS (ดู `WidgetMatrixExporter`) — ไม่แตะสโตร์ ไม่เปิดแอปจริง
         if (fresh && intent?.getStringExtra("exportWidgetMatrix") != null && WidgetMatrix.enabled(this)) {
             setContent { WidgetMatrixExporter(onDone = {}) }
+            return
+        }
+        // DEBUG: รูป + fixture ของทุกใบที่มีไฟล์ผัง (= `-exportSpecs` ของ iOS · ดู `SpecExporter`)
+        if (fresh && intent?.getStringExtra("exportSpecs") != null && WidgetMatrix.enabled(this)) {
+            setContent { SpecExporter(onDone = {}) }
             return
         }
         launchUri.value = intent?.data

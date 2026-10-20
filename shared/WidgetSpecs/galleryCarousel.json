@@ -1,0 +1,94 @@
+{
+ "kind": "galleryCarousel",
+ "design": {
+  "w": 366,
+  "h": 206
+ },
+ "widget": {
+  "title": "สไลด์การ์ด",
+  "category": "photo",
+  "symbol": "square.on.square",
+  "order": 24,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored"
+ },
+ "notes": "สไลด์การ์ด (เฟรมนิ่ง pos=0): ราง clip · ใบแรก (รูป 4) กว้าง 84% สูงเต็ม มุม 16 ขอบ line@0.12 0.6 · ร่อง 8 · ใบถัดไป (รูป 5) กว้าง 84% ย่อ 0.93 รอบจุดกลาง (= 78.12% × 93% กลางแนวตั้ง เลื่อนขวาเพิ่ม 0.035·84% ≈ 10) จาง 0.65 ถูกตัดด้วยราง · ใบที่ 3 (รูป 6) อยู่นอกจอ ไม่วาด · ใต้การ์ด 7 + แถวจุด 9: จุด active 14×5 ink@0.85 · อีกสอง 5×5 ink@0.25 ระยะ 4 กลาง · การเลื่อนราง/จุดเดินตาม scrub ไม่อยู่ในผัง · แปลงจาก GalleryWidgets.swift (GalleryCarousel)",
+ "root": {
+  "type": "col",
+  "gap": 7,
+  "children": [
+   {
+    "type": "stack",
+    "id": "rail",
+    "grow": 1,
+    "clip": true,
+    "children": [
+     {
+      "type": "row",
+      "gap": 18,
+      "align": "center",
+      "children": [
+       {
+        "type": "image",
+        "photo": 4,
+        "radius": 16,
+        "stroke": {
+         "color": "line@0.12",
+         "width": 0.6
+        },
+        "w": "84%",
+        "h": "fill",
+        "id": "current"
+       },
+       {
+        "type": "image",
+        "photo": 5,
+        "radius": 16,
+        "stroke": {
+         "color": "line@0.12",
+         "width": 0.6
+        },
+        "w": "78.12%",
+        "h": "93%",
+        "opacity": 0.65,
+        "id": "peek"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "dots",
+    "h": 9,
+    "gap": 4,
+    "justify": "center",
+    "align": "center",
+    "children": [
+     {
+      "type": "rect",
+      "w": 14,
+      "h": 5,
+      "circle": true,
+      "fill": "ink@0.85"
+     },
+     {
+      "type": "rect",
+      "w": 5,
+      "h": 5,
+      "circle": true,
+      "fill": "ink@0.25"
+     },
+     {
+      "type": "rect",
+      "w": 5,
+      "h": 5,
+      "circle": true,
+      "fill": "ink@0.25"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -362,7 +362,8 @@ enum WizStep: String, Codable, Hashable {
     }
 }
 
-enum WizKind: String, Codable { case apply, accept, one }
+/// `.card` = ด่านเปิด Star Card (3 ข้อ) — เหมือน `.one` แต่ชื่อหัวและปุ่มสุดท้ายพูดเรื่องการ์ด
+enum WizKind: String, Codable { case apply, accept, one, card }
 
 /// state กลางของ flow ใหม่ — ตัวเดียวทั้งแอปจำลอง จำลง UserDefaults ให้เปิดแอปแล้วอยู่ที่เดิม (เหมือน localStorage ของเว็บ)
 @Observable
@@ -541,7 +542,12 @@ final class StarFlow {
     static let minVideos = 1
 
     /// การ์ดประกอบขึ้นได้เมื่อมี ประเภท + สายที่ใช่ + รูปและผลงาน — เป็นเรื่อง "มีของให้วาดการ์ด" ไม่ใช่สถานะ STAR (ดู `isStar`)
-    var hasCard: Bool { have.contains(.kind) && have.contains(.categories) && have.contains(.media) }
+    var hasCard: Bool { cardReady }
+    /// ด่านเปิด Star Card = 3 ข้อ (ผู้ใช้ 19 ต.ค. 2569: "กด Star Card ต้องกรอกอย่างน้อย เกี่ยวกับฉัน · สายงาน · social แค่นั้น")
+    /// หัวข้ออื่นไม่ถามตอนเปิดการ์ด — วิดเจ็ตของหัวข้อนั้นล็อกในตู้ แตะแล้วถาม 1 ข้อ (`StarTopicFill`)
+    static let cardSteps: [WizStep] = [.media, .categories, .socials]
+    var cardMissing: [WizStep] { StarFlow.cardSteps.filter(needs) }
+    var cardReady: Bool { cardMissing.isEmpty }
     /// 8 ข้อที่แบรนด์ใช้คัดเลือก STAR — ลำดับเดียวกับ journey "รับของไปรีวิว" (ยืนยันตัวตนเป็นด่านสุดท้าย)
     /// ผู้ใช้ 6 ต.ค. 2569: ทุกทางเข้า (จากลิงก์/ลงทะเบียน · จากหน้า Star Profile) ต้องกรอก 8 ข้อนี้ก่อนเสมอ ครบ = เป็น STAR (motion "คุณเป็น STAR แล้ว") แล้วค่อยทำต่อ
     static let starSteps: [WizStep] = [.kind, .socials, .categories, .media, .province, .availability, .contact, .kyc]

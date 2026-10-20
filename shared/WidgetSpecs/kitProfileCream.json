@@ -1,0 +1,382 @@
+{
+ "kind": "kitProfileCream",
+ "design": {
+  "w": 300,
+  "h": 330
+ },
+ "widget": {
+  "title": "รูปโปรไฟล์",
+  "category": "hero",
+  "symbol": "person.crop.square.fill",
+  "order": 72,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": false,
+  "photo": true,
+  "kit": {
+   "look": "cream"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitProfile"
+  ],
+  "controls": [
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "ชุดห้าสไตล์ 01 รูปโปรไฟล์ — แปลงจาก KitWidgets.swift (KitShell + KitContent.profile) · root = ม่วงสติกเกอร์ · variants = cfg:style ครีม/ตาราง/กลางคืน/Mac · ใบวาดพื้นเอง (drawsOwnSurface) ผังจึงวาดแผ่น ขอบ มุม เงา เอง · มุม 'เหลี่ยม' = 3 เฉพาะเมื่อมีขอบ (KitLook.square) · ไล่สี = white@0.25→black@0.22 ทับสีพื้น (shade ±) · รูปโปรไฟล์โตตามความสูง (row h=fill + aspect 1) · สายงาน = categories 2 ชิ้นคั่น · (ไม่ได้ตัดอีโมจิหน้าชื่อหมวด) · แฮนเดิล = ช่องที่ฟอลโลว์สูงสุด — opt:chan เลือกช่องไม่มีเงื่อนไขเทียบ $platform จึงยังเลือกไม่ได้ · ม่วง: เงาเยื้อง 5 กินที่ขวา/ล่างเสมอ (Swift กินเฉพาะเมื่อมีขอบ+ไม่โปร่ง) · ตราง: การ์ดขาวเว้น 11 เสมอ (Swift โปร่ง = 0) · กลางคืน: มุมนีออน = แท่งแคปซูล 8 แท่ง ไม่มีโค้งที่มุม · Mac: แถบหน้าต่าง = black@0.055 ทับพื้น (โปร่ง: Swift ใช้ #ECECEC ทึบ) · ไม่มี SaleHereByline (ไม่มีธง stamped)",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "kit.fill",
+      "radius": 20,
+      "shadow": {
+       "sigma": 4.5,
+       "y": 4,
+       "color": "black@0.07"
+      }
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 20,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     },
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 20,
+      "stroke": {
+       "color": "kit.border",
+       "width": 1.5
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 20,
+        "shadow": {
+         "sigma": 4.5,
+         "y": 4,
+         "color": "black@0.07"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 20,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 20,
+        "stroke": {
+         "color": "kit.border",
+         "width": 1.5
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "kit.fill",
+        "radius": 3,
+        "shadow": {
+         "sigma": 4.5,
+         "y": 4,
+         "color": "black@0.07"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 3,
+        "stroke": {
+         "color": "kit.border",
+         "width": 1.5
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "pad": [
+     14,
+     14,
+     14,
+     14
+    ],
+    "gap": 8,
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 19,
+      "weight": 700,
+      "color": "kit.title",
+      "maxLines": 2,
+      "id": "title",
+      "shrinkTo": 13.3,
+      "text": "รูปโปรไฟล์"
+     },
+     {
+      "type": "col",
+      "pad": [
+       8,
+       0
+      ],
+      "grow": 1,
+      "children": [
+       {
+        "type": "col",
+        "id": "profile",
+        "gap": 3,
+        "align": "center",
+        "justify": "center",
+        "grow": 1,
+        "children": [
+         {
+          "type": "row",
+          "id": "avatarBox",
+          "h": 125,
+          "pad": [
+           0,
+           0,
+           9,
+           0
+          ],
+          "grow": 1,
+          "shrink": 1,
+          "minH": 79,
+          "maxH": 225,
+          "justify": "center",
+          "children": [
+           {
+            "type": "image",
+            "id": "avatar",
+            "photo": 0,
+            "aspect": 1,
+            "h": "fill",
+            "circle": true
+           }
+          ],
+          "w": "fill"
+         },
+         {
+          "type": "text",
+          "slot": "name",
+          "face": "noto",
+          "size": 21,
+          "weight": 700,
+          "color": "kit.ink",
+          "maxLines": 2,
+          "id": "name",
+          "textAlign": "center",
+          "w": "fill"
+         },
+         {
+          "type": "chips",
+          "id": "role",
+          "list": "categories",
+          "limit": 2,
+          "gap": 4,
+          "justify": "center",
+          "each": {
+           "type": "row",
+           "gap": 4,
+           "children": [
+            {
+             "type": "text",
+             "if": "!$i=first",
+             "text": "·",
+             "face": "noto",
+             "size": 13.5,
+             "weight": 400,
+             "color": "kit.mut",
+             "maxLines": 1
+            },
+            {
+             "type": "text",
+             "slot": "$text",
+             "face": "noto",
+             "size": 13.5,
+             "weight": 400,
+             "color": "kit.mut",
+             "maxLines": 1
+            }
+           ]
+          }
+         },
+         {
+          "type": "col",
+          "if": "!list:categories",
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "if": "has:tagline",
+            "slot": "tagline",
+            "face": "noto",
+            "size": 13.5,
+            "weight": 400,
+            "color": "kit.mut",
+            "maxLines": 1,
+            "textAlign": "center",
+            "w": "fill"
+           }
+          ]
+         },
+         {
+          "type": "chips",
+          "id": "handle",
+          "list": "socials",
+          "sort": "followersRaw desc",
+          "limit": 1,
+          "justify": "center",
+          "each": {
+           "type": "text",
+           "slot": "$handle",
+           "face": "noto",
+           "size": 11.5,
+           "weight": 400,
+           "color": "kit.mut",
+           "maxLines": 1
+          }
+         },
+         {
+          "type": "col",
+          "if": "!list:socials",
+          "align": "center",
+          "children": [
+           {
+            "type": "row",
+            "if": "has:handle",
+            "gap": 0,
+            "children": [
+             {
+              "type": "text",
+              "text": "@",
+              "face": "noto",
+              "size": 11.5,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             },
+             {
+              "type": "text",
+              "slot": "handle",
+              "face": "noto",
+              "size": 11.5,
+              "weight": 400,
+              "color": "kit.mut",
+              "maxLines": 1
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

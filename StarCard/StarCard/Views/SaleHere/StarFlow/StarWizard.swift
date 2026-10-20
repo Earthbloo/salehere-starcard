@@ -167,7 +167,7 @@ struct StarWizard: View {
                 .frame(minWidth: 40, alignment: .trailing)
             }
             .padding(.horizontal, 20).padding(.top, 6)
-            if !(kind == .one && total < 2) {
+            if !((kind == .one || kind == .card) && total < 2) {
                 GeometryReader { g in
                     ZStack(alignment: .leading) {
                         Capsule().fill(PK.line)
@@ -235,7 +235,7 @@ struct StarWizard: View {
             Spacer()
             Text("ข้อมูลครบแล้ว").font(.sh(24, .heavy)).foregroundStyle(GL.ink)
             Spacer()
-            PKPrimaryButton(title: kind == .apply ? "ไปฟอร์มสมัคร" : kind == .one ? "กลับ" : "ไปหน้าตอบรับ", symbol: .arrowRight) { finish() }
+            PKPrimaryButton(title: kind == .apply ? "ไปฟอร์มสมัคร" : kind == .one ? "กลับ" : kind == .card ? "ไปเลือกแบบการ์ด" : "ไปหน้าตอบรับ", symbol: .arrowRight) { finish() }
                 .padding(.horizontal, 20).padding(.bottom, 20)
         }
     }
@@ -243,6 +243,7 @@ struct StarWizard: View {
     private var context: String {
         switch kind {
         case .one: return flow.isStar ? "เติมข้อมูล" : "สมัครเป็น STAR"
+        case .card: return "เปิด Star Card"
         case .apply: return flow.isStar ? "ข้อมูล STAR · ก่อนสมัคร \(campaign.episode)" : "สมัครเป็น STAR · \(campaign.episode)"
         case .accept: return "ข้อมูล STAR · ก่อนตอบรับ \(campaign.episode)"
         }
@@ -258,6 +259,7 @@ struct StarWizard: View {
             case .apply: return "ไปฟอร์มสมัคร"
             case .accept: return "ไปหน้าตอบรับ"
             case .one: return "ไปการ์ดของคุณ"
+            case .card: return "ไปเลือกแบบการ์ด"
             }
         }
         return "ถัดไป"

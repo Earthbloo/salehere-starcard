@@ -54,7 +54,7 @@ object PageLayout {
      * เล็กสุด **ต่อชนิด** — ก้อนข้อความคือตัวอักษรพอดี (ดู `CardScreen.fitTextBlock`)
      * ตัวอักษร 9pt ได้กล่องราว 40×15 ถ้าบังคับ 100×40 เท่าวิดเจ็ตอื่น กล่องจะใหญ่กว่าตัวอักษรสามเท่า
      */
-    fun minSize(kind: WidgetKind): Size = if (kind == WidgetKind.textBlock) Size(8f, 8f) else minSize
+    fun minSize(kind: WidgetKind): Size = if (kind.isTextLayer) Size(8f, 8f) else minSize
 
     // MARK: - ขอบเขตของหน้า
 
@@ -94,7 +94,23 @@ object PageLayout {
     }
 
     /** รูดกรอบของ *ชิ้น* เข้าหน้า — กรอบยืดอิสระแล้ว จึงรูดทีละแกนตามกติกาของหน้า */
-    fun clamp(item: WidgetInstance, page: Size): Rect = clamp(item.rect, page, minSize(item.kind))
+    fun clamp(item: WidgetInstance, page: Size): Rect {
+        if (item.pinned) return pinnedFrame(item, page)
+        return clamp(item.rect, page, minSize(item.kind))
+    }
+
+    /**
+     * กรอบของชิ้นที่ **ตรึงกับก้นหน้า** (ดู `WidgetInstance.pinned`) — x · กว้าง · สูง ตามที่ถือไว้
+     * ส่วน y นั่งบนขอบกระดาษล่างเสมอ
+     *
+     * คิดจากก้นหน้าทุกครั้งแทนที่จะเชื่อ `y` ในไฟล์ เพราะหน้าพอร์ตสูงตามจอ: ค่า y ที่ถูกบนเครื่องหนึ่ง
+     * คือลอยกลางหน้าหรือล้นก้นหน้าบนอีกเครื่อง · ทุกที่ที่ถามกรอบของชิ้น (`slots` · `freeSpot` ·
+     * `freeWidth`) ผ่าน `clamp` ตัวบน จึงเห็นที่เดียวกันหมด
+     */
+    fun pinnedFrame(item: WidgetInstance, page: Size): Rect {
+        val r = clamp(item.rect, page, minSize(item.kind))
+        return rect(r.left, maxOf(bounds(page).top, content(page).bottom - r.height), r.width, r.height)
+    }
 
     /**
      * ขนาดที่ยังยืดได้จากมุมนั้นไปทางขวา / ลงล่าง — ใช้จำกัดตอนลากหมุด
@@ -114,7 +130,10 @@ object PageLayout {
     fun solve(items: List<WidgetInstance>, page: Size, first: UUID? = null): List<Placed> {
         if (!(page.width > 0 && page.height > 0)) return emptyList()
         val spot = slots(items, page, first)
-        return items.map { Placed(item = it, frame = spot[it.id] ?: clamp(it, page)) }
+        // ชิ้นที่ตรึงวาดทีหลังสุด = อยู่ชั้นบนสุด — หน้าที่เต็มจนของต้องทับกัน ตรารับรองต้องไม่ใช่ฝ่ายที่ถูกบัง
+        return (items.filter { !it.pinned } + items.filter { it.pinned }).map {
+            Placed(item = it, frame = spot[it.id] ?: clamp(it, page))
+        }
     }
 
     /**
@@ -127,6 +146,8 @@ object PageLayout {
         // ส่วนตอนที่ระบบเป็นคนหาที่ให้ ยังเว้นขอบกระดาษเหมือนเดิม (ดู `margin`)
         val polite = content(page)
         val order = items.withIndex().sortedWith { a, b ->
+            // ชิ้นที่ตรึงได้ที่ก่อนทุกคน — ก่อนตัวที่นิ้วจับด้วย ของที่ลากมาทับจึงเป็นฝ่ายหลบเสมอ
+            if (a.value.pinned != b.value.pinned) return@sortedWith if (a.value.pinned) -1 else 1
             if (first != null) {
                 if (a.value.id == first && b.value.id != first) return@sortedWith -1
                 if (b.value.id == first && a.value.id != first) return@sortedWith 1
@@ -139,6 +160,8 @@ object PageLayout {
 
         val taken = mutableListOf<Rect>()
         val spot = mutableMapOf<UUID, Rect>()
+        // ชิ้นที่ตรึงถูกวางก่อนเสมอ จึงเป็นกรอบชุดแรกของ `taken`
+        val pinnedCount = items.count { it.pinned }
 
         // หดเข้ามาครึ่งจุดก่อนเทียบ — ของที่ขอบชนกันพอดีไม่ใช่ของที่ทับกัน
         fun free(r: Rect): Boolean {
@@ -149,7 +172,19 @@ object PageLayout {
         }
 
         for ((_, item) in order) {
-            val want = clamp(item, page)
+            var want = clamp(item, page)
+            if (item.pinned) {
+                taken.add(want)
+                spot[item.id] = want
+                continue
+            }
+            // ขอที่ทับชิ้นที่ตรึง = ได้ที่ **เหนือมันพอดี** — ที่ใกล้สุดกับที่นิ้วปล่อย
+            // (ไม่ทำแบบนี้ การดันลงจะไม่มีวันเจอที่ว่าง แล้วของกระโดดไปมุมบนซ้ายของหน้า)
+            for (pin in taken.take(pinnedCount)) {
+                if (!pin.deflate(0.5f).overlaps(want)) continue
+                val above = pin.top - want.height
+                if (above >= box.top) want = rect(want.left, above, want.width, want.height)
+            }
             var put: Rect? = null
 
             // 1) ดันลงตรง ๆ ในแนวเดิม — ท่าปกติ ของขยับน้อยที่สุด
@@ -175,7 +210,13 @@ object PageLayout {
             }
 
             // 3) หน้าเต็มจริง ๆ — ยอมทับที่ก้นหน้า ดีกว่าดันหลุดออกนอกหน้าซึ่งพิมพ์ไม่ติด
-            val final = put ?: rect(want.left, box.bottom - want.height, want.width, want.height)
+            //    แต่ **ห้ามซุกใต้ชิ้นที่ตรึง** — มันอยู่ชั้นบนสุดและย้ายไม่ได้ ของที่ไปอยู่ใต้มัน
+            //    คือของที่มองไม่เห็นและแตะไม่ถึงอีกเลย · ทับของชิ้นอื่นเหนือมันแทน (ยังเห็น ยังลากออกได้)
+            var floorY = box.bottom - want.height
+            for (pin in taken.take(pinnedCount)) {
+                if (pin.left < want.right && pin.right > want.left) floorY = minOf(floorY, pin.top - want.height)
+            }
+            val final = put ?: rect(want.left, maxOf(box.top, floorY), want.width, want.height)
             taken.add(final)
             spot[item.id] = final
         }

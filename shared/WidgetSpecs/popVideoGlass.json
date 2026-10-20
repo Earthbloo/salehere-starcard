@@ -1,0 +1,180 @@
+{
+ "kind": "popVideoGlass",
+ "design": {
+  "w": 215,
+  "h": 202
+ },
+ "widget": {
+  "title": "หน้าต่างวิดีโอ กระจกชมพู",
+  "category": "photo",
+  "symbol": "play.rectangle.fill",
+  "order": 50,
+  "ownSurface": true,
+  "ownBorder": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "photo": true,
+  "skin": "glass",
+  "motion": "mid"
+ },
+ "notes": "สำรับสติกเกอร์ · หน้าต่างวิดีโอ (กระจก) — แถบ Video + ⋯ · คลิปขอบชมพู · ปุ่ม ⏮ ▶ ⏭ 🔊 ตกแต่ง · เส้นชมพูขอบบน · แปลงจาก PopWidgets.swift (PopVideo สกิน glass) · ไล่สีขอบกระจกแทนด้วย stroke ขาวจาง",
+ "root": {
+  "type": "col",
+  "pad": 4,
+  "children": [
+   {
+    "type": "stack",
+    "id": "sheet",
+    "grow": 1,
+    "h": "fill",
+    "fill": "pop.sheet",
+    "radius": 18,
+    "shadow": {
+     "x": 0,
+     "sigma": 4.5,
+     "y": 5,
+     "color": "pop.shadow"
+    },
+    "children": [
+     {
+      "type": "rect",
+      "id": "glassEdge",
+      "if": "surface=glass",
+      "radius": 18,
+      "stroke": {
+       "color": "white@0.6",
+       "width": 1.2
+      }
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "if": "bordered",
+      "radius": 18,
+      "stroke": {
+       "color": "rawAccent",
+       "width": 1.6
+      }
+     },
+     {
+      "type": "col",
+      "gap": 0,
+      "children": [
+       {
+        "type": "row",
+        "pad": [
+         11,
+         13,
+         6,
+         13
+        ],
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "Video",
+          "face": "noto",
+          "weight": 700,
+          "size": 18,
+          "color": "pop.ink",
+          "maxLines": 1
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         },
+         {
+          "type": "icon",
+          "icon": "ph:dots-three-fill",
+          "w": 22,
+          "h": 14,
+          "tint": "pop.ink"
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "pad": [
+         0,
+         10
+        ],
+        "grow": 1,
+        "h": "fill",
+        "children": [
+         {
+          "type": "image",
+          "id": "clip",
+          "photo": 2,
+          "h": "fill",
+          "radius": 12,
+          "stroke": {
+           "color": "rawAccent@0.75",
+           "width": 2.5
+          }
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "pad": [
+         6,
+         6,
+         8,
+         6
+        ],
+        "justify": "start",
+        "align": "center",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:skip-back-fill",
+          "w": "fill",
+          "grow": 1,
+          "h": 17,
+          "tint": "pop.ink"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:play-fill",
+          "w": "fill",
+          "grow": 1,
+          "h": 17,
+          "tint": "pop.ink"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:skip-forward-fill",
+          "w": "fill",
+          "grow": 1,
+          "h": 17,
+          "tint": "pop.ink"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:speaker-high-fill",
+          "w": "fill",
+          "grow": 1,
+          "h": 17,
+          "tint": "pop.ink"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "rect",
+      "id": "pinkBar",
+      "w": 92,
+      "h": 3.5,
+      "radius": 1.75,
+      "fill": "rawAccent",
+      "place": "top-center",
+      "dy": 4
+     }
+    ]
+   }
+  ]
+ }
+}

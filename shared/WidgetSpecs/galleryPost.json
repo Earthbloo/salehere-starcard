@@ -1,0 +1,107 @@
+{
+ "kind": "galleryPost",
+ "design": {
+  "w": 366,
+  "h": 313
+ },
+ "widget": {
+  "title": "โพสต์โซเชียล",
+  "category": "photo",
+  "symbol": "text.below.photo.fill",
+  "order": 26,
+  "photo": true,
+  "motion": "anchored"
+ },
+ "notes": "กรอบโพสต์: หัว = รูปโปรไฟล์ (ช่อง 3) วงกลม 26 ขอบ line@0.2 0.6 + โลโก้แพลตฟอร์มของ works ชิ้นแรก 13 ชิดขวา · รูป 4 มุม 14 ขอบ line@0.12 0.6 กินที่เหลือ · แถวล่าง ไอคอน 13 ink@0.55 ระยะ 14 (heart · chat · paper-plane · bookmark ขวา) · ต้นฉบับใช้ SF Symbols (heart, bubble.right, paperplane, bookmark) → Phosphor heart/chat-circle/paper-plane-tilt/bookmark-simple (fallback จากไลบรารีเต็ม) · แปลงจาก GalleryWidgets.swift (GalleryPost) · 14 ต.ค.: ph:heart / ph:bookmark-simple (ชุดใหม่) · แถวล่างสูง 16 = ความสูงบรรทัดของ SF Symbol 13pt",
+ "root": {
+  "type": "col",
+  "gap": 9,
+  "children": [
+   {
+    "type": "row",
+    "id": "header",
+    "h": 26,
+    "gap": 8,
+    "align": "center",
+    "children": [
+     {
+      "type": "image",
+      "photo": 3,
+      "radius": 13,
+      "stroke": {
+       "color": "line@0.2",
+       "width": 0.6
+      },
+      "w": 26,
+      "h": 26,
+      "circle": true,
+      "id": "avatar"
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "chips",
+      "list": "works",
+      "limit": 1,
+      "wrap": false,
+      "each": {
+       "type": "icon",
+       "icon": "$icon",
+       "size": 13
+      }
+     }
+    ]
+   },
+   {
+    "type": "image",
+    "photo": 4,
+    "radius": 14,
+    "stroke": {
+     "color": "line@0.12",
+     "width": 0.6
+    },
+    "grow": 1,
+    "id": "photo"
+   },
+   {
+    "type": "row",
+    "id": "footer",
+    "h": 16,
+    "gap": 14,
+    "align": "center",
+    "children": [
+     {
+      "type": "icon",
+      "icon": "ph:heart",
+      "size": 13,
+      "tint": "ink@0.55"
+     },
+     {
+      "type": "icon",
+      "icon": "ph:chat-circle",
+      "size": 13,
+      "tint": "ink@0.55"
+     },
+     {
+      "type": "icon",
+      "icon": "ph:paper-plane-tilt",
+      "size": 13,
+      "tint": "ink@0.55"
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     },
+     {
+      "type": "icon",
+      "icon": "ph:bookmark-simple",
+      "size": 13,
+      "tint": "ink@0.55"
+     }
+    ]
+   }
+  ]
+ }
+}

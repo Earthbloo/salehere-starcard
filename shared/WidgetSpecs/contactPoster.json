@@ -1,0 +1,386 @@
+{
+ "kind": "contactPoster",
+ "design": {
+  "w": 366,
+  "h": 270
+ },
+ "widget": {
+  "title": "โปสเตอร์ติดต่อ",
+  "category": "contact",
+  "symbol": "person.crop.rectangle.fill",
+  "order": 41,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ลาย",
+    "opt": "pattern",
+    "options": [
+     [
+      null,
+      "เรียบ"
+     ],
+     [
+      "stripe",
+      "ลายทาง"
+     ],
+     [
+      "diamond",
+      "ข้าวหลามตัด"
+     ]
+    ],
+    "if": "surface=glass"
+   }
+  ]
+ },
+ "notes": "โปสเตอร์ติดต่อ · แปลงจาก ContactPosterWidget.swift (CP + ContactPosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น + หมึกครีม `plateInk` · ชิปครีมทึบ `plateInk@0.94` หมึกในชิป `plate` ไอคอน `plate@0.72` · แผ่นสีเดียว (hue sat 0.62 bri 0.34) สว่างกว่า `plate` (0.255) ไม่มี token → `plate` + `rawAccent@0.11` ทับ (เฉพาะ !duo · คู่สี = duo.dark = `plate` ตรง) · หมึกในชิป (hue .78/.18) → `plate` · `pane`/`clear` = ไม่มีแผ่น หมึก `ink@0.95` · ชิป `fill@0.12` + เส้น `line@0.26` · หมึกในชิป `ink@0.95` · ไอคอน `ink@0.72` · ของบนแผ่นกว้าง 366 จัดกลาง · พาดหัว 'Contact' เซริฟเอียง 20.9 / 'ME' black 33 ซ้อน −6.6 (22, 17.6) · ชิปสามใบ (lineId · phone · website · y 96 ห่าง 9) · รูป: ผังโหมดกรอบ (รูปทึบ · ซิมไม่มี Vision) กว้าง 154 สูง 62% มุม 16 ชิดขวาล่าง ถอย 13.2/15.4 · ไอคอน SF message.fill/phone.fill/globe → ph:chat-circle-fill · ic-phoneCall-outline (Phosphor ชุดที่ฝังไม่มี phone/globe) · ph:link · ไม่มี: ผังคัตเอาต์ (สูง 80% ชิดขวาล่าง ล้น 16.5/9.5) สลับตามมีรูปตัดพื้น · เงาคนตอนไม่มีแผ่น · เกล็ด/ลายแผ่น · ป้ายสถานะ",
+ "root": {
+  "type": "stack",
+  "id": "sheet",
+  "clip": true,
+  "radius": 22,
+  "children": [
+   {
+    "type": "rect",
+    "id": "plate",
+    "fill": "plate",
+    "if": "papered"
+   },
+   {
+    "type": "rect",
+    "id": "plateLift",
+    "fill": "rawAccent@0.11",
+    "if": "papered & !duo"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered",
+    "platePattern": "plate"
+   },
+   {
+    "type": "stack",
+    "id": "block",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "children": [
+     {
+      "type": "col",
+      "id": "headline",
+      "if": "papered",
+      "place": "top-left",
+      "dx": 22,
+      "dy": 17.6,
+      "w": 322,
+      "gap": -6.6,
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "contact",
+        "text": "Contact",
+        "face": "noto",
+        "weight": 400,
+        "size": 20.9,
+        "color": "plateInk",
+        "maxLines": 1
+       },
+       {
+        "type": "text",
+        "id": "me",
+        "text": "ME",
+        "face": "noto",
+        "weight": 900,
+        "size": 33,
+        "tracking": 0.4,
+        "color": "plateInk",
+        "maxLines": 1
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "headline",
+      "if": "!papered",
+      "place": "top-left",
+      "dx": 22,
+      "dy": 17.6,
+      "w": 322,
+      "gap": -6.6,
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "contact",
+        "text": "Contact",
+        "face": "noto",
+        "weight": 400,
+        "size": 20.9,
+        "color": "ink@0.95",
+        "maxLines": 1
+       },
+       {
+        "type": "text",
+        "id": "me",
+        "text": "ME",
+        "face": "noto",
+        "weight": 900,
+        "size": 33,
+        "tracking": 0.4,
+        "color": "ink@0.95",
+        "maxLines": 1
+       }
+      ]
+     },
+     {
+      "type": "image",
+      "id": "subject",
+      "photo": 1,
+      "radius": 16,
+      "place": "bottom-right",
+      "w": 154,
+      "h": "62%",
+      "dx": -13.2,
+      "dy": -15.4
+     },
+     {
+      "type": "col",
+      "id": "rows",
+      "if": "papered",
+      "place": "top-left",
+      "dx": 22,
+      "dy": 96,
+      "w": 184,
+      "gap": 9,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "lineChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "plateInk@0.94",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:chat-circle-fill",
+          "size": 13,
+          "tint": "plate@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "lineId",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "plate",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "phoneChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "plateInk@0.94",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:phone-fill",
+          "size": 13,
+          "tint": "plate@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "phone",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "plate",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "webChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "plateInk@0.94",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:globe",
+          "size": 13,
+          "tint": "plate@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "website",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "plate",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "rows",
+      "if": "!papered",
+      "place": "top-left",
+      "dx": 22,
+      "dy": 96,
+      "w": 184,
+      "gap": 9,
+      "align": "start",
+      "children": [
+       {
+        "type": "row",
+        "id": "lineChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "fill@0.12",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:chat-circle-fill",
+          "size": 13,
+          "tint": "ink@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "lineId",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ],
+        "stroke": {
+         "color": "line@0.26",
+         "width": 0.8
+        }
+       },
+       {
+        "type": "row",
+        "id": "phoneChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "fill@0.12",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:phone-fill",
+          "size": 13,
+          "tint": "ink@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "phone",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ],
+        "stroke": {
+         "color": "line@0.26",
+         "width": 0.8
+        }
+       },
+       {
+        "type": "row",
+        "id": "webChip",
+        "gap": 7,
+        "align": "center",
+        "pad": [
+         7.5,
+         12
+        ],
+        "circle": true,
+        "fill": "fill@0.12",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:globe",
+          "size": 13,
+          "tint": "ink@0.72"
+         },
+         {
+          "type": "text",
+          "slot": "website",
+          "face": "noto",
+          "weight": 600,
+          "size": 13.5,
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 10.8,
+          "maxW": 135.5
+         }
+        ],
+        "stroke": {
+         "color": "line@0.26",
+         "width": 0.8
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

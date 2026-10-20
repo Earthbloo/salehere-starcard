@@ -38,6 +38,16 @@ struct WidgetChrome: View {
         CGRect(x: size.width - 230, y: 0, width: 230, height: lockInset + lockHeight + 10)
     }
 
+    /// ระยะขอบในที่ chrome เว้นให้เนื้อหา (หน่วยออกแบบ · หลังสเกล) — ค่าเดียวกับที่ตัวคำนวณผัง/fixture ต้องหักออกจากกล่อง
+    /// (ดู WIDGET-SPEC.md §2): มีพื้นของ chrome หรือมีเส้นขอบ = 12 · `.pane` / เต็มขอบ / วาดพื้นเอง = 0 · ก้อนข้อความ = ของมันเอง
+    static func contentInset(kind: WidgetKind, surface: WidgetSurface, border: Bool) -> CGFloat {
+        if kind.isTextLayer { return TextBlock.inset }
+        let pane = surface == .pane
+        let framed = pane || (!kind.drawsOwnSurface && surface != .clear)
+        let insetable = framed || (!kind.drawsOwnSurface && border)
+        return pane || kind.isFullBleed || !insetable ? 0 : 12
+    }
+
     let placed: Placed
     let theme: CardTheme
     @Environment(\.saleHereMarkStyle) private var markStyle
@@ -47,6 +57,8 @@ struct WidgetChrome: View {
     /// ใบจริงด้วยชุดตัวอย่างใต้ชั้นเทา แต่ **ไม่มีปุ่มปลดล็อก** (ผู้ใช้ 1 ต.ค. 2569: "รูปข้างนอก อันที่ Lock
     /// ไม่มี Preview เหมือนด้านใน") · รูปที่แชร์ออกไปไม่ผ่านทางนี้ ตัวอย่างจึงไม่หลุดไปถึงคนอื่น
     var lockPreview = false
+    /// วาดด้วยชุดตัวอย่างเต็มใบโดยไม่มีชั้นเทา — ใช้กับแคตตาล็อกขนาด (`ShapeMatrixExport`) เท่านั้น
+    var forceSample = false
 
     var body: some View {
         let p = placed
@@ -72,7 +84,7 @@ struct WidgetChrome: View {
         let innerSurface: WidgetSurface = p.item.surface
         // ก้อนข้อความ: กล่องคือตัวอักษรพอดี — ขอบชิด มุมเล็ก และ **ไม่ clip** เนื้อหา
         // (ตัวอักษรไม่มีวันล้นกล่องที่หุ้มมันอยู่แล้ว clip มีแต่จะกินสระบนเวลาวัดคลาดไปหนึ่งพิกเซล)
-        let isText = kind == .textBlock
+        let isText = kind.isTextLayer
         let radius = isText ? min(theme.radius, TextBlock.radius) : theme.radius
         let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
         // **ทุกชิ้นมีพื้น** — พื้นไม่ผูกกับเส้นขอบอีกแล้ว (เดิม "ไม่มีขอบ" = พื้นหายไปด้วย
@@ -101,28 +113,31 @@ struct WidgetChrome: View {
         // สำรับที่วาดแผ่นเองจัดผังในกรอบเต็มของชิ้น (ระยะขอบอยู่ในผังของมันแล้ว) ครอบเพิ่มอีก 12pt
         // ต่อข้างเท่ากับยัดผังเดิมลงกล่องที่เล็กลง 24pt ทั้งสองแกน — `PosterSheet` ยืดผังตามกรอบ
         // ใหม่ ปีก/พิลล์/คนเลยขยับไปคนละที่ ผู้ใช้สลับพื้นหลังแล้วเห็นของข้างในเบี้ยวทั้งใบ
-        let inset: CGFloat = isText ? TextBlock.inset
-                           : (pane || kind.isFullBleed || !insetable ? 0 : 12)
+        let inset = Self.contentInset(kind: kind, surface: p.item.surface, border: p.item.border)
 
-        // MARK: กรอบคือคอนเทนเนอร์ · เนื้อหาจัดตัวเองข้างใน
-        let natural = max(kind.defaultSize.width, 1)
-        // # กรอบคือ **คอนเทนเนอร์** เนื้อหาจัดตัวเองข้างใน — ไม่ใช่รูปที่ถูกดึงให้เต็ม
+        // MARK: กติกาเดียว · ทุกใบ · ไม่มีข้อยกเว้น (ผู้ใช้ 13 ต.ค. 2569: "ทุก Concept ทุก Widget ต้องเหมือนกัน")
         //
-        // ยืดกรอบกว้างขึ้น = ผังได้ที่กว้างขึ้นไปจัดเอง (แถวกระจาย · รูปกินเต็มช่องแล้วครอป ·
-        // ระยะขอบคงที่) · ยืดสูงขึ้น = ผังได้ที่สูงขึ้น · **ตัวอักษรกับรูปไม่ถูกบีบสักแกน**
-        // ความรู้สึกเดียวกับ auto layout: ของข้างในรักษารูปทรงของตัวเอง ที่เปลี่ยนคือการกระจายตัว
+        // ใบถูกออกแบบที่ `w0 × h0` (ขนาดอ้างอิงของผัง — จากไฟล์ผัง `WidgetSpec.design` ถ้ามี ไม่มีก็ `defaultSize`)
+        // ผู้ใช้ลากกรอบเป็น `W × H` อะไรก็ได้ แล้ว
         //
-        // เพดานเดียวที่ยังสเกลอยู่คือ **ตอนกรอบแคบกว่าผัง** — เนื้อหาหลายตัวมีความกว้างต่ำสุด
-        // ของมันเอง (ไอคอน 34pt สามอัน + ตัวเลข + ระยะห่าง) `HStack` ไม่บีบให้ต่ำกว่านั้น
-        // มันจะล้นออกไปทับชิ้นข้างเคียงแทน · ตรงนั้นจึงย่อทั้งก้อนลงแทน — เป็น *ทางกันล้น*
-        // ไม่ใช่วิธีจัดผัง (กรอบที่กว้างกว่าหรือเท่าผังได้ `s == 1` เสมอ)
+        //     s   = min(W / w0, H / h0)      ← ย่อ/ขยายทั้งก้อนด้วยแกนที่คับสุด · ตัวอักษรกับรูปไม่ถูกบีบสักแกน
+        //     box = (W / s, H / s)           ← กล่องผังในหน่วยออกแบบ · อย่างน้อยหนึ่งแกนเท่าผังพอดี อีกแกนได้ที่เพิ่ม
         //
-        // ส่วนความสูง: ผู้ใช้ย่อต่ำกว่าที่เนื้อหาขอไม่ได้ (ดู `CardScreen.minHeight`) จึงไม่มี
-        // กรณีที่เนื้อหาถูกกรอบตัดโดยไม่มีใครสั่ง
-        let s = kind == .textBlock ? 1 : min(1, max(p.frame.width, 1) / natural)
-        // ผังถูกวางในหน่วย "ก่อนย่อ" แล้วค่อยหดทั้งก้อน — ความสูงจึงต้องหารกลับด้วย
-        let layout = CGSize(width: max(p.frame.width, 1) / s,
-                            height: max(p.frame.height, 1) / s)
+        // ผังจัดตัวเองลงใน box (ช่องไหนกินที่เพิ่ม ช่องไหนขึ้นบรรทัดใหม่ เป็นเรื่องของ *ผัง* ของใบนั้น —
+        // ดู `SpecNode.grow` / `wrap` / `sizeWhen`) แล้ว chrome แค่ `scaleEffect(s)` ทั้งก้อน
+        //
+        // ไม่มี whitelist รายใบตรงนี้อีกแล้ว (noGrow · reflows · keepsDesignAspect · isKit ถูกถอดออก 13 ต.ค. 2569):
+        // Android/Web อ่านสูตรบรรทัดเดียวนี้กับไฟล์ผังชุดเดียวกัน แล้วได้กล่องเท่ากันทุก byte
+        // ชั้นข้อความเป็นใบเดียวที่กล่อง = ตัวอักษรพอดี จึงไม่สเกล
+        let design = SpecCatalog.spec(for: kind)?.design.cg ?? kind.defaultSize
+        let natural = max(design.width, 1), naturalH = max(design.height, 1)
+        let fw = max(p.frame.width, 1), fh = max(p.frame.height, 1)
+        let s: CGFloat = kind.isTextLayer ? 1 : min(fw / natural, fh / naturalH)
+        // ผังถูกวางในหน่วย "ก่อนสเกล" แล้วค่อยคูณทั้งก้อน — กล่องจึงต้องหารกลับด้วย
+        let full = CGSize(width: fw / s, height: fh / s)
+        let layout = full
+        let hug = false
+        let padY: CGFloat = 0
         // กุญแจของตราที่ล็อกย่อตามใบ — ตราครึ่งหน้าบนสตอรี่ได้กุญแจเล็กลงตามส่วน
         let lockScale = max(0.7, s)
 
@@ -130,14 +145,14 @@ struct WidgetChrome: View {
         // ส่งหมึกที่รู้จักแผ่นนี้ลงไป ตัวหนังสือรองในแผ่นจึงถูกยันแค่เท่าที่แผ่นนั้นต้องการจริง (ดู `InkStyle.text`)
         // หัวข้อ Star Profile ที่ใบนี้อ่านยังไม่ได้กรอก = วาดเลย์เอาต์เต็มใบ แต่ค่าเป็น "–" (ผู้ใช้ 29 ก.ย. 2569)
         // ตรารับรองล็อกจนกว่าการยืนยันตัวตนจะ **ผ่าน** — มีสองสถานะเท่านั้น: ผ่าน หรือ ล็อก (ไม่มี "รอทีมงานตรวจ")
-        let sealLocked = kind == .proofSeal && !VerifiedFacts.sealed
-        let missing = kind == .proofSeal ? sealLocked : (kind.family.topic.map { !$0.filled } ?? false)
+        let missing = kind.family.missing
+        let sealLocked = kind.family == .seal && missing
         // แสตมป์ Sale Here — ใบที่ถือข้อมูลซึ่งตรวจแล้ว (ดู `SaleHereStamp`) · ใบที่ยังไม่มีข้อมูลไม่ได้ดวง
         let stamped = !missing && (kind.stampFacts?.verified ?? false)
         // ใบที่ล็อกในห้องแต่ง = วาดใบจริงด้วยชุดตัวอย่าง ให้เห็นว่ากรอกแล้วได้อะไร — ไม่ใช่กรอบเปล่ากับขีด "–"
         // (ผู้ใช้ 1 ต.ค. 2569) · ภาพที่แชร์/โหมดดูไม่ผ่านทางนี้ ยังเป็นป้ายรอข้อมูลเหมือนเดิม
         let lockLook = lockBadge || lockPreview
-        let sampled = lockLook && missing && Profile.me.lacks(kind.family)
+        let sampled = forceSample || (lockLook && missing && Profile.me.lacks(kind.family))
         let content = WidgetBody(kind: kind, theme: theme, size: layout)
             .environment(\.sampleData, sampled)
             .environment(\.ghostData, missing && !sampled && !sealLocked)
@@ -150,16 +165,17 @@ struct WidgetChrome: View {
             .environment(\.widgetSurface, innerSurface)
             .environment(\.widgetBorder, p.item.border)
             .environment(\.widgetPattern, p.item.pattern)
-            .environment(\.widgetLiftsPhoto, kind.liftsSubject && p.item.liftPhoto)
             // มีแสตมป์แล้วไม่ปั๊มตรานูนซ้ำ — รับรองที่เดียวต่อใบ
-            .environment(\.widgetEmboss, kind.takesEmboss && p.item.emboss && !stamped)
             .environment(\.saleHereStamped, stamped)
-            .environment(\.widgetEmbossBlind, p.item.embossBlind)
-            .environment(\.widgetSealStyle, p.item.sealStyle)
+            .environment(\.kitConfig, p.item.kit)
+            .environment(\.widgetRenderScale, s)
             .padding(inset)
-            .frame(width: layout.width, height: layout.height, alignment: .topLeading)
+            // **กลาง** ไม่ใช่มุมบนซ้าย — กรอบมีแค่สามขนาด ใบที่ผังเตี้ยกว่ากรอบ (แถบ · ชิป · ป้ายวิ่ง)
+            // ต้องลอยกลางกล่อง ไม่ใช่เกาะขอบบนแล้วทิ้งที่ว่างสองในสามไว้ข้างล่าง · ใบที่เต็มกรอบอยู่แล้วไม่ต่าง
+            .frame(width: layout.width, height: layout.height, alignment: isText ? .topLeading : .center)
             .scaleEffect(s, anchor: .topLeading)
-            .frame(width: p.frame.width, height: p.frame.height, alignment: .topLeading)
+            .offset(y: padY)
+            .frame(width: p.frame.width, height: hug ? layout.height * s : p.frame.height, alignment: .topLeading)
             .allowsHitTesting(false)
 
         Group {
@@ -216,7 +232,7 @@ struct WidgetChrome: View {
         // ตรารับรองที่ยังล็อกมีชั้นเทา **ทุกที่** รวมรูปที่แชร์ — ใต้ชั้นเทาคือหน้าตา "VERIFIED" เต็มใบ
         // ถ้าหลุดออกไปโดยไม่มีอะไรทับ มันคือคำรับรองที่ Sale Here ยังไม่ได้ให้
         .overlay {
-            if missing && (lockLook || sealLocked) {
+            if missing && (lockLook || sealLocked) && !forceSample {
                 shape.fill(Self.lockVeil).allowsHitTesting(false)
             }
         }
@@ -247,7 +263,7 @@ struct WidgetChrome: View {
             }
         }
         .overlay {
-            if p.item.border && !kind.isPop {
+            if p.item.border && !kind.drawsOwnBorder {
                 shape.strokeBorder(ink.line(0.12), lineWidth: 0.7)
             }
         }

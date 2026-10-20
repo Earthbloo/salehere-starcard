@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5AED0000000000000000A002 /* WidgetSpecs in Resources */ = {isa = PBXBuildFile; fileRef = 5AED0000000000000000A001 /* WidgetSpecs */; };
+		5AED0000000000000000A004 /* starter-cards.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AED0000000000000000A003 /* starter-cards.json */; };
 		PH0SPH0R00000000000000A3 /* PhosphorSwift in Frameworks */ = {isa = PBXBuildFile; productRef = PH0SPH0R00000000000000A2 /* PhosphorSwift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,8 @@
 
 /* Begin PBXFileReference section */
 		20736EC230393BD100396E2B /* Sale Here Star Card.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sale Here Star Card.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AED0000000000000000A001 /* WidgetSpecs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WidgetSpecs; path = ../shared/WidgetSpecs; sourceTree = SOURCE_ROOT; };
+		5AED0000000000000000A003 /* starter-cards.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "starter-cards.json"; path = "../shared/starter-cards.json"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -51,6 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				20736EC430393BD100396E2B /* StarCard */,
+				5AED0000000000000000A001 /* WidgetSpecs */,
+				5AED0000000000000000A003 /* starter-cards.json */,
 				20736EC330393BD100396E2B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +138,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AED0000000000000000A002 /* WidgetSpecs in Resources */,
+				5AED0000000000000000A004 /* starter-cards.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +214,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};

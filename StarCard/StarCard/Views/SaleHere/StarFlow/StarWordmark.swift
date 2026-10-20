@@ -4,7 +4,7 @@ import SwiftUI
 //
 // ผู้ใช้ 30 ก.ย. 2569: "เอา STAR ใน icon มาใส่แทนเลย Card/Profile ใช้ font เหมือนเดิม" — คำ "Star" ตัวหนาในหัวข้อ
 // จึงถูกแทนด้วยเวกเตอร์ ST★R ตัวจริงจาก `ic-salehere-star-outline.pdf` (เฉพาะตัวพิมพ์ใหญ่ ตัดตัวเขียน Sale Here ด้านบนออก)
-// ส่วน Card / Profile ยังเป็น Didot Italic ไล่หมึก→ทองเท่าเดิม  ดูแคนวาสเทียบแบบ: claude.ai/artifact/4fXrX4Lqpu97rh2GcBgS5Q
+// ส่วน Card / Profile ไล่หมึก→ทองเท่าเดิม (ฟอนต์ Noto Sans Thai ตั้งแต่ 19 ต.ค. 2569 — Didot เป็นของ Apple ถอดออก)  ดูแคนวาสเทียบแบบ: claude.ai/artifact/4fXrX4Lqpu97rh2GcBgS5Q
 //
 // วาดเป็น Shape ไม่ใช่ Image เพราะต้องย้อมสีตามพื้น (หมึกบนสว่าง · ขาวบนการ์ดมืด) และต้องวางบน baseline เดียวกับคำ serif
 

@@ -1,0 +1,1058 @@
+{
+ "kind": "socialWindow",
+ "design": {
+  "w": 504,
+  "h": 124
+ },
+ "widget": {
+  "title": "หน้าต่างช่องทาง",
+  "category": "followers",
+  "symbol": "macwindow",
+  "order": 16,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "surfaceNames": {
+   "glass": "สว่าง",
+   "dim": "มืด"
+  },
+  "keepAspect": true,
+  "stamp": "followers",
+  "stampAt": {
+   "tone": "light",
+   "top": 1.5,
+   "trailing": 10
+  },
+  "motion": "anchored"
+ },
+ "notes": "หน้าต่าง Preview ของ macOS — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night ทุกค่า: แถบหัว #3A3A3D→#303033 พื้น #252527→#1E1E20 ขอบ #0B0B0C หมึก #F4F4F6 เลข #E4E5E8 รอง #9A9CA2 ขอบไฟ@0.5) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม (macOS ไม่เปลี่ยนสีตามวอลเปเปอร์) · แถบหัว 24 ไฟจราจรสามดวง ชื่อหน้าต่าง (note#1) กลางแถบ ไอคอนเครื่องมือ 7 ตัว · เนื้อหา = ช่องที่ยอดเยอะที่สุด (socials sort followersRaw desc limit 1) สามช่อง 35% · 34.5% · ที่เหลือ คั่นเส้นสูง 74% · ยอดผู้ติดตามเต็มหลัก ($followersFull = Fmt.baht) · ฐาน 17 สูตร ER + ที่มา · ขอบสองชั้น (rimOuter 0.9 · glint 1.1 · rimInner 0.6) · ป้าย Verified by Sale Here มุมขวาบน chrome วาดให้ (stampOverlay) · แปลงจาก WindowWidgets.swift (SocialWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: โลโก้เปลือย tiktok/x/youtube (46×51 — ต้องเทียบสตริง $platform จึงใช้ $icon ตราวงกลม 40) · ไอคอน Phosphor ที่ยังไม่อยู่ในชุดย่อยของแอป (magnifying-glass-plus/minus · export · copy · dots-three-circle) วาดไม่ขึ้นจนกว่าจะเพิ่ม imageset · ช่องที่เจ้าของเลือกใน note#9 (WindowChannel) · ScrubDigits · Fmt.pct ตัด .0",
+ "variants": [
+  {
+   "when": "surface=dim",
+   "root": {
+    "type": "stack",
+    "id": "window",
+    "clip": true,
+    "radius": 15,
+    "gradient": {
+     "from": "#252527",
+     "to": "#1E1E20",
+     "angle": 90
+    },
+    "stroke": {
+     "color": "#0B0B0C",
+     "width": 0.9
+    },
+    "children": [
+     {
+      "type": "col",
+      "id": "frame",
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "stack",
+        "id": "bar",
+        "h": 24,
+        "gradient": {
+         "from": "#3A3A3D",
+         "to": "#303033",
+         "angle": 90
+        },
+        "children": [
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "size": 7.8,
+          "weight": 600,
+          "tracking": 0.9,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "#B9BAC0",
+          "maxLines": 1,
+          "shrinkTo": 4.7,
+          "w": "36%",
+          "place": "center",
+          "text": "SOCIAL CHANNEL"
+         },
+         {
+          "type": "row",
+          "id": "controls",
+          "align": "center",
+          "pad": [
+           0,
+           3.75,
+           0,
+           12.4
+          ],
+          "children": [
+           {
+            "type": "row",
+            "id": "lights",
+            "gap": 5.4,
+            "align": "center",
+            "children": [
+             {
+              "type": "rect",
+              "w": 9.2,
+              "h": 9.2,
+              "circle": true,
+              "fill": "#FF5F57",
+              "stroke": {
+               "color": "#E0443E@0.5",
+               "width": 0.45
+              }
+             },
+             {
+              "type": "rect",
+              "w": 9.2,
+              "h": 9.2,
+              "circle": true,
+              "fill": "#FEBC2E",
+              "stroke": {
+               "color": "#DEA123@0.5",
+               "width": 0.45
+              }
+             },
+             {
+              "type": "rect",
+              "w": 9.2,
+              "h": 9.2,
+              "circle": true,
+              "fill": "#28C840",
+              "stroke": {
+               "color": "#1AAB29@0.5",
+               "width": 0.45
+              }
+             }
+            ]
+           },
+           {
+            "type": "spacer",
+            "grow": 1,
+            "minW": 4
+           },
+           {
+            "type": "row",
+            "id": "tools",
+            "gap": 0,
+            "align": "center",
+            "children": [
+             {
+              "type": "icon",
+              "icon": "ph:info",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:magnifying-glass-plus",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:magnifying-glass-minus",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:export",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:pencil-simple",
+              "w": 21.5,
+              "h": 10.7,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:copy",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             },
+             {
+              "type": "icon",
+              "icon": "ph:dots-three-circle",
+              "w": 21.5,
+              "h": 10.5,
+              "tint": "#BEBFC4"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "rect",
+          "id": "barLine",
+          "h": 0.7,
+          "fill": "#19191B",
+          "place": "bottom-left"
+         }
+        ]
+       },
+       {
+        "type": "chips",
+        "id": "file",
+        "list": "socials",
+        "sort": "followersRaw desc",
+        "limit": 1,
+        "wrap": false,
+        "grow": 1,
+        "align": "stretch",
+        "each": {
+         "type": "col",
+         "id": "channelFile",
+         "w": "fill",
+         "gap": 0,
+         "align": "stretch",
+         "children": [
+          {
+           "type": "row",
+           "id": "columns",
+           "grow": 1,
+           "gap": 0,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "row",
+             "id": "channel",
+             "w": "35%",
+             "gap": 11,
+             "align": "center",
+             "pad": [
+              0,
+              8,
+              0,
+              17
+             ],
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "w": 40,
+               "h": 40
+              },
+              {
+               "type": "col",
+               "gap": -3,
+               "align": "start",
+               "shrink": 1,
+               "children": [
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "maxLines": 1,
+                 "slot": "$name",
+                 "size": 19.5,
+                 "weight": 800,
+                 "kerning": -0.3,
+                 "color": "#F4F4F6",
+                 "shrinkTo": 10.7
+                },
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "maxLines": 1,
+                 "slot": "$handle",
+                 "size": 12.2,
+                 "weight": 700,
+                 "color": "#E4E5E8",
+                 "shrinkTo": 6.7
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "type": "rect",
+             "id": "divider1",
+             "w": 0.8,
+             "h": "74%",
+             "alignSelf": "center",
+             "fill": "#3C3C40"
+            },
+            {
+             "type": "col",
+             "id": "followers",
+             "w": "34.5%",
+             "gap": -7,
+             "justify": "center",
+             "align": "center",
+             "pad": [
+              2,
+              11,
+              0,
+              11
+             ],
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "slot": "$followersFull",
+               "size": 37,
+               "weight": 800,
+               "kerning": -0.9,
+               "color": "#E4E5E8",
+               "textAlign": "center",
+               "shrinkTo": 14
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "ผู้ติดตาม",
+               "size": 14,
+               "weight": 500,
+               "color": "#9A9CA2",
+               "textAlign": "center"
+              }
+             ]
+            },
+            {
+             "type": "rect",
+             "id": "divider2",
+             "w": 0.8,
+             "h": "74%",
+             "alignSelf": "center",
+             "fill": "#3C3C40"
+            },
+            {
+             "type": "col",
+             "id": "engagement",
+             "grow": 1,
+             "gap": -4,
+             "justify": "center",
+             "align": "center",
+             "pad": [
+              0,
+              11
+             ],
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "slot": "$engagement",
+               "if": "$engagementRaw>0",
+               "size": 30.5,
+               "weight": 800,
+               "kerning": -0.6,
+               "color": "#E4E5E8",
+               "textAlign": "center",
+               "shrinkTo": 14
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "–",
+               "if": "!$engagementRaw>0",
+               "size": 30.5,
+               "weight": 800,
+               "color": "#9A9CA2",
+               "textAlign": "center"
+              },
+              {
+               "type": "col",
+               "gap": -2,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "maxLines": 1,
+                 "text": "Engagement Rate",
+                 "size": 11.4,
+                 "weight": 700,
+                 "color": "#E4E5E8",
+                 "textAlign": "center",
+                 "shrinkTo": 6.8
+                },
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "maxLines": 1,
+                 "text": "เฉลี่ย 30 โพสต์ล่าสุด",
+                 "if": "$engagementRaw>0",
+                 "size": 8.6,
+                 "weight": 400,
+                 "color": "#9A9CA2",
+                 "textAlign": "center",
+                 "shrinkTo": 5.2
+                },
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "maxLines": 1,
+                 "text": "รอเชื่อมบัญชี",
+                 "if": "!$engagementRaw>0",
+                 "size": 8.6,
+                 "weight": 400,
+                 "color": "#9A9CA2",
+                 "textAlign": "center",
+                 "shrinkTo": 5.2
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "col",
+           "id": "footer",
+           "h": 17,
+           "gap": 0,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "col",
+             "pad": [
+              0,
+              8
+             ],
+             "children": [
+              {
+               "type": "rect",
+               "h": 0.7,
+               "fill": "#3C3C40@0.75"
+              }
+             ]
+            },
+            {
+             "type": "row",
+             "grow": 1,
+             "align": "center",
+             "pad": [
+              0,
+              12
+             ],
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "ER = (Like + Comment + Share) ÷ Views × 100",
+               "size": 6.8,
+               "weight": 400,
+               "color": "#8C8E94",
+               "shrinkTo": 4.8
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 8
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "ข้อมูลตัวอย่าง",
+               "if": "sample",
+               "size": 6.8,
+               "weight": 400,
+               "color": "#8C8E94",
+               "textAlign": "right",
+               "shrinkTo": 4.8
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "ข้อมูลจาก {name}",
+               "if": "!sample",
+               "size": 6.8,
+               "weight": 400,
+               "color": "#8C8E94",
+               "textAlign": "right",
+               "shrinkTo": 4.8
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "type": "col",
+        "id": "empty",
+        "if": "list:socials=0",
+        "grow": 1,
+        "justify": "center",
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "maxLines": 1,
+          "text": "ยังไม่มีช่องทาง",
+          "size": 11,
+          "weight": 600,
+          "color": "#9A9CA2",
+          "textAlign": "center"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "rimGlint",
+      "pad": 0.9,
+      "children": [
+       {
+        "type": "rect",
+        "radius": 14.1,
+        "stroke": {
+         "color": "white@0.06",
+         "width": 1.1
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "rimInner",
+      "pad": 2,
+      "children": [
+       {
+        "type": "rect",
+        "radius": 13,
+        "stroke": {
+         "color": "white@0.10",
+         "width": 0.6
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "id": "window",
+  "clip": true,
+  "radius": 15,
+  "gradient": {
+   "from": "#F7F7F7",
+   "to": "#F2F2F3",
+   "angle": 90
+  },
+  "stroke": {
+   "color": "#A6A7AB",
+   "width": 0.9
+  },
+  "children": [
+   {
+    "type": "col",
+    "id": "frame",
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "bar",
+      "h": 24,
+      "gradient": {
+       "from": "#EFEFF0",
+       "to": "#E6E6E8",
+       "angle": 90
+      },
+      "children": [
+       {
+        "type": "text",
+        "id": "title",
+        "face": "noto",
+        "size": 7.8,
+        "weight": 600,
+        "tracking": 0.9,
+        "textCase": "upper",
+        "textAlign": "center",
+        "color": "#5C5E62",
+        "maxLines": 1,
+        "shrinkTo": 4.7,
+        "w": "36%",
+        "place": "center",
+        "text": "SOCIAL CHANNEL"
+       },
+       {
+        "type": "row",
+        "id": "controls",
+        "align": "center",
+        "pad": [
+         0,
+         3.75,
+         0,
+         12.4
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "lights",
+          "gap": 5.4,
+          "align": "center",
+          "children": [
+           {
+            "type": "rect",
+            "w": 9.2,
+            "h": 9.2,
+            "circle": true,
+            "fill": "#FF5F57",
+            "stroke": {
+             "color": "#E0443E@0.85",
+             "width": 0.45
+            }
+           },
+           {
+            "type": "rect",
+            "w": 9.2,
+            "h": 9.2,
+            "circle": true,
+            "fill": "#FEBC2E",
+            "stroke": {
+             "color": "#DEA123@0.85",
+             "width": 0.45
+            }
+           },
+           {
+            "type": "rect",
+            "w": 9.2,
+            "h": 9.2,
+            "circle": true,
+            "fill": "#28C840",
+            "stroke": {
+             "color": "#1AAB29@0.85",
+             "width": 0.45
+            }
+           }
+          ]
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 4
+         },
+         {
+          "type": "row",
+          "id": "tools",
+          "gap": 0,
+          "align": "center",
+          "children": [
+           {
+            "type": "icon",
+            "icon": "ph:info",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:magnifying-glass-plus",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:magnifying-glass-minus",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:export",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:pencil-simple",
+            "w": 21.5,
+            "h": 10.7,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:copy",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           },
+           {
+            "type": "icon",
+            "icon": "ph:dots-three-circle",
+            "w": 21.5,
+            "h": 10.5,
+            "tint": "#5A5C60"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "rect",
+        "id": "barLine",
+        "h": 0.7,
+        "fill": "#D9D9DB",
+        "place": "bottom-left"
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "file",
+      "list": "socials",
+      "sort": "followersRaw desc",
+      "limit": 1,
+      "wrap": false,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "channelFile",
+       "w": "fill",
+       "gap": 0,
+       "align": "stretch",
+       "children": [
+        {
+         "type": "row",
+         "id": "columns",
+         "grow": 1,
+         "gap": 0,
+         "align": "stretch",
+         "children": [
+          {
+           "type": "row",
+           "id": "channel",
+           "w": "35%",
+           "gap": 11,
+           "align": "center",
+           "pad": [
+            0,
+            8,
+            0,
+            17
+           ],
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "w": 40,
+             "h": 40
+            },
+            {
+             "type": "col",
+             "gap": -3,
+             "align": "start",
+             "shrink": 1,
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "slot": "$name",
+               "size": 19.5,
+               "weight": 800,
+               "kerning": -0.3,
+               "color": "#14171B",
+               "shrinkTo": 10.7
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "slot": "$handle",
+               "size": 12.2,
+               "weight": 700,
+               "color": "#3C3F44",
+               "shrinkTo": 6.7
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "id": "divider1",
+           "w": 0.8,
+           "h": "74%",
+           "alignSelf": "center",
+           "fill": "#D6D6D9"
+          },
+          {
+           "type": "col",
+           "id": "followers",
+           "w": "34.5%",
+           "gap": -7,
+           "justify": "center",
+           "align": "center",
+           "pad": [
+            2,
+            11,
+            0,
+            11
+           ],
+           "children": [
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "slot": "$followersFull",
+             "size": 37,
+             "weight": 800,
+             "kerning": -0.9,
+             "color": "#3C3F44",
+             "textAlign": "center",
+             "shrinkTo": 14
+            },
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "text": "ผู้ติดตาม",
+             "size": 14,
+             "weight": 500,
+             "color": "#84878C",
+             "textAlign": "center"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "id": "divider2",
+           "w": 0.8,
+           "h": "74%",
+           "alignSelf": "center",
+           "fill": "#D6D6D9"
+          },
+          {
+           "type": "col",
+           "id": "engagement",
+           "grow": 1,
+           "gap": -4,
+           "justify": "center",
+           "align": "center",
+           "pad": [
+            0,
+            11
+           ],
+           "children": [
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "slot": "$engagement",
+             "if": "$engagementRaw>0",
+             "size": 30.5,
+             "weight": 800,
+             "kerning": -0.6,
+             "color": "#3C3F44",
+             "textAlign": "center",
+             "shrinkTo": 14
+            },
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "text": "–",
+             "if": "!$engagementRaw>0",
+             "size": 30.5,
+             "weight": 800,
+             "color": "#84878C",
+             "textAlign": "center"
+            },
+            {
+             "type": "col",
+             "gap": -2,
+             "align": "center",
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "Engagement Rate",
+               "size": 11.4,
+               "weight": 700,
+               "color": "#3C3F44",
+               "textAlign": "center",
+               "shrinkTo": 6.8
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "เฉลี่ย 30 โพสต์ล่าสุด",
+               "if": "$engagementRaw>0",
+               "size": 8.6,
+               "weight": 400,
+               "color": "#84878C",
+               "textAlign": "center",
+               "shrinkTo": 5.2
+              },
+              {
+               "type": "text",
+               "face": "noto",
+               "maxLines": 1,
+               "text": "รอเชื่อมบัญชี",
+               "if": "!$engagementRaw>0",
+               "size": 8.6,
+               "weight": 400,
+               "color": "#84878C",
+               "textAlign": "center",
+               "shrinkTo": 5.2
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "id": "footer",
+         "h": 17,
+         "gap": 0,
+         "align": "stretch",
+         "children": [
+          {
+           "type": "col",
+           "pad": [
+            0,
+            8
+           ],
+           "children": [
+            {
+             "type": "rect",
+             "h": 0.7,
+             "fill": "#D6D6D9@0.75"
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "grow": 1,
+           "align": "center",
+           "pad": [
+            0,
+            12
+           ],
+           "children": [
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "text": "ER = (Like + Comment + Share) ÷ Views × 100",
+             "size": 6.8,
+             "weight": 400,
+             "color": "#6C6F74",
+             "shrinkTo": 4.8
+            },
+            {
+             "type": "spacer",
+             "grow": 1,
+             "minW": 8
+            },
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "text": "ข้อมูลตัวอย่าง",
+             "if": "sample",
+             "size": 6.8,
+             "weight": 400,
+             "color": "#6C6F74",
+             "textAlign": "right",
+             "shrinkTo": 4.8
+            },
+            {
+             "type": "text",
+             "face": "noto",
+             "maxLines": 1,
+             "text": "ข้อมูลจาก {name}",
+             "if": "!sample",
+             "size": 6.8,
+             "weight": 400,
+             "color": "#6C6F74",
+             "textAlign": "right",
+             "shrinkTo": 4.8
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "type": "col",
+      "id": "empty",
+      "if": "list:socials=0",
+      "grow": 1,
+      "justify": "center",
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "maxLines": 1,
+        "text": "ยังไม่มีช่องทาง",
+        "size": 11,
+        "weight": 600,
+        "color": "#84878C",
+        "textAlign": "center"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "rimGlint",
+    "pad": 0.9,
+    "children": [
+     {
+      "type": "rect",
+      "radius": 14.1,
+      "stroke": {
+       "color": "white@0.85",
+       "width": 1.1
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "rimInner",
+    "pad": 2,
+    "children": [
+     {
+      "type": "rect",
+      "radius": 13,
+      "stroke": {
+       "color": "#C6C7CA",
+       "width": 0.6
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

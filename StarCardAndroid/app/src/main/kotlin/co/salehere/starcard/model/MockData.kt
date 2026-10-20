@@ -82,6 +82,16 @@ sealed class SocialType(val raw: String) {
         x -> rgb(0.85, 0.85, 0.88)
     }
 
+    /** สีของช่องเป็น hex ตายตัว — ตารางเดียวกันทุกแพลตฟอร์ม (WIDGET-SPEC.md §3.2 · = `SocialType.tintHex` ใน SpecPainter.swift) */
+    val tintHex: String get() = when (this) {
+        instagram -> "#E85C9E"
+        tiktok -> "#33F0EB"
+        youtube -> "#FF524D"
+        facebook -> "#5C8FFA"
+        lemon8 -> "#FFD640"
+        x -> "#D9D9E0"
+    }
+
     /** หน้าโปรไฟล์ที่เดาได้จาก handle — ตัวสำรองเมื่อยังไม่ได้เก็บลิงก์เต็มไว้ */
     fun profileURL(handle: String): String? {
         val h = if (handle.startsWith("@")) handle.drop(1) else handle
@@ -474,6 +484,8 @@ data class VerifiedWork(
     val comments: Int = 0,
     /** สเปก 3.2 Viral Tag — null เมื่อยังไม่ถึงเกณฑ์ */
     val viralTag: String? = null,
+    /** รูปปกจาก asset ในแอป (รูปปกแคมเปญ) — ใช้แทน `photo` เมื่อมี */
+    val cover: String? = null,
     /** สเปก 3.2 Concept Breakdown */
     val concept: String = "",
 ) {
@@ -741,45 +753,26 @@ object Mock {
     )
 
     /**
-     * การ์ดเริ่มต้น — พอร์ต 3 หน้า: ตัวตน · ขนาดและผู้ชม · ราคาและติดต่อ
-     * หน่วยพิกัด = **pt บนพื้นที่ออกแบบกว้าง 402** · `y` คือขอบบนของตัวนั้น
-     * ผังบอกแค่ `x`, `y`, `w` — **ความสูงมาจากสัดส่วนของชนิด** (ดู `WidgetKind.aspect`)
+     * การ์ดเริ่มต้นของแต่ละรูปแบบ — ผังเป็นข้อมูล (`shared/starter-cards.json` ไฟล์เดียวกับ iOS) ไม่ใช่ชื่อ widget ในโค้ด
+     * หน่วยพิกัด = **pt บนพื้นที่ออกแบบ** · ผังบอกแค่ `x`, `y`, `w` — **ความสูงมาจากสัดส่วนของชนิด** (ดู `WidgetKind.aspect`)
+     * ชนิดที่ไม่มีไฟล์ผังแล้วถูกข้าม (ใบนั้นไม่ขึ้น ไม่ใช่การ์ดพัง) · `StarCardApp` ส่งข้อความไฟล์มาที่ `loadStarters`
      */
-    val starterPages: List<CardPage> by lazy {
-        listOf(
-            CardPage(listOf(
-                WidgetInstance.make(WidgetKind.artTypeOver, x = 18f, y = 18f, w = 366f),
-                WidgetInstance.make(WidgetKind.typeMarquee, x = 18f, y = 426f, w = 366f),
-                WidgetInstance.make(WidgetKind.artFilmstrip, x = 18f, y = 513f, w = 366f),
-            )),
-            CardPage(listOf(
-                WidgetInstance.make(WidgetKind.proofWork, x = 18f, y = 36f, w = 366f),
-                WidgetInstance.make(WidgetKind.statGiant, x = 18f, y = 387f, w = 366f),
-            )),
-            CardPage(listOf(
-                WidgetInstance.make(WidgetKind.rateTags, x = 18f, y = 18f, w = 366f),
-                WidgetInstance.make(WidgetKind.contactCard, x = 18f, y = 310f, w = 366f),
-                WidgetInstance.make(WidgetKind.socialTiles, x = 18f, y = 495f, w = 366f),
-            )),
-        )
+    private var starterFile: kotlinx.serialization.json.JsonObject? = null
+
+    fun loadStarters(text: String) {
+        starterFile = runCatching { kotlinx.serialization.json.Json.parseToJsonElement(text) as? kotlinx.serialization.json.JsonObject }.getOrNull()
     }
 
-    /**
-     * การ์ดเริ่มต้นแบบสตอรี่ — หน้าเดียว 540×960 (= 1080×1920 px)
-     * สตอรี่มีแคนวาสกว้างกว่าพอร์ต 34% — ผังของสตอรี่จึงเป็นของตัวเอง:
-     * ฮีโร่คู่กับเฟรมสตอรี่แนวตั้ง แล้วไล่ตัวเลข/ราคา/ช่องทางเป็นสองคอลัมน์
-     */
-    val storyPage: CardPage by lazy {
-        CardPage(listOf(
-            WidgetInstance.make(WidgetKind.artTypeOver, x = 18f, y = 18f, w = 360f),
-            WidgetInstance.make(WidgetKind.galleryStory, x = 392f, y = 18f, w = 130f),
-            WidgetInstance.make(WidgetKind.typeMarquee, x = 18f, y = 425f, w = 504f),
-            WidgetInstance.make(WidgetKind.statGiant, x = 18f, y = 534f, w = 245f),
-            WidgetInstance.make(WidgetKind.rateTags, x = 277f, y = 534f, w = 245f),
-            WidgetInstance.make(WidgetKind.proofBrandRail, x = 18f, y = 718f, w = 245f),
-            WidgetInstance.make(WidgetKind.socialTiles, x = 277f, y = 718f, w = 245f),
-            WidgetInstance.make(WidgetKind.contactBar, x = 18f, y = 842f, w = 504f),
-        ))
+    fun starter(format: String): List<CardPage> {
+        val pages = (starterFile?.get(format) as? kotlinx.serialization.json.JsonArray) ?: return emptyList()
+        return pages.map { page ->
+            CardPage((page as kotlinx.serialization.json.JsonArray).mapNotNull { el ->
+                val o = el as kotlinx.serialization.json.JsonObject
+                fun f(k: String) = (o[k] as kotlinx.serialization.json.JsonPrimitive).content.toFloat()
+                WidgetKind.from((o["kind"] as kotlinx.serialization.json.JsonPrimitive).content)
+                    ?.let { WidgetInstance.make(it, x = f("x"), y = f("y"), w = f("w")) }
+            })
+        }
     }
 
     /**

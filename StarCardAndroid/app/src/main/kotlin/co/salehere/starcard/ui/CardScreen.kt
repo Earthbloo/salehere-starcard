@@ -83,6 +83,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -165,6 +166,17 @@ import co.salehere.starcard.model.PhotoFitSurface
 import co.salehere.starcard.model.PhotoSlotButton
 import co.salehere.starcard.model.PhotoSlotRef
 import co.salehere.starcard.model.PhotoStore
+import co.salehere.starcard.model.KitControl
+import co.salehere.starcard.model.KitOpt
+import co.salehere.starcard.model.SocialType
+import co.salehere.starcard.model.shortName
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import co.salehere.starcard.model.PlatePattern
 import co.salehere.starcard.model.Profile
 import co.salehere.starcard.model.ProfileField
@@ -211,6 +223,9 @@ import co.salehere.starcard.ui.editor.CanvasTextField
 import co.salehere.starcard.ui.editor.DockMainItem
 import co.salehere.starcard.ui.editor.DockMode
 import co.salehere.starcard.ui.editor.DockRow
+import co.salehere.starcard.ui.editor.TrayCheckRow
+import co.salehere.starcard.ui.editor.TrayStepper
+import co.salehere.starcard.ui.editor.TraySwitchRow
 import co.salehere.starcard.ui.editor.DockSegment
 import co.salehere.starcard.ui.editor.DockSheet
 import co.salehere.starcard.ui.editor.EditorDock
@@ -417,8 +432,6 @@ private data class PressPoint(val id: UUID, val at: Offset)
 private data class EditBox(val points: Float, val box: Size, val m: TextFit.Metrics)
 private data class Showroom(val scale: Float, val dx: Float, val dy: Float)
 private enum class ToneChoice { dark, light }
-private enum class GripAxis { horizontal, vertical }
-
 /** ตำแหน่งวาดของ tile หนึ่งตัว — สปริงของผังเดินที่นี่ (ตำแหน่งอ่านตอนวาง ขนาดอ่านตอนประกอบ) */
 private class TileAnim(frame: Rect) {
     val pos = Animatable(frame.topLeft, Offset.VectorConverter)
@@ -660,9 +673,11 @@ private class CardEditorState(
 
     // การปรับขนาด
     var resizeID by mutableStateOf<UUID?>(null)
-    /** ระยะที่ลากเลยขีดจำกัดไปแล้ว — ขยับแค่กรอบ ไม่ขยับตัว widget */
-    var overshoot by mutableStateOf(Offset.Zero)
-    var overshootJob: Job? = null
+    /**
+     * **ขนาดที่นิ้วอยู่จริง** ระหว่างลากหมุดปรับขนาด — ใช้วาดทั้งใบ (กรอบ + ข้างใน) ตรง ๆ ทุกเฟรม
+     * ข้อมูลจริงไม่ถูกแตะจนกว่าจะปล่อยนิ้ว (ดู `endResize`) · null = ไม่ได้ลากอยู่
+     */
+    var resizeLive by mutableStateOf<Size?>(null)
     var resizeW = 0f
     var resizeH = 0f
     /** สเกลของชิ้นในโชว์รูม ณ วินาทีที่เริ่มลากหมุด — จับไว้ตอนเริ่ม ไม่อ่านสด */
@@ -744,6 +759,36 @@ private class CardEditorState(
     /** โหมดโชว์รูม — **เฉพาะตอนพิมพ์ก้อนข้อความ** ก้อนที่พิมพ์อยู่มายืนกลางที่ว่างเหนือคีย์บอร์ด */
     val showroomID: UUID? get() = if (dragID == null && dock.isText) dock.selectedID else null
 
+    /**
+     * **ดันใบอื่นลงตามนิ้ว** ระหว่างลากหมุดปรับขนาด (ผู้ใช้ 13 ต.ค. 2569: "ตอนลากแล้วดัน widget อื่นยังเหมือนเดิม")
+     *
+     * ใบที่ยืดกินที่ตามนิ้วจริง (`resizeLive`) — ใบที่ซ้อนแนวนอนกับมันและอยู่ต่ำกว่าถูกเลื่อนลงให้พ้น
+     * แล้วดันต่อเป็นลูกโซ่ · ไม่ดึงขึ้น · ไม่เว้นร่อง (ให้ตรงกับที่ `PageLayout.solve` จะวางตอนปล่อยนิ้ว
+     * ของที่ถูกดันจึงไม่กระโดดตอนปล่อย) · เป็นแค่ offset ตอนวาด ข้อมูลไม่ถูกแตะ · ชิ้นที่ตรึงไม่ถูกดัน
+     */
+    fun resizePush(p: Placed): Float {
+        val rid = resizeID ?: return 0f
+        if (rid == p.id || p.item.pinned) return 0f
+        val live = resizeLive ?: return 0f
+        val r = placed.firstOrNull { it.id == rid }?.frame ?: return 0f
+        val liveRect = Rect(r.topLeft, live)
+        fun overlapX(a: Rect, b: Rect): Boolean = a.left < b.right - 0.5f && a.right > b.left + 0.5f
+        val blockers = mutableListOf(liveRect)
+        val others = placed.filter { it.id != rid && !it.item.pinned }
+            .sortedWith { a, b ->
+                if (abs(a.frame.top - b.frame.top) > 0.5f) a.frame.top.compareTo(b.frame.top) else a.frame.left.compareTo(b.frame.left)
+            }
+        for (o in others) {
+            var f = o.frame
+            val need = blockers.filter { overlapX(it, f) && it.top < f.top + 0.5f }.maxOfOrNull { it.bottom } ?: 0f
+            val dy = max(0f, need - f.top)
+            f = f.translate(0f, dy)
+            if (o.id == p.id) return dy
+            blockers.add(f)
+        }
+        return 0f
+    }
+
     /** ท่าที่พา widget ตัวที่กำลังแต่งไปยืนกลางช่องว่างเหนือชีต — คิดในพิกัดหน้ากระดาษ */
     fun showroom(p: Placed): Showroom {
         if (showroomID != p.id) return Showroom(1f, 0f, 0f)
@@ -786,7 +831,7 @@ private class CardEditorState(
 
     /** มุมของกรอบชิ้น — ก้อนข้อความมุมเล็ก */
     fun chromeRadius(kind: WidgetKind): Float =
-        if (kind == WidgetKind.textBlock) min(theme.radius, TextBlockSpec.radius) else theme.radius
+        if (kind.isTextLayer) min(theme.radius, TextBlockSpec.radius) else theme.radius
 
     // MARK: ทางเข้าเดียวของการเปลี่ยนสถานะ (= `onChange` ของ Swift)
 
@@ -798,8 +843,9 @@ private class CardEditorState(
         touched = true
         rememberEdit(old, theme, changedPages = new)
         persist()
-        // ระหว่างยืดขนาด ใช้สปริงที่ตอบไว — Motion.flow นุ่มเกินไป ขอบจะรั้งอยู่หลังนิ้ว
-        resolve(if (resizeID == null) Motion.flow else Motion.snap)
+        // ตอนปล่อยหมุดปรับขนาด (`endResize` เขียนข้อมูลตอน `resizeID` ยังอยู่) ของเข้าที่ด้วย `homeDrop` เหมือน iOS
+        // ระหว่างลากหมุดข้อมูลไม่ถูกแตะเลย จึงไม่มีทางมาถึงตรงนี้ด้วยสปริงอื่น
+        resolve(if (resizeID == null) Motion.flow else Motion.homeDrop)
         return true
     }
 
@@ -925,7 +971,7 @@ private class CardEditorState(
         // ก้อนข้อความจากไฟล์รุ่นก่อนยังมีกล่องขนาดตามใจ — จัดให้พอดีตัวอักษรตั้งแต่เปิด (ไม่นับเป็นจังหวะแก้ไข)
         if (isEditing) {
             skipHistory = true
-            pages.flatMap { it.items }.filter { it.kind == WidgetKind.textBlock }.map { it.id }.forEach { fitTextBlock(it) }
+            pages.flatMap { it.items }.filter { it.kind.isTextLayer }.map { it.id }.forEach { fitTextBlock(it) }
             skipHistory = false
         }
         resolve(null)
@@ -1007,7 +1053,7 @@ private class CardEditorState(
             from = probe.x, y = probe.y, height = probe.h, page = pageSize, avoiding = page.items, excluding = p.id,
         )
         val floor = PageLayout.minSize.width
-        if (p.item.kind != WidgetKind.textBlock && room >= floor) {
+        if (!p.item.kind.isTextLayer && room >= floor) {
             probe = probe.copy(w = min(p.item.w, max(floor, PageLayout.snap(room))))
         }
         return PageLayout.clamp(probe, pageSize)
@@ -1093,7 +1139,7 @@ private class CardEditorState(
 
     /** เข้าโหมดพิมพ์ก้อนข้อความ — ก้อนยกขึ้นกลางที่ว่าง แป้นพิมพ์ขึ้นพร้อมแถวฟอนต์ */
     fun enterTextMode(id: UUID) {
-        if (pages.none { pg -> pg.items.any { it.id == id && it.kind == WidgetKind.textBlock } }) return
+        if (pages.none { pg -> pg.items.any { it.id == id && it.kind.isTextLayer } }) return
         photos?.framing = null
         // หนึ่งรอบพิมพ์ = หนึ่งจังหวะใน ↶
         history.record(snapshotNow())
@@ -1124,7 +1170,7 @@ private class CardEditorState(
 
     /** ปุ่ม "ข้อความ" บนแถบหลัก — วางก้อนใหม่แล้วเข้าโหมดพิมพ์ทันที */
     fun addText() {
-        val id = addWidget(WidgetKind.textBlock) ?: return
+        val id = addWidget(WidgetKind.textLayer) ?: return
         // ก้อนใหม่จัดกลางเหมือนข้อความบน Story
         updateItem(id) { it.copy(textStyle = it.textStyle.copy(align = TextAlignment.center)) }
         enterTextMode(id)
@@ -1155,7 +1201,7 @@ private class CardEditorState(
             }
         }
         w = w.copy(w = newW, h = newH)
-        w = w.withRect(PageLayout.clamp(w.rect, pageSize, PageLayout.minSize(WidgetKind.textBlock)))
+        w = w.withRect(PageLayout.clamp(w.rect, pageSize, PageLayout.minSize(WidgetKind.textLayer)))
         if (w == orig) return
         val fitted = w
         updateItem(id) { fitted }
@@ -1234,7 +1280,7 @@ private class CardEditorState(
         // ของที่โผล่มาเล็กกว่าที่เห็นในตู้ต้องมีคำอธิบาย ไม่งั้นอ่านเป็น "แอปวางผิด"
         if (shrunk) {
             flash("ที่ว่างไม่พอขนาดเต็ม — ย่อให้พอดีแล้ว ลากหมุดมุมปรับต่อได้")
-        } else if (moved && kind != WidgetKind.textBlock) {
+        } else if (moved && !kind.isTextLayer) {
             flash("หน้านี้เต็ม — เพิ่มไว้หน้า ${index + 1} แล้ว")
         }
         return w.id
@@ -1243,8 +1289,8 @@ private class CardEditorState(
     // MARK: Drag
 
     fun beginDrag(p: Placed) {
-        // คลิปเป็นตัวเปิดการ์ด — กดค้างแล้วห้ามลาก
-        if (viewOnly) return
+        // คลิปเป็นตัวเปิดการ์ด — กดค้างแล้วห้ามลาก · ชิ้นที่ตรึงก็เช่นกัน
+        if (viewOnly || p.item.pinned) return
         endTextEdit()
         if (dragID != null) return
         val live = placed.firstOrNull { it.id == p.id } ?: return
@@ -1393,6 +1439,12 @@ private class CardEditorState(
     fun catcherBegan(p: Placed) {
         // ตอนพิมพ์ก้อนนี้อยู่ไม่มีผังให้ย้าย — กดค้างไม่ทำอะไร
         if (!isEditing || showroomID != null) return
+        // ตรารับรองตรึงอยู่กับที่ — กดค้างแล้วบอกเหตุ ไม่ใช่เงียบเหมือนแอปค้าง
+        if (p.item.pinned) {
+            Haptics.rigid()
+            flash("ตรารับรอง Sale Here อยู่ตรงนี้ทุกการ์ด · ย้ายไม่ได้")
+            return
+        }
         pressMode = p.id
         beginDrag(p)
     }
@@ -1424,7 +1476,7 @@ private class CardEditorState(
             return
         }
         // ก้อนข้อความ: แตะแรก = เลือก (ได้หมุดมุม · ลากย้ายได้) · แตะซ้ำ = พิมพ์
-        if (p.item.kind == WidgetKind.textBlock) {
+        if (p.item.kind.isTextLayer) {
             if (selected == p.id) enterTextMode(p.id) else select(p.id)
             return
         }
@@ -1445,51 +1497,42 @@ private class CardEditorState(
 
     // MARK: Handles
 
-    /** หมุดขอบขวา — **ความกว้างอย่างเดียว** · `t` = ระยะลากในพิกัดหน้า */
-    fun resizeWidth(p: Placed, t: Offset) {
+    /**
+     * **หมุดมุมเดียว** — กว้าง/สูงตามนิ้วอิสระ (ผู้ใช้ 13 ต.ค. 2569: "ให้ความสูงตามใจเลย") · `t` = ระยะลากในพิกัดหน้า
+     *
+     * ระหว่างลาก ใบที่ยืดวาดที่ขนาดนิ้วจริง (`resizeLive`) และดันใบอื่นลงเป็นลูกโซ่ (`resizePush`)
+     * ข้อมูลจริงไม่ถูกแตะจนกว่าจะปล่อยนิ้ว — ผังข้างใต้จึงนิ่ง ไม่มีสองชั้นวิ่งแข่งกัน
+     * พ้นขนาดเล็กสุด/ขอบหน้าแล้วยังตามนิ้วแต่หนืด (ยางยืดแบบ iOS) · ปล่อยแล้วสปริงกลับเข้าขอบ
+     */
+    fun sizeHandleChanged(p: Placed, t: Offset) {
         val item = pages.getOrNull(index)?.items?.firstOrNull { it.id == p.id } ?: return
         if (resizeID != p.id) {
             resizeID = p.id
             resizeW = item.w
-            resizeScale = max(showroomScale(p), 0.01f)
-        }
-        // เพดานคือขอบขวาของหน้า
-        val room = PageLayout.roomWidth(item.x, pageSize)
-        val want = resizeW + t.x / resizeScale
-        val cur = item.w
-        // ฮิสเทอรีซิส — ต้องลากพ้นครึ่งขั้นไปอีกหน่อยจึงเปลี่ยน
-        if (abs(want - cur) <= PageLayout.step * 0.6f) return
-        val next = PageLayout.snap(min(max(want, PageLayout.minSize.width), room))
-        if (abs(next - cur) > 0.5f) {
-            updateItem(p.id) { it.copy(w = next) }
-            Haptics.light()
-        }
-        // ลากเลยขีดแล้ว — ให้ "กรอบ" ยืดตามนิ้วแบบหนืด ตัว widget ไม่ขยับ
-        val over = want - next
-        overshootJob?.cancel()
-        overshoot = overshoot.copy(x = if (abs(over) < 0.5f) 0f else rubber(over))
-    }
-
-    /** หมุดขอบล่าง — **ความสูงอย่างเดียว** */
-    fun resizeHeight(p: Placed, t: Offset) {
-        val item = pages.getOrNull(index)?.items?.firstOrNull { it.id == p.id } ?: return
-        if (resizeID != p.id) {
-            resizeID = p.id
             resizeH = item.h
             resizeScale = max(showroomScale(p), 0.01f)
         }
-        val room = PageLayout.roomHeight(item.y, pageSize)
-        val want = resizeH + t.y / resizeScale
-        val cur = item.h
-        if (abs(want - cur) <= PageLayout.step * 0.6f) return
-        val next = PageLayout.snap(min(max(want, PageLayout.minSize.height), room))
-        if (abs(next - cur) > 0.5f) {
-            updateItem(p.id) { it.copy(h = next) }
-            Haptics.light()
+        val wantW = resizeW + t.x / resizeScale
+        val wantH = resizeH + t.y / resizeScale
+        // เพดานคือขอบหน้า (ยืดจนเต็มขอบได้) · พื้นคือขนาดเล็กสุดของชนิดนั้น
+        val f = placed.firstOrNull { it.id == p.id }?.frame ?: p.frame
+        val lo = PageLayout.minSize(p.item.kind)
+        val roomW = PageLayout.roomWidth(f.left, pageSize)
+        val roomH = PageLayout.roomHeight(f.top, pageSize)
+        fun band(v: Float, lo: Float, hi: Float): Float =
+            if (v < lo) lo - rubber(lo - v) else if (v > hi) hi + rubber(v - hi) else v
+        val live = Size(band(wantW, lo.width, roomW), band(wantH, lo.height, roomH))
+        // ชนขอบ/ชนพื้น = สะกิดหนึ่งที บอกว่า "สุดแล้ว" โดยไม่ต้องมีข้อความ
+        val old = resizeLive
+        if (old != null) {
+            val hitW = (wantW >= roomW) != (old.width >= roomW)
+            val hitH = (wantH >= roomH) != (old.height >= roomH)
+            val lowW = (wantW <= lo.width) != (old.width <= lo.width)
+            val lowH = (wantH <= lo.height) != (old.height <= lo.height)
+            if (hitW || hitH || lowW || lowH) Haptics.light()
         }
-        val over = want - next
-        overshootJob?.cancel()
-        overshoot = overshoot.copy(y = if (abs(over) < 0.5f) 0f else rubber(over))
+        // ตามนิ้วด้วยสปริงสั้นมาก (`Motion.homeFollow` ที่ `Tile` อ่านตอน `resizeID` ตรงกับมัน)
+        resizeLive = live
     }
 
     /** หมุดมุมของก้อนข้อความ — ปรับ **ขนาดตัวอักษร** ตามแนวทแยง · มุมบนซ้ายนิ่ง */
@@ -1521,20 +1564,26 @@ private class CardEditorState(
         fitTextBlock(p.id, keepTopLeft = true)
     }
 
-    /** เลิกโหมดยืดขนาด — เรียกซ้ำได้ ไม่มีผลข้างเคียง (ล้างจากทางออกทุกทาง ไม่ใช่แค่ปล่อยนิ้ว) */
+    /**
+     * เลิกโหมดยืดขนาด — เรียกซ้ำได้ ไม่มีผลข้างเคียง (ล้างจากทางออกทุกทาง ไม่ใช่แค่ปล่อยนิ้ว)
+     *
+     * เขียนขนาดที่นิ้วปล่อยลงข้อมูล — รูดกลับเข้าขอบหน้า/ขนาดเล็กสุด ปัดเป็นจุดเต็ม (ไม่สแนปขั้น)
+     * ผัง (`PageLayout.solve`) ดันของที่ทับให้เองตอน `pages` เปลี่ยน — ตรงกับที่ `resizePush` วาดไว้ระหว่างลาก
+     */
     fun endResize() {
-        if (resizeID == null) return
-        resizeID = null
-        val from = overshoot
-        overshootJob?.cancel()
-        overshootJob = scope.launch {
-            animate(
-                typeConverter = Offset.VectorConverter,
-                initialValue = from,
-                targetValue = Offset.Zero,
-                animationSpec = SpringToken(300f, 20f).spec(),
-            ) { v, _ -> overshoot = v }
+        val id = resizeID ?: return
+        val live = resizeLive
+        val item = pages.getOrNull(index)?.items?.firstOrNull { it.id == id }
+        if (live != null && item != null) {
+            val f = placed.firstOrNull { it.id == id }?.frame ?: item.rect
+            val lo = PageLayout.minSize(item.kind)
+            val w = swiftRound(min(max(live.width, lo.width), PageLayout.roomWidth(f.left, pageSize)))
+            val h = swiftRound(min(max(live.height, lo.height), PageLayout.roomHeight(f.top, pageSize)))
+            // เขียนตอน `resizeID` ยังอยู่ — `setPages` จึงเลือกสปริง `homeDrop` ให้การเข้าที่ (ดู `resolve`)
+            updateItem(id) { it.copy(w = w, h = h) }
         }
+        resizeID = null
+        resizeLive = null
     }
 
     // MARK: ปัดเปลี่ยนหน้า
@@ -1710,17 +1759,115 @@ private class CardEditorState(
         updateItem(sel.id) { it.copy(textStyle = change(it.textStyle)) }
     }
 
-    fun setPattern(sel: WidgetInstance, on: PlatePattern) {
-        if (updateItem(sel.id) { it.copy(pattern = on) }) Haptics.light()
+    /** ตั้งค่าตัวเลือก `opt` ของชิ้น (`widget.controls`) — null = ค่าตั้งต้น (ไม่เก็บ) · `clears` = ล้างตัวเลือกอื่นด้วย */
+    fun setOption(sel: WidgetInstance, opt: String, value: String?, clears: List<String>? = null) {
+        val changed = updateItem(sel.id) { w ->
+            val o = w.options.toMutableMap()
+            if (value == null) o.remove(opt) else o[opt] = value
+            clears?.forEach { o.remove(it) }
+            w.copy(options = o)
+        }
+        if (changed) Haptics.light()
     }
 
-    /** 0 = ฟอยล์ · 1 = ปั๊มนูน · 2 = ไม่มี */
-    fun setEmboss(sel: WidgetInstance, mode: Int) {
-        if (updateItem(sel.id) { it.copy(emboss = mode != 2, embossBlind = mode == 1) }) Haptics.light()
+    /** รายการของตัวควบคุม — คู่ (คีย์, ชื่อ) จากไฟล์ผัง หรือจากแหล่งข้อมูลของหมวด (= `controlItems` ของ iOS) */
+    fun controlItems(items: JsonElement?): List<Pair<String, String>> {
+        if (items is JsonArray) {
+            return items.mapNotNull { e ->
+                val a = e as? JsonArray ?: return@mapNotNull null
+                if (a.size < 2) null else a[0].jsonPrimitive.content to a[1].jsonPrimitive.content
+            }
+        }
+        val c = Profile.me.creator
+        val rates = c.rates.filter { it.price > 0 }
+        return when ((items as? JsonPrimitive)?.contentOrNull) {
+            "socials", "shownSocials" -> c.socials.map { it.type.raw to it.type.shortName }
+            "rates" -> rates.map { it.id to it.label }
+            "ratePlatforms" -> SocialType.entries.filter { t -> rates.any { it.platform == t } }.map { it.raw to it.shortName }
+            "categories" -> Profile.me.categories.map { it to it }
+            else -> emptyList()
+        }
     }
 
-    fun setLiftPhoto(sel: WidgetInstance, on: Boolean) {
-        if (updateItem(sel.id) { it.copy(liftPhoto = on) }) Haptics.light()
+    /** แถวตัวเลือกหนึ่งแถว (= `controlRow` ของ iOS) — ค่าเก็บที่ `options[opt]` · ค่าตั้งต้นไม่เก็บ */
+    @Composable
+    fun ControlRow(sel: WidgetInstance, ctl: KitControl) {
+        val c = sel.kit
+        when (ctl.type) {
+            "pick" -> {
+                val opt = ctl.opt ?: return
+                val items = controlItems(ctl.items)
+                if (items.size < (ctl.minItems ?: 0)) return
+                DockRow(label = ctl.label) {
+                    DockSegment(
+                        options = items.map { segOpt(it.first, it.second) },
+                        selection = sel.options[opt] ?: items.firstOrNull()?.first.orEmpty(),
+                        onPick = { v -> setOption(sel, opt, v) },
+                    )
+                }
+            }
+            "segment" -> {
+                val opt = ctl.opt ?: return
+                DockRow(label = ctl.label) {
+                    DockSegment(
+                        options = ctl.options.orEmpty().map { segOpt(it.firstOrNull(), it.getOrNull(1) ?: "") },
+                        selection = sel.options[opt],
+                        onPick = { v -> setOption(sel, opt, v, ctl.clears) },
+                    )
+                }
+            }
+            "stepper" -> {
+                val opt = ctl.opt ?: return
+                val d = (ctl.default as? JsonPrimitive)?.intOrNull ?: 0
+                DockRow(label = ctl.label) {
+                    TrayStepper(values = ctl.values.orEmpty(), value = c.int(opt, d)) { v -> setOption(sel, opt, v.toString()) }
+                }
+            }
+            "switch" -> {
+                val opt = ctl.opt ?: return
+                val d = (ctl.default as? JsonPrimitive)?.booleanOrNull ?: false
+                TraySwitchRow(label = ctl.label, on = c.flag(opt, d)) { v -> setOption(sel, opt, if (v == d) null else if (v) "1" else "0") }
+            }
+            "checks" -> {
+                val items = controlItems(ctl.items)
+                if (items.size < (ctl.minItems ?: 0)) return
+                val opt = ctl.opt ?: KitOpt.hide
+                val flags = ctl.flags
+                val hidden = if (flags != null) items.map { it.first }.filter { k -> flags[k]?.let { c.flag(it, false) } ?: false }.toSet()
+                             else c.list(opt)
+                DockRow(label = ctl.label) {
+                    TrayCheckRow(items = items, hidden = hidden, shownCount = items.count { it.first !in hidden }) { key ->
+                        val f = flags?.get(key)
+                        if (f != null) {
+                            setOption(sel, f, if (sel.options[f] == "1") null else "1")
+                        } else {
+                            val h = c.list(opt).toMutableSet()
+                            if (!h.add(key)) h.remove(key)
+                            setOption(sel, opt, if (h.isEmpty()) null else h.sorted().joinToString(","))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /** เงื่อนไขของแถว (= `controlCondition` ของ iOS) — `opt:k=v` · `opt:k` · `hidden:key` · `surface=x` · `bordered` · `!` */
+    fun controlCondition(cond: String?, sel: WidgetInstance): Boolean {
+        var t = cond?.trim().orEmpty()
+        if (t.isEmpty()) return true
+        val neg = t.startsWith("!")
+        if (neg) t = t.drop(1)
+        val v = when {
+            t.startsWith("opt:") -> {
+                val kv = t.drop(4).split("=", limit = 2)
+                if (kv.size == 2) sel.options[kv[0]] == kv[1] else sel.options[kv[0]] != null
+            }
+            t.startsWith("hidden:") -> sel.kit.list(KitOpt.hide).contains(t.drop(7))
+            t.startsWith("surface=") -> sel.surface.name == t.drop(8)
+            t == "bordered" -> sel.border
+            else -> false
+        }
+        return if (neg) !v else v
     }
 
     fun setSurface(sel: WidgetInstance, s: WidgetSurface) {
@@ -1736,6 +1883,7 @@ private class CardEditorState(
      * เก็บทั้งตัวและ **ที่นั่งเดิม** ไว้ — รูปกับข้อความของ widget ผูกกับ `id` ที่คงไว้
      */
     fun deleteWidget(sel: WidgetInstance) {
+        if (sel.pinned) return
         val pi = pages.indexOfFirst { pg -> pg.items.any { it.id == sel.id } }
         if (pi < 0) return
         val ii = pages[pi].items.indexOfFirst { it.id == sel.id }
@@ -1760,7 +1908,7 @@ private class CardEditorState(
 
     /** สลับแบบโดยคงตำแหน่งเดิมไว้ · บีบขนาดให้เข้ากรอบของแบบใหม่ */
     fun swap(sel: WidgetInstance, kind: WidgetKind) {
-        if (kind == sel.kind) return
+        if (kind == sel.kind || sel.pinned) return
         val found = updateItem(sel.id) { item ->
             // แบบใหม่มีสัดส่วนของตัวเอง — คงความกว้างไว้ แล้วให้ความสูงมาจากผังของแบบใหม่
             var w = item.copy(kind = kind).resetAspect()
@@ -2139,26 +2287,37 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
     val hittable = sid == null || inShowroom
 
     // ก้อนข้อความที่กำลังพิมพ์วาดที่ **ขนาดแก้ไขมาตรฐาน** ไม่ใช่ขนาดบนการ์ด
-    val drawn = drawnSize(p)
+    // กำลังลากหมุดปรับขนาดชิ้นนี้ = ทั้งใบยืด/หดตามนิ้ว **และผังข้างในจัดใหม่ตามกรอบทุกเฟรม**
+    val resizing = resizeID == id
+    val drawn = (if (resizing) resizeLive else null) ?: drawnSize(p)
     val anim = tileAnim(page.id, p, drawn)
     LaunchedEffect(anim, p.frame.topLeft) {
         val spring = layoutSpring
         if (spring == null) anim.pos.snapTo(p.frame.topLeft) else anim.pos.animateTo(p.frame.topLeft, spring.spec())
     }
-    LaunchedEffect(anim, drawn, inShowroom) {
-        val spring: SpringToken? = when {
-            inShowroom && anim.typing -> null
-            inShowroom != anim.typing -> Motion.settle
-            else -> layoutSpring
+    // เป้าขนาดเปลี่ยน **ทุกเฟรม** ตอนลากหมุด — ถ้า restart effect ต่อค่า สปริงจะถูกยกเลิกก่อนขยับเฟรมแรกทุกครั้ง (ใบค้างที่เดิม)
+    // จึงใช้ท่าเดียวกับ `animateValueAsState`: effect เดียว เก็บเป้าล่าสุด แล้ว `launch` animateTo ใหม่ (Animatable ยกเลิกตัวเก่าให้เอง)
+    val sizeTarget = rememberUpdatedState(Triple(drawn, inShowroom, resizing))
+    LaunchedEffect(anim) {
+        snapshotFlow { sizeTarget.value }.collect { (target, showroom, live) ->
+            val spring: SpringToken? = when {
+                showroom && anim.typing -> null
+                showroom != anim.typing -> Motion.settle
+                // ตามนิ้วด้วยสปริงสั้นมาก (ท่าเดียวกับชิ้นที่ลอยตอนลาก)
+                live -> Motion.homeFollow
+                else -> layoutSpring
+            }
+            anim.typing = showroom
+            launch { if (spring == null) anim.size.snapTo(target) else anim.size.animateTo(target, spring.spec()) }
         }
-        anim.typing = inShowroom
-        if (spring == null) anim.size.snapTo(drawn) else anim.size.animateTo(drawn, spring.spec())
     }
     val sr = showroom(p)
     val srOffset = animateOffsetAsState(Offset(sr.dx, sr.dy), Motion.settle.spec(), label = "showroom")
     val srScale = animateFloatAsState(showroomScale(p), Motion.settle.float, label = "showroomScale")
     val srDim = animateFloatAsState(showroomDim(p).toFloat(), Motion.settle.float, label = "showroomDim")
     val pressK by animateFloatAsState(if (touch != null) 1f else 0f, Motion.snap.float, label = "press")
+    // ถูกใบที่กำลังยืดดันลง — ตามนิ้วด้วยสปริงเดียวกับใบที่ยืด (iOS ใส่ไว้ใน `withAnimation(homeFollow)` เดียวกัน)
+    val push by animateFloatAsState(resizePush(p), Motion.homeFollow.float, label = "resizePush")
     val appear = remember { Animatable(if (booted) 0f else 1f) }
     LaunchedEffect(appear) { appear.animateTo(1f, Motion.flow.float) }
     // แบบเปลี่ยน = ช่องรูปชุดเก่าต้องหายจากทะเบียน (ก่อนผังรอบใหม่รายงานเข้ามา)
@@ -2178,11 +2337,12 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
     Box(
         Modifier
             .offset {
-                val o = anim.pos.value + srOffset.value
+                val o = anim.pos.value + srOffset.value + Offset(0f, push)
                 IntOffset((o.x * density).roundToInt(), (o.y * density).roundToInt())
             }
             // ลำดับในลิสต์คือชั้นซ้อนจริง — ยกเว้นในโชว์รูม ซึ่งตัวที่แต่งอยู่ต้องอยู่หน้าสุด
-            .zIndex(if (inShowroom) 400f else order.toFloat())
+            // ชิ้นที่ตรึง (ตรารับรอง) อยู่เหนือของทุกชิ้นบนหน้า แต่ใต้ชั้นลอยตอนลาก (200)
+            .zIndex(if (inShowroom) 400f else if (resizing) 300f else if (p.item.pinned) 150f else order.toFloat())
             // ตอนพิมพ์: ก้อนที่พิมพ์ถูกยกขึ้นกลางที่ว่าง · ที่เหลือถอยออกแล้วหรี่ลง (**ไม่เบลอ**)
             .graphicsLayer {
                 scaleX = srScale.value
@@ -2214,8 +2374,8 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
             // คง catcher ไว้ขณะที่มันถือการลากอยู่ — ถอดตรงนี้แล้ว event ปล่อยนิ้วหาย
             if ((interactive || isDrag) && hittable) {
                 PressDragCatcher(
-                    // ชิ้นที่เลือกอยู่ลากได้ทันที (ตอนพิมพ์ไม่มีผังให้ย้าย จึงไม่เปิด)
-                    immediate = isSel && !dock.isText,
+                    // ชิ้นที่เลือกอยู่ลากได้ทันที (ตอนพิมพ์ไม่มีผังให้ย้าย จึงไม่เปิด · ชิ้นที่ตรึงไม่เปิด)
+                    immediate = isSel && !dock.isText && !p.item.pinned,
                     onBegan = { catcherBegan(pNow) },
                     onChanged = { t -> catcherChanged(pNow, t) },
                     onEnded = { catcherEnded(pNow) },
@@ -2229,7 +2389,7 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
             if (isEditing && interactive && isSel && hittable) PhotoSlotButtons(p, reg, origin, sz)
             // ก้อนข้อความไม่มีเส้นประชั้นใน — ทั้งก้อนคือช่องเดียว กรอบเลือกบอกอยู่แล้ว
             if (isEditing && interactive) {
-                TextSlotLayer(p, reg, origin, sz, focused = isSel && p.item.kind != WidgetKind.textBlock)
+                TextSlotLayer(p, reg, origin, sz, focused = isSel && !p.item.kind.isTextLayer)
             }
             // ช่องพิมพ์บนการ์ด — ทับตำแหน่งก้อนพอดี อยู่เหนือ catcher จึงรับทัชวางเคอร์เซอร์ได้
             if (typing) CanvasEditor(p)
@@ -2419,9 +2579,9 @@ private fun CardEditorState.SelectionLayer(sel: Placed, anim: TileAnim, interact
         memo.id = sel.id
         memo.rect = Rect(pos, sz)
     }
+    // ระหว่างลากหมุด `sz` คือขนาดนิ้วจริงอยู่แล้ว (tile ตาม `resizeLive`) — กรอบ · จุดมุม · หมุด จึงวาดชุดเดียวกับตัว widget
     val w = sz.width + hSize.value.x
     val h = sz.height + hSize.value.y
-    val ov = if (resizeID == sel.id) overshoot else Offset.Zero
     val accent = theme.accent
     val radius = chromeRadius(sel.item.kind)
     val kind = sel.item.kind
@@ -2434,8 +2594,7 @@ private fun CardEditorState.SelectionLayer(sel: Placed, anim: TileAnim, interact
             }
             .zIndex(500f)
             .graphicsLayer { alpha = fade.value }
-            // ยืดเฉพาะกรอบ ไม่แตะตัว widget
-            .size(max(0f, w + ov.x).dp, max(0f, h + ov.y).dp),
+            .size(max(0f, w).dp, max(0f, h).dp),
     ) {
         Box(
             Modifier
@@ -2450,7 +2609,8 @@ private fun CardEditorState.SelectionLayer(sel: Placed, anim: TileAnim, interact
             )
             Box(Modifier.matchParentSize().drawBehind { strokeBorder(accent, 1.5.dp.toPx(), radius.dp.toPx()) })
             // จุดมุมสี่จุดบอกว่า "ขอบลากได้" — ก้อนข้อความไม่มีหมุดขอบ
-            if (kind != WidgetKind.textBlock) {
+            // ชิ้นที่ตรึงก็ไม่มีจุด — จุดแปลว่า "ลากขอบได้" ซึ่งมันทำไม่ได้
+            if (!kind.isTextLayer && !sel.item.pinned) {
                 listOf(Offset(0f, 0f), Offset(w, 0f), Offset(0f, h), Offset(w, h)).forEach { c ->
                     Box(
                         Modifier
@@ -2462,13 +2622,11 @@ private fun CardEditorState.SelectionLayer(sel: Placed, anim: TileAnim, interact
                     )
                 }
             }
-            // **สองหมุด หนึ่งความหมายต่อหมุด** — ขอบขวา = กว้าง · ขอบล่าง = สูง
-            if (interactive && kind.canResize) {
-                WidthHandle(sel, Modifier.align(Alignment.CenterEnd))
-                HeightHandle(sel, Modifier.align(Alignment.BottomCenter))
-            }
+            // **หมุดมุมเดียว** (ผู้ใช้ 13 ต.ค. 2569): ลากแล้วกว้างกับสูงตามนิ้ว **อิสระทั้งสองแกน** ไม่สแนป
+            // ไม่มีสามขนาด — ความสูงตามใจ · ความกว้างได้ถึงขอบหน้า · ข้างในจัดผังตัวเองตามกติกาเดียวของ `WidgetChrome`
+            if (interactive && kind.canResize && !sel.item.pinned) SizeHandle(sel, Modifier.align(Alignment.BottomEnd))
             // ก้อนข้อความยังมีหมุดมุม — แต่ของมันปรับ *ขนาดตัวอักษร* แล้วกล่องวิ่งตามตัวอักษร
-            if (interactive && kind == WidgetKind.textBlock) CornerHandle(sel, Modifier.align(Alignment.BottomEnd))
+            if (interactive && kind.isTextLayer) CornerHandle(sel, Modifier.align(Alignment.BottomEnd))
         }
     }
 }
@@ -2497,32 +2655,15 @@ private fun Modifier.handleDrag(key: Any, onDrag: (Offset) -> Unit, onEnd: () ->
         }
     }
 
-/** หมุดขอบขวา — นั่งนอกกรอบ 11pt ไม่ใช่คร่อมขอบ */
+/** **หมุดมุมเดียว** — กว้าง/สูงตามนิ้วอิสระ (ดู `sizeHandleChanged`) · วงขาวกับลูกศรทแยงชุดเดียวกับก้อนข้อความ */
 @Composable
-private fun CardEditorState.WidthHandle(p: Placed, modifier: Modifier) {
+private fun CardEditorState.SizeHandle(p: Placed, modifier: Modifier) {
     val pNow by rememberUpdatedState(p)
-    HandleGrip(
-        theme = theme,
-        axis = GripAxis.horizontal,
+    CornerGrip(
+        accent = theme.accent,
         modifier = modifier
-            .offset(x = 20.dp)
-            .handleDrag(p.id, onDrag = { t -> resizeWidth(pNow, t) }, onEnd = {
-                endResize()
-                Haptics.medium()
-            }),
-    )
-}
-
-/** หมุดขอบล่าง — **ความสูงอย่างเดียว** */
-@Composable
-private fun CardEditorState.HeightHandle(p: Placed, modifier: Modifier) {
-    val pNow by rememberUpdatedState(p)
-    HandleGrip(
-        theme = theme,
-        axis = GripAxis.vertical,
-        modifier = modifier
-            .offset(y = 20.dp)
-            .handleDrag(p.id, onDrag = { t -> resizeHeight(pNow, t) }, onEnd = {
+            .offset(14.dp, 14.dp)
+            .handleDrag(p.id, onDrag = { t -> sizeHandleChanged(pNow, t) }, onEnd = {
                 endResize()
                 Haptics.medium()
             }),
@@ -3428,16 +3569,18 @@ private fun CardEditorState.GalleryFullBanner() {
  */
 @Composable
 private fun CardEditorState.PieceTray(sel: WidgetInstance) {
-    val isText = sel.kind == WidgetKind.textBlock
+    val isText = sel.kind.isTextLayer
     val resizable = sel.kind.canResize
     val hint = when {
+        sel.pinned -> "Sale Here วางให้ทุกการ์ด · ย้ายหรือลบไม่ได้"
         isText -> "แตะซ้ำเพื่อพิมพ์ · ลากเพื่อย้าย · หมุดมุมย่อขยาย"
-        resizable -> "หมุดข้างยืดกว้าง/สูง · หมุดมุมย่อขยายทั้งชิ้น · แตะตัวอักษรเพื่อแก้"
+        resizable -> "ลากเพื่อย้าย · หมุดมุมยืดกว้าง/สูง · แตะตัวอักษรเพื่อแก้"
         else -> "ลากเพื่อย้าย · ขนาดล็อก หลักฐานต้องเทียบกันได้"
     }
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         if (!isText) {
-            VariantsRow(sel)
+            // ตรารับรองที่ตรึงไว้ไม่มีแบบอื่นให้สลับ — ขนาดกับที่ของมันคิดจากแบบนี้แบบเดียว
+            if (!sel.pinned) VariantsRow(sel)
             // กล่องเหลือสองแบบ: เข้ม หรือ กระจก — ชิ้นที่วาดวัสดุของตัวเองไม่มีแถวนี้
             if (sel.kind.usesSurfaceChoice) {
                 DockRow(label = "กล่อง") {
@@ -3448,35 +3591,10 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
                     )
                 }
             }
-            // ลายทางบนแผ่น — มีเฉพาะตอนแผ่นของมันยังอยู่
-            if (sel.kind.takesPattern && sel.surface == WidgetSurface.glass) {
-                DockRow(label = "ลาย") {
-                    DockSegment(
-                        options = PlatePattern.entries.map { segOpt(it, it.displayName) },
-                        selection = sel.pattern,
-                        onPick = { setPattern(sel, it) },
-                    )
-                }
-            }
-            // รูปคน: ลบพื้นหลังให้เอง (ตั้งต้น) หรือคงรูปเต็มไว้ในกรอบ
-            if (sel.kind.liftsSubject) {
-                DockRow(label = "พื้นหลังรูป") {
-                    DockSegment(
-                        options = listOf(segOpt(true, "ลบออก"), segOpt(false, "คงไว้")),
-                        selection = sel.liftPhoto,
-                        onPick = { setLiftPhoto(sel, it) },
-                    )
-                }
-            }
-            // ตราปั๊มนูน Sale Here STAR บนแผ่นของใบนี้ — ปิดได้รายชิ้น
-            if (sel.kind.takesEmboss) {
-                DockRow(label = "ตรา") {
-                    DockSegment(
-                        options = listOf(segOpt(0, "พิมพ์"), segOpt(1, "ปั๊มนูน"), segOpt(2, "ไม่มี")),
-                        selection = if (!sel.emboss) 2 else if (sel.embossBlind) 1 else 0,
-                        onPick = { setEmboss(sel, it) },
-                    )
-                }
+            // ตัวเลือกของใบนี้ — ทั้งหมดมาจาก `widget.controls` ในไฟล์ผัง (ลาย · พื้นหลัง · มุม · เนื้อหา) (= `controlRows` ของ iOS)
+            for (ctl in sel.kind.controls) {
+                if (!controlCondition(ctl.condition, sel)) continue
+                ControlRow(sel, ctl)
             }
             DockRow(label = "ขอบ") {
                 DockSegment(
@@ -3489,7 +3607,7 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
         // แถวท้าย: ท่าที่ใช้กับชิ้นนี้ (เงียบ ๆ) + ลบ — ลบเป็นตัวหนังสือแดงในแคปซูลจาง ไม่ใช่ปุ่มแดงทึบ
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically) {
-                SFSymbol(if (isText) "hand.tap" else if (resizable) "hand.draw" else "lock", size = 9.5f, tint = Color.White.opacity(0.4))
+                SFSymbol(if (sel.pinned) "lock.fill" else if (isText) "hand.tap" else if (resizable) "hand.draw" else "lock", size = 9.5f, tint = Color.White.opacity(0.4))
                 Text(
                     hint,
                     style = sh(10.5f, SHFont.medium),
@@ -3501,7 +3619,8 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
                 )
             }
             val red = rgb(1.0, 0.5, 0.45)
-            Row(
+            // ตรารับรองที่ตรึงไว้ไม่มีปุ่มลบ — คำยืนยันของ Sale Here ไม่ใช่ของที่เจ้าของการ์ดถอดได้
+            if (!sel.pinned) Row(
                 Modifier
                     .dockPress { deleteWidget(sel) }
                     .semantics { contentDescription = "ลบ${sel.kind.title}" }
@@ -3894,22 +4013,6 @@ private fun CanvasGrid(theme: CardTheme, ink: InkStyle = InkStyle.night, page: S
 }
 
 // MARK: - Handle
-
-/** หมุดขอบ — แคปซูลขาว · พื้นที่กดเผื่อรอบละ 9pt (คู่กับการดันหมุดออกนอกกรอบ 11pt) */
-@Composable
-private fun HandleGrip(theme: CardTheme, axis: GripAxis, modifier: Modifier = Modifier) {
-    val w = if (axis == GripAxis.horizontal) 6f else 32f
-    val h = if (axis == GripAxis.horizontal) 32f else 6f
-    Box(modifier.padding(9.dp)) {
-        Box(
-            Modifier
-                .size(w.dp, h.dp)
-                .shadow(5.dp, CircleShape, clip = false, ambientColor = Color.Black.opacity(0.5), spotColor = Color.Black.opacity(0.5))
-                .background(Color.White, CircleShape)
-                .border(1.4.dp, theme.accent, CircleShape),
-        )
-    }
-}
 
 // MARK: - ตัวอย่างย่อของตัวเลือกธีม
 

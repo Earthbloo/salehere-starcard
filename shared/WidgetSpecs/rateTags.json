@@ -1,0 +1,351 @@
+{
+ "kind": "rateTags",
+ "design": {
+  "w": 366,
+  "h": 117
+ },
+ "widget": {
+  "title": "ป้ายราคา",
+  "category": "rate",
+  "symbol": "tag.fill",
+  "order": 34,
+  "ownSurface": true,
+  "motion": "anchored",
+  "replaces": [
+   "rateNeon"
+  ]
+ },
+ "notes": "ป้ายห้อยราคาสองใบเอียงสลับกัน (-2.6° / +2.0° รอบรูเจาะ (0.1, 0.14) ของใบ — ผังหมุนได้แค่รอบกลาง จึงหมุนรอบกลางแล้วเลื่อน dx/dy = (I−R)(P−C) ที่ขนาดใบ 178×89: ใบแรก (1.38, −3.26) · ใบสอง (−1.16, 2.47) · แยกสองใบด้วย $i=first) · หัวป้ายไล่สี rawAccent→rawAccentSoft (สีดิบของธีม — สีที่พิมพ์ลงกระดาษ ไม่พลิกตามพื้นการ์ด · BookingWidgets.swift RateTagsWidget.head) มีรูเจาะ · ใบ clip ลูกตามมุม 13 · ราคายักษ์ชิดล่างซ้าย · กระดาษ/หมึกของสำรับ Deal เป็นสีคงที่ (#FAFAF7 · #1A1224 · #615470) · ป้ายกว้างเท่ากัน (w fill) สูงไม่เกิน 100 (= tagW×0.56 ที่กว้าง 366) แล้วจัดกลาง · ขนาดราคา = min(30, max(13, tagW×0.16)) ประมาณด้วย sizeWhen · แถวเดียวเสมอ (ของเดิมเรียงเดี่ยวเมื่อแคบกว่า 250) · ราคาใช้ {price} ของรายการ (฿3,000 คั่นหลักพันแล้ว) — ช่องแก้ ratePrices#i ให้ค่าดิบไม่คั่นหลัก จึงอ่านอย่างเดียว · หน่วยจัดที่ baseline ของราคาด้วย pad ล่าง = descent(28.5) − descent(9.5) ≈ 8.5 (ไม่มี align baseline)",
+ "root": {
+  "type": "col",
+  "gap": 9,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "เรตราคา",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "tags",
+    "list": "rates",
+    "limit": 2,
+    "wrap": false,
+    "gap": 9,
+    "grow": 1,
+    "align": "center",
+    "justify": "center",
+    "each": {
+     "type": "stack",
+     "id": "tagSlot",
+     "w": "fill",
+     "h": "fill",
+     "minH": 40,
+     "maxH": 100,
+     "children": [
+      {
+       "type": "col",
+       "id": "tag",
+       "align": "stretch",
+       "fill": "#FAFAF7",
+       "radius": 13,
+       "clip": true,
+       "shadow": {
+        "x": 0,
+        "sigma": 4.5,
+        "y": 5,
+        "color": "black@0.32"
+       },
+       "children": [
+        {
+         "type": "row",
+         "id": "head",
+         "gap": 6,
+         "align": "center",
+         "pad": [
+          6,
+          9
+         ],
+         "gradient": {
+          "from": "rawAccent",
+          "to": "rawAccentSoft",
+          "angle": 0
+         },
+         "children": [
+          {
+           "type": "rect",
+           "id": "hole",
+           "w": 7,
+           "h": 7,
+           "circle": true,
+           "fill": "#1A1224@0.3",
+           "stroke": {
+            "color": "white@0.45",
+            "width": 0.8
+           }
+          },
+          {
+           "type": "text",
+           "id": "rateLabel",
+           "slot": "rateLabels#$i",
+           "face": "noto",
+           "size": 9,
+           "weight": 800,
+           "kerning": 0.8,
+           "textCase": "upper",
+           "color": "#1A1224@0.88",
+           "maxLines": 1,
+           "shrinkTo": 4.5
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "id": "body",
+         "grow": 1,
+         "pad": [
+          7,
+          10,
+          9,
+          10
+         ],
+         "align": "start",
+         "children": [
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minH": 2
+          },
+          {
+           "type": "row",
+           "id": "priceLine",
+           "gap": 2,
+           "align": "end",
+           "children": [
+            {
+             "type": "text",
+             "id": "price",
+             "text": "{price}",
+             "face": "noto",
+             "size": 28.5,
+             "weight": 900,
+             "sizeWhen": [
+              {
+               "when": "w<260",
+               "size": 20
+              },
+              {
+               "when": "w>=384",
+               "size": 30
+              }
+             ],
+             "color": "#1A1224",
+             "maxLines": 1,
+             "shrinkTo": 13
+            },
+            {
+             "type": "col",
+             "pad": [
+              0,
+              0,
+              8.5,
+              0
+             ],
+             "shrink": 1,
+             "children": [
+              {
+               "type": "text",
+               "id": "unit",
+               "text": "/{unit}",
+               "face": "noto",
+               "size": 9.5,
+               "weight": 700,
+               "color": "#615470",
+               "maxLines": 1,
+               "shrinkTo": 5.7
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "if": "$i=first",
+       "rotate": -2.6,
+       "dx": 1.38,
+       "dy": -3.26,
+       "place": "center"
+      },
+      {
+       "type": "col",
+       "id": "tag",
+       "align": "stretch",
+       "fill": "#FAFAF7",
+       "radius": 13,
+       "clip": true,
+       "shadow": {
+        "x": 0,
+        "sigma": 4.5,
+        "y": 5,
+        "color": "black@0.32"
+       },
+       "children": [
+        {
+         "type": "row",
+         "id": "head",
+         "gap": 6,
+         "align": "center",
+         "pad": [
+          6,
+          9
+         ],
+         "gradient": {
+          "from": "rawAccent",
+          "to": "rawAccentSoft",
+          "angle": 0
+         },
+         "children": [
+          {
+           "type": "rect",
+           "id": "hole",
+           "w": 7,
+           "h": 7,
+           "circle": true,
+           "fill": "#1A1224@0.3",
+           "stroke": {
+            "color": "white@0.45",
+            "width": 0.8
+           }
+          },
+          {
+           "type": "text",
+           "id": "rateLabel",
+           "slot": "rateLabels#$i",
+           "face": "noto",
+           "size": 9,
+           "weight": 800,
+           "kerning": 0.8,
+           "textCase": "upper",
+           "color": "#1A1224@0.88",
+           "maxLines": 1,
+           "shrinkTo": 4.5
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "id": "body",
+         "grow": 1,
+         "pad": [
+          7,
+          10,
+          9,
+          10
+         ],
+         "align": "start",
+         "children": [
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minH": 2
+          },
+          {
+           "type": "row",
+           "id": "priceLine",
+           "gap": 2,
+           "align": "end",
+           "children": [
+            {
+             "type": "text",
+             "id": "price",
+             "text": "{price}",
+             "face": "noto",
+             "size": 28.5,
+             "weight": 900,
+             "sizeWhen": [
+              {
+               "when": "w<260",
+               "size": 20
+              },
+              {
+               "when": "w>=384",
+               "size": 30
+              }
+             ],
+             "color": "#1A1224",
+             "maxLines": 1,
+             "shrinkTo": 13
+            },
+            {
+             "type": "col",
+             "pad": [
+              0,
+              0,
+              8.5,
+              0
+             ],
+             "shrink": 1,
+             "children": [
+              {
+               "type": "text",
+               "id": "unit",
+               "text": "/{unit}",
+               "face": "noto",
+               "size": 9.5,
+               "weight": 700,
+               "color": "#615470",
+               "maxLines": 1,
+               "shrinkTo": 5.7
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "if": "!$i=first",
+       "rotate": 2,
+       "dx": -1.16,
+       "dy": 2.47,
+       "place": "center"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

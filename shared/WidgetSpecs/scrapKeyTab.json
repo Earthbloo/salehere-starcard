@@ -1,0 +1,287 @@
+{
+ "kind": "scrapKeyTab",
+ "design": {
+  "w": 110,
+  "h": 310
+ },
+ "widget": {
+  "title": "พวงกุญแจโซเชียล",
+  "category": "followers",
+  "symbol": "key.fill",
+  "size": {
+   "w": 109,
+   "h": 307
+  },
+  "order": 63,
+  "ownSurface": true,
+  "keepAspect": true,
+  "motion": "mid"
+ },
+ "notes": "สแครปบุ๊ก 03 พวงกุญแจโซเชียล — วัตถุลอย (ไม่มีแผ่น) · ห่วงกุญแจเงิน (วงแหวน + ก้าน) · ป้ายห้อย scrap.mid มุม 17 เงาเฉดแผ่น มีรูเจาะ (วงกลม black@0.14 ทับ = mid ผสมดำ) · ช่องทาง 3 อันดับยอดผู้ติดตาม (sort followersRaw desc · limit 3): โลโก้ในกล่องขาว 42 เงาแข็ง y 2 + ยอดดำหนัก · 'ผู้ติดตาม' มิตรขาว · กรอบแนวนอน (ratio<0.667) = variant ป้ายวางนอน ห่วงซ้าย (ตัวเลขของผัง 370×180 คูณ 1.722 ให้เท่ากล่อง 637×310) · แปลงจาก ScrapbookWidgets.swift (ScrapKeyTabWidget) · ใช้ไม่ได้: ขนาดโลโก้ต่างตามชนิด badge/ไม่ badge (ใช้ 26 เดียว)",
+ "variants": [
+  {
+   "when": "ratio<0.667",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "id": "ring",
+      "w": 41,
+      "h": 41,
+      "circle": true,
+      "stroke": {
+       "color": "#C3C7CF",
+       "width": 2.6
+      },
+      "place": "center-left",
+      "dx": 19
+     },
+     {
+      "type": "rect",
+      "id": "stem",
+      "w": 26,
+      "h": 10,
+      "radius": 5,
+      "stroke": {
+       "color": "#AEB3BC",
+       "width": 2.2
+      },
+      "place": "center-left",
+      "dx": 58.5
+     },
+     {
+      "type": "stack",
+      "id": "tab",
+      "w": "84%",
+      "h": 148,
+      "fill": "scrap.mid",
+      "radius": 17,
+      "place": "center-left",
+      "dx": 79,
+      "shadow": {
+       "sigma": 7,
+       "y": 14,
+       "color": "scrap.shade@0.24"
+      },
+      "children": [
+       {
+        "type": "chips",
+        "id": "socials",
+        "list": "socials",
+        "sort": "followersRaw desc",
+        "limit": 3,
+        "wrap": false,
+        "gap": 31,
+        "pad": [
+         0,
+         41
+        ],
+        "align": "center",
+        "justify": "center",
+        "each": {
+         "type": "row",
+         "gap": 14,
+         "align": "center",
+         "children": [
+          {
+           "type": "stack",
+           "w": 72,
+           "h": 72,
+           "fill": "white",
+           "radius": 21,
+           "shadow": {
+            "sigma": 0,
+            "y": 3.4,
+            "color": "scrap.shade@0.18"
+           },
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "size": 45,
+             "place": "center"
+            }
+           ]
+          },
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "weight": 800,
+           "size": 29,
+           "color": "#141414",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "rect",
+        "id": "hole",
+        "w": 22,
+        "h": 22,
+        "circle": true,
+        "fill": "black@0.14",
+        "shadow": {
+         "sigma": 0.5,
+         "y": 1.7,
+         "color": "black@0.3"
+        },
+        "place": "center-left",
+        "dx": 14
+       },
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "mitr",
+        "weight": 400,
+        "size": 15.5,
+        "color": "white",
+        "textAlign": "right",
+        "maxLines": 1,
+        "w": 90,
+        "place": "bottom-right",
+        "dx": -14,
+        "dy": -14
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "ring",
+    "w": 24,
+    "h": 24,
+    "circle": true,
+    "stroke": {
+     "color": "#C3C7CF",
+     "width": 1.5
+    },
+    "place": "top-center",
+    "dy": 3
+   },
+   {
+    "type": "rect",
+    "id": "stem",
+    "w": 6,
+    "h": 15,
+    "radius": 3,
+    "stroke": {
+     "color": "#AEB3BC",
+     "width": 1.25
+    },
+    "place": "top-center",
+    "dy": 26
+   },
+   {
+    "type": "stack",
+    "id": "tab",
+    "w": 75,
+    "h": 265,
+    "fill": "scrap.mid",
+    "radius": 17,
+    "place": "top-center",
+    "dy": 39,
+    "shadow": {
+     "sigma": 4,
+     "y": 8,
+     "color": "scrap.shade@0.24"
+    },
+    "children": [
+     {
+      "type": "col",
+      "pad": [
+       27,
+       0,
+       10,
+       0
+      ],
+      "gap": 5,
+      "align": "center",
+      "children": [
+       {
+        "type": "chips",
+        "id": "socials",
+        "list": "socials",
+        "sort": "followersRaw desc",
+        "limit": 3,
+        "direction": "col",
+        "gap": 5,
+        "align": "center",
+        "each": {
+         "type": "col",
+         "gap": 3,
+         "align": "center",
+         "children": [
+          {
+           "type": "stack",
+           "w": 42,
+           "h": 42,
+           "fill": "white",
+           "radius": 12,
+           "shadow": {
+            "sigma": 0,
+            "y": 2,
+            "color": "scrap.shade@0.18"
+           },
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "size": 26,
+             "place": "center"
+            }
+           ]
+          },
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "weight": 800,
+           "size": 15,
+           "color": "#141414",
+           "textAlign": "center",
+           "maxLines": 1
+          }
+         ]
+        }
+       },
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "mitr",
+        "weight": 400,
+        "size": 9,
+        "color": "white",
+        "textAlign": "center",
+        "maxLines": 1
+       }
+      ]
+     },
+     {
+      "type": "rect",
+      "id": "hole",
+      "w": 13,
+      "h": 13,
+      "circle": true,
+      "fill": "black@0.14",
+      "shadow": {
+       "sigma": 0.5,
+       "y": 1,
+       "color": "black@0.3"
+      },
+      "place": "top-center",
+      "dy": 8
+     }
+    ]
+   }
+  ]
+ }
+}

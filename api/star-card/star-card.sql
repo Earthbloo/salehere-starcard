@@ -41,7 +41,7 @@ CREATE TABLE star_card_versions (
 CREATE TABLE star_card_images (
   card_id    INTEGER     NOT NULL REFERENCES star_cards (id),
   image_id   INTEGER     NOT NULL,
-  role       VARCHAR(16) NOT NULL CHECK (role IN ('slot', 'lift', 'background', 'page')),
+  role       VARCHAR(16) NOT NULL CHECK (role IN ('slot', 'background', 'page')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (card_id, image_id)

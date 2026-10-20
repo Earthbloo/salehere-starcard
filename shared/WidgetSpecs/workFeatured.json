@@ -1,0 +1,120 @@
+{
+ "kind": "workFeatured",
+ "design": {
+  "w": 366,
+  "h": 260
+ },
+ "widget": {
+  "title": "ผลงานชิ้นเด่น",
+  "category": "photo",
+  "symbol": "rectangle.grid.1x2.fill",
+  "order": 21,
+  "photo": true,
+  "fullBleed": true,
+  "motion": "anchored"
+ },
+ "notes": "เบนโตะมีพระเอก: ช่องใหญ่ 64% (รูป 4 มุม 20 + scrim ครึ่งล่าง black@0.55 + โลโก้แพลตฟอร์มมุมล่างซ้าย pad 10) · สองช่องเล็ก 36% (รูป 5, 6 มุม 15) ร่อง 8 ขอบ line@0.13 0.5 · full-bleed · สิ่งที่ผังทำไม่ได้: โลโก้ของชิ้นที่ยอดวิวสูงสุด — `sort: views desc` เรียงตามตัวอักษรของ 1.2M/824K จึงผิด ต้องมีฟิลด์ viewsRaw ก่อน → ใช้ชิ้นแรกของ works ไปก่อน · scrubDolly/scrubAperture/scrubVeil ไม่อยู่ในผัง · แปลงจาก WorkWidgets.swift (WorkFeatured)",
+ "root": {
+  "type": "row",
+  "gap": 8,
+  "children": [
+   {
+    "type": "stack",
+    "id": "hero",
+    "grow": 64,
+    "children": [
+     {
+      "type": "image",
+      "photo": 4,
+      "radius": 20,
+      "stroke": {
+       "color": "line@0.13",
+       "width": 0.5
+      },
+      "id": "heroPhoto"
+     },
+     {
+      "type": "col",
+      "id": "scrim",
+      "children": [
+       {
+        "type": "spacer",
+        "grow": 1
+       },
+       {
+        "type": "rect",
+        "grow": 1,
+        "radius": 20,
+        "gradient": {
+         "from": "clear",
+         "to": "black@0.55",
+         "angle": 90
+        }
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "platformMark",
+      "w": 25,
+      "h": 25,
+      "place": "bottom-left",
+      "dx": 10,
+      "dy": -10,
+      "pad": 6,
+      "fill": "black@0.45",
+      "circle": true,
+      "stroke": {
+       "color": "white@0.14",
+       "width": 0.5
+      },
+      "children": [
+       {
+        "type": "chips",
+        "list": "works",
+        "limit": 1,
+        "wrap": false,
+        "each": {
+         "type": "icon",
+         "icon": "$icon",
+         "size": 13
+        }
+       }
+      ]
+     }
+    ],
+    "w": "fill"
+   },
+   {
+    "type": "col",
+    "gap": 8,
+    "grow": 36,
+    "children": [
+     {
+      "type": "image",
+      "photo": 5,
+      "radius": 15,
+      "stroke": {
+       "color": "line@0.13",
+       "width": 0.5
+      },
+      "grow": 1,
+      "id": "smallA"
+     },
+     {
+      "type": "image",
+      "photo": 6,
+      "radius": 15,
+      "stroke": {
+       "color": "line@0.13",
+       "width": 0.5
+      },
+      "grow": 1,
+      "id": "smallB"
+     }
+    ],
+    "w": "fill"
+   }
+  ]
+ }
+}

@@ -1,0 +1,760 @@
+{
+ "kind": "kitBioPurple",
+ "design": {
+  "w": 330,
+  "h": 170
+ },
+ "widget": {
+  "title": "About Me",
+  "category": "intro",
+  "symbol": "text.alignleft",
+  "order": 106,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "purple"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitBio"
+  ],
+  "controls": [
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if)",
+ "variants": [
+  {
+   "when": "!bordered",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14,
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "About Me"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "slot": "about",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 700,
+          "color": "kit.ink",
+          "maxLines": 0,
+          "lineHeight": 1.16
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.border",
+          "alignSelf": "start",
+          "if": "bordered"
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.ink",
+          "alignSelf": "start",
+          "if": "!bordered"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 12,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 3
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 3
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 3,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14,
+          "if": "cfg:fill=solid"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "kit.fill",
+            "radius": 14
+           },
+           {
+            "type": "rect",
+            "gradient": {
+             "from": "white@0.25",
+             "to": "black@0.22",
+             "angle": 45
+            },
+            "radius": 14
+           }
+          ],
+          "if": "cfg:fill=gradient"
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2.5
+          },
+          "radius": 14,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "About Me"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "slot": "about",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 700,
+          "color": "kit.ink",
+          "maxLines": 0,
+          "lineHeight": 1.16
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.border",
+          "alignSelf": "start",
+          "if": "bordered"
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.ink",
+          "alignSelf": "start",
+          "if": "!bordered"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 12,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  },
+  {
+   "when": "!bordered | cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 14,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.border",
+        "radius": 3,
+        "dx": 5,
+        "dy": 5,
+        "id": "offsetShadow"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 14
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 14
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2.5
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 22,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 15.4,
+        "w": "fill",
+        "id": "title",
+        "text": "About Me"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "slot": "about",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 700,
+          "color": "kit.ink",
+          "maxLines": 0,
+          "lineHeight": 1.16
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.border",
+          "alignSelf": "start",
+          "if": "bordered"
+         },
+         {
+          "type": "rect",
+          "w": 26,
+          "h": 3,
+          "radius": 2,
+          "fill": "kit.ink",
+          "alignSelf": "start",
+          "if": "!bordered"
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 12,
+        "align": "stretch"
+       }
+      ],
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 14,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.border",
+      "radius": 3,
+      "dx": 5,
+      "dy": 5,
+      "id": "offsetShadow"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 14,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 14
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 14
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 3,
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 3
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     },
+     {
+      "type": "rect",
+      "stroke": {
+       "color": "kit.border",
+       "width": 2.5
+      },
+      "radius": 3
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "col",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "size": 22,
+      "weight": 800,
+      "color": "kit.title",
+      "maxLines": 2,
+      "shrinkTo": 15.4,
+      "w": "fill",
+      "id": "title",
+      "text": "About Me"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "slot": "about",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 700,
+        "color": "kit.ink",
+        "maxLines": 0,
+        "lineHeight": 1.16
+       },
+       {
+        "type": "spacer",
+        "grow": 1
+       },
+       {
+        "type": "rect",
+        "w": 26,
+        "h": 3,
+        "radius": 2,
+        "fill": "kit.border",
+        "alignSelf": "start",
+        "if": "bordered"
+       },
+       {
+        "type": "rect",
+        "w": 26,
+        "h": 3,
+        "radius": 2,
+        "fill": "kit.ink",
+        "alignSelf": "start",
+        "if": "!bordered"
+       }
+      ],
+      "grow": 1,
+      "id": "topic",
+      "gap": 12,
+      "align": "stretch"
+     }
+    ],
+    "pad": [
+     12,
+     12,
+     14,
+     12
+    ],
+    "gap": 8,
+    "align": "stretch",
+    "id": "content"
+   }
+  ],
+  "pad": [
+   0,
+   5,
+   5,
+   0
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

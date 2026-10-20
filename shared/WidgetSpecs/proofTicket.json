@@ -1,0 +1,1489 @@
+{
+ "kind": "proofTicket",
+ "design": {
+  "w": 366,
+  "h": 260
+ },
+ "widget": {
+  "title": "ตั๋วผลงาน",
+  "category": "verified",
+  "symbol": "ticket.fill",
+  "order": 10,
+  "ownSurface": true,
+  "photo": true,
+  "stamp": "work",
+  "motion": "anchored"
+ },
+ "notes": "ตั๋วผลงาน · แปลงจาก ProofWorkVariants.swift (ProofTicket.stub) · ตั๋วกว้างเท่ากัน (w fill) ช่องห่าง 7 มุม 9 (clip ทั้งใบ) · จำนวนตั๋ว = floor((w+7)/132) → variants w>=389 สาม · w>=521 สี่ · w>=653 ห้า · ครึ่งบน = รูป WorkPicture (src $cover · ว่าง = photoRef $workPhoto) สูง w×0.9 (aspect 1.111 · ของเดิม max(w×0.9, rowH×0.58)) + วงดำไอคอนแพลตฟอร์มมุมบนขวา + ชิป EP มุมล่างซ้าย · รอยปรุ = แถบ #F2E8DB สูง 9 เส้น #170F21@0.28 เว้นข้าง 5 · ครึ่งล่างกระดาษไล่สี #FAF5ED→#F2E8DB (สี Paper คงที่โดยตั้งใจ — ไม่ผูก cardInk): BrandPlate 15 (src $brandLogo) + แบรนด์ 9/600 · ชื่อแคมเปญ 12.5/700 2 บรรทัด · ProofFigures: เส้น 0.6 + ยอดวิว 13.2/800 'วิว' 7.1 + บันทึก/แชร์ 7.82 (ph:bookmark-simple-fill / ph:share-fat-fill) · ทุกชิ้น shrink 0 → ส่วนที่เกินถูก clip ที่ขอบตั๋วเหมือนของเดิม (กรอบออกแบบ: แถวตัวเลขหลุดล่าง) · ยังต่าง: รูเจาะรอยปรุ (destinationOut) · EP ฟอนต์ mono → noto · สองแถวเมื่อจัตุรัสไม่มี",
+ "variants": [
+  {
+   "when": "w>=653",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "stubs",
+      "list": "works",
+      "limit": 5,
+      "wrap": false,
+      "gap": 7,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "stub",
+       "grow": 1,
+       "gap": 0,
+       "align": "stretch",
+       "radius": 9,
+       "clip": true,
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "aspect": 1.1111,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "end",
+           "align": "start",
+           "children": [
+            {
+             "type": "row",
+             "id": "platform",
+             "pad": 4,
+             "fill": "black@0.5",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "w": 11.5,
+               "h": 11.5
+              }
+             ],
+             "circle": true
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "start",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.6,
+             "align": "center",
+             "pad": [
+              3.04,
+              6
+             ],
+             "fill": "#17141A",
+             "radius": 4.4,
+             "children": [
+              {
+               "type": "rect",
+               "w": 4,
+               "h": 4,
+               "radius": 2,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 8,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "row",
+         "id": "perforation",
+         "h": 9,
+         "pad": [
+          4.2,
+          5
+         ],
+         "align": "center",
+         "fill": "#F2E8DB",
+         "children": [
+          {
+           "type": "rect",
+           "grow": 1,
+           "h": 0.6,
+           "fill": "#170F21@0.28"
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "col",
+         "id": "stubBody",
+         "grow": 1,
+         "gap": 5,
+         "pad": [
+          6,
+          8,
+          9,
+          8
+         ],
+         "align": "start",
+         "gradient": {
+          "from": "#FAF5ED",
+          "to": "#F2E8DB",
+          "angle": 90
+         },
+         "children": [
+          {
+           "type": "row",
+           "id": "brand",
+           "gap": 5,
+           "align": "center",
+           "w": "fill",
+           "children": [
+            {
+             "type": "image",
+             "id": "brandPlate",
+             "src": "$brandLogo",
+             "w": 15,
+             "h": 15,
+             "radius": 3.3,
+             "fit": "contain",
+             "if": "$brandLogo"
+            },
+            {
+             "type": "text",
+             "id": "brandName",
+             "text": "{brand}",
+             "face": "noto",
+             "size": 9,
+             "weight": 600,
+             "color": "#594F6B",
+             "maxLines": 1,
+             "shrinkTo": 5.4
+            },
+            {
+             "type": "spacer",
+             "grow": 1
+            }
+           ],
+           "minH": 15,
+           "shrink": 0
+          },
+          {
+           "type": "text",
+           "id": "campaign",
+           "text": "{campaign}",
+           "face": "noto",
+           "size": 12.5,
+           "weight": 700,
+           "color": "#170F21",
+           "maxLines": 2,
+           "shrinkTo": 8.75,
+           "w": "fill",
+           "shrink": 0
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minH": 2
+          },
+          {
+           "type": "col",
+           "id": "figures",
+           "w": "fill",
+           "gap": 0,
+           "align": "start",
+           "children": [
+            {
+             "type": "rect",
+             "h": 0.6,
+             "w": "fill",
+             "fill": "#170F21@0.14"
+            },
+            {
+             "type": "col",
+             "gap": 3,
+             "align": "stretch",
+             "pad": [
+              5,
+              0,
+              0,
+              0
+             ],
+             "w": "fill",
+             "children": [
+              {
+               "type": "row",
+               "gap": 4,
+               "align": "end",
+               "children": [
+                {
+                 "type": "text",
+                 "id": "viewCount",
+                 "text": "{views}",
+                 "face": "noto",
+                 "size": 13.2,
+                 "weight": 800,
+                 "color": "#170F21",
+                 "maxLines": 1
+                },
+                {
+                 "type": "col",
+                 "pad": [
+                  0,
+                  0,
+                  5.9,
+                  0
+                 ],
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "วิว",
+                   "face": "noto",
+                   "size": 7.1,
+                   "weight": 400,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 2
+                }
+               ],
+               "w": "fill"
+              },
+              {
+               "type": "row",
+               "id": "deepStats",
+               "gap": 10,
+               "align": "center",
+               "children": [
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:bookmark-simple-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{saves}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1
+                }
+               ]
+              }
+             ]
+            }
+           ],
+           "shrink": 0
+          }
+         ],
+         "shrink": 0
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "when": "w>=521",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "stubs",
+      "list": "works",
+      "limit": 4,
+      "wrap": false,
+      "gap": 7,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "stub",
+       "grow": 1,
+       "gap": 0,
+       "align": "stretch",
+       "radius": 9,
+       "clip": true,
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "aspect": 1.1111,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "end",
+           "align": "start",
+           "children": [
+            {
+             "type": "row",
+             "id": "platform",
+             "pad": 4,
+             "fill": "black@0.5",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "w": 11.5,
+               "h": 11.5
+              }
+             ],
+             "circle": true
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "start",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.6,
+             "align": "center",
+             "pad": [
+              3.04,
+              6
+             ],
+             "fill": "#17141A",
+             "radius": 4.4,
+             "children": [
+              {
+               "type": "rect",
+               "w": 4,
+               "h": 4,
+               "radius": 2,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 8,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "row",
+         "id": "perforation",
+         "h": 9,
+         "pad": [
+          4.2,
+          5
+         ],
+         "align": "center",
+         "fill": "#F2E8DB",
+         "children": [
+          {
+           "type": "rect",
+           "grow": 1,
+           "h": 0.6,
+           "fill": "#170F21@0.28"
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "col",
+         "id": "stubBody",
+         "grow": 1,
+         "gap": 5,
+         "pad": [
+          6,
+          8,
+          9,
+          8
+         ],
+         "align": "start",
+         "gradient": {
+          "from": "#FAF5ED",
+          "to": "#F2E8DB",
+          "angle": 90
+         },
+         "children": [
+          {
+           "type": "row",
+           "id": "brand",
+           "gap": 5,
+           "align": "center",
+           "w": "fill",
+           "children": [
+            {
+             "type": "image",
+             "id": "brandPlate",
+             "src": "$brandLogo",
+             "w": 15,
+             "h": 15,
+             "radius": 3.3,
+             "fit": "contain",
+             "if": "$brandLogo"
+            },
+            {
+             "type": "text",
+             "id": "brandName",
+             "text": "{brand}",
+             "face": "noto",
+             "size": 9,
+             "weight": 600,
+             "color": "#594F6B",
+             "maxLines": 1,
+             "shrinkTo": 5.4
+            },
+            {
+             "type": "spacer",
+             "grow": 1
+            }
+           ],
+           "minH": 15,
+           "shrink": 0
+          },
+          {
+           "type": "text",
+           "id": "campaign",
+           "text": "{campaign}",
+           "face": "noto",
+           "size": 12.5,
+           "weight": 700,
+           "color": "#170F21",
+           "maxLines": 2,
+           "shrinkTo": 8.75,
+           "w": "fill",
+           "shrink": 0
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minH": 2
+          },
+          {
+           "type": "col",
+           "id": "figures",
+           "w": "fill",
+           "gap": 0,
+           "align": "start",
+           "children": [
+            {
+             "type": "rect",
+             "h": 0.6,
+             "w": "fill",
+             "fill": "#170F21@0.14"
+            },
+            {
+             "type": "col",
+             "gap": 3,
+             "align": "stretch",
+             "pad": [
+              5,
+              0,
+              0,
+              0
+             ],
+             "w": "fill",
+             "children": [
+              {
+               "type": "row",
+               "gap": 4,
+               "align": "end",
+               "children": [
+                {
+                 "type": "text",
+                 "id": "viewCount",
+                 "text": "{views}",
+                 "face": "noto",
+                 "size": 13.2,
+                 "weight": 800,
+                 "color": "#170F21",
+                 "maxLines": 1
+                },
+                {
+                 "type": "col",
+                 "pad": [
+                  0,
+                  0,
+                  5.9,
+                  0
+                 ],
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "วิว",
+                   "face": "noto",
+                   "size": 7.1,
+                   "weight": 400,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 2
+                }
+               ],
+               "w": "fill"
+              },
+              {
+               "type": "row",
+               "id": "deepStats",
+               "gap": 10,
+               "align": "center",
+               "children": [
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:bookmark-simple-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{saves}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1
+                }
+               ]
+              }
+             ]
+            }
+           ],
+           "shrink": 0
+          }
+         ],
+         "shrink": 0
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "when": "w>=389",
+   "root": {
+    "type": "col",
+    "gap": 10,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "label",
+      "gap": 10,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "ผลงานที่ยืนยันแล้ว",
+        "face": "noto",
+        "size": 13.5,
+        "weight": 700,
+        "color": "ink@0.88",
+        "maxLines": 1,
+        "shrinkTo": 9.5
+       },
+       {
+        "type": "rect",
+        "h": 0.8,
+        "grow": 1,
+        "gradient": {
+         "from": "line@0.2",
+         "to": "line@0.04",
+         "angle": 0
+        }
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedBadge",
+        "w": 73,
+        "h": 20
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "stubs",
+      "list": "works",
+      "limit": 3,
+      "wrap": false,
+      "gap": 7,
+      "grow": 1,
+      "align": "stretch",
+      "each": {
+       "type": "col",
+       "id": "stub",
+       "grow": 1,
+       "gap": 0,
+       "align": "stretch",
+       "radius": 9,
+       "clip": true,
+       "children": [
+        {
+         "type": "stack",
+         "id": "photo",
+         "aspect": 1.1111,
+         "children": [
+          {
+           "type": "image",
+           "id": "picture",
+           "src": "$cover",
+           "photoRef": "$workPhoto"
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "end",
+           "align": "start",
+           "children": [
+            {
+             "type": "row",
+             "id": "platform",
+             "pad": 4,
+             "fill": "black@0.5",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "w": 11.5,
+               "h": 11.5
+              }
+             ],
+             "circle": true
+            }
+           ]
+          },
+          {
+           "type": "row",
+           "pad": 5,
+           "justify": "start",
+           "align": "end",
+           "children": [
+            {
+             "type": "row",
+             "id": "ep",
+             "gap": 3.6,
+             "align": "center",
+             "pad": [
+              3.04,
+              6
+             ],
+             "fill": "#17141A",
+             "radius": 4.4,
+             "children": [
+              {
+               "type": "rect",
+               "w": 4,
+               "h": 4,
+               "radius": 2,
+               "fill": "#DA3832"
+              },
+              {
+               "type": "text",
+               "text": "{ep}",
+               "face": "noto",
+               "size": 8,
+               "weight": 700,
+               "tracking": 0.4,
+               "color": "#FAF5EB",
+               "maxLines": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "row",
+         "id": "perforation",
+         "h": 9,
+         "pad": [
+          4.2,
+          5
+         ],
+         "align": "center",
+         "fill": "#F2E8DB",
+         "children": [
+          {
+           "type": "rect",
+           "grow": 1,
+           "h": 0.6,
+           "fill": "#170F21@0.28"
+          }
+         ],
+         "shrink": 0
+        },
+        {
+         "type": "col",
+         "id": "stubBody",
+         "grow": 1,
+         "gap": 5,
+         "pad": [
+          6,
+          8,
+          9,
+          8
+         ],
+         "align": "start",
+         "gradient": {
+          "from": "#FAF5ED",
+          "to": "#F2E8DB",
+          "angle": 90
+         },
+         "children": [
+          {
+           "type": "row",
+           "id": "brand",
+           "gap": 5,
+           "align": "center",
+           "w": "fill",
+           "children": [
+            {
+             "type": "image",
+             "id": "brandPlate",
+             "src": "$brandLogo",
+             "w": 15,
+             "h": 15,
+             "radius": 3.3,
+             "fit": "contain",
+             "if": "$brandLogo"
+            },
+            {
+             "type": "text",
+             "id": "brandName",
+             "text": "{brand}",
+             "face": "noto",
+             "size": 9,
+             "weight": 600,
+             "color": "#594F6B",
+             "maxLines": 1,
+             "shrinkTo": 5.4
+            },
+            {
+             "type": "spacer",
+             "grow": 1
+            }
+           ],
+           "minH": 15,
+           "shrink": 0
+          },
+          {
+           "type": "text",
+           "id": "campaign",
+           "text": "{campaign}",
+           "face": "noto",
+           "size": 12.5,
+           "weight": 700,
+           "color": "#170F21",
+           "maxLines": 2,
+           "shrinkTo": 8.75,
+           "w": "fill",
+           "shrink": 0
+          },
+          {
+           "type": "spacer",
+           "grow": 1,
+           "minH": 2
+          },
+          {
+           "type": "col",
+           "id": "figures",
+           "w": "fill",
+           "gap": 0,
+           "align": "start",
+           "children": [
+            {
+             "type": "rect",
+             "h": 0.6,
+             "w": "fill",
+             "fill": "#170F21@0.14"
+            },
+            {
+             "type": "col",
+             "gap": 3,
+             "align": "stretch",
+             "pad": [
+              5,
+              0,
+              0,
+              0
+             ],
+             "w": "fill",
+             "children": [
+              {
+               "type": "row",
+               "gap": 4,
+               "align": "end",
+               "children": [
+                {
+                 "type": "text",
+                 "id": "viewCount",
+                 "text": "{views}",
+                 "face": "noto",
+                 "size": 13.2,
+                 "weight": 800,
+                 "color": "#170F21",
+                 "maxLines": 1
+                },
+                {
+                 "type": "col",
+                 "pad": [
+                  0,
+                  0,
+                  5.9,
+                  0
+                 ],
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "วิว",
+                   "face": "noto",
+                   "size": 7.1,
+                   "weight": 400,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 2
+                }
+               ],
+               "w": "fill"
+              },
+              {
+               "type": "row",
+               "id": "deepStats",
+               "gap": 10,
+               "align": "center",
+               "children": [
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:bookmark-simple-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{saves}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1
+                }
+               ]
+              }
+             ]
+            }
+           ],
+           "shrink": 0
+          }
+         ],
+         "shrink": 0
+        }
+       ],
+       "w": "fill"
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "col",
+  "gap": 10,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ผลงานที่ยืนยันแล้ว",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "verifiedBadge",
+      "w": 73,
+      "h": 20
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "stubs",
+    "list": "works",
+    "limit": 2,
+    "wrap": false,
+    "gap": 7,
+    "grow": 1,
+    "align": "stretch",
+    "each": {
+     "type": "col",
+     "id": "stub",
+     "grow": 1,
+     "gap": 0,
+     "align": "stretch",
+     "radius": 9,
+     "clip": true,
+     "children": [
+      {
+       "type": "stack",
+       "id": "photo",
+       "aspect": 1.1111,
+       "children": [
+        {
+         "type": "image",
+         "id": "picture",
+         "src": "$cover",
+         "photoRef": "$workPhoto"
+        },
+        {
+         "type": "row",
+         "pad": 5,
+         "justify": "end",
+         "align": "start",
+         "children": [
+          {
+           "type": "row",
+           "id": "platform",
+           "pad": 4,
+           "fill": "black@0.5",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "w": 11.5,
+             "h": 11.5
+            }
+           ],
+           "circle": true
+          }
+         ]
+        },
+        {
+         "type": "row",
+         "pad": 5,
+         "justify": "start",
+         "align": "end",
+         "children": [
+          {
+           "type": "row",
+           "id": "ep",
+           "gap": 3.6,
+           "align": "center",
+           "pad": [
+            3.04,
+            6
+           ],
+           "fill": "#17141A",
+           "radius": 4.4,
+           "children": [
+            {
+             "type": "rect",
+             "w": 4,
+             "h": 4,
+             "radius": 2,
+             "fill": "#DA3832"
+            },
+            {
+             "type": "text",
+             "text": "{ep}",
+             "face": "noto",
+             "size": 8,
+             "weight": 700,
+             "tracking": 0.4,
+             "color": "#FAF5EB",
+             "maxLines": 1
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "shrink": 0
+      },
+      {
+       "type": "row",
+       "id": "perforation",
+       "h": 9,
+       "pad": [
+        4.2,
+        5
+       ],
+       "align": "center",
+       "fill": "#F2E8DB",
+       "children": [
+        {
+         "type": "rect",
+         "grow": 1,
+         "h": 0.6,
+         "fill": "#170F21@0.28"
+        }
+       ],
+       "shrink": 0
+      },
+      {
+       "type": "col",
+       "id": "stubBody",
+       "grow": 1,
+       "gap": 5,
+       "pad": [
+        6,
+        8,
+        9,
+        8
+       ],
+       "align": "start",
+       "gradient": {
+        "from": "#FAF5ED",
+        "to": "#F2E8DB",
+        "angle": 90
+       },
+       "children": [
+        {
+         "type": "row",
+         "id": "brand",
+         "gap": 5,
+         "align": "center",
+         "w": "fill",
+         "children": [
+          {
+           "type": "image",
+           "id": "brandPlate",
+           "src": "$brandLogo",
+           "w": 15,
+           "h": 15,
+           "radius": 3.3,
+           "fit": "contain",
+           "if": "$brandLogo"
+          },
+          {
+           "type": "text",
+           "id": "brandName",
+           "text": "{brand}",
+           "face": "noto",
+           "size": 9,
+           "weight": 600,
+           "color": "#594F6B",
+           "maxLines": 1,
+           "shrinkTo": 5.4
+          },
+          {
+           "type": "spacer",
+           "grow": 1
+          }
+         ],
+         "minH": 15,
+         "shrink": 0
+        },
+        {
+         "type": "text",
+         "id": "campaign",
+         "text": "{campaign}",
+         "face": "noto",
+         "size": 12.5,
+         "weight": 700,
+         "color": "#170F21",
+         "maxLines": 2,
+         "shrinkTo": 8.75,
+         "w": "fill",
+         "shrink": 0
+        },
+        {
+         "type": "spacer",
+         "grow": 1,
+         "minH": 2
+        },
+        {
+         "type": "col",
+         "id": "figures",
+         "w": "fill",
+         "gap": 0,
+         "align": "start",
+         "children": [
+          {
+           "type": "rect",
+           "h": 0.6,
+           "w": "fill",
+           "fill": "#170F21@0.14"
+          },
+          {
+           "type": "col",
+           "gap": 3,
+           "align": "stretch",
+           "pad": [
+            5,
+            0,
+            0,
+            0
+           ],
+           "w": "fill",
+           "children": [
+            {
+             "type": "row",
+             "gap": 4,
+             "align": "end",
+             "children": [
+              {
+               "type": "text",
+               "id": "viewCount",
+               "text": "{views}",
+               "face": "noto",
+               "size": 13.2,
+               "weight": 800,
+               "color": "#170F21",
+               "maxLines": 1
+              },
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                5.9,
+                0
+               ],
+               "children": [
+                {
+                 "type": "text",
+                 "text": "วิว",
+                 "face": "noto",
+                 "size": 7.1,
+                 "weight": 400,
+                 "color": "#594F6B",
+                 "maxLines": 1
+                }
+               ]
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 2
+              }
+             ],
+             "w": "fill"
+            },
+            {
+             "type": "row",
+             "id": "deepStats",
+             "gap": 10,
+             "align": "center",
+             "children": [
+              {
+               "type": "row",
+               "gap": 3.5,
+               "align": "center",
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:bookmark-simple-fill",
+                 "w": 8.27,
+                 "h": 8.27,
+                 "tint": "#594F6B"
+                },
+                {
+                 "type": "text",
+                 "text": "{saves}",
+                 "face": "noto",
+                 "size": 7.82,
+                 "weight": 700,
+                 "color": "#594F6B",
+                 "maxLines": 1
+                }
+               ]
+              },
+              {
+               "type": "row",
+               "gap": 3.5,
+               "align": "center",
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:share-fat-fill",
+                 "w": 8.27,
+                 "h": 8.27,
+                 "tint": "#594F6B"
+                },
+                {
+                 "type": "text",
+                 "text": "{shares}",
+                 "face": "noto",
+                 "size": 7.82,
+                 "weight": 700,
+                 "color": "#594F6B",
+                 "maxLines": 1
+                }
+               ]
+              },
+              {
+               "type": "spacer",
+               "grow": 1
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "shrink": 0
+        }
+       ],
+       "shrink": 0
+      }
+     ],
+     "w": "fill"
+    }
+   }
+  ]
+ }
+}

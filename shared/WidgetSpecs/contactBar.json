@@ -1,0 +1,78 @@
+{
+ "kind": "contactBar",
+ "design": {
+  "w": 366,
+  "h": 64
+ },
+ "widget": {
+  "title": "แถบติดต่อ",
+  "category": "contact",
+  "symbol": "text.append",
+  "order": 37,
+  "motion": "anchored"
+ },
+ "notes": "LINE · โทร · เว็บ ในบรรทัดเดียว คั่นด้วยจุด ไม่มีป้าย ไม่มีไอคอน · แปลงจาก BookingWidgets.swift (ContactBarWidget)",
+ "root": {
+  "type": "col",
+  "justify": "center",
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "gap": 9,
+    "align": "center",
+    "justify": "start",
+    "children": [
+     {
+      "type": "text",
+      "id": "line",
+      "slot": "lineId",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.78",
+      "maxLines": 1
+     },
+     {
+      "type": "rect",
+      "w": 2.5,
+      "h": 2.5,
+      "circle": true,
+      "fill": "ink@0.22"
+     },
+     {
+      "type": "text",
+      "id": "phone",
+      "slot": "phone",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.78",
+      "maxLines": 1
+     },
+     {
+      "type": "rect",
+      "w": 2.5,
+      "h": 2.5,
+      "circle": true,
+      "fill": "ink@0.22"
+     },
+     {
+      "type": "text",
+      "id": "web",
+      "slot": "website",
+      "face": "noto",
+      "size": 12,
+      "weight": 600,
+      "color": "ink@0.78",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   }
+  ]
+ }
+}

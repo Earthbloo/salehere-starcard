@@ -1,0 +1,779 @@
+{
+ "kind": "kitBodyGingham",
+ "design": {
+  "w": 280,
+  "h": 300
+ },
+ "widget": {
+  "title": "สัดส่วน",
+  "category": "body",
+  "symbol": "ruler",
+  "order": 113,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "gingham"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitBody"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": [
+     [
+      "h",
+      "ส่วนสูง"
+     ],
+     [
+      "w",
+      "น้ำหนัก"
+     ],
+     [
+      "g",
+      "รอบตัว"
+     ],
+     [
+      "s",
+      "รองเท้า"
+     ]
+    ],
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ]
+ },
+ "notes": "สัดส่วน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bodyGrid) · ช่อง height/weight/bust/waist/hips/shoe (ค่ามีหน่วยติดมา เช่น '165 ซม.') · ซ่อนด้วย hidden:h|w|g|s · ผังตายตัว: แถวคู่ ส่วนสูง+น้ำหนัก · รอบตัว · รองเท้า (ต้นฉบับจับคู่ช่องเล็กใหม่เมื่อซ่อนบางช่อง — ที่นี่ช่องที่เหลือกินเต็มแถว) · รอบตัว = สามช่องคั่นด้วย / (ต้นฉบับรวมเป็นสตริงเดียวและซ่อนหน่วยซ้ำ) เปิดเมื่อมี bust · กลางคืน: หน่วยอยู่ในตัวเลขใหญ่ (ต้นฉบับแยกบรรทัดเล็ก) · แถวคู่ยังกินที่เมื่อซ่อนทั้งสองช่อง",
+ "variants": [
+  {
+   "when": "cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 13,
+          "if": "bordered"
+         }
+        ],
+        "if": "!cfg:corner=square"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 2
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "kit.border",
+             "width": 2
+            },
+            "radius": 2,
+            "if": "bordered"
+           }
+          ],
+          "if": "bordered"
+         },
+         {
+          "type": "stack",
+          "children": [
+           {
+            "type": "rect",
+            "fill": "white",
+            "radius": 13
+           },
+           {
+            "type": "rect",
+            "stroke": {
+             "color": "kit.border",
+             "width": 2
+            },
+            "radius": 13,
+            "if": "bordered"
+           }
+          ],
+          "if": "!bordered"
+         }
+        ],
+        "if": "cfg:corner=square"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 19,
+          "weight": 800,
+          "color": "kit.title",
+          "maxLines": 2,
+          "shrinkTo": 13.3,
+          "w": "fill",
+          "id": "title",
+          "text": "สัดส่วน"
+         },
+         {
+          "type": "col",
+          "children": [
+           {
+            "type": "chips",
+            "id": "pair",
+            "list": "body",
+            "where": "!$wide & !hidden:$kind",
+            "group": "kind",
+            "wrap": false,
+            "gap": 7,
+            "grow": 1,
+            "align": "stretch",
+            "each": {
+             "type": "stack",
+             "children": [
+              {
+               "type": "rect",
+               "fill": "#F2F2F2",
+               "radius": 8
+              },
+              {
+               "type": "col",
+               "children": [
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "size": 11.5,
+                 "weight": 400,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9.2,
+                 "slot": "$label"
+                },
+                {
+                 "type": "text",
+                 "slot": "$value",
+                 "face": "noto",
+                 "size": 15,
+                 "weight": 800,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9
+                }
+               ],
+               "pad": [
+                7,
+                9
+               ],
+               "gap": 1,
+               "align": "start",
+               "justify": "center"
+              }
+             ],
+             "grow": 1,
+             "if": "$i<2"
+            }
+           },
+           {
+            "type": "chips",
+            "id": "wide",
+            "list": "body",
+            "where": "$wide & !hidden:$kind",
+            "direction": "col",
+            "gap": 7,
+            "grow": 1,
+            "each": {
+             "type": "stack",
+             "children": [
+              {
+               "type": "rect",
+               "fill": "#F2F2F2",
+               "radius": 8
+              },
+              {
+               "type": "col",
+               "children": [
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "size": 11.5,
+                 "weight": 400,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9.2,
+                 "slot": "$label"
+                },
+                {
+                 "type": "text",
+                 "slot": "$value",
+                 "face": "noto",
+                 "size": 15,
+                 "weight": 800,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9
+                }
+               ],
+               "pad": [
+                7,
+                9
+               ],
+               "gap": 1,
+               "align": "start",
+               "justify": "center"
+              }
+             ],
+             "grow": 1
+            }
+           },
+           {
+            "type": "chips",
+            "id": "odd",
+            "list": "body",
+            "where": "!$wide & !hidden:$kind",
+            "group": "kind",
+            "direction": "col",
+            "gap": 7,
+            "grow": 1,
+            "if": "list:body>3",
+            "each": {
+             "type": "stack",
+             "children": [
+              {
+               "type": "rect",
+               "fill": "#F2F2F2",
+               "radius": 8
+              },
+              {
+               "type": "col",
+               "children": [
+                {
+                 "type": "text",
+                 "face": "noto",
+                 "size": 11.5,
+                 "weight": 400,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9.2,
+                 "slot": "$label"
+                },
+                {
+                 "type": "text",
+                 "slot": "$value",
+                 "face": "noto",
+                 "size": 15,
+                 "weight": 800,
+                 "color": "#141417",
+                 "maxLines": 1,
+                 "shrinkTo": 9
+                }
+               ],
+               "pad": [
+                7,
+                9
+               ],
+               "gap": 1,
+               "align": "start",
+               "justify": "center"
+              }
+             ],
+             "grow": 1,
+             "if": "$i>=2"
+            }
+           }
+          ],
+          "grow": 1,
+          "id": "topic",
+          "gap": 7,
+          "align": "stretch"
+         }
+        ],
+        "pad": 14,
+        "gap": 8,
+        "align": "stretch",
+        "id": "content"
+       }
+      ],
+      "pad": 0,
+      "id": "card"
+     }
+    ],
+    "id": "sheet"
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "fill": "kit.fill",
+      "radius": 20,
+      "pattern": {
+       "kind": "grid",
+       "color": "#383F1A@0.22",
+       "size": 13,
+       "width": 1
+      },
+      "if": "cfg:fill=solid"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20
+       },
+       {
+        "type": "rect",
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        },
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ],
+      "if": "cfg:fill=gradient"
+     }
+    ],
+    "if": "!cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 3,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 3,
+          "pattern": {
+           "kind": "grid",
+           "color": "#383F1A@0.22",
+           "size": 13,
+           "width": 1
+          }
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "bordered"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "kit.fill",
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        },
+        "if": "cfg:fill=solid"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "kit.fill",
+          "radius": 20
+         },
+         {
+          "type": "rect",
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          },
+          "radius": 20,
+          "pattern": {
+           "kind": "grid",
+           "color": "#383F1A@0.22",
+           "size": 13,
+           "width": 1
+          }
+         }
+        ],
+        "if": "cfg:fill=gradient"
+       }
+      ],
+      "if": "!bordered"
+     }
+    ],
+    "if": "cfg:corner=square"
+   },
+   {
+    "type": "stack",
+    "children": [
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "rect",
+        "fill": "white",
+        "radius": 13
+       },
+       {
+        "type": "rect",
+        "stroke": {
+         "color": "kit.border",
+         "width": 2
+        },
+        "radius": 13,
+        "if": "bordered"
+       }
+      ],
+      "if": "!cfg:corner=square"
+     },
+     {
+      "type": "stack",
+      "children": [
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 2
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 2,
+          "if": "bordered"
+         }
+        ],
+        "if": "bordered"
+       },
+       {
+        "type": "stack",
+        "children": [
+         {
+          "type": "rect",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "stroke": {
+           "color": "kit.border",
+           "width": 2
+          },
+          "radius": 13,
+          "if": "bordered"
+         }
+        ],
+        "if": "!bordered"
+       }
+      ],
+      "if": "cfg:corner=square"
+     },
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 19,
+        "weight": 800,
+        "color": "kit.title",
+        "maxLines": 2,
+        "shrinkTo": 13.3,
+        "w": "fill",
+        "id": "title",
+        "text": "สัดส่วน"
+       },
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "chips",
+          "id": "pair",
+          "list": "body",
+          "where": "!$wide & !hidden:$kind",
+          "group": "kind",
+          "wrap": false,
+          "gap": 7,
+          "grow": 1,
+          "align": "stretch",
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "#F2F2F2",
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 400,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9.2,
+               "slot": "$label"
+              },
+              {
+               "type": "text",
+               "slot": "$value",
+               "face": "noto",
+               "size": 15,
+               "weight": 800,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9
+              }
+             ],
+             "pad": [
+              7,
+              9
+             ],
+             "gap": 1,
+             "align": "start",
+             "justify": "center"
+            }
+           ],
+           "grow": 1,
+           "if": "$i<2"
+          }
+         },
+         {
+          "type": "chips",
+          "id": "wide",
+          "list": "body",
+          "where": "$wide & !hidden:$kind",
+          "direction": "col",
+          "gap": 7,
+          "grow": 1,
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "#F2F2F2",
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 400,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9.2,
+               "slot": "$label"
+              },
+              {
+               "type": "text",
+               "slot": "$value",
+               "face": "noto",
+               "size": 15,
+               "weight": 800,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9
+              }
+             ],
+             "pad": [
+              7,
+              9
+             ],
+             "gap": 1,
+             "align": "start",
+             "justify": "center"
+            }
+           ],
+           "grow": 1
+          }
+         },
+         {
+          "type": "chips",
+          "id": "odd",
+          "list": "body",
+          "where": "!$wide & !hidden:$kind",
+          "group": "kind",
+          "direction": "col",
+          "gap": 7,
+          "grow": 1,
+          "if": "list:body>3",
+          "each": {
+           "type": "stack",
+           "children": [
+            {
+             "type": "rect",
+             "fill": "#F2F2F2",
+             "radius": 8
+            },
+            {
+             "type": "col",
+             "children": [
+              {
+               "type": "text",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 400,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9.2,
+               "slot": "$label"
+              },
+              {
+               "type": "text",
+               "slot": "$value",
+               "face": "noto",
+               "size": 15,
+               "weight": 800,
+               "color": "#141417",
+               "maxLines": 1,
+               "shrinkTo": 9
+              }
+             ],
+             "pad": [
+              7,
+              9
+             ],
+             "gap": 1,
+             "align": "start",
+             "justify": "center"
+            }
+           ],
+           "grow": 1,
+           "if": "$i>=2"
+          }
+         }
+        ],
+        "grow": 1,
+        "id": "topic",
+        "gap": 7,
+        "align": "stretch"
+       }
+      ],
+      "pad": 14,
+      "gap": 8,
+      "align": "stretch",
+      "id": "content"
+     }
+    ],
+    "pad": 11,
+    "id": "card"
+   }
+  ],
+  "id": "sheet"
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

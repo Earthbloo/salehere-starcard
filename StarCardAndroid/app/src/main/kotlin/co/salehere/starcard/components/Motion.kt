@@ -63,6 +63,12 @@ object Motion {
     /** เข้าที่อย่างสงบ — เข้า/ออกโหมดแต่ง */
     val settle = SpringToken(260f, 28f)
 
+    // iOS สองตัวนี้ตั้งด้วย `spring(response:dampingFraction:)` — แปลงเป็นค่าดิบ: stiffness = (2π/response)² · damping = 2·ratio·√stiffness
+    /** วางลง — ของที่ปล่อยจากนิ้วเข้าที่ (= `spring(response: 0.38, dampingFraction: 0.72)`) */
+    val homeDrop = SpringToken(273.4f, 23.81f)
+    /** ตามนิ้ว — สปริงสั้นมากของชิ้นที่ลอยอยู่ (= `interactiveSpring(response: 0.16, dampingFraction: 0.86)`) */
+    val homeFollow = SpringToken(1542.1f, 67.54f)
+
     /** หน่วงไล่ทีละชิ้น (วินาที) */
     fun stagger(i: Int, step: Double = 0.045, cap: Double = 0.45): Double = min(i * step, cap)
 }

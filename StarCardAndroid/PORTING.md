@@ -235,8 +235,8 @@ Photos: `filesDir/starcard-photos/…`, `starcard-backdrop.jpg`, `starcard-profi
 - **`UITextView` typing on canvas** (`CanvasTextField`) → `BasicTextField` with our `TextStyle`.
 - **App Clip** (`AppRuntime.isClip`) → always `false`; `ClipInvocation` parses `Intent.data`.
 - **PDF icons** were rasterised to `drawable-nodpi` PNGs — `SymbolIcon` tints them fine.
-- **Fonts `Didot-Italic`, `SukhumvitSet`, `Thonburi`, `Krungthep`** don't exist → `CardFont` maps them to
-  `FontFamily.Serif` italic / `SHFont.mitr` / system sans; keep the enum cases and Thai names.
+- **Card fonts are OFL-only** (19 Oct 2026): `CardFont` = `noto` · `mitr`. Apple faces (Didot, New York, SF Rounded,
+  Sukhumvit, Thonburi, Krungthep) were removed on every platform; old saved values fall back to `noto`.
 
 ## 9. Ownership matrix (wave 1 — models & theme)
 

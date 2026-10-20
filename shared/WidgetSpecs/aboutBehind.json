@@ -1,0 +1,179 @@
+{
+ "kind": "aboutBehind",
+ "design": {
+  "w": 366,
+  "h": 330
+ },
+ "widget": {
+  "title": "ชื่อหลังภาพ",
+  "category": "intro",
+  "symbol": "person.and.background.dotted",
+  "order": 61,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ลาย",
+    "opt": "pattern",
+    "options": [
+     [
+      null,
+      "เรียบ"
+     ],
+     [
+      "stripe",
+      "ลายทาง"
+     ],
+     [
+      "diamond",
+      "ข้าวหลามตัด"
+     ]
+    ],
+    "if": "surface=glass"
+   }
+  ]
+ },
+ "notes": "สำรับบรรณาธิการ · ชื่อหลังภาพ — บรรทัดกำกับบน (note#0) · คำยักษ์พาดเต็มกว้าง (note#1) · ภาพตัดขาวดำ (ช่อง 1) ยืนทับคำ ชนก้นแผ่น · ย่อหน้าขวา: 'รู้จักฉัน —' (note#2) + ชื่อ + แนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutBehind) · สีตาม Ed.skin: กระดาษเบจ Ed.beige เฉพาะ papered & !duo · คู่สี = แผ่น plate + หมึก plateInk · ปิดพื้น/pane = หมึกการ์ด (ed.ink ed.inkSoft ed.ghost) · คำยักษ์ = ed.ghost (ขาวบนกระดาษ · เงาหมึกเมื่อไม่มีพื้น) · ขนาดคำยักษ์ต้นฉบับ Ed.fitted กว้าง 92% เพดาน 30% สูง = 99 ที่กรอบดีไซน์ (ย่อได้ด้วย shrinkTo) · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "sheet",
+    "fill": "#E7E2D6",
+    "if": "papered & !duo"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered & !duo",
+    "platePattern": "#E7E2D6"
+   },
+   {
+    "type": "rect",
+    "id": "plate",
+    "fill": "plate",
+    "if": "papered & duo"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered & duo",
+    "platePattern": "plate"
+   },
+   {
+    "type": "text",
+    "id": "kicker",
+    "slot": "tagline",
+    "face": "noto",
+    "weight": 600,
+    "size": 7,
+    "kerning": 1.8,
+    "color": "ed.inkSoft",
+    "textAlign": "center",
+    "maxLines": 1,
+    "shrinkTo": 4.3,
+    "w": "84%",
+    "h": "5.5%",
+    "place": "top-left",
+    "dx": 29.3,
+    "dy": 14.9
+   },
+   {
+    "type": "text",
+    "id": "word",
+    "face": "noto",
+    "weight": 900,
+    "size": 99,
+    "kerning": -2,
+    "color": "ed.ghost",
+    "textAlign": "center",
+    "maxLines": 1,
+    "shrinkTo": 10,
+    "w": "92%",
+    "h": "24%",
+    "place": "top-left",
+    "dx": 14.6,
+    "dy": 38,
+    "text": "รู้จักฉัน"
+   },
+   {
+    "type": "image",
+    "id": "cutout",
+    "photo": 1,
+    "mono": true,
+    "w": "37%",
+    "h": "81.5%",
+    "place": "top-left",
+    "dx": 67.7,
+    "dy": 61
+   },
+   {
+    "type": "col",
+    "id": "blurb",
+    "w": "38.5%",
+    "h": "54.5%",
+    "gap": 5,
+    "align": "start",
+    "place": "top-left",
+    "dx": 210.5,
+    "dy": 130.4,
+    "children": [
+     {
+      "type": "row",
+      "gap": 4,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "weight": 700,
+        "size": 9,
+        "color": "ed.ink",
+        "maxLines": 1,
+        "shrinkTo": 5.6,
+        "shrink": 0,
+        "text": "รู้จักฉัน —"
+       },
+       {
+        "type": "text",
+        "id": "name",
+        "slot": "name",
+        "face": "noto",
+        "weight": 700,
+        "size": 9,
+        "color": "ed.ink",
+        "maxLines": 1,
+        "shrinkTo": 6.3,
+        "grow": 1
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "id": "about",
+      "slot": "about",
+      "face": "noto",
+      "weight": 400,
+      "size": 8,
+      "lineHeight": 1.22,
+      "color": "ed.ink@0.88",
+      "maxLines": 0,
+      "w": "fill",
+      "grow": 1
+     }
+    ]
+   }
+  ]
+ }
+}
