@@ -1,6 +1,13 @@
 package co.salehere.starcard.model
 
+import androidx.compose.ui.graphics.Color
 import co.salehere.starcard.AppContext
+import co.salehere.starcard.theme.docHex
+import co.salehere.starcard.theme.hexString
+import co.salehere.starcard.theme.hsb
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
 import co.salehere.starcard.theme.BackdropEffect
 import co.salehere.starcard.theme.BackdropStyle
 import co.salehere.starcard.theme.CardFont
@@ -9,6 +16,7 @@ import co.salehere.starcard.theme.CardTheme
 import co.salehere.starcard.theme.ColorDuo
 import co.salehere.starcard.theme.CornerStyle
 import co.salehere.starcard.theme.Palette
+import co.salehere.starcard.theme.RGB
 import co.salehere.starcard.theme.StripStyle
 import co.salehere.starcard.theme.TextAlignment
 import co.salehere.starcard.theme.TextScale
@@ -80,28 +88,39 @@ data class CardSnapshot(
     @Serializable
     data class Page(var items: List<Item>)
 
+    /**
+     * สีของการ์ด — **สิ่งเดียวที่ API เก็บเรื่องสี** (20 ต.ค. 2569 รอบ 3): `primary` = พื้น · `secondary` = หมึกของการ์ดสองสี
+     * ไม่มีชื่อพาเลตต์/คู่สี/HSB อีกแล้ว — renderer ทุกแพลตฟอร์มคิดสีที่เหลือจากสองค่านี้เอง
+     */
+    @Serializable
+    data class Colors(var primary: String, var secondary: String? = null)
+
+    /**
+     * theme ที่ API เก็บ (20 ต.ค. 2569 รอบ 4): `colors` · `ink` (โทน) · `backdrop` + ของพื้นรูป — แค่นั้น
+     * `corner` `strip` `inkAuto` ถอดออก (ผู้ใช้: "เอาออกไปให้หมด"): มุม = มน · แถบ = บรรทัด เสมอ · หมึกเก็บตรง ๆ
+     */
     @Serializable
     data class Theme(
-        var palette: String,
+        var colors: Colors? = null,
         var ink: String,
-        var corner: String,
         var backdrop: String,
-        var brightness: Double,
-        var hueShift: Double,
+        // ---- ฟิลด์รุ่นก่อน (ชื่อพาเลตต์ · คู่สี · HSB ที่ตั้งเอง · ความสว่าง · เลื่อนเฉด) — อ่านอย่างเดียว ไม่เขียนแล้ว
+        // doc เก่าแปลงเป็น `colors` ตอนอ่านด้วย `LegacyTheme.colors` (สูตรเดียวกับ `migrateTheme` ใน theme.js)
+        var palette: String? = null,
+        var brightness: Double? = null,
+        var hueShift: Double? = null,
         var customHue: Double? = null,
         var customSat: Double? = null,
-        // ไฟล์เก่าไม่มีสองคีย์นี้ · `inkAuto` ที่หายไปต้องอ่านเป็น false ไม่ใช่ค่าตั้งต้นของสตรักต์
         var customBri: Double? = null,
-        var inkAuto: Boolean? = null,
-        var photoEffect: String? = null,
-        var photoDim: Double? = null,
-        /** แบบของแถบผู้ออกบัตร — ไฟล์เก่าไม่มี ตกไปใช้ "บรรทัด" */
-        var strip: String? = null,
-        /** รูปพื้นหลังเอียงไปทางสว่างแค่ไหน (ดู `CardTheme.photoLean`) — ไฟล์เก่าไม่มี = วัดใหม่ตอนเปิด */
-        var photoLean: Double? = null,
-        /** คู่สีที่เลือกไว้ (ดู `ColorDuo`) — ไฟล์เก่าไม่มี = ยังใช้พาเลตต์ตามเดิม */
         var duo: String? = null,
         var duoFlipped: Boolean? = null,
+        var inkAuto: Boolean? = null,
+        var corner: String? = null,
+        var strip: String? = null,
+        var photoEffect: String? = null,
+        var photoDim: Double? = null,
+        /** รูปพื้นหลังเอียงไปทางสว่างแค่ไหน (ดู `CardTheme.photoLean`) — ไฟล์เก่าไม่มี = วัดใหม่ตอนเปิด */
+        var photoLean: Double? = null,
     )
 }
 
@@ -148,14 +167,10 @@ object CardStore {
                 })
             },
             theme = CardSnapshot.Theme(
-                palette = theme.palette.raw, ink = theme.ink.raw,
-                corner = theme.corner.raw, backdrop = theme.backdrop.raw,
-                brightness = theme.brightness, hueShift = theme.hueShift,
-                customHue = theme.customHue, customSat = theme.customSat,
-                customBri = theme.customBri, inkAuto = theme.inkAuto,
+                colors = CardSnapshot.Colors(primary = theme.primary.hexString, secondary = theme.secondary?.hexString),
+                ink = theme.ink.raw, backdrop = theme.backdrop.raw,
                 photoEffect = theme.photoEffect.raw, photoDim = theme.photoDim,
-                strip = theme.strip.raw, photoLean = theme.photoLean,
-                duo = theme.duoID, duoFlipped = theme.duoFlipped,
+                photoLean = theme.photoLean,
             ),
             index = index,
         )
@@ -234,26 +249,18 @@ object CardStore {
         if (pages.none { it.items.isNotEmpty() }) return null
 
         var t = CardTheme()
-        Palette.from(snap.theme.palette)?.let { t = t.copy(palette = it) }
         CardInk.from(snap.theme.ink)?.let { t = t.copy(ink = it) }
-        CornerStyle.from(snap.theme.corner)?.let { t = t.copy(corner = it) }
         BackdropStyle.from(snap.theme.backdrop)?.let { t = t.copy(backdrop = it) }
+        // สี: doc ใหม่ = `colors` ตรง ๆ · doc เก่า = แปลงจากชื่อพาเลตต์/คู่สี/HSB ด้วยสูตรเดิม
+        val colors = LegacyTheme.colors(snap.theme)
         t = t.copy(
-            brightness = snap.theme.brightness,
-            hueShift = snap.theme.hueShift,
-            customHue = snap.theme.customHue,
-            customSat = snap.theme.customSat,
-            customBri = snap.theme.customBri,
-            inkAuto = snap.theme.inkAuto ?: false,
+            primary = Color.docHex(colors.primary) ?: Palette.midnight.dark,
+            secondary = Color.docHex(colors.secondary),
         )
+        // doc เก่า: พลิกคู่สี = โทนสว่าง · สีเดียวที่เคยเปิด inkAuto = เลือกฝั่งจากความสว่างให้ครั้งเดียว
+        LegacyTheme.inkOverride(snap.theme, t.primary, t.lightInk)?.let { t = t.copy(ink = it) }
         snap.theme.photoEffect?.let { BackdropEffect.from(it) }?.let { t = t.copy(photoEffect = it) }
         snap.theme.photoDim?.let { t = t.copy(photoDim = it) }
-        snap.theme.strip?.let { StripStyle.from(it) }?.let { t = t.copy(strip = it) }
-        // รหัสที่ไม่รู้จักแล้ว (คู่สีถูกถอดออกจากชุด) ตกไปใช้พาเลตต์แทน ไม่ใช่การ์ดไร้สี
-        t = t.copy(
-            duoID = snap.theme.duo?.let { ColorDuo.find(it) }?.id,
-            duoFlipped = snap.theme.duoFlipped ?: false,
-        )
 
         return Restored(pages, t, minOf(maxOf(0, snap.index), pages.size - 1))
     }
@@ -284,4 +291,61 @@ object CardStore {
     }
 
     fun clearAll() { CardFormat.entries.forEach { clear(it) } }
+}
+
+
+// MARK: - doc รุ่นก่อน → `colors` (20 ต.ค. 2569 รอบ 3)
+
+/**
+ * แปลงสีของ doc เก่า (ชื่อพาเลตต์ · คู่สี · HSB ที่ตั้งเอง · ความสว่าง · เลื่อนเฉด) เป็น `colors`
+ * = สูตร `backdropColors.top` ของ CardTheme ก่อนรอบ 3 · ต้องตรงกับ `LegacyTheme` ของ iOS และ `legacyColors` ใน theme.js ทุกบรรทัด
+ */
+object LegacyTheme {
+    /**
+     * หมึกของ doc เก่า (ไม่มี `colors`): คู่สี — `duoFlipped` = โทนสว่าง (paper) · ไม่พลิก = night ·
+     * สีเดียวที่เคยเปิด `inkAuto` (ไม่มีคีย์ = เปิด) — เลือกฝั่งจากความสว่างของพื้นให้ครั้งเดียวตอนแปลง (= `autoInk`)
+     */
+    fun inkOverride(t: CardSnapshot.Theme, primary: Color, lightInk: CardInk): CardInk? {
+        if (t.colors != null || t.backdrop == BackdropStyle.photo.raw) return null
+        if (t.duo?.let { ColorDuo.find(it) } != null) return if (t.duoFlipped == true) CardInk.paper else CardInk.night
+        if (t.inkAuto == false) return null
+        val l = RGB(primary).luminance
+        return if ((l + 0.05) / 0.07 > 1.05 / (l + 0.05)) lightInk else CardInk.night
+    }
+
+    fun colors(t: CardSnapshot.Theme): CardSnapshot.Colors {
+        t.colors?.let { c ->
+            val p = Color.docHex(c.primary)
+            if (p != null) return CardSnapshot.Colors(p.hexString, Color.docHex(c.secondary)?.hexString)
+        }
+        val d = t.duo?.let { ColorDuo.find(it) }
+        if (d != null && t.backdrop != BackdropStyle.photo.raw) {
+            // คู่เก็บตามนิยาม (เข้ม · อ่อน) เสมอ — ข้างที่ขึ้นเป็นพื้นไปอยู่ที่ `ink` (ดู `inkOverride`)
+            return CardSnapshot.Colors(d.dark.hexString, d.light.hexString)
+        }
+        val pal = Palette.from(t.palette) ?: Palette.midnight
+        val hueShift = t.hueShift ?: 0.0; val brightness = t.brightness ?: 0.30
+        val rawHue = (t.customHue ?: pal.backdropHue) + hueShift
+        val hue = rawHue - floor(rawHue)
+        val sat = if (t.customHue != null) min(0.6, max(0.15, t.customSat ?: 0.5)) else pal.backdropSaturation
+        val bri = t.customBri
+        if (bri != null && t.customHue != null) {
+            return CardSnapshot.Colors(hsb(hue, min(1.0, max(0.0, t.customSat ?: 0.5)), min(1.0, max(0.0, bri))).hexString)
+        }
+        val ink = CardInk.from(t.ink) ?: CardInk.night
+        val lightInk = if ((t.customSat ?: 0.0) >= 0.35) CardInk.mist else CardInk.paper
+        val active = when {
+            t.backdrop == BackdropStyle.photo.raw -> CardInk.night
+            t.inkAuto ?: true -> CardInk.night
+            ink.isLight -> lightInk
+            else -> CardInk.night
+        }
+        val b = brightness
+        val top = when (active) {
+            CardInk.night -> hsb(hue, max(0.0, sat - b * 0.28), 0.05 + b * 0.52)
+            CardInk.paper -> hsb(hue, 0.03 + sat * 0.04, 0.955 + b * 0.045)
+            CardInk.mist -> hsb(hue, 0.09 + sat * 0.16, 0.945 + b * 0.05)
+        }
+        return CardSnapshot.Colors(top.hexString)
+    }
 }

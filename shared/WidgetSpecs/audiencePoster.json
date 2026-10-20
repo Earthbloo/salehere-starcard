@@ -48,7 +48,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "โปสเตอร์อินไซต์ · แปลงจาก InsightPosterWidget.swift (ค่าคงที่ IP · Sheet) · ใบวาดพื้นเอง (inset 0) · พื้นผิว (14 ต.ค. 2569 · StatPosterSkin): ตั้งต้น clear = ไม่มีแผ่น คำตัวเขียน `ink@0.95` · `papered` = แผ่น `plate` มุม 20 คำตัวเขียน `plateInk` · pane = ไม่มีแผ่น หมึกการ์ด · ของบนแผ่นกว้าง 366 เสมอแล้วจัดกลาง · สามชั้น: คำตัวเขียน (note#1 'Audience' 76 · SnellRoundhand ไม่มี face → serif italic · กว้าง 0.86w ชิดซ้าย pad 10/4) → คน (ช่อง 1 lift · สูง 88% กลางล่าง ล้นล่าง 10.4) → แผ่นข้อมูลขาว 4 แผ่น (มุม 10 · เส้น black@0.08 · pad 10/11 · หมึก #121212 · soft #6B6B6B · ราง #E8E8E8): เมืองหลัก (0,148 w142) · ช่วงอายุ (224,176 w142) · เพศ (0,312 w152) · การเข้าถึง (214,340 w152) · แท่ง: สามอันดับแรก sort shareRaw desc · ชื่อ 12.5 semibold / ตัวเลข 15.5 heavy · ราง 6 · แท่ง pct $shareRaw สีเน้น (ชิ้นสูงสุด rawAccent · ที่เหลือ @0.55) · เพศ: โดนัท 52 วาดไม่ได้ → แถบสามส่วน pct $shareRaw สี $tint + ตัวเลขเรียงมากไปน้อย (ชิ้นแรก 19 ที่เหลือ 15.5) · การเข้าถึง: stat:reachWindow ต่อท้ายหัวข้อ · stat:reach 34 heavy · stat:reachDelta ในแคปซูลเขียว · 'ใหม่' + stat:reachNew · ไอคอนแพลตฟอร์ม = sh:instagram ตายตัว (stat:reachIcon เป็นข้อความ ใช้เป็น icon ไม่ได้) · variants ratio<0.8 = ผังแนวนอน (ต้นฉบับ 560×272 · กล่องใน spec = ~1070×520 เพราะสเกลคิดจาก design เดียว → ทุกค่า ×1.91: คนซ้าย 42% · แผ่น 2×2 ขวา) · ไม่มี: พื้น glass/pane ของถาด · เกล็ด/ลายแผ่น · ป้ายสถานะ · โหมดกรอบ · ไอคอนแพลตฟอร์มของ reach ตามข้อมูลจริง · แก้ 14 ต.ค.: แท่ง/ส่วนใหญ่สุด = `accentPaper` (rawAccent.onLightSurface — แผ่นข้อมูลขาวเสมอ) · เพศ: สีตามลำดับ accentPaper / #2E2E2E / #B8B8B8 (fillCycle) ตัวเลขที่สามเทา #6B6B6B · โดนัทยังเป็นแถบสามส่วน · รูป = ผังโหมดกรอบ (กว้าง 0.54w สูง 80% มุม 18 ยกขึ้น 12) · แนวนอนเมื่อ w > 1.5h (ratio<0.6667) · ยังไม่มี: เลข +14.4% / 93.4% (stat:reachDelta/reachNew ปัด %.0f ใน SpecDataSource ส่วนเดิมใช้ Fmt.pct ทศนิยม 1) · ฟอนต์ตัวเขียน SnellRoundhand (ไม่มี face) · ไอคอนแพลตฟอร์มของ reach",
  "variants": [
@@ -63,14 +64,16 @@
      {
       "type": "rect",
       "id": "plate",
-      "fill": "plate",
-      "if": "papered"
+      "fill": "bg",
+      "if": "papered",
+      "on": "dark"
      },
      {
       "type": "rect",
       "id": "platePattern",
       "if": "papered",
-      "platePattern": "plate"
+      "platePattern": "bg",
+      "on": "dark"
      },
      {
       "type": "row",
@@ -90,7 +93,7 @@
           "face": "noto",
           "weight": 400,
           "size": 104,
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 40,
           "place": "top-left",
@@ -98,7 +101,8 @@
           "dy": 11,
           "w": "90%",
           "if": "papered",
-          "text": "Audience"
+          "text": "Audience",
+          "on": "dark"
          },
          {
           "type": "text",
@@ -114,7 +118,8 @@
           "dy": 11,
           "w": "90%",
           "if": "!papered",
-          "text": "Audience"
+          "text": "Audience",
+          "on": "card"
          },
          {
           "type": "image",
@@ -235,7 +240,7 @@
                      "pct": "$shareRaw",
                      "minW": 8,
                      "circle": true,
-                     "fill": "accentPaper"
+                     "fill": "accent"
                     },
                     {
                      "type": "rect",
@@ -243,7 +248,7 @@
                      "pct": "$shareRaw",
                      "minW": 8,
                      "circle": true,
-                     "fill": "accentPaper@0.55"
+                     "fill": "accent@0.55"
                     }
                    ]
                   }
@@ -343,7 +348,7 @@
                      "pct": "$shareRaw",
                      "minW": 8,
                      "circle": true,
-                     "fill": "accentPaper"
+                     "fill": "accent"
                     },
                     {
                      "type": "rect",
@@ -351,7 +356,7 @@
                      "pct": "$shareRaw",
                      "minW": 8,
                      "circle": true,
-                     "fill": "accentPaper@0.55"
+                     "fill": "accent@0.55"
                     }
                    ]
                   }
@@ -410,7 +415,7 @@
                "minW": 8,
                "circle": true,
                "fillCycle": [
-                "accentPaper",
+                "accent",
                 "#2E2E2E",
                 "#B8B8B8"
                ]
@@ -434,7 +439,7 @@
                  "circle": true,
                  "alignSelf": "center",
                  "fillCycle": [
-                  "accentPaper",
+                  "accent",
                   "#2E2E2E",
                   "#B8B8B8"
                  ]
@@ -646,14 +651,16 @@
    {
     "type": "rect",
     "id": "plate",
-    "fill": "plate",
-    "if": "papered"
+    "fill": "bg",
+    "if": "papered",
+    "on": "dark"
    },
    {
     "type": "rect",
     "id": "platePattern",
     "if": "papered",
-    "platePattern": "plate"
+    "platePattern": "bg",
+    "on": "dark"
    },
    {
     "type": "stack",
@@ -668,7 +675,7 @@
       "face": "noto",
       "weight": 400,
       "size": 76,
-      "color": "plateInk",
+      "color": "ink",
       "maxLines": 1,
       "shrinkTo": 30,
       "place": "top-left",
@@ -676,7 +683,8 @@
       "dy": 4,
       "w": 315,
       "if": "papered",
-      "text": "Audience"
+      "text": "Audience",
+      "on": "dark"
      },
      {
       "type": "text",
@@ -692,7 +700,8 @@
       "dy": 4,
       "w": 315,
       "if": "!papered",
-      "text": "Audience"
+      "text": "Audience",
+      "on": "card"
      },
      {
       "type": "image",
@@ -804,7 +813,7 @@
                  "pct": "$shareRaw",
                  "minW": 4,
                  "circle": true,
-                 "fill": "accentPaper"
+                 "fill": "accent"
                 },
                 {
                  "type": "rect",
@@ -812,7 +821,7 @@
                  "pct": "$shareRaw",
                  "minW": 4,
                  "circle": true,
-                 "fill": "accentPaper@0.55"
+                 "fill": "accent@0.55"
                 }
                ]
               }
@@ -925,7 +934,7 @@
                  "pct": "$shareRaw",
                  "minW": 4,
                  "circle": true,
-                 "fill": "accentPaper"
+                 "fill": "accent"
                 },
                 {
                  "type": "rect",
@@ -933,7 +942,7 @@
                  "pct": "$shareRaw",
                  "minW": 4,
                  "circle": true,
-                 "fill": "accentPaper@0.55"
+                 "fill": "accent@0.55"
                 }
                ]
               }
@@ -999,7 +1008,7 @@
            "minW": 4,
            "circle": true,
            "fillCycle": [
-            "accentPaper",
+            "accent",
             "#2E2E2E",
             "#B8B8B8"
            ]
@@ -1024,7 +1033,7 @@
              "circle": true,
              "alignSelf": "center",
              "fillCycle": [
-              "accentPaper",
+              "accent",
               "#2E2E2E",
               "#B8B8B8"
              ]

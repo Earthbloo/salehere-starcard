@@ -1,0 +1,882 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spec Parity</title><style>
+:root{--bg:#f6f6f4;--fg:#1b1b1f;--mut:#6b6b73;--card:#fff;--line:#e3e3e0;--ok:#1f8a4c;--warn:#b7791f;--bad:#c2334d}
+@media (prefers-color-scheme:dark){:root{--bg:#141417;--fg:#ececf0;--mut:#9a9aa3;--card:#1d1d22;--line:#2c2c33}}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 -apple-system,system-ui,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:24px 16px} h1{margin:0 0 4px} .lede{color:var(--mut);margin:0 0 20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px} .stat b{font-size:26px;display:block}
+.kind{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 16px}
+.kind h2{font-size:16px;margin:0 0 10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--line)} .ok{background:#1f8a4c22;color:var(--ok)} .warn{background:#b7791f22;color:var(--warn)} .bad{background:#c2334d22;color:var(--bad)}
+.cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.case{margin:0} .case figcaption{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+.trip{display:grid;grid-template-columns:repeat(3,1fr);gap:4px} .trip div{position:relative} .trip img{width:100%;display:block;border-radius:6px;background:#000}
+.trip span{position:absolute;left:4px;top:4px;font-size:10px;background:#000a;color:#fff;padding:1px 5px;border-radius:4px}
+.diffs{color:var(--bad);font-size:12px;margin:0 0 10px;padding-left:18px}
+table{border-collapse:collapse;width:100%;font-size:12px;background:var(--card)} td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+</style></head><body><main>
+<h1>ผัง JSON ชุดเดียว · iOS กับ Android</h1>
+<p class="lede">ทุกใบวาดจาก <code>shared/WidgetSpecs/*.json</code> ชุดเดียวกัน ด้วยข้อมูลชุดเดียวกัน (เล่นซ้ำจากรอบวาดของ iOS) — Android ใช้ตัววัดตัวอักษร · ตัวคำนวณ · ตัววาดของตัวเองทั้งหมด</p>
+<div class="stats">
+<div class="stat"><b>115/122</b>ชนิดที่ตัวเลขตรงทุกกล่องทุกกรอบ</div>
+<div class="stat"><b>20637/21723</b>กล่องที่ตรง (±0.01)</div>
+<div class="stat"><b>44844/44844</b>การวัดตัวอักษรที่กว้างต่างไม่เกิน 0.5pt</div>
+<div class="stat"><b>44844/44844</b>การวัดที่ได้จำนวนบรรทัดเท่ากัน</div></div>
+<section class="kind" id="aboutBehind"><h2>aboutBehind
+          <span class="pill bad">48 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.04% · สูงสุด 0.04%</span></h2>
+          <ul class="diffs"><li>design r/4: type image ≠ text</li><li>design r/5: type col ≠ text</li><li>design r/6: missing on Android</li><li>design r/7: missing on Android</li><li>design r/7/0: missing on Android</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.04% px</span>
+              <span class="pill bad">8 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/aboutBehind-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/aboutBehind-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/aboutBehind-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="aboutEditorial"><h2>aboutEditorial
+          <span class="pill bad">54 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 7.0% · สูงสุด 7.0%</span></h2>
+          <ul class="diffs"><li>design r/4: type col ≠ rect</li><li>design r/5: type image ≠ rect</li><li>design r/6: y 210.80≠18.70 w 183.00≠241.56 h 119.00≠238.00</li><li>design r/6/0: y 210.80≠18.70 w 183.00≠241.56 h 25.69≠104.26</li><li>design r/6/1: y 243.99≠104.96 w 183.00≠241.56 h 85.81≠104.26</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">7.00% px</span>
+              <span class="pill bad">9 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/aboutEditorial-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/aboutEditorial-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/aboutEditorial-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="aboutMe"><h2>aboutMe
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/aboutMe-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/aboutMe-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/aboutMe-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="aboutNote"><h2>aboutNote
+          <span class="pill bad">282 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <ul class="diffs"><li>design r/3: type stack ≠ col</li><li>design r/3/0: type rect ≠ image</li><li>design r/4: type icon ≠ stack</li><li>design r/4/0: missing on Android</li><li>design r/4/1: missing on Android</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill bad">47 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/aboutNote-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/aboutNote-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/aboutNote-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="aboutText"><h2>aboutText
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.85% · สูงสุด 0.85%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.85% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/aboutText-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/aboutText-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/aboutText-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="artDuo"><h2>artDuo
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/artDuo-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/artDuo-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/artDuo-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="artFilmstrip"><h2>artFilmstrip
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/artFilmstrip-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/artFilmstrip-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/artFilmstrip-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="artPair"><h2>artPair
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/artPair-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/artPair-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/artPair-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="artPortfolio"><h2>artPortfolio
+          <span class="pill bad">48 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 3.57% · สูงสุด 3.57%</span></h2>
+          <ul class="diffs"><li>design r/8: type col ≠ icon</li><li>design r/11: missing on Android</li><li>design r/11/0: missing on Android</li><li>design r/11/0/0: missing on Android</li><li>design r/11/0/0/0: missing on Android</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">3.57% px</span>
+              <span class="pill bad">8 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/artPortfolio-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/artPortfolio-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/artPortfolio-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="artTypeOver"><h2>artTypeOver
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/artTypeOver-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/artTypeOver-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/artTypeOver-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="audienceAge"><h2>audienceAge
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 2.57% · สูงสุด 2.57%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">2.57% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/audienceAge-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/audienceAge-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/audienceAge-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="audienceLine"><h2>audienceLine
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 1.43% · สูงสุด 1.43%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">1.43% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/audienceLine-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/audienceLine-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/audienceLine-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="audienceMap"><h2>audienceMap
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.14% · สูงสุด 0.14%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.14% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/audienceMap-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/audienceMap-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/audienceMap-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="audiencePoster"><h2>audiencePoster
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.74% · สูงสุด 0.74%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.74% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/audiencePoster-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/audiencePoster-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/audiencePoster-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="audienceSplit"><h2>audienceSplit
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/audienceSplit-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/audienceSplit-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/audienceSplit-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactBar"><h2>contactBar
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactBar-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactBar-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactBar-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactCard"><h2>contactCard
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactCard-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactCard-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactCard-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactChips"><h2>contactChips
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.24% · สูงสุด 0.24%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.24% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactChips-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactChips-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactChips-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactLine"><h2>contactLine
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.35% · สูงสุด 0.35%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.35% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactLine-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactLine-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactLine-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactPoster"><h2>contactPoster
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactPoster-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactPoster-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactPoster-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactQR"><h2>contactQR
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 2.22% · สูงสุด 2.22%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">2.22% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactQR-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactQR-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactQR-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="contactStack"><h2>contactStack
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/contactStack-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/contactStack-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/contactStack-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="galleryCarousel"><h2>galleryCarousel
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/galleryCarousel-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/galleryCarousel-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/galleryCarousel-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="galleryFilm"><h2>galleryFilm
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/galleryFilm-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/galleryFilm-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/galleryFilm-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="galleryMasonry"><h2>galleryMasonry
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/galleryMasonry-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/galleryMasonry-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/galleryMasonry-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="galleryPost"><h2>galleryPost
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/galleryPost-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/galleryPost-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/galleryPost-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="galleryStack"><h2>galleryStack
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/galleryStack-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/galleryStack-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/galleryStack-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="heroMinimal"><h2>heroMinimal
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.12% · สูงสุด 0.12%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.12% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/heroMinimal-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/heroMinimal-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/heroMinimal-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBioCream"><h2>kitBioCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.15% · สูงสุด 99.15%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.15% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBioCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBioCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBioCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBioGingham"><h2>kitBioGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 19.63% · สูงสุด 19.63%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">19.63% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBioGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBioGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBioGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBioMac"><h2>kitBioMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.16% · สูงสุด 99.16%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.16% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBioMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBioMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBioMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBioNight"><h2>kitBioNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.31% · สูงสุด 0.31%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.31% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBioNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBioNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBioNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBioPurple"><h2>kitBioPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.72% · สูงสุด 99.72%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.72% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBioPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBioPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBioPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBodyCream"><h2>kitBodyCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.34% · สูงสุด 99.34%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.34% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBodyCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBodyCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBodyCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBodyGingham"><h2>kitBodyGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 14.92% · สูงสุด 14.92%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">14.92% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBodyGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBodyGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBodyGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBodyMac"><h2>kitBodyMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.41% · สูงสุด 99.41%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.41% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBodyMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBodyMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBodyMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBodyNight"><h2>kitBodyNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 70.71% · สูงสุด 70.71%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">70.71% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBodyNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBodyNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBodyNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitBodyPurple"><h2>kitBodyPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 33.97% · สูงสุด 33.97%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">33.97% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitBodyPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitBodyPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitBodyPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitContactCream"><h2>kitContactCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 65.72% · สูงสุด 65.72%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">65.72% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitContactCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitContactCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitContactCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitContactGingham"><h2>kitContactGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 14.78% · สูงสุด 14.78%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">14.78% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitContactGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitContactGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitContactGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitContactMac"><h2>kitContactMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 63.46% · สูงสุด 63.46%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">63.46% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitContactMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitContactMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitContactMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitContactNight"><h2>kitContactNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 46.55% · สูงสุด 46.55%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">46.55% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitContactNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitContactNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitContactNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitContactPurple"><h2>kitContactPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 28.5% · สูงสุด 28.5%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">28.50% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitContactPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitContactPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitContactPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitInsightCream"><h2>kitInsightCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.37% · สูงสุด 99.37%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.37% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitInsightCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitInsightCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitInsightCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitInsightGingham"><h2>kitInsightGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 12.32% · สูงสุด 12.32%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">12.32% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitInsightGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitInsightGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitInsightGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitInsightMac"><h2>kitInsightMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.09% · สูงสุด 99.09%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.09% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitInsightMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitInsightMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitInsightMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitInsightNight"><h2>kitInsightNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 72.02% · สูงสุด 72.02%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">72.02% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitInsightNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitInsightNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitInsightNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitInsightPurple"><h2>kitInsightPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 32.88% · สูงสุด 32.88%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">32.88% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitInsightPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitInsightPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitInsightPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitNicheCream"><h2>kitNicheCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.72% · สูงสุด 99.72%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.72% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitNicheCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitNicheCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitNicheCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitNicheGingham"><h2>kitNicheGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 23.78% · สูงสุด 23.78%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">23.78% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitNicheGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitNicheGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitNicheGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitNicheMac"><h2>kitNicheMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 98.87% · สูงสุด 98.87%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">98.87% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitNicheMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitNicheMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitNicheMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitNicheNight"><h2>kitNicheNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 44.2% · สูงสุด 44.2%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">44.20% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitNicheNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitNicheNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitNicheNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitNichePurple"><h2>kitNichePurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 65.48% · สูงสุด 65.48%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">65.48% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitNichePurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitNichePurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitNichePurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitProfileCream"><h2>kitProfileCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 83.32% · สูงสุด 83.32%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">83.32% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitProfileCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitProfileCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitProfileCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitProfileGingham"><h2>kitProfileGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 14.05% · สูงสุด 14.05%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">14.05% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitProfileGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitProfileGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitProfileGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitProfileMac"><h2>kitProfileMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 85.41% · สูงสุด 85.41%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">85.41% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitProfileMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitProfileMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitProfileMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitProfileNight"><h2>kitProfileNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitProfileNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitProfileNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitProfileNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitProfilePurple"><h2>kitProfilePurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 82.51% · สูงสุด 82.51%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">82.51% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitProfilePurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitProfilePurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitProfilePurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitRateCream"><h2>kitRateCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.45% · สูงสุด 99.45%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.45% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitRateCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitRateCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitRateCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitRateGingham"><h2>kitRateGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 15.27% · สูงสุด 15.27%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">15.27% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitRateGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitRateGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitRateGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitRateMac"><h2>kitRateMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.39% · สูงสุด 99.39%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.39% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitRateMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitRateMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitRateMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitRateNight"><h2>kitRateNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 58.97% · สูงสุด 58.97%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">58.97% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitRateNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitRateNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitRateNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitRatePurple"><h2>kitRatePurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 93.7% · สูงสุด 93.7%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">93.70% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitRatePurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitRatePurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitRatePurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitSocialCream"><h2>kitSocialCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 96.71% · สูงสุด 96.71%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">96.71% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitSocialCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitSocialCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitSocialCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitSocialGingham"><h2>kitSocialGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 13.55% · สูงสุด 13.55%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">13.55% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitSocialGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitSocialGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitSocialGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitSocialMac"><h2>kitSocialMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 96.42% · สูงสุด 96.42%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">96.42% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitSocialMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitSocialMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitSocialMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitSocialNight"><h2>kitSocialNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 62.13% · สูงสุด 62.13%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">62.13% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitSocialNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitSocialNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitSocialNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitSocialPurple"><h2>kitSocialPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 91.07% · สูงสุด 91.07%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">91.07% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitSocialPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitSocialPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitSocialPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitTimeCream"><h2>kitTimeCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.25% · สูงสุด 99.25%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.25% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitTimeCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitTimeCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitTimeCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitTimeGingham"><h2>kitTimeGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 17.1% · สูงสุด 17.1%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">17.10% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitTimeGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitTimeGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitTimeGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitTimeMac"><h2>kitTimeMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 99.11% · สูงสุด 99.11%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">99.11% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitTimeMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitTimeMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitTimeMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitTimeNight"><h2>kitTimeNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 53.62% · สูงสุด 53.62%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">53.62% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitTimeNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitTimeNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitTimeNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitTimePurple"><h2>kitTimePurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 95.04% · สูงสุด 95.04%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">95.04% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitTimePurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitTimePurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitTimePurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitWorksCream"><h2>kitWorksCream
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 53.95% · สูงสุด 53.95%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">53.95% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitWorksCream-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitWorksCream-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitWorksCream-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitWorksGingham"><h2>kitWorksGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 11.49% · สูงสุด 11.49%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">11.49% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitWorksGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitWorksGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitWorksGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitWorksMac"><h2>kitWorksMac
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 43.66% · สูงสุด 43.66%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">43.66% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitWorksMac-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitWorksMac-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitWorksMac-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitWorksNight"><h2>kitWorksNight
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 26.3% · สูงสุด 26.3%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">26.30% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitWorksNight-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitWorksNight-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitWorksNight-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="kitWorksPurple"><h2>kitWorksPurple
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 49.54% · สูงสุด 49.54%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">49.54% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/kitWorksPurple-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/kitWorksPurple-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/kitWorksPurple-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="nichePoster"><h2>nichePoster
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/nichePoster-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/nichePoster-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/nichePoster-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="nicheTags"><h2>nicheTags
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/nicheTags-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/nicheTags-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/nicheTags-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popContactGlass"><h2>popContactGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 40.04% · สูงสุด 40.04%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">40.04% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popContactGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popContactGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popContactGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popContactPaper"><h2>popContactPaper
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 40.12% · สูงสุด 40.12%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">40.12% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popContactPaper-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popContactPaper-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popContactPaper-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popHeroGlass"><h2>popHeroGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 81.34% · สูงสุด 81.34%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">81.34% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popHeroGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popHeroGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popHeroGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popHeroPaper"><h2>popHeroPaper
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 5.12% · สูงสุด 5.12%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">5.12% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popHeroPaper-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popHeroPaper-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popHeroPaper-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popNicheGlass"><h2>popNicheGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 87.79% · สูงสุด 87.79%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">87.79% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popNicheGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popNicheGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popNicheGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popNichePaper"><h2>popNichePaper
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 89.17% · สูงสุด 89.17%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">89.17% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popNichePaper-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popNichePaper-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popNichePaper-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popStatsGlass"><h2>popStatsGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 31.27% · สูงสุด 31.27%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">31.27% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popStatsGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popStatsGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popStatsGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popVideoGlass"><h2>popVideoGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 63.45% · สูงสุด 63.45%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">63.45% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popVideoGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popVideoGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popVideoGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popVideoPaper"><h2>popVideoPaper
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 59.14% · สูงสุด 59.14%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">59.14% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popVideoPaper-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popVideoPaper-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popVideoPaper-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popWorkGlass"><h2>popWorkGlass
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 28.89% · สูงสุด 28.89%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">28.89% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popWorkGlass-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popWorkGlass-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popWorkGlass-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="popWorkPaper"><h2>popWorkPaper
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 30.3% · สูงสุด 30.3%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">30.30% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/popWorkPaper-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/popWorkPaper-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/popWorkPaper-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="portfolioGingham"><h2>portfolioGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/portfolioGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/portfolioGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/portfolioGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="portfolioWindow"><h2>portfolioWindow
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/portfolioWindow-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/portfolioWindow-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/portfolioWindow-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofBrandCoins"><h2>proofBrandCoins
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.16% · สูงสุด 0.16%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.16% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofBrandCoins-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofBrandCoins-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofBrandCoins-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofBrandGrid"><h2>proofBrandGrid
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofBrandGrid-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofBrandGrid-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofBrandGrid-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofBrandRail"><h2>proofBrandRail
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofBrandRail-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofBrandRail-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofBrandRail-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofSeal"><h2>proofSeal
+          <span class="pill bad">240 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.29% · สูงสุด 0.29%</span></h2>
+          <ul class="diffs"><li>design r/9: missing on Android</li><li>design r/9/0: missing on Android</li><li>design r/9/1: missing on Android</li><li>design r/9/2: missing on Android</li><li>design r/9/3: missing on Android</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.29% px</span>
+              <span class="pill bad">40 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofSeal-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofSeal-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofSeal-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofTicket"><h2>proofTicket
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofTicket-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofTicket-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofTicket-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="proofWork"><h2>proofWork
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 2.14% · สูงสุด 2.14%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">2.14% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/proofWork-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/proofWork-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/proofWork-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="rateTags"><h2>rateTags
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 12.65% · สูงสุด 12.65%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">12.65% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/rateTags-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/rateTags-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/rateTags-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="reelShowcase"><h2>reelShowcase
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/reelShowcase-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/reelShowcase-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/reelShowcase-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapAbout"><h2>scrapAbout
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 4.51% · สูงสุด 4.51%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">4.51% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapAbout-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapAbout-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapAbout-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapBadge"><h2>scrapBadge
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 9.16% · สูงสุด 9.16%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">9.16% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapBadge-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapBadge-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapBadge-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapFeed"><h2>scrapFeed
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 6.72% · สูงสุด 6.72%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">6.72% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapFeed-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapFeed-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapFeed-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapInfo"><h2>scrapInfo
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.52% · สูงสุด 0.52%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.52% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapInfo-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapInfo-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapInfo-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapKeyTab"><h2>scrapKeyTab
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 41.66% · สูงสุด 41.66%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">41.66% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapKeyTab-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapKeyTab-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapKeyTab-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapNote"><h2>scrapNote
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 1.84% · สูงสุด 1.84%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">1.84% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapNote-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapNote-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapNote-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapPhones"><h2>scrapPhones
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 2.71% · สูงสุด 2.71%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">2.71% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapPhones-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapPhones-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapPhones-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapStats"><h2>scrapStats
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 5.0% · สูงสุด 5.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill bad">5.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapStats-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapStats-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapStats-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="scrapTags"><h2>scrapTags
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 3.13% · สูงสุด 3.13%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">3.13% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/scrapTags-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/scrapTags-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/scrapTags-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="socialChips"><h2>socialChips
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/socialChips-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/socialChips-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/socialChips-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="socialGingham"><h2>socialGingham
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/socialGingham-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/socialGingham-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/socialGingham-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="socialTiles"><h2>socialTiles
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/socialTiles-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/socialTiles-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/socialTiles-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="socialWindow"><h2>socialWindow
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/socialWindow-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/socialWindow-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/socialWindow-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="statGiant"><h2>statGiant
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/statGiant-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/statGiant-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/statGiant-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="statPoster"><h2>statPoster
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 1.64% · สูงสุด 1.64%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">1.64% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/statPoster-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/statPoster-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/statPoster-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="stickerTags"><h2>stickerTags
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 3.38% · สูงสุด 3.38%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">3.38% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/stickerTags-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/stickerTags-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/stickerTags-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="typeMarquee"><h2>typeMarquee
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.22% · สูงสุด 0.22%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.22% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/typeMarquee-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/typeMarquee-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/typeMarquee-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="wallMemory"><h2>wallMemory
+          <span class="pill bad">114 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.72% · สูงสุด 0.72%</span></h2>
+          <ul class="diffs"><li>design r/4: type stack ≠ text</li><li>design r/5: x 7.30≠78.70 y 183.00≠56.70 w 82.35≠210.45 h 78.69≠219.60</li><li>design r/5/0: x 11.30≠85.70 y 187.00≠63.70 w 74.35≠196.45 h 70.69≠205.60</li><li>design r/6: x 276.30≠14.60 y 78.70≠82.40 h 76.86≠75.03</li><li>design r/6/0: x 280.30≠18.60 y 82.70≠86.40 h 68.86≠67.03</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.72% px</span>
+              <span class="pill bad">19 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/wallMemory-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/wallMemory-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/wallMemory-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="wallPolaroid"><h2>wallPolaroid
+          <span class="pill bad">300 กล่องต่าง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 2.16% · สูงสุด 2.16%</span></h2>
+          <ul class="diffs"><li>design r/14: x 14.64≠60.39 y 237.35≠2.35 w 120.78≠126.27</li><li>design r/14/c0: x 14.64≠60.39 y 237.35≠2.35 w 120.78≠126.27</li><li>design r/14/c0/0: x 14.64≠60.39 y 237.35≠2.35 w 120.78≠126.27 h 152.97≠159.92</li><li>design r/14/c0/0/0: x 21.28≠67.33 y 243.99≠9.29 w 107.49≠112.38 h 134.37≠140.48</li><li>design r/14/c0/0/1: x 69.53≠118.03 y 228.35≠-6.65</li></ul><div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill warn">2.16% px</span>
+              <span class="pill bad">50 กล่องต่าง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/wallPolaroid-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/wallPolaroid-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/wallPolaroid-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="workFeatured"><h2>workFeatured
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/workFeatured-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/workFeatured-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/workFeatured-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section><section class="kind" id="workReel"><h2>workReel
+          <span class="pill ok">ตัวเลขตรงทุกกล่อง</span>
+          <span class="pill">ภาพต่างเฉลี่ย 0.0% · สูงสุด 0.0%</span></h2>
+          <div class="cases"><figure class="case"><figcaption><b>design</b> <span class="pill ok">0.00% px</span>
+              <span class="pill ok">ตัวเลขตรง</span></figcaption>
+              <div class="trip"><div><img loading="lazy" src="cells/workReel-design-ios.png"><span>iOS</span></div>
+              <div><img loading="lazy" src="cells/workReel-design-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="cells/workReel-design-diff.png"><span>ต่าง (แดง)</span></div></div></figure></div></section>
+<h2>การวัดตัวอักษรที่ต่างมากสุด</h2><table><tr><th>ข้อความ</th><th>ฟอนต์</th><th>iOS w</th><th>Android w</th><th>ต่าง</th><th>บรรทัด iOS/Android</th></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr><tr><td>✱</td><td>noto 18.931034482758623 / 900</td><td>14.09</td><td>14.09</td><td>0.00</td><td>1 / 1</td></tr></table>
+</main></body></html>

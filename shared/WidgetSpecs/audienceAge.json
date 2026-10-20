@@ -95,7 +95,7 @@
         {
          "type": "rect",
          "circle": true,
-         "fill": "fill@0.07"
+         "fill": "bg2@0.07"
         },
         {
          "type": "row",
@@ -105,7 +105,7 @@
            "pct": "$shareRaw/max",
            "circle": true,
            "gradient": {
-            "from": "accentSoft",
+            "from": "accent@0.6",
             "to": "accent",
             "angle": 0
            },

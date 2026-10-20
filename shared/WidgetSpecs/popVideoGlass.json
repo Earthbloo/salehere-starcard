@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "glass",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · หน้าต่างวิดีโอ (กระจก) — แถบ Video + ⋯ · คลิปขอบชมพู · ปุ่ม ⏮ ▶ ⏭ 🔊 ตกแต่ง · เส้นชมพูขอบบน · แปลงจาก PopWidgets.swift (PopVideo สกิน glass) · ไล่สีขอบกระจกแทนด้วย stroke ขาวจาง",
  "root": {
@@ -29,13 +30,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 18,
     "shadow": {
      "x": 0,
      "sigma": 4.5,
      "y": 5,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -54,7 +55,7 @@
       "if": "bordered",
       "radius": 18,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -78,7 +79,7 @@
           "face": "noto",
           "weight": 700,
           "size": 18,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1
          },
          {
@@ -90,7 +91,7 @@
           "icon": "ph:dots-three-fill",
           "w": 22,
           "h": 14,
-          "tint": "pop.ink"
+          "tint": "ink"
          }
         ]
        },
@@ -110,7 +111,7 @@
           "h": "fill",
           "radius": 12,
           "stroke": {
-           "color": "rawAccent@0.75",
+           "color": "accent@0.75",
            "width": 2.5
           }
          }
@@ -133,7 +134,7 @@
           "w": "fill",
           "grow": 1,
           "h": 17,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
@@ -141,7 +142,7 @@
           "w": "fill",
           "grow": 1,
           "h": 17,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
@@ -149,7 +150,7 @@
           "w": "fill",
           "grow": 1,
           "h": 17,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
@@ -157,7 +158,7 @@
           "w": "fill",
           "grow": 1,
           "h": 17,
-          "tint": "pop.ink"
+          "tint": "ink"
          }
         ]
        }
@@ -169,7 +170,7 @@
       "w": 92,
       "h": 3.5,
       "radius": 1.75,
-      "fill": "rawAccent",
+      "fill": "accent",
       "place": "top-center",
       "dy": 4
      }

@@ -178,12 +178,14 @@ function qr(text, tint, w, h) {
 
 /**
  * ไอคอนหนึ่งตัว (= `SpecIcon`)
- * o = { name, w, h, tint (css|null), text, size, ink, accent (css), stamped, handle, provenance, scrap, base }
+ * o = { name, w, h, tint (css|null), text, size, ink, accent (css), color (token → css บนพื้นตั้งต้นของใบ), stamped, handle, provenance, scrap, base }
  */
 export function specIcon(o) {
   const { name, w, h, tint, ink } = o
-  const inkC = css(ink.text(1))
-  const accentC = o.accent ?? inkC
+  // สีตั้งต้นเมื่อผังไม่ส่ง `tint` = token บนพื้นตั้งต้นของใบ (= iOS `color("ink")` / `color("accent")` ผ่าน `SpecPalette`) · ไม่มี `color` = หมึกการ์ด
+  const col = (t, a = 1) => (o.color ? o.color(a === 1 ? t : `${t}@${a}`) : css(ink.text(a)))
+  const inkC = col('ink')
+  const accentC = o.color ? o.color('accent') : (o.accent ?? inkC)
   const m = Math.min(w, h)
   const punch = css(ink.isLight ? WHITE : grey(0.10))
   const box = el('div', `position:absolute;left:0;top:0;width:${w}px;height:${h}px;display:flex;align-items:center;justify-content:center`)
@@ -194,7 +196,7 @@ export function specIcon(o) {
     case 'provenance:socials': case 'provenance:photo': return put(provenance(o.provenance, ink, name === 'provenance:photo', o.base))
     case 'provenance:screenshot': return put(provenance({ type: 'screenshot', label: 'จากสกรีนช็อต · 12 ก.ย.' }, ink, false, o.base))
     case 'byline': case 'byline:dark': case 'byline:light':
-      return put(byline(tint ?? css(ink.text(0.9)), Math.max(6, h * 0.45), name === 'byline:dark' ? 'dark' : name === 'byline:light' ? 'light' : 'ink', o.base))
+      return put(byline(tint ?? col('ink', 0.9), Math.max(6, h * 0.45), name === 'byline:dark' ? 'dark' : name === 'byline:light' ? 'light' : 'ink', o.base))
     case 'verifiedBadge': return put(verifiedBadge(ink, o.stamped, o.base))
     case 'verifiedSeal': { const d = el('div', `position:relative;width:${m}px;height:${m}px`); d.appendChild(verifiedSeal(m, punch, tint ?? inkC, false)); return put(d) }
     case 'starSeal': {
@@ -203,7 +205,7 @@ export function specIcon(o) {
       d.appendChild(verifiedSeal(r, punch, tint ?? accentC, true)); return put(d)
     }
     case 'guilloche': {
-      const c = tint ?? css(ink.text(0.2))
+      const c = tint ?? col('ink', 0.2)
       const cx = w / 2, cy = h / 2, r0 = Math.min(w, h) / 2
       let body = ''
       for (const [n, amp, base, count] of [[16, 0.115, 0.86, 16], [9, 0.10, 0.60, 12]]) {
@@ -243,7 +245,7 @@ export function specIcon(o) {
     }
     case 'paperClip': {
       const s = w / 30
-      return put(svg(w, h, `<path d="${PAPERCLIP(s)}" fill="none" stroke="${tint ?? css(ink.text(0.6))}" stroke-width="1.6"/>`))
+      return put(svg(w, h, `<path d="${PAPERCLIP(s)}" fill="none" stroke="${tint ?? col('ink', 0.6)}" stroke-width="1.6"/>`))
     }
     case 'barcode': {
       const bars = [3, 1, 1, 2, 4, 1, 2, 3, 1, 1, 3, 2, 1, 4, 1, 2, 2, 1, 3, 1, 1, 2, 4, 1, 2, 1, 3]

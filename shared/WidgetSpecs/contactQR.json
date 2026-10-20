@@ -10,7 +10,8 @@
   "symbol": "qrcode",
   "order": 36,
   "ownSurface": true,
-  "motion": "anchored"
+  "motion": "anchored",
+  "on": "dark"
  },
  "notes": "บัตรกระดาษ #FAFAF7 มุม 16 เงาลึก + แถบสีเน้นที่หัว 5pt + QR จริง (กว้างสุด 118) + @handle + บรรทัด 'สแกนเพื่อ…' · สี Deal คงที่: ink #1A1224 · inkSoft #615470 · card #FAFAF7 · แถบหัว 5pt อยู่นอก clip (ต้นฉบับ overlay บนบัตร กว้างเต็ม ปลายมน) และมีเงาเหมือนลูกอื่น · แถบหัว = theme.rawAccent (สีดิบ ไม่ปรับตามพื้น — ที่เดียวที่บัตรกระดาษยอมรับสีการ์ด) · ตราข้างบรรทัดสแกน = VerifiedSeal compact ⌀10 สี inkSoft เครื่องหมายถูกสีกระดาษบัตร → rect scallop:8 + ph:check · แปลงจาก BookingWidgets.swift (ContactQRWidget) · เงาของบัตรอยู่ที่ rect แยก (stack ที่ clip ตัดเงาตัวเองทิ้ง) · ต้นฉบับ .shadow บนทั้งก้อนโดยไม่มี compositingGroup จึงกระจายเงาลงลูกทุกตัว (QR และตัวอักษรมีเงา) — ผังใส่เงาเดียวกันที่ QR และข้อความ · เงาของ QR วาดที่แผ่นขาวรองหลัง (icon ไม่รับ shadow)",
  "root": {
@@ -178,7 +179,7 @@
     "id": "topBand",
     "h": 5,
     "place": "top-left",
-    "fill": "rawAccent",
+    "fill": "accent",
     "circle": true,
     "shadow": {
      "sigma": 6,

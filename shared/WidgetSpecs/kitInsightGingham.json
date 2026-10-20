@@ -80,7 +80,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
  "variants": [
@@ -103,7 +104,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 13,
@@ -126,7 +127,7 @@
            {
             "type": "rect",
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             },
             "radius": 2,
@@ -146,7 +147,7 @@
            {
             "type": "rect",
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             },
             "radius": 13,
@@ -166,7 +167,7 @@
           "face": "noto",
           "size": 19,
           "weight": 800,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "shrinkTo": 13.3,
           "w": "fill",
@@ -536,7 +537,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "pattern": {
        "kind": "grid",
@@ -551,7 +552,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -583,7 +584,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "pattern": {
          "kind": "grid",
@@ -598,7 +599,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -627,7 +628,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "pattern": {
          "kind": "grid",
@@ -642,7 +643,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20
          },
          {
@@ -683,7 +684,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         },
         "radius": 13,
@@ -706,7 +707,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 2,
@@ -726,7 +727,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 13,
@@ -746,7 +747,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "shrinkTo": 13.3,
         "w": "fill",

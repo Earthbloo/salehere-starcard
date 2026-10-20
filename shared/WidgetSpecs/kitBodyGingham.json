@@ -79,7 +79,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สัดส่วน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bodyGrid) · ช่อง height/weight/bust/waist/hips/shoe (ค่ามีหน่วยติดมา เช่น '165 ซม.') · ซ่อนด้วย hidden:h|w|g|s · ผังตายตัว: แถวคู่ ส่วนสูง+น้ำหนัก · รอบตัว · รองเท้า (ต้นฉบับจับคู่ช่องเล็กใหม่เมื่อซ่อนบางช่อง — ที่นี่ช่องที่เหลือกินเต็มแถว) · รอบตัว = สามช่องคั่นด้วย / (ต้นฉบับรวมเป็นสตริงเดียวและซ่อนหน่วยซ้ำ) เปิดเมื่อมี bust · กลางคืน: หน่วยอยู่ในตัวเลขใหญ่ (ต้นฉบับแยกบรรทัดเล็ก) · แถวคู่ยังกินที่เมื่อซ่อนทั้งสองช่อง",
  "variants": [
@@ -102,7 +103,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 13,
@@ -125,7 +126,7 @@
            {
             "type": "rect",
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             },
             "radius": 2,
@@ -145,7 +146,7 @@
            {
             "type": "rect",
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             },
             "radius": 13,
@@ -165,7 +166,7 @@
           "face": "noto",
           "size": 19,
           "weight": 800,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "shrinkTo": 13.3,
           "w": "fill",
@@ -366,7 +367,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "pattern": {
        "kind": "grid",
@@ -381,7 +382,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -413,7 +414,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "pattern": {
          "kind": "grid",
@@ -428,7 +429,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -457,7 +458,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "pattern": {
          "kind": "grid",
@@ -472,7 +473,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20
          },
          {
@@ -513,7 +514,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         },
         "radius": 13,
@@ -536,7 +537,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 2,
@@ -556,7 +557,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           },
           "radius": 13,
@@ -576,7 +577,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "shrinkTo": 13.3,
         "w": "fill",

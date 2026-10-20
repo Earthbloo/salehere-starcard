@@ -63,30 +63,37 @@ struct CardSnapshot: Codable {
         var kit: KitConfig? = nil
     }
     struct Page: Codable { var items: [Item] }
+    /// สีของการ์ด — **สิ่งเดียวที่ API เก็บเรื่องสี** (20 ต.ค. 2569 รอบ 3): `primary` = พื้น · `secondary` = หมึกของการ์ดสองสี
+    /// ไม่มีชื่อพาเลตต์/คู่สี/HSB อีกแล้ว — renderer ทุกแพลตฟอร์มคิดสีที่เหลือจากสองค่านี้เอง
+    struct Colors: Codable, Equatable {
+        var primary: String
+        var secondary: String? = nil
+    }
+
+    /// theme ที่ API เก็บ (20 ต.ค. 2569 รอบ 4): `colors` · `ink` (โทน) · `backdrop` + ของพื้นรูป — แค่นั้น
+    /// `corner` `strip` `inkAuto` ถอดออก (ผู้ใช้: "เอาออกไปให้หมด"): มุม = มน · แถบ = บรรทัด เสมอ · หมึกเก็บตรง ๆ
     struct Theme: Codable {
-        var palette: String
+        var colors: Colors? = nil
         var ink: String
-        var corner: String
         var backdrop: String
-        var brightness: Double
-        var hueShift: Double
-        var customHue: Double?
-        var customSat: Double?
-        // ไฟล์เก่าไม่มีสองคีย์นี้ · `inkAuto` ที่หายไปต้องอ่านเป็น false ไม่ใช่ค่าตั้งต้นของสตรักต์
-        // ไม่งั้นการ์ดที่เคยเลือก "กระดาษ" ไว้จะกลายเป็นเวทีมืดในการเปิดครั้งถัดไป
+        // ---- ฟิลด์รุ่นก่อน (ชื่อพาเลตต์ · คู่สี · HSB ที่ตั้งเอง · ความสว่าง · เลื่อนเฉด) — อ่านอย่างเดียว ไม่เขียนแล้ว
+        // doc เก่าแปลงเป็น `colors` ตอนอ่านด้วย `LegacyTheme.colors` (สูตรเดียวกับ `migrateTheme` ใน theme.js)
+        var palette: String? = nil
+        var brightness: Double? = nil
+        var hueShift: Double? = nil
+        var customHue: Double? = nil
+        var customSat: Double? = nil
         var customBri: Double? = nil
-        var inkAuto: Bool? = nil
-        var photoEffect: String? = nil
-        var photoDim: Double? = nil
-        /// แบบของแถบผู้ออกบัตร — ไฟล์เก่าไม่มี ตกไปใช้ "บรรทัด"
-        var strip: String? = nil
-        /// รูปพื้นหลังเอียงไปทางสว่างแค่ไหน (ดู `CardTheme.photoLean`) — ไฟล์เก่าไม่มี = วัดใหม่ตอนเปิด
-        var photoLean: Double? = nil
-        /// คู่สีที่เลือกไว้ (ดู `ColorDuo`) — ไฟล์เก่าไม่มี = ยังใช้พาเลตต์ตามเดิม
         var duo: String? = nil
         var duoFlipped: Bool? = nil
+        var inkAuto: Bool? = nil
+        var corner: String? = nil
+        var strip: String? = nil
+        var photoEffect: String? = nil
+        var photoDim: Double? = nil
+        /// รูปพื้นหลังเอียงไปทางสว่างแค่ไหน (ดู `CardTheme.photoLean`) — ไฟล์เก่าไม่มี = วัดใหม่ตอนเปิด
+        var photoLean: Double? = nil
         /// ฟอนต์ข้อมูลของการ์ด (ชุดห้าสไตล์) — ไฟล์เก่าไม่มี = มาตรฐาน
-        var dataFont: String? = nil
     }
 
     var pages: [Page]
@@ -128,15 +135,10 @@ enum CardStore {
                 })
             },
             theme: CardSnapshot.Theme(
-                palette: theme.palette.rawValue, ink: theme.ink.rawValue,
-                corner: theme.corner.rawValue, backdrop: theme.backdrop.rawValue,
-                brightness: theme.brightness, hueShift: theme.hueShift,
-                customHue: theme.customHue, customSat: theme.customSat,
-                customBri: theme.customBri, inkAuto: theme.inkAuto,
+                colors: .init(primary: theme.primary.hexString, secondary: theme.secondary?.hexString),
+                ink: theme.ink.rawValue, backdrop: theme.backdrop.rawValue,
                 photoEffect: theme.photoEffect.rawValue, photoDim: theme.photoDim,
-                strip: theme.strip.rawValue, photoLean: theme.photoLean,
-                duo: theme.duoID, duoFlipped: theme.duoFlipped,
-                dataFont: theme.dataFont == .noto ? nil : theme.dataFont.rawValue),
+                photoLean: theme.photoLean),
             index: index)
     }
 
@@ -183,7 +185,7 @@ enum CardStore {
     static func restore(_ snap: CardSnapshot,
                         format: CardFormat? = nil) -> (pages: [CardPage], theme: CardTheme, index: Int)? {
         // สำรับสติกเกอร์ในไฟล์เก่าไม่มีวัสดุติดมากับชนิด — ตอนนั้นมันมาจากมุมของธีม
-        let legacyPopSkin: PopSkin = CornerStyle(rawValue: snap.theme.corner) == .soft ? .paper : .glass
+        let legacyPopSkin: PopSkin = CornerStyle(rawValue: snap.theme.corner ?? "") == .soft ? .paper : .glass
         var pages = snap.pages.map { p in
             CardPage(p.items.compactMap { it -> WidgetInstance? in
                 guard let kind = WidgetKind.decode(it.kind, legacyPopSkin: legacyPopSkin,
@@ -214,23 +216,16 @@ enum CardStore {
         if let format { PinnedSeal.ensure(&pages, format: format) }
 
         var t = CardTheme()
-        if let v = Palette(rawValue: snap.theme.palette) { t.palette = v }
         if let v = CardInk(rawValue: snap.theme.ink) { t.ink = v }
-        if let v = CornerStyle(rawValue: snap.theme.corner) { t.corner = v }
         if let v = BackdropStyle(rawValue: snap.theme.backdrop) { t.backdrop = v }
-        t.brightness = snap.theme.brightness
-        t.hueShift = snap.theme.hueShift
-        t.customHue = snap.theme.customHue
-        t.customSat = snap.theme.customSat
-        t.customBri = snap.theme.customBri
-        t.inkAuto = snap.theme.inkAuto ?? false
+        // สี: doc ใหม่ = `colors` ตรง ๆ · doc เก่า = แปลงจากชื่อพาเลตต์/คู่สี/HSB ด้วยสูตรเดิม
+        let colors = LegacyTheme.colors(snap.theme)
+        t.primary = Color(docHex: colors.primary) ?? Palette.midnight.dark
+        t.secondary = Color(docHex: colors.secondary)
+        // doc เก่าที่พลิกคู่สี (`duoFlipped`) = โทนสว่าง — ตอนนี้โทนอยู่ที่ `ink` ไม่ใช่ลำดับสี
+        if let v = LegacyTheme.inkOverride(snap.theme, primary: t.primary, lightInk: t.lightInk) { t.ink = v }
         if let v = snap.theme.photoEffect.flatMap(BackdropEffect.init(rawValue:)) { t.photoEffect = v }
         if let v = snap.theme.photoDim { t.photoDim = v }
-        if let v = snap.theme.strip.flatMap(StripStyle.init(rawValue:)) { t.strip = v }
-        // รหัสที่ไม่รู้จักแล้ว (คู่สีถูกถอดออกจากชุด) ตกไปใช้พาเลตต์แทน ไม่ใช่การ์ดไร้สี
-        t.duoID = snap.theme.duo.flatMap { ColorDuo.find($0) }?.id
-        t.duoFlipped = snap.theme.duoFlipped ?? false
-        t.dataFont = snap.theme.dataFont.flatMap(CardFont.init(rawValue:)) ?? .noto
 
         return (pages, t, min(max(0, snap.index), pages.count - 1))
     }
@@ -264,4 +259,54 @@ enum CardStore {
     }
 
     static func clearAll() { CardFormat.allCases.forEach(clear) }
+}
+
+
+// MARK: - doc รุ่นก่อน → `colors` (20 ต.ค. 2569 รอบ 3)
+
+/// แปลงสีของ doc เก่า (ชื่อพาเลตต์ · คู่สี · HSB ที่ตั้งเอง · ความสว่าง · เลื่อนเฉด) เป็น `colors`
+/// = สูตร `backdropColors.top` ของ CardTheme ก่อนรอบ 3 · ต้องตรงกับ `legacyColors` ใน sync-server/web/js/theme.js
+/// และ `LegacyTheme` ใน Android ทุกบรรทัด — doc เดียวกันต้องได้ hex เดียวกันทั้งสามแพลตฟอร์ม
+enum LegacyTheme {
+    /// หมึกของ doc เก่า (ไม่มี `colors`): คู่สี — `duoFlipped` = โทนสว่าง (paper) · ไม่พลิก = night ·
+    /// สีเดียวที่เคยเปิด `inkAuto` (ไม่มีคีย์ = เปิด) — เลือกฝั่งจากความสว่างของพื้นให้ครั้งเดียวตอนแปลง (= `autoInk`)
+    static func inkOverride(_ t: CardSnapshot.Theme, primary: Color, lightInk: CardInk) -> CardInk? {
+        guard t.colors == nil, t.backdrop != BackdropStyle.photo.rawValue else { return nil }
+        if let id = t.duo, ColorDuo.find(id) != nil { return (t.duoFlipped ?? false) ? .paper : .night }
+        guard t.inkAuto ?? true else { return nil }
+        let l = RGB(primary).luminance
+        return (l + 0.05) / 0.07 > 1.05 / (l + 0.05) ? lightInk : .night
+    }
+
+    static func colors(_ t: CardSnapshot.Theme) -> CardSnapshot.Colors {
+        if let c = t.colors, Color(docHex: c.primary) != nil {
+            return CardSnapshot.Colors(primary: Color(docHex: c.primary)!.hexString,
+                                       secondary: Color(docHex: c.secondary)?.hexString)
+        }
+        if let id = t.duo, let d = ColorDuo.find(id), t.backdrop != BackdropStyle.photo.rawValue {
+            // คู่เก็บตามนิยาม (เข้ม · อ่อน) เสมอ — ข้างที่ขึ้นเป็นพื้นไปอยู่ที่ `ink` (ดู `inkOverride`)
+            return CardSnapshot.Colors(primary: d.dark.hexString, secondary: d.light.hexString)
+        }
+        let pal = t.palette.flatMap(Palette.init(rawValue:)) ?? .midnight
+        let hueShift = t.hueShift ?? 0, brightness = t.brightness ?? 0.30
+        let rawHue = (t.customHue ?? pal.backdropHue) + hueShift
+        let hue = rawHue - floor(rawHue)
+        let sat = t.customHue != nil ? min(0.6, max(0.15, t.customSat ?? 0.5)) : pal.backdropSaturation
+        if let bri = t.customBri, t.customHue != nil {
+            return CardSnapshot.Colors(primary: Color(hue: hue, saturation: min(1, max(0, t.customSat ?? 0.5)),
+                                                      brightness: min(1, max(0, bri))).hexString)
+        }
+        let ink = CardInk(rawValue: t.ink) ?? .night
+        let lightInk: CardInk = (t.customSat ?? 0) >= 0.35 ? .mist : .paper
+        let active: CardInk = t.backdrop == BackdropStyle.photo.rawValue ? .night
+            : (t.inkAuto ?? true) ? .night : (ink.isLight ? lightInk : .night)
+        let b = brightness
+        let top: Color
+        switch active {
+        case .night: top = Color(hue: hue, saturation: max(0, sat - b * 0.28), brightness: 0.05 + b * 0.52)
+        case .paper: top = Color(hue: hue, saturation: 0.03 + sat * 0.04, brightness: 0.955 + b * 0.045)
+        case .mist:  top = Color(hue: hue, saturation: 0.09 + sat * 0.16, brightness: 0.945 + b * 0.05)
+        }
+        return CardSnapshot.Colors(primary: top.hexString)
+    }
 }

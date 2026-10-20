@@ -3,7 +3,7 @@
 // รู้จักของไม่กี่อย่าง — กล่องมุมมน · เส้น · ไล่สี · ลาย · ข้อความ · รูป · ไอคอน — และ **ไม่ตัดสินใจอะไรเอง**
 // ตำแหน่ง/ขนาด/ขนาดตัวอักษร/จำนวนบรรทัด มาจาก `SpecSolver` ทั้งหมด · ข้อความวาดเฉพาะบรรทัดที่ตัววัดตัดไว้
 //
-// ctx = { color(token, item) → css, photo(slot, item) → {url, fit}, measurer, fontCSS, base, icon(o) → element,
+// ctx = { color(token, on, item) → css (on = พื้นของโหนด · §4), photo(slot, item) → {url, fit}, measurer, fontCSS, base, icon(o) → element,
 //         platePattern ('plain'|'stripe'|'diamond'), mixed(css,…) }
 
 import { shapePath, drawPattern, drawPlatePattern, makeCanvas } from './spec-shapes.js'
@@ -78,7 +78,7 @@ function background(d, n, item, f, ctx, defaultFill) {
   const layer = el('div', 'position:absolute;inset:0;pointer-events:none')
   // ลายแผ่นของถาด — เฉดเข้มของแผ่นเอง ตัดตามรูปร่าง · แผ่นใสไม่วาด
   if (pp && ctx.platePattern && ctx.platePattern !== 'plain') {
-    const sheet = ctx.colorObj(pp, item)
+    const sheet = ctx.colorObj(pp, n.on, item)
     if (sheet.a > 0.002) {
       const band = ctx.css(ctx.mixDark(sheet))
       const c = makeCanvas(w, h, (x) => drawPlatePattern(x, ctx.platePattern, band, w, h))
@@ -94,25 +94,25 @@ function background(d, n, item, f, ctx, defaultFill) {
     const id = `gr${uid++}`
     const a = g.angle * Math.PI / 180, dx = Math.cos(a), dy = Math.sin(a)
     defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${w * (0.5 - dx / 2)}" y1="${h * (0.5 - dy / 2)}" x2="${w * (0.5 + dx / 2)}" y2="${h * (0.5 + dy / 2)}">`
-      + `<stop offset="0" stop-color="${ctx.color(g.from, item)}"/><stop offset="1" stop-color="${ctx.color(g.to, item)}"/></linearGradient>`
+      + `<stop offset="0" stop-color="${ctx.color(g.from, n.on, item)}"/><stop offset="1" stop-color="${ctx.color(g.to, n.on, item)}"/></linearGradient>`
     body += `<path d="${path}" fill="url(#${id})"/>`
   } else if (fill) {
-    body += `<path d="${path}" fill="${ctx.color(fill, item)}"/>`
+    body += `<path d="${path}" fill="${ctx.color(fill, n.on, item)}"/>`
   }
   if (s) {
     const id = `cl${uid++}`
     defs += `<clipPath id="${id}"><path d="${path}"/></clipPath>`
     // เส้นขอบด้านใน — ไม่มี dash: หนา 2× แล้วตัด (= iOS) · มี dash: หนาตามจริงแล้วตัด
-    body += `<path d="${path}" fill="none" stroke="${ctx.color(s.color, item)}" stroke-width="${s.dash ? s.width : s.width * 2}" clip-path="url(#${id})"${s.dash ? ` stroke-dasharray="${s.dash.join(' ')}"` : ''}/>`
+    body += `<path d="${path}" fill="none" stroke="${ctx.color(s.color, n.on, item)}" stroke-width="${s.dash ? s.width : s.width * 2}" clip-path="url(#${id})"${s.dash ? ` stroke-dasharray="${s.dash.join(' ')}"` : ''}/>`
   }
   svg.innerHTML = `<defs>${defs}</defs>${body}`
   if (n.shadow) {
-    const c = ctx.color(n.shadow.color, item)
+    const c = ctx.color(n.shadow.color, n.on, item)
     svg.style.filter = `drop-shadow(${n.shadow.x ?? 0}px ${n.shadow.y ?? 0}px ${n.shadow.sigma * 2}px ${c})`
   }
   layer.appendChild(svg)
   if (pat) {
-    const c1 = ctx.color(pat.color, item), c2 = ctx.color(pat.color2 ?? pat.color, item)
+    const c1 = ctx.color(pat.color, n.on, item), c2 = ctx.color(pat.color2 ?? pat.color, n.on, item)
     const c = makeCanvas(w, h, (x) => drawPattern(x, pat, c1, c2, w, h))
     c.style.clipPath = cssPath(path)
     // ลายทับบน fill แต่ใต้เส้นขอบ — วาดเส้นขอบซ้ำเหนือลาย
@@ -130,7 +130,7 @@ function text(d, b, ctx) {
   const face = n.face
   const font = { face: face ?? 'noto', size: r.size, weight: n.weight ?? 400, tracking: n.tracking ?? 0, kerning: n.kerning ?? 0,
     italic: n.italic ?? false, lineHeight: n.lineHeight ?? 1 }
-  const col = ctx.color(n.color ?? 'ink', b.item)
+  const col = ctx.color(n.color ?? 'ink', n.on, b.item)
   const one = ctx.measurer.lineHeight({ ...font, lineHeight: 1 })
   // ระยะบรรทัดเพิ่ม = ความสูงบรรทัดของฟอนต์ × (lineHeight − 1) (= `lineSpacing` ของ iOS)
   const spacing = n.lineHeight != null && n.lineHeight !== 1
@@ -141,7 +141,7 @@ function text(d, b, ctx) {
     + `font-family:${fc.family};font-weight:${fc.weight};font-style:${fc.style};font-size:${r.size}px;line-height:${one + spacing}px;`
     + `letter-spacing:${font.tracking + font.kerning}px;font-kerning:normal;font-synthesis:none`)
   if (n.shadow) {
-    const c = ctx.color(n.shadow.color, b.item)
+    const c = ctx.color(n.shadow.color, n.on, b.item)
     t.style.textShadow = `${n.shadow.x ?? 0}px ${n.shadow.y ?? 0}px ${n.shadow.sigma * 2}px ${c}`
   }
   if (n.mixHead && r.string.trim().includes(' ')) {
@@ -184,7 +184,7 @@ function image(d, b, ctx) {
   const src = n.src ? (n.src.startsWith('$') ? (item?.value(n.src.slice(1)) ?? '') : n.src) : ''
   const r = corner(n, f.width, f.height)
   const outer = el('div', 'position:absolute;inset:0')
-  if (n.shadow) outer.style.filter = `drop-shadow(${n.shadow.x ?? 0}px ${n.shadow.y ?? 0}px ${n.shadow.sigma * 2}px ${ctx.color(n.shadow.color, item)})`
+  if (n.shadow) outer.style.filter = `drop-shadow(${n.shadow.x ?? 0}px ${n.shadow.y ?? 0}px ${n.shadow.sigma * 2}px ${ctx.color(n.shadow.color, n.on)})`
   const clip = el('div', `position:absolute;inset:0;overflow:hidden;border-radius:${r}px`)
   if (n.shape) { clip.style.borderRadius = '0'; clip.style.clipPath = cssPath(shapePath(n.shape, f.width, f.height, r)) }
   if (n.mono) clip.style.filter = 'grayscale(1)'
@@ -218,7 +218,7 @@ function image(d, b, ctx) {
     svg.setAttribute('width', f.width); svg.setAttribute('height', f.height)
     svg.style.cssText = 'position:absolute;left:0;top:0'
     const path = shapePath(n.shape, f.width, f.height, r), id = `ic${uid++}`
-    svg.innerHTML = `<defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><path d="${path}" fill="none" stroke="${ctx.color(s.color, item)}" stroke-width="${s.width * 2}" clip-path="url(#${id})"/>`
+    svg.innerHTML = `<defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><path d="${path}" fill="none" stroke="${ctx.color(s.color, n.on)}" stroke-width="${s.width * 2}" clip-path="url(#${id})"/>`
     clip.appendChild(svg)
   }
   outer.appendChild(clip)
@@ -231,7 +231,7 @@ function icon(d, b, ctx) {
   const n = b.node, f = b.frame
   const raw = n.icon || ''
   const name = raw.startsWith('$') ? (b.item?.value(raw.slice(1)) ?? '') : raw
-  const tint = n.tint ? ctx.color(n.tint, b.item) : null
+  const tint = n.tint ? ctx.color(n.tint, n.on, b.item) : null
   const r = corner(n, f.width, f.height)
   const holder = el('div', `position:absolute;inset:0;border-radius:${r}px;${r ? 'overflow:hidden' : ''}`)
   holder.appendChild(ctx.icon({ name, w: f.width, h: f.height, tint, text: n.text, size: n.size }))

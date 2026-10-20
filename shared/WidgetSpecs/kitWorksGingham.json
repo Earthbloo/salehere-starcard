@@ -69,7 +69,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 04 รูปผลงาน — แปลงจาก KitWidgets.swift (KitContent.works + grid) · root = ม่วง · variants = cfg:style ×4 + ratio<0.667 (กรอบกว้าง = 3 คอลัมน์แถวเดียว) ×5 (ใบแรกที่จริงชนะ — กว้างมาก่อน) · ช่องรูป 1–6 กับ note#10+i / note#20+i ตายตัว จึงเขียน 6 ช่องตรง ๆ (chips อ้างช่องรูปต่อชิ้นไม่ได้) · opt:count ∈ {1,2,4,6} = ซ่อนแถว/ช่องด้วย !opt:count=N ซ้อนกัน (AND) · count=1 ช่องเดียวเต็มแถว · กว้าง+count=2 เว้นคอลัมน์ว่าง · opt:cap=0 ซ่อนคำบรรยาย · รูป aspect 1.5 (กลางคืน/Mac = 1) โตตามแถว (grow) หดได้ถึง 30 · ม่วง/ครีม/กลางคืน = กล่องต่อช่อง · ตาราง/Mac = เปล่า · Mac: หัวข้อกลางเนื้อหา (ไม่อยู่ในแถบ) · เปลือกดูหมายเหตุที่ kitProfile",
  "variants": [
@@ -87,7 +88,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -126,7 +127,7 @@
           "type": "rect",
           "if": "!cfg:fill=clear",
           "id": "fill",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20
          },
          {
@@ -161,7 +162,7 @@
           "type": "rect",
           "if": "!cfg:fill=clear",
           "id": "fill",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -211,7 +212,7 @@
           "id": "border",
           "radius": 13,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -237,7 +238,7 @@
             "id": "border",
             "radius": 13,
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             }
            }
@@ -259,7 +260,7 @@
             "id": "border",
             "radius": 2,
             "stroke": {
-             "color": "kit.border",
+             "color": "line",
              "width": 2
             }
            }
@@ -283,7 +284,7 @@
           "face": "noto",
           "size": 19,
           "weight": 800,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "id": "title",
           "shrinkTo": 13.3,
@@ -421,7 +422,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20
      },
      {
@@ -460,7 +461,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -495,7 +496,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -545,7 +546,7 @@
         "id": "border",
         "radius": 13,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         }
        }
@@ -571,7 +572,7 @@
           "id": "border",
           "radius": 13,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -593,7 +594,7 @@
           "id": "border",
           "radius": 2,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -617,7 +618,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 13.3,

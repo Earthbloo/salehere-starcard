@@ -42,7 +42,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "ตรารับรอง Verified by Sale Here · แปลงจาก VerifiedSealWidget.swift (VS + VerifiedSealSkin · แบบ medal) · ใบวาดพื้นเอง (inset 0) มุม 20 · พื้นผิว (14 ต.ค. 2569 · VerifiedSealSkin): `surface=glass` + การ์ดสว่าง = แผ่นอ่อนของธีม (hue sat .20 bri .975 ไม่มี token → white + rawAccent@0.45 + black@0.025 · คู่สี = สีอ่อนของคู่ + plate@0.10) หมึก/สีเน้น = `plate` (soft @0.66 hair @0.22 lace @0.09) · `surface=glass` + การ์ดมืด = แผ่น `plate` หมึก `plateInk` (soft @0.64 hair @0.24 lace @0.10) สีเน้น `rawAccent` · pane/clear = ไม่มีแผ่น หมึกการ์ด `ink@0.95` soft `ink@0.58` hair `line@0.24` สีเน้น `accent` (ทั้งสามชุด = block ที่ซ้ำกันสามชุดตาม `if`) · เหรียญศูนย์กลาง x 94 กลางแนวตั้ง: กิโยเช่ r 138 → วงตัวอักษร r 68 size 7.2 → วงเส้น r 59/77 → เหรียญ r 50 · คอลัมน์ x 182 กว้าง 166 (pad 14/13): 'VERIFIED' heavy + 'by' เซริฟเอียง · ตัวเขียน sh:wordmark สูง 62 · เส้นเน้น 1.4 · สามแถว (ชื่อข้อ 10.5 · เส้นจุด · ค่า 9) · ฐาน: วงแดง Sale Here 21 · 'STAR CARD NO.' + handle · ST★R lockup 20 · ไม่มี: SealStyle note/type/sticker (ชิ้นไม่ส่ง sealStyle ให้ผัง — ไม่มีธง cfg:seal) · ค่าของแถว (วันที่ยืนยัน · เวลา sync) และเลข serial (TH …) ไม่มีใน SpecDataSource → ค่าดีไซน์/handle · ฟอนต์ mono · punch ของเหรียญ (verifiedSeal เจาะด้วยขาว/ดำตาม ink ไม่ใช่สีแผ่น) · แถวที่ยังไม่ผ่าน · หมุนวงตัวอักษร · เกล็ด/ลายแผ่น",
  "root": {
@@ -54,56 +55,42 @@
    {
     "type": "rect",
     "id": "plateLight",
-    "if": "surface=glass & ink.light & !duo",
-    "fill": "white"
+    "if": "surface=glass & ink.light",
+    "fill": "bg",
+    "on": "light"
    },
    {
     "type": "rect",
     "id": "plateLightTint",
-    "if": "surface=glass & ink.light & !duo",
-    "fill": "rawAccent@0.45"
+    "if": "surface=glass & ink.light",
+    "fill": "accent@0.45",
+    "on": "light"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "surface=glass & ink.light & !duo",
-    "platePattern": "rawAccentSoft"
+    "if": "surface=glass & ink.light",
+    "platePattern": "accent@0.6",
+    "on": "light"
    },
    {
     "type": "rect",
     "id": "plateLightShade",
-    "if": "surface=glass & ink.light & !duo",
-    "fill": "black@0.025"
-   },
-   {
-    "type": "rect",
-    "id": "plateLightDuo",
-    "if": "surface=glass & ink.light & duo",
-    "fill": "plateInk"
-   },
-   {
-    "type": "rect",
-    "id": "plateLightDuoInk",
-    "if": "surface=glass & ink.light & duo",
-    "fill": "plate@0.10"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "surface=glass & ink.light & duo",
-    "platePattern": "plateInk"
+    "if": "surface=glass & ink.light",
+    "fill": "black@0.025",
+    "on": "light"
    },
    {
     "type": "rect",
     "id": "plateDark",
     "if": "surface=glass & !ink.light",
-    "fill": "plate"
+    "fill": "bg"
    },
    {
     "type": "rect",
     "id": "platePattern",
     "if": "surface=glass & !ink.light",
-    "platePattern": "plate"
+    "platePattern": "bg"
    },
    {
     "type": "stack",
@@ -120,7 +107,8 @@
       "h": 276,
       "tint": "line@0.15",
       "place": "center-left",
-      "dx": -44
+      "dx": -44,
+      "on": "card"
      },
      {
       "type": "rect",
@@ -133,7 +121,8 @@
        "width": 0.7
       },
       "place": "center-left",
-      "dx": 17
+      "dx": 17,
+      "on": "card"
      },
      {
       "type": "rect",
@@ -146,7 +135,8 @@
        "width": 0.7
       },
       "place": "center-left",
-      "dx": 35
+      "dx": 35,
+      "on": "card"
      },
      {
       "type": "icon",
@@ -158,7 +148,8 @@
       "h": 150.4,
       "tint": "ink@0.78",
       "place": "center-left",
-      "dx": 18.8
+      "dx": 18.8,
+      "on": "card"
      },
      {
       "type": "icon",
@@ -168,7 +159,8 @@
       "h": 100,
       "tint": "ink@0.95",
       "place": "center-left",
-      "dx": 44
+      "dx": 44,
+      "on": "card"
      },
      {
       "type": "col",
@@ -201,7 +193,8 @@
           "kerning": -0.6,
           "color": "ink@0.95",
           "maxLines": 1,
-          "shrinkTo": 9
+          "shrinkTo": 9,
+          "on": "card"
          },
          {
           "type": "text",
@@ -210,7 +203,8 @@
           "weight": 400,
           "size": 21.7,
           "color": "ink@0.95",
-          "maxLines": 1
+          "maxLines": 1,
+          "on": "card"
          }
         ]
        },
@@ -224,7 +218,8 @@
         "icon": "sh:wordmark",
         "w": 52,
         "h": 62,
-        "tint": "ink@0.95"
+        "tint": "ink@0.95",
+        "on": "card"
        },
        {
         "type": "spacer",
@@ -235,7 +230,8 @@
         "id": "rule",
         "w": "fill",
         "h": 1.4,
-        "fill": "accent"
+        "fill": "accent",
+        "on": "card"
        },
        {
         "type": "spacer",
@@ -260,7 +256,8 @@
             "weight": 600,
             "size": 10.5,
             "color": "ink@0.95",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            },
            {
             "type": "rect",
@@ -275,7 +272,8 @@
               3.4
              ]
             },
-            "alignSelf": "end"
+            "alignSelf": "end",
+            "on": "card"
            },
            {
             "type": "text",
@@ -284,7 +282,8 @@
             "weight": 600,
             "size": 9,
             "color": "ink@0.58",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            }
           ]
          },
@@ -300,7 +299,8 @@
             "weight": 600,
             "size": 10.5,
             "color": "ink@0.95",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            },
            {
             "type": "rect",
@@ -315,7 +315,8 @@
               3.4
              ]
             },
-            "alignSelf": "end"
+            "alignSelf": "end",
+            "on": "card"
            },
            {
             "type": "row",
@@ -329,7 +330,8 @@
               "weight": 600,
               "size": 9,
               "color": "ink@0.58",
-              "maxLines": 1
+              "maxLines": 1,
+              "on": "card"
              },
              {
               "type": "text",
@@ -338,7 +340,8 @@
               "weight": 600,
               "size": 9,
               "color": "ink@0.58",
-              "maxLines": 1
+              "maxLines": 1,
+              "on": "card"
              }
             ]
            }
@@ -356,7 +359,8 @@
             "weight": 600,
             "size": 10.5,
             "color": "ink@0.95",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            },
            {
             "type": "rect",
@@ -371,7 +375,8 @@
               3.4
              ]
             },
-            "alignSelf": "end"
+            "alignSelf": "end",
+            "on": "card"
            },
            {
             "type": "text",
@@ -380,7 +385,8 @@
             "weight": 600,
             "size": 9,
             "color": "ink@0.58",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            }
           ]
          }
@@ -432,7 +438,8 @@
             "size": 6,
             "tracking": 0.9,
             "color": "ink@0.46",
-            "maxLines": 1
+            "maxLines": 1,
+            "on": "card"
            },
            {
             "type": "text",
@@ -444,7 +451,8 @@
             "tracking": 0.6,
             "color": "ink@0.58",
             "maxLines": 1,
-            "shrinkTo": 6
+            "shrinkTo": 6,
+            "on": "card"
            }
           ]
          },
@@ -459,7 +467,8 @@
           "icon": "starLockup",
           "w": 54,
           "h": 20,
-          "tint": "ink@0.92"
+          "tint": "ink@0.92",
+          "on": "card"
          }
         ]
        }
@@ -481,7 +490,7 @@
       "icon": "guilloche",
       "w": 276,
       "h": 276,
-      "tint": "plate@0.09",
+      "tint": "bg@0.09",
       "place": "center-left",
       "dx": -44
      },
@@ -492,7 +501,7 @@
       "h": 154,
       "circle": true,
       "stroke": {
-       "color": "plate@0.15",
+       "color": "bg@0.15",
        "width": 0.7
       },
       "place": "center-left",
@@ -505,7 +514,7 @@
       "h": 118,
       "circle": true,
       "stroke": {
-       "color": "plate@0.22",
+       "color": "bg@0.22",
        "width": 0.7
       },
       "place": "center-left",
@@ -519,7 +528,7 @@
       "size": 7.2,
       "w": 150.4,
       "h": 150.4,
-      "tint": "plate@0.78",
+      "tint": "bg@0.78",
       "place": "center-left",
       "dx": 18.8
      },
@@ -529,7 +538,7 @@
       "icon": "verifiedSeal",
       "w": 100,
       "h": 100,
-      "tint": "plate",
+      "tint": "bg",
       "place": "center-left",
       "dx": 44
      },
@@ -562,7 +571,7 @@
           "weight": 800,
           "size": 20.5,
           "kerning": -0.6,
-          "color": "plate",
+          "color": "bg",
           "maxLines": 1,
           "shrinkTo": 9
          },
@@ -572,7 +581,7 @@
           "face": "noto",
           "weight": 400,
           "size": 21.7,
-          "color": "plate",
+          "color": "bg",
           "maxLines": 1
          }
         ]
@@ -587,7 +596,7 @@
         "icon": "sh:wordmark",
         "w": 52,
         "h": 62,
-        "tint": "plate"
+        "tint": "bg"
        },
        {
         "type": "spacer",
@@ -598,7 +607,7 @@
         "id": "rule",
         "w": "fill",
         "h": 1.4,
-        "fill": "plate"
+        "fill": "bg"
        },
        {
         "type": "spacer",
@@ -622,7 +631,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plate",
+            "color": "bg",
             "maxLines": 1
            },
            {
@@ -631,7 +640,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plate@0.22",
+             "color": "bg@0.22",
              "width": 1,
              "dash": [
               0.6,
@@ -646,7 +655,7 @@
             "face": "noto",
             "weight": 600,
             "size": 9,
-            "color": "plate@0.66",
+            "color": "bg@0.66",
             "maxLines": 1
            }
           ]
@@ -662,7 +671,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plate",
+            "color": "bg",
             "maxLines": 1
            },
            {
@@ -671,7 +680,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plate@0.22",
+             "color": "bg@0.22",
              "width": 1,
              "dash": [
               0.6,
@@ -691,7 +700,7 @@
               "face": "noto",
               "weight": 600,
               "size": 9,
-              "color": "plate@0.66",
+              "color": "bg@0.66",
               "maxLines": 1
              },
              {
@@ -700,7 +709,7 @@
               "face": "noto",
               "weight": 600,
               "size": 9,
-              "color": "plate@0.66",
+              "color": "bg@0.66",
               "maxLines": 1
              }
             ]
@@ -718,7 +727,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plate",
+            "color": "bg",
             "maxLines": 1
            },
            {
@@ -727,7 +736,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plate@0.22",
+             "color": "bg@0.22",
              "width": 1,
              "dash": [
               0.6,
@@ -742,7 +751,7 @@
             "face": "noto",
             "weight": 600,
             "size": 9,
-            "color": "plate@0.66",
+            "color": "bg@0.66",
             "maxLines": 1
            }
           ]
@@ -794,7 +803,7 @@
             "weight": 600,
             "size": 6,
             "tracking": 0.9,
-            "color": "plate@0.53",
+            "color": "bg@0.53",
             "maxLines": 1
            },
            {
@@ -805,7 +814,7 @@
             "weight": 700,
             "size": 9,
             "tracking": 0.6,
-            "color": "plate@0.66",
+            "color": "bg@0.66",
             "maxLines": 1,
             "shrinkTo": 6
            }
@@ -822,7 +831,7 @@
           "icon": "starLockup",
           "w": 54,
           "h": 20,
-          "tint": "plate@0.92"
+          "tint": "bg@0.92"
          }
         ]
        }
@@ -844,7 +853,7 @@
       "icon": "guilloche",
       "w": 276,
       "h": 276,
-      "tint": "plateInk@0.10",
+      "tint": "ink@0.1",
       "place": "center-left",
       "dx": -44
      },
@@ -855,7 +864,7 @@
       "h": 154,
       "circle": true,
       "stroke": {
-       "color": "plateInk@0.17",
+       "color": "ink@0.17",
        "width": 0.7
       },
       "place": "center-left",
@@ -868,7 +877,7 @@
       "h": 118,
       "circle": true,
       "stroke": {
-       "color": "plateInk@0.24",
+       "color": "ink@0.24",
        "width": 0.7
       },
       "place": "center-left",
@@ -882,7 +891,7 @@
       "size": 7.2,
       "w": 150.4,
       "h": 150.4,
-      "tint": "plateInk@0.78",
+      "tint": "ink@0.78",
       "place": "center-left",
       "dx": 18.8
      },
@@ -892,7 +901,7 @@
       "icon": "verifiedSeal",
       "w": 100,
       "h": 100,
-      "tint": "plateInk",
+      "tint": "ink",
       "place": "center-left",
       "dx": 44
      },
@@ -925,7 +934,7 @@
           "weight": 800,
           "size": 20.5,
           "kerning": -0.6,
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 9
          },
@@ -935,7 +944,7 @@
           "face": "noto",
           "weight": 400,
           "size": 21.7,
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1
          }
         ]
@@ -950,7 +959,7 @@
         "icon": "sh:wordmark",
         "w": 52,
         "h": 62,
-        "tint": "plateInk"
+        "tint": "ink"
        },
        {
         "type": "spacer",
@@ -961,7 +970,7 @@
         "id": "rule",
         "w": "fill",
         "h": 1.4,
-        "fill": "rawAccent"
+        "fill": "accent"
        },
        {
         "type": "spacer",
@@ -985,7 +994,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plateInk",
+            "color": "ink",
             "maxLines": 1
            },
            {
@@ -994,7 +1003,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plateInk@0.24",
+             "color": "ink@0.24",
              "width": 1,
              "dash": [
               0.6,
@@ -1009,7 +1018,7 @@
             "face": "noto",
             "weight": 600,
             "size": 9,
-            "color": "plateInk@0.64",
+            "color": "ink@0.64",
             "maxLines": 1
            }
           ]
@@ -1025,7 +1034,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plateInk",
+            "color": "ink",
             "maxLines": 1
            },
            {
@@ -1034,7 +1043,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plateInk@0.24",
+             "color": "ink@0.24",
              "width": 1,
              "dash": [
               0.6,
@@ -1054,7 +1063,7 @@
               "face": "noto",
               "weight": 600,
               "size": 9,
-              "color": "plateInk@0.64",
+              "color": "ink@0.64",
               "maxLines": 1
              },
              {
@@ -1063,7 +1072,7 @@
               "face": "noto",
               "weight": 600,
               "size": 9,
-              "color": "plateInk@0.64",
+              "color": "ink@0.64",
               "maxLines": 1
              }
             ]
@@ -1081,7 +1090,7 @@
             "face": "noto",
             "weight": 600,
             "size": 10.5,
-            "color": "plateInk",
+            "color": "ink",
             "maxLines": 1
            },
            {
@@ -1090,7 +1099,7 @@
             "h": 1,
             "minW": 6,
             "stroke": {
-             "color": "plateInk@0.24",
+             "color": "ink@0.24",
              "width": 1,
              "dash": [
               0.6,
@@ -1105,7 +1114,7 @@
             "face": "noto",
             "weight": 600,
             "size": 9,
-            "color": "plateInk@0.64",
+            "color": "ink@0.64",
             "maxLines": 1
            }
           ]
@@ -1157,7 +1166,7 @@
             "weight": 600,
             "size": 6,
             "tracking": 0.9,
-            "color": "plateInk@0.51",
+            "color": "ink@0.51",
             "maxLines": 1
            },
            {
@@ -1168,7 +1177,7 @@
             "weight": 700,
             "size": 9,
             "tracking": 0.6,
-            "color": "plateInk@0.64",
+            "color": "ink@0.64",
             "maxLines": 1,
             "shrinkTo": 6
            }
@@ -1185,7 +1194,7 @@
           "icon": "starLockup",
           "w": 54,
           "h": 20,
-          "tint": "plateInk@0.92"
+          "tint": "ink@0.92"
          }
         ]
        }

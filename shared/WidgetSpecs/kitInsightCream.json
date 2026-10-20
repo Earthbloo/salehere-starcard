@@ -80,7 +80,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
  "root": {
@@ -91,7 +92,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "shadow": {
        "sigma": 4.5,
@@ -105,7 +106,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -128,7 +129,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1.5
       },
       "radius": 20,
@@ -145,7 +146,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 4.5,
@@ -159,7 +160,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 4.5,
@@ -182,7 +183,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 3,
@@ -196,7 +197,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -210,7 +211,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20,
           "shadow": {
            "sigma": 4.5,
@@ -233,7 +234,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 20,
@@ -253,7 +254,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 13.3,
       "w": "fill",
@@ -271,7 +272,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -283,7 +284,7 @@
               "face": "noto",
               "size": 11,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -308,7 +309,7 @@
                    "face": "noto",
                    "size": 17,
                    "weight": 700,
-                   "color": "kit.ink",
+                   "color": "ink",
                    "maxLines": 1
                   }
                  ],
@@ -329,7 +330,7 @@
                    "face": "noto",
                    "size": 11.5,
                    "weight": 600,
-                   "color": "kit.ink",
+                   "color": "ink",
                    "maxLines": 1
                   }
                  ],
@@ -337,7 +338,7 @@
                   5,
                   0
                  ],
-                 "fill": "kit.ink@0.08",
+                 "fill": "ink@0.08",
                  "radius": 8,
                  "justify": "center",
                  "grow": 1
@@ -379,7 +380,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -391,7 +392,7 @@
               "face": "noto",
               "size": 11,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -416,7 +417,7 @@
                    "face": "noto",
                    "size": 13.5,
                    "weight": 400,
-                   "color": "kit.ink",
+                   "color": "ink",
                    "maxLines": 1
                   },
                   {
@@ -425,7 +426,7 @@
                    "face": "noto",
                    "size": 17,
                    "weight": 800,
-                   "color": "kit.ink",
+                   "color": "ink",
                    "maxLines": 1
                   }
                  ],
@@ -467,7 +468,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -479,7 +480,7 @@
               "face": "noto",
               "size": 11,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -503,7 +504,7 @@
                    "face": "noto",
                    "size": 10.5,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1
                   },
                   {
@@ -512,7 +513,7 @@
                    "face": "noto",
                    "size": 16,
                    "weight": 800,
-                   "color": "kit.ink",
+                   "color": "ink",
                    "maxLines": 1
                   }
                  ],
@@ -554,7 +555,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -566,7 +567,7 @@
               "face": "noto",
               "size": 11,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -583,7 +584,7 @@
                 "face": "noto",
                 "size": 19,
                 "weight": 800,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "slot": "stat:reach"
                },
@@ -593,7 +594,7 @@
                 "face": "noto",
                 "size": 11,
                 "weight": 400,
-                "color": "kit.mut",
+                "color": "ink2",
                 "maxLines": 1,
                 "if": "!has:stat:reachWindow"
                },
@@ -608,7 +609,7 @@
                   "face": "noto",
                   "size": 11,
                   "weight": 400,
-                  "color": "kit.mut",
+                  "color": "ink2",
                   "maxLines": 1
                  },
                  {
@@ -616,7 +617,7 @@
                   "face": "noto",
                   "size": 11,
                   "weight": 400,
-                  "color": "kit.mut",
+                  "color": "ink2",
                   "maxLines": 1,
                   "slot": "stat:reachWindow"
                  }

@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "paper",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · หน้าต่างวิดีโอ (กระดาษ) — หน้าต่างดำเหมือนเครื่องเล่นพกพา ตัวหนังสือขาว คลิปขอบขาว · แปลงจาก PopWidgets.swift (PopVideo สกิน paper)",
  "root": {
@@ -29,7 +30,7 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.ink",
+    "fill": "ink",
     "radius": 12,
     "shadow": {
      "x": 0,
@@ -44,7 +45,7 @@
       "if": "bordered",
       "radius": 12,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },

@@ -93,16 +93,12 @@
       ],
       "theme": {
         "backdrop": "grid",
-        "brightness": 0.9,
-        "corner": "pill",
-        "duoFlipped": false,
-        "hueShift": 0,
         "ink": "mist",
-        "inkAuto": false,
-        "palette": "rose",
         "photoDim": 0.42,
         "photoEffect": "none",
-        "strip": "ticket"
+        "colors": {
+          "primary": "#FEF0F6"
+        }
       },
       "version": 2
     }
@@ -214,17 +210,13 @@
       ],
       "theme": {
         "backdrop": "solid",
-        "brightness": 0.2,
-        "corner": "soft",
-        "duo": "field",
-        "duoFlipped": true,
-        "hueShift": 0,
         "ink": "paper",
-        "inkAuto": false,
-        "palette": "lavender",
         "photoDim": 0.42,
         "photoEffect": "none",
-        "strip": "line"
+        "colors": {
+          "primary": "#E6CFA7",
+          "secondary": "#3A4B41"
+        }
       },
       "version": 2
     }
@@ -357,17 +349,13 @@
       ],
       "theme": {
         "backdrop": "solid",
-        "brightness": 0.2,
-        "corner": "soft",
-        "duo": "cocoa",
-        "duoFlipped": false,
-        "hueShift": 0,
         "ink": "night",
-        "inkAuto": false,
-        "palette": "ruby",
         "photoDim": 0.42,
         "photoEffect": "none",
-        "strip": "line"
+        "colors": {
+          "primary": "#3E000C",
+          "secondary": "#FFECD1"
+        }
       },
       "version": 2
     }
@@ -477,17 +465,13 @@
       ],
       "theme": {
         "backdrop": "glow",
-        "brightness": 0.42,
-        "corner": "pill",
-        "duo": "teal",
-        "duoFlipped": true,
-        "hueShift": 0,
         "ink": "night",
-        "inkAuto": false,
-        "palette": "lavender",
         "photoDim": 0.42,
         "photoEffect": "none",
-        "strip": "ticket"
+        "colors": {
+          "primary": "#F7CBA7",
+          "secondary": "#0E3B3E"
+        }
       },
       "version": 2
     }
@@ -595,17 +579,13 @@
       ],
       "theme": {
         "backdrop": "solid",
-        "brightness": 0.2,
-        "corner": "soft",
-        "duo": "clay",
-        "duoFlipped": true,
-        "hueShift": 0,
         "ink": "paper",
-        "inkAuto": false,
-        "palette": "lavender",
         "photoDim": 0.42,
         "photoEffect": "none",
-        "strip": "line"
+        "colors": {
+          "primary": "#F3E3D0",
+          "secondary": "#8E3620"
+        }
       },
       "version": 2
     }

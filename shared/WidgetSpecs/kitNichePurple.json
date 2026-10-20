@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
  "variants": [
@@ -74,7 +75,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 14,
       "if": "cfg:fill=solid"
      },
@@ -83,7 +84,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 14
        },
        {
@@ -101,7 +102,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 2.5
       },
       "radius": 14,
@@ -115,7 +116,7 @@
         "face": "noto",
         "size": 22,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "shrinkTo": 15.4,
         "w": "fill",
@@ -206,7 +207,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 14,
         "if": "cfg:fill=solid"
        },
@@ -215,7 +216,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 14
          },
          {
@@ -233,7 +234,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2.5
         },
         "radius": 14,
@@ -250,7 +251,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "if": "cfg:fill=solid"
          },
@@ -259,7 +260,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.fill",
+            "fill": "bg",
             "radius": 3
            },
            {
@@ -277,7 +278,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2.5
           },
           "radius": 3,
@@ -291,7 +292,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 14,
           "if": "cfg:fill=solid"
          },
@@ -300,7 +301,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.fill",
+            "fill": "bg",
             "radius": 14
            },
            {
@@ -318,7 +319,7 @@
          {
           "type": "rect",
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2.5
           },
           "radius": 14,
@@ -338,7 +339,7 @@
         "face": "noto",
         "size": 22,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "shrinkTo": 15.4,
         "w": "fill",
@@ -429,7 +430,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.border",
+        "fill": "line",
         "radius": 14,
         "dx": 5,
         "dy": 5,
@@ -443,7 +444,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.border",
+        "fill": "line",
         "radius": 3,
         "dx": 5,
         "dy": 5,
@@ -457,7 +458,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 14,
         "if": "cfg:fill=solid"
        },
@@ -466,7 +467,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 14
          },
          {
@@ -484,7 +485,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2.5
         },
         "radius": 14
@@ -497,7 +498,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "if": "cfg:fill=solid"
        },
@@ -506,7 +507,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -524,7 +525,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2.5
         },
         "radius": 3
@@ -540,7 +541,7 @@
         "face": "noto",
         "size": 22,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "shrinkTo": 15.4,
         "w": "fill",
@@ -630,7 +631,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.border",
+      "fill": "line",
       "radius": 14,
       "dx": 5,
       "dy": 5,
@@ -644,7 +645,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.border",
+      "fill": "line",
       "radius": 3,
       "dx": 5,
       "dy": 5,
@@ -658,7 +659,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 14,
       "if": "cfg:fill=solid"
      },
@@ -667,7 +668,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 14
        },
        {
@@ -685,7 +686,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 2.5
       },
       "radius": 14
@@ -698,7 +699,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 3,
       "if": "cfg:fill=solid"
      },
@@ -707,7 +708,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -725,7 +726,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 2.5
       },
       "radius": 3
@@ -741,7 +742,7 @@
       "face": "noto",
       "size": 22,
       "weight": 800,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 15.4,
       "w": "fill",

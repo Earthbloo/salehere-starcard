@@ -8,67 +8,117 @@
 <style>
   body { margin: 0; background: #111; color: #ddd; font: 12px system-ui, sans-serif; }
   h1 { font-size: 14px; padding: 12px 16px 0; margin: 0; }
-  p.note { color: #888; padding: 0 16px; }
+  p.note { color: #888; padding: 0 16px; margin: 6px 0 0; }
   .grid { display: flex; flex-wrap: wrap; gap: 18px; padding: 16px; }
   .cell { background: #1b1b1f; border-radius: 10px; padding: 8px; }
-  .cell b { display: block; margin-bottom: 6px; }
+  .cell .head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .head b { flex: 1; }
+  .cell .head small { color: #8a8; }
   .pair { display: flex; gap: 8px; align-items: flex-start; }
   .pair > div { position: relative; }
   .tag { position: absolute; top: -2px; left: 4px; z-index: 5; font-size: 9px; color: #fff; background: rgba(0,0,0,.6); padding: 1px 4px; border-radius: 4px; }
   img.ios { display: block; }
+  #panel { position: sticky; top: 0; z-index: 20; border-radius: 0; background: rgba(20,20,24,.96); backdrop-filter: blur(8px); border-bottom: 1px solid #2a2a30; padding: 10px 16px; }
+  .cell .bt { margin-top: 8px; background: #232328; }
+  .link { background: none; border: 0; color: #9ab; font: 11px system-ui; cursor: pointer; text-decoration: underline; padding: 0; }
 </style>
 </head>
 <body>
 <h1>Widget gallery — web (ซ้าย) เทียบ iOS (ขวา)</h1>
-<p class="note">ผัง JSON จาก <code>widgetSpecs</code> (GraphQL) · ข้อมูลชุดเดียวกับที่ iOS ใช้ตอนส่งออก (fixture) · ฟอนต์วัดต่างกันได้เล็กน้อย</p>
+<p class="note">ผัง JSON จาก <code>widgetSpecs</code> (GraphQL) · ข้อมูลชุดเดียวกับที่ iOS ใช้ตอนส่งออก (fixture) · เลือกสีพื้นหลังได้เหมือนถาด "พื้นหลัง" ในแอป — ทั้งหน้า หรือปรับทีละใบ (ภาพ iOS โชว์เฉพาะธีมตั้งต้นของตัวส่งออก)</p>
+<div id="panel"></div>
 <div class="grid" id="grid"></div>
 <script type="module">
 import { parseSpec } from '../js/spec-model.js'
-import { makeTheme } from '../js/theme.js'
 import { WebMeasurer, loadFonts } from '../js/measure.js'
 import { ReplayData } from '../js/replay.js'
 import { Profile, WebSpecData } from '../js/data.js'
 import { mountWidget } from '../js/chrome.js'
 import { paintBackdrop } from '../js/backdrop.js'
+import { TRAY_CSS, buildTray, defaultChoice, isDefault, themeOf } from '../js/backdrop-tray.js'
 
+document.head.appendChild(Object.assign(document.createElement('style'), { textContent: TRAY_CSS }))
 await loadFonts('../fonts/')
 const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
 const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
-// ธีมเดียวกับตัวส่งออกของ iOS (`WidgetMatrixExport.baseTheme`)
-const theme = makeTheme({ palette: 'midnight', ink: 'night', corner: 'round', backdrop: 'solid', brightness: 0.3, hueShift: 0, inkAuto: false, strip: 'line' })
 const measurer = new WebMeasurer()
-const only = new URLSearchParams(location.search).get('kind')
+const params = new URLSearchParams(location.search)
+const only = params.get('kind')
+// ?mock=<base64 JSON {creators:[imageId…], works:[imageId…]}> — รูปของช่องที่ไม่ได้ใส่เอง (= GraphQL mockPhotos) · present/web-parity ส่งรูปชุดเดียวกับซิม iOS มาทางนี้
+const mock = params.get('mock') ? JSON.parse(atob(params.get('mock'))) : null
+// ?theme=<base64 JSON choice ของถาด {backdrop, primary, secondary, tone}> — ธีมของทั้งหน้าตั้งแต่โหลด (ไว้ถ่ายเทียบธีมอื่นนอกจากตั้งต้น)
+const themeParam = params.get('theme') ? JSON.parse(atob(params.get('theme'))) : null
 const grid = document.getElementById('grid')
-const z = Number(new URLSearchParams(location.search).get('z') || 1)
-grid.style.zoom = z
+grid.style.zoom = Number(params.get('z') || 1)
 const M = 12 // ขอบรอบชิ้นของตัวส่งออก (`WidgetMatrixExport.margin`)
+
+// ตัวเลือกพื้นหลัง (= ถาด "พื้นหลัง" ของแอป) — ของทั้งหน้า + ของแต่ละใบที่ "ปรับใบนี้"
+const pageChoice = { ...defaultChoice(), ...(themeParam || {}) }
+const cells = []
+
+function renderCell(c) {
+  const choice = c.override || pageChoice
+  const theme = themeOf(choice)
+  const spec = specs[c.kind]
+  const W = spec.design.w, H = spec.design.h
+  c.web.innerHTML = ''
+  c.web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative`
+  paintBackdrop(c.web, theme, W + M * 2, H + M * 2)
+  c.web.insertAdjacentHTML('beforeend', '<span class="tag">web</span>')
+  const profile = new Profile({}, {})
+  const fallback = new WebSpecData({ profile, item: {}, sample: true, surface: 'glass' })
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`, mock,
+    makeData: c.fixtureCase ? () => new ReplayData(c.fixtureCase.data, fallback) : null }
+  try { mountWidget(c.web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { c.web.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+  // ภาพ iOS มีความหมายเฉพาะธีมตั้งต้นของตัวส่งออก
+  c.ios.style.display = isDefault(choice) ? '' : 'none'
+  c.status.textContent = c.override ? 'ปรับใบนี้' : ''
+}
+
 for (const kind of Object.keys(specs).sort()) {
   if (only && only !== kind) continue
   const fx = await fetch(`../fixtures/fixtures/${kind}.json`).then((x) => (x.ok ? x.json() : null)).catch(() => null)
   const spec = specs[kind]
-  const c = fx?.cases.find((x) => x.probe === 'design')
   const W = spec.design.w, H = spec.design.h
   const cell = document.createElement('div'); cell.className = 'cell'
-  cell.innerHTML = `<b>${kind}</b>`
+  const head = document.createElement('div'); head.className = 'head'
+  head.innerHTML = `<b>${kind}</b><small></small>`
+  const adjust = document.createElement('button'); adjust.className = 'link'; adjust.textContent = 'ปรับใบนี้'
+  head.appendChild(adjust)
+  cell.appendChild(head)
   const pair = document.createElement('div'); pair.className = 'pair'
   const web = document.createElement('div')
-  web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative`
-  paintBackdrop(web, theme, W + M * 2, H + M * 2)
-  web.insertAdjacentHTML('beforeend', '<span class="tag">web</span>')
-  // แหล่งข้อมูล = คำตอบที่ iOS บันทึกไว้ · ถามนอกชุด → ตัวอย่างของเว็บเอง
-  const profile = new Profile({}, {})
-  const fallback = new WebSpecData({ profile, item: {}, sample: true, surface: 'glass' })
-  const item = { id: '00000000-0000-0000-0000-000000000000', kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
-  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`,
-    makeData: c ? () => new ReplayData(c.data, fallback) : null }
-  try { mountWidget(web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { web.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
   pair.appendChild(web)
   const ios = document.createElement('div')
   ios.innerHTML = `<span class="tag">iOS</span><img class="ios" width="${W + M * 2}" src="../fixtures/cells/cell-${kind}-design.png" onerror="this.parentNode.innerHTML='<i style=color:#777>ไม่มีภาพ iOS</i>'">`
   pair.appendChild(ios)
   cell.appendChild(pair)
+  const mini = document.createElement('div'); mini.style.display = 'none'
+  cell.appendChild(mini)
   grid.appendChild(cell)
+  const c = { kind, web, ios, status: head.querySelector('small'), override: null, fixtureCase: fx?.cases.find((x) => x.probe === 'design') }
+  cells.push(c)
+  // ถาดของใบนี้ — เริ่มจากค่าของหน้า แก้แล้วมีผลเฉพาะใบนี้ · "ตามหน้า" = เลิกปรับ
+  adjust.onclick = () => {
+    if (c.override) { c.override = null; mini.style.display = 'none'; adjust.textContent = 'ปรับใบนี้'; renderCell(c); return }
+    c.override = { ...pageChoice }
+    const back = document.createElement('button'); back.className = 'link'; back.textContent = 'ตามหน้า'
+    back.onclick = adjust.onclick
+    const rebuildMini = () => { buildTray(mini, c.override, rebuildMini, { extra: back }); renderCell(c) }
+    rebuildMini()
+    mini.style.display = ''
+    adjust.textContent = 'ตามหน้า'
+  }
+  renderCell(c)
 }
+
+// ถาดของทั้งหน้า — ใบที่ "ปรับใบนี้" อยู่ไม่ตาม
+const panel = document.getElementById('panel')
+const reset = document.createElement('button'); reset.className = 'link'; reset.textContent = 'ตั้งต้น (ธีมของตัวส่งออก)'
+reset.onclick = () => { Object.assign(pageChoice, defaultChoice()); rebuildPage() }
+function rebuildPage() { buildTray(panel, pageChoice, rebuildPage, { extra: reset }); cells.filter((c) => !c.override).forEach(renderCell) }
+rebuildPage()
 </script>
 </body>
 </html>

@@ -23,7 +23,8 @@
    "glass": "มีพื้น"
   },
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก · โน้ตติดต่อ — แผ่นกระดาษโทน · กระดาษโน้ตครีม 220×135 มุม 3 เอียง −1.5° มีเส้นบรรทัด #C8D6E8 ทุก 27 เริ่ม y 48 (pattern lines angle 90 บน rect ที่วางให้เส้นลงตรง · เส้นเกินถูก clip) · หัว 'มาทำงาน/ด้วยกันนะ' (note#1/2 ไม่มีแถบ) · แถว LINE/โทร/เว็บ สูง 27 เฉพาะช่องที่มีค่า (has:) ป้าย 7pt #A86A84 กว้าง 29 ค่าเป็นมิตร 12 แก้ได้ · คลิปหนีบดำ 34 ที่ (108,5) · ซองจดหมาย 105×75 #FBF1E6 เอียง 5° มีตราหัวใจวงกลม paperAccent 30 · ประกาย · หัวใจ · แปลงจาก ScrapbookWidgets.swift (ScrapNoteWidget) · ฝาซองสามเหลี่ยม #F5E4D4 ไม่มี primitive จึงตัด · หัวข้อต้นฉบับจัด firstTextBaseline ที่นี่จัดล่าง · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
  "root": {
@@ -35,7 +36,7 @@
     "type": "rect",
     "id": "paper",
     "if": "papered",
-    "fill": "scrap.paper"
+    "fill": "bg"
    },
    {
     "type": "rect",
@@ -65,7 +66,7 @@
     "if": "papered & ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.1",
+     "color": "ink@0.1",
      "size": 5.5,
      "width": 1
     }
@@ -76,7 +77,7 @@
     "if": "papered & !ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.06",
+     "color": "ink@0.06",
      "size": 5.5,
      "width": 1
     }
@@ -96,7 +97,7 @@
     "shadow": {
      "sigma": 3.5,
      "y": 7,
-     "color": "scrap.shade@0.2"
+     "color": "black@0.2"
     },
     "children": [
      {
@@ -151,7 +152,7 @@
           "face": "mitr",
           "size": 20,
           "weight": 400,
-          "color": "scrap.paperAccent",
+          "color": "accent",
           "maxLines": 1,
           "text": "ด้วยกันนะ"
          }
@@ -279,7 +280,7 @@
     "shadow": {
      "sigma": 3.5,
      "y": 7,
-     "color": "scrap.shade@0.2"
+     "color": "black@0.2"
     },
     "children": [
      {
@@ -287,13 +288,13 @@
       "w": 30,
       "h": 30,
       "circle": true,
-      "fill": "scrap.paperAccent",
+      "fill": "accent",
       "place": "top-center",
       "dy": 29,
       "shadow": {
        "sigma": 1,
        "y": 1.5,
-       "color": "scrap.shade@0.3"
+       "color": "black@0.3"
       },
       "children": [
        {
@@ -324,7 +325,7 @@
     "w": 18,
     "h": 18,
     "shape": "heart",
-    "fill": "scrap.accent",
+    "fill": "accent",
     "place": "bottom-right",
     "dx": -92,
     "dy": -17

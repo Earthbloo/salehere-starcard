@@ -41,7 +41,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "หน้าแนะนำตัวแบบ 'about me.' — คำยักษ์สองบรรทัด (note#0 'about' · note#1 'me.') หมึกขาวบนแผ่นเทาเขียว · รูปช่อง 1 ขาวดำมุมมนยาวต่อท้าย 'me.' · หัวข้อย่อย note#2 'nice to meet you!' + แนะนำตัว (about) ซ้ายล่าง · ลายเซ็นชื่อ (name) เซริฟเอียงบาง หมุน −14° ขวาล่าง (ไม่มีฟอนต์ลายมือในชุดฟอนต์กลาง จึงใช้ serif italic 300) · พื้นผิว: กระดาษ = เทาเขียว #8D8E86 + ขาวนวล · คู่สี = plate + plateInk · ไม่มีพื้น/pane = หมึกการ์ด",
  "variants": [
@@ -191,13 +192,13 @@
      {
       "type": "rect",
       "id": "sheet",
-      "fill": "plate"
+      "fill": "bg"
      },
      {
       "type": "rect",
       "id": "border",
       "stroke": {
-       "color": "plateInk@0.35",
+       "color": "ink@0.35",
        "width": 1
       },
       "if": "bordered"
@@ -221,7 +222,7 @@
         "size": 136,
         "kerning": -8.2,
         "lineHeight": 0.8,
-        "color": "plateInk",
+        "color": "ink",
         "maxLines": 1,
         "shrinkTo": 30,
         "w": "fill",
@@ -240,7 +241,7 @@
           "size": 136,
           "kerning": -8.2,
           "lineHeight": 0.8,
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 30,
           "text": "me."
@@ -280,7 +281,7 @@
             "weight": 700,
             "size": 27,
             "kerning": -1.2,
-            "color": "plateInk",
+            "color": "ink",
             "maxLines": 1,
             "shrinkTo": 12,
             "w": "fill",
@@ -294,7 +295,7 @@
             "weight": 400,
             "size": 9.5,
             "lineHeight": 1.3,
-            "color": "plateInk@0.85",
+            "color": "ink@0.85",
             "maxLines": 4,
             "w": "fill"
            }
@@ -307,7 +308,7 @@
           "face": "noto",
           "weight": 300,
           "size": 34,
-          "color": "plateInk@0.9",
+          "color": "ink@0.9",
           "maxLines": 1,
           "shrinkTo": 14,
           "rotate": -14,
@@ -332,7 +333,8 @@
      "color": "ink@0.35",
      "width": 1
     },
-    "if": "bordered"
+    "if": "bordered",
+    "on": "card"
    },
    {
     "type": "col",
@@ -357,7 +359,8 @@
       "maxLines": 1,
       "shrinkTo": 30,
       "w": "fill",
-      "text": "about"
+      "text": "about",
+      "on": "card"
      },
      {
       "type": "row",
@@ -375,7 +378,8 @@
         "color": "ink",
         "maxLines": 1,
         "shrinkTo": 30,
-        "text": "me."
+        "text": "me.",
+        "on": "card"
        },
        {
         "type": "image",
@@ -416,7 +420,8 @@
           "maxLines": 1,
           "shrinkTo": 12,
           "w": "fill",
-          "text": "nice to meet you!"
+          "text": "nice to meet you!",
+          "on": "card"
          },
          {
           "type": "text",
@@ -428,7 +433,8 @@
           "lineHeight": 1.3,
           "color": "ink@0.75",
           "maxLines": 4,
-          "w": "fill"
+          "w": "fill",
+          "on": "card"
          }
         ]
        },
@@ -444,7 +450,8 @@
         "shrinkTo": 14,
         "rotate": -14,
         "textAlign": "center",
-        "grow": 1
+        "grow": 1,
+        "on": "card"
        }
       ]
      }

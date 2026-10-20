@@ -45,9 +45,10 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "dark"
  },
- "notes": "โปสเตอร์พอร์ต · แปลงจาก PosterWidgets.swift (ArtPortfolioPoster + PosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 18 · พื้นผิว (14 ต.ค. 2569): `papered & !duo` = กระดาษสว่างอมเฉด (hue sat .045 bri .965 ไม่มี token → white + rawAccent@0.07 + black@0.03) หัวเรื่อง `accentPaper` · `papered & duo` = แผ่น `plate` หัวเรื่องครีม `plateInk` · `pane` = ไม่มีแผ่น หัวเรื่อง `accent` · `clear` = ไม่มีแผ่น `accent` · ผัง (สัดส่วนกรอบเดิม ที่ 366×488): pad 20.1 · top 26.8 · ชื่อเซริฟเอียง 0.42fs · ระยะ −0.26fs · พาดหัว heavy kerning −0.045fs · Ed.fitted วัดหมึกไม่หักระยะ kerning → ได้ ~54 ที่กว้าง 0.94 ของเส้น · รูป: ผังโหมดกรอบ (ซิมไม่มี Vision) กว้าง 70% เริ่ม y 99 ลงชนขอบล่าง เงา σ5 y4 black@0.13 · ตราปั๊มนูน (embossedLockup) มุมขวาล่างใต้รูป · ไม่มี: ผังคัตเอาต์ (สูง h+bleed−subjectTop ล้นล่าง 5%) สลับตามมีรูปตัดพื้น · ธง emboss=off/blind ของชิ้น (ตราขึ้นเสมอ) · เกล็ด EdGrain · ลายแผ่น · ขนาดเป็นสัดส่วนของกรอบ (ผังสเกลทั้งก้อน)",
+ "notes": "โปสเตอร์พอร์ต · (21 ต.ค. 2569: ชื่อ/PORTFOLIO/ตรา ใช้พื้นตั้งต้น `dark` ของใบ — เดิมติด `on: light` ค้างจากตัวแปลง ทำให้ตัวหนังสือเข้มบนแผ่นเข้มบนการ์ดคู่สี) · แปลงจาก PosterWidgets.swift (ArtPortfolioPoster + PosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 18 · พื้นผิว (14 ต.ค. 2569): `papered & !duo` = กระดาษสว่างอมเฉด (hue sat .045 bri .965 ไม่มี token → white + rawAccent@0.07 + black@0.03) หัวเรื่อง `accentPaper` · `papered & duo` = แผ่น `plate` หัวเรื่องครีม `plateInk` · `pane` = ไม่มีแผ่น หัวเรื่อง `accent` · `clear` = ไม่มีแผ่น `accent` · ผัง (สัดส่วนกรอบเดิม ที่ 366×488): pad 20.1 · top 26.8 · ชื่อเซริฟเอียง 0.42fs · ระยะ −0.26fs · พาดหัว heavy kerning −0.045fs · Ed.fitted วัดหมึกไม่หักระยะ kerning → ได้ ~54 ที่กว้าง 0.94 ของเส้น · รูป: ผังโหมดกรอบ (ซิมไม่มี Vision) กว้าง 70% เริ่ม y 99 ลงชนขอบล่าง เงา σ5 y4 black@0.13 · ตราปั๊มนูน (embossedLockup) มุมขวาล่างใต้รูป · ไม่มี: ผังคัตเอาต์ (สูง h+bleed−subjectTop ล้นล่าง 5%) สลับตามมีรูปตัดพื้น · ธง emboss=off/blind ของชิ้น (ตราขึ้นเสมอ) · เกล็ด EdGrain · ลายแผ่น · ขนาดเป็นสัดส่วนของกรอบ (ผังสเกลทั้งก้อน)",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -57,57 +58,33 @@
    {
     "type": "rect",
     "id": "paper",
-    "fill": "white",
-    "if": "papered & !duo"
+    "fill": "bg",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "paperTint",
-    "fill": "rawAccent@0.07",
-    "if": "papered & !duo"
+    "fill": "accent@0.07",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "paperShade",
     "fill": "black@0.03",
-    "if": "papered & !duo"
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered & !duo",
-    "platePattern": "white"
-   },
-   {
-    "type": "rect",
-    "id": "plate",
-    "fill": "plate",
-    "if": "papered & duo"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "papered & duo",
-    "platePattern": "plate"
+    "if": "papered",
+    "platePattern": "bg"
    },
    {
     "type": "icon",
     "id": "emboss",
-    "if": "papered & !duo",
+    "if": "papered",
     "icon": "embossedLockup",
-    "tint": "accentPaper",
-    "w": 110,
-    "h": 48.8,
-    "place": "bottom-right",
-    "dx": -18,
-    "dy": -15
-   },
-   {
-    "type": "icon",
-    "id": "emboss",
-    "if": "papered & duo",
-    "icon": "embossedLockup",
-    "tint": "plateInk",
+    "tint": "accent",
     "w": 110,
     "h": 48.8,
     "place": "bottom-right",
@@ -124,148 +101,13 @@
     "h": 48.8,
     "place": "bottom-right",
     "dx": -18,
-    "dy": -15
+    "dy": -15,
+    "on": "card"
    },
    {
     "type": "col",
     "id": "type",
-    "if": "papered & !duo",
-    "place": "top-left",
-    "w": "fill",
-    "gap": 0,
-    "align": "center",
-    "pad": [
-     26.8,
-     20.1,
-     0,
-     20.1
-    ],
-    "children": [
-     {
-      "type": "col",
-      "id": "titleBlock",
-      "gap": -14,
-      "align": "center",
-      "w": "fill",
-      "children": [
-       {
-        "type": "row",
-        "id": "nameRow",
-        "gap": 6.4,
-        "align": "center",
-        "children": [
-         {
-          "type": "text",
-          "id": "name",
-          "slot": "name",
-          "face": "noto",
-          "weight": 400,
-          "size": 22.7,
-          "color": "accentPaper",
-          "maxLines": 1,
-          "shrinkTo": 10
-         },
-         {
-          "type": "icon",
-          "icon": "starSeal",
-          "size": 11.4,
-          "tint": "accentPaper",
-          "if": "owner.verified"
-         }
-        ]
-       },
-       {
-        "type": "text",
-        "id": "headline",
-        "face": "noto",
-        "weight": 800,
-        "size": 40,
-        "growTo": 92.7,
-        "kerning": -2.43,
-        "textCase": "upper",
-        "textAlign": "center",
-        "maxLines": 1,
-        "shrinkTo": 16,
-        "color": "accentPaper",
-        "w": "94%",
-        "text": "PORTFOLIO"
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "type": "col",
-    "id": "type",
-    "if": "papered & duo",
-    "place": "top-left",
-    "w": "fill",
-    "gap": 0,
-    "align": "center",
-    "pad": [
-     26.8,
-     20.1,
-     0,
-     20.1
-    ],
-    "children": [
-     {
-      "type": "col",
-      "id": "titleBlock",
-      "gap": -14,
-      "align": "center",
-      "w": "fill",
-      "children": [
-       {
-        "type": "row",
-        "id": "nameRow",
-        "gap": 6.4,
-        "align": "center",
-        "children": [
-         {
-          "type": "text",
-          "id": "name",
-          "slot": "name",
-          "face": "noto",
-          "weight": 400,
-          "size": 22.7,
-          "color": "plateInk",
-          "maxLines": 1,
-          "shrinkTo": 10
-         },
-         {
-          "type": "icon",
-          "icon": "starSeal",
-          "size": 11.4,
-          "tint": "plateInk",
-          "if": "owner.verified"
-         }
-        ]
-       },
-       {
-        "type": "text",
-        "id": "headline",
-        "face": "noto",
-        "weight": 800,
-        "size": 40,
-        "growTo": 92.7,
-        "kerning": -2.43,
-        "textCase": "upper",
-        "textAlign": "center",
-        "maxLines": 1,
-        "shrinkTo": 16,
-        "color": "plateInk",
-        "w": "94%",
-        "text": "PORTFOLIO"
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "type": "col",
-    "id": "type",
-    "if": "!papered",
+    "if": "papered",
     "place": "top-left",
     "w": "fill",
     "gap": 0,
@@ -325,6 +167,77 @@
         "color": "accent",
         "w": "94%",
         "text": "PORTFOLIO"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "type",
+    "if": "!papered",
+    "place": "top-left",
+    "w": "fill",
+    "gap": 0,
+    "align": "center",
+    "pad": [
+     26.8,
+     20.1,
+     0,
+     20.1
+    ],
+    "children": [
+     {
+      "type": "col",
+      "id": "titleBlock",
+      "gap": -14,
+      "align": "center",
+      "w": "fill",
+      "children": [
+       {
+        "type": "row",
+        "id": "nameRow",
+        "gap": 6.4,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "id": "name",
+          "slot": "name",
+          "face": "noto",
+          "weight": 400,
+          "size": 22.7,
+          "color": "accent",
+          "maxLines": 1,
+          "shrinkTo": 10,
+          "on": "card"
+         },
+         {
+          "type": "icon",
+          "icon": "starSeal",
+          "size": 11.4,
+          "tint": "accent",
+          "if": "owner.verified",
+          "on": "card"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "id": "headline",
+        "face": "noto",
+        "weight": 800,
+        "size": 40,
+        "growTo": 92.7,
+        "kerning": -2.43,
+        "textCase": "upper",
+        "textAlign": "center",
+        "maxLines": 1,
+        "shrinkTo": 16,
+        "color": "accent",
+        "w": "94%",
+        "text": "PORTFOLIO",
+        "on": "card"
        }
       ]
      }

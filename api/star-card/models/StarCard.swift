@@ -54,34 +54,27 @@ struct StarCardDoc: Codable, Equatable {
     var kinds: [String] { Array(Set(pages.flatMap { $0.items.map(\.kind) })).sorted() }
 }
 
-/// ธีมของทั้งใบ — สีพื้น · หมึก · มุม · พื้นหลัง · แถบผู้ออกบัตร
+/// สีของการ์ด — **สิ่งเดียวที่ API เก็บเรื่องสี** (20 ต.ค. 2569 รอบ 3)
+///
+/// `primary` = สีพื้นการ์ด · `secondary` = หมึกของการ์ดสองสี (มี = การ์ดสองสี · primary เป็นพื้นเสมอ · สลับข้าง = สลับค่า)
+/// ทุกสีที่เหลือ (ไล่เฉด สีเน้น หมึก กระดาษ/แผ่นของ widget) renderer ของแต่ละแพลตฟอร์มคิดจากสองค่านี้ด้วยสูตรเดียวกัน
+/// พาเลตต์/คู่สีสำเร็จรูปในแอปเป็นแค่ปุ่มลัดที่เขียน hex ลงตรงนี้ — API ไม่รู้จักชื่อพวกนั้น
+struct CardColors: Codable, Equatable {
+    /// `#RRGGBB`
+    var primary: String
+    var secondary: String?
+}
+
+/// ธีมของทั้งใบ — สี · หมึก · มุม · พื้นหลัง · แถบผู้ออกบัตร
 ///
 /// ชื่อฟิลด์ตรงกับ `CardSnapshot.Theme` ของ prototype เพื่อให้แปลงไฟล์เก่าได้ตรงตัว
 struct CardTheme: Codable, Equatable {
-    /// พาเลตต์สีพื้น: midnight sky ocean mint lime lavender orchid rose ruby coral champagne noir
-    var palette: String
-    /// หมึก = โทนของตัวหนังสือและแผ่นบนการ์ด: night (พื้นมืด) · paper (พื้นสว่าง) · mist
+    /// สีของการ์ด — doc รุ่นก่อน (ชื่อพาเลตต์/คู่สี/HSB) ไม่มีคีย์นี้ → แปลงตอนอ่านด้วยสูตร `LegacyTheme` ของ prototype
+    var colors: CardColors?
+    /// หมึก = โทนของตัวหนังสือและแผ่นบนการ์ด: night (พื้นมืด) · paper / mist (พื้นสว่าง) · คู่สี: โทนตัดสินว่าสีไหนขึ้นเป็นพื้น
     var ink: String
-    /// ให้ระบบเลือกหมึกจากความสว่างของสีพื้นเอง · nil = true · ผู้ใช้แตะเลือกโทนเมื่อไหร่ = false
-    var inkAuto: Bool?
-    /// มุมของชิ้น: soft · round · pill
-    var corner: String
-    /// พื้นหลัง: solid gradient grid stripe diamond glow marble photo
+    /// พื้นหลัง: solid · gradient (· photo + ฟิลด์ photo* · ค่าเก่า grid stripe diamond glow marble ยังอ่านได้)
     var backdrop: String
-    /// ความสว่างพื้น 0 (เกือบดำ) … 1 (สว่าง)
-    var brightness: Double
-    /// เลื่อนเฉดพื้นออกจากสีพาเลตต์ −0.5 … 0.5 รอบวงล้อสี
-    var hueShift: Double
-    /// สีที่ผู้ใช้เลือกเอง (HSB 0…1) — มี `customBri` = สีจริงเป๊ะ · มีแค่ hue/sat = โทนที่ดูดจากรูป
-    var customHue: Double?
-    var customSat: Double?
-    var customBri: Double?
-    /// คู่สีสำเร็จรูป (indigo · ink …) — มีค่าเมื่อไหร่ สีพื้นและหมึกมาจากคู่นี้ทั้งคู่
-    var duo: String?
-    /// true = สีอ่อนของคู่เป็นพื้น · nil/false = สีเข้มเป็นพื้น
-    var duoFlipped: Bool?
-    /// แบบแถบผู้ออกบัตรขอบล่าง: line ticket ghost emboss foil (ถอดไม่ได้ เลือกได้แค่แบบ)
-    var strip: String?
     /// รูปพื้นหลัง — ใช้เมื่อ `backdrop == "photo"` · เก็บต่อใบ (prototype เคยเก็บรูปเดียวต่อเครื่อง)
     var photo: PhotoRef?
     /// เอฟเฟกต์บนรูปพื้นหลัง: none mono blur halftone
@@ -91,6 +84,18 @@ struct CardTheme: Codable, Equatable {
     /// รูปพื้นหลังเอียงไปทางสว่างแค่ไหน −1 … 1 — **วัดครั้งเดียวตอนเลือกรูปแล้วเก็บไว้**
     /// ทุกเครื่องใช้ค่านี้ตัดสินหมึก ไม่วัดใหม่ (วัดคนละเครื่องได้ค่าไม่ตรงกัน)
     var photoLean: Double?
+    // ---- ฟิลด์รุ่นก่อน — รับไว้เพื่ออ่าน doc เก่าเท่านั้น ไม่เขียนแล้ว (ดู `colors`)
+    var palette: String?
+    var brightness: Double?
+    var hueShift: Double?
+    var customHue: Double?
+    var customSat: Double?
+    var customBri: Double?
+    var duo: String?
+    var duoFlipped: Bool?
+    var inkAuto: Bool?
+    var corner: String?
+    var strip: String?
     var extra: [String: JSONValue] = [:]
 }
 
@@ -480,8 +485,9 @@ extension StarCardDoc {
 extension CardTheme {
     func canonicalized() -> CardTheme {
         var t = self
-        t.brightness = round(brightness, 4)
-        t.hueShift = round(hueShift, 4)
+        t.colors = colors.map { CardColors(primary: $0.primary.uppercased(), secondary: $0.secondary?.uppercased()) }
+        t.brightness = brightness.map { round($0, 4) }
+        t.hueShift = hueShift.map { round($0, 4) }
         t.customHue = customHue.map { round($0, 4) }
         t.customSat = customSat.map { round($0, 4) }
         t.customBri = customBri.map { round($0, 4) }
@@ -607,18 +613,19 @@ extension StarCardDoc {
 }
 
 extension CardTheme {
-    private static let known = ["palette", "ink", "inkAuto", "corner", "backdrop", "brightness", "hueShift",
+    private static let known = ["colors", "palette", "ink", "inkAuto", "corner", "backdrop", "brightness", "hueShift",
                                 "customHue", "customSat", "customBri", "duo", "duoFlipped", "strip",
                                 "photo", "photoEffect", "photoDim", "photoLean"]
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: AnyKey.self)
-        palette = try c.req("palette")
+        colors = try c.opt("colors")
+        palette = try c.opt("palette")
         ink = try c.req("ink")
         inkAuto = try c.opt("inkAuto")
-        corner = try c.req("corner")
+        corner = try c.opt("corner")
         backdrop = try c.req("backdrop")
-        brightness = try c.req("brightness")
-        hueShift = try c.opt("hueShift") ?? 0
+        brightness = try c.opt("brightness")
+        hueShift = try c.opt("hueShift")
         customHue = try c.opt("customHue")
         customSat = try c.opt("customSat")
         customBri = try c.opt("customBri")
@@ -633,19 +640,10 @@ extension CardTheme {
     }
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: AnyKey.self)
-        try c.put(palette, "palette")
+        // เขียนแค่ของรุ่นปัจจุบัน — ฟิลด์รุ่นก่อน (ชื่อพาเลตต์ · คู่สี · HSB · corner · strip · inkAuto) อ่านได้แต่ไม่เขียนกลับ
+        try c.put(colors, "colors")
         try c.put(ink, "ink")
-        try c.put(inkAuto, "inkAuto")
-        try c.put(corner, "corner")
         try c.put(backdrop, "backdrop")
-        try c.put(brightness, "brightness")
-        try c.put(hueShift, "hueShift")
-        try c.put(customHue, "customHue")
-        try c.put(customSat, "customSat")
-        try c.put(customBri, "customBri")
-        try c.put(duo, "duo")
-        try c.put(duoFlipped, "duoFlipped")
-        try c.put(strip, "strip")
         try c.put(photo, "photo")
         try c.put(photoEffect, "photoEffect")
         try c.put(photoDim, "photoDim")

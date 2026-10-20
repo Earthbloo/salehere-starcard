@@ -88,7 +88,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -103,7 +104,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "shadow": {
        "sigma": 4.5,
@@ -127,7 +128,7 @@
       "id": "border",
       "radius": 20,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1.5
       }
      }
@@ -145,7 +146,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -169,7 +170,7 @@
         "id": "border",
         "radius": 20,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         }
        }
@@ -183,7 +184,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 4.5,
@@ -207,7 +208,7 @@
         "id": "border",
         "radius": 3,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         }
        }
@@ -231,7 +232,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
@@ -254,7 +255,7 @@
           {
            "type": "rect",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 12
           },
           {
@@ -277,7 +278,7 @@
                "face": "noto",
                "size": 15.5,
                "weight": 400,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "shrinkTo": 11.62
               },
@@ -292,7 +293,7 @@
                "face": "noto",
                "size": 17.5,
                "weight": 600,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "id": "price",
                "shrink": 0
@@ -319,7 +320,7 @@
           {
            "type": "rect",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 12
           },
           {
@@ -342,7 +343,7 @@
                "face": "noto",
                "size": 15.5,
                "weight": 400,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "shrinkTo": 11.62
               },
@@ -357,7 +358,7 @@
                "face": "noto",
                "size": 10.5,
                "weight": 400,
-               "color": "kit.mut",
+               "color": "ink2",
                "maxLines": 1,
                "shrink": 0
               },
@@ -367,7 +368,7 @@
                "face": "noto",
                "size": 17.5,
                "weight": 600,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "id": "price",
                "shrink": 0

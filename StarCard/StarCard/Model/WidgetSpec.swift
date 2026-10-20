@@ -76,8 +76,10 @@ struct WidgetSpec: Codable, Equatable {
         var controls: [KitControl]? = nil
         /// ชุดห้าสไตล์ — หน้าตาของใบ (`look`) · สีพื้น/ขอบมาจากพื้นหลังการ์ด
         var kit: Kit? = nil
-        /// วัสดุแผ่นสติกเกอร์ `paper` · `glass` (โทเคน `pop.*`)
+        /// วัสดุแผ่นสติกเกอร์ `paper` · `glass` (พื้น `pop`)
         var skin: String? = nil
+        /// พื้นตั้งต้นที่สีของใบนี้คิดจาก — `card` (ไม่ใส่) · `light` · `dark` (§4)
+        var on: String? = nil
         /// ป้าย Verified by Sale Here — `followers` · `insight` · `work` · ไม่ใส่ = ไม่มีป้าย
         var stamp: String? = nil
         /// ใบที่ไม่มีช่องหัวข้อ — chrome วางป้ายมุมขวาบนด้านใน
@@ -424,6 +426,8 @@ struct SpecNode: Codable, Equatable {
     /// `"upper"` · `"lower"`
     var textCase: String? = nil
     var color: String? = nil
+    /// พื้นที่โหนดนี้นั่งอยู่ — คิดสีของ `bg bg2 ink ink2 accent line` จากพื้นนี้แทนพื้นตั้งต้นของใบ (`widget.on`) · §4
+    var on: String? = nil
     /// `"left"` · `"center"` · `"right"`
     var textAlign: String? = nil
     var italic: Bool? = nil

@@ -3,7 +3,7 @@
 // กติกาเดียว · ทุกใบ (WIDGET-SPEC.md §2):  s = min(W / w0, H / h0) · box = (W / s, H / s) · ระยะขอบใน 12 เมื่อมีแผ่น/ขอบ
 // แผ่น: glass (ม่าน + กระจก) · dim (ถ่านทึบ) · pane (กระจกบนใบที่วาดวัสดุเอง) · clear (ไม่มี)
 
-import { css, opacity, chromeInk, tokenColor, extraTokens, parseHex, mixed, BLACK, WHITE, grey, onLightSurface, PALETTES } from './theme.js'
+import { css, opacity, chromeInk, specPalette, parseHex, mixed, BLACK, WHITE, grey, onLightSurface, PALETTES } from './theme.js'
 import { kindInfo, contentInset, resolveKind, TEXT_LAYER } from './kinds.js'
 import { SpecSolver } from './spec-solver.js'
 import { paintWidget } from './spec-painter.js'
@@ -59,10 +59,14 @@ export function mountWidget(pageEl, item, frame, env) {
     if (surface === 'dim') {
       root.style.cssText += sh + `background:${css(theme.slab)};` + (ink.liftRadius ? `box-shadow:0 0 ${ink.liftRadius * 0.7 * 2}px ${css(opacity(ink.lift, 0.6))};` : '')
     } else {
-      // กระจก — ม่านขาวขุ่น/ดำจางตามหมึก (คู่สี = ดำจาง) + Liquid Glass (เว็บ: เบลอพื้นหลังบาง ๆ + ขอบแสง)
-      const veil = theme.activeDuo ? opacity(BLACK, 0.16) : ink.isLight ? opacity(WHITE, 0.58) : opacity(BLACK, 0.16)
+      // กระจก — สีแผ่น = **ผลที่ Liquid Glass (.clear) ของ iOS 26 วาดออกมาจริง** (วัดจากภาพส่งออก 21 ต.ค. 2569 · = GlassPanel.kt):
+      // หมึกสว่าง → ขาว 57.5% · หมึกมืด/คู่สี → ขาว 5.6% · ย้อมชั้น verified บนหมึกมืด → ดำ 70% แล้วสีเน้น 5% · บนหมึกสว่าง → สีเน้น 2.5%
+      // + เบลอพื้นหลังบาง ๆ และขอบแสง (เว็บทำได้แค่นี้ — ขอบแสงของกระจกจริงต่างกันเล็กน้อย)
       const tinted = info.verifiedTier && !theme.activeDuo
-      root.style.cssText += sh + `background:${css(veil)};` + (tinted ? `background-image:linear-gradient(${css(opacity(theme.accent, 0.13))},${css(opacity(theme.accent, 0.13))});` : '')
+      const light = ink.isLight
+      const veil = light ? opacity(WHITE, 0.575) : tinted ? opacity(BLACK, 0.70) : opacity(WHITE, 0.056)
+      const tintA = light ? 0.025 : 0.05
+      root.style.cssText += sh + `background:${css(veil)};` + (tinted ? `background-image:linear-gradient(${css(opacity(theme.accent, tintA))},${css(opacity(theme.accent, tintA))});` : '')
         + 'backdrop-filter:blur(3px) saturate(1.25);-webkit-backdrop-filter:blur(3px) saturate(1.25);'
         + `box-shadow:${ink.liftRadius ? `0 6px ${ink.liftRadius * 2}px ${css(ink.lift)},` : ''}inset 0.6px 0.6px 0 rgba(255,255,255,0.28),inset -0.4px -0.4px 0 rgba(255,255,255,0.08);`
     }
@@ -99,23 +103,25 @@ function paintSpec(host, item, spec, info, box, s, ink, theme, stamped, env) {
   const surface = item.surface || 'glass'
   // หน้าตาเป็นของชนิด (`widget.kit.look`) ไม่ใช่ค่าในชิ้น
   const kit = { ...(item.kit || {}), style: spec.widget?.kit?.look || 'purple' }
-  const ex = extraTokens(theme, ink, surface, info.skin, kit, !!item.border)
   const accent = theme.accent
+  // สีทั้ง 6 บทบาท × พื้น ของชิ้นนี้ (= `SpecPalette`) — ผังอ้างแค่ `ink` `bg` … + `on` · พื้นตั้งต้น = `widget.on`
+  const pal = specPalette({ t: theme, ink, accent, surface, skin: info.skin, kit, border: !!item.border, base: spec.widget?.on })
   // `env.makeData` = แหล่งข้อมูลที่ส่งมาแทน (หน้าทดสอบเล่นคำตอบของ iOS ซ้ำ)
   const data = env.makeData ? env.makeData(item) : new WebSpecData({
     profile: env.profile, item, sample: false, inkLight: ink.isLight, surface, duo: !!theme.activeDuo,
-    stamped, cutout: false, kitDark: ex.look.dark,
+    stamped, cutout: false, kitDark: pal.base === 'dark',
   })
   const solver = new SpecSolver(spec, box, data, env.measurer, s)
   const boxes = solver.solve()
-  const colorObj = (token, it) => {
+  /** token → สี · `on` = พื้นของโหนด · `$field` ของรายการ (`$tint@0.3`) แทนค่าแล้วค่อยแปลง */
+  const colorObj = (token, on, it) => {
     if (token.startsWith('$') && it) {
       let name = token.slice(1), alpha = ''
       const at = name.indexOf('@')
       if (at >= 0) { alpha = name.slice(at); name = name.slice(0, at) }
       token = it.value(name) + alpha
     }
-    return tokenColor(token, ink, accent, theme, ex.map)
+    return pal.color(token, on)
   }
   const socials = data.socials || []
   const prov = socials.length && socials.every((x) => x.source !== 'manual')
@@ -125,12 +131,12 @@ function paintSpec(host, item, spec, info, box, s, ink, theme, stamped, env) {
     measurer: env.measurer,
     fontCSS,
     css,
-    color: (t, it) => css(colorObj(t, it)),
+    color: (t, on, it) => css(colorObj(t, on, it)),
     colorObj,
     mixDark: (c) => mixed(c, BLACK, 0.5),
     platePattern: item.pattern || 'plain',
     photo: (slot) => photoFor(env.doc, slot, item.id, env.imageURL, env.mock),
-    icon: (o) => specIcon({ ...o, ink, accent: css(accent), stamped, handle: env.profile.text('handle'), provenance: prov, scrap: theme.scrap, base: env.base }),
+    icon: (o) => specIcon({ ...o, ink, accent: css(accent), color: (t) => css(colorObj(t, null, null)), stamped, handle: data.text('handle', null), provenance: prov, scrap: theme.scrap, base: env.base }),
   }
   paintWidget(host, boxes, solver.scale, ctx)
 }

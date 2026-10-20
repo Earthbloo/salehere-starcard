@@ -88,7 +88,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา mac · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -103,7 +104,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -135,7 +136,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -163,7 +164,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -392,7 +393,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "id": "title",
           "textAlign": "center",
@@ -439,7 +440,7 @@
              "type": "rect",
              "if": "!$i=first",
              "h": 1,
-             "fill": "kit.mut@0.17"
+             "fill": "ink2@0.17"
             },
             {
              "type": "col",
@@ -461,7 +462,7 @@
                  "face": "noto",
                  "size": 13,
                  "weight": 400,
-                 "color": "kit.ink",
+                 "color": "ink",
                  "maxLines": 1,
                  "shrinkTo": 9.75
                 },
@@ -476,7 +477,7 @@
                  "face": "noto",
                  "size": 13,
                  "weight": 600,
-                 "color": "kit.accent",
+                 "color": "accent",
                  "maxLines": 1,
                  "id": "price",
                  "shrink": 0
@@ -504,7 +505,7 @@
              "type": "rect",
              "if": "!$i=first",
              "h": 1,
-             "fill": "kit.mut@0.17"
+             "fill": "ink2@0.17"
             },
             {
              "type": "col",
@@ -526,7 +527,7 @@
                  "face": "noto",
                  "size": 13,
                  "weight": 400,
-                 "color": "kit.ink",
+                 "color": "ink",
                  "maxLines": 1,
                  "shrinkTo": 9.75
                 },
@@ -541,7 +542,7 @@
                  "face": "noto",
                  "size": 10.5,
                  "weight": 400,
-                 "color": "kit.mut",
+                 "color": "ink2",
                  "maxLines": 1,
                  "shrink": 0
                 },
@@ -551,7 +552,7 @@
                  "face": "noto",
                  "size": 13,
                  "weight": 600,
-                 "color": "kit.accent",
+                 "color": "accent",
                  "maxLines": 1,
                  "id": "price",
                  "shrink": 0
@@ -584,7 +585,7 @@
       "id": "border",
       "radius": 12,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }
@@ -600,7 +601,7 @@
       "id": "border",
       "radius": 3,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }

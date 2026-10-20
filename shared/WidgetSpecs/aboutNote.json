@@ -20,7 +20,8 @@
   },
   "photo": true,
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "dark"
  },
  "notes": "โน้ตกระดาษฉีก 'ABOUT ME' ทับรูปขาวดำ — แผ่นขาว (papered & !duo · คู่สี = plate) · รูปช่อง 1 ขาวดำ กินที่ที่เหลือ (pad 23/35/30/113 — โตตามกรอบ) · โน้ตกระดาษครีม #EFEDE6 + เม็ดกระดาษ (speckle) 148×211 เกาะซ้ายบน ทับรูป · ขอบฉีก = แถบฟันปลา (shape zigzag) สองชั้นฟันไม่เท่ากันทั้งสี่ด้าน (ซ้าย/ขวาหมุน ±90 · บนหมุน 180) · หมึกปากกาลูกลื่น #272C8C · หัวข้อ note#0 'ABOUT ME' + เส้นใต้ · จุดนำหน้า: ชื่อ (name) · สายงาน (tagline) · พื้นที่ (workArea) / สายงาน categories#0–2 · ท้ายโน้ต note#1 'AND STILL BUILDING...' ชิดขวา · คลิปหนีบกระดาษเทาเข้ม · ลายมือ note#2 'stay tuned for more!' ขวาล่างใต้รูป หมึกเดียวกัน (คู่สี = plateInk · ไม่มีพื้น = ink) · ฟอนต์ลายมือไม่มีในชุดฟอนต์กลาง จึงใช้ Mitr ตัวพิมพ์ใหญ่ + ระยะตัวอักษร · ขอบฉีกจริง (เส้นไม่สม่ำเสมอ) ยังไม่มี shape — ใช้ฟันปลาซ้อนแทน",
  "root": {
@@ -29,14 +30,8 @@
    {
     "type": "rect",
     "id": "sheet",
-    "if": "papered & !duo",
-    "fill": "white"
-   },
-   {
-    "type": "rect",
-    "id": "sheetDuo",
-    "if": "papered & duo",
-    "fill": "plate"
+    "if": "papered",
+    "fill": "bg"
    },
    {
     "type": "rect",
@@ -45,7 +40,8 @@
     "stroke": {
      "color": "ink@0.35",
      "width": 1
-    }
+    },
+    "on": "card"
    },
    {
     "type": "col",
@@ -482,31 +478,12 @@
    {
     "type": "text",
     "id": "caption",
-    "if": "papered & !duo",
+    "if": "papered",
     "face": "noto",
     "weight": 300,
     "size": 10,
     "tracking": 0.4,
     "color": "#272C8C",
-    "maxLines": 1,
-    "shrinkTo": 7,
-    "rotate": -1.5,
-    "place": "bottom-right",
-    "dx": -39,
-    "dy": -7,
-    "w": 160,
-    "textAlign": "right",
-    "text": "stay tuned for more!"
-   },
-   {
-    "type": "text",
-    "id": "captionDuo",
-    "if": "papered & duo",
-    "face": "noto",
-    "weight": 300,
-    "size": 10,
-    "tracking": 0.4,
-    "color": "plateInk",
     "maxLines": 1,
     "shrinkTo": 7,
     "rotate": -1.5,
@@ -534,7 +511,8 @@
     "dy": -7,
     "w": 160,
     "textAlign": "right",
-    "text": "stay tuned for more!"
+    "text": "stay tuned for more!",
+    "on": "card"
    }
   ]
  }

@@ -2570,7 +2570,7 @@ struct CardScreen: View {
             // ขึ้นบรรทัดเองเมื่อชิปเต็มแถว — หกแบบไม่ลงในบรรทัดเดียวบนเครื่องเล็ก
             // แต่ถาดนี้ห้ามเลื่อน: แบบพื้นที่มองไม่เห็นคือแบบที่ไม่มีใครกด
             FlowLayout(spacing: 7) {
-                ForEach(BackdropStyle.allCases) { st in
+                ForEach(BackdropStyle.offered) { st in
                     Button {
                         withAnimation(Motion.flow) {
                             theme.backdrop = st
@@ -2626,30 +2626,10 @@ struct CardScreen: View {
             }
 
             // มุมกับแถบผู้ออกบัตรไม่ใช่ของที่ต้องถาม — ค่าตั้งต้นของธีมตัดสินให้ (ดู `CardTheme.corner` · `strip`)
-            toneRow
-            signatureRow
-            // ฟอนต์ของข้อมูลจากระบบ — ใช้กับชุดห้าสไตล์ทั้งการ์ด (ข้อมูลแก้ฟอนต์รายช่องไม่ได้)
-            if pages.contains(where: { $0.items.contains { $0.kind.isKit } }) {
-                DockRow(label: "ฟอนต์ข้อมูล") {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 6) {
-                            ForEach(CardFont.allCases) { f in
-                                let on = theme.dataFont == f
-                                Button {
-                                    withAnimation(Motion.flow) { theme.dataFont = f }
-                                    Haptics.impact(.light)
-                                } label: {
-                                    Text(f.name).font(f.font(13, .semibold))
-                                        .foregroundStyle(on ? Color.black.opacity(0.86) : .white.opacity(0.78))
-                                        .padding(.horizontal, 12).frame(height: 30)
-                                        .background(Capsule().fill(on ? Color.white.opacity(0.92) : Color.white.opacity(0.08)))
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                    }
-                }
-            }
+            // แถว "ลายเซ็น" (ตัวเขียน/พิมพ์/ปั๊มนูน) ถอดออก 20 ต.ค. 2569 — การ์ดใช้ค่าตั้งต้น `.line` ทุกใบ
+            // แถวโทนมีเฉพาะการ์ดคู่สี (20 ต.ค. 2569 — ผู้ใช้: สีเดียวโทนเปลี่ยนอะไรไม่ได้ เอาออก) · หมึกของสีเดียว = `autoInk` ตอนเลือกสี
+            if theme.duoColors != nil { toneRow }
+            // แถว "ฟอนต์ข้อมูล" (มาตรฐาน/มิตร) ถอดออก 20 ต.ค. 2569 (ผู้ใช้: "เอาออก ไม่ต้องมี") — `dataFont` ยังอยู่ใน doc สำหรับเทมเพลตเก่า
         }
         .animation(Motion.settle, value: colorOpen)
         .animation(Motion.settle, value: theme.backdrop == .photo)
@@ -2720,7 +2700,7 @@ struct CardScreen: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 9) {
                 ForEach(ColorDuo.all) { d in
-                    let on = theme.duoID == d.id
+                    let on = theme.matches(d)
                     Button {
                         // สีที่ตั้งเองต้องยังกดกลับได้ เหมือนตอนแตะสีเดี่ยว — คู่สีก็คือการลองดู
                         if let c = theme.customColor { myColor = c }
@@ -2734,14 +2714,12 @@ struct CardScreen: View {
                     .accessibilityLabel("\(d.darkName) กับ \(d.lightName)")
                 }
                 ForEach(Palette.allCases) { p in
-                    let active = theme.palette == p && !theme.hasCustomColor && theme.duoID == nil
+                    let active = Palette.matching(theme.primary)?.palette == p && theme.secondary == nil
                     Button {
                         // จำสีที่ตั้งเองไว้ก่อน — สีสำเร็จรูปคือการลองดู ไม่ใช่การทิ้งของเดิม
                         if let c = theme.customColor { myColor = c }
-                        withAnimation(Motion.flow) {
-                            theme.palette = p
-                            theme.clearBackdropColor()
-                        }
+                        // พาเลตต์ = ปุ่มลัดที่เขียน hex ลงการ์ด (doc เก็บแค่ `colors.primary`)
+                        withAnimation(Motion.flow) { theme.setPreset(p) }
                         Haptics.impact(.light)
                     } label: {
                         Circle()
@@ -2791,49 +2769,18 @@ struct CardScreen: View {
 
     private enum ToneChoice: Hashable { case dark, light }
 
-    /// ลายเซ็น Sale Here บนตัวการ์ด — ถอดไม่ได้ แต่เลือกได้ว่าเป็นตัวเขียนจางหรือตราปั๊มนูน
-    /// (ทั้งสองแบบใช้หมึกของการ์ดใบนั้น ไม่มีแบบไหนเอาสีแบรนด์มาวางทับงานของเจ้าของ)
-    private var signatureRow: some View {
-        let opts: [DockSegment<StripStyle>.Option] = [.init(value: .line, title: "ตัวเขียน"),
-                                                      .init(value: .foil, title: "พิมพ์"),
-                                                      .init(value: .emboss, title: "ปั๊มนูน")]
-        return DockRow(label: "ลายเซ็น") {
-            DockSegment(options: opts, selection: theme.strip.isStamp ? theme.strip : .line) { c in
-                withAnimation(Motion.flow) { theme.strip = c }
-                Haptics.impact(.light)
-            }
-        }
-    }
-
-    /// โทนหมึก — เหลือสองฝั่ง: มืด · สว่าง
+    /// โทนของการ์ดคู่สี — เข้ม · อ่อน = สีไหนของคู่ขึ้นเป็นพื้น (แตะแค่ `ink` ไม่แตะค่าสีใน doc)
     ///
-    /// "กระดาษ" กับ "ใสใส" เป็นคนละหน้าตาก็จริง แต่การเลือกระหว่างสองอันนั้นคือคำถามของ
-    /// **ความสดของพื้น** ไม่ใช่รสนิยม — ระบบตอบเองได้ (ดู `CardTheme.lightInk`) ส่วน "อัตโนมัติ"
-    /// ไม่ใช่โทน มันคือสถานะตั้งต้นที่เงียบอยู่แล้ว · แถวนี้จึงชี้ค่าที่ใช้อยู่จริงเสมอ
-    /// พื้นเป็นรูป = ล็อกกลางคืน (ดู `CardTheme.activeInk`) แถวยังอยู่แต่จาง แตะแล้วบอกเหตุผล
+    /// สีเดียวไม่มีแถวนี้ (20 ต.ค. 2569): พื้นคือ hex ที่เลือกเป๊ะ หมึกเลือกเองจากความสว่างของพื้น (`autoInk`)
+    /// พื้นเป็นรูป = คู่สีถอยไปอยู่แล้ว (`activeDuo` nil) แถวจึงไม่ขึ้น
     private var toneRow: some View {
-        let locked = theme.backdrop == .photo
-        let sel: ToneChoice = theme.activeInk.isLight ? .light : .dark
-        let opts: [DockSegment<ToneChoice>.Option] = [.init(value: .dark, title: "มืด"),
-                                                      .init(value: .light, title: "สว่าง")]
-        return DockRow(label: "โทน", dim: locked) {
-            DockSegment(options: opts, selection: locked ? .dark : sel, dim: locked) { c in
-                if locked {
-                    flash("พื้นเป็นรูป — โทนล็อกเป็นกลางคืนให้ตัวหนังสืออ่านออกบนรูปทุกแบบ")
-                    Haptics.rigid()
-                    return
-                }
-                // คู่สีมีสองสีอยู่แล้ว — "สว่าง" จึงแปลว่ายกสีอ่อนของคู่ขึ้นมาเป็นพื้น
-                // ไม่ใช่เปลี่ยนหมึกเป็นถ่านแล้วทิ้งสีที่สองไป · ปุ่มสลับข้างจึงไม่ต้องมีเพิ่ม
-                if theme.duoColors != nil {
-                    withAnimation(Motion.flow) { theme.duoFlipped = c == .light }
-                    Haptics.impact(.light)
-                    return
-                }
-                withAnimation(Motion.flow) {
-                    theme.inkAuto = false
-                    theme.ink = c == .dark ? .night : theme.lightInk
-                }
+        let sel: ToneChoice = theme.duoFlipped ? .light : .dark
+        let opts: [DockSegment<ToneChoice>.Option] = [.init(value: .dark, title: "เข้ม"),
+                                                      .init(value: .light, title: "อ่อน")]
+        return DockRow(label: "โทน") {
+            DockSegment(options: opts, selection: sel) { c in
+                // คู่สีมีสองสีอยู่แล้ว — "อ่อน" คือยกสีอ่อนของคู่ขึ้นมาเป็นพื้น
+                withAnimation(Motion.flow) { theme.flipDuo(light: c == .light) }
                 Haptics.impact(.light)
             }
         }
@@ -2862,11 +2809,8 @@ struct CardScreen: View {
                 BackgroundPickButton(theme: theme.toolTheme) { tone in
                     withAnimation(Motion.flow) {
                         theme.backdrop = .photo
-                        theme.customHue = tone?.hue
-                        theme.customSat = tone?.saturation
-                        // โทนที่ดูดจากรูปเป็นแค่เฉด ไม่ใช่สีพื้นจริง — ล้างความสว่างที่เคยตั้งเอง
-                        // ไม่งั้นเปลี่ยนกลับไปพื้นสีทีหลังจะได้สีเก่าผสมเฉดใหม่ ซึ่งไม่ใช่ทั้งสองอย่าง
-                        theme.customBri = nil
+                        // โทนที่ดูดจากรูปเป็นแค่เฉด ไม่ใช่สีพื้นจริง — คงความสว่างเดิมของพื้นไว้
+                        theme.setBackdropTone(hue: tone?.hue, sat: tone?.saturation)
                     }
                 }
 
@@ -3494,9 +3438,6 @@ private struct InkSwatch: View {
     var body: some View {
         var t = theme
         t.ink = ink
-        // ตัวอย่างต้องโชว์หมึกที่ชิปนี้แทน ไม่ใช่หมึกที่ระบบเลือกให้ — ลืมปิดโหมดอัตโนมัติ
-        // เมื่อไหร่ ชิปทั้งสามจะวาดออกมาหน้าตาเหมือนกันหมด เพราะทุกใบถูกคำนวณทับด้วยค่าเดียวกัน
-        t.inkAuto = false
         // ฉากหลังแบบรูปบังคับหมึกกลางคืน ตัวอย่างทั้งสามจะเหมือนกันหมด — สลับเป็นไล่เฉดให้เห็นความต่าง
         if t.backdrop == .photo { t.backdrop = .gradient }
         let c = t.backdropColors

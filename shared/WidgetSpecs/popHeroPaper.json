@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "paper",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระดาษ) — ตามต้นฉบับใบนี้ **ไม่มีแผ่น**: ชื่อลอยบนการ์ด · รูปอัดขอบขาวแปะเทปเอียง · ข้อมูลอยู่บนกระดาษโน้ตขาว (มุมพับ PopFold วาดไม่ได้) · แปลงจาก PopWidgets.swift (PopHero สกิน paper, inner.padding(6)) · สี: ถ่านคงที่ pop.ink (ชื่อเป็นถ่านแม้บนการ์ดมืด ตามต้นฉบับ) · เทป rawAccent@0.62 · ต้นฉบับใบนี้ไม่อ่าน surface/border",
  "root": {
@@ -46,7 +47,7 @@
     "kerning": -0.5,
     "maxLines": 1,
     "shrinkTo": 29.5,
-    "color": "pop.ink",
+    "color": "ink",
     "w": "fill"
    },
    {
@@ -82,7 +83,7 @@
         "id": "tape",
         "w": 54,
         "h": 13,
-        "fill": "rawAccent@0.62",
+        "fill": "accent@0.62",
         "stroke": {
          "color": "white@0.35",
          "width": 0.5
@@ -141,7 +142,7 @@
             "face": "noto",
             "weight": 500,
             "size": 11.5,
-            "color": "pop.ink",
+            "color": "ink",
             "maxLines": 1,
             "shrink": 0
            },
@@ -152,7 +153,7 @@
             "face": "noto",
             "weight": 500,
             "size": 11.5,
-            "color": "pop.ink",
+            "color": "ink",
             "maxLines": 1,
             "shrinkTo": 6.5
            }
@@ -162,14 +163,14 @@
           "type": "rect",
           "w": 0.8,
           "h": 15,
-          "fill": "pop.ink@0.5",
+          "fill": "ink@0.5",
           "if": "has:stat:creatorKind"
          },
          {
           "type": "icon",
           "icon": "ph:user-fill",
           "size": 11,
-          "tint": "pop.ink",
+          "tint": "ink",
           "if": "has:stat:creatorKind"
          },
          {
@@ -177,7 +178,7 @@
           "face": "noto",
           "weight": 500,
           "size": 11.5,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrink": 0,
           "slot": "stat:creatorKind",
@@ -206,7 +207,7 @@
             "face": "noto",
             "weight": 700,
             "size": 11,
-            "color": "pop.ink",
+            "color": "ink",
             "maxLines": 1,
             "shrink": 0
            },
@@ -217,7 +218,7 @@
             "face": "noto",
             "weight": 400,
             "size": 11,
-            "color": "pop.ink",
+            "color": "ink",
             "maxLines": 1,
             "shrinkTo": 7.7,
             "grow": 1
@@ -227,7 +228,7 @@
          {
           "type": "line",
           "h": 1,
-          "fill": "pop.ink@0.85"
+          "fill": "ink@0.85"
          }
         ]
        },

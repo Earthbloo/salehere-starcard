@@ -56,7 +56,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if)",
  "root": {
@@ -67,7 +68,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -81,7 +82,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -112,7 +113,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -126,7 +127,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 6,
@@ -154,7 +155,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -168,7 +169,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 12,
           "shadow": {
            "sigma": 6,
@@ -202,7 +203,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "if": "!cfg:fill=clear"
        },
        {
@@ -267,7 +268,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 9,
           "textAlign": "center",
@@ -304,7 +305,7 @@
           "face": "noto",
           "size": 14,
           "weight": 500,
-          "color": "kit.ink",
+          "color": "ink",
           "maxLines": 0,
           "lineHeight": 1.2
          },
@@ -345,7 +346,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       },
       "radius": 12,
@@ -363,7 +364,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 3,
@@ -378,7 +379,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 12,

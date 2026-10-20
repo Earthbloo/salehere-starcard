@@ -105,6 +105,8 @@ def load(d):
 NO_IMAGES = '--no-images' in sys.argv
 # รายงานแบบเบา: เก็บรูปเฉพาะกรอบที่ระบุ (ตัวเลขยังเทียบครบทุกกรอบ) · ย่อครึ่ง
 REPORT_PROBES = sys.argv[sys.argv.index('--probes') + 1].split(',') if '--probes' in sys.argv else None
+# ชื่อฝั่งที่สอง (ค่าตั้งต้น Android · present/web-parity ส่ง --label web)
+LABEL = sys.argv[sys.argv.index('--label') + 1] if '--label' in sys.argv else 'Android'
 
 def half(img):
     w, h, p = img; w2, h2 = w // 2, h // 2
@@ -139,7 +141,7 @@ def main():
                 row['boxes'] += 1
                 ba = bA.get(bi['id'])
                 why = None
-                if ba is None: why = 'missing on Android'
+                if ba is None: why = f'missing on {LABEL}'
                 elif ba['type'] != bi['type']: why = f"type {ba['type']} ≠ {bi['type']}"
                 else:
                     bad = [k for k in ('x', 'y', 'w', 'h') if abs(ba[k] - bi[k]) > TOL]
@@ -212,7 +214,7 @@ def write_html(out, s):
             cells.append(f"""<figure class="case"><figcaption><b>{e(p)}</b> <span class="pill {tone}">{c['pixelPct']:.2f}% px</span>
               <span class="pill {'ok' if c['diffs'] == 0 else 'bad'}">{'ตัวเลขตรง' if c['diffs'] == 0 else str(c['diffs']) + ' กล่องต่าง'}</span></figcaption>
               <div class="trip"><div><img loading="lazy" src="{base}-ios.png"><span>iOS</span></div>
-              <div><img loading="lazy" src="{base}-and.png"><span>Android</span></div>
+              <div><img loading="lazy" src="{base}-and.png"><span>{e(LABEL)}</span></div>
               <div><img loading="lazy" src="{base}-diff.png"><span>ต่าง (แดง)</span></div></div></figure>""")
         diffs = ''.join(f"<li>{e(d)}</li>" for d in k['firstDiffs'])
         rows.append(f"""<section class="kind" id="{e(k['kind'])}"><h2>{e(k['kind'])}
@@ -238,15 +240,15 @@ main{{max-width:1200px;margin:0 auto;padding:24px 16px}} h1{{margin:0 0 4px}} .l
 .diffs{{color:var(--bad);font-size:12px;margin:0 0 10px;padding-left:18px}}
 table{{border-collapse:collapse;width:100%;font-size:12px;background:var(--card)}} td,th{{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}}
 </style></head><body><main>
-<h1>ผัง JSON ชุดเดียว · iOS กับ Android</h1>
-<p class="lede">ทุกใบวาดจาก <code>shared/WidgetSpecs/*.json</code> ชุดเดียวกัน ด้วยข้อมูลชุดเดียวกัน (เล่นซ้ำจากรอบวาดของ iOS) — Android ใช้ตัววัดตัวอักษร · ตัวคำนวณ · ตัววาดของตัวเองทั้งหมด</p>
+<h1>ผัง JSON ชุดเดียว · iOS กับ {e(LABEL)}</h1>
+<p class="lede">ทุกใบวาดจาก <code>shared/WidgetSpecs/*.json</code> ชุดเดียวกัน ด้วยข้อมูลชุดเดียวกัน (เล่นซ้ำจากรอบวาดของ iOS) — {e(LABEL)} ใช้ตัววัดตัวอักษร · ตัวคำนวณ · ตัววาดของตัวเองทั้งหมด</p>
 <div class="stats">
 <div class="stat"><b>{s['numbersOK']}/{s['kinds']}</b>ชนิดที่ตัวเลขตรงทุกกล่องทุกกรอบ</div>
 <div class="stat"><b>{s['boxes'] - s['boxDiffs']}/{s['boxes']}</b>กล่องที่ตรง (±0.01)</div>
 <div class="stat"><b>{s['measuresWithin05']}/{s['measures']}</b>การวัดตัวอักษรที่กว้างต่างไม่เกิน 0.5pt</div>
 <div class="stat"><b>{s['measuresSameLines']}/{s['measures']}</b>การวัดที่ได้จำนวนบรรทัดเท่ากัน</div></div>
 {''.join(rows)}
-<h2>การวัดตัวอักษรที่ต่างมากสุด</h2><table><tr><th>ข้อความ</th><th>ฟอนต์</th><th>iOS w</th><th>Android w</th><th>ต่าง</th><th>บรรทัด iOS/Android</th></tr>{wm}</table>
+<h2>การวัดตัวอักษรที่ต่างมากสุด</h2><table><tr><th>ข้อความ</th><th>ฟอนต์</th><th>iOS w</th><th>{e(LABEL)} w</th><th>ต่าง</th><th>บรรทัด iOS/{e(LABEL)}</th></tr>{wm}</table>
 </main></body></html>"""
     open(os.path.join(out, 'report.html'), 'w').write(page)
 

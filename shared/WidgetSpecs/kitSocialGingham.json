@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
  "root": {
@@ -78,7 +79,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20
      },
      {
@@ -117,7 +118,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -152,7 +153,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -202,7 +203,7 @@
         "id": "border",
         "radius": 13,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         }
        }
@@ -228,7 +229,7 @@
           "id": "border",
           "radius": 13,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -250,7 +251,7 @@
           "id": "border",
           "radius": 2,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -282,7 +283,7 @@
             "face": "noto",
             "size": 19,
             "weight": 800,
-            "color": "kit.title",
+            "color": "ink",
             "maxLines": 2,
             "id": "title",
             "shrinkTo": 13.3,
@@ -305,7 +306,7 @@
             "face": "noto",
             "size": 19,
             "weight": 800,
-            "color": "kit.title",
+            "color": "ink",
             "maxLines": 2,
             "id": "title",
             "shrinkTo": 13.3,

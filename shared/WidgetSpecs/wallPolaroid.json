@@ -47,7 +47,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สำรับบรรณาธิการ · กำแพงโพลารอยด์ — ฟิล์มผลงานยืนยัน (works ≤5) บนผนังครีม หมุดสีบนหัวใบ ชื่อแบรนด์คาบขอบล่าง ยอดวิว+แคมเปญใต้ใบ · แปลงจาก EditorialWidgets.swift (WallPolaroid) · ใบวางตามพิกัด spots ของต้นฉบับ (ตามจำนวนผลงาน 1–5 · if list:works=N) ใบละหนึ่ง chips ที่กรอง where $i — เอียง/หมุด/ขนาดต่อใบตามต้นฉบับ (rim = max(4, 5.5%กว้าง) · ชื่อ = clamp(17%กว้าง, 12, 23) · ฟิล์ม 4:5 · ชื่อห้อย 0.95×ขนาด กว้าง 116%) · สีตาม Ed.skin: ผนัง Ed.cream เฉพาะ papered & !duo · คู่สี = plate (ฟิล์มยังขาว) · ปิดพื้น/pane = ไม่มีผนัง · ชื่อแบรนด์ = ed.marker (accentPaper บนกระดาษ · plateInk บนแผ่นคู่สี · accent เมื่อไม่มีพื้น) เงาขาวเมื่อมีแผ่น/เงาหมึกการ์ดเมื่อไม่มี · ยอด = ed.ink@0.85 · แคมเปญ = ed.inkSoft · scaleEffect(fit) ของต้นฉบับ = 1 ทุกผังที่กรอบดีไซน์ · ยังวาดไม่ได้: ER (ไม่มีในรายการ works) · 'รอยอดจากระบบ' เมื่อวิว 0 · เกล็ดกระดาษ/ลายแผ่น",
  "root": {
@@ -56,26 +57,14 @@
    {
     "type": "rect",
     "id": "sheet",
-    "fill": "#F5F2ED",
-    "if": "papered & !duo"
+    "fill": "bg",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered & !duo",
-    "platePattern": "#F5F2ED"
-   },
-   {
-    "type": "rect",
-    "id": "plate",
-    "fill": "plate",
-    "if": "papered & duo"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "papered & duo",
-    "platePattern": "plate"
+    "if": "papered",
+    "platePattern": "bg"
    },
    {
     "type": "chips",
@@ -144,7 +133,7 @@
          "weight": 900,
          "size": 23,
          "kerning": -0.69,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 9.2,
@@ -165,7 +154,7 @@
          "weight": 900,
          "size": 23,
          "kerning": -0.69,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 9.2,
@@ -175,7 +164,7 @@
          "id": "nameClear0",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -197,7 +186,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -208,7 +197,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -286,7 +275,7 @@
          "weight": 900,
          "size": 22.4,
          "kerning": -0.67,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.96,
@@ -307,7 +296,7 @@
          "weight": 900,
          "size": 22.4,
          "kerning": -0.67,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.96,
@@ -317,7 +306,7 @@
          "id": "nameClear0",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -339,7 +328,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -350,7 +339,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -428,7 +417,7 @@
          "weight": 900,
          "size": 22.4,
          "kerning": -0.67,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.96,
@@ -449,7 +438,7 @@
          "weight": 900,
          "size": 22.4,
          "kerning": -0.67,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.96,
@@ -459,7 +448,7 @@
          "id": "nameClear1",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -481,7 +470,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -492,7 +481,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -570,7 +559,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -591,7 +580,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -601,7 +590,7 @@
          "id": "nameClear0",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -623,7 +612,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -634,7 +623,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -712,7 +701,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -733,7 +722,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -743,7 +732,7 @@
          "id": "nameClear1",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -765,7 +754,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -776,7 +765,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -854,7 +843,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -875,7 +864,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -885,7 +874,7 @@
          "id": "nameClear2",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -907,7 +896,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -918,7 +907,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -996,7 +985,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1017,7 +1006,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1027,7 +1016,7 @@
          "id": "nameClear0",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1049,7 +1038,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1060,7 +1049,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1138,7 +1127,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -1159,7 +1148,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -1169,7 +1158,7 @@
          "id": "nameClear1",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1191,7 +1180,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1202,7 +1191,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1280,7 +1269,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1301,7 +1290,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1311,7 +1300,7 @@
          "id": "nameClear2",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1333,7 +1322,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1344,7 +1333,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1422,7 +1411,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1443,7 +1432,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1453,7 +1442,7 @@
          "id": "nameClear3",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1475,7 +1464,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1486,7 +1475,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1564,7 +1553,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1585,7 +1574,7 @@
          "weight": 900,
          "size": 21.47,
          "kerning": -0.64,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.59,
@@ -1595,7 +1584,7 @@
          "id": "nameClear0",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1617,7 +1606,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1628,7 +1617,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1706,7 +1695,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -1727,7 +1716,7 @@
          "weight": 900,
          "size": 21.78,
          "kerning": -0.65,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.71,
@@ -1737,7 +1726,7 @@
          "id": "nameClear1",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1759,7 +1748,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1770,7 +1759,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1848,7 +1837,7 @@
          "weight": 900,
          "size": 20.53,
          "kerning": -0.62,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.21,
@@ -1869,7 +1858,7 @@
          "weight": 900,
          "size": 20.53,
          "kerning": -0.62,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.21,
@@ -1879,7 +1868,7 @@
          "id": "nameClear2",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -1901,7 +1890,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -1912,7 +1901,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -1990,7 +1979,7 @@
          "weight": 900,
          "size": 19.6,
          "kerning": -0.59,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 7.84,
@@ -2011,7 +2000,7 @@
          "weight": 900,
          "size": 19.6,
          "kerning": -0.59,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 7.84,
@@ -2021,7 +2010,7 @@
          "id": "nameClear3",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -2043,7 +2032,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -2054,7 +2043,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,
@@ -2132,7 +2121,7 @@
          "weight": 900,
          "size": 20.53,
          "kerning": -0.62,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.21,
@@ -2153,7 +2142,7 @@
          "weight": 900,
          "size": 20.53,
          "kerning": -0.62,
-         "color": "ed.marker",
+         "color": "accent",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 8.21,
@@ -2163,7 +2152,7 @@
          "id": "nameClear4",
          "shadow": {
           "sigma": 1.25,
-          "color": "ink@0.75"
+          "color": "black@0.75"
          },
          "if": "!papered"
         }
@@ -2185,7 +2174,7 @@
          "face": "noto",
          "weight": 700,
          "size": 7,
-         "color": "ed.ink@0.85",
+         "color": "ink@0.85",
          "textAlign": "center",
          "maxLines": 1,
          "shrinkTo": 4.2
@@ -2196,7 +2185,7 @@
          "face": "noto",
          "weight": 500,
          "size": 7,
-         "color": "ed.inkSoft",
+         "color": "ink2",
          "textAlign": "center",
          "maxLines": 2,
          "shrinkTo": 4.2,

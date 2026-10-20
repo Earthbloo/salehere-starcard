@@ -25,8 +25,7 @@ export function hsb(h, s, v, a = 1) {
 export const hex = (v) => rgb(((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255)
 /** `#RRGGBB` หรือ `#RRGGBBAA` */
 export function parseHex(s) {
-  let h = s.replace(/^#/, '')
-  if (h.length === 3) h = [...h].map((c) => c + c).join('')
+  let h = s.replace(/^#/, '')   // `#RRGGBB` / `#RRGGBBAA` เท่านั้น — ไม่ขยาย 3 หลัก (= SpecPainter.swift · SpecPalette.kt)
   if (h.length === 6) h += 'FF'
   const n = parseInt(h, 16)
   if (Number.isNaN(n)) return CLEAR
@@ -37,7 +36,7 @@ export const opacity = (c, a) => ({ ...c, a: clamp01(c.a * a) })
 /** ผสมไปหาอีกสีตามสัดส่วน 0…1 ใน sRGB */
 export function mixed(c, o, k) {
   k = clamp01(k)
-  return rgb(c.r + (o.r - c.r) * k, c.g + (o.g - c.g) * k, c.b + (o.b - c.b) * k, c.a)
+  return rgb(c.r + (o.r - c.r) * k, c.g + (o.g - c.g) * k, c.b + (o.b - c.b) * k)   // ทึบเสมอ (= iOS `Color(red:green:blue:)`)
 }
 export function toHSB(c) {
   const mx = Math.max(c.r, c.g, c.b), mn = Math.min(c.r, c.g, c.b), d = mx - mn
@@ -136,43 +135,112 @@ const CORNER = { soft: 18, round: 28, pill: 38 }
 
 // MARK: - ธีม
 
-/** ธีมของการ์ดจาก `doc.theme` (= `CardTheme`) — ค่าที่ไม่มีใช้ค่าตั้งต้นของแอป */
-export function makeTheme(t = {}) {
-  const th = {
-    palette: PALETTES[t.palette] ? t.palette : 'midnight',
-    ink: ['night', 'paper', 'mist'].includes(t.ink) ? t.ink : 'night',
-    inkAuto: t.inkAuto ?? true,
-    corner: CORNER[t.corner] ? t.corner : 'round',
-    strip: t.strip || 'line',
-    backdrop: t.backdrop || 'gradient',
-    duoID: t.duo ?? t.duoID ?? null,
-    duoFlipped: t.duoFlipped ?? false,
-    brightness: t.brightness ?? 0.30,
-    hueShift: t.hueShift ?? 0,
-    customHue: t.customHue ?? null,
-    customSat: t.customSat ?? null,
-    customBri: t.customBri ?? null,
-    photoEffect: t.photoEffect || 'none',
-    photoDim: t.photoDim ?? 0.42,
+/**
+ * สีของการ์ดใน doc (20 ต.ค. 2569 รอบ 3): `theme.colors = { primary: "#RRGGBB", secondary?: "#RRGGBB" }` — API เก็บแค่นี้
+ *   primary   = สีพื้นการ์ด · ทุกสีที่เหลือ (ไล่เฉด สีเน้น หมึก กระดาษของ widget) renderer คิดจากสีนี้
+ *   secondary = มี = การ์ดสองสี: primary เป็นพื้น · secondary เป็นหมึก (สลับข้าง = สลับค่าสองตัวใน doc)
+ * ชื่อพาเลตต์/คู่สี (`palette` `duo` `duoFlipped` `customHue/Sat/Bri` `brightness` `hueShift`) ไม่อยู่ใน doc แล้ว —
+ * เป็นแค่ปุ่มลัดในแอปที่เขียน hex ลง `colors` · doc เก่าที่ยังมีชื่อพวกนั้นแปลงตอนอ่านด้วย `migrateTheme`
+ */
+export const DEFAULT_PRIMARY = '#1A1F35'   // midnight · โทนมืด (= ธีมตั้งต้นของแอป)
+
+/** อ่าน `#RGB` / `#RRGGBB` → สี · อ่านไม่ออก = null */
+export function parseHexColor(v) {
+  if (typeof v !== 'string') return null
+  let h = v.trim().replace(/#/g, '')   // ลบ `#` ทุกตัว (= `replacingOccurrences` ของแอป)
+  if (h.length === 3) h = [...h].map((c) => c + c).join('')
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null
+  return hex(parseInt(h, 16))
+}
+
+/** สีของ doc เก่า (ชื่อพาเลตต์/คู่สี/HSB ที่ตั้งเอง) → `{ primary, secondary }` — สูตรเดิมของ `backdropColors.top` ก่อน 20 ต.ค. 2569 */
+export function legacyColors(t = {}) {
+  const duoID = t.duo ?? null
+  if (duoID && DUOS[duoID] && t.backdrop !== 'photo') {
+    // คู่เก็บตามนิยาม (เข้ม · อ่อน) เสมอ — ข้างที่ขึ้นเป็นพื้นไปอยู่ที่ `ink` (ดู migrateTheme)
+    return { primary: hexOf(hex(DUOS[duoID][0])), secondary: hexOf(hex(DUOS[duoID][1])) }
   }
-  const pal = PALETTES[th.palette]
-  const duo = th.duoID && DUOS[th.duoID] ? { dark: hex(DUOS[th.duoID][0]), light: hex(DUOS[th.duoID][1]) } : null
+  const pal = PALETTES[t.palette] ? PALETTES[t.palette] : PALETTES.midnight
+  const hueShift = t.hueShift ?? 0, brightness = t.brightness ?? 0.30
+  const hue = frac((t.customHue ?? pal.hue) + hueShift)
+  const sat = t.customHue != null ? Math.min(0.6, Math.max(0.15, t.customSat ?? 0.5)) : (t.palette === 'noir' ? 0.10 : 0.58)
+  if (t.customBri != null && t.customHue != null) return { primary: hexOf(hsb(hue, clamp01(t.customSat ?? 0.5), clamp01(t.customBri))) }
+  const ink = ['night', 'paper', 'mist'].includes(t.ink) ? t.ink : 'night'
+  const lightInk = (t.customSat ?? 0) >= 0.35 ? 'mist' : 'paper'
+  const active = t.backdrop === 'photo' ? 'night' : (t.inkAuto ?? true) ? 'night' : ink !== 'night' ? lightInk : 'night'
+  const b = brightness
+  const top = active === 'night' ? hsb(hue, Math.max(0, sat - b * 0.28), 0.05 + b * 0.52)
+    : active === 'paper' ? hsb(hue, 0.03 + sat * 0.04, 0.955 + b * 0.045)
+      : hsb(hue, 0.09 + sat * 0.16, 0.945 + b * 0.05)
+  return { primary: hexOf(top) }
+}
+
+/** `theme` ของ doc → รูปใหม่ (`colors` มี primary เสมอ) · doc ใหม่ผ่านตรง ๆ · doc เก่าแปลงจากชื่อ */
+export function migrateTheme(t = {}) {
+  // `secondary` มาจาก `colors` เฉพาะเมื่อ `primary` อ่านออก (= `LegacyTheme.colors` iOS/Android) — primary เสียทั้งก้อนตกไป legacy
+  const good = t.colors && parseHexColor(t.colors.primary)
+  const c = good ? { primary: hexOf(parseHexColor(t.colors.primary)) } : legacyColors(t)
+  if (good && parseHexColor(t.colors.secondary)) c.secondary = hexOf(parseHexColor(t.colors.secondary))
+  const { palette, duo, duoFlipped, customHue, customSat, customBri, brightness, hueShift, ...rest } = t
+  const { inkAuto, corner, strip, ...kept } = rest   // รอบ 4: corner/strip/inkAuto ไม่อยู่ใน doc แล้ว (มุม = มน · แถบ = บรรทัด · หมึกตรง ๆ)
+  const out = { ...kept, colors: c }
+  if (!t.colors && t.backdrop !== 'photo') {
+    const id = duo
+    if (id && DUOS[id]) out.ink = duoFlipped ? 'paper' : 'night'                       // พลิกคู่สี = โทนสว่าง
+    else if (inkAuto !== false) {                                                      // สีเดียวที่เคยเปิด inkAuto → เลือกฝั่งจากความสว่างครั้งเดียว
+      const pc = parseHexColor(c.primary), l = luminance(pc)
+      out.ink = (l + 0.05) / 0.07 > 1.05 / (l + 0.05) ? (toHSB(pc).s >= 0.35 ? 'mist' : 'paper') : 'night'
+    }
+  }
+  return out
+}
+
+/** หมึกที่อ่านออกบนพื้นสีนี้ (= `CardTheme.autoInk`) — สีเดียวใช้ตัวนี้เสมอ (แถวโทนมีเฉพาะคู่สี 20 ต.ค. 2569) */
+export function autoInkOf(primary) {
+  const pc = parseHexColor(primary) ?? parseHexColor(DEFAULT_PRIMARY), l = luminance(pc)
+  return (l + 0.05) / 0.07 > 1.05 / (l + 0.05) ? (toHSB(pc).s >= 0.35 ? 'mist' : 'paper') : 'night'
+}
+
+/** พาเลตต์สำเร็จรูปของถาด (ปุ่มลัด ไม่ใช่ค่าใน doc) — hex ของพื้นโทนมืด/สว่างคิดจากสูตรเดิมที่ความสว่างตั้งต้น */
+export const PRESETS = Object.fromEntries(Object.keys(PALETTES).map((p) => [p, {
+  dark: legacyColors({ palette: p, ink: 'night', inkAuto: false }).primary,
+  light: legacyColors({ palette: p, ink: 'paper', inkAuto: false }).primary,
+  accent: hexOf(PALETTES[p].accent), accentSoft: hexOf(PALETTES[p].accentSoft),
+}]))
+/** คู่สีสำเร็จรูปของถาด (= `ColorDuo.all`) */
+export const DUO_PRESETS = Object.fromEntries(Object.entries(DUOS).map(([id, [d, l]]) => [id, { dark: hexOf(hex(d)), light: hexOf(hex(l)) }]))
+
+/** ธีมของการ์ดจาก `doc.theme` (= `CardTheme`) — ค่าที่ไม่มีใช้ค่าตั้งต้นของแอป · รับทั้ง doc ใหม่ (`colors`) และเก่า (ชื่อพาเลตต์)
+ *  (`t.palette` / `t.duo` รับไว้เพื่อแปลง — ตัวธีมที่ได้ไม่มีชื่อพวกนั้นแล้ว) */
+export function makeTheme(t = {}) {
+  const m = migrateTheme(t)
+  const primary = parseHexColor(m.colors.primary) ?? parseHexColor(DEFAULT_PRIMARY)
+  const secondary = parseHexColor(m.colors.secondary)
+  const th = {
+    colors: { primary: hexOf(primary), ...(secondary ? { secondary: hexOf(secondary) } : {}) },
+    primary, secondary,
+    ink: ['night', 'paper', 'mist'].includes(m.ink) ? m.ink : 'night',
+    corner: 'round',   // มุมกับแถบผู้ออกบัตรไม่อยู่ใน doc แล้ว — ค่าเดียวทุกใบ
+    strip: 'line',
+    backdrop: m.backdrop || 'gradient',
+    photoEffect: m.photoEffect || 'none',
+    photoDim: m.photoDim ?? 0.42,
+  }
+  // การ์ดสองสี: โทน (`ink`) เป็นเรื่องของการวาด ไม่ใช่ค่าสี — มืด = สีเข้มของคู่เป็นพื้น · สว่าง = สีอ่อนเป็นพื้น · doc ไม่สลับค่า
+  const duo = secondary ? (luminance(primary) < luminance(secondary) ? { dark: primary, light: secondary } : { dark: secondary, light: primary }) : null
   th.activeDuo = th.backdrop === 'photo' ? null : duo
-  th.duoColors = th.activeDuo ? (th.duoFlipped ? { bg: th.activeDuo.light, ink: th.activeDuo.dark } : { bg: th.activeDuo.dark, ink: th.activeDuo.light }) : null
+  const toneLight = th.ink !== 'night'
+  th.duoColors = th.activeDuo ? (toneLight ? { bg: duo.light, ink: duo.dark } : { bg: duo.dark, ink: duo.light }) : null
+  th.duoFlipped = !!th.activeDuo && toneLight   // พื้นเป็นสีอ่อนของคู่
   th.duoDark = th.activeDuo ? th.activeDuo.dark : null
   th.duoLight = th.activeDuo ? th.activeDuo.light : null
-  th.backdropHue = frac((th.customHue ?? pal.hue) + th.hueShift)
-  const backdropSat = th.customHue != null ? Math.min(0.6, Math.max(0.15, th.customSat ?? 0.5)) : (th.palette === 'noir' ? 0.10 : 0.58)
-  const customParts = th.customBri != null && th.customHue != null
-    ? { h: th.backdropHue, s: clamp01(th.customSat ?? 0.5), b: clamp01(th.customBri) } : null
-  th.lightInk = (th.customSat ?? 0) >= 0.35 ? 'mist' : 'paper'
+  const p = toHSB(primary)
+  th.backdropHue = p.h
+  const backdropSat = Math.min(0.6, Math.max(0.15, p.s))
+  th.lightInk = p.s >= 0.35 ? 'mist' : 'paper'
   th.activeInk = (() => {
     if (th.backdrop === 'photo') return 'night'
-    if (th.duoColors) return luminance(th.duoColors.bg) > luminance(th.duoColors.ink) ? th.lightInk : 'night'
-    if (!th.inkAuto) return th.ink !== 'night' ? th.lightInk : 'night'
-    if (!customParts) return 'night'
-    const l = luminance(hsb(customParts.h, customParts.s, customParts.b))
-    return (l + 0.05) / 0.07 <= 1.05 / (l + 0.05) ? 'night' : th.lightInk
+    return toneLight ? th.lightInk : 'night'
   })()
   th.isLight = th.activeInk !== 'night'
   th.backdropColors = (() => {
@@ -181,14 +249,7 @@ export function makeTheme(t = {}) {
       const inkDarker = luminance(c.ink) < luminance(c.bg)
       return { top: c.bg, bottom: inkDarker ? mixed(c.bg, c.ink, 0.10) : mixed(c.bg, BLACK, 0.26) }
     }
-    if (customParts) {
-      const p = customParts
-      return { top: hsb(p.h, p.s, p.b), bottom: hsb(p.h, Math.min(1, p.s * 1.06), p.b * 0.80) }
-    }
-    const h = th.backdropHue, s = backdropSat, b = th.brightness
-    if (th.activeInk === 'night') return { top: hsb(h, Math.max(0, s - b * 0.28), 0.05 + b * 0.52), bottom: hsb(h, Math.max(0, s - b * 0.20), 0.015 + b * 0.22) }
-    if (th.activeInk === 'paper') return { top: hsb(h, 0.03 + s * 0.04, 0.955 + b * 0.045), bottom: hsb(h, 0.06 + s * 0.07, 0.865 + b * 0.075) }
-    return { top: hsb(h, 0.09 + s * 0.16, 0.945 + b * 0.05), bottom: hsb(h, 0.20 + s * 0.26, 0.815 + b * 0.10) }
+    return { top: primary, bottom: hsb(p.h, Math.min(1, p.s * 1.06), p.b * 0.80) }
   })()
   th.stripeInk = th.duoColors ? opacity(th.duoColors.ink, 0.10)
     : th.activeInk === 'night' ? opacity(hsb(th.backdropHue, Math.min(1, backdropSat + 0.1), 0.85), 0.10)
@@ -196,10 +257,8 @@ export function makeTheme(t = {}) {
   th.inkStyle = th.duoColors ? new InkStyle(th.activeInk, th.duoColors.ink)
     : !th.isLight ? InkStyle.night
       : new InkStyle(th.activeInk, hsb(th.backdropHue, th.activeInk === 'mist' ? 0.38 : 0.26, th.activeInk === 'mist' ? 0.155 : 0.135))
-  th.rawAccent = th.activeDuo ? th.activeDuo.light
-    : th.customHue != null ? hsb(th.customHue, Math.min(0.72, Math.max(0.35, (th.customSat ?? 0.5) + 0.1)), 0.96) : pal.accent
-  th.rawAccentSoft = th.activeDuo ? mixed(th.activeDuo.light, th.activeDuo.dark, 0.30)
-    : th.customHue != null ? hsb(frac(th.customHue + 0.04), Math.min(0.5, Math.max(0.25, th.customSat ?? 0.4)), 1) : pal.accentSoft
+  th.rawAccent = th.activeDuo ? th.activeDuo.light : hsb(p.h, Math.min(0.72, Math.max(0.35, p.s + 0.1)), 0.96)
+  th.rawAccentSoft = th.activeDuo ? mixed(th.activeDuo.light, th.activeDuo.dark, 0.30) : hsb(frac(p.h + 0.04), Math.min(0.5, Math.max(0.25, p.s)), 1)
   th.accent = th.duoColors ? th.duoColors.ink : th.isLight ? onLightSurface(th.rawAccent) : th.rawAccent
   th.accentSoft = th.duoColors ? mixed(th.duoColors.ink, th.duoColors.bg, 0.34) : th.isLight ? onLightSurface(th.rawAccent, 0.35) : th.rawAccentSoft
   th.radius = CORNER[th.corner]
@@ -207,7 +266,7 @@ export function makeTheme(t = {}) {
   th.slab = th.duoDark ?? hsb(th.backdropHue, 0.30, 0.10)
   /** แผ่นโปสเตอร์ (= `PosterPlate`) */
   th.plate = th.duoDark ?? hsb(th.backdropHue, 0.60, 0.255)
-  th.plateInk = th.duoLight ?? hsb(th.backdropHue, 0.085, 0.95)
+  th.plateCream = th.duoLight ?? hsb(th.backdropHue, 0.085, 0.95)
   th.scrap = scrapTone(th)
   return th
 }
@@ -301,7 +360,7 @@ function edSkin(surface, ink, t) {
   }
   if (surface !== 'clear') {
     if (t.activeDuo) {
-      const plate = t.plate, cream = t.plateInk
+      const plate = t.plate, cream = t.plateCream
       return { sheet: plate, ink: cream, inkSoft: mixed(cream, plate, 0.38), ghost: opacity(cream, 0.16), marker: cream, red: cream }
     }
     const onPaper = onLightSurface(t.rawAccent)
@@ -311,56 +370,81 @@ function edSkin(surface, ink, t) {
 }
 const POP = { ink: rgb(0.11, 0.10, 0.13), inkSoft: rgb(0.40, 0.37, 0.43), paper: WHITE, rule: rgb(0.84, 0.82, 0.85) }
 
-/**
- * สีของ token เพิ่มเติมต่อชิ้น (= `extraTokens` ใน SpecPainter.kt) — ขึ้นกับธีม หมึกที่ชิ้นนั่ง พื้นผิว วัสดุแผ่น (`widget.skin`) และค่าชุดห้าสไตล์
- */
-export function extraTokens(t, ink, surface, skin, kit, border) {
-  const look = kitLook(kit, border, !ink.isLight, t)
-  const ed = edSkin(surface, ink, t)
-  // วัสดุแผ่นสติกเกอร์ (`widget.skin`) — ไม่ใช่สำรับนี้ = กระจก (ค่าตั้งต้นของ `pop.sheet`)
-  const glassSkin = skin !== 'paper'
-  const s = t.scrap
-  return {
-    look,
-    map: {
-      'kit.fill': kitHex(look.fillHex), 'kit.border': look.borderColor, 'kit.ink': look.ink, 'kit.mut': look.mut,
-      'kit.accent': look.accent, 'kit.title': look.title, 'kit.block': look.block,
-      'scrap.paper': s.paper, 'scrap.ink': s.ink, 'scrap.soft': s.soft, 'scrap.accent': s.accent, 'scrap.strong': s.strong,
-      'scrap.paperAccent': s.paperAccent, 'scrap.paperStrong': s.paperStrong, 'scrap.band': s.band, 'scrap.mid': s.mid,
-      'scrap.blush': s.blush, 'scrap.shade': s.shade, 'scrap.speck': s.speck,
-      rawAccent: t.rawAccent, rawAccentSoft: t.rawAccentSoft,
-      plate: t.plate, plateInk: t.plateInk,
-      accentPaper: onLightSurface(t.rawAccent),
-      'ed.sheet': ed.sheet, 'ed.ink': ed.ink, 'ed.inkSoft': ed.inkSoft, 'ed.ghost': ed.ghost, 'ed.marker': ed.marker, 'ed.red': ed.red,
-      'pop.ink': POP.ink, 'pop.inkSoft': POP.inkSoft, 'pop.rule': POP.rule, 'pop.paper': POP.paper,
-      'pop.sheet': surface === 'glass' ? opacity(POP.paper, glassSkin ? 0.62 : 0.9) : POP.paper,
-      'pop.shadow': glassSkin ? opacity(t.rawAccent, 0.35) : opacity(BLACK, 0.22),
-    },
-  }
-}
+/** พื้นที่ widget (หรือโหนด) นั่งอยู่ (= `SpecSurface`) — `card` · `light` · `dark` (20 ต.ค. 2569 รอบ 2: ยุบจาก 6 พื้น) */
+const SURFACES = new Set(['card', 'light', 'dark'])
+const ROLES = new Set(['bg', 'bg2', 'ink', 'ink2', 'accent', 'line'])
 
-/** token → สี (= `SpecColor.resolve`) · `ink` `ink@0.45` · `line` · `fill` · `ghost` · `accent` · `paper` · `#RRGGBB[AA]` */
-export function tokenColor(token, ink, accent, t, extra = {}) {
-  let name = token, alpha = null
-  const at = token.lastIndexOf('@')
-  if (at >= 0) { name = token.slice(0, at); const v = Number(token.slice(at + 1)); alpha = Number.isNaN(v) ? null : v }
-  const x = extra[name]
-  if (x) return alpha != null ? opacity(x, alpha) : x
-  let base
-  switch (name) {
-    case 'ink': return ink.text(alpha ?? 1)
-    case 'line': return ink.line(alpha ?? 0.12)
-    case 'fill': return ink.fill(alpha ?? 0.14)
-    case 'ghost': return ink.ghost(alpha ?? 0.5)
-    case 'accent': base = accent; break
-    case 'accentSoft': base = t.accentSoft; break
-    case 'paper': base = ink.isLight ? WHITE : grey(0.08); break
-    case 'white': base = WHITE; break
-    case 'black': base = BLACK; break
-    case 'clear': return CLEAR
-    default: base = name.startsWith('#') ? parseHex(name) : CLEAR
+/**
+ * สีของผัง = 6 บทบาท × 3 พื้น (= `SpecPalette` ของ iOS · `SpecPalette.kt` ของ Android — WIDGET-SPEC.md §4)
+ * สร้างครั้งเดียวต่อชิ้น แล้วถาม `color(token, on)` กี่ครั้งก็ได้ · `on` = พื้นของโหนด (null = `base` = `widget.on`)
+ *   t: ธีม · ink: หมึกที่ชิ้นนั่ง (`InkStyle`) · accent: สีเน้นของการ์ด · base: `widget.on`
+ *   surface/skin/kit/border: รับไว้ให้ผู้เรียกเดิม — สีไม่ใช้แล้ว (`look` ยังคิดให้คนที่ถามหน้าตาของชุด)
+ */
+export function specPalette({ t, ink, accent, surface, skin, kit, border, base }) {
+  const look = kitLook(kit, border, !ink.isLight, t)
+  const baseSurface = SURFACES.has(base) ? base : 'card'
+  /** ใบนี้ไม่ได้วาดแผ่นของตัวเองอยู่ (ไม่มีพื้น/กระจก chrome · Canva "โปร่ง") → ตัวหนังสือใช้หมึกการ์ด (= iOS `noSheet`) */
+  const noSheet = surface === 'clear' || surface === 'pane' || (kit?.fill ?? 'solid') === 'clear'
+
+  /** บนการ์ด ความทึบวิ่งผ่านตัวยันความอ่านออก — ค่าตั้งต้นของแต่ละบทบาทคือน้ำหนักที่ผังเคยเขียน */
+  const card = (role, a) => {
+    switch (role) {
+      case 'ink': return ink.text(a ?? 1)
+      case 'ink2': return ink.ghost(a ?? 0.5)
+      case 'line': return ink.line(a ?? 0.12)
+      case 'bg2': return ink.fill(a ?? 0.14)
+      case 'accent': return a != null ? opacity(accent, a) : accent
+      default: { const p = ink.isLight ? WHITE : grey(0.08); return a != null ? opacity(p, a) : p }   // bg
+    }
   }
-  return alpha != null ? opacity(base, alpha) : base
+  /**
+   * แผ่นของใบ — สูตรเดียวทั้งสว่างและเข้ม (= iOS `sheet(_:light:)`)
+   * - สว่าง: กระดาษครีมอมเฉด (คู่สี = สีอ่อน · +7% เข้าหาสีเข้มเมื่อการ์ดสว่าง) · หมึกถ่านอมเฉด (คู่สี = สีเข้ม)
+   * - เข้ม: แผ่นอิ่มสี (`t.plate`) · หมึกครีม (`t.plateCream`) · สีเน้น = สีเน้นดิบ
+   */
+  const sheet = (role, light) => {
+    let paper, inkC, accentC
+    if (light) {
+      if (t.duoLight && t.duoDark) {
+        paper = mixed(t.duoLight, t.duoDark, t.duoFlipped ? 0.07 : 0); inkC = t.duoDark; accentC = t.duoDark
+      } else {
+        paper = hsb(t.backdropHue, 0.10, 0.97)
+        inkC = hsb(t.backdropHue, 0.06, 0.11)
+        accentC = onLightSurface(t.rawAccent)
+      }
+    } else {
+      paper = t.plate; inkC = t.plateCream; accentC = t.rawAccent
+    }
+    switch (role) {
+      case 'bg': return paper
+      case 'bg2': return mixed(paper, inkC, 0.06)
+      case 'ink': return inkC
+      case 'ink2': return mixed(inkC, paper, 0.38)
+      case 'accent': return accentC
+      default: return opacity(inkC, 0.2)   // line
+    }
+  }
+  const role = (role, s) => s === 'light' ? sheet(role, true) : s === 'dark' ? sheet(role, false) : card(role, null)
+  const color = (token, on) => {
+    let name = token, alpha = null
+    const at = token.lastIndexOf('@')
+    if (at >= 0) { name = token.slice(0, at); const v = Number(token.slice(at + 1)); alpha = Number.isNaN(v) ? null : v }
+    const explicit = SURFACES.has(on) ? on : null
+    const s = explicit ?? baseSurface
+    let c
+    switch (name) {
+      case 'white': c = WHITE; break
+      case 'black': c = BLACK; break
+      case 'clear': return CLEAR
+      default:
+        if (ROLES.has(name)) {
+          if (s === 'card' || (explicit == null && noSheet)) return card(name, alpha)
+          c = role(name, s)
+        } else c = name.startsWith('#') ? parseHex(name) : CLEAR
+    }
+    return alpha != null ? opacity(c, alpha) : c
+  }
+  return { look, base: baseSurface, color }
 }
 
 /** หมึกบนแผ่นของ chrome (= `chromeInk` ใน WidgetChrome.kt) */

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.roundToInt
 import kotlin.math.min
 
 // เครื่องมือสีที่ทั้งแอปใช้ร่วมกัน — รวมส่วนขยายของ `Color` จาก ColorDuo.swift / CardTheme.swift / Legibility.swift
@@ -26,6 +27,20 @@ fun grey(white: Double, alpha: Double = 1.0): Color = rgb(white, white, white, a
 /** `Color.hex(0xRRGGBB)` — คู่สีเก็บเป็นสีจริง ไม่ใช่ HSB */
 fun Color.Companion.hex(v: Long): Color = Color(0xFF000000L or (v and 0xFFFFFF))
 
+/** `#RRGGBB` ตัวใหญ่ของสีนี้ — รูปที่ doc เก็บ (`theme.colors`) และที่ใช้เทียบกับเม็ดสำเร็จรูป (= `Color.hexString` ของ iOS) */
+val Color.hexString: String
+    get() = String.format(java.util.Locale.US, "#%02X%02X%02X",
+        (red.coerceIn(0f, 1f) * 255f).roundToInt(), (green.coerceIn(0f, 1f) * 255f).roundToInt(), (blue.coerceIn(0f, 1f) * 255f).roundToInt())
+
+/** อ่าน `#RGB` / `#RRGGBB` จาก doc — อ่านไม่ออก = null (= `Color(docHex:)` ของ iOS) */
+fun Color.Companion.docHex(text: String?): Color? {
+    text ?: return null
+    val raw = text.trim().replace("#", "").uppercase(java.util.Locale.US)
+    val digits = when (raw.length) { 3 -> raw.map { "$it$it" }.joinToString(""); 6 -> raw; else -> return null }
+    if (!digits.all { it in '0'..'9' || it in 'A'..'F' }) return null
+    return hex(digits.toLongOrNull(16) ?: return null)
+}
+
 /**
  * `.opacity(x)` ของ SwiftUI — **คูณ** กับความทึบเดิม เหมือน SwiftUI (`Color.white.opacity(0.5).opacity(0.5)` = 0.25)
  * พอร์ตตรงตัวจาก Swift ได้เลย ไม่ต้องชดเชยเอง
@@ -37,7 +52,7 @@ fun Color.opacity(a: Float): Color = copy(alpha = (alpha * a).coerceIn(0f, 1f))
 fun Color.mixed(with: Color, by: Double): Color {
     val k = by.coerceIn(0.0, 1.0)
     val a = RGB(this); val b = RGB(with)
-    return rgb(a.r + (b.r - a.r) * k, a.g + (b.g - a.g) * k, a.b + (b.b - a.b) * k, alpha.toDouble())
+    return rgb(a.r + (b.r - a.r) * k, a.g + (b.g - a.g) * k, a.b + (b.b - a.b) * k)   // ทึบเสมอ (= iOS `Color(red:green:blue:)`)
 }
 
 /** HSB ของสีนี้ (hue 0…1) — `UIColor.getHue` */
@@ -68,14 +83,6 @@ fun Color.onLightSurface(depth: Double = 1.0): Color {
     val (h, s, b) = toHSB()
     val k = depth.coerceIn(0.0, 1.0)
     return hsb(h, min(1.0, s * (1.35 - 0.28 * (1 - k)) + 0.12), min(1.0, b * (0.60 + 0.26 * (1 - k))), alpha.toDouble())
-}
-
-/** `#RRGGBB` ของสีนี้ */
-fun Color.toHexString(): String {
-    val r = (red * 255).toInt().coerceIn(0, 255)
-    val g = (green * 255).toInt().coerceIn(0, 255)
-    val b = (blue * 255).toInt().coerceIn(0, 255)
-    return String.format("#%02X%02X%02X", r, g, b)
 }
 
 /** ค่าที่ต่างกันน้อยกว่านี้ถือว่าสีเดียวกัน (เทียบ `sheet != .clear` ฯลฯ) */

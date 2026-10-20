@@ -29,7 +29,8 @@
    "top": 6,
    "trailing": 14
   },
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก · สถิติผู้ชม — แผ่นกระดาษโทน · พาดหัว 'สถิติ/ผู้ชม' แบบแถบดำตัวขาว (note#1/2) · สามแถวซ้าย (เพศหลัก · อายุหลัก · เมืองหลัก = รายการ gender/ages/places เรียง shareRaw desc เอาชิ้นแรก) · กล่อง ER ต่อช่องสูงสุด 3 (socials ที่ engagementRaw>0) · จอมือถือขวาเอียง 4° (อายุ = แท่ง $shareRaw/max · เพศ = แถบ $shareRaw/sum · เมือง 3 อันดับ) · แปลงจาก ScrapbookWidgets.swift (ScrapStatsWidget) · ไอคอนแถวใช้ Phosphor แทน SF Symbols · เพศหลักเทียบเฉพาะหญิง/ชาย ($i<2) ข้อความ 'ผู้ชมเป็นผู้{label}' · ยังไม่มีข้อมูล: ต้นฉบับโชว์ '–' และแท่งว่าง (ghostData) — ผังโชว์ 0% · ตัวหนาของชิ้นสูงสุดในแท่งไม่ทำ (ฟอนต์ตามเงื่อนไขไม่มี) · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
  "root": {
@@ -41,7 +42,7 @@
     "type": "rect",
     "id": "paper",
     "if": "papered",
-    "fill": "scrap.paper"
+    "fill": "bg"
    },
    {
     "type": "rect",
@@ -71,7 +72,7 @@
     "if": "papered & ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.1",
+     "color": "ink@0.1",
      "size": 5.5,
      "width": 1
     }
@@ -82,7 +83,7 @@
     "if": "papered & !ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.06",
+     "color": "ink@0.06",
      "size": 5.5,
      "width": 1
     }
@@ -137,7 +138,7 @@
          0.5,
          9.2
         ],
-        "fill": "scrap.band",
+        "fill": "bg2",
         "rotate": 1.5,
         "children": [
          {
@@ -181,7 +182,7 @@
          "icon": "ph:users-three-fill",
          "w": 24,
          "h": 17,
-         "tint": "scrap.ink",
+         "tint": "ink",
          "if": "papered"
         },
         {
@@ -190,7 +191,8 @@
          "w": 24,
          "h": 17,
          "tint": "ink@0.95",
-         "if": "!papered"
+         "if": "!papered",
+         "on": "card"
         },
         {
          "type": "col",
@@ -203,7 +205,7 @@
            "face": "noto",
            "size": 22,
            "weight": 800,
-           "color": "scrap.strong",
+           "color": "accent",
            "maxLines": 1,
            "shrinkTo": 11
           },
@@ -213,7 +215,7 @@
            "face": "mitr",
            "size": 10,
            "weight": 400,
-           "color": "scrap.ink",
+           "color": "ink",
            "maxLines": 1,
            "if": "papered"
           },
@@ -225,7 +227,8 @@
            "weight": 400,
            "color": "ink@0.95",
            "maxLines": 1,
-           "if": "!papered"
+           "if": "!papered",
+           "on": "card"
           }
          ]
         }
@@ -248,7 +251,7 @@
          "icon": "ph:cake-fill",
          "w": 24,
          "h": 17,
-         "tint": "scrap.ink",
+         "tint": "ink",
          "if": "papered"
         },
         {
@@ -257,7 +260,8 @@
          "w": 24,
          "h": 17,
          "tint": "ink@0.95",
-         "if": "!papered"
+         "if": "!papered",
+         "on": "card"
         },
         {
          "type": "col",
@@ -270,7 +274,7 @@
            "face": "noto",
            "size": 22,
            "weight": 800,
-           "color": "scrap.strong",
+           "color": "accent",
            "maxLines": 1,
            "shrinkTo": 11
           },
@@ -280,7 +284,7 @@
            "face": "mitr",
            "size": 10,
            "weight": 400,
-           "color": "scrap.ink",
+           "color": "ink",
            "maxLines": 1,
            "if": "papered"
           },
@@ -292,7 +296,8 @@
            "weight": 400,
            "color": "ink@0.95",
            "maxLines": 1,
-           "if": "!papered"
+           "if": "!papered",
+           "on": "card"
           }
          ]
         }
@@ -315,7 +320,7 @@
          "icon": "ph:map-pin-fill",
          "w": 24,
          "h": 17,
-         "tint": "scrap.ink",
+         "tint": "ink",
          "if": "papered"
         },
         {
@@ -324,7 +329,8 @@
          "w": 24,
          "h": 17,
          "tint": "ink@0.95",
-         "if": "!papered"
+         "if": "!papered",
+         "on": "card"
         },
         {
          "type": "col",
@@ -337,7 +343,7 @@
            "face": "noto",
            "size": 22,
            "weight": 800,
-           "color": "scrap.strong",
+           "color": "accent",
            "maxLines": 1,
            "shrinkTo": 11
           },
@@ -347,7 +353,7 @@
            "face": "mitr",
            "size": 10,
            "weight": 400,
-           "color": "scrap.ink",
+           "color": "ink",
            "maxLines": 1,
            "if": "papered"
           },
@@ -359,7 +365,8 @@
            "weight": 400,
            "color": "ink@0.95",
            "maxLines": 1,
-           "if": "!papered"
+           "if": "!papered",
+           "on": "card"
           }
          ]
         }
@@ -387,11 +394,11 @@
      "gap": 1,
      "justify": "center",
      "align": "center",
-     "fill": "scrap.mid",
+     "fill": "bg2",
      "shadow": {
       "sigma": 1.5,
       "y": 3,
-      "color": "scrap.shade@0.14"
+      "color": "black@0.14"
      },
      "children": [
       {
@@ -435,7 +442,7 @@
     "shadow": {
      "sigma": 5,
      "y": 10,
-     "color": "scrap.shade@0.3"
+     "color": "black@0.3"
     },
     "children": [
      {
@@ -486,7 +493,7 @@
            "grow": 1,
            "h": 6,
            "circle": true,
-           "fill": "scrap.blush",
+           "fill": "bg2",
            "align": "start",
            "children": [
             {
@@ -494,7 +501,7 @@
              "h": 6,
              "circle": true,
              "pct": "$shareRaw/max",
-             "fill": "scrap.paperAccent",
+             "fill": "accent",
              "if": "!$shareRaw=max"
             },
             {
@@ -502,7 +509,7 @@
              "h": 6,
              "circle": true,
              "pct": "$shareRaw/max",
-             "fill": "scrap.paperStrong",
+             "fill": "accent",
              "if": "$shareRaw=max"
             }
            ]
@@ -532,7 +539,7 @@
           "type": "rect",
           "h": 1,
           "stroke": {
-           "color": "scrap.band",
+           "color": "bg2",
            "width": 0.8,
            "dash": [
             3,
@@ -566,8 +573,8 @@
          "h": 7,
          "pct": "$shareRaw/sum",
          "fillCycle": [
-          "scrap.paperStrong",
-          "scrap.band",
+          "accent",
+          "bg2",
           "#E9E1E4"
          ]
         }
@@ -599,7 +606,7 @@
           "type": "rect",
           "h": 1,
           "stroke": {
-           "color": "scrap.band",
+           "color": "bg2",
            "width": 0.8,
            "dash": [
             3,
@@ -646,7 +653,7 @@
            "grow": 1,
            "h": 6,
            "circle": true,
-           "fill": "scrap.blush",
+           "fill": "bg2",
            "align": "start",
            "children": [
             {
@@ -654,7 +661,7 @@
              "h": 6,
              "circle": true,
              "pct": "$shareRaw/max",
-             "fill": "scrap.paperAccent",
+             "fill": "accent",
              "if": "!$shareRaw=max"
             },
             {
@@ -662,7 +669,7 @@
              "h": 6,
              "circle": true,
              "pct": "$shareRaw/max",
-             "fill": "scrap.paperStrong",
+             "fill": "accent",
              "if": "$shareRaw=max"
             }
            ]
@@ -705,7 +712,7 @@
     "w": 18,
     "h": 18,
     "shape": "heart",
-    "fill": "scrap.accent",
+    "fill": "accent",
     "place": "bottom-right",
     "dx": -8,
     "dy": -8

@@ -118,8 +118,38 @@ enum class Palette(val raw: String) {
     /** อิ่มตัวฐาน — noir ต้องจืดกว่าตัวอื่นถึงจะยังเป็นโทนเทา */
     val backdropSaturation: Double get() = if (this == noir) 0.10 else 0.58
 
+    // พาเลตต์ = ปุ่มลัดที่เขียน hex (20 ต.ค. 2569 รอบ 3) — doc เก็บแค่ `colors.primary/secondary`
+    // สองค่านี้คือพื้นที่สูตรเดิมเคยคิดให้ที่ความสว่าง 0.30 · ต้องตรงกับ `Palette` ของ iOS และ `PRESETS` ใน theme.js
+    /** พื้นโทนมืดของพาเลตต์นี้ */
+    val dark: Color
+        get() = when (this) {
+            midnight -> Color.hex(0x1A1F35); sky -> Color.hex(0x1A2835); ocean -> Color.hex(0x1A2E35)
+            mint -> Color.hex(0x1A3528); lime -> Color.hex(0x29351A); lavender -> Color.hex(0x261A35)
+            orchid -> Color.hex(0x321A35); rose -> Color.hex(0x351A25); ruby -> Color.hex(0x351A1E)
+            coral -> Color.hex(0x35211A); champagne -> Color.hex(0x352A1A); noir -> Color.hex(0x343435)
+        }
+    /** พื้นโทนสว่างของพาเลตต์นี้ */
+    val light: Color
+        get() = when (this) {
+            midnight -> Color.hex(0xEAECF7); sky -> Color.hex(0xEAF1F7); ocean -> Color.hex(0xEAF4F7)
+            mint -> Color.hex(0xEAF7F1); lime -> Color.hex(0xF1F7EA); lavender -> Color.hex(0xF0EAF7)
+            orchid -> Color.hex(0xF6EAF7); rose -> Color.hex(0xF7EAEF); ruby -> Color.hex(0xF7EAEB)
+            coral -> Color.hex(0xF7EDEA); champagne -> Color.hex(0xF7F2EA); noir -> Color.hex(0xEFF1F7)
+        }
+    fun primary(light: Boolean): Color = if (light) this.light else dark
+
     companion object {
         fun from(raw: String?): Palette? = entries.firstOrNull { it.raw == raw }
+
+        /** พาเลตต์ที่พื้นสีนี้เป็นของมัน (ไว้ไฮไลต์เม็ดในถาด) — null = สีของผู้ใช้เอง */
+        fun matching(c: Color): Pair<Palette, Boolean>? {
+            val hex = c.hexString
+            for (p in entries) {
+                if (p.dark.hexString == hex) return p to false
+                if (p.light.hexString == hex) return p to true
+            }
+            return null
+        }
     }
 }
 
@@ -216,31 +246,20 @@ data class BackdropColors(val top: Color, val bottom: Color)
  * ธีมของการ์ดหนึ่งใบ — Swift `mutating func` กลายเป็นฟังก์ชันคืนสำเนา (`theme = theme.setDuo(d)`)
  */
 data class CardTheme(
-    var palette: Palette = Palette.midnight,
+    /**
+     * สีพื้นการ์ด — **ค่าเดียวที่ doc เก็บ** (`theme.colors.primary`) ทุกสีที่เหลือคิดจากสีนี้
+     * พาเลตต์/คู่สีสำเร็จรูปเป็นแค่ปุ่มลัดที่เขียนค่านี้ (20 ต.ค. 2569 รอบ 3)
+     */
+    var primary: Color = Palette.midnight.dark,
+    /** หมึกของการ์ดสองสี (`theme.colors.secondary`) — มี = การ์ดสองสี · primary เป็นพื้นเสมอ · สลับข้าง = สลับค่า */
+    var secondary: Color? = null,
     /** พื้นผิวของการ์ด — เลือกโดยเจ้าของการ์ด ไม่ล้อ dark mode ของเครื่องผู้ดู */
     var ink: CardInk = CardInk.night,
-    /**
-     * ให้ระบบเลือกหมึกจากความสว่างของสีพื้น แทนที่จะใช้ `ink` ที่เก็บไว้
-     * ค่าเริ่มต้นจึงเป็นอัตโนมัติ · แตะชิปโทนเมื่อไหร่คือผู้ใช้ขอคุมเอง แล้วค่านี้ถูกปิด
-     */
-    var inkAuto: Boolean = true,
+    // `inkAuto` ถอดออก 20 ต.ค. 2569 — doc เก็บ `ink` ตรง ๆ เสมอ · เลือกสีเองเมื่อไหร่ `autoInk` เลือกฝั่งให้ทันทีตอนนั้น
     var corner: CornerStyle = CornerStyle.round,
     /** หน้าตาของแถบผู้ออกบัตรที่ขอบล่าง (ดู `IssuerStrip`) — ถอดไม่ได้ เลือกได้แค่แบบ */
     var strip: StripStyle = StripStyle.line,
     var backdrop: BackdropStyle = BackdropStyle.gradient,
-    /** คู่สีที่เลือกไว้ (ดู `ColorDuo`) — มีค่าเมื่อไหร่ **สีพื้นและสีหมึกมาจากคู่นี้ทั้งคู่** */
-    var duoID: String? = null,
-    /** สีไหนขึ้นเป็นพื้น — false = สีเข้มเป็นพื้น (ค่าตั้งต้น) · true = สีอ่อนเป็นพื้น */
-    var duoFlipped: Boolean = false,
-    /** 0 = เข้มเกือบดำ · 1 = สว่าง */
-    var brightness: Double = 0.30,
-    /** เลื่อนเฉดพื้นหลังออกจากสีธีม −0.5…0.5 รอบวงล้อสี */
-    var hueShift: Double = 0.0,
-    /** โทนที่ดูดมาจากรูปพื้นหลังที่อัปโหลด — ตั้งแล้วทั้งธีมล้อตามรูปแทนพาเลตต์ */
-    var customHue: Double? = null,
-    var customSat: Double? = null,
-    /** ความสว่างของสีพื้นที่ผู้ใช้เลือกเอง — **มีค่านี้เมื่อไหร่แปลว่าเป็นสีจริง ไม่ใช่แค่เฉด** */
-    var customBri: Double? = null,
     /** เอฟเฟกต์บนรูปพื้นหลัง — มีผลเฉพาะตอน `backdrop == .photo` */
     var photoEffect: BackdropEffect = BackdropEffect.none,
     /** แผ่นสีที่คลุมรูปไว้ 0…0.8 — ยิ่งมากรูปยิ่งจม ตัวหนังสือบนการ์ดยิ่งอ่านง่าย */
@@ -250,55 +269,67 @@ data class CardTheme(
     /** ธีมนี้ถูกวาดบนแผงเครื่องมือ (พื้นมืดคงที่) ไม่ใช่บนการ์ด — ดู `toolTheme` · ไม่ถูกเซฟ */
     var onStage: Boolean = false,
 ) {
-    /**
-     * สีพื้นที่ผู้ใช้เลือกเอง แยกเป็นสามค่า — null เมื่อสียังมาจากพาเลตต์หรือโทนของรูป
-     * ความสดไม่ผ่าน `backdropSat` ที่บีบไว้ 0.15…0.6 — สีที่พิมพ์มาเองต้องได้เต็ม ๆ ตามที่พิมพ์
-     */
-    private val customParts: HSB?
-        get() {
-            val bri = customBri ?: return null
-            if (customHue == null) return null
-            return HSB(backdropHue, min(1.0, max(0.0, customSat ?: 0.5)), min(1.0, max(0.0, bri)))
-        }
+    /** สีพื้นแยกเป็น HSB — ทุกสูตรของธีม (ไล่เฉด สีเน้น หมึกอาบเฉด) อ่านจากตรงนี้ */
+    val primaryHSB: HSB get() = primary.toHSB()
 
-    /** มีสีพื้นที่ผู้ใช้เลือกเองอยู่ไหม */
-    val hasCustomColor: Boolean get() = customParts != null
-
-    /** คู่สีที่เลือกไว้ — null เมื่อการ์ดใบนี้ยังใช้พาเลตต์หรือสีที่ตั้งเอง */
-    val duo: ColorDuo? get() = duoID?.let { ColorDuo.find(it) }
+    /** สีพื้นเป็นสีที่ผู้ใช้เลือกเอง (ไม่ตรงกับเม็ดสำเร็จรูปใด) — ถาดใช้ไฮไลต์เม็ด "สีของฉัน" */
+    val hasCustomColor: Boolean get() = secondary == null && Palette.matching(primary) == null
 
     /** สองสีที่ **มีผลจริง** ตอนนี้ — พื้นเป็นรูปเมื่อไหร่คู่สีถอยให้รูปทั้งคู่ */
     val duoColors: DuoColors?
         get() {
-            val d = activeDuo ?: return null
-            return if (duoFlipped) DuoColors(d.light, d.dark) else DuoColors(d.dark, d.light)
+            if (backdrop == BackdropStyle.photo) return null
+            val s = secondary ?: return null
+            // โทน (`ink`) เป็นเรื่องของการวาด ไม่ใช่ค่าสี: มืด = สีเข้มของคู่เป็นพื้น · สว่าง = สีอ่อนเป็นพื้น · doc ไม่สลับค่า
+            val pDark = RGB(primary).luminance < RGB(s).luminance
+            val dark = if (pDark) primary else s; val light = if (pDark) s else primary
+            return if (ink.isLight) DuoColors(light, dark) else DuoColors(dark, light)
         }
 
-    /** คู่สีที่มีผลจริงตอนนี้ (ดู `duoColors` สำหรับเหตุผลเรื่องพื้นรูป) */
-    val activeDuo: ColorDuo? get() = if (backdrop == BackdropStyle.photo) null else duo
-
-    /** สองสีของคู่ **ตามบทบาทถาวร** — แผ่นทึบของ widget ต้องเข้มเสมอ หมึกบนแผ่นต้องสว่างเสมอ */
+    /** คู่สีที่มีผลจริงตอนนี้ **ตามบทบาทถาวร** (เข้ม/อ่อนตัดสินจากความสว่าง) — แผ่นทึบของ widget ต้องเข้มเสมอ */
+    val activeDuo: ColorDuo?
+        get() {
+            val c = duoColors ?: return null
+            val bgDark = RGB(c.bg).luminance < RGB(c.ink).luminance
+            return ColorDuo(id = "custom", darkName = "", lightName = "",
+                dark = if (bgDark) c.bg else c.ink, light = if (bgDark) c.ink else c.bg)
+        }
     val duoDark: Color? get() = activeDuo?.dark
     val duoLight: Color? get() = activeDuo?.light
+    /** สีอ่อนของคู่ขึ้นเป็นพื้นอยู่ไหม (= "โทนสว่าง" ของการ์ดสองสี) */
+    val duoFlipped: Boolean get() = duoColors != null && ink.isLight
 
-    /**
-     * เลือกคู่สี — ล้างสีที่ตั้งเองทิ้ง · ขึ้นข้างที่ตรงกับโทนของการ์ดตอนนั้น
-     * (การ์ดกระดาษที่ลองคู่สีดูต้องได้พื้นสีอ่อนของคู่นั้น ไม่ใช่กระโดดเป็นพื้นมืด)
-     */
+    /** การ์ดใบนี้ใช้คู่สีสำเร็จรูปคู่นี้อยู่ไหม (ไม่สนว่าพลิกข้าง) — ไว้ไฮไลต์เม็ดในถาด */
+    fun matches(d: ColorDuo): Boolean {
+        val s = secondary ?: return false
+        return setOf(primary.hexString, s.hexString) == setOf(d.dark.hexString, d.light.hexString)
+    }
+
+    /** เลือกคู่สีสำเร็จรูป — ขึ้นข้างที่ตรงกับโทนของการ์ดตอนนั้น (การ์ดกระดาษได้พื้นสีอ่อนของคู่) */
     fun setDuo(d: ColorDuo): CardTheme {
+        // เก็บคู่ตามที่นิยามไว้ (เข้ม · อ่อน) — โทนที่การ์ดเป็นอยู่ (`ink`) ตัดสินเองว่าสีไหนขึ้นเป็นพื้น
         val wasLight = activeInk.isLight
-        return copy(customHue = null, customSat = null, customBri = null, duoID = d.id, duoFlipped = wasLight)
+        return copy(primary = d.dark, secondary = d.light, ink = if (wasLight) lightInk else CardInk.night)
+    }
+    /** สลับข้างของการ์ดสองสี (แถวโทน) — `light` = สีอ่อนขึ้นเป็นพื้น · แตะแค่โทน ไม่แตะค่าสีใน doc */
+    fun flipDuo(light: Boolean): CardTheme {
+        secondary ?: return this
+        return copy(ink = if (light) lightInk else CardInk.night)
+    }
+    /** เลือกพาเลตต์สำเร็จรูป — เม็ดเดียวมีสองเฉด: แตะครั้งแรก = เฉดเข้ม · แตะซ้ำเม็ดที่เลือกอยู่ = สลับเข้ม/อ่อน
+     *  (แถวโทนมีเฉพาะคู่สีตั้งแต่ 20 ต.ค. 2569 — สีเดียวหมึกเลือกเองจาก `autoInk`) · ล้างคู่สี (= iOS `setPreset`) */
+    fun setPreset(p: Palette): CardTheme {
+        val cur = if (secondary == null) Palette.matching(primary) else null
+        val light = if (cur?.first == p) !(cur.second) else false
+        val t = copy(secondary = null, primary = p.primary(light))
+        return t.copy(ink = t.autoInk)
     }
 
     /** สีที่ผู้ใช้เลือกเองตอนนี้ (HSB) — แผงใช้จำไว้เป็น "สีของฉัน" ก่อนสลับไปสีสำเร็จรูป */
-    val customColor: HSB? get() = customParts
+    val customColor: HSB? get() = if (hasCustomColor) primaryHSB else null
 
-    /** ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG) — null เมื่อยังไม่มีสีที่เลือกเอง */
-    private val customLuminance: Double?
-        get() {
-            val p = customParts ?: return null
-            return RGB.fromHSB(p.h, p.s, p.b).luminance
-        }
+    /** ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG) */
+    private val primaryLuminance: Double get() = RGB(primary).luminance
 
     /**
      * หมึกที่ใช้จริง — **พื้นหลังเป็นรูปเมื่อไหร่ บังคับกลางคืนเสมอ**
@@ -308,30 +339,27 @@ data class CardTheme(
         get() {
             if (backdrop == BackdropStyle.photo) return CardInk.night
             // คู่สีตอบคำถามนี้ไปแล้วในตัวมันเอง: พื้นสว่างกว่าหมึก = ฝั่งสว่าง
-            duoColors?.let { c ->
-                return if (RGB(c.bg).luminance > RGB(c.ink).luminance) lightInk else CardInk.night
-            }
+            if (duoColors != null) return if (ink.isLight) lightInk else CardInk.night
             // ผู้ใช้เลือกได้แค่สองฝั่ง (มืด · สว่าง) — ฝั่งสว่างยังแยกกระดาษ/ใสใสตามความสดของพื้นเอง
-            if (!inkAuto) return if (ink.isLight) lightInk else CardInk.night
-            val l = customLuminance ?: return CardInk.night
+            return if (ink.isLight) lightInk else CardInk.night
+        }
+
+    /** หมึกที่อ่านออกบนสีพื้นนี้ — ใช้ตอนผู้ใช้เลือกสีเองแล้วยังไม่ได้บอกโทน (= `autoInk` ของ iOS: contrast ทั้งสองฝั่ง เลือกฝั่งที่ชนะ) */
+    val autoInk: CardInk
+        get() {
+            val l = primaryLuminance
             val withWhiteInk = 1.05 / (l + 0.05)
-            // หมึกฝั่งสว่างเป็นถ่านที่อาบสีธีม ไม่ใช่ดำสนิท — ความสว่างของมันราว 0.02
             val withDarkInk = (l + 0.05) / 0.07
-            if (withDarkInk <= withWhiteInk) return CardInk.night
-            return lightInk
+            return if (withDarkInk > withWhiteInk) lightInk else CardInk.night
         }
 
     /** หน้าตาของฝั่งสว่าง — พื้นที่ยังมีสีอยู่มากต้องได้ถ่านที่อาบเฉดเดียวกัน */
-    val lightInk: CardInk get() = if ((customSat ?: 0.0) >= 0.35) CardInk.mist else CardInk.paper
+    val lightInk: CardInk get() = if (primaryHSB.s >= 0.35) CardInk.mist else CardInk.paper
 
-    val backdropHue: Double
-        get() {
-            val raw = (customHue ?: palette.backdropHue) + hueShift
-            return raw - floor(raw)
-        }
+    val backdropHue: Double get() = primaryHSB.h
 
-    private val backdropSat: Double
-        get() = if (customHue != null) min(0.6, max(0.15, customSat ?: 0.5)) else palette.backdropSaturation
+    /** ความสดของพื้นที่บีบไว้ 0.15…0.6 — ใช้กับลายทาง/สีเน้นดิบ ไม่ใช้กับตัวพื้น (พื้น = สีที่เลือกเป๊ะ) */
+    private val backdropSat: Double get() = min(0.6, max(0.15, primaryHSB.s))
 
     /**
      * สองสีของฉากหลังหลังปรับความสว่างและโทนแล้ว
@@ -347,33 +375,9 @@ data class CardTheme(
                     if (inkDarker) c.bg.mixed(c.ink, 0.10) else c.bg.mixed(Color.Black, 0.26),
                 )
             }
-            // สีที่ผู้ใช้เลือกเองไม่ผ่านสูตรของหมึก — ผ่านเมื่อไหร่ `#101010` จะถูกดันขึ้นมาเป็นเทา
-            customParts?.let { p ->
-                return BackdropColors(
-                    hsb(p.h, p.s, p.b),
-                    // ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
-                    hsb(p.h, min(1.0, p.s * 1.06), p.b * 0.80),
-                )
-            }
-            val hue = backdropHue
-            val sat = backdropSat
-            val b = brightness
-            return when (activeInk) {
-                CardInk.night -> BackdropColors(
-                    hsb(hue, max(0.0, sat - b * 0.28), 0.05 + b * 0.52),
-                    hsb(hue, max(0.0, sat - b * 0.20), 0.015 + b * 0.22),
-                )
-                // ขาวนวลไล่ลงเทาอ่อน — เก็บเฉดธีมไว้แค่พอให้ไม่ใช่ขาวโรงพิมพ์
-                CardInk.paper -> BackdropColors(
-                    hsb(hue, 0.03 + sat * 0.04, 0.955 + b * 0.045),
-                    hsb(hue, 0.06 + sat * 0.07, 0.865 + b * 0.075),
-                )
-                // อาบสีธีมชัดขึ้น แต่ยังสว่างพอให้หมึกเข้มอ่านสบาย
-                CardInk.mist -> BackdropColors(
-                    hsb(hue, 0.09 + sat * 0.16, 0.945 + b * 0.05),
-                    hsb(hue, 0.20 + sat * 0.26, 0.815 + b * 0.10),
-                )
-            }
+            // สีเดียว: พื้น = สีที่เลือกเป๊ะ · ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
+            val p = primaryHSB
+            return BackdropColors(primary, hsb(p.h, min(1.0, p.s * 1.06), p.b * 0.80))
         }
 
     /** สีของแถบในฉากหลังแบบ "ลายทาง" — เฉดเดียวกับพื้น ต่างกันแค่หนึ่งขั้นความสว่าง */
@@ -425,15 +429,15 @@ data class CardTheme(
     val rawAccent: Color
         get() {
             activeDuo?.let { d -> return d.light }
-            val h = customHue ?: return palette.accent
-            return hsb(h, min(0.72, max(0.35, (customSat ?: 0.5) + 0.1)), 0.96)
+            val p = primaryHSB
+            return hsb(p.h, min(0.72, max(0.35, p.s + 0.1)), 0.96)
         }
     val rawAccentSoft: Color
         get() {
             activeDuo?.let { d -> return d.light.mixed(d.dark, 0.30) }
-            val h = customHue ?: return palette.accentSoft
-            val shifted = (h + 0.04) - floor(h + 0.04)
-            return hsb(shifted, min(0.5, max(0.25, customSat ?: 0.4)), 1.0)
+            val p = primaryHSB
+            val shifted = (p.h + 0.04) - floor(p.h + 0.04)
+            return hsb(shifted, min(0.5, max(0.25, p.s)), 1.0)
         }
 
     /**
@@ -443,12 +447,9 @@ data class CardTheme(
     val toolTheme: CardTheme
         get() {
             // ต้องปิดโหมดอัตโนมัติด้วย ไม่งั้นการ์ดที่ตั้งสีพื้นสว่างไว้จะลากหมึกกระดาษเข้ามาในชีต
-            var t = copy(ink = CardInk.night, inkAuto = false)
+            var t = copy(ink = CardInk.night)
             // คู่สีที่วางสีอ่อนไว้เป็นพื้นจะลากหมึกเข้มเข้ามาในชีตที่พื้นมืดคงที่ — สลับข้างให้เฉพาะในชีต
-            val c = t.duoColors
-            if (c != null && RGB(c.bg).luminance > RGB(c.ink).luminance) {
-                t = t.copy(duoFlipped = !t.duoFlipped)
-            }
+            // คู่สี: `ink = night` ข้างบนทำให้สีเข้มของคู่ขึ้นเป็นพื้นในชีตแล้ว (ไม่ต้องสลับค่าสี)
             return t
         }
 
@@ -468,18 +469,22 @@ data class CardTheme(
         }
 
     /**
-     * ตั้งสีพื้นจาก HSB — ทางเข้าเดียวของทั้งแถบสีและช่อง hex
-     * เขียน `customHue` โดยหัก `hueShift` ออกก่อน เพราะ `backdropHue` จะบวกกลับเข้าไปทีหลัง
+     * ตั้งสีพื้นจาก HSB — ทางเข้าเดียวของทั้งแถบสีและช่อง hex (ล้างคู่สี · พื้น = สีนี้เป๊ะ)
      */
-    fun setBackdropColor(h: Double, s: Double, b: Double): CardTheme = copy(
-        duoID = null,
-        customHue = (h - hueShift) - floor(h - hueShift),
-        customSat = min(1.0, max(0.0, s)),
-        customBri = min(1.0, max(0.0, b)),
-    )
+    fun setBackdropColor(h: Double, s: Double, b: Double): CardTheme {
+        val t = copy(secondary = null, primary = hsb(h - floor(h), min(1.0, max(0.0, s)), min(1.0, max(0.0, b))))
+        return t.copy(ink = t.autoInk)
+    }
 
-    /** ล้างสีที่เลือกเอง กลับไปใช้สีของพาเลตต์ */
-    fun clearBackdropColor(): CardTheme = copy(duoID = null, customHue = null, customSat = null, customBri = null)
+    /** ล้างสีที่เลือกเอง/คู่สี กลับไปพาเลตต์ตั้งต้นตามโทนที่การ์ดเป็นอยู่ */
+    fun clearBackdropColor(): CardTheme = setPreset(Palette.midnight)
+
+    /** โทนที่ดูดจากรูปพื้นหลัง (เฉด + ความสด) — คงความสว่างเดิมของพื้นไว้ (ตอนพื้นเป็นรูป สีนี้ใช้แค่คิดสีเน้น/ลาย) */
+    fun setBackdropTone(hue: Double?, sat: Double?): CardTheme {
+        hue ?: return this
+        val t = copy(secondary = null, primary = hsb(hue - floor(hue), min(0.6, max(0.15, sat ?: 0.5)), primaryHSB.b))
+        return t.copy(ink = t.autoInk)
+    }
 
     /** อ่านค่า `#RGB` หรือ `#RRGGBB` — คืน null เมื่ออ่านไม่ออก แล้วผู้เรียกคงสีเดิมไว้ */
     fun setBackdropHex(text: String): CardTheme? {

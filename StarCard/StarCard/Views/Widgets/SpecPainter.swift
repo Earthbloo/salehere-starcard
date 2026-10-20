@@ -28,33 +28,11 @@ struct SpecPainter: View {
     @Environment(\.widgetRenderScale) private var renderScale
     @Environment(PhotoStore.self) private var photos
 
-    /// สีของชุดห้าสไตล์/สแครปบุ๊ก/การ์ด ที่ผังอ้างเป็น token (`kit.ink` · `scrap.paper` · `rawAccent`) — คิดจากธีม+ค่าของชิ้น
-    private var extraTokens: [String: Color] {
-        let look = KitLook(kit.resolved(theme), border: border, cardDark: !ink.isLight)
-        // สีของแผ่นสแครปบุ๊กมาจากธีมของการ์ด (เฉด + มืด/สว่าง) — ใบไหนอ้าง `scrap.*` ก็ได้ค่าชุดเดียวกัน
-        let t = ScrapTone(theme)
-        return [
-            "kit.fill": Color(kitHex: look.fillHex), "kit.border": look.borderColor, "kit.ink": look.ink, "kit.mut": look.mut,
-            "kit.accent": look.accent, "kit.title": look.title, "kit.block": look.blockFill,
-            "scrap.paper": t.paper, "scrap.ink": t.ink, "scrap.soft": t.soft, "scrap.accent": t.accent, "scrap.strong": t.strong,
-            "scrap.paperAccent": t.paperAccent, "scrap.paperStrong": t.paperStrong, "scrap.band": t.band, "scrap.mid": t.mid,
-            "scrap.blush": t.blush, "scrap.shade": t.shade, "scrap.speck": t.speck,
-            "rawAccent": theme.rawAccent, "rawAccentSoft": theme.rawAccentSoft,
-            // แผ่นเข้มของสำรับโปสเตอร์ + ครีมบนแผ่น (`PosterPlate` — คู่สีใช้สีเข้ม/อ่อนของคู่)
-            "plate": PosterPlate.plate(theme), "plateInk": PosterPlate.cream(theme),
-            // สีเน้นของธีมที่ปรับให้นั่งบน **กระดาษสว่างที่ใบวาดเอง** (ไม่ใช่บนการ์ด) — พาดหัว/ปากกาของสำรับกระดาษ
-            "accentPaper": theme.rawAccent.onLightSurface(),
-            // หมึกของสำรับบรรณาธิการตามพื้นผิวที่เลือก (`Ed.skin`): กระดาษ → ถ่าน · คู่สี → ครีมของคู่ · ไม่มีพื้น → หมึกการ์ด
-            "ed.sheet": ed.sheet, "ed.ink": ed.ink, "ed.inkSoft": ed.inkSoft, "ed.ghost": ed.ghost, "ed.marker": ed.marker, "ed.red": ed.red,
-            // สำรับสติกเกอร์ — ถ่านคงที่บนกล่องขาว · พื้นกล่องตามพื้นผิว (กระจก ~62% / ทึบ)
-            "pop.ink": Pop.ink, "pop.inkSoft": Pop.inkSoft, "pop.rule": Pop.rule, "pop.paper": Pop.paper,
-            "pop.sheet": Pop.sheetFill(surface, skin: kind.popSkin ?? .glass, theme: theme),
-            "pop.shadow": Pop.sheetShadow(surface, skin: kind.popSkin ?? .glass, theme: theme),
-        ]
+    /// สีทั้ง 6 บทบาท × พื้น ของชิ้นนี้ (`SpecPalette` — สูตรของทุกสำรับอยู่ที่นั่น · ผังอ้างแค่ `ink` `bg` … + `on`)
+    private var palette: SpecPalette {
+        SpecPalette(theme: theme, ink: ink, accent: accent, kit: kit, border: border, surface: surface,
+                    popSkin: kind.popSkin, base: spec.widget?.on)
     }
-
-    /// สกินของสำรับบรรณาธิการสำหรับพื้นผิวของชิ้นนี้ (กระดาษตั้งต้น = `Ed.paper` — ผังทาสีกระดาษของใบเองเมื่อ `papered & !duo`)
-    private var ed: EdSkin { Ed.skin(surface, paper: Ed.paper, ink: ink, theme: theme) }
 
     var body: some View {
         #if DEBUG
@@ -66,9 +44,10 @@ struct SpecPainter: View {
             let data = IOSSpecData(sample: sample, widget: wid, inkLight: ink.isLight, kit: kit, border: border,
                                    surface: surface, duo: theme.activeDuo != nil, stamped: stamped,
                                    cutout: { if case .subject = cutoutPlane(photos, slot: 1, widget: wid) { return true }; return false }(),
-                                   kitDark: KitLook(kit.resolved(theme), border: border, cardDark: !ink.isLight).dark)
+                                   kitDark: spec.widget?.on == "dark")   // `kit.dark` = ใบนี้นั่งบนแผ่นเข้ม (พื้น `dark`) — ไม่ใช่ความมืดของสีพื้น Canva อีกแล้ว (20 ต.ค. 2569)
             let (boxes, k) = Self.solve(spec, box: box, data: data, renderScale: renderScale)
-            let tree = SpecTree(boxes)
+            // QR ชี้ไปที่ handle ของ **แหล่งข้อมูลของใบนี้** (ตัวอย่าง = handle ตัวอย่าง) ไม่ใช่ของเครื่อง — ทุกแพลตฟอร์มถามคำถามเดียวกัน (21 ต.ค. 2569)
+            let tree = SpecTree(boxes, handle: data.text(slot: "handle", preset: nil))
             Group {
                 if let root = tree.root { node(root, tree) }
             }
@@ -87,6 +66,7 @@ struct SpecPainter: View {
             let rec = SpecExport.RecordingMeasurer()
             let solver = SpecSolver(spec: spec, box: box, data: rdata, measurer: rec, renderScale: renderScale)
             let boxes = solver.solve()
+            _ = rdata.text(slot: "handle", preset: nil)   // จดลง fixture ให้ Android/เว็บเข้ารหัส QR ด้วยค่าเดียวกัน
             cap.record(box: box, boxes: boxes, measures: rec.log, lines: rec.lines, data: rdata.log, scale: solver.scale,
                        renderScale: renderScale)
             return (boxes, solver.scale)
@@ -106,7 +86,7 @@ struct SpecPainter: View {
         let n = b.node
         let kids = t.children[b.id] ?? []
         let v = SpecPlace {
-            paint(b)
+            paint(b, t)
             ForEach(kids) { c in
                 node(c, t)
                     .frame(width: c.frame.width, height: c.frame.height)
@@ -132,7 +112,7 @@ struct SpecPainter: View {
     // MARK: primitive
 
     @ViewBuilder
-    private func paint(_ b: SpecBox) -> some View {
+    private func paint(_ b: SpecBox, _ tree: SpecTree) -> some View {
         let n = b.node
         switch n.type {
         case .col, .row, .stack, .chips, .spacer:
@@ -144,7 +124,7 @@ struct SpecPainter: View {
         case .image:
             image(b)
         case .icon:
-            icon(b)
+            icon(b, handle: tree.handle)
         }
     }
 
@@ -159,7 +139,7 @@ struct SpecPainter: View {
         let fill = (n.fillCycle.flatMap { c in item.map { c.isEmpty ? nil : c[$0.i % c.count] } ?? nil }) ?? n.fill ?? defaultFill
         if let pp = n.platePattern {
             // ลายแผ่นของถาด (ลายทาง · ข้าวหลามตัด) — ไม่เลือก = `.plain` ไม่วาดอะไร
-            PlatePatternLayer(sheet: color(pp, item: item))
+            PlatePatternLayer(sheet: color(pp, on: n.on, item: item))
                 .clipShape(SpecShapes.make(n.shape, corner: corner(n, size)))
         }
         if fill != nil || n.gradient != nil || n.stroke != nil || n.pattern != nil {
@@ -168,26 +148,26 @@ struct SpecPainter: View {
                 if let g = n.gradient {
                     let a = Angle.degrees(g.angle)
                     let dx = cos(a.radians), dy = sin(a.radians)
-                    shape.fill(LinearGradient(colors: [color(g.from, item: item), color(g.to, item: item)],
+                    shape.fill(LinearGradient(colors: [color(g.from, on: n.on, item: item), color(g.to, on: n.on, item: item)],
                                               startPoint: UnitPoint(x: 0.5 - dx / 2, y: 0.5 - dy / 2),
                                               endPoint: UnitPoint(x: 0.5 + dx / 2, y: 0.5 + dy / 2)))
                 } else if let fill {
-                    shape.fill(color(fill, item: item))
+                    shape.fill(color(fill, on: n.on, item: item))
                 }
                 if let pat = n.pattern {
-                    SpecPatternView(pattern: pat, color: color(pat.color, item: item), color2: color(pat.color2 ?? pat.color, item: item))
+                    SpecPatternView(pattern: pat, color: color(pat.color, on: n.on, item: item), color2: color(pat.color2 ?? pat.color, on: n.on, item: item))
                         .clipShape(shape)
                 }
                 if let s = n.stroke {
                     if let dash = s.dash {
-                        shape.stroke(color(s.color, item: item), style: StrokeStyle(lineWidth: CGFloat(s.width), dash: dash.map { CGFloat($0) }))
+                        shape.stroke(color(s.color, on: n.on, item: item), style: StrokeStyle(lineWidth: CGFloat(s.width), dash: dash.map { CGFloat($0) }))
                             .clipShape(shape)
                     } else {
-                        shape.stroke(color(s.color, item: item), lineWidth: CGFloat(s.width) * 2).clipShape(shape)
+                        shape.stroke(color(s.color, on: n.on, item: item), lineWidth: CGFloat(s.width) * 2).clipShape(shape)
                     }
                 }
             }
-            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: { color($0, item: item) }))
+            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: { color($0, on: n.on, item: item) }))
         }
     }
 
@@ -199,7 +179,7 @@ struct SpecPainter: View {
             let frameAlign: Alignment = n.textAlign == "center" ? .top : n.textAlign == "right" ? .topTrailing : .topLeading
             let face = CardFont(rawValue: n.face ?? "") ?? .noto
             let weight = Font.Weight.from(n.weight ?? 400)
-            let col = color(n.color ?? "ink", item: b.item)
+            let col = color(n.color ?? "ink", on: n.on, item: b.item)
             // ข้อความบน widget = ข้อมูลของหมวดล้วน — แตะไม่ได้ ไม่มีการพิมพ์/ปรับขนาด/สี/ฟอนต์ (หน้าตาตามผัง + ธีม)
             let style = TextSlotStyle(size: r.size, weight: weight, face: face, color: col,
                                       align: align, tracking: CGFloat(n.tracking ?? 0),
@@ -225,7 +205,7 @@ struct SpecPainter: View {
             .fixedSize(horizontal: false, vertical: true)
             .frame(width: b.frame.width, height: b.frame.height, alignment: frameAlign)
             // เงา/เรืองแสงของตัวอักษร (ป้ายไฟ)
-            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: { color($0, item: b.item) }))
+            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: { color($0, on: n.on, item: b.item) }))
         }
     }
 
@@ -260,22 +240,22 @@ struct SpecPainter: View {
             .compositingGroup()
             .grayscale(n.mono == true ? 1 : 0)
             .overlay {
-                if let s = n.stroke { shape.stroke(color(s.color), lineWidth: CGFloat(s.width) * 2).clipShape(shape) }
+                if let s = n.stroke { shape.stroke(color(s.color, on: n.on), lineWidth: CGFloat(s.width) * 2).clipShape(shape) }
             }
-            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: color))
+            .modifier(SpecShadowModifier(shadow: n.shadow, resolve: { color($0, on: n.on) }))
             .photoSlot(slot)
     }
 
     @ViewBuilder
-    private func icon(_ b: SpecBox) -> some View {
+    private func icon(_ b: SpecBox, handle: String) -> some View {
         let n = b.node
         let name = n.icon.map { $0.hasPrefix("$") ? (b.item?.value(String($0.dropFirst())) ?? "") : $0 } ?? ""
-        let tint = n.tint.map { color($0, item: b.item) }
+        let tint = n.tint.map { color($0, on: n.on, item: b.item) }
         let f = b.frame
         Group {
             switch name {
             case "qr":
-                QRCode(text: "https://salehere.co.th/star/\(Profile.me.handle)", tint: tint ?? color("ink"))
+                QRCode(text: "https://salehere.co.th/star/\(handle)", tint: tint ?? color("ink"))
                     .aspectRatio(1, contentMode: .fit)
             case "provenance", "provenance:profile":
                 ProvenanceTag(kind: .profile).fixedSize()
@@ -357,16 +337,16 @@ struct SpecPainter: View {
 
     // MARK: สี
 
-    /// token → สี · `ink` `ink@0.45` · `accent` `accent@0.9` · `paper` (พื้นตามหมึก) · `line` · `fill` · `white` · `black` · `#RRGGBB[AA]`
-    private func color(_ token: String) -> Color {
-        SpecColor.resolve(token, ink: ink, accent: accent, theme: theme, extra: extraTokens)
+    /// token → สี · `bg` `bg2` `ink` `ink2` `accent` `line` คิดจากพื้น `on` ของโหนด · `white` `black` `clear` `#RRGGBB[AA]` · `@ความทึบ`
+    private func color(_ token: String, on: String? = nil) -> Color {
+        palette.color(token, on: on)
     }
     /// token ที่อ้างฟิลด์ของรายการ (`$tint` · `$tint@0.3`) — แทนค่าแล้วค่อยแปลง
-    private func color(_ token: String, item: SpecItem?) -> Color {
-        guard token.hasPrefix("$"), let item else { return color(token) }
+    private func color(_ token: String, on: String?, item: SpecItem?) -> Color {
+        guard token.hasPrefix("$"), let item else { return color(token, on: on) }
         var name = String(token.dropFirst()); var alpha = ""
         if let at = name.firstIndex(of: "@") { alpha = String(name[at...]); name = String(name[..<at]) }
-        return color(item.value(name) + alpha)
+        return color(item.value(name) + alpha, on: on)
     }
 }
 
@@ -389,33 +369,6 @@ struct SlotRef {
         guard let f = ProfileField(rawValue: parts[0]) else { return nil }
         field = f
         index = parts.count > 1 ? Int(parts[1]) : nil
-    }
-}
-
-enum SpecColor {
-    static func resolve(_ token: String, ink: InkStyle, accent: Color, theme: CardTheme, extra: [String: Color] = [:]) -> Color {
-        var name = token
-        var alpha: Double? = nil
-        if let at = token.lastIndex(of: "@") {
-            name = String(token[..<at]); alpha = Double(token[token.index(after: at)...])
-        }
-        if let c = extra[name] { return alpha.map { c.opacity($0) } ?? c }
-        let base: Color
-        switch name {
-        case "ink":    return ink.text(alpha ?? 1)          // ความทึบของหมึกผ่านตัวยันความอ่านออก
-        case "line":   return ink.line(alpha ?? 0.12)
-        case "fill":   return ink.fill(alpha ?? 0.14)
-        case "ghost":  return ink.ghost(alpha ?? 0.5)
-        case "accent": base = accent
-        case "accentSoft": base = theme.accentSoft
-        case "paper":  base = ink.isLight ? .white : Color(white: 0.08)
-        case "white":  base = .white
-        case "black":  base = .black
-        case "clear":  return .clear
-        default:
-            base = name.hasPrefix("#") ? Color(hex: name) : .clear
-        }
-        return alpha.map { base.opacity($0) } ?? base
     }
 }
 
@@ -787,7 +740,10 @@ extension SocialType {
 struct SpecTree {
     let root: SpecBox?
     let children: [String: [SpecBox]]
-    init(_ boxes: [SpecBox]) {
+    /// handle ที่ QR ของใบนี้ชี้ไป (จากแหล่งข้อมูลของใบ — ตั้งโดยตัววาด)
+    let handle: String
+    init(_ boxes: [SpecBox], handle: String = "") {
+        self.handle = handle
         root = boxes.first { $0.id == "r" }
         var map: [String: [SpecBox]] = [:]
         for b in boxes where b.id != "r" {

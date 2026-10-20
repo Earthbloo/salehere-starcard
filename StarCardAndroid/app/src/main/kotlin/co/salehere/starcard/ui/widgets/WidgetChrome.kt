@@ -181,7 +181,8 @@ fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier
                     GlassPanel(
                         tint = if (tinted) theme.accent else null,
                         tintStrength = if (tinted) 0.13 else 0.0,
-                        veil = if (theme.activeDuo == null) null else Color.Black.opacity(0.16),
+                        // คู่สีไม่ต้องส่งม่านแยกแล้ว — ค่าที่ iOS วาดจริงบนคู่สีเท่ากับหมึกมืดทั่วไป (ดู GlassPanel)
+                        veil = null,
                         radius = radius,
                     ) {
                         Box(if (isText) Modifier else Modifier.clip(shape)) { content() }

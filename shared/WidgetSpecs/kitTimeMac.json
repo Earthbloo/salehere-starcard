@@ -74,7 +74,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา mac · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -89,7 +90,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -121,7 +122,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -149,7 +150,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -378,7 +379,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "id": "title",
           "textAlign": "center",
@@ -427,7 +428,7 @@
             "face": "noto",
             "size": 11.5,
             "weight": 400,
-            "color": "kit.mut",
+            "color": "ink2",
             "maxLines": 1
            },
            {
@@ -443,7 +444,7 @@
              "face": "noto",
              "size": 16,
              "weight": 700,
-             "color": "kit.ink",
+             "color": "ink",
              "maxLines": 1
             }
            }
@@ -459,7 +460,7 @@
             "type": "rect",
             "if": "!opt:noTime & list:avail",
             "h": 1,
-            "fill": "kit.mut@0.17"
+            "fill": "ink2@0.17"
            },
            {
             "type": "col",
@@ -478,7 +479,7 @@
               "face": "noto",
               "size": 11.5,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -495,7 +496,7 @@
                  "face": "noto",
                  "size": 16,
                  "weight": 700,
-                 "color": "kit.ink",
+                 "color": "ink",
                  "maxLines": 1,
                  "text": ", ",
                  "if": "!$i=first"
@@ -506,7 +507,7 @@
                  "face": "noto",
                  "size": 16,
                  "weight": 700,
-                 "color": "kit.ink",
+                 "color": "ink",
                  "maxLines": 1
                 }
                ]
@@ -533,7 +534,7 @@
       "id": "border",
       "radius": 12,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }
@@ -549,7 +550,7 @@
       "id": "border",
       "radius": 3,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }

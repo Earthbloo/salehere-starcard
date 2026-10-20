@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
  "root": {
@@ -74,7 +75,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "shadow": {
        "sigma": 4.5,
@@ -88,7 +89,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -111,7 +112,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1.5
       },
       "radius": 20,
@@ -128,7 +129,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 4.5,
@@ -142,7 +143,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 4.5,
@@ -165,7 +166,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 3,
@@ -179,7 +180,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -193,7 +194,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20,
           "shadow": {
            "sigma": 4.5,
@@ -216,7 +217,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 20,
@@ -236,7 +237,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 13.3,
       "w": "fill",
@@ -259,7 +260,7 @@
          "children": [
           {
            "type": "rect",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 12
           },
           {
@@ -281,7 +282,7 @@
                "icon": "ph:sparkle",
                "size": 17,
                "w": 22,
-               "tint": "kit.mut"
+               "tint": "ink2"
               },
               {
                "type": "text",
@@ -289,7 +290,7 @@
                "face": "noto",
                "size": 13,
                "weight": 600,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1
               }
              ]

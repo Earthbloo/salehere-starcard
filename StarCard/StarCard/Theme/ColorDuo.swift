@@ -66,6 +66,26 @@ extension Color {
               blue: Double(v & 0xFF) / 255)
     }
 
+    /// `#RRGGBB` ตัวใหญ่ของสีนี้ — รูปที่ doc เก็บ (`theme.colors`) และที่ใช้เทียบกับเม็ดสำเร็จรูป
+    var hexString: String {
+        let c = RGB(self)
+        return String(format: "#%02X%02X%02X", Int(round(c.r * 255)), Int(round(c.g * 255)), Int(round(c.b * 255)))
+    }
+
+    /// อ่าน `#RGB` / `#RRGGBB` จาก doc — อ่านไม่ออก = nil (ผู้เรียกคงสีเดิม)
+    init?(docHex text: String?) {
+        guard let text else { return nil }
+        let raw = text.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "#", with: "").uppercased()
+        let digits: String
+        switch raw.count {
+        case 3: digits = raw.map { "\($0)\($0)" }.joined()
+        case 6: digits = raw
+        default: return nil
+        }
+        guard digits.allSatisfy(\.isHexDigit), let v = UInt32(digits, radix: 16) else { return nil }
+        self = .hex(v)
+    }
+
     /// ผสมไปหาอีกสีตามสัดส่วน 0…1 — ผสมใน sRGB ตรง ๆ
     ///
     /// ใช้กับระยะสั้น ๆ เท่านั้น (ปลายไล่เฉด · สีเน้นที่อ่อนลง) ซึ่งเป็นช่วงที่ตาแยกไม่ออกอยู่แล้ว

@@ -71,7 +71,6 @@ import co.salehere.starcard.layout.SpecItem
 import co.salehere.starcard.layout.SpecSolver
 import co.salehere.starcard.layout.weightOf
 import co.salehere.starcard.model.AndroidSpecData
-import co.salehere.starcard.model.KitLook
 import co.salehere.starcard.model.LocalKitConfig
 import co.salehere.starcard.model.looking
 import co.salehere.starcard.model.LocalPhotoStore
@@ -99,8 +98,6 @@ import co.salehere.starcard.theme.LocalScrapTone
 import co.salehere.starcard.theme.PlatePatternLayer
 import co.salehere.starcard.theme.LocalWidgetTextStyle
 import co.salehere.starcard.theme.WidgetTextStyle
-import co.salehere.starcard.theme.grey
-import co.salehere.starcard.theme.onLightSurface
 import co.salehere.starcard.theme.opacity
 import co.salehere.starcard.ui.LocalCardAccent
 import co.salehere.starcard.ui.LocalGhostData
@@ -140,29 +137,9 @@ fun SpecPainter(spec: WidgetSpec, kind: WidgetKind, theme: CardTheme, size: Size
     val photos = LocalPhotoStore.current
     val measurer = remember { AndroidSpecMeasurer() }
 
-    val look = remember(kit, border, ink, theme) { KitLook(kit.resolved(theme), border = border, cardDark = !ink.isLight) }
-    // สีของชุดห้าสไตล์/สแครปบุ๊ก/การ์ด ที่ผังอ้างเป็น token (`kit.ink` · `scrap.paper` · `rawAccent`) — คิดจากธีม+ค่าของชิ้น
-    val extraTokens: Map<String, Color> = remember(look, ink, theme, scrapTone, surface, kind) {
-        val t = scrapTone
-        val ed = Ed.skin(surface, Ed.paper, ink, theme)
-        val skin = kind.popSkin ?: PopSkin.glass
-        mapOf(
-            "kit.fill" to Color.kitHex(look.fillHex), "kit.border" to look.borderColor, "kit.ink" to look.ink, "kit.mut" to look.mut,
-            "kit.accent" to look.accent, "kit.title" to look.title, "kit.block" to look.blockFill,
-            "scrap.paper" to t.paper, "scrap.ink" to t.ink, "scrap.soft" to t.soft, "scrap.accent" to t.accent, "scrap.strong" to t.strong,
-            "scrap.paperAccent" to t.paperAccent, "scrap.paperStrong" to t.paperStrong, "scrap.band" to t.band, "scrap.mid" to t.mid,
-            "scrap.blush" to t.blush, "scrap.shade" to t.shade, "scrap.speck" to t.speck,
-            "rawAccent" to theme.rawAccent, "rawAccentSoft" to theme.rawAccentSoft,
-            // แผ่นเข้มของสำรับโปสเตอร์ + ครีมบนแผ่น (`PosterPlate` — คู่สีใช้สีเข้ม/อ่อนของคู่)
-            "plate" to PosterPlate.plate(theme), "plateInk" to PosterPlate.cream(theme),
-            // สีเน้นของธีมที่ปรับให้นั่งบน **กระดาษสว่างที่ใบวาดเอง**
-            "accentPaper" to theme.rawAccent.onLightSurface(),
-            // หมึกของสำรับบรรณาธิการตามพื้นผิวที่เลือก (`Ed.skin`)
-            "ed.sheet" to ed.sheet, "ed.ink" to ed.ink, "ed.inkSoft" to ed.inkSoft, "ed.ghost" to ed.ghost, "ed.marker" to ed.marker, "ed.red" to ed.red,
-            // สำรับสติกเกอร์ — ถ่านคงที่บนกล่องขาว · พื้นกล่องตามพื้นผิว
-            "pop.ink" to Pop.ink, "pop.inkSoft" to Pop.inkSoft, "pop.rule" to Pop.rule, "pop.paper" to Pop.paper,
-            "pop.sheet" to Pop.sheetFill(surface, skin, theme), "pop.shadow" to Pop.sheetShadow(surface, skin, theme),
-        )
+    // สีทั้ง 6 บทบาท × พื้น ของชิ้นนี้ (`SpecPalette` — สูตรของทุกสำรับอยู่ที่นั่น · ผังอ้างแค่ `ink` `bg` … + `on`)
+    val palette = remember(kit, border, ink, theme, scrapTone, surface, kind, spec.widget?.on) {
+        SpecPalette(theme, ink, accent, kit, border, surface, kind.popSkin, spec.widget?.on, scrapTone)
     }
 
     // กล่องรากคือ **ที่ที่ได้จริง** (chrome หักระยะขอบในออกแล้ว) ไม่ใช่ `size` ที่ส่งมาซึ่งเป็นกรอบเต็มก่อนหักขอบ
@@ -172,10 +149,10 @@ fun SpecPainter(spec: WidgetSpec, kind: WidgetKind, theme: CardTheme, size: Size
         val cutout = photos != null && cutoutPlane(photos, 1, wid) is CutoutPlane.Subject
         val override = LocalSpecDataOverride.current
         val renderScale = LocalWidgetRenderScale.current
-        val data = override ?: remember(sample, wid, ink.isLight, kit, border, surface, theme, stamped, cutout, look) {
+        val data = override ?: remember(sample, wid, ink.isLight, kit, border, surface, theme, stamped, cutout, spec.widget?.on) {
             AndroidSpecData(
                 sample = sample, widget = wid, inkLight = ink.isLight, kit = kit, border = border,
-                surface = surface, duo = theme.activeDuo != null, stamped = stamped, cutout = cutout, kitDark = look.dark,
+                surface = surface, duo = theme.activeDuo != null, stamped = stamped, cutout = cutout, kitDark = spec.widget?.on == "dark",
             )
         }
         // `derivedStateOf` ตามการอ่าน state ของ `Profile` ข้างใน solver — ข้อความเปลี่ยนแล้วคำนวณใหม่เอง
@@ -187,7 +164,7 @@ fun SpecPainter(spec: WidgetSpec, kind: WidgetKind, theme: CardTheme, size: Size
         }
         val (boxes, k) = solved.value
         val tree = remember(boxes) { SpecTree(boxes) }
-        val ctx = PaintContext(ink, accent, theme, extraTokens, wid, measurer)
+        val ctx = PaintContext(ink, accent, theme, palette, wid, measurer, data)
         // ผังวางใน `box / k` แล้วย่อทั้งก้อนด้วย `k` (= `.frame(box / k).scaleEffect(k, anchor: .topLeading)`)
         Box(Modifier.size(w.dp, h.dp), contentAlignment = Alignment.TopStart) {
             Box(
@@ -211,9 +188,11 @@ private class PaintContext(
     val ink: InkStyle,
     val accent: Color,
     val theme: CardTheme,
-    val extra: Map<String, Color>,
+    val palette: SpecPalette,
     val wid: java.util.UUID?,
     val measurer: AndroidSpecMeasurer,
+    /** แหล่งข้อมูลของใบ (ของแอป หรือเล่นซ้ำจาก fixture ของ iOS) — QR ถาม handle จากตรงนี้ (= iOS `tree.handle`) */
+    val data: co.salehere.starcard.layout.SpecDataSource,
 ) {
     // MARK: ต้นไม้ — วาดซ้อนตามโครงสร้าง (clip · opacity · rotate ใช้กับทั้งกิ่ง)
 
@@ -270,7 +249,7 @@ private class PaintContext(
         val pp = n.platePattern
         if (pp != null) {
             // ลายแผ่นของถาด (ลายทาง · ข้าวหลามตัด) — ไม่เลือก = `.plain` ไม่วาดอะไร
-            PlatePatternLayerSpec(color(pp, item), shape)
+            PlatePatternLayerSpec(color(pp, n.on, item), shape)
         }
         val cycle = n.fillCycle
         val fill = (if (cycle != null && cycle.isNotEmpty() && item != null) cycle[item.i % cycle.size] else null)
@@ -279,11 +258,11 @@ private class PaintContext(
         val s = n.stroke
         val pat = n.pattern
         if (fill == null && g == null && s == null && pat == null) return
-        val fillColor = fill?.let { color(it, item) }
-        val gFrom = g?.let { color(it.from, item) }
-        val gTo = g?.let { color(it.to, item) }
-        val strokeColor = s?.let { color(it.color, item) }
-        val shadowColor = n.shadow?.let { color(it.color, item) }
+        val fillColor = fill?.let { color(it, n.on, item) }
+        val gFrom = g?.let { color(it.from, n.on, item) }
+        val gTo = g?.let { color(it.to, n.on, item) }
+        val strokeColor = s?.let { color(it.color, n.on, item) }
+        val shadowColor = n.shadow?.let { color(it.color, n.on, item) }
         // SwiftUI สร้างเงาจาก **เนื้อที่วาดจริง** (compositingGroup) — พื้นใส 7% + เส้น 30% ได้เงาจางตามนั้น
         // ไม่ใช่รูปทรงทึบเต็มสีเงา · ความเข้มของพื้น = อัลฟาของสีพื้น (ไล่สี = เฉลี่ยสองปลาย) · ลาย = ทึบ
         val fillAlpha = when {
@@ -317,7 +296,7 @@ private class PaintContext(
         ) {
             if (pat != null) {
                 SpecPatternView(
-                    pattern = pat, color = color(pat.color, item), color2 = color(pat.color2 ?: pat.color, item),
+                    pattern = pat, color = color(pat.color, n.on, item), color2 = color(pat.color2 ?: pat.color, n.on, item),
                     modifier = Modifier.fillMaxSize().clip(shape),
                 )
             }
@@ -357,12 +336,12 @@ private class PaintContext(
         val frameAlign: Alignment = when (n.textAlign) { "center" -> Alignment.TopCenter; "right" -> Alignment.TopEnd; else -> Alignment.TopStart }
         val face = CardFont.from(n.face) ?: CardFont.noto
         val weight = weightOf(n.weight ?: 400)
-        val col = color(n.color ?: "ink", b.item)
+        val col = color(n.color ?: "ink", n.on, b.item)
         // ข้อความบน widget = ข้อมูลของหมวดล้วน — แตะไม่ได้ ไม่มีการพิมพ์/ปรับขนาด/สี/ฟอนต์ (หน้าตาตามผัง + ธีม)
         val tracking = (n.tracking ?: 0.0).toFloat()
         val kerning = (n.kerning ?: 0.0).toFloat()
         val lineSpacing = lineSpacing(n, r.size)
-        val shadowColor = n.shadow?.let { color(it.color, b.item) }
+        val shadowColor = n.shadow?.let { color(it.color, n.on, b.item) }
         // ฟอนต์ที่ตัวคำนวณใช้วัด — บรรทัดที่วาดตัดด้วยฟอนต์นี้
         val measureFont = SpecFont(
             face = face.raw, size = r.size, weight = n.weight ?: 400,
@@ -436,7 +415,7 @@ private class PaintContext(
         // `src`: รูปจาก asset ของแอป (`"$cover"` = ปกผลงาน) — ว่าง = ช่องรูปของชิ้นตามเดิม
         val src = n.src?.let { if (it.startsWith("$")) (item?.value(it.drop(1)) ?: "") else it } ?: ""
         val s = n.stroke
-        val shadowColor = n.shadow?.let { color(it.color) }
+        val shadowColor = n.shadow?.let { color(it.color, n.on) }
         val asset = if (src.isNotEmpty() && !src.startsWith("http")) drawableIdOf(src) else 0
         Box(
             Modifier
@@ -455,7 +434,7 @@ private class PaintContext(
                 n.fit == "contain" -> SpecPhotoContain(slot)
                 else -> WidgetPhoto(slot, Modifier.fillMaxSize())
             }
-            if (s != null) InnerStroke(shape, color(s.color), s.width.toFloat(), null)
+            if (s != null) InnerStroke(shape, color(s.color, n.on), s.width.toFloat(), null)
         }
     }
 
@@ -485,28 +464,29 @@ private class PaintContext(
         val n = b.node
         val raw = n.icon ?: ""
         val name = if (raw.startsWith("$")) (b.item?.value(raw.drop(1)) ?: "") else raw
-        val tint = n.tint?.let { color(it, b.item) }
+        val tint = n.tint?.let { color(it, n.on, b.item) }
         val f = b.frame
         Box(Modifier.size(f.width.dp, f.height.dp).clip(RoundedCornerShape(corner(n, f.width, f.height).dp))) {
             SpecIcon(
                 name = name, box = Size(f.width.toFloat(), f.height.toFloat()), tint = tint, text = n.text, size = n.size?.toFloat(),
-                ink = ink, accent = accent,
-                handle = (LocalSpecDataOverride.current as? co.salehere.starcard.layout.ReplayData)?.texts?.get("handle" to null),
+                ink = ink, accent = accent, color = { palette.color(it, null) },
+                handle = data.text("handle", null),
             )
         }
     }
 
     // MARK: สี
 
-    fun color(token: String): Color = SpecColor.resolve(token, ink, accent, theme, extra)
+    /** token → สี · `bg` `bg2` `ink` `ink2` `accent` `line` คิดจากพื้น `on` ของโหนด · `white` `black` `clear` `#RRGGBB[AA]` · `@ความทึบ` */
+    fun color(token: String, on: String?): Color = palette.color(token, on)
 
     /** token ที่อ้างฟิลด์ของรายการ (`$tint` · `$tint@0.3`) — แทนค่าแล้วค่อยแปลง */
-    fun color(token: String, item: SpecItem?): Color {
-        if (!token.startsWith("$") || item == null) return color(token)
+    fun color(token: String, on: String?, item: SpecItem?): Color {
+        if (!token.startsWith("$") || item == null) return color(token, on)
         var name = token.drop(1); var alpha = ""
         val at = name.indexOf('@')
         if (at >= 0) { alpha = name.substring(at); name = name.substring(0, at) }
-        return color(item.value(name) + alpha)
+        return color(item.value(name) + alpha, on)
     }
 }
 
@@ -518,42 +498,6 @@ data class SlotRef(val field: ProfileField, val index: Int?) {
             val f = ProfileField.from(parts[0]) ?: return null
             return SlotRef(f, if (parts.size > 1) parts[1].toIntOrNull() else null)
         }
-    }
-}
-
-object SpecColor {
-    /** token → สี · `ink` `ink@0.45` · `accent` · `paper` · `line` · `fill` · `ghost` · `white` · `black` · `#RRGGBB[AA]` */
-    fun resolve(token: String, ink: InkStyle, accent: Color, theme: CardTheme, extra: Map<String, Color> = emptyMap()): Color {
-        var name = token
-        var alpha: Double? = null
-        val at = token.lastIndexOf('@')
-        if (at >= 0) { name = token.substring(0, at); alpha = token.substring(at + 1).toDoubleOrNull() }
-        extra[name]?.let { c -> return alpha?.let { c.opacity(it) } ?: c }
-        val base: Color = when (name) {
-            "ink" -> return ink.text(alpha ?: 1.0)          // ความทึบของหมึกผ่านตัวยันความอ่านออก
-            "line" -> return ink.line(alpha ?: 0.12)
-            "fill" -> return ink.fill(alpha ?: 0.14)
-            "ghost" -> return ink.ghost(alpha ?: 0.5)
-            "accent" -> accent
-            "accentSoft" -> theme.accentSoft
-            "paper" -> if (ink.isLight) Color.White else grey(0.08)
-            "white" -> Color.White
-            "black" -> Color.Black
-            "clear" -> return Color.Transparent
-            else -> if (name.startsWith("#")) specHex(name) else Color.Transparent
-        }
-        return alpha?.let { base.opacity(it) } ?: base
-    }
-
-    /** `#RRGGBB` หรือ `#RRGGBBAA` (= `Color(hex:)` ของ iOS) */
-    fun specHex(hex: String): Color {
-        var h = hex.trim('#')
-        if (h.length == 6) h += "FF"
-        val v = h.toLongOrNull(16) ?: 0L
-        return Color(
-            red = ((v shr 24) and 0xFF) / 255f, green = ((v shr 16) and 0xFF) / 255f,
-            blue = ((v shr 8) and 0xFF) / 255f, alpha = (v and 0xFF) / 255f,
-        )
     }
 }
 

@@ -54,14 +54,16 @@
    {
     "type": "rect",
     "id": "plate",
-    "fill": "plate",
-    "if": "papered"
+    "fill": "bg",
+    "if": "papered",
+    "on": "dark"
    },
    {
     "type": "rect",
     "id": "platePattern",
     "if": "papered",
-    "platePattern": "plate"
+    "platePattern": "bg",
+    "on": "dark"
    },
    {
     "type": "col",
@@ -75,9 +77,10 @@
       "grow": 1,
       "radius": 17,
       "stroke": {
-       "color": "plateInk@0.16",
+       "color": "ink@0.16",
        "width": 0.8
-      }
+      },
+      "on": "dark"
      }
     ]
    },
@@ -132,11 +135,12 @@
           "weight": 400,
           "size": 19,
           "textAlign": "center",
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 11.8,
           "place": "center",
-          "text": "Recent"
+          "text": "Recent",
+          "on": "dark"
          }
         ]
        },
@@ -154,13 +158,14 @@
           "tracking": 0.4,
           "textCase": "upper",
           "textAlign": "center",
-          "color": "plateInk",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 11,
           "w": 252,
           "place": "center",
           "dy": -5.5,
-          "text": "VIDEOGRAPHY"
+          "text": "VIDEOGRAPHY",
+          "on": "dark"
          }
         ]
        }
@@ -193,7 +198,7 @@
           "clip": true,
           "fill": "#121212",
           "stroke": {
-           "color": "plateInk@0.16",
+           "color": "ink@0.16",
            "width": 0.8
           },
           "shadow": {
@@ -223,7 +228,8 @@
             "place": "top-center",
             "dy": 6
            }
-          ]
+          ],
+          "on": "dark"
          },
          {
           "type": "spacer",
@@ -247,7 +253,7 @@
           "clip": true,
           "fill": "#121212",
           "stroke": {
-           "color": "plateInk@0.16",
+           "color": "ink@0.16",
            "width": 0.8
           },
           "shadow": {
@@ -277,7 +283,8 @@
             "place": "top-center",
             "dy": 6
            }
-          ]
+          ],
+          "on": "dark"
          },
          {
           "type": "spacer",
@@ -301,7 +308,7 @@
           "clip": true,
           "fill": "#121212",
           "stroke": {
-           "color": "plateInk@0.16",
+           "color": "ink@0.16",
            "width": 0.8
           },
           "shadow": {
@@ -331,7 +338,8 @@
             "place": "top-center",
             "dy": 6
            }
-          ]
+          ],
+          "on": "dark"
          },
          {
           "type": "spacer",
@@ -355,7 +363,7 @@
           "clip": true,
           "fill": "#121212",
           "stroke": {
-           "color": "plateInk@0.16",
+           "color": "ink@0.16",
            "width": 0.8
           },
           "shadow": {
@@ -385,7 +393,8 @@
             "place": "top-center",
             "dy": 6
            }
-          ]
+          ],
+          "on": "dark"
          },
          {
           "type": "spacer",

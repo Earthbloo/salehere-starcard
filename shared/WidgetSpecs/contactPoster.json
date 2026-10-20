@@ -42,7 +42,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "โปสเตอร์ติดต่อ · แปลงจาก ContactPosterWidget.swift (CP + ContactPosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น + หมึกครีม `plateInk` · ชิปครีมทึบ `plateInk@0.94` หมึกในชิป `plate` ไอคอน `plate@0.72` · แผ่นสีเดียว (hue sat 0.62 bri 0.34) สว่างกว่า `plate` (0.255) ไม่มี token → `plate` + `rawAccent@0.11` ทับ (เฉพาะ !duo · คู่สี = duo.dark = `plate` ตรง) · หมึกในชิป (hue .78/.18) → `plate` · `pane`/`clear` = ไม่มีแผ่น หมึก `ink@0.95` · ชิป `fill@0.12` + เส้น `line@0.26` · หมึกในชิป `ink@0.95` · ไอคอน `ink@0.72` · ของบนแผ่นกว้าง 366 จัดกลาง · พาดหัว 'Contact' เซริฟเอียง 20.9 / 'ME' black 33 ซ้อน −6.6 (22, 17.6) · ชิปสามใบ (lineId · phone · website · y 96 ห่าง 9) · รูป: ผังโหมดกรอบ (รูปทึบ · ซิมไม่มี Vision) กว้าง 154 สูง 62% มุม 16 ชิดขวาล่าง ถอย 13.2/15.4 · ไอคอน SF message.fill/phone.fill/globe → ph:chat-circle-fill · ic-phoneCall-outline (Phosphor ชุดที่ฝังไม่มี phone/globe) · ph:link · ไม่มี: ผังคัตเอาต์ (สูง 80% ชิดขวาล่าง ล้น 16.5/9.5) สลับตามมีรูปตัดพื้น · เงาคนตอนไม่มีแผ่น · เกล็ด/ลายแผ่น · ป้ายสถานะ",
  "root": {
@@ -54,20 +55,20 @@
    {
     "type": "rect",
     "id": "plate",
-    "fill": "plate",
+    "fill": "bg",
     "if": "papered"
    },
    {
     "type": "rect",
     "id": "plateLift",
-    "fill": "rawAccent@0.11",
-    "if": "papered & !duo"
+    "fill": "accent@0.11",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
     "if": "papered",
-    "platePattern": "plate"
+    "platePattern": "bg"
    },
    {
     "type": "stack",
@@ -94,7 +95,7 @@
         "face": "noto",
         "weight": 400,
         "size": 20.9,
-        "color": "plateInk",
+        "color": "ink",
         "maxLines": 1
        },
        {
@@ -105,7 +106,7 @@
         "weight": 900,
         "size": 33,
         "tracking": 0.4,
-        "color": "plateInk",
+        "color": "ink",
         "maxLines": 1
        }
       ]
@@ -129,7 +130,8 @@
         "weight": 400,
         "size": 20.9,
         "color": "ink@0.95",
-        "maxLines": 1
+        "maxLines": 1,
+        "on": "card"
        },
        {
         "type": "text",
@@ -140,7 +142,8 @@
         "size": 33,
         "tracking": 0.4,
         "color": "ink@0.95",
-        "maxLines": 1
+        "maxLines": 1,
+        "on": "card"
        }
       ]
      },
@@ -176,13 +179,13 @@
          12
         ],
         "circle": true,
-        "fill": "plateInk@0.94",
+        "fill": "ink@0.94",
         "children": [
          {
           "type": "icon",
           "icon": "ph:chat-circle-fill",
           "size": 13,
-          "tint": "plate@0.72"
+          "tint": "bg@0.72"
          },
          {
           "type": "text",
@@ -190,7 +193,7 @@
           "face": "noto",
           "weight": 600,
           "size": 13.5,
-          "color": "plate",
+          "color": "bg",
           "maxLines": 1,
           "shrinkTo": 10.8,
           "maxW": 135.5
@@ -207,13 +210,13 @@
          12
         ],
         "circle": true,
-        "fill": "plateInk@0.94",
+        "fill": "ink@0.94",
         "children": [
          {
           "type": "icon",
           "icon": "ph:phone-fill",
           "size": 13,
-          "tint": "plate@0.72"
+          "tint": "bg@0.72"
          },
          {
           "type": "text",
@@ -221,7 +224,7 @@
           "face": "noto",
           "weight": 600,
           "size": 13.5,
-          "color": "plate",
+          "color": "bg",
           "maxLines": 1,
           "shrinkTo": 10.8,
           "maxW": 135.5
@@ -238,13 +241,13 @@
          12
         ],
         "circle": true,
-        "fill": "plateInk@0.94",
+        "fill": "ink@0.94",
         "children": [
          {
           "type": "icon",
           "icon": "ph:globe",
           "size": 13,
-          "tint": "plate@0.72"
+          "tint": "bg@0.72"
          },
          {
           "type": "text",
@@ -252,7 +255,7 @@
           "face": "noto",
           "weight": 600,
           "size": 13.5,
-          "color": "plate",
+          "color": "bg",
           "maxLines": 1,
           "shrinkTo": 10.8,
           "maxW": 135.5
@@ -282,13 +285,14 @@
          12
         ],
         "circle": true,
-        "fill": "fill@0.12",
+        "fill": "bg2@0.12",
         "children": [
          {
           "type": "icon",
           "icon": "ph:chat-circle-fill",
           "size": 13,
-          "tint": "ink@0.72"
+          "tint": "ink@0.72",
+          "on": "card"
          },
          {
           "type": "text",
@@ -299,13 +303,15 @@
           "color": "ink@0.95",
           "maxLines": 1,
           "shrinkTo": 10.8,
-          "maxW": 135.5
+          "maxW": 135.5,
+          "on": "card"
          }
         ],
         "stroke": {
          "color": "line@0.26",
          "width": 0.8
-        }
+        },
+        "on": "card"
        },
        {
         "type": "row",
@@ -317,13 +323,14 @@
          12
         ],
         "circle": true,
-        "fill": "fill@0.12",
+        "fill": "bg2@0.12",
         "children": [
          {
           "type": "icon",
           "icon": "ph:phone-fill",
           "size": 13,
-          "tint": "ink@0.72"
+          "tint": "ink@0.72",
+          "on": "card"
          },
          {
           "type": "text",
@@ -334,13 +341,15 @@
           "color": "ink@0.95",
           "maxLines": 1,
           "shrinkTo": 10.8,
-          "maxW": 135.5
+          "maxW": 135.5,
+          "on": "card"
          }
         ],
         "stroke": {
          "color": "line@0.26",
          "width": 0.8
-        }
+        },
+        "on": "card"
        },
        {
         "type": "row",
@@ -352,13 +361,14 @@
          12
         ],
         "circle": true,
-        "fill": "fill@0.12",
+        "fill": "bg2@0.12",
         "children": [
          {
           "type": "icon",
           "icon": "ph:globe",
           "size": 13,
-          "tint": "ink@0.72"
+          "tint": "ink@0.72",
+          "on": "card"
          },
          {
           "type": "text",
@@ -369,13 +379,15 @@
           "color": "ink@0.95",
           "maxLines": 1,
           "shrinkTo": 10.8,
-          "maxW": 135.5
+          "maxW": 135.5,
+          "on": "card"
          }
         ],
         "stroke": {
          "color": "line@0.26",
          "width": 0.8
-        }
+        },
+        "on": "card"
        }
       ]
      }

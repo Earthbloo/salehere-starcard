@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "glass",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระจก) — ชื่อยักษ์ + รูป 42% + คอลัมน์ @handle/พื้นที่รับงาน/VERIFIED ในกล่องกระจกใบเดียว · แปลงจาก PopWidgets.swift (PopHero + PopSheet ไม่มีป้าย) · ใบวาดแผ่นเอง (drawsOwnSurface) เว้นขอบ 4 ให้เงา · กระจกจริงใช้ไล่สีขอบขาว ที่นี่เป็น stroke ขาวจาง · สี: ถ่านคงที่ pop.ink · ชมพู rawAccent/rawAccentSoft · แผ่น pop.sheet ตาม surface + ประกายขอบเฉพาะ glass + ขอบชมพูเมื่อ bordered · @ กับ handle เป็นสองข้อความ (ต้นฉบับข้อความเดียว ย่อพร้อมกัน)",
  "root": {
@@ -29,13 +30,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 20,
     "shadow": {
      "x": 0,
      "sigma": 4.5,
      "y": 5,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -54,7 +55,7 @@
       "if": "bordered",
       "radius": 20,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -84,7 +85,7 @@
         "kerning": -0.5,
         "maxLines": 1,
         "shrinkTo": 29.5,
-        "color": "pop.ink",
+        "color": "ink",
         "w": "fill"
        },
        {
@@ -101,7 +102,7 @@
           "w": 100,
           "radius": 14,
           "stroke": {
-           "color": "rawAccentSoft",
+           "color": "accent@0.6",
            "width": 2.5
           }
          },
@@ -144,7 +145,7 @@
                 "face": "noto",
                 "weight": 500,
                 "size": 11.5,
-                "color": "pop.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrink": 0
                },
@@ -155,7 +156,7 @@
                 "face": "noto",
                 "weight": 500,
                 "size": 11.5,
-                "color": "pop.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 6.5
                }
@@ -165,14 +166,14 @@
               "type": "rect",
               "w": 0.8,
               "h": 15,
-              "fill": "pop.ink@0.5",
+              "fill": "ink@0.5",
               "if": "has:stat:creatorKind"
              },
              {
               "type": "icon",
               "icon": "ph:user-fill",
               "size": 11,
-              "tint": "pop.ink",
+              "tint": "ink",
               "if": "has:stat:creatorKind"
              },
              {
@@ -180,7 +181,7 @@
               "face": "noto",
               "weight": 500,
               "size": 11.5,
-              "color": "pop.ink",
+              "color": "ink",
               "maxLines": 1,
               "shrink": 0,
               "slot": "stat:creatorKind",
@@ -209,7 +210,7 @@
                 "face": "noto",
                 "weight": 700,
                 "size": 11,
-                "color": "pop.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrink": 0
                },
@@ -220,7 +221,7 @@
                 "face": "noto",
                 "weight": 400,
                 "size": 11,
-                "color": "pop.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 7.7,
                 "grow": 1
@@ -230,7 +231,7 @@
              {
               "type": "line",
               "h": 1,
-              "fill": "pop.ink@0.85"
+              "fill": "ink@0.85"
              }
             ]
            },

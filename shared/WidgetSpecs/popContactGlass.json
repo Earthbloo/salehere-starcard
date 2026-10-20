@@ -16,7 +16,8 @@
    "dim"
   ],
   "skin": "glass",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ช่องทางติดต่อสามแถว (กระจก) — ป้ายแท็บกว้าง 'ช่องทางติดต่อ' · LINE · โทร · เว็บ แต่ละช่องเป็นเม็ดยาขาวขอบชมพู ไอคอนในวงดำ (LINE วงเขียว) · แปลงจาก PopWidgets.swift (PopContact + PopSheet wide) · แถวตาม ContactLine.all (lineId phone website)",
  "root": {
@@ -33,13 +34,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 20,
     "shadow": {
      "x": 0,
      "sigma": 4.5,
      "y": 5,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -58,7 +59,7 @@
       "if": "bordered",
       "radius": 20,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -88,7 +89,7 @@
         "fill": "white",
         "circle": true,
         "stroke": {
-         "color": "rawAccent@0.6",
+         "color": "accent@0.6",
          "width": 2
         },
         "children": [
@@ -121,7 +122,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -144,7 +145,7 @@
         "fill": "white",
         "circle": true,
         "stroke": {
-         "color": "rawAccent@0.6",
+         "color": "accent@0.6",
          "width": 2
         },
         "children": [
@@ -156,7 +157,7 @@
            {
             "type": "rect",
             "circle": true,
-            "fill": "pop.ink"
+            "fill": "ink"
            },
            {
             "type": "icon",
@@ -173,7 +174,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -196,7 +197,7 @@
         "fill": "white",
         "circle": true,
         "stroke": {
-         "color": "rawAccent@0.6",
+         "color": "accent@0.6",
          "width": 2
         },
         "children": [
@@ -208,7 +209,7 @@
            {
             "type": "rect",
             "circle": true,
-            "fill": "pop.ink"
+            "fill": "ink"
            },
            {
             "type": "icon",
@@ -225,7 +226,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -259,7 +260,7 @@
          8
         ],
         "align": "center",
-        "fill": "rawAccent",
+        "fill": "accent",
         "radius": 12,
         "children": [
          {
@@ -276,7 +277,7 @@
             "type": "icon",
             "icon": "ph:user-fill",
             "size": 11,
-            "tint": "rawAccent",
+            "tint": "accent",
             "place": "center"
            }
           ]

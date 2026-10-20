@@ -79,7 +79,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สัดส่วน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bodyGrid) · ช่อง height/weight/bust/waist/hips/shoe (ค่ามีหน่วยติดมา เช่น '165 ซม.') · ซ่อนด้วย hidden:h|w|g|s · ผังตายตัว: แถวคู่ ส่วนสูง+น้ำหนัก · รอบตัว · รองเท้า (ต้นฉบับจับคู่ช่องเล็กใหม่เมื่อซ่อนบางช่อง — ที่นี่ช่องที่เหลือกินเต็มแถว) · รอบตัว = สามช่องคั่นด้วย / (ต้นฉบับรวมเป็นสตริงเดียวและซ่อนหน่วยซ้ำ) เปิดเมื่อมี bust · กลางคืน: หน่วยอยู่ในตัวเลขใหญ่ (ต้นฉบับแยกบรรทัดเล็ก) · แถวคู่ยังกินที่เมื่อซ่อนทั้งสองช่อง",
  "root": {
@@ -90,7 +91,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -104,7 +105,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -135,7 +136,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -149,7 +150,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 6,
@@ -177,7 +178,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -191,7 +192,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 12,
           "shadow": {
            "sigma": 6,
@@ -225,7 +226,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "if": "!cfg:fill=clear"
        },
        {
@@ -290,7 +291,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 9,
           "textAlign": "center",
@@ -336,7 +337,7 @@
            "children": [
             {
              "type": "line",
-             "fill": "kit.ink@0.1",
+             "fill": "ink@0.1",
              "if": "!$i=first"
             },
             {
@@ -347,7 +348,7 @@
                "face": "noto",
                "size": 13,
                "weight": 400,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "slot": "$label"
               },
@@ -366,7 +367,7 @@
                  "face": "noto",
                  "size": 15,
                  "weight": 600,
-                 "color": "kit.accent",
+                 "color": "accent",
                  "maxLines": 1,
                  "shrinkTo": 9
                 },
@@ -376,7 +377,7 @@
                  "face": "noto",
                  "size": 11.5,
                  "weight": 400,
-                 "color": "kit.accent",
+                 "color": "accent",
                  "maxLines": 1,
                  "if": "$unit"
                 }
@@ -423,7 +424,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       },
       "radius": 12,
@@ -441,7 +442,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 3,
@@ -456,7 +457,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 12,

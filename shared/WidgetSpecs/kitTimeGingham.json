@@ -74,7 +74,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -89,7 +90,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20
      },
      {
@@ -128,7 +129,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -163,7 +164,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -213,7 +214,7 @@
         "id": "border",
         "radius": 13,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         }
        }
@@ -239,7 +240,7 @@
           "id": "border",
           "radius": 13,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -261,7 +262,7 @@
           "id": "border",
           "radius": 2,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -285,7 +286,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 13.3,

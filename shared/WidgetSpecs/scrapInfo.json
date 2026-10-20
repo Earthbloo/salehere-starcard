@@ -15,7 +15,8 @@
   "order": 67,
   "ownSurface": true,
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก 07 บัตรข้อมูลของฉัน — วัตถุลอย (ไม่มีแผ่น) · การ์ดครีม #FFFDF8 มุม 3 เอียง -2 เงาเฉดแผ่น กว้างเต็มเว้น 10 (col ห่อ) สูง 212: เส้นสมุด #C8D6E8 ทุก 28.5 เริ่ม 54 · เส้นขอบชมพู #F09AB0 ที่ x 26 · หัว 'ข้อมูล' ดำหนัก 18 + 'ของฉัน' มิตรชมพู · แถวสูง 28.5 ชิดล่าง: ป้าย 7 สี #A86A84 กว้าง 36 + ค่า มิตร 12 — ชื่อเล่น (nickname) · อยู่ (workArea) · สาย (categories#0 · categories#1) · แถวที่ไม่มีค่าหายไป (if has:) · คลิปหนีบดำกลางบน · แปลงจาก ScrapbookWidgets.swift (ScrapInfoWidget) · ใช้ไม่ได้: แถว 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · เส้นสมุดยาวตามความสูงจริง (วาดตายตัว 6 เส้น)",
  "root": {
@@ -43,7 +44,7 @@
       "shadow": {
        "sigma": 4,
        "y": 8,
-       "color": "scrap.shade@0.2"
+       "color": "black@0.2"
       },
       "children": [
        {
@@ -120,7 +121,7 @@
             "face": "mitr",
             "weight": 400,
             "size": 18,
-            "color": "scrap.paperAccent",
+            "color": "accent",
             "maxLines": 1
            }
           ]

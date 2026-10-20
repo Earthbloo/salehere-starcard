@@ -67,7 +67,7 @@ enum BaselineExport {
 
         let m = WidgetMatrixExport.margin
         var paper = WidgetMatrixExport.baseTheme; paper.ink = "paper"
-        var duo = WidgetMatrixExport.baseTheme; duo.duo = "indigo"; duo.duoFlipped = false
+        var duo = WidgetMatrixExport.baseTheme; duo.colors = .init(primary: "#282B4A", secondary: "#EEEBDA")
         let only = env["BASELINE_ONLY"].flatMap { $0.isEmpty ? nil : $0.split(separator: ",").map(String.init) }
         for kind in kinds {
             if let only, !only.contains(kind.rawValue) { continue }

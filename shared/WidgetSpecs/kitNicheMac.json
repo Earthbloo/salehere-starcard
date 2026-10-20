@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
  "root": {
@@ -74,7 +75,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -88,7 +89,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -119,7 +120,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -133,7 +134,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 6,
@@ -161,7 +162,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -175,7 +176,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 12,
           "shadow": {
            "sigma": 6,
@@ -209,7 +210,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "if": "!cfg:fill=clear"
        },
        {
@@ -274,7 +275,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 9,
           "textAlign": "center",
@@ -317,7 +318,7 @@
              "face": "noto",
              "size": 12.5,
              "weight": 500,
-             "color": "kit.ink",
+             "color": "ink",
              "maxLines": 1
             }
            ],
@@ -325,7 +326,7 @@
             5,
             11
            ],
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 7
           },
           "where": "!hidden:$text",
@@ -365,7 +366,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       },
       "radius": 12,
@@ -383,7 +384,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 3,
@@ -398,7 +399,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 12,

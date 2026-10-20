@@ -16,7 +16,8 @@
    "dim"
   ],
   "skin": "paper",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ช่องทางติดต่อสามแถว (กระดาษ) — ป้ายแท็บดำกว้าง 'ช่องทางติดต่อ' · แต่ละช่องเป็นกล่องขาวขอบเทามุมเล็ก ไอคอนในวงดำ (LINE วงเขียว) · แปลงจาก PopWidgets.swift (PopContact + PopSheet wide สกิน paper) · แถวตาม ContactLine.all (lineId phone website)",
  "root": {
@@ -33,13 +34,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 5,
     "shadow": {
      "x": 0,
      "sigma": 2.5,
      "y": 4,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -58,7 +59,7 @@
       "if": "bordered",
       "radius": 5,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -88,7 +89,7 @@
         "fill": "white",
         "radius": 4,
         "stroke": {
-         "color": "pop.rule",
+         "color": "line",
          "width": 0.8
         },
         "children": [
@@ -121,7 +122,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -144,7 +145,7 @@
         "fill": "white",
         "radius": 4,
         "stroke": {
-         "color": "pop.rule",
+         "color": "line",
          "width": 0.8
         },
         "children": [
@@ -156,7 +157,7 @@
            {
             "type": "rect",
             "circle": true,
-            "fill": "pop.ink"
+            "fill": "ink"
            },
            {
             "type": "icon",
@@ -173,7 +174,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -196,7 +197,7 @@
         "fill": "white",
         "radius": 4,
         "stroke": {
-         "color": "pop.rule",
+         "color": "line",
          "width": 0.8
         },
         "children": [
@@ -208,7 +209,7 @@
            {
             "type": "rect",
             "circle": true,
-            "fill": "pop.ink"
+            "fill": "ink"
            },
            {
             "type": "icon",
@@ -225,7 +226,7 @@
           "face": "noto",
           "weight": 500,
           "size": 12,
-          "color": "pop.ink",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 7.2,
           "grow": 1
@@ -259,7 +260,7 @@
          8
         ],
         "align": "center",
-        "fill": "pop.ink",
+        "fill": "ink",
         "radius": 3,
         "rotate": -2,
         "children": [
@@ -277,7 +278,7 @@
             "type": "icon",
             "icon": "ph:user-fill",
             "size": 11,
-            "tint": "pop.ink",
+            "tint": "ink",
             "place": "center"
            }
           ]

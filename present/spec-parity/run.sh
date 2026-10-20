@@ -25,6 +25,8 @@ fi
 # Android บนเครื่อง: ติดตั้ง · ส่ง fixture ของ iOS เข้า filesDir · ส่งออก
 (cd "$ROOT/StarCardAndroid" && ./gradlew :app:installDebug -q)
 COPYFILE_DISABLE=1 tar -C "$IOS" -cf - fixtures | $A shell "run-as $PKG sh -c 'rm -rf files/ios-fixtures && mkdir -p files/ios-fixtures && tar -xf - -C files/ios-fixtures --strip-components=1'"
+# ล้างผลรอบก่อนในเครื่อง — ไม่งั้น sheet.png เก่าทำให้ลูปรอข้างล่างผ่านทันทีแล้วก๊อปผลที่ยังส่งออกไม่ครบ (21 ต.ค. 2569: เทียบได้แค่ 85/122)
+$A shell "run-as $PKG rm -rf files/Specs" 2>/dev/null || true
 $A shell am start -S -n $PKG/.MainActivity --es exportSpecs 1 >/dev/null
 sleep 20
 for i in $(seq 1 240); do $A exec-out run-as $PKG ls files/Specs 2>/dev/null | grep -q sheet.png && break; sleep 5; done

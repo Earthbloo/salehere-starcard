@@ -223,9 +223,9 @@ object SpecExport {
 
 /** ธีมของแผ่นทดสอบ (= `WidgetMatrixExport.baseTheme` ของ iOS) */
 object WidgetMatrixBase {
+    /** midnight โทนมืด (= `Palette.midnight.dark` · `DEFAULT_PRIMARY` ของเว็บ) — doc เก็บ hex ไม่ใช่ชื่อ */
     val theme = CardSnapshot.Theme(
-        palette = "midnight", ink = "night", corner = "round", backdrop = "solid",
-        brightness = 0.3, hueShift = 0.0, inkAuto = false, strip = "line",
+        colors = CardSnapshot.Colors(primary = "#1A1F35"), ink = "night", backdrop = "solid",
     )
 }
 
@@ -347,7 +347,7 @@ fun SpecExporter(onDone: () -> Unit) {
             for ((name, size) in SpecExport.probes(spec)) plan.add(Triple(name, SpecExport.instance(kind, size), null))
             for ((name, w, cfg) in plan) {
                 val own = AndroidSpecData(sample = true, widget = SpecExport.fixedID,
-                    kit = cfg ?: KitConfig(), border = cfg?.let { w.border } ?: false)
+                    kit = cfg ?: KitConfig(), border = cfg?.let { w.border } ?: false, kitDark = spec.widget?.on == "dark")
                 val iosCase = ios?.get(name)
                 // ข้อมูลที่ iOS ใช้วาดจริง (เล่นซ้ำ) — ไม่มี fixture ก็ใช้ของแอปเอง
                 val data: SpecDataSource = iosCase?.let { ReplayData(it["data"]!!.jsonObject, fallback = own) } ?: own

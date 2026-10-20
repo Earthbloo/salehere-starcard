@@ -1,0 +1,56 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>สีของ widget: 40 ชื่อ → 6 บทบาท × 3 พื้น</title>
+<style>
+:root{--ink:#1b1b1d;--mut:#6b6b70;--line:#e4e4e8;--bg:#fafafa;--acc:#2f3fb8}
+body{margin:0;padding:24px 16px 64px;font-family:-apple-system,"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+h1{font-size:26px;margin:0 0 6px} h2{font-size:18px;margin:36px 0 10px} p{margin:6px 0;max-width:820px} code{background:#eee;padding:1px 6px;border-radius:6px}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;max-width:980px;margin:18px 0}
+.step{border:1px solid var(--line);border-radius:14px;background:#fff;padding:14px 16px} .step b{display:block;font-size:15px} .step .n{font-size:34px;font-weight:700;line-height:1;margin:6px 0} .step small{color:var(--mut)}
+.arrow{align-self:center;font-size:26px;color:var(--mut)}
+.surf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:980px} .surf div{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff} .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px;border:1px solid #0002}
+.roles{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0} .roles span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 10px;font-size:13px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0} .stats span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px} figcaption{font-size:13px;margin-bottom:6px;display:flex;justify-content:space-between}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px} .pair img{width:100%;height:auto;border-radius:8px;background:#111} .pair small{display:block;color:var(--mut);font-size:11px;margin-bottom:3px}
+.same{color:#2a7a3b} .small{color:#8a6a00} .big{color:#b03030}
+</style></head><body>
+<h1>สีของ widget เปลี่ยนจากเดิมยังไง</h1>
+<p>20 ต.ค. 2569 · JSON widget 122 ไฟล์ · iOS · Android · เว็บ ใช้ตัวแปลงสีเดียวกัน · ตำแหน่ง/ขนาดไม่ขยับ (ตัวเลข layout เท่าเดิมทุก byte 122/122)</p>
+<div class="flow">
+ <div class="step"><b>เดิม (14 ต.ค.)</b><div class="n">40</div><small>ชื่อสี ตั้งตามชุด widget: <code>kit.fill</code> <code>scrap.band</code> <code>ed.marker</code> <code>plateInk</code> … แต่ละชุดมีสูตรสีของตัวเองในโค้ด</small></div>
+ <div class="arrow">→</div>
+ <div class="step"><b>รอบ 1 (20 ต.ค. เช้า)</b><div class="n">6 × 6</div><small>6 บทบาท × 6 พื้น (card · plate · paper · kit · pop · scrap) ชื่อชุดย้ายไปอยู่ที่ "พื้น" — ภาพเหมือนเดิม 96/122</small></div>
+ <div class="arrow">→</div>
+ <div class="step"><b>รอบ 2 (20 ต.ค. เย็น · ตอนนี้)</b><div class="n">6 × 3</div><small>6 บทบาท × 3 พื้น (card · light · dark) กระดาษทุกใบมาจากธีมเดียวกัน — สไตล์ใหม่ = JSON ล้วน ไม่ต้อง build</small></div>
+</div>
+<h2>6 บทบาท</h2>
+<div class="roles"><span><code>bg</code> พื้นของใบ</span><span><code>bg2</code> พื้นชั้นสอง กล่องย่อย/ชิป</span><span><code>ink</code> ตัวหนังสือ</span><span><code>ink2</code> หมึกจาง</span><span><code>accent</code> สีเน้น</span><span><code>line</code> เส้น</span><span>+ <code>white</code> <code>black</code> <code>clear</code> <code>#hex</code> · <code>@ความทึบ</code></span></div>
+<h2>3 พื้น (ค่า <code>on</code> ใน JSON)</h2>
+<div class="surf">
+ <div><b><code>card</code> นั่งบนการ์ด</b> · 39 ใบ<br><small>หมึกผ่านตัวยันความอ่านออกของธีม สีเน้น = สีเน้นของการ์ด</small></div>
+ <div><b><code>light</code> แผ่นสว่าง</b> · 64 ใบ<br><small>กระดาษครีมอมเฉดของการ์ด · หมึกถ่านอมเฉด · คู่สี = สีอ่อน/สีเข้มของคู่<br>(เดิมคือ กระดาษบรรณาธิการ · แผ่น Canva · กล่องสติกเกอร์ · สแครปบุ๊ก)</small></div>
+ <div><b><code>dark</code> แผ่นเข้ม</b> · 19 ใบ<br><small>แผ่นอิ่มสีของโปสเตอร์ · หมึกครีม · คู่สี = สีเข้ม/สีอ่อนของคู่<br>(เดิมคือ โปสเตอร์ + Canva แบบกลางคืน)</small></div>
+</div>
+<h2>ผลต่อภาพ (122 widget ที่กรอบออกแบบ)</h2>
+<div class="stats"><span class="same">เหมือนเดิม 32</span><span class="small">ต่างเล็กน้อย &lt;5%: 25</span><span class="big">เปลี่ยนสีชัด ≥5%: 65</span></div>
+<p>ใบที่เปลี่ยนชัดคือใบบนพื้นสว่าง · Canva กลางคืน · และใบที่เคยมีกระดาษสี hex ตายตัว (บรรณาธิการ โปสเตอร์): กระดาษของตัวเองกลายเป็นกระดาษของธีม · กติกาเพิ่ม: ใบที่ไม่ได้วาดแผ่น (ไม่มีพื้น/โปร่ง) ใช้สีของ card (ภาพเทียบรายใบทั้งหมดอยู่ใน <code>report.html</code>)</p>
+<h2>พื้น <code>card</code> · นั่งบนการ์ด</h2><div class="grid"><figure><figcaption><b>artPortfolio</b> <span class="small">ต่าง 4%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-artPortfolio-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-artPortfolio-design.png"></div></div></figure><figure><figcaption><b>nicheTags</b> <span class="same">เหมือนเดิม</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-nicheTags-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-nicheTags-design.png"></div></div></figure></div><h2>พื้น <code>dark</code> · แผ่นเข้ม</h2><div class="grid"><figure><figcaption><b>statPoster</b> <span class="small">ต่าง 2%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-statPoster-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-statPoster-design.png"></div></div></figure><figure><figcaption><b>nichePoster</b> <span class="same">เหมือนเดิม</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-nichePoster-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-nichePoster-design.png"></div></div></figure><figure><figcaption><b>kitBioNight</b> <span class="small">ต่าง 0%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitBioNight-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitBioNight-design.png"></div></div></figure><figure><figcaption><b>kitProfileNight</b> <span class="same">เหมือนเดิม</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitProfileNight-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitProfileNight-design.png"></div></div></figure></div><h2>พื้น <code>light</code> · แผ่นสว่าง</h2><div class="grid"><figure><figcaption><b>kitBioCream</b> <span class="big">ต่าง 99%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitBioCream-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitBioCream-design.png"></div></div></figure><figure><figcaption><b>kitBioGingham</b> <span class="big">ต่าง 20%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitBioGingham-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitBioGingham-design.png"></div></div></figure><figure><figcaption><b>kitBioMac</b> <span class="big">ต่าง 99%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitBioMac-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitBioMac-design.png"></div></div></figure><figure><figcaption><b>kitBioPurple</b> <span class="big">ต่าง 100%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-kitBioPurple-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-kitBioPurple-design.png"></div></div></figure><figure><figcaption><b>popNicheGlass</b> <span class="big">ต่าง 88%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-popNicheGlass-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-popNicheGlass-design.png"></div></div></figure><figure><figcaption><b>popHeroGlass</b> <span class="big">ต่าง 81%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-popHeroGlass-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-popHeroGlass-design.png"></div></div></figure><figure><figcaption><b>popContactPaper</b> <span class="big">ต่าง 40%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-popContactPaper-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-popContactPaper-design.png"></div></div></figure><figure><figcaption><b>scrapKeyTab</b> <span class="big">ต่าง 42%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-scrapKeyTab-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-scrapKeyTab-design.png"></div></div></figure><figure><figcaption><b>scrapAbout</b> <span class="small">ต่าง 5%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-scrapAbout-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-scrapAbout-design.png"></div></div></figure><figure><figcaption><b>aboutEditorial</b> <span class="big">ต่าง 7%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-aboutEditorial-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-aboutEditorial-design.png"></div></div></figure><figure><figcaption><b>wallPolaroid</b> <span class="small">ต่าง 2%</span></figcaption>
+<div class="pair"><div><small>ก่อน (6 พื้น)</small><img src="before/cell-wallPolaroid-design.png"></div><div><small>หลัง (3 พื้น)</small><img src="after/cell-wallPolaroid-design.png"></div></div></figure></div>
+</body></html>

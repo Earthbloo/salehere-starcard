@@ -80,7 +80,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
  "root": {
@@ -91,7 +92,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -105,7 +106,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -136,7 +137,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -150,7 +151,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 6,
@@ -178,7 +179,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -192,7 +193,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 12,
           "shadow": {
            "sigma": 6,
@@ -226,7 +227,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "if": "!cfg:fill=clear"
        },
        {
@@ -291,7 +292,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 1,
           "shrinkTo": 9,
           "textAlign": "center",
@@ -337,7 +338,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1
                },
                {
@@ -352,7 +353,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1,
                    "if": "!$i=first"
                   },
@@ -362,7 +363,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1
                   },
                   {
@@ -371,7 +372,7 @@
                    "face": "noto",
                    "size": 13,
                    "weight": 700,
-                   "color": "kit.accent",
+                   "color": "accent",
                    "maxLines": 1
                   }
                  ],
@@ -412,7 +413,7 @@
             "children": [
              {
               "type": "line",
-              "fill": "kit.ink@0.1"
+              "fill": "ink@0.1"
              },
              {
               "type": "row",
@@ -423,7 +424,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 10.4
                },
@@ -444,7 +445,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1,
                    "if": "!$i=first"
                   },
@@ -454,7 +455,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1
                   },
                   {
@@ -463,7 +464,7 @@
                    "face": "noto",
                    "size": 13,
                    "weight": 700,
-                   "color": "kit.accent",
+                   "color": "accent",
                    "maxLines": 1
                   }
                  ],
@@ -500,7 +501,7 @@
             "children": [
              {
               "type": "line",
-              "fill": "kit.ink@0.1"
+              "fill": "ink@0.1"
              },
              {
               "type": "row",
@@ -511,7 +512,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 10.4
                },
@@ -532,7 +533,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1,
                    "if": "!$i=first"
                   },
@@ -542,7 +543,7 @@
                    "face": "noto",
                    "size": 12,
                    "weight": 400,
-                   "color": "kit.mut",
+                   "color": "ink2",
                    "maxLines": 1
                   },
                   {
@@ -551,7 +552,7 @@
                    "face": "noto",
                    "size": 13,
                    "weight": 700,
-                   "color": "kit.accent",
+                   "color": "accent",
                    "maxLines": 1
                   }
                  ],
@@ -588,7 +589,7 @@
             "children": [
              {
               "type": "line",
-              "fill": "kit.ink@0.1"
+              "fill": "ink@0.1"
              },
              {
               "type": "row",
@@ -599,7 +600,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 10.4
                },
@@ -616,7 +617,7 @@
                   "face": "noto",
                   "size": 13,
                   "weight": 700,
-                  "color": "kit.accent",
+                  "color": "accent",
                   "maxLines": 1,
                   "slot": "stat:reach"
                  },
@@ -626,7 +627,7 @@
                   "face": "noto",
                   "size": 12,
                   "weight": 400,
-                  "color": "kit.mut",
+                  "color": "ink2",
                   "maxLines": 1
                  }
                 ],
@@ -680,7 +681,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       },
       "radius": 12,
@@ -698,7 +699,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 3,
@@ -713,7 +714,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1
         },
         "radius": 12,

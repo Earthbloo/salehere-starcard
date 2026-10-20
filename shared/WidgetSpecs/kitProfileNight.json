@@ -57,7 +57,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "ชุดห้าสไตล์ 01 รูปโปรไฟล์ — แปลงจาก KitWidgets.swift (KitShell + KitContent.profile) · root = ม่วงสติกเกอร์ · variants = cfg:style ครีม/ตาราง/กลางคืน/Mac · ใบวาดพื้นเอง (drawsOwnSurface) ผังจึงวาดแผ่น ขอบ มุม เงา เอง · มุม 'เหลี่ยม' = 3 เฉพาะเมื่อมีขอบ (KitLook.square) · ไล่สี = white@0.25→black@0.22 ทับสีพื้น (shade ±) · รูปโปรไฟล์โตตามความสูง (row h=fill + aspect 1) · สายงาน = categories 2 ชิ้นคั่น · (ไม่ได้ตัดอีโมจิหน้าชื่อหมวด) · แฮนเดิล = ช่องที่ฟอลโลว์สูงสุด — opt:chan เลือกช่องไม่มีเงื่อนไขเทียบ $platform จึงยังเลือกไม่ได้ · ม่วง: เงาเยื้อง 5 กินที่ขวา/ล่างเสมอ (Swift กินเฉพาะเมื่อมีขอบ+ไม่โปร่ง) · ตราง: การ์ดขาวเว้น 11 เสมอ (Swift โปร่ง = 0) · กลางคืน: มุมนีออน = แท่งแคปซูล 8 แท่ง ไม่มีโค้งที่มุม · Mac: แถบหน้าต่าง = black@0.055 ทับพื้น (โปร่ง: Swift ใช้ #ECECEC ทึบ) · ไม่มี SaleHereByline (ไม่มีธง stamped)",
  "root": {
@@ -72,7 +73,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 16
      },
      {
@@ -99,7 +100,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16
        },
        {
@@ -122,7 +123,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -149,7 +150,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 6,
       "dy": 4.5
@@ -159,7 +160,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 4.5,
       "dy": 6
@@ -169,7 +170,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -6,
       "dy": 4.5
@@ -179,7 +180,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -4.5,
       "dy": 6
@@ -189,7 +190,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 6,
       "dy": -4.5
@@ -199,7 +200,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 4.5,
       "dy": -6
@@ -209,7 +210,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -6,
       "dy": -4.5
@@ -219,7 +220,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -4.5,
       "dy": -6
@@ -242,7 +243,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
@@ -297,7 +298,7 @@
           "face": "noto",
           "size": 17,
           "weight": 700,
-          "color": "kit.ink",
+          "color": "ink",
           "maxLines": 2,
           "id": "name",
           "textAlign": "center",
@@ -321,7 +322,7 @@
              "face": "noto",
              "size": 12.5,
              "weight": 400,
-             "color": "kit.mut",
+             "color": "ink2",
              "maxLines": 1
             },
             {
@@ -330,7 +331,7 @@
              "face": "noto",
              "size": 12.5,
              "weight": 400,
-             "color": "kit.mut",
+             "color": "ink2",
              "maxLines": 1
             }
            ]
@@ -348,7 +349,7 @@
             "face": "noto",
             "size": 12.5,
             "weight": 400,
-            "color": "kit.mut",
+            "color": "ink2",
             "maxLines": 1,
             "textAlign": "center",
             "w": "fill"
@@ -368,7 +369,7 @@
            "face": "noto",
            "size": 11.5,
            "weight": 400,
-           "color": "kit.mut",
+           "color": "ink2",
            "maxLines": 1
           }
          },
@@ -388,7 +389,7 @@
               "face": "noto",
               "size": 11.5,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              },
              {
@@ -397,7 +398,7 @@
               "face": "noto",
               "size": 11.5,
               "weight": 400,
-              "color": "kit.mut",
+              "color": "ink2",
               "maxLines": 1
              }
             ]

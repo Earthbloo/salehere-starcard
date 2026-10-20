@@ -24,7 +24,8 @@
   },
   "photo": true,
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก 04 ฟีดของฉัน — แผ่นกระดาษโทน (scrap.paper + เม็ดกระดาษสองชั้น = ScrapPaper) วาดเฉพาะ `papered` (ScrapSkin) · ขอบขาวบางเมื่อแผ่นมืด · หน้าต่างขาวมุม 9 เงาเฉดแผ่น กว้างเต็มแผ่นเว้น 18 (col ห่อ): แถบหัว blush (จุดสามสี + พิลขาว salehere.co.th/star/@handle) · แถวโปรไฟล์ (รูป 1 วงกลมขอบ paperAccent · @handle ดำหนัก · tagline · ช่องทางทุกช่องพร้อมยอด ขึ้นบรรทัดเอง · 'ผู้ติดตาม') · รูป 2–5 สี่ช่องเท่ากัน สูง 98 · 'ฟีด' ดำหนัก 46 (Scrap.ink หมึกวัตถุคงที่) + 'ของฉัน' มิตรชมพู 34 เอียงมุมล่างซ้าย · ประกายมุมขวาบน · แปลงจาก ScrapbookWidgets.swift (ScrapFeedWidget) · ใช้ไม่ได้: แถวละ 3 ช่องตายตัว (ใช้ wrap ตามกว้าง) · ขอบขาวรอบตัวอักษร (ใช้ shadow ขาว) · โลโก้เปลือย glyph-tiktok/x/youtube (รายการ socials มีแต่ icon)",
  "root": {
@@ -36,7 +37,7 @@
     "type": "rect",
     "id": "paper",
     "if": "papered",
-    "fill": "scrap.paper"
+    "fill": "bg"
    },
    {
     "type": "rect",
@@ -66,7 +67,7 @@
     "if": "papered & ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.1",
+     "color": "ink@0.1",
      "size": 5.5,
      "width": 1
     }
@@ -77,7 +78,7 @@
     "if": "papered & !ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.06",
+     "color": "ink@0.06",
      "size": 5.5,
      "width": 1
     }
@@ -104,14 +105,14 @@
       "shadow": {
        "sigma": 4.5,
        "y": 8,
-       "color": "scrap.shade@0.2"
+       "color": "black@0.2"
       },
       "children": [
        {
         "type": "row",
         "id": "bar",
         "h": 20,
-        "fill": "scrap.blush",
+        "fill": "bg2",
         "pad": [
          0,
          8
@@ -185,7 +186,7 @@
           "w": 42,
           "h": 42,
           "circle": true,
-          "fill": "scrap.paperAccent",
+          "fill": "accent",
           "pad": 1,
           "children": [
            {
@@ -258,7 +259,7 @@
                "w": 17,
                "h": 17,
                "radius": 5.1,
-               "fill": "scrap.blush",
+               "fill": "bg2",
                "children": [
                 {
                  "type": "icon",
@@ -361,7 +362,7 @@
     "face": "mitr",
     "weight": 400,
     "size": 34,
-    "color": "scrap.paperAccent",
+    "color": "accent",
     "maxLines": 1,
     "w": 120,
     "h": 48,

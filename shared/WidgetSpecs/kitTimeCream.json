@@ -74,7 +74,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -89,7 +90,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "shadow": {
        "sigma": 4.5,
@@ -113,7 +114,7 @@
       "id": "border",
       "radius": 20,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1.5
       }
      }
@@ -131,7 +132,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -155,7 +156,7 @@
         "id": "border",
         "radius": 20,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         }
        }
@@ -169,7 +170,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 4.5,
@@ -193,7 +194,7 @@
         "id": "border",
         "radius": 3,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         }
        }
@@ -217,7 +218,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
@@ -235,7 +236,7 @@
          {
           "type": "rect",
           "id": "block",
-          "fill": "kit.block",
+          "fill": "bg2",
           "radius": 12
          },
          {
@@ -259,7 +260,7 @@
                 "type": "icon",
                 "icon": "ph:calendar-blank",
                 "size": 26,
-                "tint": "kit.mut"
+                "tint": "ink2"
                }
               ]
              },
@@ -274,7 +275,7 @@
                 "face": "noto",
                 "size": 14.5,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1
                },
                {
@@ -290,7 +291,7 @@
                  "face": "noto",
                  "size": 14,
                  "weight": 400,
-                 "color": "kit.mut",
+                 "color": "ink2",
                  "maxLines": 1
                 }
                }
@@ -310,7 +311,7 @@
          {
           "type": "rect",
           "id": "block",
-          "fill": "kit.block",
+          "fill": "bg2",
           "radius": 12
          },
          {
@@ -335,7 +336,7 @@
                 "icon": "ph:map-pin",
                 "w": 22,
                 "h": 28,
-                "tint": "kit.mut"
+                "tint": "ink2"
                }
               ]
              },
@@ -350,7 +351,7 @@
                 "face": "noto",
                 "size": 14.5,
                 "weight": 700,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1
                },
                {
@@ -371,7 +372,7 @@
                   {
                    "type": "rect",
                    "circle": true,
-                   "fill": "kit.mut@0.14"
+                   "fill": "ink2@0.14"
                   },
                   {
                    "type": "col",
@@ -386,7 +387,7 @@
                      "face": "noto",
                      "size": 12.5,
                      "weight": 600,
-                     "color": "kit.ink",
+                     "color": "ink",
                      "maxLines": 1
                     }
                    ]

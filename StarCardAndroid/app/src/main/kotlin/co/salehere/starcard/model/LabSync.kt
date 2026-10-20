@@ -516,6 +516,8 @@ class LabSync private constructor() {
         val mine = build(record)
         lastJSON = encode(mine)
         saveState()
+        // ส่ง echo ให้ viewer เทียบ (21 ต.ค. 2569 — เคยหายไปตอนปรับเป็นซิงก์ตอนสลับเครื่อง): ล้มก็ไม่กระทบการซิงก์ (= iOS)
+        runCatching { echo(mine, remote.rev) }
         // ของที่เพิ่งรับมาไม่ใช่การแก้ของเครื่องนี้ — จำลายเซ็นไว้ ไม่งั้นรอบหน้าจะส่งกลับขึ้นไปเอง
         lastSig = signature()
         pendingSig = null

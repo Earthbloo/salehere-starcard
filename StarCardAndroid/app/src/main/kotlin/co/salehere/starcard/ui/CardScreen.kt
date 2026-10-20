@@ -3221,7 +3221,8 @@ private fun CardEditorState.BackdropTray() {
         }
 
         // มุมกับแถบผู้ออกบัตรไม่ใช่ของที่ต้องถาม — ค่าตั้งต้นของธีมตัดสินให้
-        ToneRow()
+        // แถวโทนมีเฉพาะการ์ดคู่สี (20 ต.ค. 2569) · หมึกของสีเดียว = `autoInk` ตอนเลือกสี
+        if (theme.duoColors != null) ToneRow()
         SignatureRow()
     }
 }
@@ -3298,7 +3299,7 @@ private fun CardEditorState.PalettePresets() {
     ) {
         ColorDuo.all.forEach { d ->
             key(d.id) {
-                val on = theme.duoID == d.id
+                val on = theme.matches(d)
                 DuoDot(
                     duo = d,
                     flipped = on && theme.duoFlipped,
@@ -3316,7 +3317,7 @@ private fun CardEditorState.PalettePresets() {
         }
         Palette.entries.forEach { p ->
             key(p) {
-                val active = theme.palette == p && !theme.hasCustomColor && theme.duoID == null
+                val active = Palette.matching(theme.primary)?.first == p && theme.secondary == null
                 val sc by animateFloatAsState(if (active) 1.1f else 1f, Motion.snap.float, label = "palette")
                 Box(
                     Modifier
@@ -3328,7 +3329,8 @@ private fun CardEditorState.PalettePresets() {
                         .tap {
                             // จำสีที่ตั้งเองไว้ก่อน — สีสำเร็จรูปคือการลองดู ไม่ใช่การทิ้งของเดิม
                             theme.customColor?.let { myColor = it }
-                            setTheme(theme.copy(palette = p).clearBackdropColor())
+                            // พาเลตต์ = ปุ่มลัดที่เขียน hex ลงการ์ด (doc เก็บแค่ `colors.primary`)
+                            setTheme(theme.setPreset(p))
                             Haptics.light()
                         }
                         .background(
@@ -3428,31 +3430,21 @@ private fun CardEditorState.SignatureRow() {
 }
 
 /**
- * โทนหมึก — เหลือสองฝั่ง: มืด · สว่าง
- * พื้นเป็นรูป = ล็อกกลางคืน แถวยังอยู่แต่จาง แตะแล้วบอกเหตุผล
+ * โทนของการ์ดคู่สี — เข้ม · อ่อน = สีไหนของคู่ขึ้นเป็นพื้น (แตะแค่ `ink` ไม่แตะค่าสีใน doc) (= iOS `toneRow`)
+ * สีเดียวไม่มีแถวนี้ (20 ต.ค. 2569): พื้นคือ hex ที่เลือกเป๊ะ หมึกเลือกเองจาก `autoInk` · พื้นเป็นรูป = คู่สีถอยไปแล้ว แถวไม่ขึ้น
  */
 @Composable
 private fun CardEditorState.ToneRow() {
-    val locked = theme.backdrop == BackdropStyle.photo
-    val sel = if (theme.activeInk.isLight) ToneChoice.light else ToneChoice.dark
-    val opts = listOf(segOpt(ToneChoice.dark, "มืด"), segOpt(ToneChoice.light, "สว่าง"))
-    DockRow(label = "โทน", dim = locked) {
+    val sel = if (theme.duoFlipped) ToneChoice.light else ToneChoice.dark
+    val opts = listOf(segOpt(ToneChoice.dark, "เข้ม"), segOpt(ToneChoice.light, "อ่อน"))
+    DockRow(label = "โทน") {
         DockSegment(
             options = opts,
-            selection = if (locked) ToneChoice.dark else sel,
-            dim = locked,
+            selection = sel,
             onPick = { c ->
-                if (locked) {
-                    flash("พื้นเป็นรูป — โทนล็อกเป็นกลางคืนให้ตัวหนังสืออ่านออกบนรูปทุกแบบ")
-                    Haptics.rigid()
-                } else if (theme.duoColors != null) {
-                    // คู่สีมีสองสีอยู่แล้ว — "สว่าง" แปลว่ายกสีอ่อนของคู่ขึ้นมาเป็นพื้น
-                    setTheme(theme.copy(duoFlipped = c == ToneChoice.light))
-                    Haptics.light()
-                } else {
-                    setTheme(theme.copy(inkAuto = false, ink = if (c == ToneChoice.dark) CardInk.night else theme.lightInk))
-                    Haptics.light()
-                }
+                // คู่สีมีสองสีอยู่แล้ว — "อ่อน" คือยกสีอ่อนของคู่ขึ้นมาเป็นพื้น
+                setTheme(theme.flipDuo(light = c == ToneChoice.light))
+                Haptics.light()
             },
         )
     }
@@ -3484,7 +3476,7 @@ private fun CardEditorState.BackdropPhotoSource() {
 
             BackgroundPickButton(theme = theme.toolTheme, onPicked = { tone ->
                 // โทนที่ดูดจากรูปเป็นแค่เฉด ไม่ใช่สีพื้นจริง — ล้างความสว่างที่เคยตั้งเอง
-                setTheme(theme.copy(backdrop = BackdropStyle.photo, customHue = tone?.h, customSat = tone?.s, customBri = null))
+                setTheme(theme.copy(backdrop = BackdropStyle.photo).setBackdropTone(tone?.h, tone?.s))
             })
 
             // ใส่รูปแล้วไม่ชอบต้องมีทางกลับที่เห็นอยู่ตรงนั้น — เอารูปออกแล้วพาไปพื้นไล่เฉดด้วย
@@ -4020,7 +4012,7 @@ private fun CanvasGrid(theme: CardTheme, ink: InkStyle = InkStyle.night, page: S
 @Composable
 private fun InkSwatch(theme: CardTheme, ink: CardInk, modifier: Modifier = Modifier) {
     // ตัวอย่างต้องโชว์หมึกที่ชิปนี้แทน — ปิดโหมดอัตโนมัติ · พื้นรูปบังคับหมึกกลางคืน สลับเป็นไล่เฉด
-    var t = theme.copy(ink = ink, inkAuto = false)
+    var t = theme.copy(ink = ink)
     if (t.backdrop == BackdropStyle.photo) t = t.copy(backdrop = BackdropStyle.gradient)
     val c = t.backdropColors
     val s = t.inkStyle

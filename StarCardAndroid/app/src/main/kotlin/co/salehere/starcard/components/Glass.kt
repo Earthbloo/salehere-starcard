@@ -73,14 +73,17 @@ fun GlassPanel(
 ) {
     val ink = LocalCardInk.current
     val shape = RoundedCornerShape(radius.dp)
-    val fill = veil ?: (if (ink.isLight) Color.White.opacity(0.58) else Color.Black.opacity(0.16))
+    // สีแผ่นกระจก = **ผลที่ Liquid Glass (.clear) ของ iOS 26 วาดออกมาจริง** (วัดจากภาพส่งออก 21 ต.ค. 2569 — ไม่ใช่ตัวเลขม่านใน
+    // GlassPanel.swift ซึ่งวัสดุของระบบเปลี่ยนไปอีกชั้น): หมึกสว่าง → ขาว 57.5% · หมึกมืด/คู่สี → ขาว 5.6% ·
+    // ย้อมชั้น verified บนหมึกมืด → ดำ 70% แล้วสีเน้น 5% · บนหมึกสว่าง → สีเน้น 2.5% · `veil`/`tintStrength` รับไว้ให้ผู้เรียกเดิม ไม่ใช้แล้ว
+    val light = ink.isLight
     var m = modifier
     // พื้นมืดยกแผ่นด้วยแสง · พื้นสว่างยกแผ่นด้วยเงา
     if (ink.liftRadius > 0f) {
         m = m.shadow(ink.liftRadius.dp, shape, clip = false, ambientColor = ink.lift, spotColor = ink.lift)
     }
-    m = m.background(fill, shape)
-    if (tint != null) m = m.background(tint.opacity(tintStrength), shape)
+    m = m.background(if (light) Color.White.opacity(0.575) else if (tint != null) Color.Black.opacity(0.70) else Color.White.opacity(0.056), shape)
+    if (tint != null) m = m.background(tint.opacity(if (light) 0.025 else 0.05), shape)
     // ขอบแสง — สว่างมุมบนซ้ายแล้วจางหายไปทางล่างขวา เหมือน rim light ของกระจก
     m = m.border(
         0.6.dp,

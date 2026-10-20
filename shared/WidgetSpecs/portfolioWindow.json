@@ -22,7 +22,7 @@
   "keepAspect": true,
   "motion": "anchored"
  },
- "notes": "หน้าต่างรูปของ Preview — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม · แถบหัว 24 ไม่มีชื่อ ไอคอนชุดรูป (sidebar+caret · เส้นคั่น · zoom ∓ · share · pencil-line · •• · pen-nib) · เนื้อหาใต้แถบ (541): ชื่อกลาง (serif 27 ย่อถึง 12 กว้างไม่เกิน 212 สี title) เส้นบางสองข้าง 13.3% สี soft@0.9 (night @0.8) ช่อง 2.6% (เส้นหด ชื่อไม่หด) + ตรา starSeal เมื่อยืนยัน · คำพาดหัว note#1 เซริฟดำ 108 ย่อถึง 18 กว้าง 93.6% สีเทา (day white 0.47 / night 0.74 — ต้นฉบับไล่เฉด 0.40→0.56) ขอบบนตัวพิมพ์ใหญ่ ≈ 52 (dy 40 คิดจากขนาดที่ PORTFOLIO ย่อลงมาจริง ≈ 53) · รูปทึบ (ยังไม่มีคัตเอาต์ — ซิมูเลเตอร์เสมอ): เต็มกว้างใต้คำ ชนขอบล่าง เริ่ม 102 (= capTop + capHeight + 12) · คนคัตเอาต์ (photo 1 · lift) สูง 86.5% ชิดล่าง ล้น 22 อยู่ใต้ธง `cutout` ซึ่งตัววาดยังไม่มี · แปลงจาก WindowWidgets.swift (PortfolioWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: แสง radial หลังตัวคน · คำพาดหัวไล่เฉด · ไอคอน Phosphor นอกชุดย่อยของแอป (sidebar-simple · magnifying-glass ∓ · export · pencil-line · pen-nib) · CutoutStatus · ตำแหน่งคำจากขอบบนตัวพิมพ์ใหญ่ (ต้องมี capTop)",
+ "notes": "หน้าต่างรูปของ Preview — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night) · สีของกรอบ/แถบ/ไอคอนเป็นของสกินหน้าต่าง · ตัวหนังสือบนหน้า (ชื่อ · PORTFOLIO · เส้นคั่น · ตรา) เป็นหมึกของการ์ด `ink@0.9` / `ink@0.75` / `ink@0.5` (21 ต.ค. 2569: เดิมเป็นเทาตรงตัว จึงไม่อ่อนตามการ์ดคู่สีโทนเข้ม) · แถบหัว 24 ไม่มีชื่อ ไอคอนชุดรูป (sidebar+caret · เส้นคั่น · zoom ∓ · share · pencil-line · •• · pen-nib) · เนื้อหาใต้แถบ (541): ชื่อกลาง (serif 27 ย่อถึง 12 กว้างไม่เกิน 212 สี title) เส้นบางสองข้าง 13.3% สี soft@0.9 (night @0.8) ช่อง 2.6% (เส้นหด ชื่อไม่หด) + ตรา starSeal เมื่อยืนยัน · คำพาดหัว note#1 เซริฟดำ 108 ย่อถึง 18 กว้าง 93.6% สีเทา (day white 0.47 / night 0.74 — ต้นฉบับไล่เฉด 0.40→0.56) ขอบบนตัวพิมพ์ใหญ่ ≈ 52 (dy 40 คิดจากขนาดที่ PORTFOLIO ย่อลงมาจริง ≈ 53) · รูปทึบ (ยังไม่มีคัตเอาต์ — ซิมูเลเตอร์เสมอ): เต็มกว้างใต้คำ ชนขอบล่าง เริ่ม 102 (= capTop + capHeight + 12) · คนคัตเอาต์ (photo 1 · lift) สูง 86.5% ชิดล่าง ล้น 22 อยู่ใต้ธง `cutout` ซึ่งตัววาดยังไม่มี · แปลงจาก WindowWidgets.swift (PortfolioWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: แสง radial หลังตัวคน · คำพาดหัวไล่เฉด · ไอคอน Phosphor นอกชุดย่อยของแอป (sidebar-simple · magnifying-glass ∓ · export · pencil-line · pen-nib) · CutoutStatus · ตำแหน่งคำจากขอบบนตัวพิมพ์ใหญ่ (ต้องมี capTop)",
  "variants": [
   {
    "when": "surface=dim",
@@ -271,7 +271,7 @@
             "w": "13.3%",
             "h": 0.9,
             "shrink": 1,
-            "fill": "#9A9CA2@0.8"
+            "fill": "ink@0.5"
            },
            {
             "type": "row",
@@ -287,7 +287,7 @@
               "face": "noto",
               "size": 27,
               "weight": 400,
-              "color": "#B9BAC0",
+              "color": "ink@0.9",
               "maxLines": 1,
               "shrinkTo": 12
              },
@@ -295,7 +295,7 @@
               "type": "icon",
               "icon": "starSeal",
               "size": 10.3,
-              "tint": "#B9BAC0",
+              "tint": "ink@0.9",
               "if": "owner.verified"
              }
             ]
@@ -306,7 +306,7 @@
             "w": "13.3%",
             "h": 0.9,
             "shrink": 1,
-            "fill": "#9A9CA2@0.8"
+            "fill": "ink@0.5"
            }
           ]
          },
@@ -330,7 +330,7 @@
           "kerning": -1,
           "textCase": "upper",
           "textAlign": "center",
-          "color": "#BDBDBD",
+          "color": "ink@0.75",
           "maxLines": 1,
           "w": "93.6%",
           "place": "top-center",
@@ -631,7 +631,7 @@
           "w": "13.3%",
           "h": 0.9,
           "shrink": 1,
-          "fill": "#84878C@0.9"
+          "fill": "ink@0.5"
          },
          {
           "type": "row",
@@ -647,7 +647,7 @@
             "face": "noto",
             "size": 27,
             "weight": 400,
-            "color": "#5C5E62",
+            "color": "ink@0.9",
             "maxLines": 1,
             "shrinkTo": 12
            },
@@ -655,7 +655,7 @@
             "type": "icon",
             "icon": "starSeal",
             "size": 10.3,
-            "tint": "#5C5E62",
+            "tint": "ink@0.9",
             "if": "owner.verified"
            }
           ]
@@ -666,7 +666,7 @@
           "w": "13.3%",
           "h": 0.9,
           "shrink": 1,
-          "fill": "#84878C@0.9"
+          "fill": "ink@0.5"
          }
         ]
        },
@@ -690,7 +690,7 @@
         "kerning": -1,
         "textCase": "upper",
         "textAlign": "center",
-        "color": "#787878",
+        "color": "ink@0.75",
         "maxLines": 1,
         "w": "93.6%",
         "place": "top-center",

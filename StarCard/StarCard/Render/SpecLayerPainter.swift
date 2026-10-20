@@ -117,7 +117,7 @@ struct SpecLayerPainter {
         let sh = shape(n, size)
         if let pp = n.platePattern {
             // ลายแผ่นของถาด (ลายทาง · ข้าวหลามตัด) ตัดตามรูปร่าง — ไม่เลือก = `.plain` ไม่วาดอะไร
-            if let img = SpecRenderPatterns.plateImage(ctx.platePattern, sheet: ctx.color(pp, item: item), size: size, scale: pixelScale) {
+            if let img = SpecRenderPatterns.plateImage(ctx.platePattern, sheet: ctx.color(pp, on: n.on, item: item), size: size, scale: pixelScale) {
                 let l = CALayer()
                 l.frame = bounds
                 l.contents = img.cgImage
@@ -136,7 +136,7 @@ struct SpecLayerPainter {
         if let g = n.gradient {
             let gl = CAGradientLayer()
             gl.frame = bounds
-            gl.colors = [ctx.color(g.from, item: item).cgColor, ctx.color(g.to, item: item).cgColor]
+            gl.colors = [ctx.color(g.from, on: n.on, item: item).cgColor, ctx.color(g.to, on: n.on, item: item).cgColor]
             let a = CGFloat(g.angle * .pi / 180)
             let dx = cos(a), dy = sin(a)
             gl.startPoint = CGPoint(x: 0.5 - dx / 2, y: 0.5 - dy / 2)
@@ -144,10 +144,10 @@ struct SpecLayerPainter {
             sh.clip(gl)
             group.layer.addSublayer(gl)
         } else if let fill {
-            group.layer.addSublayer(fillLayer(sh, bounds: bounds, color: ctx.color(fill, item: item)))
+            group.layer.addSublayer(fillLayer(sh, bounds: bounds, color: ctx.color(fill, on: n.on, item: item)))
         }
         if let pat = n.pattern {
-            if let img = SpecRenderPatterns.image(pat, color: ctx.color(pat.color, item: item), color2: ctx.color(pat.color2 ?? pat.color, item: item),
+            if let img = SpecRenderPatterns.image(pat, color: ctx.color(pat.color, on: n.on, item: item), color2: ctx.color(pat.color2 ?? pat.color, on: n.on, item: item),
                                                   size: size, scale: pixelScale) {
                 let l = CALayer()
                 l.frame = bounds
@@ -159,9 +159,9 @@ struct SpecLayerPainter {
             }
         }
         if let s = n.stroke {
-            group.layer.addSublayer(strokeLayer(sh, bounds: bounds, color: ctx.color(s.color, item: item), width: CGFloat(s.width), dash: s.dash))
+            group.layer.addSublayer(strokeLayer(sh, bounds: bounds, color: ctx.color(s.color, on: n.on, item: item), width: CGFloat(s.width), dash: s.dash))
         }
-        if let s = n.shadow { apply(shadow: s, to: group.layer, item: item) }
+        if let s = n.shadow { apply(shadow: s, to: group.layer, on: n.on, item: item) }
         v.addSubview(group)
     }
 
@@ -214,8 +214,8 @@ struct SpecLayerPainter {
     }
 
     /// เงา — sigma ของผัง → radius ของ SwiftUI (blur radius ≈ 2σ) · ให้ CoreAnimation เบลอจากเนื้อที่วาดจริง
-    private func apply(shadow s: SpecShadow, to layer: CALayer, item: SpecItem?) {
-        layer.shadowColor = ctx.color(s.color, item: item).cgColor
+    private func apply(shadow s: SpecShadow, to layer: CALayer, on: String?, item: SpecItem?) {
+        layer.shadowColor = ctx.color(s.color, on: on, item: item).cgColor
         layer.shadowOpacity = 1
         layer.shadowOffset = CGSize(width: s.x, height: s.y)
         layer.shadowRadius = CGFloat(s.sigma) * 2
@@ -231,7 +231,7 @@ struct SpecLayerPainter {
         let base = SpecFont(face: n.face ?? "noto", size: r.size, weight: weight,
                             tracking: CGFloat(n.tracking ?? 0), kerning: CGFloat(n.kerning ?? 0),
                             italic: n.italic ?? false, lineHeight: CGFloat(n.lineHeight ?? 1))
-        let color = ctx.color(n.color ?? "ink", item: b.item)
+        let color = ctx.color(n.color ?? "ink", on: n.on, item: b.item)
         let align: NSTextAlignment = n.textAlign == "center" ? .center : n.textAlign == "right" ? .right : .left
         let lines = max(1, r.lines)
         // ระยะบรรทัดเพิ่ม = ความสูงบรรทัดของฟอนต์ × (lineHeight − 1) (= `lineSpacing` ของ SwiftUI)
@@ -268,7 +268,7 @@ struct SpecLayerPainter {
             label.text = NSAttributedString(string: r.string, attributes: attrs(font: f, color: color, kern: base.kerning, tracking: base.tracking, align: align, spacing: spacing))
         }
         // เงา/เรืองแสงของตัวอักษร (ป้ายไฟ)
-        if let s = n.shadow { apply(shadow: s, to: label.layer, item: b.item) }
+        if let s = n.shadow { apply(shadow: s, to: label.layer, on: n.on, item: b.item) }
         v.addSubview(label)
     }
 
@@ -338,9 +338,9 @@ struct SpecLayerPainter {
         }
         container.addSubview(clipView)
         if let s = n.stroke {
-            container.layer.addSublayer(strokeLayer(sh, bounds: f, color: ctx.color(s.color, item: nil), width: CGFloat(s.width), dash: nil))
+            container.layer.addSublayer(strokeLayer(sh, bounds: f, color: ctx.color(s.color, on: n.on, item: nil), width: CGFloat(s.width), dash: nil))
         }
-        if let s = n.shadow { apply(shadow: s, to: container.layer, item: nil) }
+        if let s = n.shadow { apply(shadow: s, to: container.layer, on: n.on, item: nil) }
         v.addSubview(container)
     }
 
@@ -390,7 +390,7 @@ struct SpecLayerPainter {
     private func icon(_ b: SpecBox, into v: UIView) {
         let n = b.node
         let name = n.icon.map { $0.hasPrefix("$") ? (b.item?.value(String($0.dropFirst())) ?? "") : $0 } ?? ""
-        let tint = n.tint.map { ctx.color($0, item: b.item) }
+        let tint = n.tint.map { ctx.color($0, on: n.on, item: b.item) }
         let f = v.bounds
         let req = SpecIconRequest(name: name, size: f.size, tint: tint, text: n.text, pointSize: n.size.map { CGFloat($0) }, pixelScale: pixelScale)
         guard let iv = ctx.icon(req) else { return }

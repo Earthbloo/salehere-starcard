@@ -27,9 +27,8 @@ enum WidgetMatrixExport {
     static let contentWidth: CGFloat = PageLayout.content(CGSize(width: 540, height: 960)).width
     static let pageSeriesSize = CGSize(width: 240, height: 320)
 
-    static let baseTheme = CardSnapshot.Theme(palette: "midnight", ink: "night", corner: "round",
-                                              backdrop: "solid", brightness: 0.3, hueShift: 0,
-                                              inkAuto: false, strip: "line")
+    /// midnight โทนมืด (= `Palette.midnight.dark` · `DEFAULT_PRIMARY` ของเว็บ) — doc เก็บ hex ไม่ใช่ชื่อ
+    static let baseTheme = CardSnapshot.Theme(colors: .init(primary: "#1A1F35"), ink: "night", backdrop: "solid")
     static let slotTints: [TextTint] = [.ink, .soft, .accent, .white, .rose, .gold]
     static let pageBackdrops: [BackdropStyle] = [.solid, .gradient, .grid, .stripe, .diamond, .glow, .marble]
 
@@ -173,12 +172,10 @@ enum WidgetMatrixExport {
         return [
             ("ink=paper", t { $0.ink = "paper" }),
             ("ink=mist", t { $0.ink = "mist" }),
-            ("corner=soft", t { $0.corner = "soft" }),
-            ("corner=pill", t { $0.corner = "pill" }),
-            ("palette=rose", t { $0.palette = "rose" }),
-            ("palette=champagne", t { $0.palette = "champagne" }),
-            ("duo=indigo", t { $0.duo = "indigo"; $0.duoFlipped = false }),
-            ("duo=indigo-flipped", t { $0.duo = "indigo"; $0.duoFlipped = true }),
+            ("palette=rose", t { $0.colors = .init(primary: Palette.rose.dark.hexString) }),
+            ("palette=champagne", t { $0.colors = .init(primary: Palette.champagne.dark.hexString) }),
+            ("duo=indigo", t { $0.colors = .init(primary: "#282B4A", secondary: "#EEEBDA") }),
+            ("duo=indigo-flipped", t { $0.colors = .init(primary: "#EEEBDA", secondary: "#282B4A") }),
         ]
     }
 
@@ -259,9 +256,6 @@ enum WidgetMatrixExport {
             for b in pageBackdrops {
                 add("backdrop=\(b.rawValue)_ink=\(ink)") { $0.backdrop = b.rawValue; $0.ink = ink }
             }
-        }
-        for s in StripStyle.allCases {
-            add("strip=\(s.rawValue)") { $0.strip = s.rawValue }
         }
         return out
     }

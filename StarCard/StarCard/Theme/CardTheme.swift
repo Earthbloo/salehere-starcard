@@ -239,6 +239,58 @@ enum Palette: String, CaseIterable, Identifiable {
 
     /// อิ่มตัวฐาน — noir ต้องจืดกว่าตัวอื่นถึงจะยังเป็นโทนเทา
     var backdropSaturation: Double { self == .noir ? 0.10 : 0.58 }
+
+    // MARK: พาเลตต์ = ปุ่มลัดที่เขียน hex (20 ต.ค. 2569 รอบ 3)
+    //
+    // doc เก็บแค่ `colors.primary` (และ `secondary`) เป็น hex — ชื่อพาเลตต์ไม่ถูกเซฟอีกแล้ว
+    // สองค่านี้คือพื้นที่สูตรเดิมเคยคิดให้ที่ความสว่าง 0.30 (มืด = หมึกกลางคืน · สว่าง = กระดาษ)
+    // ต้องตรงกับ `PRESETS` ใน sync-server/web/js/theme.js และ `Palette` ใน Android ทุกตัว
+
+    /// พื้นโทนมืดของพาเลตต์นี้
+    var dark: Color {
+        switch self {
+        case .midnight:  return .hex(0x1A1F35)
+        case .sky:       return .hex(0x1A2835)
+        case .ocean:     return .hex(0x1A2E35)
+        case .mint:      return .hex(0x1A3528)
+        case .lime:      return .hex(0x29351A)
+        case .lavender:  return .hex(0x261A35)
+        case .orchid:    return .hex(0x321A35)
+        case .rose:      return .hex(0x351A25)
+        case .ruby:      return .hex(0x351A1E)
+        case .coral:     return .hex(0x35211A)
+        case .champagne: return .hex(0x352A1A)
+        case .noir:      return .hex(0x343435)
+        }
+    }
+    /// พื้นโทนสว่างของพาเลตต์นี้
+    var light: Color {
+        switch self {
+        case .midnight:  return .hex(0xEAECF7)
+        case .sky:       return .hex(0xEAF1F7)
+        case .ocean:     return .hex(0xEAF4F7)
+        case .mint:      return .hex(0xEAF7F1)
+        case .lime:      return .hex(0xF1F7EA)
+        case .lavender:  return .hex(0xF0EAF7)
+        case .orchid:    return .hex(0xF6EAF7)
+        case .rose:      return .hex(0xF7EAEF)
+        case .ruby:      return .hex(0xF7EAEB)
+        case .coral:     return .hex(0xF7EDEA)
+        case .champagne: return .hex(0xF7F2EA)
+        case .noir:      return .hex(0xEFF1F7)
+        }
+    }
+    func primary(light isLight: Bool) -> Color { isLight ? light : dark }
+
+    /// พาเลตต์ที่พื้นสีนี้เป็นของมัน (ไว้ไฮไลต์เม็ดในถาด) — nil = สีของผู้ใช้เอง
+    static func matching(_ c: Color) -> (palette: Palette, light: Bool)? {
+        let hex = c.hexString
+        for p in allCases {
+            if p.dark.hexString == hex { return (p, false) }
+            if p.light.hexString == hex { return (p, true) }
+        }
+        return nil
+    }
 }
 
 enum CornerStyle: String, CaseIterable, Identifiable {
@@ -266,6 +318,10 @@ enum BackdropStyle: String, CaseIterable, Identifiable {
     /// คนที่อยากได้พื้นเรียบ ๆ เจอคำตอบที่ชิปแรกโดยไม่ต้องอ่านจนจบแถว
     case solid, gradient, grid, stripe, diamond, glow, marble, photo
     var id: String { rawValue }
+
+    /// แบบที่แผง "พื้นหลัง" เสนอให้เลือก (20 ต.ค. 2569: เหลือสีเดียวกับไล่เฉด —
+    /// ตาราง/ลายทาง/ข้าวหลามตัด/ดวงแสง/หินอ่อน/รูป ถอดออกจากแผง) · เคสอื่นยังอยู่เพื่ออ่านการ์ดเก่าที่บันทึกไว้
+    static let offered: [BackdropStyle] = [.solid, .gradient]
 
     var name: String {
         switch self {
@@ -317,44 +373,20 @@ enum BackdropEffect: String, CaseIterable, Identifiable {
 }
 
 struct CardTheme: Equatable {
-    var palette: Palette = .midnight
+    /// สีพื้นการ์ด — **ค่าเดียวที่ doc เก็บ** (`theme.colors.primary`) ทุกสีที่เหลือ (ไล่เฉด สีเน้น หมึก
+    /// กระดาษของ widget) คิดจากสีนี้ · พาเลตต์/คู่สีสำเร็จรูปเป็นแค่ปุ่มลัดที่เขียนค่านี้ (20 ต.ค. 2569 รอบ 3)
+    var primary: Color = Palette.midnight.dark
+    /// หมึกของการ์ดสองสี (`theme.colors.secondary`) — มีค่าเมื่อไหร่ **สีพื้นและสีหมึกคือสองสีนี้ตรง ๆ**
+    /// primary เป็นพื้นเสมอ · สลับข้าง = สลับค่าสองตัว ไม่มีธงแยก
+    var secondary: Color? = nil
     /// พื้นผิวของการ์ด — เลือกโดยเจ้าของการ์ด ไม่ล้อ dark mode ของเครื่องผู้ดู
     var ink: CardInk = .night
-    /// ให้ระบบเลือกหมึกจากความสว่างของสีพื้น แทนที่จะใช้ `ink` ที่เก็บไว้
-    ///
-    /// เปิดช่อง hex ให้พิมพ์สีอะไรก็ได้เมื่อไหร่ "เลือกหมึกเอง" กลายเป็นกับดักทันที —
-    /// พิมพ์ `#101010` ทับตอนที่หมึกเป็นกระดาษแล้วตัวหนังสือหายทั้งใบโดยไม่มีอะไรเตือน
-    /// ค่าเริ่มต้นจึงเป็นอัตโนมัติ · แตะชิปโทนเมื่อไหร่คือผู้ใช้ขอคุมเอง แล้วค่านี้ถูกปิด
-    /// (ไม่มีชิป "อัตโนมัติ" ในแผงแล้ว — มันเป็นสถานะตั้งต้นที่เงียบอยู่จนกว่าจะมีคนเลือกฝั่ง)
-    var inkAuto: Bool = true
+    // `inkAuto` ถอดออก 20 ต.ค. 2569 — doc เก็บ `ink` ตรง ๆ เสมอ · เลือกสีเองเมื่อไหร่ `autoInk` เลือกฝั่งให้ทันทีตอนนั้น
     var corner: CornerStyle = .round
     /// หน้าตาของแถบผู้ออกบัตรที่ขอบล่าง (ดู `IssuerStrip`) — ถอดไม่ได้ เลือกได้แค่แบบ
     var strip: StripStyle = .line
     var backdrop: BackdropStyle = .gradient
-    /// คู่สีที่เลือกไว้ (ดู `ColorDuo`) — มีค่าเมื่อไหร่ **สีพื้นและสีหมึกมาจากคู่นี้ทั้งคู่**
-    /// เก็บเป็นรหัสไม่ใช่สองสี เพราะคู่สีเป็นของที่ตั้งชื่อไว้แล้ว การ์ดจึงอ้างถึงมันได้ในหน้าอื่น
-    var duoID: String? = nil
-    /// สีไหนขึ้นเป็นพื้น — false = สีเข้มเป็นพื้น (ค่าตั้งต้น) · true = สีอ่อนเป็นพื้น
-    var duoFlipped: Bool = false
-    /// ฟอนต์ของ **ข้อมูลจากระบบ** ทั้งการ์ด (ชุดห้าสไตล์) — ตัวเลข ชื่อ ราคา แก้รายช่องไม่ได้ ตามธีมนี้ทั้งใบ
-    /// (Canva หน้า 1: "ห้ามเปลี่ยนฟอนต์แยกจุด แต่จะถูกบังคับเปลี่ยนตามธีมรวมของการ์ด")
-    var dataFont: CardFont = .noto
-    /// 0 = เข้มเกือบดำ · 1 = สว่าง
-    var brightness: Double = 0.30
-    /// เลื่อนเฉดพื้นหลังออกจากสีธีม −0.5…0.5 รอบวงล้อสี
-    var hueShift: Double = 0
-
-    /// โทนที่ดูดมาจากรูปพื้นหลังที่อัปโหลด — ตั้งแล้วทั้งธีมล้อตามรูปแทนพาเลตต์
-    /// เลือกสีพาเลตต์เองเมื่อไหร่ค่านี้ถูกล้าง (ผู้ใช้ตัดสินใจ override)
-    var customHue: Double? = nil
-    var customSat: Double? = nil
-    /// ความสว่างของสีพื้นที่ผู้ใช้เลือกเอง — **มีค่านี้เมื่อไหร่แปลว่าเป็นสีจริง ไม่ใช่แค่เฉด**
-    ///
-    /// สองตัวบนมาได้จากรูปที่อัปโหลด (`dominantTone` คืนแค่เฉดกับความสด) ซึ่งเป็นเพียง "โทน"
-    /// ที่ยังต้องผ่านสูตรของหมึกอยู่ · ส่วนสีที่พิมพ์เป็น hex หรือลากจากแถบสีคือสีที่ผู้ใช้
-    /// เห็นแล้วต้องได้แบบนั้นเป๊ะ ตัวนี้จึงเป็นตัวแยกสองกรณีออกจากกัน
-    var customBri: Double? = nil
-
+    // `dataFont` (ฟอนต์ข้อมูล มาตรฐาน/มิตร) ถอดออกจาก doc 21 ต.ค. 2569 — แถวในถาดถูกเอาออกไปก่อนแล้วและไม่มีใครอ่านค่านี้
     /// เอฟเฟกต์บนรูปพื้นหลัง — มีผลเฉพาะตอน `backdrop == .photo`
     var photoEffect: BackdropEffect = .none
     /// แผ่นสีที่คลุมรูปไว้ 0…0.8 — ยิ่งมากรูปยิ่งจม ตัวหนังสือบนการ์ดยิ่งอ่านง่าย
@@ -371,69 +403,81 @@ struct CardTheme: Equatable {
     /// ธีมนี้ถูกวาดบนแผงเครื่องมือ (พื้นมืดคงที่) ไม่ใช่บนการ์ด — ดู `toolTheme` · ไม่ถูกเซฟ
     var onStage = false
 
-    /// สีพื้นที่ผู้ใช้เลือกเอง แยกเป็นสามค่า — nil เมื่อสียังมาจากพาเลตต์หรือโทนของรูป
-    ///
-    /// ความสดไม่ผ่าน `backdropSat` ที่บีบไว้ 0.15…0.6 — เพดานนั้นมีไว้กันโทนที่ดูดจากรูป
-    /// ไม่ให้ฉูดฉาดเกินการ์ด แต่สีที่พิมพ์มาเองต้องได้แดง `#F11717` เต็ม ๆ ตามที่พิมพ์
-    private var customParts: (h: Double, s: Double, b: Double)? {
-        guard let bri = customBri, customHue != nil else { return nil }
-        return (backdropHue, min(1, max(0, customSat ?? 0.5)), min(1, max(0, bri)))
+    /// สีพื้นแยกเป็น HSB — ทุกสูตรของธีม (ไล่เฉด สีเน้น หมึกอาบเฉด) อ่านจากตรงนี้
+    var primaryHSB: (h: Double, s: Double, b: Double) {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard UIColor(primary).getHue(&h, saturation: &s, brightness: &b, alpha: &a) else { return (0, 0, 0.5) }
+        return (Double(h), Double(s), Double(b))
     }
 
-    /// มีสีพื้นที่ผู้ใช้เลือกเองอยู่ไหม
-    var hasCustomColor: Bool { customParts != nil }
-
-    /// คู่สีที่เลือกไว้ — nil เมื่อการ์ดใบนี้ยังใช้พาเลตต์หรือสีที่ตั้งเอง
-    var duo: ColorDuo? { duoID.flatMap(ColorDuo.find) }
+    /// สีพื้นเป็นสีที่ผู้ใช้เลือกเอง (ไม่ตรงกับเม็ดสำเร็จรูปใด) — ถาดใช้ไฮไลต์เม็ด "สีของฉัน"
+    var hasCustomColor: Bool { secondary == nil && Palette.matching(primary) == nil }
 
     /// สองสีที่ **มีผลจริง** ตอนนี้ — พื้นเป็นรูปเมื่อไหร่คู่สีถอยให้รูปทั้งคู่
     ///
     /// รูปที่อัปโหลดมาสว่างตรงไหนมืดตรงไหนคุมไม่ได้ หมึกสีครีมบนรูปจึงไม่มีอะไรรับประกันว่าอ่านออก
     /// เหมือนกับที่ `activeInk` บังคับกลางคืนตรงนั้น — คู่สีไม่หาย แค่รอจนกว่าพื้นจะกลับมาเป็นสี
     var duoColors: (bg: Color, ink: Color)? {
-        guard let d = activeDuo else { return nil }
-        return duoFlipped ? (d.light, d.dark) : (d.dark, d.light)
+        guard backdrop != .photo, let s = secondary else { return nil }
+        // โทน (`ink`) เป็นเรื่องของการวาด ไม่ใช่ค่าสี: มืด = สีเข้มของคู่เป็นพื้น · สว่าง = สีอ่อนเป็นพื้น · doc ไม่สลับค่า
+        let pDark = RGB(primary).luminance < RGB(s).luminance
+        let dark = pDark ? primary : s, light = pDark ? s : primary
+        return ink.isLight ? (light, dark) : (dark, light)
     }
 
-    /// คู่สีที่มีผลจริงตอนนี้ (ดู `duoColors` สำหรับเหตุผลเรื่องพื้นรูป)
-    var activeDuo: ColorDuo? { backdrop == .photo ? nil : duo }
-
-    /// สองสีของคู่ **ตามบทบาทถาวร** ไม่ขึ้นกับว่าฝั่งไหนขึ้นเป็นพื้นอยู่
+    /// คู่สีที่มีผลจริงตอนนี้ **ตามบทบาทถาวร** (เข้ม/อ่อนตัดสินจากความสว่าง ไม่ใช่ว่าฝั่งไหนเป็นพื้น)
     ///
-    /// แผ่นทึบของ widget ต้องเข้มเสมอและหมึกบนแผ่นต้องสว่างเสมอ ไม่ว่าการ์ดจะพลิกข้างไปทางไหน —
-    /// ถ้าผูกกับ `duoColors` แผ่นจะกลายเป็นครีมบนการ์ดครีมแล้วหายไปทั้งใบ
+    /// แผ่นทึบของ widget ต้องเข้มเสมอและหมึกบนแผ่นต้องสว่างเสมอ ไม่ว่าการ์ดจะพลิกข้างไปทางไหน
+    var activeDuo: ColorDuo? {
+        guard let c = duoColors else { return nil }
+        let bgDark = RGB(c.bg).luminance < RGB(c.ink).luminance
+        return ColorDuo(id: "custom", darkName: "", lightName: "",
+                        dark: bgDark ? c.bg : c.ink, light: bgDark ? c.ink : c.bg)
+    }
     var duoDark: Color? { activeDuo?.dark }
     var duoLight: Color? { activeDuo?.light }
+    /// สีอ่อนของคู่ขึ้นเป็นพื้นอยู่ไหม (= "โทนสว่าง" ของการ์ดสองสี — อ่านจาก `ink` ไม่ใช่จากลำดับสี)
+    var duoFlipped: Bool { duoColors != nil && ink.isLight }
 
-    /// เลือกคู่สี — ล้างสีที่ตั้งเองทิ้ง เพราะสองอย่างนี้ตอบคำถามเดียวกัน (พื้นสีอะไร) คนละคำตอบ
+    /// การ์ดใบนี้ใช้คู่สีสำเร็จรูปคู่นี้อยู่ไหม (ไม่สนว่าพลิกข้างหรือไม่) — ไว้ไฮไลต์เม็ดในถาด
+    func matches(_ d: ColorDuo) -> Bool {
+        guard let s = secondary else { return false }
+        let mine: Set<String> = [primary.hexString, s.hexString]
+        return mine == [d.dark.hexString, d.light.hexString]
+    }
+
+    /// เลือกคู่สีสำเร็จรูป — ขึ้นข้างที่ตรงกับโทนของการ์ดตอนนั้น
     ///
-    /// ขึ้นข้างที่ตรงกับโทนของการ์ดตอนนั้น: การ์ดกระดาษที่ลองคู่สีดูต้องได้พื้นสีอ่อนของคู่นั้น
-    /// ไม่ใช่กระโดดเป็นพื้นมืดแล้วให้ผู้ใช้ไปหาทางกดกลับเอง — เขาเปลี่ยนแค่ "สีอะไร" ไม่ได้เปลี่ยน
-    /// ว่าการ์ดใบนี้มืดหรือสว่าง · อยากสลับข้างค่อยใช้แถวโทนซึ่งอยู่ใต้แถวคู่สีอยู่แล้ว
+    /// การ์ดกระดาษที่ลองคู่สีดูต้องได้พื้นสีอ่อนของคู่นั้น ไม่ใช่กระโดดเป็นพื้นมืดแล้วให้ผู้ใช้ไปหาทางกดกลับเอง
+    /// เขาเปลี่ยนแค่ "สีอะไร" ไม่ได้เปลี่ยนว่าการ์ดใบนี้มืดหรือสว่าง · อยากสลับข้างค่อยใช้แถวโทน
     mutating func setDuo(_ d: ColorDuo) {
+        // เก็บคู่ตามที่นิยามไว้ (เข้ม · อ่อน) — โทนที่การ์ดเป็นอยู่ (`ink`) ตัดสินเองว่าสีไหนขึ้นเป็นพื้น
         let wasLight = activeInk.isLight
-        customHue = nil
-        customSat = nil
-        customBri = nil
-        duoID = d.id
-        duoFlipped = wasLight
+        primary = d.dark
+        secondary = d.light
+        ink = wasLight ? lightInk : .night
+    }
+    /// สลับข้างของการ์ดสองสี (แถวโทน) — `light` = สีอ่อนขึ้นเป็นพื้น · แตะแค่โทน ไม่แตะค่าสีใน doc
+    mutating func flipDuo(light: Bool) {
+        guard secondary != nil else { return }
+        ink = light ? lightInk : .night
+    }
+
+    /// เลือกพาเลตต์สำเร็จรูป — เม็ดเดียวมีสองเฉด: แตะครั้งแรก = เฉดเข้ม · แตะซ้ำเม็ดที่เลือกอยู่ = สลับเข้ม/อ่อน
+    /// (แถวโทนมีเฉพาะคู่สีตั้งแต่ 20 ต.ค. 2569 — สีเดียวหมึกเลือกเองจากความสว่างของพื้น `autoInk`) · ล้างคู่สี
+    mutating func setPreset(_ p: Palette) {
+        let cur = secondary == nil ? Palette.matching(primary) : nil
+        let light = cur?.palette == p ? !(cur?.light ?? false) : false
+        secondary = nil
+        primary = p.primary(light: light)
+        ink = autoInk
     }
 
     /// สีที่ผู้ใช้เลือกเองตอนนี้ (HSB) — แผงใช้จำไว้เป็น "สีของฉัน" ก่อนสลับไปสีสำเร็จรูป
-    var customColor: (h: Double, s: Double, b: Double)? { customParts }
+    var customColor: (h: Double, s: Double, b: Double)? { hasCustomColor ? primaryHSB : nil }
 
-    /// ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG) — nil เมื่อยังไม่มีสีที่เลือกเอง
-    private var customLuminance: Double? {
-        guard let p = customParts else { return nil }
-        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        guard UIColor(Color(hue: p.h, saturation: p.s, brightness: p.b))
-                .getRed(&r, green: &g, blue: &b, alpha: &a) else { return nil }
-        func lin(_ v: CGFloat) -> Double {
-            let x = Double(max(0, min(1, v)))
-            return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4)
-        }
-        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
-    }
+    /// ความสว่างที่ตารับรู้ของสีพื้น (0…1 ตามสูตร WCAG)
+    private var primaryLuminance: Double { RGB(primary).luminance }
 
     /// หมึกที่ใช้จริง — **พื้นหลังเป็นรูปเมื่อไหร่ บังคับกลางคืนเสมอ**
     ///
@@ -447,30 +491,28 @@ struct CardTheme: Equatable {
     var activeInk: CardInk {
         if backdrop == .photo { return .night }
         // คู่สีตอบคำถามนี้ไปแล้วในตัวมันเอง: พื้นสว่างกว่าหมึก = ฝั่งสว่าง · ไม่ต้องเดาจากเกณฑ์ไหน
-        if let c = duoColors {
-            return RGB(c.bg).luminance > RGB(c.ink).luminance ? lightInk : .night
-        }
+        if duoColors != nil { return ink.isLight ? lightInk : .night }
         // ผู้ใช้เลือกได้แค่สองฝั่ง (มืด · สว่าง) — ฝั่งสว่างยังแยกกระดาษ/ใสใสตามความสดของพื้นเอง
-        guard inkAuto else { return ink.isLight ? lightInk : .night }
-        guard let l = customLuminance else { return .night }
+        return ink.isLight ? lightInk : .night
+    }
+
+    /// หมึกที่อ่านออกบนสีพื้นนี้ — ใช้ตอนผู้ใช้เลือกสีเองแล้วยังไม่ได้บอกโทน (พิมพ์ `#101010` ทับตอนหมึกเป็นกระดาษ
+    /// ตัวหนังสือต้องไม่หาย) · คำนวณ contrast ของหมึกทั้งสองฝั่งกับพื้นจริงแล้วเลือกฝั่งที่ชนะ
+    var autoInk: CardInk {
+        let l = primaryLuminance
         let withWhiteInk = 1.05 / (l + 0.05)
         // หมึกฝั่งสว่างเป็นถ่านที่อาบสีธีม ไม่ใช่ดำสนิท — ความสว่างของมันราว 0.02
         let withDarkInk = (l + 0.05) / 0.07
-        guard withDarkInk > withWhiteInk else { return .night }
-        return lightInk
+        return withDarkInk > withWhiteInk ? lightInk : .night
     }
 
     /// หน้าตาของฝั่งสว่าง — พื้นที่ยังมีสีอยู่มากต้องได้ถ่านที่อาบเฉดเดียวกัน
     /// ไม่งั้นตัวหนังสือลอยหลุดออกจากพื้น · แถวโทนจึงไม่ต้องถามคำถามนี้กับผู้ใช้
-    var lightInk: CardInk { (customSat ?? 0) >= 0.35 ? .mist : .paper }
+    var lightInk: CardInk { primaryHSB.s >= 0.35 ? .mist : .paper }
 
-    var backdropHue: Double {
-        let raw = (customHue ?? palette.backdropHue) + hueShift
-        return raw - floor(raw)
-    }
-    private var backdropSat: Double {
-        customHue != nil ? min(0.6, max(0.15, customSat ?? 0.5)) : palette.backdropSaturation
-    }
+    var backdropHue: Double { primaryHSB.h }
+    /// ความสดของพื้นที่บีบไว้ 0.15…0.6 — ใช้กับลายทาง/สีเน้นดิบ ไม่ใช้กับตัวพื้น (พื้น = สีที่เลือกเป๊ะ)
+    private var backdropSat: Double { min(0.6, max(0.15, primaryHSB.s)) }
 
     /// สองสีของฉากหลังหลังปรับความสว่างและโทนแล้ว
     ///
@@ -488,31 +530,9 @@ struct CardTheme: Equatable {
             return (c.bg, inkDarker ? c.bg.mixed(with: c.ink, by: 0.10)
                                     : c.bg.mixed(with: .black, by: 0.26))
         }
-        if let p = customParts {
-            return (Color(hue: p.h, saturation: p.s, brightness: p.b),
-                    // ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
-                    Color(hue: p.h, saturation: min(1, p.s * 1.06), brightness: p.b * 0.80))
-        }
-        let hue = backdropHue, sat = backdropSat, b = brightness
-        switch activeInk {
-        case .night:
-            return (
-                Color(hue: hue, saturation: max(0, sat - b * 0.28), brightness: 0.05 + b * 0.52),
-                Color(hue: hue, saturation: max(0, sat - b * 0.20), brightness: 0.015 + b * 0.22)
-            )
-        case .paper:
-            // ขาวนวลไล่ลงเทาอ่อน — เก็บเฉดธีมไว้แค่พอให้ไม่ใช่ขาวโรงพิมพ์
-            return (
-                Color(hue: hue, saturation: 0.03 + sat * 0.04, brightness: 0.955 + b * 0.045),
-                Color(hue: hue, saturation: 0.06 + sat * 0.07, brightness: 0.865 + b * 0.075)
-            )
-        case .mist:
-            // อาบสีธีมชัดขึ้น แต่ยังสว่างพอให้หมึกเข้มอ่านสบาย
-            return (
-                Color(hue: hue, saturation: 0.09 + sat * 0.16, brightness: 0.945 + b * 0.05),
-                Color(hue: hue, saturation: 0.20 + sat * 0.26, brightness: 0.815 + b * 0.10)
-            )
-        }
+        // สีเดียว: พื้น = สีที่เลือกเป๊ะ · ปลายล่างเข้มลงเล็กน้อยพอให้ไล่เฉดยังมีทิศทาง แต่ยังอ่านเป็นสีเดียวกัน
+        let p = primaryHSB
+        return (primary, Color(hue: p.h, saturation: min(1, p.s * 1.06), brightness: p.b * 0.80))
     }
 
     /// สีของแถบในฉากหลังแบบ "ลายทาง" — เฉดเดียวกับพื้น ต่างกันแค่หนึ่งขั้นความสว่าง
@@ -566,14 +586,14 @@ struct CardTheme: Equatable {
         // ของที่เรียกตัวนี้นั่งอยู่บนรูปที่มี scrim ดำ หรือบนแผ่นเข้มของ widget — สองที่ที่มืดแน่นอน
         // ส่งหมึกของการ์ดไปเมื่อไหร่ การ์ดโทนสว่างจะได้ตัวเข้มไปวางบนแผ่นเข้ม แล้วมันหายไปทั้งบรรทัด
         if let d = activeDuo { return d.light }
-        guard let h = customHue else { return palette.accent }
-        return Color(hue: h, saturation: min(0.72, max(0.35, (customSat ?? 0.5) + 0.1)), brightness: 0.96)
+        let p = primaryHSB
+        return Color(hue: p.h, saturation: min(0.72, max(0.35, p.s + 0.1)), brightness: 0.96)
     }
     var rawAccentSoft: Color {
         if let d = activeDuo { return d.light.mixed(with: d.dark, by: 0.30) }
-        guard let h = customHue else { return palette.accentSoft }
-        let shifted = (h + 0.04) - floor(h + 0.04)
-        return Color(hue: shifted, saturation: min(0.5, max(0.25, customSat ?? 0.4)), brightness: 1.0)
+        let p = primaryHSB
+        let shifted = (p.h + 0.04) - floor(p.h + 0.04)
+        return Color(hue: shifted, saturation: min(0.5, max(0.25, p.s)), brightness: 1.0)
     }
     /// ธีมเวอร์ชันสำหรับ **แผงเครื่องมือ** — บังคับหมึกกลางคืนเสมอ
     ///
@@ -584,14 +604,9 @@ struct CardTheme: Equatable {
     var toolTheme: CardTheme {
         var t = self
         t.ink = .night
-        // ต้องปิดโหมดอัตโนมัติด้วย ไม่งั้นการ์ดที่ตั้งสีพื้นสว่างไว้จะลากหมึกกระดาษเข้ามาในชีต
-        // ทั้งที่ชีตนั่งอยู่บนพื้นมืดคงที่ — บรรทัดบนจะถูกคำนวณทับทันทีที่อ่านค่า
-        t.inkAuto = false
         // คู่สีที่วางสีอ่อนไว้เป็นพื้นจะลากหมึกเข้มเข้ามาในชีตที่พื้นมืดคงที่ — สลับข้างให้เฉพาะในชีต
         // (ไม่ล้างคู่สีทิ้ง ไม่งั้นพรีวิว widget ในตู้จะกลับไปเป็นสีพาเลตต์ ไม่ใช่สีของการ์ดใบนี้)
-        if let c = t.duoColors, RGB(c.bg).luminance > RGB(c.ink).luminance {
-            t.duoFlipped.toggle()
-        }
+        // คู่สี: `ink = .night` ข้างบนทำให้สีเข้มของคู่ขึ้นเป็นพื้นในชีตแล้ว (ไม่ต้องสลับค่าสี)
         return t
     }
 
@@ -603,7 +618,7 @@ struct CardTheme: Equatable {
 extension CardTheme {
     /// สีพื้นตอนนี้แยกเป็น HSB — ตัวเลือกสีเปิดมาต้องชี้ที่สีจริงบนการ์ด ไม่ใช่ค่าตั้งต้น
     ///
-    /// อ่านจาก `backdropColors.top` ไม่ใช่จาก `customHue`/`customSat` ตรง ๆ เพราะการ์ดที่
+    /// อ่านจาก `backdropColors.top` (คู่สี = สีพื้นของคู่) เพราะการ์ดที่
     /// ยังใช้สีพาเลตต์อยู่ก็ต้องตอบได้ว่าตอนนี้พื้นสีอะไร — ไม่งั้นแตะเปิดตัวเลือกสีครั้งแรก
     /// แถบจะกระโดดไปสีอื่นก่อนผู้ใช้ทันได้แตะอะไรเลย
     var backdropHSB: (h: Double, s: Double, b: Double) {
@@ -624,23 +639,23 @@ extension CardTheme {
                       Int(round(max(0, min(1, b)) * 255)))
     }
 
-    /// ตั้งสีพื้นจาก HSB — ทางเข้าเดียวของทั้งแถบสีและช่อง hex
-    ///
-    /// เขียน `customHue` โดยหัก `hueShift` ออกก่อน เพราะ `backdropHue` จะบวกกลับเข้าไปทีหลัง
-    /// ถ้าไม่หัก การ์ดที่มาจากเทมเพลตซึ่งตั้ง `hueShift` ไว้จะได้สีเพี้ยนไปจากที่พิมพ์
+    /// ตั้งสีพื้นจาก HSB — ทางเข้าเดียวของทั้งแถบสีและช่อง hex (ล้างคู่สี · พื้น = สีนี้เป๊ะ)
     mutating func setBackdropColor(h: Double, s: Double, b: Double) {
-        duoID = nil
-        customHue = (h - hueShift) - floor(h - hueShift)
-        customSat = min(1, max(0, s))
-        customBri = min(1, max(0, b))
+        secondary = nil
+        primary = Color(hue: h - floor(h), saturation: min(1, max(0, s)), brightness: min(1, max(0, b)))
+        ink = autoInk
     }
 
-    /// ล้างสีที่เลือกเอง กลับไปใช้สีของพาเลตต์
-    mutating func clearBackdropColor() {
-        duoID = nil
-        customHue = nil
-        customSat = nil
-        customBri = nil
+    /// ล้างสีที่เลือกเอง/คู่สี กลับไปพาเลตต์ตั้งต้นตามโทนที่การ์ดเป็นอยู่
+    mutating func clearBackdropColor() { setPreset(.midnight) }
+
+    /// โทนที่ดูดจากรูปพื้นหลัง (เฉด + ความสด) — คงความสว่างเดิมของพื้นไว้ เพราะตอนพื้นเป็นรูป
+    /// สีนี้ใช้คิดแค่สีเน้น/ลายของ widget · เปลี่ยนกลับเป็นพื้นสีค่อยได้พื้นในเฉดของรูป
+    mutating func setBackdropTone(hue: Double?, sat: Double?) {
+        guard let hue else { return }
+        secondary = nil
+        primary = Color(hue: hue - floor(hue), saturation: min(0.6, max(0.15, sat ?? 0.5)), brightness: primaryHSB.b)
+        ink = autoInk
     }
 
     /// อ่านค่า `#RGB` หรือ `#RRGGBB` — คืน false เมื่ออ่านไม่ออก แล้วผู้เรียกคงสีเดิมไว้

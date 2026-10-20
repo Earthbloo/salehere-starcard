@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "paper",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ผลงานสามใบ (กระดาษ) — ป้ายดำ 'ผลงานที่ผ่านมา' · รูปอัดขอบขาวเอียงคนละองศา คำอยู่ที่คางล่าง · แปลงจาก PopWidgets.swift (PopWork สกิน paper + PopSheet fold) · ใช้รายการ works (รูป = ช่อง 4+i เท่าต้นฉบับ) จึงมีน้อยกว่า 3 ใบได้เมื่อผลงานไม่ถึง 3 · บรรทัดคาง: ต้นฉบับ ♥ ไลก์ 💬 คอมเมนต์ ↗ แชร์ แต่รายการ works ไม่มีฟิลด์นั้น — แสดงข้อความ รอข้อมูลโพสต์ ของต้นฉบับ (สิ่งที่ต้นฉบับโชว์เมื่อยอดเป็น 0) · มุมพับ PopFold วาดไม่ได้",
  "root": {
@@ -34,13 +35,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 5,
     "shadow": {
      "x": 0,
      "sigma": 2.5,
      "y": 4,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -59,7 +60,7 @@
       "if": "bordered",
       "radius": 5,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -119,7 +120,7 @@
              "face": "noto",
              "weight": 700,
              "size": 9,
-             "color": "pop.ink",
+             "color": "ink",
              "textAlign": "center",
              "maxLines": 1,
              "shrinkTo": 5.4,
@@ -145,7 +146,7 @@
        5
       ],
       "align": "center",
-      "fill": "pop.ink",
+      "fill": "ink",
       "radius": 3,
       "rotate": -2,
       "place": "top-left",
@@ -166,7 +167,7 @@
           "type": "icon",
           "icon": "ph:medal",
           "size": 9.5,
-          "tint": "pop.ink",
+          "tint": "ink",
           "place": "center"
          }
         ]

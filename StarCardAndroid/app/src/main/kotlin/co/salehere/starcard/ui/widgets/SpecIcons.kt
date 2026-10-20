@@ -54,9 +54,12 @@ fun SpecIcon(
     modifier: Modifier = Modifier,
     /** handle ที่ QR ชี้ไป — ตัวส่งออกเทียบภาพส่งค่าที่ iOS ใช้ (null = ของโปรไฟล์บนเครื่อง) */
     handle: String? = null,
+    /** token → สี บนพื้นตั้งต้นของใบ (`palette.color(token, null)`) — สีตั้งต้นของไอคอนที่ผังไม่ส่ง `tint` (= iOS `color("ink")`) · null = หมึกการ์ด */
+    color: ((String) -> Color)? = null,
 ) {
-    val inkColor = ink.text(1.0)
-    val accentColor = accent ?: inkColor
+    val c = { t: String, a: Double -> color?.invoke(if (a == 1.0) t else "$t@$a") ?: ink.text(a) }
+    val inkColor = c("ink", 1.0)
+    val accentColor = color?.invoke("accent") ?: accent ?: inkColor
     val m = min(box.width, box.height)
     val punch = if (ink.isLight) Color.White else grey(0.10)
     Box(modifier.size(box.width.dp, box.height.dp), contentAlignment = Alignment.Center) {
@@ -72,13 +75,13 @@ fun SpecIcon(
             "provenance:screenshot" -> ProvenanceTag(Provenance.Screenshot("12 ก.ย."))
             // ป้าย "Verified by Sale Here" ของโค้ดเดิม (`SaleHereByline`) — ขนาดตัวอักษร = สูงกล่อง × 0.45 · หมึกตั้งต้น ink@0.9
             "byline", "byline:dark", "byline:light" -> SaleHereByline(
-                tint = tint ?: ink.text(0.9), size = kotlin.math.max(6f, box.height * 0.45f),
+                tint = tint ?: c("ink", 0.9), size = kotlin.math.max(6f, box.height * 0.45f),
                 tone = when (name) { "byline:dark" -> BylineTone.dark; "byline:light" -> BylineTone.light; else -> BylineTone.ink },
                 modifier = Modifier.wrapContentSize(unbounded = true),
             )
             "verifiedBadge" -> VerifiedBadge()
             "verifiedSeal" -> VerifiedSeal(radius = m / 2, punch = punch, tint = tint ?: inkColor, compact = false)
-            "guilloche" -> Guilloche(color = tint ?: ink.text(0.2))
+            "guilloche" -> Guilloche(color = tint ?: c("ink", 0.2))
             "ringText" -> RingText(
                 text = text ?: "",
                 radius = m / 2 - (size ?: 7f),
@@ -87,12 +90,12 @@ fun SpecIcon(
             )
             "washi" -> WashiTape(width = box.width, height = box.height, tint = tint ?: Color.White)
             "binderClip" -> BinderClip(width = box.width)
-            "paperClip" -> PaperClipView(color = tint ?: ink.text(0.6), lineWidth = 1.6f)
+            "paperClip" -> PaperClipView(color = tint ?: c("ink", 0.6), lineWidth = 1.6f)
             "barcode" -> ScrapBarcode(color = tint ?: inkColor)
             "bow" -> ScrapBow(width = box.width)
             "spark" -> ScrapSpark(size = m, color = tint ?: Color.White)
             "windowDots" -> ScrapWindowDots()
-            "embossedLockup" -> EmbossedLockup(height = box.height, light = ink.isLight, foil = false, tint = tint ?: ink.text(0.8))
+            "embossedLockup" -> EmbossedLockup(height = box.height, light = ink.isLight, foil = false, tint = tint ?: c("ink", 0.8))
             "starLockup" -> StarLockup(height = box.height, tint = tint ?: accentColor)
             "starSeal" -> StarSeal(size = m, tint = tint ?: accentColor, punch = punch)
             "saleHereStar" -> FitIcon(SHIcon.star, tint ?: inkColor)

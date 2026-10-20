@@ -20,9 +20,9 @@ const errors = []
 // คีย์ของบล็อก `widget` ที่ทั้งสามแพลตฟอร์มอ่าน (= `WidgetSpec.Widget` ของ iOS/Android · `kindInfo` ของเว็บ)
 const WIDGET_KEYS = new Set(['title', 'category', 'symbol', 'size', 'order', 'tier', 'ownSurface', 'ownBorder', 'surfaces',
   'surfaceNames', 'border', 'photo', 'keepAspect', 'fullBleed', 'resize', 'controls', 'kit',
-  'skin', 'stamp', 'stampAt', 'motion', 'pinned', 'replaces'])
+  'skin', 'on', 'stamp', 'stampAt', 'motion', 'pinned', 'replaces'])
 const ENUMS = {
-  tier: ['verified', 'connected', 'personal'], skin: ['paper', 'glass'], stamp: ['followers', 'insight', 'work'],
+  tier: ['verified', 'connected', 'personal'], skin: ['paper', 'glass'], on: ['card', 'light', 'dark'], stamp: ['followers', 'insight', 'work'],
   motion: ['deep', 'mid', 'light', 'anchored'],
 }
 const SURFACES = ['glass', 'dim', 'clear', 'pane']

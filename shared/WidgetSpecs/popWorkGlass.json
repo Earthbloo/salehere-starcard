@@ -17,7 +17,8 @@
   ],
   "photo": true,
   "skin": "glass",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ผลงานสามใบ (กระจก) — ป้ายเม็ดยา 'ผลงานที่ผ่านมา' · รูปสามใบมุมมนขอบชมพู ช่องรูป 4 5 6 · แปลงจาก PopWidgets.swift (PopWork สกิน glass + PopSheet) · ป้ายหัวข้อกว้างตายตัว",
  "root": {
@@ -34,13 +35,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 20,
     "shadow": {
      "x": 0,
      "sigma": 4.5,
      "y": 5,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -59,7 +60,7 @@
       "if": "bordered",
       "radius": 20,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -85,7 +86,7 @@
           "w": "fill",
           "radius": 10,
           "stroke": {
-           "color": "rawAccent@0.7",
+           "color": "accent@0.7",
            "width": 2.5
           }
          },
@@ -95,7 +96,7 @@
           "w": "fill",
           "radius": 10,
           "stroke": {
-           "color": "rawAccent@0.7",
+           "color": "accent@0.7",
            "width": 2.5
           }
          },
@@ -105,7 +106,7 @@
           "w": "fill",
           "radius": 10,
           "stroke": {
-           "color": "rawAccent@0.7",
+           "color": "accent@0.7",
            "width": 2.5
           }
          }
@@ -126,7 +127,7 @@
        5
       ],
       "align": "center",
-      "fill": "rawAccent",
+      "fill": "accent",
       "circle": true,
       "place": "top-left",
       "dx": 10,
@@ -146,7 +147,7 @@
           "type": "icon",
           "icon": "ph:medal",
           "size": 9.5,
-          "tint": "rawAccent",
+          "tint": "accent",
           "place": "center"
          }
         ]

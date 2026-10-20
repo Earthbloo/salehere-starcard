@@ -56,7 +56,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if)",
  "root": {
@@ -67,7 +68,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 16,
       "if": "cfg:fill=solid"
      },
@@ -76,7 +77,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16
        },
        {
@@ -102,7 +103,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "if": "cfg:fill=solid"
        },
@@ -111,7 +112,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -134,7 +135,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16,
         "if": "cfg:fill=solid"
        },
@@ -143,7 +144,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 16
          },
          {
@@ -172,7 +173,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 6,
       "dy": 4.5
@@ -182,7 +183,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 4.5,
       "dy": 6
@@ -192,7 +193,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -6,
       "dy": 4.5
@@ -202,7 +203,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -4.5,
       "dy": 6
@@ -212,7 +213,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 6,
       "dy": -4.5
@@ -222,7 +223,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 4.5,
       "dy": -6
@@ -232,7 +233,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -6,
       "dy": -4.5
@@ -242,7 +243,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -4.5,
       "dy": -6
@@ -259,7 +260,7 @@
       "face": "noto",
       "size": 22,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 15.4,
       "w": "fill",
@@ -274,7 +275,7 @@
         "w": 58,
         "h": 3,
         "radius": 2,
-        "fill": "kit.accent",
+        "fill": "accent",
         "alignSelf": "start"
        },
        {
@@ -283,7 +284,7 @@
         "face": "noto",
         "size": 14,
         "weight": 400,
-        "color": "kit.ink",
+        "color": "ink",
         "maxLines": 0,
         "lineHeight": 1.15
        },

@@ -69,30 +69,46 @@ data class StarCardDoc(
     object Serializer : KeepUnknownSerializer<StarCardDoc>(generatedSerializer(), { it.extra }, { v, e -> v.copy(extra = e) })
 }
 
+/**
+ * สีของการ์ด — **สิ่งเดียวที่ API เก็บเรื่องสี** (20 ต.ค. 2569 รอบ 3)
+ * `primary` = สีพื้นการ์ด · `secondary` = หมึกของการ์ดสองสี (มี = การ์ดสองสี · primary เป็นพื้นเสมอ · สลับข้าง = สลับค่า)
+ * ทุกสีที่เหลือ renderer คิดจากสองค่านี้ด้วยสูตรเดียวกันทุกแพลตฟอร์ม · พาเลตต์/คู่สีสำเร็จรูปเป็นแค่ปุ่มลัดที่เขียน hex
+ */
+@Serializable
+data class CardColors(
+    /** `#RRGGBB` */
+    val primary: String,
+    val secondary: String? = null,
+)
+
 /** ธีมของทั้งใบ — ชื่อฟิลด์ตรงกับ CardSnapshot.Theme ของ prototype */
 @KeepGeneratedSerializer
 @Serializable(with = CardTheme.Serializer::class)
 data class CardTheme(
-    val palette: String,
+    /** สีของการ์ด — doc รุ่นก่อน (ชื่อพาเลตต์/คู่สี/HSB) ไม่มีคีย์นี้ → แปลงตอนอ่านด้วยสูตร `LegacyTheme` ของ prototype */
+    val colors: CardColors? = null,
+    /** โทน: night (มืด) · paper / mist (สว่าง) · คู่สี: โทนตัดสินว่าสีไหนขึ้นเป็นพื้น */
     val ink: String,
-    /** null = true (ระบบเลือกหมึกเอง) */
-    val inkAuto: Boolean? = null,
-    val corner: String,
+    /** solid · gradient (· photo) */
     val backdrop: String,
-    val brightness: Double,
-    @EncodeDefault val hueShift: Double = 0.0,
-    val customHue: Double? = null,
-    val customSat: Double? = null,
-    val customBri: Double? = null,
-    val duo: String? = null,
-    val duoFlipped: Boolean? = null,
-    val strip: String? = null,
     /** รูปพื้นหลัง — ใช้เมื่อ backdrop == "photo" · เก็บต่อใบ */
     val photo: PhotoRef? = null,
     val photoEffect: String? = null,
     val photoDim: Double? = null,
     /** วัดครั้งเดียวตอนเลือกรูป — ทุกเครื่องใช้ค่านี้ ไม่วัดใหม่ */
     val photoLean: Double? = null,
+    // ---- ฟิลด์รุ่นก่อน — รับไว้เพื่ออ่าน doc เก่าเท่านั้น ไม่เขียนแล้ว (ดู `colors`)
+    val palette: String? = null,
+    val brightness: Double? = null,
+    val hueShift: Double? = null,
+    val customHue: Double? = null,
+    val customSat: Double? = null,
+    val customBri: Double? = null,
+    val duo: String? = null,
+    val duoFlipped: Boolean? = null,
+    val inkAuto: Boolean? = null,
+    val corner: String? = null,
+    val strip: String? = null,
     @Transient val extra: JsonObject = NoExtra,
 ) {
     object Serializer : KeepUnknownSerializer<CardTheme>(generatedSerializer(), { it.extra }, { v, e -> v.copy(extra = e) })
@@ -387,8 +403,9 @@ fun StarCardDoc.canonicalized(): StarCardDoc = copy(
 )
 
 fun CardTheme.canonicalized(): CardTheme = copy(
-    brightness = brightness.r(4),
-    hueShift = hueShift.r(4),
+    colors = colors?.let { CardColors(it.primary.uppercase(), it.secondary?.uppercase()) },
+    brightness = brightness?.r(4),
+    hueShift = hueShift?.r(4),
     customHue = customHue?.r(4),
     customSat = customSat?.r(4),
     customBri = customBri?.r(4),

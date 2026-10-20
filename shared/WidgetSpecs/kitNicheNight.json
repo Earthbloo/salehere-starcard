@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
  "root": {
@@ -74,7 +75,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 16,
       "if": "cfg:fill=solid"
      },
@@ -83,7 +84,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16
        },
        {
@@ -109,7 +110,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "if": "cfg:fill=solid"
        },
@@ -118,7 +119,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3
          },
          {
@@ -141,7 +142,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16,
         "if": "cfg:fill=solid"
        },
@@ -150,7 +151,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 16
          },
          {
@@ -179,7 +180,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 6,
       "dy": 4.5
@@ -189,7 +190,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 4.5,
       "dy": 6
@@ -199,7 +200,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -6,
       "dy": 4.5
@@ -209,7 +210,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -4.5,
       "dy": 6
@@ -219,7 +220,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 6,
       "dy": -4.5
@@ -229,7 +230,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 4.5,
       "dy": -6
@@ -239,7 +240,7 @@
       "w": 30,
       "h": 3,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -6,
       "dy": -4.5
@@ -249,7 +250,7 @@
       "w": 3,
       "h": 30,
       "radius": 1.5,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -4.5,
       "dy": -6
@@ -266,7 +267,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 13.3,
       "w": "fill",
@@ -284,13 +285,13 @@
          "children": [
           {
            "type": "rect",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 10
           },
           {
            "type": "rect",
            "stroke": {
-            "color": "kit.border@0.3",
+            "color": "line@0.3",
             "width": 1
            },
            "radius": 10,
@@ -299,7 +300,7 @@
           {
            "type": "rect",
            "stroke": {
-            "color": "kit.ink@0.1",
+            "color": "ink@0.1",
             "width": 1
            },
            "radius": 10,
@@ -312,7 +313,7 @@
              "type": "icon",
              "icon": "ph:sparkle",
              "size": 24,
-             "tint": "kit.accent"
+             "tint": "accent"
             },
             {
              "type": "text",
@@ -320,7 +321,7 @@
              "face": "noto",
              "size": 11.5,
              "weight": 600,
-             "color": "kit.ink",
+             "color": "ink",
              "maxLines": 2,
              "shrinkTo": 9.2,
              "textAlign": "center",

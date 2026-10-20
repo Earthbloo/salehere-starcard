@@ -63,7 +63,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา mac · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
  "root": {
@@ -78,7 +79,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 12,
       "shadow": {
        "sigma": 6,
@@ -110,7 +111,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 12,
         "shadow": {
          "sigma": 6,
@@ -138,7 +139,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 6,
@@ -367,7 +368,7 @@
           "face": "noto",
           "size": 13,
           "weight": 600,
-          "color": "kit.title",
+          "color": "ink",
           "maxLines": 2,
           "id": "title",
           "textAlign": "center",
@@ -574,7 +575,7 @@
            "type": "rect",
            "if": "!$i=first",
            "h": 1,
-           "fill": "kit.mut@0.17"
+           "fill": "ink2@0.17"
           },
           {
            "type": "col",
@@ -606,7 +607,7 @@
                  "face": "noto",
                  "size": 13.5,
                  "weight": 500,
-                 "color": "kit.ink",
+                 "color": "ink",
                  "maxLines": 1
                 },
                 {
@@ -615,7 +616,7 @@
                  "face": "noto",
                  "size": 10.5,
                  "weight": 400,
-                 "color": "kit.mut",
+                 "color": "ink2",
                  "maxLines": 1
                 }
                ]
@@ -631,7 +632,7 @@
                "face": "noto",
                "size": 16.5,
                "weight": 700,
-               "color": "kit.accent",
+               "color": "accent",
                "maxLines": 1,
                "id": "followers",
                "shrink": 0
@@ -660,7 +661,7 @@
       "id": "border",
       "radius": 12,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }
@@ -676,7 +677,7 @@
       "id": "border",
       "radius": 3,
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1
       }
      }

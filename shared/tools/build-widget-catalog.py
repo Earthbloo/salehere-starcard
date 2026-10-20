@@ -544,6 +544,151 @@ def data_flow(spec, cm, seen, used, pts):
     <p class="fnote">③ แอปแปลงคำตอบเป็น Model ของหมวด (184000 → “184K” · percentage → share) ทุก widget ในหมวดได้ก้อนเดียวกันแล้วหยิบเฉพาะ field ที่ผังอ้าง — ค่าที่ใช้จริงอยู่ในชิปข้างล่าง</p>
   </section>'''
 
+# ---- token สี (WIDGET-SPEC.md §4): ผังเขียนแค่บทบาท 6 ชื่อ · สีจริง = บทบาท × พื้นที่ใบนั่ง (`widget.on` / โหนด `on`: card · light · dark) × ธีมการ์ด
+SURF_TH = {
+    'card': ('นั่งบนการ์ด', 'ไม่มีแผ่นของตัวเอง — หมึกผ่านตัวยันความอ่านออกของธีม (InkStyle) · สีเน้น = cardAccent'),
+    'light': ('แผ่นสว่าง', 'กระดาษ/กล่องสว่างของใบ — กระดาษครีมอมเฉดของธีม · คู่สี = สีอ่อนของคู่ (หมึก = สีเข้ม)'),
+    'dark': ('แผ่นเข้ม', 'แผ่นอิ่มสีของใบ (PosterPlate) — เฉดจากสีการ์ด · คู่สี = สีเข้มของคู่ (หมึก = สีอ่อน)'),
+}
+ROLE_TH = {'bg': 'พื้นของที่ที่ใบ/โหนดนั่ง', 'bg2': 'พื้นชั้นสอง — กล่องย่อย ชิป แถบหัว', 'ink': 'ตัวหนังสือ', 'ink2': 'หมึกจาง — ป้าย ตัวรอง ตัวอักษรฉากหลัง',
+           'accent': 'สีเน้นของการ์ด ปรับให้เข้ากับพื้นนั้นแล้ว', 'line': 'เส้นขอบ เส้นคั่น'}
+# สูตรของแต่ละบทบาทบนแต่ละพื้น (= SpecPalette.swift `card` / `sheet(_:light:)` · SpecPalette.kt · specPalette() ใน theme.js)
+FORMULA = {
+    'card': {'bg': 'ขาว (หมึกมืด) · ถ่าน 8% (หมึกสว่าง)', 'bg2': 'หมึกจาง 14% (InkStyle.fill)', 'ink': 'หมึกของการ์ด (InkStyle.text · ค่าตั้งต้น 100%)',
+             'ink2': 'หมึกจาง 50% (InkStyle.ghost)', 'accent': 'สีเน้นของธีมที่ปรับอ่านออกบนการ์ดแล้ว (cardAccent)', 'line': 'เส้นหมึก 12% (InkStyle.line)'},
+    'light': {'bg': 'กระดาษครีมอมเฉด hsb(hue การ์ด, .10, .97) · คู่สี = สีอ่อน (+7% เข้าหาสีเข้มเมื่อพลิก)', 'bg2': 'กระดาษผสมหมึก 6%',
+              'ink': 'ถ่านอมเฉด hsb(hue, .06, .11) · คู่สี = สีเข้ม', 'ink2': 'หมึกผสมกระดาษ 38%',
+              'accent': 'สีเน้นดิบปรับลงบนพื้นสว่าง (onLightSurface) · คู่สี = สีเข้ม', 'line': 'หมึก 20%'},
+    'dark': {'bg': 'แผ่นอิ่มสี PosterPlate.plate hsb(hue, .60, .255) · คู่สี = สีเข้ม', 'bg2': 'แผ่นผสมครีม 6%',
+             'ink': 'ครีมอมเฉด PosterPlate.cream hsb(hue, .085, .95) · คู่สี = สีอ่อน', 'ink2': 'ครีมผสมแผ่น 38%',
+             'accent': 'สีเน้นดิบของธีม (rawAccent) · คู่สี = สีอ่อน', 'line': 'ครีม 20%'},
+}
+# สีจริงของทุกคู่ (พื้น, token) ใต้ธีมตั้งต้นของตัวส่งออก — คิดด้วย specPalette ของเว็บ (ตัวเดียวกับที่วาดใบ) · เติมใน main()
+PAL = {}
+
+def load_presets():
+    """พาเลตต์/คู่สีสำเร็จรูปของถาด (hex) จาก sync-server/web/js/theme.js — ปุ่มลัดในแท็บ "ลองวางการ์ด" (doc เก็บแค่ hex)"""
+    node = node_bin()
+    if not node: return {}
+    js = """import { PRESETS, DUO_PRESETS, DEFAULT_PRIMARY } from %s;
+console.log(JSON.stringify({ palettes: PRESETS, duos: DUO_PRESETS, defaultPrimary: DEFAULT_PRIMARY }));""" % json.dumps(os.path.join(ROOT, 'sync-server/web/js/theme.js'))
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            f = os.path.join(td, 'presets.mjs'); open(f, 'w').write(js)
+            r = subprocess.run([node, f], capture_output=True, text=True, timeout=60)
+            return json.loads(r.stdout)
+    except Exception:
+        return {}
+
+def default_surface(w):
+    """พื้นผิวตั้งต้นของชิ้น (= `WidgetKind.defaultSurface`): `widget.surfaces[0]` · ไม่ระบุ = glass"""
+    return (w.get('surfaces') or ['glass'])[0]
+
+def load_palette(pairs):
+    """[(itemSurface, base, on, token)] → {'itemSurface|base|on|token': 'rgba(...)'} จาก theme.js ใต้ธีม WidgetMatrixExport.baseTheme
+    on = '' คือโหนดที่ไม่ได้ระบุ `on` (ใช้พื้นตั้งต้นของใบ — และตกเป็น card เมื่อชิ้นไม่ได้วาดแผ่น: กติกา noSheet ใน WIDGET-SPEC §4)"""
+    node = node_bin()
+    if not node or not pairs: return {}
+    js = """import { makeTheme, specPalette, css } from %s;
+const pairs = %s;
+const t = makeTheme({ colors: { primary: '#1A1F35' }, ink: 'night', backdrop: 'solid' });
+const pals = {};
+const out = {};
+for (const [itemSurface, base, on, tok] of pairs) {
+  const key = itemSurface + '|' + base;
+  pals[key] ??= specPalette({ t, ink: t.inkStyle, accent: t.accent, surface: itemSurface, skin: null, kit: {}, border: false, base });
+  out[itemSurface + '|' + base + '|' + on + '|' + tok] = css(pals[key].color(tok, on || null));
+}
+console.log(JSON.stringify(out));""" % (json.dumps(os.path.join(ROOT, 'sync-server/web/js/theme.js')), json.dumps(sorted(pairs)))
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            f = os.path.join(td, 'pal.mjs'); open(f, 'w').write(js)
+            r = subprocess.run([node, f], capture_output=True, text=True, timeout=60)
+            return json.loads(r.stdout)
+    except Exception:
+        return {}
+
+COLOR_KEYS = ('fill', 'stroke', 'color', 'tint', 'color2', 'platePattern')
+WHERE_TH = {'fill': 'พื้น', 'stroke': 'เส้นขอบ', 'color': 'ตัวหนังสือ', 'tint': 'ไอคอน', 'color2': 'ลายสีสอง', 'platePattern': 'ลายแผ่น',
+            'shadow': 'เงา', 'gradient': 'ไล่สี', 'pattern': 'ลาย', 'fillCycle': 'พื้นวนตามรายการ'}
+
+def colour_refs(n):
+    """[(token, ที่ใช้)] ของโหนดหนึ่ง (ลำดับเดียวกับ shared/tools/color-tokens-v2.mjs)"""
+    out = []
+    for k in COLOR_KEYS:
+        v = n.get(k)
+        if isinstance(v, str): out.append((v, WHERE_TH[k]))
+    st = n.get('stroke')
+    if isinstance(st, dict) and isinstance(st.get('color'), str): out.append((st['color'], 'เส้นขอบ'))
+    for v in (n.get('fillCycle') or []):
+        if isinstance(v, str): out.append((v, 'พื้นวนตามรายการ'))
+    g = n.get('gradient')
+    if isinstance(g, dict):
+        for k in ('from', 'to'):
+            if isinstance(g.get(k), str): out.append((g[k], 'ไล่สี'))
+    sh = n.get('shadow')
+    if isinstance(sh, dict): out.append((sh.get('color') or 'black@0.25', 'เงา'))
+    pt = n.get('pattern')
+    if isinstance(pt, dict):
+        for k in ('color', 'color2'):
+            if isinstance(pt.get(k), str): out.append((pt[k], 'ลาย'))
+    return out
+
+def walk_nodes(n, fn):
+    if isinstance(n, list):
+        for x in n: walk_nodes(x, fn)
+        return
+    if not isinstance(n, dict): return
+    if isinstance(n.get('type'), str): fn(n)
+    for k, v in n.items():
+        if k != 'widget' and isinstance(v, (dict, list)): walk_nodes(v, fn)
+
+def colour_block(spec):
+    """ส่วน "สี (token)" ของหน้ารายละเอียด — พื้นตั้งต้น · token ที่ใช้ต่อพื้น พร้อมสูตร · สีตรงตัว · โหนดที่นั่งคนละพื้น"""
+    base = spec['widget'].get('on') or 'card'
+    item_surface = default_surface(spec['widget'])
+    per = collections.OrderedDict()           # (พื้น, on ที่ระบุ|'') → {token → {where → count}}
+    lit, dyn, overs = collections.Counter(), collections.Counter(), collections.Counter()
+    def visit(n):
+        explicit = n.get('on') if n.get('on') in SURF_TH else None
+        surf = explicit or (base if base in SURF_TH else 'card')
+        if explicit and explicit != base: overs[explicit] += 1
+        for tok, where in colour_refs(n):
+            if tok.startswith('$'): dyn[tok] += 1; continue
+            name = tok.split('@')[0]
+            if name.startswith('#') or name in ('white', 'black', 'clear'): lit[tok] += 1; continue
+            per.setdefault((surf, explicit or ''), collections.OrderedDict()).setdefault(tok, collections.Counter())[where] += 1
+    walk_nodes([spec['root'], spec.get('variants') or []], visit)
+    title, desc = SURF_TH.get(base, SURF_TH['card'])
+    out = [f'<section class="blk tokens" data-k="{spec["kind"]}" data-base="{base}" data-surface="{item_surface}"><h3>สี (token) <small>ผังเขียนแค่บทบาท 6 ชื่อ · สีจริง = บทบาท × พื้นที่ใบนั่ง (card · light · dark) × ธีมการ์ด (WIDGET-SPEC §4) · swatch = ธีมตั้งต้นของตัวส่งออก หรือสีที่เลือกในแผง 🎨</small></h3>',
+           f'<p class="surf"><b>พื้นตั้งต้นของใบ</b> <code>on: {base}</code> <span class="sname">{esc(title)}</span> <span class="mut">— {esc(desc)}</span></p>']
+    order = ['bg', 'bg2', 'ink', 'ink2', 'accent', 'line']
+    nosheet = f'<p class="nosheet"><b>พื้นผิวตั้งต้นของชิ้น</b> <code>{item_surface}</code> · <span class="mut">ถ้าชิ้นไม่ได้วาดแผ่นของตัวเอง (พื้นผิว clear/pane · หรือชุด Canva เลือก fill=clear) โหนดที่ไม่ได้ระบุ <code>on</code> เองจะใช้สีของ <code>card</code> แทนพื้นตั้งต้น — โหนดที่ระบุ <code>on</code> เองยังใช้พื้นนั้น (กติกา noSheet · WIDGET-SPEC §4)</span></p>'
+    out.append(nosheet)
+    for (surf, explicit), toks in per.items():
+        st_title = SURF_TH.get(surf, SURF_TH['card'])[0]
+        head = f'<h4><code>{surf}</code> {esc(st_title)}{" <small>โหนดที่ใส่ on เอง — ใช้พื้นนี้เสมอ</small>" if explicit else " <small>ตามพื้นตั้งต้นของใบ — ตกเป็น card เมื่อไม่มีแผ่น</small>"}</h4>'
+        rows = []
+        for tok in sorted(toks, key=lambda t: (order.index(t.split("@")[0]) if t.split("@")[0] in order else 99, t)):
+            name, _, a = tok.partition('@')
+            wh = ' · '.join(f'{w} ×{c}' if c > 1 else w for w, c in toks[tok].most_common())
+            formula = FORMULA.get(surf, {}).get(name, '')
+            if a: formula = f'{formula} · ความทึบ {a}' if surf != 'card' or name == 'accent' or name == 'bg' else f'{formula.split(" (")[0]} ที่ {a}'
+            sw = PAL.get(f'{item_surface}|{base}|{explicit}|{tok}', '')
+            rows.append(f'<tr><td><s class="sw" data-tok="{esc(tok)}" data-on="{explicit}" style="background:{sw}" title="{esc(sw)}"></s><code class="tk {name}">{esc(tok)}</code></td><td>{esc(ROLE_TH.get(name, ""))}</td><td>{esc(formula)}</td><td class="mut">{esc(wh)}</td></tr>')
+        out.append(head + f'<div class="tw"><table class="tk"><thead><tr><th>สี · token</th><th>บทบาท</th><th>บนพื้นนี้ = </th><th>ใช้ที่</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>')
+    extra = []
+    if lit:
+        chips = ''.join(f'<i><s style="background:{esc(t.split("@")[0] if t.split("@")[0].startswith("#") else t.split("@")[0])}"></s>{esc(t)}{f" ×{c}" if c > 1 else ""}</i>' for t, c in lit.most_common())
+        extra.append(f'<p><b>สีตรงตัว</b> (ไม่เปลี่ยนตามธีม) <span class="lits">{chips}</span></p>')
+    if dyn:
+        extra.append('<p><b>สีจากรายการ</b> ' + ' · '.join(f'<code>{esc(t)}</code>' for t in dyn) + ' <span class="mut">— ค่าในฟิลด์ของชิ้นนั้น เช่นสีแบรนด์ของช่องทาง</span></p>')
+    if overs:
+        extra.append('<p><b>โหนดที่นั่งคนละพื้น</b> ' + ' · '.join(f'<code>on: {s}</code> {c} โหนด' for s, c in overs.most_common()) + '</p>')
+    if not per and not lit and not dyn: extra.append('<p class="mut">ใบนี้ไม่ได้ระบุสีเอง — ใช้ค่าตั้งต้นของตัววาด (ตัวหนังสือ = ink · เส้น = ink@0.12)</p>')
+    out.append(''.join(extra) + '</section>')
+    return ''.join(out)
+
 def detail(spec, fixture, siblings, cm):
     kind, w = spec['kind'], spec['widget']
     cat = w['category']
@@ -557,6 +702,7 @@ def detail(spec, fixture, siblings, cm):
     meta.append(f'{design["w"]}×{design["h"]}')
     if w.get('stamp'): meta.append(f'ป้าย Verified: {STAMP_TH[w["stamp"]]}')
     if w.get('pinned'): meta.append('ตรึงก้นหน้า ลบไม่ได้')
+    meta.append(f'พื้นสี: {w.get("on") or "card"}')
     # ---- จุดข้อมูล (เลขตรงกับรูป) + ป้ายตายตัว
     rows = ''.join(f'<li data-i="{i}"><span class="num">{i}</span><span class="w">{esc(what)}</span><span class="s">{esc(src_th)}</span><code>{esc(mk)}</code></li>'
                    for i, (b, what, src_th, mk) in enumerate(pts, 1))
@@ -598,6 +744,7 @@ def detail(spec, fixture, siblings, cm):
     </div>
   </div>
 {data_flow(spec, cm, seen, used, pts)}
+{colour_block(spec)}
   <section class="blk"><h3>③ widget ได้ค่าอะไร · Model ของหมวด{LABEL[cat]} <small>สีเข้ม = ใบนี้ใช้ · ตัวหนา = ค่าจริงตอนวาด</small></h3>{model_cards(cat, cm, used, seen)}</section>
   <section class="blk two">
     <div><h3>ผู้ใช้ปรับอะไรได้ <small>ค่าตั้งต้นถูกเลือกไว้ · ข้อความแก้ไม่ได้</small></h3><ul class="kv tray">{can}</ul></div>
@@ -832,6 +979,22 @@ CSS = '''
   .page9 { position:relative; width:540px; height:960px; transform-origin:top left; border-radius:22px; background:radial-gradient(120% 80% at 20% 0%, #2a3160, #141834 60%, #0f1226); box-shadow:0 10px 30px rgba(0,0,0,.25); flex:none; touch-action:none; }
   .page9::before { content:""; position:absolute; inset:18px; border:1px dashed rgba(255,255,255,.12); border-radius:12px; pointer-events:none; }
   .page9.drop { outline:3px solid var(--pt); outline-offset:4px; }
+  /* ถาดพื้นหลังของการ์ดในแท็บ "ลองวางการ์ด" — ก๊อปถาดของแอป: แบบพื้น · สี (สีของฉัน + สำเร็จรูป) · โทน (เฉพาะคู่สี: เข้ม/อ่อน) */
+  .ptheme { display:flex; flex-direction:column; gap:8px; background:#1c1c22; color:#ddd; border-radius:12px; padding:10px 12px; margin:0 0 10px; font-size:12px; }
+  .ptheme .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .ptheme .lbl { color:rgba(255,255,255,.45); font-size:10.5px; font-weight:600; min-width:34px; }
+  .ptheme .seg { display:inline-flex; background:rgba(255,255,255,.08); border-radius:999px; padding:2px; }
+  .ptheme .seg button { border:0; background:transparent; color:rgba(255,255,255,.78); font:600 12px var(--display); padding:5px 12px; border-radius:999px; cursor:pointer; }
+  .ptheme .seg button.on { background:rgba(255,255,255,.92); color:rgba(0,0,0,.86); }
+  .ptheme .dots { display:flex; gap:9px; align-items:center; overflow-x:auto; padding:3px 2px; scrollbar-width:none; }
+  .ptheme .dot { width:30px; height:30px; border-radius:50%; border:0.5px solid rgba(255,255,255,.2); cursor:pointer; flex:0 0 auto; padding:0; background:#888; transition:transform .15s; position:relative; }
+  .ptheme .dot.on { border:2px solid rgba(255,255,255,.95); transform:scale(1.1); }
+  .ptheme .dot.duo { background:linear-gradient(135deg, var(--a) 50%, var(--b) 50%); }
+  .ptheme .dot.my { background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.55); display:grid; place-items:center; font-size:13px; color:#fff; }
+  .ptheme .dot.my input { position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+  .ptheme .vsep { width:1px; height:30px; background:rgba(255,255,255,.14); margin:0 4px; }
+  .ptheme .group { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .ptheme .hex { font:11px var(--mono); color:rgba(255,255,255,.6); }
   .it { position:absolute; cursor:grab; touch-action:none; user-select:none; -webkit-user-select:none; }
   .it .im { position:absolute; inset:0; overflow:hidden; border-radius:10px; pointer-events:none; } .it .im img { position:absolute; pointer-events:none; }
   .it.sel { outline:3px solid var(--pt); outline-offset:2px; border-radius:10px; z-index:5; }
@@ -875,7 +1038,159 @@ CSS = '''
   .ui.stp b { padding:1px 10px; border-inline:1px solid var(--line); font-variant-numeric:tabular-nums; }
   .ui.btn { font-size:12.5px; padding:3px 10px; border-radius:8px; border:1px solid var(--line); background:var(--paper); }
   .fnote { font-size:13px; color:var(--mute); margin:10px 0 0; }
+  /* ===== สี (token) ของใบ ===== */
+  .card code .surf { font-style:normal; font-size:10px; padding:1px 6px; border-radius:999px; background:var(--chip); color:var(--mute); margin-left:4px; }
+  .tokens h4 { margin:16px 0 6px; font:600 14px var(--display); } .tokens h4 small { color:var(--faint); font-weight:500; font-size:12px; margin-left:6px; }
+  .tokens .surf { font-size:14px; margin:10px 0 0; } .tokens .surf .sname { font-weight:600; margin-left:4px; }
+  .tokens .tw { overflow:auto; }
+  table.tk { border-collapse:collapse; width:100%; font-size:13px; } table.tk th { text-align:left; font-weight:600; color:var(--mute); font-size:11.5px; padding:4px 8px; border-bottom:1px solid var(--line); }
+  table.tk td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; } table.tk td:first-child { white-space:nowrap; } table.tk td:nth-child(2) { min-width:150px; }
+  code.tk { padding:1px 7px; border-radius:6px; background:var(--chip); font-weight:600; }
+  s.sw { display:inline-block; width:18px; height:18px; border-radius:5px; border:1px solid var(--line); text-decoration:none; vertical-align:middle; margin-right:6px;
+         background-image:linear-gradient(45deg,#8883 25%,transparent 25%,transparent 75%,#8883 75%),linear-gradient(45deg,#8883 25%,transparent 25%,transparent 75%,#8883 75%); background-size:8px 8px; background-position:0 0,4px 4px; }
+  s.sw[style] { background-image:none; }
+  code.tk.bg { background:#e9e4e6; color:#1d1416; } code.tk.bg2 { background:#f3eef0; color:#1d1416; } code.tk.ink { background:#1d1416; color:#fff; } code.tk.ink2 { background:#6c5d61; color:#fff; }
+  code.tk.accent { background:var(--accent); color:#fff; } code.tk.line { background:transparent; border:1px dashed var(--mute); }
+  .tokens .lits i { font-style:normal; display:inline-flex; align-items:center; gap:5px; margin:0 8px 4px 0; font:12px var(--mono); }
+  .tokens .lits s { display:inline-block; width:14px; height:14px; border-radius:4px; border:1px solid var(--line); text-decoration:none; }
+  .tokens p { font-size:13.5px; margin:10px 0 0; }
+  .tokens .nosheet { font-size:12.5px; margin-top:6px; }
+  /* ===== สีพื้นหลังตามแอป (วาดสดจากตัววาดเว็บของ sync-server) ===== */
+  .colour { margin:14px 0 0; }
+  .colour .col-head { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .colour .pill { font:600 13px var(--display); padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--paper); cursor:pointer; color:var(--ink); }
+  .colour .pill.on { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .colour .note { color:var(--mute); font-size:12.5px; }
+  #col-tray { margin-top:8px; }
+  .cw { min-width:0; display:flex; flex-direction:column; }
+  .cw .col-tray { margin:2px 4px 6px; } .cw .col-tray .bt { padding:8px 10px; }
+  .cw .col-state { font-size:11px; color:var(--mute); padding:0 8px; }
+  .th .live { position:absolute; inset:6px; overflow:hidden; }
+  .th .live > div { position:absolute !important; left:50%; top:50%; transform-origin:center; }
+  .th .col-adj { position:absolute; right:6px; top:6px; z-index:3; font:600 11px var(--display); padding:3px 8px; border-radius:999px; border:0; background:rgba(0,0,0,.55); color:#fff; cursor:pointer; display:none; }
+  body.live .th .col-adj { display:block; }
+  .cw.over .col-adj { background:var(--accent); }
 '''
+
+COLOUR_HTML = '''<div class="colour" id="colour">
+      <div class="col-head"><button type="button" class="pill" id="col-toggle">🎨 สีพื้นหลังตามแอป</button><span class="note" id="col-note">เลือกสีเดียว/ไล่เฉด · สี · โทน (เฉพาะคู่สี) เหมือนถาด "พื้นหลัง" ในแอป แล้วทุก widget วาดใหม่ด้วยสีนั้น · กด "ปรับ" บนใบไหนก็ตั้งสีเฉพาะใบนั้นได้ (ต้องเปิด sync-server พอร์ต 8787)</span></div>
+      <div id="col-tray" hidden></div>
+    </div>'''
+
+# สคริปต์ module: โหลดตัววาดเว็บจาก sync-server เมื่อผู้ใช้เปิดแผงสี · ธีมตั้งต้น = ภาพ iOS เดิม
+LIVE_JS = r'''
+// ---------- สีพื้นหลังตามแอป: วาด widget สดด้วยตัววาดเว็บ (sync-server/web/js) — ภาพนิ่งคือธีมตั้งต้นของตัวส่งออก iOS ----------
+const SERVER = 'http://localhost:8787';
+const KEY = 'sc-cat-colour-v2';   // v2 = เก็บ hex (colors.primary/secondary) ไม่ใช่ชื่อพาเลตต์
+const trayEl = document.getElementById('col-tray'), note = document.getElementById('col-note'), toggle = document.getElementById('col-toggle');
+const cards = [...document.querySelectorAll('#home .cw')];
+let lib = null, loading = null, state = { page: null, per: {} };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.page) state = { page: s.page, per: s.per || {} }; } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+const fixtures = {};
+const fixture = async (k) => (fixtures[k] ??= await fetch(`${SERVER}/card/fixtures/fixtures/${k}.json`).then(r => (r.ok ? r.json() : null)).then(f => f?.cases.find(c => c.probe === 'design') || null).catch(() => null));
+
+async function load() {
+  if (lib) return lib;
+  if (loading) return loading;
+  note.textContent = 'กำลังโหลดตัววาดจาก sync-server…';
+  loading = (async () => {
+    const j = (f) => import(`${SERVER}/card/js/${f}`);
+    const [tray, model, measure, data, chrome, backdrop, replay, theme] = await Promise.all([j('backdrop-tray.js'), j('spec-model.js'), j('measure.js'), j('data.js'), j('chrome.js'), j('backdrop.js'), j('replay.js'), j('theme.js')]);
+    document.head.appendChild(Object.assign(document.createElement('style'), { textContent: tray.TRAY_CSS }));
+    await measure.loadFonts(`${SERVER}/card/fonts/`);
+    // GET ธรรมดา (ไม่มี preflight ข้าม origin) — ผังอ่านสดจาก shared/WidgetSpecs ชุดเดียวกับ GraphQL
+    const r = await fetch(`${SERVER}/api/specs`);
+    const specs = Object.fromEntries(Object.entries((await r.json()).specs).map(([k, j]) => [k, model.parseSpec(j)]));
+    lib = { ...tray, ...data, ...chrome, ...backdrop, ...replay, specs, measurer: new measure.WebMeasurer(), specPalette: theme.specPalette, css: theme.css };
+    if (!state.page) state.page = lib.defaultChoice();
+    document.body.classList.add('live');
+    note.textContent = 'ธีมตั้งต้น = ภาพจาก iOS · เลือกสีแล้วทุกใบวาดใหม่ด้วยตัววาดเว็บ (ผัง JSON ชุดเดียวกัน) · "ปรับ" บนใบ = สีเฉพาะใบนั้น';
+    return lib;
+  })().catch((e) => { loading = null; note.textContent = 'โหลดตัววาดไม่ได้ — เปิด sync-server ก่อน (preview "sync-server" · node sync-server/server.mjs · พอร์ต 8787): ' + e.message; throw e; });
+  return loading;
+}
+
+const choiceFor = (k) => state.per[k] || state.page;
+function fit(live) { const inner = live.firstChild; if (!inner) return; const r = live.getBoundingClientRect(); const k = Math.min(r.width / inner.offsetWidth, r.height / inner.offsetHeight); inner.style.transform = `translate(-50%,-50%) scale(${k})`; }
+window.addEventListener('resize', () => document.querySelectorAll('.th .live').forEach(fit));
+
+async function renderCard(cw) {
+  const kind = cw.dataset.k, th = cw.querySelector('.th'), img = th.querySelector('img[data-k]');
+  let live = th.querySelector('.live');
+  const choice = choiceFor(kind);
+  cw.classList.toggle('over', !!state.per[kind]);
+  cw.querySelector('.col-state').textContent = state.per[kind] ? 'ใบนี้: ' + lib.describe(state.per[kind]) : '';
+  if (lib.isDefault(choice)) { live?.remove(); img.style.visibility = ''; return; }   // ธีมตั้งต้น = ภาพ iOS เดิม
+  const spec = lib.specs[kind]; if (!spec) return;
+  const W = spec.design.w, H = spec.design.h, M = 12;
+  if (!live) { live = document.createElement('div'); live.className = 'live'; th.appendChild(live); }
+  live.innerHTML = '';
+  const inner = document.createElement('div');
+  inner.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative;border-radius:10px`;
+  live.appendChild(inner);
+  const theme = lib.themeOf(choice);
+  lib.paintBackdrop(inner, theme, W + M * 2, H + M * 2);
+  const fx = await fixture(kind);
+  const profile = new lib.Profile({}, {});
+  const fallback = new lib.WebSpecData({ profile, item: {}, sample: true, surface: 'glass' });
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false };
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: `${SERVER}/card/`,
+    imageURL: (id) => `${SERVER}/api/images/${id}`, makeData: fx ? () => new lib.ReplayData(fx.data, fallback) : null };
+  try { lib.mountWidget(inner, item, { x: M, y: M, width: W, height: H }, env); } catch (e) { inner.innerHTML = `<pre style="color:#f77;font-size:10px">${e.message}</pre>`; }
+  img.style.visibility = 'hidden';
+  fit(live);
+}
+async function renderAll(onlyPage) {
+  for (const cw of cards) { if (onlyPage && state.per[cw.dataset.k]) continue; await renderCard(cw); }
+  paintSwatches();
+}
+// swatch ในส่วน "สี (token)" ของหน้ารายละเอียด = สีจริงใต้สีที่เลือก (ของหน้า หรือของใบนั้น) — ตัวคิดเดียวกับที่วาดใบ
+function paintSwatches() {
+  if (!lib) return;
+  for (const sec of document.querySelectorAll('section.tokens[data-k]')) {
+    const t = lib.themeOf(choiceFor(sec.dataset.k));
+    // พื้นผิวตั้งต้นของชิ้น + พื้นตั้งต้นของใบ (widget.on) — กติกา noSheet ทำงานตามพื้นผิวนั้น · โหนดที่ไม่ระบุ on ส่ง null
+    const pal = lib.specPalette({ t, ink: t.inkStyle, accent: t.accent, surface: sec.dataset.surface || 'glass', skin: null, kit: {}, border: false, base: sec.dataset.base || 'card' });
+    for (const sw of sec.querySelectorAll('s.sw[data-tok]')) { const c = lib.css(pal.color(sw.dataset.tok, sw.dataset.on || null)); sw.style.background = c; sw.title = c; }
+  }
+}
+
+// แผงของทั้งหน้า
+let open = false;
+function rebuildPage() {
+  const reset = document.createElement('button'); reset.type = 'button'; reset.className = 'link'; reset.textContent = 'ตั้งต้น (ภาพ iOS)';
+  reset.onclick = () => { state.page = lib.defaultChoice(); state.per = {}; save(); rebuildPage(); cards.forEach(cw => { cw.querySelector('.col-tray').hidden = true; }); renderAll(false); };
+  lib.buildTray(trayEl, state.page, () => { save(); rebuildPage(); renderAll(true); }, { extra: reset });
+}
+toggle.addEventListener('click', async () => {
+  open = !open; toggle.classList.toggle('on', open); trayEl.hidden = !open;
+  if (open) { try { await load(); rebuildPage(); } catch (e) { open = false; toggle.classList.remove('on'); trayEl.hidden = true; } }
+});
+
+// "ปรับ" บนใบ — สีเฉพาะใบนั้น (เริ่มจากค่าของหน้า) · "ตามหน้า" = เลิกปรับ
+for (const cw of cards) {
+  const k = cw.dataset.k, mini = cw.querySelector('.col-tray');
+  const rebuildMini = () => {
+    const back = document.createElement('button'); back.type = 'button'; back.className = 'link'; back.textContent = 'ตามหน้า';
+    back.onclick = () => { delete state.per[k]; save(); mini.hidden = true; renderCard(cw); paintSwatches(); };
+    lib.buildTray(mini, state.per[k], () => { save(); rebuildMini(); renderCard(cw); paintSwatches(); }, { extra: back });
+  };
+  cw.querySelector('.col-adj').addEventListener('click', async (e) => {
+    e.preventDefault(); e.stopPropagation();
+    await load();
+    if (state.per[k] && !mini.hidden) { mini.hidden = true; return; }
+    if (!state.per[k]) { state.per[k] = { ...state.page }; save(); }
+    rebuildMini(); mini.hidden = false; renderCard(cw);
+  });
+}
+
+// เคยเลือกไว้ → วาดต่อให้เลยตอนเปิดหน้า (ถ้า sync-server ไม่เปิดก็ยังเห็นภาพ iOS ตามเดิม)
+if (state.page && (Object.keys(state.per).length || state.page.backdrop !== 'solid' || (state.page.primary || '').toUpperCase() !== '#1A1F35' || state.page.secondary || state.page.tone !== 'dark')) {
+  load().then(() => { renderAll(false); for (const cw of cards) if (state.per[cw.dataset.k]) { cw.querySelector('.col-adj').click(); } }).catch(() => {});
+}
+'''
+
 
 JS = '''
 const home = document.getElementById('home');
@@ -917,12 +1232,13 @@ PLAY_HTML = '''
     <aside class="pal" aria-label="widget ทั้งหมด"><input id="pq" type="search" placeholder="ค้นหา widget" aria-label="ค้นหา widget"><div id="pal"></div></aside>
     <div class="boardwrap">
       <div class="bar"><span>สตอรี่ 540 × 960</span><span id="cnt"></span><button type="button" id="preset">ตัวอย่าง</button><button type="button" id="reset">ล้าง</button></div>
+      <div class="ptheme" id="ptheme" aria-label="พื้นหลังของการ์ด"></div>
       <div class="board" id="board"><div class="page9" id="page9"></div></div>
       <div class="sel" id="sel"><span class="mut">แตะชิ้นบนการ์ดเพื่อดูว่าเก็บอะไร</span></div>
     </div>
     <aside class="api" aria-label="API">
       <div class="ptabs" role="tablist"><button type="button" class="on" data-p="doc">doc ที่เก็บ</button><button type="button" data-p="save">บันทึก</button><button type="button" data-p="load">เปิดการ์ด</button></div>
-      <div class="pp" data-p="doc"><p class="hint">เก็บแค่ <b>ตำแหน่ง · ขนาด · ตัวเลือกของชิ้น</b> — ไม่มีข้อความหรือข้อมูลเจ้าของในการ์ด</p><pre id="doc"></pre></div>
+      <div class="pp" data-p="doc"><p class="hint">เก็บแค่ <b>ตำแหน่ง · ขนาด · ตัวเลือกของชิ้น</b> + <b>theme</b> 3 อย่างตามถาดพื้นหลัง: <b>colors</b> (hex เท่านั้น — พาเลตต์/คู่สีในแอปเป็นแค่ปุ่มลัด) · <b>ink</b> (โทน) · <b>backdrop</b> (สีเดียว/ไล่เฉด) — ไม่มีข้อความหรือข้อมูลเจ้าของในการ์ด · โทน (<b>ink</b>) ของสีเดียวเลือกเองจากความสว่างของพื้น ผู้ใช้เลือกโทนเข้ม/อ่อนได้เฉพาะคู่สี</p><pre id="doc"></pre></div>
       <div class="pp" data-p="save" hidden><p class="hint">แอปบันทึกร่างอัตโนมัติหลังแก้ · <b>baseRev</b> ต้องตรงกับฉบับล่าสุด ไม่ตรง = มีคนแก้ซ้อน</p><ol id="log" class="log"></ol><pre id="mut"></pre></div>
       <div class="pp" data-p="load" hidden><p class="hint">เปิดการ์ด = โหลด doc 1 ครั้ง + query ของ<b>หมวดละ 1 ครั้ง</b> ไม่ว่าหมวดนั้นจะมีกี่ใบ</p><div id="calls"></div></div>
     </aside>
@@ -941,14 +1257,81 @@ PLAY_JS = r'''
   const snap = v => Math.round(v / STEP) * STEP;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   let items = [], sel = null, rev = 1, scale = 1, saveT = null, log = [];
+  // ---- สีของการ์ด = สิ่งที่ doc เก็บจริง (`theme.colors`) · พาเลตต์/คู่สีเป็นปุ่มลัดที่เขียน hex (20 ต.ค. 2569 รอบ 3)
+  const PAL = PRESETS.palettes || {}, DUOS = PRESETS.duos || {}, DEF = PRESETS.defaultPrimary || '#1A1F35';
+  const DUO_IDS = ['indigo', 'ink', 'field', 'cocoa', 'teal', 'plum', 'merlot', 'cordovan', 'cobalt', 'clay', 'acid'].filter(k => DUOS[k]);
+  let ptheme = { backdrop: 'solid', primary: DEF, secondary: null, tone: 'dark' };
+  const up = v => (v || '').toUpperCase();
+  const hsbOf = hex => { const n = parseInt(hex.slice(1), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let h = 0; if (d) { h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h = (h / 6 + 1) % 1; } return { h, s: mx ? d / mx : 0, b: mx }; };
+  const lum = hex => { const n = parseInt(hex.slice(1), 16); const f = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(n >> 16 & 255) + 0.7152 * f(n >> 8 & 255) + 0.0722 * f(n & 255); };
+  const darker = (hex, k) => { const n = parseInt(hex.slice(1), 16); const c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(v => Math.round(v * (1 - k))); return '#' + c.map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase(); };
+  /** = `CardTheme` ส่วนที่แอปเขียนลง doc: คู่สี → `ink` ตามโทน เข้ม/อ่อน (สีไหนขึ้นเป็นพื้น) · สีเดียว → ไม่มีโทน หมึกเลือกเองจากความสว่างของพื้น (= `autoInk`) */
+  const lightInkOf = hex => hsbOf(hex).s >= 0.35 ? 'mist' : 'paper';
+  const autoInkOf = hex => { const l = lum(hex); return (l + 0.05) / 0.07 > 1.05 / (l + 0.05) ? lightInkOf(hex) : 'night'; };
+  function docTheme() {
+    const colors = { primary: ptheme.primary }; if (ptheme.secondary) colors.secondary = ptheme.secondary;
+    const ink = ptheme.secondary ? (ptheme.tone === 'dark' ? 'night' : lightInkOf(ptheme.primary)) : autoInkOf(ptheme.primary);
+    return { colors, ink, backdrop: ptheme.backdrop };
+  }
+  /** พื้นของกระดาน = สิ่งที่ renderer จะทำจาก doc: คู่สี → โทนมืดใช้สีเข้มของคู่ · โทนสว่างใช้สีอ่อน */
+  function paintPage() {
+    const p = ptheme.primary, s = ptheme.secondary;
+    let bg = p, ink = null;
+    if (s) { const dark = lum(p) < lum(s) ? p : s, light = dark === p ? s : p; bg = ptheme.tone === 'light' ? light : dark; ink = bg === dark ? light : dark; }
+    const bottom = ink ? (lum(ink) < lum(bg) ? darker(bg, 0.10) : darker(bg, 0.26)) : darker(bg, 0.20);
+    page.style.background = ptheme.backdrop === 'gradient' ? `linear-gradient(180deg, ${bg}, ${bottom})` : bg;
+    page.style.setProperty('--pink', docTheme().ink !== 'night' ? 'rgba(0,0,0,.18)' : 'rgba(255,255,255,.12)');
+  }
+  function describeTheme() { return `${ptheme.backdrop === 'gradient' ? 'ไล่เฉด' : 'สีเดียว'} · ${ptheme.primary}${ptheme.secondary ? ` + ${ptheme.secondary} · ${ptheme.tone === 'dark' ? 'เข้ม' : 'อ่อน'}` : ''}`; }
+  function buildTheme() {
+    const host = document.getElementById('ptheme'); host.innerHTML = '';
+    const seg = (opts, val, pick) => { const d = document.createElement('div'); d.className = 'seg'; for (const [v, t] of opts) { const b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.className = v === val ? 'on' : ''; b.onclick = () => { pick(v); onTheme(); }; d.appendChild(b); } return d; };
+    const row = (label, ...kids) => { const d = document.createElement('div'); d.className = 'row'; if (label) { const l = document.createElement('span'); l.className = 'lbl'; l.textContent = label; d.appendChild(l); } kids.forEach(k => d.appendChild(k)); host.appendChild(d); return d; };
+    row('', seg([['solid', 'สีเดียว'], ['gradient', 'ไล่เฉด']], ptheme.backdrop, v => { ptheme.backdrop = v; }));
+    const presetHex = new Set(Object.values(PAL).flatMap(p => [p.dark, p.light]));
+    const mine = !ptheme.secondary && !presetHex.has(up(ptheme.primary));
+    const my = document.createElement('div'); my.className = 'group'; my.innerHTML = '<span class="lbl">สีของฉัน</span>';
+    const myDots = document.createElement('div'); myDots.className = 'dots';
+    const pick = document.createElement('button'); pick.type = 'button'; pick.className = 'dot my' + (mine ? ' on' : ''); pick.textContent = '✎'; if (mine) pick.style.background = ptheme.primary;
+    const input = document.createElement('input'); input.type = 'color'; input.value = ptheme.primary;
+    input.oninput = () => { ptheme.primary = up(input.value); ptheme.secondary = null; onTheme(); };
+    pick.appendChild(input); myDots.appendChild(pick);
+    const hexLbl = document.createElement('span'); hexLbl.className = 'hex'; hexLbl.textContent = ptheme.secondary ? `${ptheme.primary} + ${ptheme.secondary}` : ptheme.primary; myDots.appendChild(hexLbl);
+    my.appendChild(myDots);
+    const sep = document.createElement('div'); sep.className = 'vsep';
+    const presets = document.createElement('div'); presets.className = 'group'; presets.innerHTML = '<span class="lbl">สำเร็จรูป</span>';
+    const dots = document.createElement('div'); dots.className = 'dots';
+    for (const id of DUO_IDS) {
+      const d = DUOS[id], cur = [up(ptheme.primary), up(ptheme.secondary)];
+      const on = !!ptheme.secondary && cur.includes(d.dark) && cur.includes(d.light);
+      const flip = ptheme.tone === 'light';   // ซีกซ้าย = สีที่ขึ้นเป็นพื้นตามโทน (แค่แสดงผล — doc เก็บคู่ตามนิยาม)
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'dot duo' + (on ? ' on' : ''); b.title = id;
+      b.style.setProperty('--a', flip ? d.light : d.dark); b.style.setProperty('--b', flip ? d.dark : d.light);
+      b.onclick = () => { ptheme.primary = d.dark; ptheme.secondary = d.light; onTheme(); };
+      dots.appendChild(b);
+    }
+    for (const [name, p] of Object.entries(PAL)) {
+      const on = !ptheme.secondary && (up(ptheme.primary) === p.dark || up(ptheme.primary) === p.light);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'dot' + (on ? ' on' : ''); b.title = name;
+      b.style.background = `linear-gradient(135deg, ${p.accentSoft}, ${p.accent})`;
+      // แตะครั้งแรก = เฉดเข้ม · แตะซ้ำเม็ดที่เลือกอยู่ = สลับเข้ม/อ่อน (= `CardTheme.setPreset`)
+      b.onclick = () => { ptheme.primary = on && up(ptheme.primary) === p.dark ? p.light : p.dark; ptheme.secondary = null; onTheme(); };
+      dots.appendChild(b);
+    }
+    presets.appendChild(dots);
+    row('สี', my, sep, presets);
+    // โทน — เฉพาะคู่สี (20 ต.ค. 2569): เข้ม/อ่อน = สีไหนของคู่ขึ้นเป็นพื้น · แตะแค่ `ink` ไม่เขียนทับค่าสี
+    if (ptheme.secondary) row('โทน', seg([['dark', 'เข้ม'], ['light', 'อ่อน']], ptheme.tone, v => { ptheme.tone = v; }));
+  }
+  function onTheme() { buildTheme(); paintPage(); change('เปลี่ยนพื้นหลัง → theme (' + describeTheme() + ')'); }
   const seal = () => { const p = byK.proofSeal; const w = 246, h = Math.round(w * p.dh / p.dw); return mk('proofSeal', PAGE.w - M - w, PAGE.h - M - h, w, h); };
   function mk(k, x, y, w, h) { const p = byK[k]; return Object.assign({ id: uid(), kind: k, x, y, w: w ?? p.it.w, h: h ?? p.it.h }, JSON.parse(JSON.stringify(p.it)), { w: w ?? p.it.w, h: h ?? p.it.h, x, y }); }
   function order(it) { const { id, kind, x, y, w, h, ...rest } = it; return { id, kind, x, y, w, h, ...rest }; }
-  function save() { try { localStorage.setItem('sc-play-v1', JSON.stringify({ items, rev })); } catch (e) {} }
-  function load() { try { const s = JSON.parse(localStorage.getItem('sc-play-v1')); if (s && s.items) { items = s.items.filter(i => byK[i.kind]); rev = s.rev || 1; return true; } } catch (e) {} return false; }
+  function save() { try { localStorage.setItem('sc-play-v2', JSON.stringify({ items, rev, theme: ptheme })); } catch (e) {} }
+  function load() { try { const s = JSON.parse(localStorage.getItem('sc-play-v2')); if (s && s.items) { items = s.items.filter(i => byK[i.kind]); rev = s.rev || 1; if (s.theme && s.theme.primary) ptheme = s.theme; return true; } } catch (e) {} return false; }
   function preset() {
-    items = [mk('heroMinimal', 18, 18, 504, null), mk('statPoster', 18, 0), mk('kitRate', 18, 0), seal()];
-    items[1].y = items[0].y + items[0].h + 10; items[2].y = items[1].y + items[1].h + 10; items[2].w = 246; items[2].h = Math.round(246 * byK.kitRate.dh / byK.kitRate.dw);
+    items = [mk('heroMinimal', 18, 18, 504, null), mk('statPoster', 18, 0), mk('kitRatePurple', 18, 0), seal()];
+    items[1].y = items[0].y + items[0].h + 10; items[2].y = items[1].y + items[1].h + 10; items[2].w = 246; items[2].h = Math.round(246 * byK.kitRatePurple.dh / byK.kitRatePurple.dw);
     items[0].h = Math.round(504 * byK.heroMinimal.dh / byK.heroMinimal.dw);
     items[1].y = items[0].y + items[0].h + 10; items[2].y = items[1].y + items[1].h + 10;
   }
@@ -970,7 +1353,7 @@ PLAY_JS = r'''
     cntEl.textContent = items.length + ' ชิ้น';
     renderSel(); renderDoc(); renderCalls();
   }
-  function docObj() { return { schemaVersion: 1, format: 'story', name: 'การ์ดของฉัน', theme: { palette: 'midnight', ink: 'night', backdrop: 'solid', corner: 'round' }, pages: [{ items: items.map(order) }] }; }
+  function docObj() { return { schemaVersion: 1, format: 'story', name: 'การ์ดของฉัน', theme: docTheme(), pages: [{ items: items.map(order) }] }; }
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function hl(s) { return esc(s).replace(/("[^"]*")(\s*:)/g, '<span class="jk">$1</span>$2').replace(/(:\s*)("[^"]*")/g, '$1<span class="js">$2</span>').replace(/(:\s*)(-?\d+(?:\.\d+)?|true|false|null)/g, '$1<span class="jn">$2</span>'); }
   function renderDoc() {
@@ -1068,6 +1451,7 @@ mutation SaveStarCardDraft($id: Int!, $doc: String!, $baseRev: Int!) {
   document.getElementById('reset').onclick = () => { items = [seal()]; sel = null; change('ล้างการ์ด (เหลือตราที่ตรึง)'); };
   document.getElementById('preset').onclick = () => { preset(); sel = null; change('ใส่การ์ดตัวอย่าง'); };
   if (!load()) preset();
+  buildTheme(); paintPage();
   if (!items.some(i => i.options?.pinned)) items.push(seal());
   log.push({ rev, t: 'เปิดการ์ด' });
   window.addEventListener('resize', fitScale);
@@ -1371,6 +1755,17 @@ def main():
     cats = [c for c in ORDER if bycat.get(c)]
     groups = collections.OrderedDict((g, []) for g in ('เกี่ยวกับฉัน', 'รับงาน', 'ผลงาน'))
     for c in cats: groups[GROUP[c]].append(c)
+    pairs = set()
+    for s0 in specs:
+        base0 = s0['widget'].get('on') or 'card'
+        surf0 = default_surface(s0['widget'])
+        def _v(n, base0=base0, surf0=surf0):
+            explicit = n.get('on') if n.get('on') in SURF_TH else ''
+            for tok, _w in colour_refs(n):
+                name = tok.split('@')[0]
+                if not tok.startswith('$') and not name.startswith('#') and name not in ('white', 'black', 'clear'): pairs.add((surf0, base0, explicit, tok))
+        walk_nodes([s0['root'], s0.get('variants') or []], _v)
+    PAL.update(load_palette(list(pairs)))
     imgs, index, details, nav, play, rdat = {}, [], [], [], [], {}
     for g, cs in groups.items():
         gk = GROUP_KEY[cs[0]]
@@ -1390,7 +1785,7 @@ def main():
                 rdat[k] = render_data(s, fixture, cm)
                 play.append(dict(k=k, t=w['title'], c=c, cl=LABEL[c], g=GROUP_KEY[c], dw=s['design']['w'], dh=s['design']['h'],
                                  own=bool(w.get('ownSurface')), ka=bool(w.get('keepAspect')), pin=bool(w.get('pinned')), it=it))
-                cards.append(f'<a class="card" href="#w/{k}"><span class="th"><img data-k="{k}" alt=""></span><b>{esc(w["title"])}</b><code>{k}</code></a>')
+                cards.append(f'<div class="cw" data-k="{k}"><a class="card" href="#w/{k}"><span class="th"><img data-k="{k}" alt=""><button type="button" class="col-adj" title="ปรับสีเฉพาะใบนี้">ปรับ</button></span><b>{esc(w["title"])}</b><code>{k} <i class="surf">{w.get("on") or "card"}</i></code></a><div class="col-tray" hidden></div><span class="col-state"></span></div>')
             meta = [TIER_TH[TIER.get(c, 'personal')]] + ([f'ล็อกจนกรอก{LOCK[c]}'] if LOCK.get(c) else [])
             index.append(f'<section class="cat" id="cat-{c}"><div class="ch"><h2>{LABEL[c]}</h2><code>{c}</code><span class="n">{len(items)} widget</span>'
                          f'<span class="cm">{" · ".join(meta)}</span></div><div class="cards">{"".join(cards)}</div></section>')
@@ -1409,6 +1804,7 @@ def main():
     <div class="eyebrow">Star Card · Widget Catalog</div>
     <h1>Widget ทั้งหมด</h1>
     <p class="lede">{len(specs)} widget · {len(cats)} หมวด · แตะ widget เพื่อดูว่าใช้ข้อมูลอะไร มาจากไหน</p>
+    {COLOUR_HTML}
   </header>
   <nav class="cats" aria-label="ไปยังหมวด">{"".join(nav)}</nav>
   {"".join(index)}
@@ -1422,9 +1818,13 @@ const IMG = {json.dumps(imgs)};
 const PLAY = {json.dumps(play, ensure_ascii=False)};
 const RD = {json.dumps(rdat, ensure_ascii=False)};
 const CATQ = {json.dumps({c: 'StarCard' + c[0].upper() + c[1:] + 'Model' for c in cats})};
+const PRESETS = {json.dumps(load_presets())};
 {JS}
 {PLAY_JS}
 {RENDER_JS}
+</script>
+<script type="module">
+{LIVE_JS}
 </script>
 '''
     open(OUT, 'w', encoding='utf-8').write(page)

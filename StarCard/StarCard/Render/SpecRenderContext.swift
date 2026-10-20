@@ -34,8 +34,8 @@ struct SpecIconRequest {
 enum SpecPlatePattern: String { case plain, stripe, diamond }
 
 protocol SpecRenderContext: AnyObject {
-    /// token → สี · รวม token ของแอป (`kit.ink` · `scrap.paper` · `ed.sheet` …) และ `$field` ของรายการ (`$tint@0.3`)
-    func color(_ token: String, item: SpecItem?) -> UIColor
+    /// token → สี · 6 บทบาท (`bg bg2 ink ink2 accent line`) คิดจากพื้น `on` ของโหนด (nil = `widget.on`) และ `$field` ของรายการ (`$tint@0.3`)
+    func color(_ token: String, on: String?, item: SpecItem?) -> UIColor
     /// ฟอนต์ตัวเดียวกับที่ตัววัดใช้ (face token → ไฟล์ฟอนต์ · น้ำหนัก · เอียง)
     func font(_ f: SpecFont) -> UIFont
     /// ความสูงบรรทัดของฟอนต์นี้ (ตัววัดคนเดียวกัน — ใช้คิด `lineHeight` ของผัง)
@@ -52,5 +52,5 @@ protocol SpecRenderContext: AnyObject {
 }
 
 extension SpecRenderContext {
-    func color(_ token: String) -> UIColor { color(token, item: nil) }
+    func color(_ token: String, on: String? = nil) -> UIColor { color(token, on: on, item: nil) }
 }

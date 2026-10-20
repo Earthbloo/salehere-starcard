@@ -24,9 +24,10 @@ enum SpecChromeSurface: String { case glass, dim, clear, pane }
 /// สี/ตัวเลขของธีมที่ chrome ใช้ — แอปเป็นคนคิด (หมึก · แผ่นเข้ม · สีเน้น · มุม)
 struct SpecChromeStyle {
     var radius: CGFloat
-    /// ม่านใต้กระจก — ขาวขุ่น 58% บนหมึกสว่าง · ดำจาง 16% บนหมึกมืด/คู่สี
+    /// สีแผ่นกระจก (ทาทึบ ไม่มีวัสดุเบลู) = **ผลที่ Liquid Glass (.clear) ของ SwiftUI วาดออกมาจริง** วัดจากภาพส่งออก 21 ต.ค. 2569
+    /// (= GlassPanel.kt · chrome.js): หมึกสว่าง → ขาว 57.5% · หมึกมืด/คู่สี → ขาว 5.6% · ชั้น verified บนหมึกมืด → ดำ 70%
     var veil: UIColor
-    /// สีเน้นที่ย้อมกระจกชั้น verified (nil = ไม่ย้อม) — ความแรง 13% ใส่มาแล้ว
+    /// สีเน้นที่ย้อมกระจกชั้น verified (nil = ไม่ย้อม) — ความแรงใส่มาแล้ว: 5% บนหมึกมืด · 2.5% บนหมึกสว่าง
     var tint: UIColor?
     /// แผ่น "เข้ม" (`WidgetChrome.slab`)
     var slab: UIColor
@@ -36,7 +37,7 @@ struct SpecChromeStyle {
     var liftY: CGFloat
     /// เส้นขอบ 0.7pt (`ink.line(0.12)`)
     var line: UIColor
-    /// วัสดุเบลอของกระจก
+    /// วัสดุเบลอของกระจก — ไม่ใช้วาดแผ่นแล้ว (21 ต.ค. 2569: แผ่นทาทึบด้วย `veil` ให้ผลเท่าทุกแพลตฟอร์ม) เก็บไว้ให้ผู้เรียกเดิมคอมไพล์ได้
     var blur: UIBlurEffect.Style = .systemUltraThinMaterial
 }
 
@@ -86,15 +87,13 @@ final class SpecChromeView: UIView {
         if framed {
             switch surface {
             case .glass, .pane:
-                let blur = UIVisualEffectView(effect: UIBlurEffect(style: style.blur))
-                blur.frame = bounds
-                let veil = UIView(frame: bounds)
-                veil.backgroundColor = style.veil
-                blur.contentView.addSubview(veil)
+                // แผ่นทาทึบ (ไม่มี UIVisualEffectView) — `style.veil` คือสีที่ Liquid Glass ของ SwiftUI วาดออกมาจริง จึงไม่ต้องเบลอซ้ำ
+                let blur = UIView(frame: bounds)
+                blur.backgroundColor = style.veil
                 if let t = style.tint {
                     let tv = UIView(frame: bounds)
                     tv.backgroundColor = t
-                    blur.contentView.addSubview(tv)
+                    blur.addSubview(tv)
                 }
                 blur.layer.cornerRadius = radius
                 blur.layer.cornerCurve = .continuous

@@ -96,7 +96,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 167.53,
+          "w" : 92.71,
           "x" : 22,
           "y" : 96
         },
@@ -114,9 +114,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 123.53,
+          "w" : 48.71,
           "x" : 54,
           "y" : 103.5
         },
@@ -124,7 +124,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 121.22,
+          "w" : 128.62,
           "x" : 22,
           "y" : 140.4
         },
@@ -142,9 +142,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 77.22,
+          "w" : 84.62,
           "x" : 54,
           "y" : 147.9
         },
@@ -179,7 +179,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -233,15 +232,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -305,9 +308,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -317,9 +320,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -367,11 +370,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -380,11 +383,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -500,7 +503,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 167.53,
+          "w" : 92.71,
           "x" : 22,
           "y" : 96
         },
@@ -518,9 +521,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 123.53,
+          "w" : 48.71,
           "x" : 54,
           "y" : 103.5
         },
@@ -528,7 +531,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 121.22,
+          "w" : 128.62,
           "x" : 22,
           "y" : 140.4
         },
@@ -546,9 +549,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 77.22,
+          "w" : 84.62,
           "x" : 54,
           "y" : 147.9
         },
@@ -583,7 +586,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -637,15 +639,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -709,9 +715,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -721,9 +727,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -771,11 +777,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -784,11 +790,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -904,7 +910,7 @@
           "h" : 41.25,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 184,
+          "w" : 106.69,
           "x" : 22,
           "y" : 96
         },
@@ -920,11 +926,11 @@
           "h" : 26.25,
           "id" : "r\/3\/3\/0\/1",
           "lines" : 1,
-          "size" : 14.87,
+          "size" : 17.37,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 140,
+          "w" : 62.69,
           "x" : 54,
           "y" : 103.5
         },
@@ -932,7 +938,7 @@
           "h" : 41.25,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 143.39,
+          "w" : 152.91,
           "x" : 22,
           "y" : 146.25
         },
@@ -950,9 +956,9 @@
           "lines" : 1,
           "size" : 17.37,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 99.39,
+          "w" : 108.91,
           "x" : 54,
           "y" : 153.75
         },
@@ -987,7 +993,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -1040,186 +1045,6 @@
             "outSize" : 24.74137931034483,
             "outWeight" : 600,
             "size" : 24.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 24.24137931034483,
-            "outWeight" : 600,
-            "size" : 24.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 23.74137931034483,
-            "outWeight" : 600,
-            "size" : 23.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 23.24137931034483,
-            "outWeight" : 600,
-            "size" : 23.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 22.74137931034483,
-            "outWeight" : 600,
-            "size" : 22.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 22.24137931034483,
-            "outWeight" : 600,
-            "size" : 22.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 21.74137931034483,
-            "outWeight" : 600,
-            "size" : 21.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 21.24137931034483,
-            "outWeight" : 600,
-            "size" : 21.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 20.74137931034483,
-            "outWeight" : 600,
-            "size" : 20.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 20.24137931034483,
-            "outWeight" : 600,
-            "size" : 20.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19.74137931034483,
-            "outWeight" : 600,
-            "size" : 19.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19.24137931034483,
-            "outWeight" : 600,
-            "size" : 19.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18.74137931034483,
-            "outWeight" : 600,
-            "size" : 18.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18.24137931034483,
-            "outWeight" : 600,
-            "size" : 18.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.74137931034483,
-            "outWeight" : 600,
-            "size" : 17.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.24137931034483,
-            "outWeight" : 600,
-            "size" : 17.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.74137931034483,
-            "outWeight" : 600,
-            "size" : 16.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.24137931034483,
-            "outWeight" : 600,
-            "size" : 16.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.74137931034483,
-            "outWeight" : 600,
-            "size" : 15.74137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.24137931034483,
-            "outWeight" : 600,
-            "size" : 15.24137931034483,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 24.74137931034483,
-            "outWeight" : 600,
-            "size" : 24.74137931034483,
             "slot" : "phone",
             "weight" : 600
           },
@@ -1229,6 +1054,42 @@
             "outSize" : 24.24137931034483,
             "outWeight" : 600,
             "size" : 24.24137931034483,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 23.74137931034483,
+            "outWeight" : 600,
+            "size" : 23.74137931034483,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 23.24137931034483,
+            "outWeight" : 600,
+            "size" : 23.24137931034483,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.74137931034483,
+            "outWeight" : 600,
+            "size" : 22.74137931034483,
+            "slot" : "phone",
+            "weight" : 600
+          },
+          {
+            "face" : "noto",
+            "outFace" : "noto",
+            "outSize" : 22.24137931034483,
+            "outWeight" : 600,
+            "size" : 22.24137931034483,
             "slot" : "phone",
             "weight" : 600
           },
@@ -1441,114 +1302,6 @@
             "outSize" : 20.749310344827588,
             "outWeight" : 600,
             "size" : 20.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 20.249310344827588,
-            "outWeight" : 600,
-            "size" : 20.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19.749310344827588,
-            "outWeight" : 600,
-            "size" : 19.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19.249310344827588,
-            "outWeight" : 600,
-            "size" : 19.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18.749310344827588,
-            "outWeight" : 600,
-            "size" : 18.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18.249310344827588,
-            "outWeight" : 600,
-            "size" : 18.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.749310344827588,
-            "outWeight" : 600,
-            "size" : 17.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.249310344827588,
-            "outWeight" : 600,
-            "size" : 17.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.749310344827588,
-            "outWeight" : 600,
-            "size" : 16.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.249310344827588,
-            "outWeight" : 600,
-            "size" : 16.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.749310344827588,
-            "outWeight" : 600,
-            "size" : 15.749310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.249310344827588,
-            "outWeight" : 600,
-            "size" : 15.249310344827588,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 20.749310344827588,
-            "outWeight" : 600,
-            "size" : 20.749310344827588,
             "slot" : "website",
             "weight" : 600
           },
@@ -1630,51 +1383,6 @@
             "size" : 17.374655172413792,
             "slot" : "website",
             "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.874655172413792,
-            "outWeight" : 600,
-            "size" : 16.874655172413792,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.374655172413792,
-            "outWeight" : 600,
-            "size" : 16.374655172413792,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.874655172413792,
-            "outWeight" : 600,
-            "size" : 15.874655172413792,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.374655172413792,
-            "outWeight" : 600,
-            "size" : 15.374655172413792,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14.874655172413792,
-            "outWeight" : 600,
-            "size" : 14.874655172413792,
-            "slot" : "lineId",
-            "weight" : 600
           }
         ],
         "lists" : {
@@ -1683,15 +1391,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -1724,16 +1436,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 15.24137931034483,
-          "v" : 23.03,
-          "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 24.24137931034483,
-          "v" : 36.63,
+          "size" : 22.24137931034483,
+          "v" : 33.61,
           "weight" : 600
         },
         {
@@ -1796,14 +1500,6 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 15.249310344827588,
-          "v" : 23.04,
-          "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
           "size" : 18.749310344827588,
           "v" : 28.33,
           "weight" : 600
@@ -1830,14 +1526,6 @@
           "lineHeight" : 1,
           "size" : 17.374655172413792,
           "v" : 26.25,
-          "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 14.874655172413792,
-          "v" : 22.48,
           "weight" : 600
         }
       ],
@@ -1875,9 +1563,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 230.96,
+          "w" : 91.08,
           "weight" : 600
         },
         {
@@ -1887,9 +1575,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.24137931034483,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 144.39,
+          "w" : 158.22,
           "weight" : 600
         },
         {
@@ -1958,14 +1646,27 @@
         },
         {
           "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 91.08,
+          "weight" : 600,
+          "width" : 91.08
+        },
+        {
+          "face" : "noto",
           "h" : 76.28,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.8,
+          "w" : 101.68,
           "weight" : 600,
           "width" : 140
         },
@@ -1976,9 +1677,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 130.17,
+          "w" : 99.66,
           "weight" : 600,
           "width" : 140
         },
@@ -1989,9 +1690,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 137.38,
+          "w" : 97.65,
           "weight" : 600,
           "width" : 140
         },
@@ -2002,9 +1703,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 134.55,
+          "w" : 95.64,
           "weight" : 600,
           "width" : 140
         },
@@ -2015,9 +1716,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 138.2,
+          "w" : 93.62,
           "weight" : 600,
           "width" : 140
         },
@@ -2028,243 +1729,22 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 135.23,
+          "w" : 91.61,
           "weight" : 600,
           "width" : 140
         },
         {
           "face" : "noto",
-          "h" : 67.22,
+          "h" : 33.61,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 22.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.25,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 65.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.39,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 64.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.21,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 62.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.02,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 61.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.84,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 59.66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.73,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 58.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.27,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 56.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 129.81,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 55.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.3,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 53.62,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.66,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.78,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.6,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.29,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.08,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.13,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.97,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.03,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 15.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.46,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 76.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.24137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 129.95,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 74.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.74137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 127.37,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 36.63,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 24.24137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 138.67,
+          "w" : 139.41,
           "weight" : 600,
           "width" : 140
         },
@@ -2483,9 +1963,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -2495,9 +1975,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -2545,11 +2025,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -2558,11 +2038,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -2610,9 +2090,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 230.96,
+          "w" : 91.08,
           "weight" : 600
         },
         {
@@ -2622,9 +2102,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.24137931034483,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 144.39,
+          "w" : 158.22,
           "weight" : 600
         },
         {
@@ -2693,14 +2173,27 @@
         },
         {
           "face" : "noto",
+          "h" : 38.14,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.24137931034483,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 91.08,
+          "weight" : 600,
+          "width" : 91.08
+        },
+        {
+          "face" : "noto",
           "h" : 76.28,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.8,
+          "w" : 101.68,
           "weight" : 600,
           "width" : 140
         },
@@ -2711,9 +2204,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 130.17,
+          "w" : 99.66,
           "weight" : 600,
           "width" : 140
         },
@@ -2724,9 +2217,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 137.38,
+          "w" : 97.65,
           "weight" : 600,
           "width" : 140
         },
@@ -2737,9 +2230,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 134.55,
+          "w" : 95.64,
           "weight" : 600,
           "width" : 140
         },
@@ -2750,9 +2243,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 138.2,
+          "w" : 93.62,
           "weight" : 600,
           "width" : 140
         },
@@ -2763,243 +2256,22 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.74137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 135.23,
+          "w" : 91.61,
           "weight" : 600,
           "width" : 140
         },
         {
           "face" : "noto",
-          "h" : 67.22,
+          "h" : 33.61,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 22.24137931034483,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.25,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 65.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.39,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 64.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.21,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 62.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.02,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 61.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.84,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 59.66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.73,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 58.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.27,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 56.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 129.81,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 55.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.3,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 53.62,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.66,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.78,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.6,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.29,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.08,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.13,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.74137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.97,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.03,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 15.24137931034483,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.46,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 76.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.24137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 129.95,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 74.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.74137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 127.37,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 36.63,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 24.24137931034483,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 138.67,
+          "w" : 139.41,
           "weight" : 600,
           "width" : 140
         },
@@ -3218,9 +2490,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 21.249310344827588,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 194.44,
+          "w" : 76.67,
           "weight" : 600
         },
         {
@@ -3230,9 +2502,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 21.249310344827588,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 121.55,
+          "w" : 133.2,
           "weight" : 600
         },
         {
@@ -3301,172 +2573,16 @@
         },
         {
           "face" : "noto",
-          "h" : 64.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.26,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 62.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.07,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 61.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.89,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 59.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.79,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 58.18,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.33,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 56.66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 129.86,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 55.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.36,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 53.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.72,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.84,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.62,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.36,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.249310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.2,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.6,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.749310344827588,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.04,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.04,
+          "h" : 32.11,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.249310344827588,
-          "t" : "@maneerat.review",
+          "size" : 21.249310344827588,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 139.54,
+          "w" : 76.67,
           "weight" : 600,
-          "width" : 140
+          "width" : 76.67
         },
         {
           "face" : "noto",
@@ -3475,11 +2591,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 21.249310344827588,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 121.55,
+          "w" : 133.2,
           "weight" : 600,
-          "width" : 121.55
+          "width" : 133.2
         },
         {
           "face" : "noto",
@@ -3592,9 +2708,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.374655172413792,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 158.98,
+          "w" : 62.69,
           "weight" : 600
         },
         {
@@ -3604,9 +2720,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.374655172413792,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 99.39,
+          "w" : 108.91,
           "weight" : 600
         },
         {
@@ -3675,81 +2791,16 @@
         },
         {
           "face" : "noto",
-          "h" : 52.5,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.374655172413792,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.81,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 51,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.874655172413792,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.94,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.48,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.374655172413792,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.24,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.98,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.874655172413792,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.08,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 46.46,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.374655172413792,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 127.92,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 22.48,
+          "h" : 26.25,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 14.874655172413792,
-          "t" : "@maneerat.review",
+          "size" : 17.374655172413792,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 136.11,
+          "w" : 62.69,
           "weight" : 600,
-          "width" : 140
+          "width" : 62.69
         },
         {
           "face" : "noto",
@@ -3758,11 +2809,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.374655172413792,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 99.39,
+          "w" : 108.91,
           "weight" : 600,
-          "width" : 99.39
+          "width" : 108.91
         },
         {
           "face" : "noto",
@@ -3878,7 +2929,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 167.53,
+          "w" : 92.71,
           "x" : 22,
           "y" : 96
         },
@@ -3896,9 +2947,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 123.53,
+          "w" : 48.71,
           "x" : 54,
           "y" : 103.5
         },
@@ -3906,7 +2957,7 @@
           "h" : 35.4,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 121.22,
+          "w" : 128.62,
           "x" : 22,
           "y" : 140.4
         },
@@ -3924,9 +2975,9 @@
           "lines" : 1,
           "size" : 13.5,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 77.22,
+          "w" : 84.62,
           "x" : 54,
           "y" : 147.9
         },
@@ -3961,7 +3012,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -4015,15 +3065,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -4087,9 +3141,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -4099,9 +3153,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -4149,11 +3203,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -4162,11 +3216,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -4282,7 +3336,7 @@
           "h" : 41.88,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 184,
+          "w" : 108.19,
           "x" : 144,
           "y" : 96
         },
@@ -4298,11 +3352,11 @@
           "h" : 26.88,
           "id" : "r\/3\/3\/0\/1",
           "lines" : 1,
-          "size" : 15.29,
+          "size" : 17.79,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 140,
+          "w" : 64.19,
           "x" : 176,
           "y" : 103.5
         },
@@ -4310,7 +3364,7 @@
           "h" : 41.88,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 145.76,
+          "w" : 155.51,
           "x" : 144,
           "y" : 146.88
         },
@@ -4328,9 +3382,9 @@
           "lines" : 1,
           "size" : 17.79,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 101.76,
+          "w" : 111.51,
           "x" : 176,
           "y" : 154.38
         },
@@ -4365,7 +3419,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -4410,96 +3463,6 @@
             "outWeight" : 600,
             "size" : 20,
             "slot" : "website",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19.5,
-            "outWeight" : 600,
-            "size" : 19.5,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 19,
-            "outWeight" : 600,
-            "size" : 19,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18.5,
-            "outWeight" : 600,
-            "size" : 18.5,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 18,
-            "outWeight" : 600,
-            "size" : 18,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.5,
-            "outWeight" : 600,
-            "size" : 17.5,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17,
-            "outWeight" : 600,
-            "size" : 17,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.5,
-            "outWeight" : 600,
-            "size" : 16.5,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16,
-            "outWeight" : 600,
-            "size" : 16,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.5,
-            "outWeight" : 600,
-            "size" : 15.5,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15,
-            "outWeight" : 600,
-            "size" : 15,
-            "slot" : "lineId",
             "weight" : 600
           },
           {
@@ -4598,51 +3561,6 @@
             "size" : 17.79,
             "slot" : "website",
             "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.29,
-            "outWeight" : 600,
-            "size" : 17.29,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.79,
-            "outWeight" : 600,
-            "size" : 16.79,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.29,
-            "outWeight" : 600,
-            "size" : 16.29,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.79,
-            "outWeight" : 600,
-            "size" : 15.79,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.29,
-            "outWeight" : 600,
-            "size" : 15.29,
-            "slot" : "lineId",
-            "weight" : 600
           }
         ],
         "lists" : {
@@ -4651,15 +3569,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -4686,14 +3608,6 @@
           "lineHeight" : 1,
           "size" : 20,
           "v" : 30.22,
-          "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15,
-          "v" : 22.67,
           "weight" : 600
         },
         {
@@ -4735,14 +3649,6 @@
           "size" : 17.79,
           "v" : 26.88,
           "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15.29,
-          "v" : 23.1,
-          "weight" : 600
         }
       ],
       "measures" : [
@@ -4779,9 +3685,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 183,
+          "w" : 72.17,
           "weight" : 600
         },
         {
@@ -4791,9 +3697,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.4,
+          "w" : 125.37,
           "weight" : 600
         },
         {
@@ -4862,146 +3768,16 @@
         },
         {
           "face" : "noto",
-          "h" : 60.44,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.53,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 58.92,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.06,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 57.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.6,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 55.9,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.24,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 54.4,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.67,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.88,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.79,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 51.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.91,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.28,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 48.36,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.12,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 46.84,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.96,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 22.67,
+          "h" : 30.22,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
+          "size" : 20,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 137.25,
+          "w" : 72.17,
           "weight" : 600,
-          "width" : 140
+          "width" : 72.17
         },
         {
           "face" : "noto",
@@ -5010,11 +3786,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.4,
+          "w" : 125.37,
           "weight" : 600,
-          "width" : 114.4
+          "width" : 125.37
         },
         {
           "face" : "noto",
@@ -5101,9 +3877,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -5113,9 +3889,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -5163,11 +3939,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -5176,11 +3952,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -5228,9 +4004,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 183,
+          "w" : 72.17,
           "weight" : 600
         },
         {
@@ -5240,9 +4016,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.4,
+          "w" : 125.37,
           "weight" : 600
         },
         {
@@ -5311,146 +4087,16 @@
         },
         {
           "face" : "noto",
-          "h" : 60.44,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.53,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 58.92,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.06,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 57.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 19,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.6,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 55.9,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.24,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 54.4,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.67,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.88,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.79,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 51.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.91,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.28,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 48.36,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.12,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 46.84,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.96,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 22.67,
+          "h" : 30.22,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
+          "size" : 20,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 137.25,
+          "w" : 72.17,
           "weight" : 600,
-          "width" : 140
+          "width" : 72.17
         },
         {
           "face" : "noto",
@@ -5459,11 +4105,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.4,
+          "w" : 125.37,
           "weight" : 600,
-          "width" : 114.4
+          "width" : 125.37
         },
         {
           "face" : "noto",
@@ -5550,9 +4196,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.79,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 162.78,
+          "w" : 64.19,
           "weight" : 600
         },
         {
@@ -5562,9 +4208,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.79,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 101.76,
+          "w" : 111.51,
           "weight" : 600
         },
         {
@@ -5633,81 +4279,16 @@
         },
         {
           "face" : "noto",
-          "h" : 53.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.79,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.04,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.26,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.29,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.16,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.79,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.7,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.29,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.54,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.72,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.79,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.38,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.1,
+          "h" : 26.88,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.29,
-          "t" : "@maneerat.review",
+          "size" : 17.79,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 139.91,
+          "w" : 64.19,
           "weight" : 600,
-          "width" : 140
+          "width" : 64.19
         },
         {
           "face" : "noto",
@@ -5716,11 +4297,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.79,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 101.76,
+          "w" : 111.51,
           "weight" : 600,
-          "width" : 101.76
+          "width" : 111.51
         },
         {
           "face" : "noto",
@@ -5836,7 +4417,7 @@
           "h" : 42.65,
           "id" : "r\/3\/3\/0",
           "type" : "row",
-          "w" : 184,
+          "w" : 110.03,
           "x" : 22,
           "y" : 96
         },
@@ -5852,11 +4433,11 @@
           "h" : 27.65,
           "id" : "r\/3\/3\/0\/1",
           "lines" : 1,
-          "size" : 15.3,
+          "size" : 18.3,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
-          "w" : 140,
+          "w" : 66.03,
           "x" : 54,
           "y" : 103.5
         },
@@ -5864,7 +4445,7 @@
           "h" : 42.65,
           "id" : "r\/3\/3\/1",
           "type" : "row",
-          "w" : 148.68,
+          "w" : 158.71,
           "x" : 22,
           "y" : 147.65
         },
@@ -5882,9 +4463,9 @@
           "lines" : 1,
           "size" : 18.3,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
-          "w" : 104.68,
+          "w" : 114.71,
           "x" : 54,
           "y" : 155.15
         },
@@ -5919,7 +4500,6 @@
       ],
       "data" : {
         "flags" : {
-          "duo" : false,
           "papered" : true
         },
         "fonts" : [
@@ -5969,60 +4549,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 17.8,
-            "outWeight" : 600,
-            "size" : 17.8,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 17.3,
-            "outWeight" : 600,
-            "size" : 17.3,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.8,
-            "outWeight" : 600,
-            "size" : 16.8,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 16.3,
-            "outWeight" : 600,
-            "size" : 16.3,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.8,
-            "outWeight" : 600,
-            "size" : 15.8,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 15.3,
-            "outWeight" : 600,
-            "size" : 15.3,
-            "slot" : "lineId",
-            "weight" : 600
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 20.9,
             "outWeight" : 400,
             "size" : 20.9,
@@ -6062,15 +4588,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -6097,14 +4627,6 @@
           "lineHeight" : 1,
           "size" : 18.3,
           "v" : 27.65,
-          "weight" : 600
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15.3,
-          "v" : 23.12,
           "weight" : 600
         },
         {
@@ -6158,9 +4680,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 167.45,
+          "w" : 66.03,
           "weight" : 600
         },
         {
@@ -6170,9 +4692,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 104.68,
+          "w" : 114.71,
           "weight" : 600
         },
         {
@@ -6241,94 +4763,16 @@
         },
         {
           "face" : "noto",
-          "h" : 55.3,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.74,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 53.8,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.12,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.24,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.78,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.26,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.62,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.46,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.12,
+          "h" : 27.65,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.3,
-          "t" : "@maneerat.review",
+          "size" : 18.3,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 140,
+          "w" : 66.03,
           "weight" : 600,
-          "width" : 140
+          "width" : 66.03
         },
         {
           "face" : "noto",
@@ -6337,11 +4781,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 104.68,
+          "w" : 114.71,
           "weight" : 600,
-          "width" : 104.68
+          "width" : 114.71
         },
         {
           "face" : "noto",
@@ -6389,9 +4833,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600
         },
         {
@@ -6401,9 +4845,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600
         },
         {
@@ -6451,11 +4895,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 123.53,
+          "w" : 48.71,
           "weight" : 600,
-          "width" : 123.53
+          "width" : 48.71
         },
         {
           "face" : "noto",
@@ -6464,11 +4908,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 77.22,
+          "w" : 84.62,
           "weight" : 600,
-          "width" : 77.22
+          "width" : 84.62
         },
         {
           "face" : "noto",
@@ -6516,9 +4960,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 167.45,
+          "w" : 66.03,
           "weight" : 600
         },
         {
@@ -6528,9 +4972,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 104.68,
+          "w" : 114.71,
           "weight" : 600
         },
         {
@@ -6599,94 +5043,16 @@
         },
         {
           "face" : "noto",
-          "h" : 55.3,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.74,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 53.8,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.12,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 52.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.24,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 50.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 139.78,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 49.26,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.3,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.62,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 47.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.8,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.46,
-          "weight" : 600,
-          "width" : 140
-        },
-        {
-          "face" : "noto",
-          "h" : 23.12,
+          "h" : 27.65,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.3,
-          "t" : "@maneerat.review",
+          "size" : 18.3,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 140,
+          "w" : 66.03,
           "weight" : 600,
-          "width" : 140
+          "width" : 66.03
         },
         {
           "face" : "noto",
@@ -6695,11 +5061,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.3,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 104.68,
+          "w" : 114.71,
           "weight" : 600,
-          "width" : 104.68
+          "width" : 114.71
         },
         {
           "face" : "noto",

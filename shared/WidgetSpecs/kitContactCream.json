@@ -82,7 +82,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ช่องทางติดต่อ (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (contact) · root = ม่วงสติกเกอร์ (ขอบ+ทึบ → เงาเยื้อง 5pt) · variants ตาม cfg:style / bordered / cfg:fill=clear · ซ่อนช่องด้วย hidden:line|phone|web · QR เปิด/ปิดด้วย opt:qr (ตั้งต้นเปิด = `!opt:qr=0`) และโชว์เฉพาะเมื่อมี LINE · ทำไม่ได้: จัดรูปเบอร์ 081-234-5678 และตัด https:// (ช่องให้ค่าดิบ) · QR ของผังชี้ลิงก์การ์ด ไม่ใช่ line.me · QR ไม่โตตามความสูง (คงที่ 120/112/96/104) · สองเงื่อนไข (ไม่ซ่อน + มีค่า) ต้องซ้อนสองชั้น — ชั้นนอกที่ grow ยังกินที่แม้ค่าว่าง · โลโก้ LINE วาดจาก primitive (ไม่มี asset)",
  "root": {
@@ -93,7 +94,7 @@
     "children": [
      {
       "type": "rect",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20,
       "shadow": {
        "sigma": 4.5,
@@ -107,7 +108,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -130,7 +131,7 @@
      {
       "type": "rect",
       "stroke": {
-       "color": "kit.border",
+       "color": "line",
        "width": 1.5
       },
       "radius": 20,
@@ -147,7 +148,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3,
         "shadow": {
          "sigma": 4.5,
@@ -161,7 +162,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 3,
           "shadow": {
            "sigma": 4.5,
@@ -184,7 +185,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 3,
@@ -198,7 +199,7 @@
       "children": [
        {
         "type": "rect",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20,
         "shadow": {
          "sigma": 4.5,
@@ -212,7 +213,7 @@
         "children": [
          {
           "type": "rect",
-          "fill": "kit.fill",
+          "fill": "bg",
           "radius": 20,
           "shadow": {
            "sigma": 4.5,
@@ -235,7 +236,7 @@
        {
         "type": "rect",
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 1.5
         },
         "radius": 20,
@@ -255,7 +256,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "shrinkTo": 13.3,
       "w": "fill",
@@ -273,7 +274,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -326,7 +327,7 @@
                   "face": "noto",
                   "size": 14,
                   "weight": 600,
-                  "color": "kit.ink",
+                  "color": "ink",
                   "maxLines": 1
                  },
                  {
@@ -335,7 +336,7 @@
                   "face": "noto",
                   "size": 12,
                   "weight": 400,
-                  "color": "kit.mut",
+                  "color": "ink2",
                   "maxLines": 1
                  }
                 ],
@@ -389,7 +390,7 @@
                 "face": "noto",
                 "size": 9.5,
                 "weight": 600,
-                "color": "kit.mut",
+                "color": "ink2",
                 "maxLines": 1
                }
               ],
@@ -424,7 +425,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -437,7 +438,7 @@
                 "type": "icon",
                 "icon": "ph:phone",
                 "size": 14,
-                "tint": "kit.mut",
+                "tint": "ink2",
                 "w": 18
                },
                {
@@ -446,7 +447,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 400,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 9.75
                },
@@ -481,7 +482,7 @@
           "children": [
            {
             "type": "rect",
-            "fill": "kit.block",
+            "fill": "bg2",
             "radius": 12
            },
            {
@@ -494,7 +495,7 @@
                 "type": "icon",
                 "icon": "ph:globe",
                 "size": 14,
-                "tint": "kit.mut",
+                "tint": "ink2",
                 "w": 18
                },
                {
@@ -503,7 +504,7 @@
                 "face": "noto",
                 "size": 13,
                 "weight": 400,
-                "color": "kit.ink",
+                "color": "ink",
                 "maxLines": 1,
                 "shrinkTo": 9.75
                },

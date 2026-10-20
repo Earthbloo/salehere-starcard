@@ -17,7 +17,8 @@
   ],
   "skin": "glass",
   "stamp": "followers",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · ผู้ติดตามสามช่อง (กระจก) — ป้ายเม็ดยา 'ผู้ติดตาม' คร่อมขอบบน · กล่องขาวสามใบ ตัวเลขยักษ์ · แถบไอคอน IG ตกแต่งใต้กล่อง · แปลงจาก PopWidgets.swift (PopStats + PopSheet) · หน่วย K/M ตัวเล็กกว่าตัวเลข (bigNumber) วาดไม่ได้ · ป้ายที่มา ProvenanceTag ใส่ขนาดกล่องตายตัว · ป้ายหัวข้อกว้างตายตัว (row ใน stack กว้างเต็มเสมอ)",
  "root": {
@@ -34,13 +35,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 20,
     "shadow": {
      "x": 0,
      "sigma": 4.5,
      "y": 5,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -59,7 +60,7 @@
       "if": "bordered",
       "radius": 20,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -100,7 +101,7 @@
            "fill": "white",
            "radius": 11,
            "stroke": {
-            "color": "rawAccent@0.6",
+            "color": "accent@0.6",
             "width": 2
            },
            "children": [
@@ -120,7 +121,7 @@
                "face": "noto",
                "weight": 500,
                "size": 11.5,
-               "color": "pop.ink",
+               "color": "ink",
                "maxLines": 1,
                "shrinkTo": 8
               }
@@ -133,7 +134,7 @@
              "weight": 900,
              "size": 42,
              "kerning": -1.5,
-             "color": "pop.ink",
+             "color": "ink",
              "maxLines": 1,
              "shrinkTo": 21,
              "textAlign": "center"
@@ -169,43 +170,43 @@
           "type": "icon",
           "icon": "ph:house",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:magnifying-glass",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:camera",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:user",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:heart",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:paper-plane-tilt",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          },
          {
           "type": "icon",
           "icon": "ph:bookmark-simple",
           "size": 19,
-          "tint": "pop.ink"
+          "tint": "ink"
          }
         ]
        }
@@ -224,7 +225,7 @@
        5
       ],
       "align": "center",
-      "fill": "rawAccent",
+      "fill": "accent",
       "circle": true,
       "place": "top-left",
       "dx": 10,
@@ -244,7 +245,7 @@
           "type": "icon",
           "icon": "ph:flag",
           "size": 9.5,
-          "tint": "rawAccent",
+          "tint": "accent",
           "place": "center"
          }
         ]

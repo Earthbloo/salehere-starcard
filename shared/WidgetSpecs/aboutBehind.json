@@ -41,7 +41,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สำรับบรรณาธิการ · ชื่อหลังภาพ — บรรทัดกำกับบน (note#0) · คำยักษ์พาดเต็มกว้าง (note#1) · ภาพตัดขาวดำ (ช่อง 1) ยืนทับคำ ชนก้นแผ่น · ย่อหน้าขวา: 'รู้จักฉัน —' (note#2) + ชื่อ + แนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutBehind) · สีตาม Ed.skin: กระดาษเบจ Ed.beige เฉพาะ papered & !duo · คู่สี = แผ่น plate + หมึก plateInk · ปิดพื้น/pane = หมึกการ์ด (ed.ink ed.inkSoft ed.ghost) · คำยักษ์ = ed.ghost (ขาวบนกระดาษ · เงาหมึกเมื่อไม่มีพื้น) · ขนาดคำยักษ์ต้นฉบับ Ed.fitted กว้าง 92% เพดาน 30% สูง = 99 ที่กรอบดีไซน์ (ย่อได้ด้วย shrinkTo) · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
  "root": {
@@ -50,26 +51,14 @@
    {
     "type": "rect",
     "id": "sheet",
-    "fill": "#E7E2D6",
-    "if": "papered & !duo"
+    "fill": "bg",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered & !duo",
-    "platePattern": "#E7E2D6"
-   },
-   {
-    "type": "rect",
-    "id": "plate",
-    "fill": "plate",
-    "if": "papered & duo"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "papered & duo",
-    "platePattern": "plate"
+    "if": "papered",
+    "platePattern": "bg"
    },
    {
     "type": "text",
@@ -79,7 +68,7 @@
     "weight": 600,
     "size": 7,
     "kerning": 1.8,
-    "color": "ed.inkSoft",
+    "color": "ink2",
     "textAlign": "center",
     "maxLines": 1,
     "shrinkTo": 4.3,
@@ -96,7 +85,7 @@
     "weight": 900,
     "size": 99,
     "kerning": -2,
-    "color": "ed.ghost",
+    "color": "bg2",
     "textAlign": "center",
     "maxLines": 1,
     "shrinkTo": 10,
@@ -139,7 +128,7 @@
         "face": "noto",
         "weight": 700,
         "size": 9,
-        "color": "ed.ink",
+        "color": "ink",
         "maxLines": 1,
         "shrinkTo": 5.6,
         "shrink": 0,
@@ -152,7 +141,7 @@
         "face": "noto",
         "weight": 700,
         "size": 9,
-        "color": "ed.ink",
+        "color": "ink",
         "maxLines": 1,
         "shrinkTo": 6.3,
         "grow": 1
@@ -167,7 +156,7 @@
       "weight": 400,
       "size": 8,
       "lineHeight": 1.22,
-      "color": "ed.ink@0.88",
+      "color": "ink@0.88",
       "maxLines": 0,
       "w": "fill",
       "grow": 1

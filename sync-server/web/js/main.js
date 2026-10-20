@@ -32,7 +32,7 @@ const measurer = new WebMeasurer()
  * ชิ้นหนึ่งในรูปที่ตัววาดใช้ — ฟิลด์หลัก + `options` (ค่าที่เลือกใน `widget.controls` · คีย์ = `opt`)
  * ไฟล์ก่อน 19 ต.ค. 2569 เก็บ `kit` `pattern` `pinned` แยกเป็นคีย์ — อ่านได้ทั้งสองแบบ
  */
-function flatItem(it) {
+function flatItem(it, popSkin = 'glass') {
   const raw = it.options || {}
   const legacyKit = raw.kit && typeof raw.kit === 'object' ? raw.kit : null
   const o = {}
@@ -48,7 +48,7 @@ function flatItem(it) {
   if (it.kind !== TEXT_LAYER) for (const k of ['face', 'tint', 'scale', 'align', 'points']) delete o[k]
   // หน้าตาของชุดห้าสไตล์เป็นของชนิด — `style` ของไฟล์เก่าใช้แค่เลือกชนิดใหม่ที่ตรงกัน
   const kit = { fill: o.fill || 'solid', corner: o.corner || 'round', opts: o, style: legacyKit?.style }
-  const kind = resolveKind(it.kind, legacyKit || (o.fill || o.corner ? kit : null), state.specs)
+  const kind = resolveKind(it.kind, legacyKit || (o.fill || o.corner ? kit : null), state.specs, popSkin)
   return {
     id: it.id, kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: it.border,
     options: o, kit, pattern: o.pattern || 'plain',
@@ -67,7 +67,8 @@ function render() {
   const theme = makeTheme(card.theme || {})
   const doc = { photos: card.photos || {}, owner: card.owner || {}, notes: card.notes || {} }
   const profile = new Profile(doc.owner, doc.notes)
-  const pages = card.pages.map((p) => p.items.map(flatItem))
+  const popSkin = card.theme?.corner === 'soft' ? 'paper' : 'glass'   // ไฟล์ก่อน 19 ต.ค.: สำรับสติกเกอร์เอาวัสดุจากมุมของธีม
+  const pages = card.pages.map((p) => p.items.map((it) => flatItem(it, popSkin)))
   const story = card.format === 'story'
   const pw = story ? 540 : 402
   // พอร์ต: แอปสูงตามจอ — เว็บใช้สัดส่วนตั้งต้นของแอป (กว้าง × 1.667 = `CardFormat.pageSize` เมื่อไม่รู้ขนาดจอ)

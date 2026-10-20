@@ -51,6 +51,7 @@ enum RenderABExport {
                 let s = min(p.size.width / spec.design.w, p.size.height / spec.design.h)
                 let inset = WidgetChrome.contentInset(kind: kind, surface: item.surface, border: item.border)
                 let ctx = AppRenderContext(kind: kind, item: item, theme: theme, photos: photos, sample: true)
+                ctx.handle = cap.fixtureCase(p.name).data.texts.first { $0.slot == "handle" && $0.preset == nil }?.v ?? ctx.handle
                 let widget = SpecWidgetView(boxes: cap.boxes, box: cap.box, fitScale: cap.scale, context: ctx, pixelScale: 2 * s)
                 let b = renderUIKit(widget: widget, frame: frame, layout: CGSize(width: p.size.width / s, height: p.size.height / s), inset: inset, scale: s,
                                     overlay: ctx.stampOverlay())
@@ -118,7 +119,7 @@ enum RenderABExport {
 
 // MARK: - adapter ของต้นแบบ: ธีม SwiftUI → สิ่งที่ตัววาด UIKit ขอ
 //
-// = ค่าชุดเดียวกับที่ `SpecPainter` (SwiftUI) ใช้: token สีจาก `SpecColor.resolve` + `extraTokens` · ฟอนต์จาก `IOSSpecMeasurer` ·
+// = ค่าชุดเดียวกับที่ `SpecPainter` (SwiftUI) ใช้: token สีจาก `SpecPalette` (6 บทบาท × 3 พื้น) · ฟอนต์จาก `IOSSpecMeasurer` ·
 // รูปจาก `PhotoStore` · ไอคอนที่วาดด้วยโค้ด rasterize จาก view เดิม (salehere-ios จะวาดของตัวเองด้วย UIKit/asset)
 @MainActor
 final class AppRenderContext: SpecRenderContext {
@@ -134,6 +135,8 @@ final class AppRenderContext: SpecRenderContext {
     let wid: UUID
     let pattern: PlatePattern
     let photos: PhotoStore
+    /// handle ที่ QR ชี้ไป — จาก fixture ของรอบ SwiftUI (= `SpecTree.handle`) · ค่าตั้งต้น = ของเครื่อง
+    var handle: String = Profile.me.handle
 
     init(kind: WidgetKind, item: WidgetInstance, theme: CardTheme, photos: PhotoStore, sample: Bool) {
         self.kind = kind; self.theme = theme; self.photos = photos; self.sample = sample
@@ -149,38 +152,18 @@ final class AppRenderContext: SpecRenderContext {
         stamped = !missing && (kind.stampFacts?.verified ?? false)
     }
 
-    /// = `SpecPainter.extraTokens`
-    private lazy var extra: [String: Color] = {
-        let look = KitLook(kit.resolved(theme), border: border, cardDark: !ink.isLight)
-        let t = ScrapTone(theme)
-        let ed = Ed.skin(surface, paper: Ed.paper, ink: ink, theme: theme)
-        return [
-            "kit.fill": Color(kitHex: look.fillHex), "kit.border": look.borderColor, "kit.ink": look.ink, "kit.mut": look.mut,
-            "kit.accent": look.accent, "kit.title": look.title, "kit.block": look.blockFill,
-            "scrap.paper": t.paper, "scrap.ink": t.ink, "scrap.soft": t.soft, "scrap.accent": t.accent, "scrap.strong": t.strong,
-            "scrap.paperAccent": t.paperAccent, "scrap.paperStrong": t.paperStrong, "scrap.band": t.band, "scrap.mid": t.mid,
-            "scrap.blush": t.blush, "scrap.shade": t.shade, "scrap.speck": t.speck,
-            "rawAccent": theme.rawAccent, "rawAccentSoft": theme.rawAccentSoft,
-            "plate": PosterPlate.plate(theme), "plateInk": PosterPlate.cream(theme),
-            "accentPaper": theme.rawAccent.onLightSurface(),
-            "ed.sheet": ed.sheet, "ed.ink": ed.ink, "ed.inkSoft": ed.inkSoft, "ed.ghost": ed.ghost, "ed.marker": ed.marker, "ed.red": ed.red,
-            "pop.ink": Pop.ink, "pop.inkSoft": Pop.inkSoft, "pop.rule": Pop.rule, "pop.paper": Pop.paper,
-            "pop.sheet": Pop.sheetFill(surface, skin: kind.popSkin ?? .glass, theme: theme),
-            "pop.shadow": Pop.sheetShadow(surface, skin: kind.popSkin ?? .glass, theme: theme),
-        ]
-    }()
+    /// = `SpecPainter.palette` — 6 บทบาท × พื้น ชุดเดียวกับฝั่ง SwiftUI
+    private lazy var palette = SpecPalette(theme: theme, ink: ink, accent: accent, kit: kit, border: border, surface: surface,
+                                           popSkin: kind.popSkin, base: SpecCatalog.widgetMeta(kind.rawValue)?.on)
 
-    private func swiftColor(_ token: String) -> Color {
-        SpecColor.resolve(token, ink: ink, accent: accent, theme: theme, extra: extra)
-    }
-    private func swiftColor(_ token: String, item: SpecItem?) -> Color {
-        guard token.hasPrefix("$"), let item else { return swiftColor(token) }
+    private func swiftColor(_ token: String, on: String?, item: SpecItem?) -> Color {
+        guard token.hasPrefix("$"), let item else { return palette.color(token, on: on) }
         var name = String(token.dropFirst()); var alpha = ""
         if let at = name.firstIndex(of: "@") { alpha = String(name[at...]); name = String(name[..<at]) }
-        return swiftColor(item.value(name) + alpha)
+        return palette.color(item.value(name) + alpha, on: on)
     }
 
-    func color(_ token: String, item: SpecItem?) -> UIColor { UIColor(swiftColor(token, item: item)) }
+    func color(_ token: String, on: String?, item: SpecItem?) -> UIColor { UIColor(swiftColor(token, on: on, item: item)) }
     func font(_ f: SpecFont) -> UIFont { IOSSpecMeasurer.shared.uiFont(f) }
     func lineHeight(_ f: SpecFont) -> CGFloat { IOSSpecMeasurer.shared.lineHeight(f) }
 
@@ -236,10 +219,10 @@ final class AppRenderContext: SpecRenderContext {
         let name = r.name
         let tint = r.tint.map { Color($0) }
         let f = r.size
-        func c(_ t: String) -> Color { swiftColor(t) }
+        func c(_ t: String) -> Color { palette.color(t, on: nil) }
         switch name {
         case "qr":
-            return AnyView(QRCode(text: "https://salehere.co.th/star/\(Profile.me.handle)", tint: tint ?? c("ink")).aspectRatio(1, contentMode: .fit))
+            return AnyView(QRCode(text: "https://salehere.co.th/star/\(handle)", tint: tint ?? c("ink")).aspectRatio(1, contentMode: .fit))
         case "provenance", "provenance:profile":
             return AnyView(ProvenanceTag(kind: .profile).fixedSize())
         case "provenance:socials":

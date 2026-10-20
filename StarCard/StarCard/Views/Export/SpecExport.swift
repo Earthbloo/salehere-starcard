@@ -161,9 +161,10 @@ enum SpecExport {
         let m = WidgetMatrixExport.margin
         var rows: [UIImage] = []
         let enc = JSONEncoder(); enc.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let data = IOSSpecData(sample: true, widget: WidgetMatrixExport.fixedID)
         for spec in SpecCatalog.all {
             guard let kind = WidgetKind(rawValue: spec.kind) else { continue }
+            var data = IOSSpecData(sample: true, widget: WidgetMatrixExport.fixedID)
+            data.kitDark = spec.widget?.on == "dark"   // = ตัววาดจริง (`kit.dark` = ใบนั่งบนแผ่นเข้ม)
             var cells: [UIImage] = []
             var cases: [FixtureCase] = []
             for p in probes(for: spec) {

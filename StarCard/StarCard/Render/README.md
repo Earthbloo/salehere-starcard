@@ -33,7 +33,7 @@ let view = SpecChromeView(frame: frame, design: spec.design.cg, traits: traits, 
 
 ## สิ่งที่ยอมให้ต่างจาก SwiftUI (WIDGET-SPEC.md §6)
 
-- กระจก: iOS 16 ไม่มี Liquid Glass → วัสดุเบลอของระบบ + ม่านสีเดียวกัน
+- กระจก: iOS 16 ไม่มี Liquid Glass → ทาทึบด้วยสีที่ Liquid Glass ของ SwiftUI วาดออกมาจริง (วัด 21 ต.ค. 2569: หมึกสว่าง ขาว 57.5% · หมึกมืด/คู่สี ขาว 5.6% · ชั้น verified บนหมึกมืด ดำ 70% + สีเน้น 5%) — ค่าเดียวกับ GlassPanel.kt และ chrome.js
 - เงา: `sigma × 2` เป็น `shadowRadius` ของ CoreAnimation (kernel ต่างได้ ±2%)
 - anti-alias ขอบตัวอักษร/เส้นโค้ง · ไอคอนที่ rasterize จาก SwiftUI ในต้นแบบ
 - `mixHead` ย่อทีละ 2% จนลงบรรทัด (SwiftUI ใช้ `minimumScaleFactor(0.5)` ซึ่งหาค่าต่อเนื่อง)

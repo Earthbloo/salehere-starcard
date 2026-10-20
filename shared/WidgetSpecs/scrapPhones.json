@@ -24,7 +24,8 @@
   },
   "photo": true,
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก · กำแพงมือถือ — แผ่นกระดาษโทน · พาดหัว 'ผลงาน/ล่าสุด' ชิดขวา (note#1/2) · มือถือดำ 75×145 สี่เครื่อง (รูปช่อง 1–4 มุม 11 ปุ่มเล่นวงกลมขาว) เอียง −3/2/−2/3 สลับสูงต่ำ (75/98) กระจายด้วย spacer จึงยืดตามความกว้าง · ป้าย 'ใหม่!' ดำเอียง −6° · ประกาย 2 · หัวใจ · แปลงจาก ScrapbookWidgets.swift (ScrapPhonesWidget) · ป้ายใหม่ต้นฉบับมุมล่างซ้าย 2 (uneven) ที่นี่มุม 9 ทุกมุม · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
  "root": {
@@ -36,7 +37,7 @@
     "type": "rect",
     "id": "paper",
     "if": "papered",
-    "fill": "scrap.paper"
+    "fill": "bg"
    },
    {
     "type": "rect",
@@ -66,7 +67,7 @@
     "if": "papered & ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.1",
+     "color": "ink@0.1",
      "size": 5.5,
      "width": 1
     }
@@ -77,7 +78,7 @@
     "if": "papered & !ink.light",
     "pattern": {
      "kind": "dots",
-     "color": "scrap.speck@0.06",
+     "color": "ink@0.06",
      "size": 5.5,
      "width": 1
     }
@@ -111,7 +112,7 @@
       "shadow": {
        "sigma": 1.5,
        "y": 1.5,
-       "color": "scrap.shade@0.12"
+       "color": "black@0.12"
       },
       "children": [
        {
@@ -142,7 +143,7 @@
          0.5,
          9.2
         ],
-        "fill": "scrap.band",
+        "fill": "bg2",
         "rotate": 1.5,
         "children": [
          {
@@ -183,7 +184,7 @@
       "shadow": {
        "sigma": 3.5,
        "y": 8,
-       "color": "scrap.shade@0.28"
+       "color": "black@0.28"
       },
       "children": [
        {
@@ -237,7 +238,7 @@
         "shadow": {
          "sigma": 3.5,
          "y": 8,
-         "color": "scrap.shade@0.28"
+         "color": "black@0.28"
         },
         "children": [
          {
@@ -284,7 +285,7 @@
       "shadow": {
        "sigma": 3.5,
        "y": 8,
-       "color": "scrap.shade@0.28"
+       "color": "black@0.28"
       },
       "children": [
        {
@@ -338,7 +339,7 @@
         "shadow": {
          "sigma": 3.5,
          "y": 8,
-         "color": "scrap.shade@0.28"
+         "color": "black@0.28"
         },
         "children": [
          {
@@ -418,7 +419,7 @@
     "icon": "spark",
     "w": 13,
     "h": 13,
-    "tint": "scrap.accent",
+    "tint": "accent",
     "place": "bottom-left",
     "dx": 90,
     "dy": -17
@@ -429,7 +430,7 @@
     "w": 20,
     "h": 20,
     "shape": "heart",
-    "fill": "scrap.accent",
+    "fill": "accent",
     "place": "bottom-right",
     "dx": -90,
     "dy": -14

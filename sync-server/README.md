@@ -26,7 +26,7 @@ open http://localhost:8787           # หน้าดูประวัติ +
   "schemaVersion": 1,
   "format": "story",                     // CardFormat.rawValue
   "name": "สติกเกอร์ กระจกชมพู",
-  "theme": { … },                        // CardSnapshot.Theme ตามที่แอปเขียนอยู่แล้ว
+  "theme": { "colors": { "primary": "#3A4B41", "secondary": "#E6CFA7" }, … },   // สี = hex เท่านั้น (ดู MODEL.md หัวข้อ theme) · ที่เหลือตาม CardSnapshot.Theme
   "pages": [ { "items": [ … ] } ],       // CardSnapshot.Page[] ตามที่แอปเขียนอยู่แล้ว (ไม่มี index)
   "photos": {                            // เฉพาะช่องที่มีรูปของตัวเอง หรือถูกจัดกรอบ
     "<WIDGET-UUID>#<slot>": { "imageId": "9f2c…", "fit": { "dx": 0, "dy": -0.08, "zoom": 1.3 } }

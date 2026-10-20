@@ -16,7 +16,8 @@
    "dim"
   ],
   "skin": "paper",
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สำรับสติกเกอร์ · สายงานแบบลิสต์ (กระดาษ) — ป้ายแท็บดำกว้าง 'สายงาน' บนกระดาษขาวมุมเหลี่ยม · แปลงจาก PopWidgets.swift (PopNiche + PopSheet wide fold สกิน paper) · ไอคอนประจำสายงานเลือกตามคำ (Pop.nicheIcon) ทำไม่ได้ ใช้ ph:tag ทุกบรรทัด · เส้นคั่นอยู่ใต้ทุกบรรทัดรวมบรรทัดสุดท้าย · มุมพับ PopFold วาดไม่ได้",
  "root": {
@@ -33,13 +34,13 @@
     "id": "sheet",
     "grow": 1,
     "h": "fill",
-    "fill": "pop.sheet",
+    "fill": "bg",
     "radius": 5,
     "shadow": {
      "x": 0,
      "sigma": 2.5,
      "y": 4,
-     "color": "pop.shadow"
+     "color": "accent@0.35"
     },
     "children": [
      {
@@ -58,7 +59,7 @@
       "if": "bordered",
       "radius": 5,
       "stroke": {
-       "color": "rawAccent",
+       "color": "accent",
        "width": 1.6
       }
      },
@@ -101,7 +102,7 @@
              "icon": "ph:tag",
              "w": 26,
              "h": 17,
-             "tint": "pop.ink"
+             "tint": "ink"
             },
             {
              "type": "text",
@@ -109,7 +110,7 @@
              "face": "noto",
              "weight": 500,
              "size": 14,
-             "color": "pop.ink",
+             "color": "ink",
              "maxLines": 1,
              "shrinkTo": 9.8,
              "grow": 1
@@ -119,7 +120,7 @@
           {
            "type": "line",
            "h": 0.8,
-           "fill": "pop.rule"
+           "fill": "line"
           }
          ]
         }
@@ -151,7 +152,7 @@
          8
         ],
         "align": "center",
-        "fill": "pop.ink",
+        "fill": "ink",
         "radius": 3,
         "rotate": -2,
         "children": [
@@ -169,7 +170,7 @@
             "type": "icon",
             "icon": "ph:clipboard-text",
             "size": 11,
-            "tint": "pop.ink",
+            "tint": "ink",
             "place": "center"
            }
           ]

@@ -44,7 +44,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "สำรับบรรณาธิการ · บอร์ดรูปติดหมุด — รูปใหญ่กลางบอร์ดขอบขาวหนา · รูปเล็กห้าใบขอบขาวหมุดแดง (ช่อง 4–8) · ลายมือคร่อมบนล่าง (note#0 note#1) · แปลงจาก EditorialWidgets.swift (WallMemory) · สีตาม Ed.skin: กระดาษ Ed.paper เฉพาะ papered & !duo · คู่สี = plate · ปิดพื้น/pane = ไม่มีแผ่น · ลายมือ = ed.ink (ถ่านบนกระดาษ · ครีมบนแผ่นคู่สี · หมึกการ์ดเมื่อไม่มีพื้น) · กระดาษอัดรูปขาวกับหมุดแดงคงที่ทุกพื้น · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · กล่อง EdPlace กว้าง/สูงเป็น % ของแผ่น (dx/dy ยังเป็นหน่วยออกแบบ) · ทุกใบเอียงตามต้นฉบับ · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
  "root": {
@@ -53,26 +54,14 @@
    {
     "type": "rect",
     "id": "sheet",
-    "fill": "#EFEEEC",
-    "if": "papered & !duo"
+    "fill": "bg",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered & !duo",
-    "platePattern": "#EFEEEC"
-   },
-   {
-    "type": "rect",
-    "id": "plate",
-    "fill": "plate",
-    "if": "papered & duo"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "papered & duo",
-    "platePattern": "plate"
+    "if": "papered",
+    "platePattern": "bg"
    },
    {
     "type": "text",
@@ -80,7 +69,7 @@
     "face": "noto",
     "weight": 300,
     "size": 17,
-    "color": "ed.ink",
+    "color": "ink",
     "textAlign": "center",
     "kerning": 0.4,
     "maxLines": 1,
@@ -91,7 +80,8 @@
     "dx": 47.6,
     "dy": 20.1,
     "rotate": -1.2,
-    "text": "เป็นครีเอเตอร์ในแบบของคุณ"
+    "text": "เป็นครีเอเตอร์ในแบบของคุณ",
+    "on": "light"
    },
    {
     "type": "stack",
@@ -323,7 +313,7 @@
     "face": "noto",
     "weight": 300,
     "size": 14,
-    "color": "ed.ink@0.9",
+    "color": "ink@0.9",
     "textAlign": "center",
     "kerning": 0.3,
     "maxLines": 2,
@@ -334,7 +324,8 @@
     "dx": 58.6,
     "dy": 312.9,
     "rotate": -3,
-    "text": "สิ่งที่อยากบอกตัวเองตอนเริ่มต้น"
+    "text": "สิ่งที่อยากบอกตัวเองตอนเริ่มต้น",
+    "on": "light"
    }
   ]
  }

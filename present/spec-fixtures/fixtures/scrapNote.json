@@ -117,7 +117,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -148,7 +148,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -306,15 +306,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -397,9 +401,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -422,9 +426,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -485,9 +489,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -498,9 +502,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -639,7 +643,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -670,7 +674,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -828,15 +832,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -919,9 +927,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -944,9 +952,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -1007,9 +1015,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -1020,9 +1028,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -1161,7 +1169,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -1192,7 +1200,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -1829,7 +1837,7 @@
             "outSize" : 25.01724137931034,
             "outWeight" : 400,
             "size" : 25.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1838,7 +1846,7 @@
             "outSize" : 24.51724137931034,
             "outWeight" : 400,
             "size" : 24.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1847,7 +1855,7 @@
             "outSize" : 24.01724137931034,
             "outWeight" : 400,
             "size" : 24.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1856,7 +1864,7 @@
             "outSize" : 23.51724137931034,
             "outWeight" : 400,
             "size" : 23.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1865,7 +1873,7 @@
             "outSize" : 23.01724137931034,
             "outWeight" : 400,
             "size" : 23.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1874,7 +1882,7 @@
             "outSize" : 22.51724137931034,
             "outWeight" : 400,
             "size" : 22.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1883,7 +1891,7 @@
             "outSize" : 22.01724137931034,
             "outWeight" : 400,
             "size" : 22.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1892,7 +1900,7 @@
             "outSize" : 21.51724137931034,
             "outWeight" : 400,
             "size" : 21.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1901,7 +1909,7 @@
             "outSize" : 21.01724137931034,
             "outWeight" : 400,
             "size" : 21.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1910,7 +1918,7 @@
             "outSize" : 20.51724137931034,
             "outWeight" : 400,
             "size" : 20.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1919,7 +1927,7 @@
             "outSize" : 20.01724137931034,
             "outWeight" : 400,
             "size" : 20.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1928,7 +1936,7 @@
             "outSize" : 19.51724137931034,
             "outWeight" : 400,
             "size" : 19.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1937,7 +1945,7 @@
             "outSize" : 19.01724137931034,
             "outWeight" : 400,
             "size" : 19.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1946,7 +1954,7 @@
             "outSize" : 18.51724137931034,
             "outWeight" : 400,
             "size" : 18.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1955,7 +1963,7 @@
             "outSize" : 18.01724137931034,
             "outWeight" : 400,
             "size" : 18.01724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1964,7 +1972,7 @@
             "outSize" : 17.51724137931034,
             "outWeight" : 400,
             "size" : 17.51724137931034,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -1973,177 +1981,6 @@
             "outSize" : 17.01724137931034,
             "outWeight" : 400,
             "size" : 17.01724137931034,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.51724137931034,
-            "outWeight" : 400,
-            "size" : 16.51724137931034,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.01724137931034,
-            "outWeight" : 400,
-            "size" : 16.01724137931034,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.517241379310342,
-            "outWeight" : 400,
-            "size" : 15.517241379310342,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.017241379310342,
-            "outWeight" : 400,
-            "size" : 15.017241379310342,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 14.517241379310342,
-            "outWeight" : 400,
-            "size" : 14.517241379310342,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 14.017241379310342,
-            "outWeight" : 400,
-            "size" : 14.017241379310342,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 13.517241379310342,
-            "outWeight" : 400,
-            "size" : 13.517241379310342,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 25.01724137931034,
-            "outWeight" : 400,
-            "size" : 25.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 24.51724137931034,
-            "outWeight" : 400,
-            "size" : 24.51724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 24.01724137931034,
-            "outWeight" : 400,
-            "size" : 24.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 23.51724137931034,
-            "outWeight" : 400,
-            "size" : 23.51724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 23.01724137931034,
-            "outWeight" : 400,
-            "size" : 23.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 22.51724137931034,
-            "outWeight" : 400,
-            "size" : 22.51724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 22.01724137931034,
-            "outWeight" : 400,
-            "size" : 22.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 21.51724137931034,
-            "outWeight" : 400,
-            "size" : 21.51724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 21.01724137931034,
-            "outWeight" : 400,
-            "size" : 21.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 20.51724137931034,
-            "outWeight" : 400,
-            "size" : 20.51724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 20.01724137931034,
-            "outWeight" : 400,
-            "size" : 20.01724137931034,
-            "slot" : "phone",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 19.51724137931034,
-            "outWeight" : 400,
-            "size" : 19.51724137931034,
             "slot" : "phone",
             "weight" : 400
           },
@@ -2696,7 +2533,7 @@
             "outSize" : 20.421379310344825,
             "outWeight" : 400,
             "size" : 20.421379310344825,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -2705,7 +2542,7 @@
             "outSize" : 19.921379310344825,
             "outWeight" : 400,
             "size" : 19.921379310344825,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -2714,7 +2551,7 @@
             "outSize" : 19.421379310344825,
             "outWeight" : 400,
             "size" : 19.421379310344825,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -2723,88 +2560,7 @@
             "outSize" : 18.921379310344825,
             "outWeight" : 400,
             "size" : 18.921379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 18.421379310344825,
-            "outWeight" : 400,
-            "size" : 18.421379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17.921379310344825,
-            "outWeight" : 400,
-            "size" : 17.921379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17.421379310344825,
-            "outWeight" : 400,
-            "size" : 17.421379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.921379310344825,
-            "outWeight" : 400,
-            "size" : 16.921379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.421379310344825,
-            "outWeight" : 400,
-            "size" : 16.421379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.921379310344825,
-            "outWeight" : 400,
-            "size" : 15.921379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.421379310344825,
-            "outWeight" : 400,
-            "size" : 15.421379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 14.921379310344825,
-            "outWeight" : 400,
-            "size" : 14.921379310344825,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 14.421379310344825,
-            "outWeight" : 400,
-            "size" : 14.421379310344825,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -2989,24 +2745,6 @@
             "outWeight" : 400,
             "size" : 23.03103448275862,
             "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.960689655172413,
-            "outWeight" : 400,
-            "size" : 15.960689655172413,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.460689655172413,
-            "outWeight" : 400,
-            "size" : 15.460689655172413,
-            "slot" : "lineId",
-            "weight" : 400
           }
         ],
         "lists" : {
@@ -3015,15 +2753,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -3074,22 +2816,6 @@
           "lineHeight" : 1,
           "size" : 23.275862068965516,
           "v" : 36.54,
-          "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 13.517241379310342,
-          "v" : 21.22,
-          "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 19.51724137931034,
-          "v" : 30.64,
           "weight" : 400
         },
         {
@@ -3184,14 +2910,6 @@
           "face" : "mitr",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 14.421379310344825,
-          "v" : 22.64,
-          "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
           "size" : 18.921379310344825,
           "v" : 29.71,
           "weight" : 400
@@ -3243,14 +2961,6 @@
           "size" : 23.03103448275862,
           "v" : 36.16,
           "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15.460689655172413,
-          "v" : 24.27,
-          "weight" : 400
         }
       ],
       "measures" : [
@@ -3298,9 +3008,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 230.6,
+          "w" : 89.65,
           "weight" : 400
         },
         {
@@ -3323,9 +3033,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.51724137931034,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 156.25,
+          "w" : 178.91,
           "weight" : 400
         },
         {
@@ -4161,14 +3871,27 @@
         },
         {
           "face" : "mitr",
+          "h" : 40.06,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.51724137931034,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 89.65,
+          "weight" : 400,
+          "width" : 122.33333333333334
+        },
+        {
+          "face" : "mitr",
           "h" : 80.12,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 116.11,
+          "w" : 119.37,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4179,9 +3902,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.83,
+          "w" : 117.04,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4192,9 +3915,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 111.56,
+          "w" : 114.7,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4205,9 +3928,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 109.28,
+          "w" : 112.36,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4218,9 +3941,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.88,
+          "w" : 110.02,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4231,9 +3954,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.31,
+          "w" : 107.68,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4244,9 +3967,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.74,
+          "w" : 105.34,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4257,9 +3980,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.17,
+          "w" : 103,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4270,9 +3993,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 21.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.44,
+          "w" : 100.66,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4283,9 +4006,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 21.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 121.44,
+          "w" : 98.32,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4296,9 +4019,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.55,
+          "w" : 95.98,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4309,9 +4032,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.66,
+          "w" : 93.65,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4322,9 +4045,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.89,
+          "w" : 91.31,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4335,9 +4058,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 117.8,
+          "w" : 88.97,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4348,9 +4071,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 18.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.7,
+          "w" : 86.63,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4361,9 +4084,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 18.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 111.6,
+          "w" : 84.29,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -4374,284 +4097,24 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 17.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.98,
+          "w" : 81.95,
           "weight" : 400,
           "width" : 122.33333333333334
         },
         {
           "face" : "mitr",
-          "h" : 53.44,
+          "h" : 26.72,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 17.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.59,
+          "w" : 119.31,
           "weight" : 400,
           "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.51724137931034,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 122.22,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.3,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.01724137931034,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 118.52,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.72,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 118.88,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 47.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.017241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 115.05,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 45.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 119.9,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 44.02,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.017241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 115.77,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 21.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 13.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 122.16,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 80.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 108.96,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 78.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 122.31,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 76.98,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119.87,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 75.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 117.43,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 73.84,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 23.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 114.98,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 72.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 23.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 112.54,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 70.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 22.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 110.09,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 69.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 22.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 121.76,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 67.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 116.23,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 64.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 113.47,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 62.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 110.7,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 30.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 19.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119.51,
-          "weight" : 400,
-          "width" : 122.33333333333331
         },
         {
           "face" : "mitr",
@@ -4931,9 +4394,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -4956,9 +4419,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -5019,9 +4482,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -5032,9 +4495,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -5095,9 +4558,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 230.6,
+          "w" : 89.65,
           "weight" : 400
         },
         {
@@ -5120,9 +4583,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 25.51724137931034,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 156.25,
+          "w" : 178.91,
           "weight" : 400
         },
         {
@@ -5958,14 +5421,27 @@
         },
         {
           "face" : "mitr",
+          "h" : 40.06,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 25.51724137931034,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 89.65,
+          "weight" : 400,
+          "width" : 122.33333333333334
+        },
+        {
+          "face" : "mitr",
           "h" : 80.12,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 116.11,
+          "w" : 119.37,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -5976,9 +5452,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 25.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.83,
+          "w" : 117.04,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -5989,9 +5465,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 111.56,
+          "w" : 114.7,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6002,9 +5478,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 24.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 109.28,
+          "w" : 112.36,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6015,9 +5491,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.88,
+          "w" : 110.02,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6028,9 +5504,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 23.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.31,
+          "w" : 107.68,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6041,9 +5517,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.74,
+          "w" : 105.34,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6054,9 +5530,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 22.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.17,
+          "w" : 103,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6067,9 +5543,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 21.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.44,
+          "w" : 100.66,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6080,9 +5556,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 21.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 121.44,
+          "w" : 98.32,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6093,9 +5569,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.55,
+          "w" : 95.98,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6106,9 +5582,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.66,
+          "w" : 93.65,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6119,9 +5595,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 120.89,
+          "w" : 91.31,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6132,9 +5608,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 117.8,
+          "w" : 88.97,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6145,9 +5621,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 18.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 114.7,
+          "w" : 86.63,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6158,9 +5634,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 18.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 111.6,
+          "w" : 84.29,
           "weight" : 400,
           "width" : 122.33333333333334
         },
@@ -6171,284 +5647,24 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 17.51724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 118.98,
+          "w" : 81.95,
           "weight" : 400,
           "width" : 122.33333333333334
         },
         {
           "face" : "mitr",
-          "h" : 53.44,
+          "h" : 26.72,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 17.01724137931034,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 115.59,
+          "w" : 119.31,
           "weight" : 400,
           "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.51724137931034,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 122.22,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.3,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.01724137931034,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 118.52,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.72,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 118.88,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 47.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.017241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 115.05,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 45.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 119.9,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 44.02,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.017241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 115.77,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 21.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 13.517241379310342,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 122.16,
-          "weight" : 400,
-          "width" : 122.33333333333334
-        },
-        {
-          "face" : "mitr",
-          "h" : 80.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 108.96,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 78.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 25.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 122.31,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 76.98,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119.87,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 75.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 24.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 117.43,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 73.84,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 23.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 114.98,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 72.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 23.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 112.54,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 70.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 22.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 110.09,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 69.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 22.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 121.76,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 67.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 21.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 116.23,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 64.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 113.47,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 62.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 20.01724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 110.7,
-          "weight" : 400,
-          "width" : 122.33333333333331
-        },
-        {
-          "face" : "mitr",
-          "h" : 30.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 19.51724137931034,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 119.51,
-          "weight" : 400,
-          "width" : 122.33333333333331
         },
         {
           "face" : "mitr",
@@ -6728,9 +5944,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20.921379310344825,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 189.07,
+          "w" : 73.5,
           "weight" : 400
         },
         {
@@ -6753,9 +5969,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20.921379310344825,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 128.11,
+          "w" : 146.68,
           "weight" : 400
         },
         {
@@ -7279,14 +6495,27 @@
         },
         {
           "face" : "mitr",
+          "h" : 32.85,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20.921379310344825,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 73.5,
+          "weight" : 400,
+          "width" : 133.44
+        },
+        {
+          "face" : "mitr",
           "h" : 65.7,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.921379310344825,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 129.59,
+          "w" : 97.88,
           "weight" : 400,
           "width" : 133.44
         },
@@ -7297,9 +6526,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20.421379310344825,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 126.5,
+          "w" : 95.54,
           "weight" : 400,
           "width" : 133.44
         },
@@ -7310,9 +6539,9 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.921379310344825,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 123.4,
+          "w" : 93.2,
           "weight" : 400,
           "width" : 133.44
         },
@@ -7323,152 +6552,22 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.421379310344825,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 131.92,
+          "w" : 90.86,
           "weight" : 400,
           "width" : 133.44
         },
         {
           "face" : "mitr",
-          "h" : 59.42,
+          "h" : 29.71,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 18.921379310344825,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 128.52,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 57.84,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.421379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 125.12,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 56.28,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.921379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.61,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 54.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.421379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.91,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 53.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.921379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 129.64,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.421379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 125.81,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 50,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.921379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.5,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.42,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.421379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 127.37,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 46.86,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.921379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 123.24,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 22.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 14.421379310344825,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.33,
-          "weight" : 400,
-          "width" : 133.44
-        },
-        {
-          "face" : "mitr",
-          "h" : 32.85,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 20.921379310344825,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 128.11,
+          "w" : 132.66,
           "weight" : 400,
           "width" : 133.44
         },
@@ -7581,9 +6680,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.460689655172413,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 148.76,
+          "w" : 57.83,
           "weight" : 400
         },
         {
@@ -7606,9 +6705,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.460689655172413,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 100.79,
+          "w" : 115.41,
           "weight" : 400
         },
         {
@@ -7820,42 +6919,16 @@
         },
         {
           "face" : "mitr",
-          "h" : 51.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.460689655172413,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.95,
-          "weight" : 400,
-          "width" : 144.22
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.960689655172413,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 131.82,
-          "weight" : 400,
-          "width" : 144.22
-        },
-        {
-          "face" : "mitr",
-          "h" : 24.27,
+          "h" : 25.84,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.460689655172413,
-          "t" : "@maneerat.review",
+          "size" : 16.460689655172413,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 139.72,
+          "w" : 57.83,
           "weight" : 400,
-          "width" : 144.22
+          "width" : 144.22000000000003
         },
         {
           "face" : "mitr",
@@ -7864,11 +6937,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.460689655172413,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 100.79,
+          "w" : 115.41,
           "weight" : 400,
-          "width" : 144.22000000000003
+          "width" : 144.22
         },
         {
           "face" : "mitr",
@@ -7927,9 +7000,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -7952,9 +7025,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -8015,9 +7088,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -8028,9 +7101,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -8169,7 +7242,7 @@
           "lines" : 1,
           "size" : 12.13,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 154.68,
           "x" : 70.32,
@@ -8200,7 +7273,7 @@
           "lines" : 1,
           "size" : 12.13,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 154.68,
           "x" : 70.32,
@@ -8393,15 +7466,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -8500,9 +7577,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 109.63,
+          "w" : 42.62,
           "weight" : 400
         },
         {
@@ -8525,9 +7602,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 74.28,
+          "w" : 85.06,
           "weight" : 400
         },
         {
@@ -8588,9 +7665,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 109.63,
+          "w" : 42.62,
           "weight" : 400,
           "width" : 154.6830601092896
         },
@@ -8601,9 +7678,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 74.28,
+          "w" : 85.06,
           "weight" : 400,
           "width" : 154.6830601092896
         },
@@ -8664,9 +7741,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -8689,9 +7766,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -8752,9 +7829,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -8765,9 +7842,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -8828,9 +7905,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 109.63,
+          "w" : 42.62,
           "weight" : 400
         },
         {
@@ -8853,9 +7930,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 74.28,
+          "w" : 85.06,
           "weight" : 400
         },
         {
@@ -8916,9 +7993,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 109.63,
+          "w" : 42.62,
           "weight" : 400,
           "width" : 154.6830601092896
         },
@@ -8929,9 +8006,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12.131147540983607,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 74.28,
+          "w" : 85.06,
           "weight" : 400,
           "width" : 154.6830601092896
         },
@@ -9070,7 +8147,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -9101,7 +8178,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -9466,7 +8543,7 @@
             "outSize" : 19.5,
             "outWeight" : 400,
             "size" : 19.5,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -9475,79 +8552,7 @@
             "outSize" : 19,
             "outWeight" : 400,
             "size" : 19,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 18.5,
-            "outWeight" : 400,
-            "size" : 18.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 18,
-            "outWeight" : 400,
-            "size" : 18,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17.5,
-            "outWeight" : 400,
-            "size" : 17.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17,
-            "outWeight" : 400,
-            "size" : 17,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.5,
-            "outWeight" : 400,
-            "size" : 16.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16,
-            "outWeight" : 400,
-            "size" : 16,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.5,
-            "outWeight" : 400,
-            "size" : 15.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15,
-            "outWeight" : 400,
-            "size" : 15,
-            "slot" : "lineId",
+            "slot" : "phone",
             "weight" : 400
           },
           {
@@ -9783,42 +8788,6 @@
             "weight" : 400
           },
           {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.78,
-            "outWeight" : 400,
-            "size" : 16.78,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.28,
-            "outWeight" : 400,
-            "size" : 16.28,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.780000000000001,
-            "outWeight" : 400,
-            "size" : 15.780000000000001,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.280000000000001,
-            "outWeight" : 400,
-            "size" : 15.280000000000001,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
             "face" : "noto",
             "outFace" : "noto",
             "outSize" : 23.3,
@@ -9876,15 +8845,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -9935,14 +8908,6 @@
           "lineHeight" : 1,
           "size" : 23.5,
           "v" : 36.89,
-          "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15,
-          "v" : 23.55,
           "weight" : 400
         },
         {
@@ -10026,14 +8991,6 @@
           "weight" : 400
         },
         {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15.280000000000001,
-          "v" : 23.99,
-          "weight" : 400
-        },
-        {
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
@@ -10111,9 +9068,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 180.75,
+          "w" : 70.27,
           "weight" : 400
         },
         {
@@ -10136,9 +9093,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 122.46,
+          "w" : 140.23,
           "weight" : 400
         },
         {
@@ -10532,14 +9489,27 @@
         },
         {
           "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 70.27,
+          "weight" : 400,
+          "width" : 135.66666666666669
+        },
+        {
+          "face" : "mitr",
           "h" : 62.8,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 123.88,
+          "w" : 93.56,
           "weight" : 400,
           "width" : 135.66666666666666
         },
@@ -10550,141 +9520,24 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.5,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.45,
+          "w" : 91.23,
           "weight" : 400,
           "width" : 135.66666666666666
         },
         {
           "face" : "mitr",
-          "h" : 59.66,
+          "h" : 29.83,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 19,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 129.05,
+          "w" : 133.21,
           "weight" : 400,
           "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 58.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 125.66,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 56.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.19,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 54.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.07,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 53.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.24,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 126.41,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.15,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.02,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 23.55,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.56,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 31.4,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 20,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 122.46,
-          "weight" : 400,
-          "width" : 135.66666666666669
         },
         {
           "face" : "mitr",
@@ -10769,9 +9622,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -10794,9 +9647,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -10857,9 +9710,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -10870,9 +9723,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -10933,9 +9786,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 180.75,
+          "w" : 70.27,
           "weight" : 400
         },
         {
@@ -10958,9 +9811,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 122.46,
+          "w" : 140.23,
           "weight" : 400
         },
         {
@@ -11354,14 +10207,27 @@
         },
         {
           "face" : "mitr",
+          "h" : 31.4,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 20,
+          "t" : "@lineid",
+          "tracking" : 0,
+          "w" : 70.27,
+          "weight" : 400,
+          "width" : 135.66666666666669
+        },
+        {
+          "face" : "mitr",
           "h" : 62.8,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 123.88,
+          "w" : 93.56,
           "weight" : 400,
           "width" : 135.66666666666666
         },
@@ -11372,141 +10238,24 @@
           "lineHeight" : 1,
           "lines" : 2,
           "size" : 19.5,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 132.45,
+          "w" : 91.23,
           "weight" : 400,
           "width" : 135.66666666666666
         },
         {
           "face" : "mitr",
-          "h" : 59.66,
+          "h" : 29.83,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 19,
-          "t" : "@maneerat.review",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 129.05,
+          "w" : 133.21,
           "weight" : 400,
           "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 58.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 125.66,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 56.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 133.19,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 54.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.07,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 53.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.24,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 126.41,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.15,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.02,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 23.55,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 135.56,
-          "weight" : 400,
-          "width" : 135.66666666666666
-        },
-        {
-          "face" : "mitr",
-          "h" : 31.4,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 1,
-          "size" : 20,
-          "t" : "0891234567",
-          "tracking" : 0,
-          "w" : 122.46,
-          "weight" : 400,
-          "width" : 135.66666666666669
         },
         {
           "face" : "mitr",
@@ -11591,9 +10340,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.28,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 156.16,
+          "w" : 60.71,
           "weight" : 400
         },
         {
@@ -11616,9 +10365,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.28,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 105.81,
+          "w" : 121.16,
           "weight" : 400
         },
         {
@@ -11856,68 +10605,16 @@
         },
         {
           "face" : "mitr",
-          "h" : 54.26,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.28,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.39,
-          "weight" : 400,
-          "width" : 142.23999999999998
-        },
-        {
-          "face" : "mitr",
-          "h" : 52.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.78,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 138.59,
-          "weight" : 400,
-          "width" : 142.23999999999998
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.12,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.28,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.46,
-          "weight" : 400,
-          "width" : 142.23999999999998
-        },
-        {
-          "face" : "mitr",
-          "h" : 49.54,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.780000000000001,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.33,
-          "weight" : 400,
-          "width" : 142.23999999999998
-        },
-        {
-          "face" : "mitr",
-          "h" : 23.99,
+          "h" : 27.13,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.280000000000001,
-          "t" : "@maneerat.review",
+          "size" : 17.28,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 138.09,
+          "w" : 60.71,
           "weight" : 400,
-          "width" : 142.23999999999998
+          "width" : 142.24
         },
         {
           "face" : "mitr",
@@ -11926,11 +10623,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 17.28,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 105.81,
+          "w" : 121.16,
           "weight" : 400,
-          "width" : 142.24
+          "width" : 142.23999999999998
         },
         {
           "face" : "mitr",
@@ -11989,9 +10686,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.64,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 132.31,
+          "w" : 51.44,
           "weight" : 400
         },
         {
@@ -12014,9 +10711,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.64,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 89.65,
+          "w" : 102.65,
           "weight" : 400
         },
         {
@@ -12077,9 +10774,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.64,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 132.31,
+          "w" : 51.44,
           "weight" : 400,
           "width" : 148.62
         },
@@ -12090,9 +10787,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.64,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 89.65,
+          "w" : 102.65,
           "weight" : 400,
           "width" : 148.62
         },
@@ -12153,9 +10850,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -12178,9 +10875,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -12241,9 +10938,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -12254,9 +10951,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -12395,7 +11092,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "lineId",
-          "text" : "@maneerat.review",
+          "text" : "@lineid",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -12426,7 +11123,7 @@
           "lines" : 1,
           "size" : 12,
           "slot" : "phone",
-          "text" : "0891234567",
+          "text" : "08x-xxx-xxxx",
           "type" : "text",
           "w" : 155,
           "x" : 70,
@@ -12722,69 +11419,6 @@
             "weight" : 400
           },
           {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 18,
-            "outWeight" : 400,
-            "size" : 18,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17.5,
-            "outWeight" : 400,
-            "size" : 17.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 17,
-            "outWeight" : 400,
-            "size" : 17,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16.5,
-            "outWeight" : 400,
-            "size" : 16.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 16,
-            "outWeight" : 400,
-            "size" : 16,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.5,
-            "outWeight" : 400,
-            "size" : 15.5,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15,
-            "outWeight" : 400,
-            "size" : 15,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
             "face" : "noto",
             "outFace" : "noto",
             "outSize" : 20,
@@ -12951,15 +11585,6 @@
             "weight" : 400
           },
           {
-            "face" : "mitr",
-            "outFace" : "mitr",
-            "outSize" : 15.79,
-            "outWeight" : 400,
-            "size" : 15.79,
-            "slot" : "lineId",
-            "weight" : 400
-          },
-          {
             "face" : "noto",
             "outFace" : "noto",
             "outSize" : 22.5575,
@@ -13017,15 +11642,19 @@
         "texts" : [
           {
             "slot" : "lineId",
-            "v" : "@maneerat.review"
+            "v" : "@lineid"
           },
           {
             "slot" : "phone",
-            "v" : "0891234567"
+            "v" : "08x-xxx-xxxx"
           },
           {
             "slot" : "website",
             "v" : "yourname.com"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -13076,14 +11705,6 @@
           "lineHeight" : 1,
           "size" : 23.25,
           "v" : 36.5,
-          "weight" : 400
-        },
-        {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15,
-          "v" : 23.55,
           "weight" : 400
         },
         {
@@ -13167,14 +11788,6 @@
           "weight" : 400
         },
         {
-          "face" : "mitr",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 15.79,
-          "v" : 24.79,
-          "weight" : 400
-        },
-        {
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
@@ -13252,9 +11865,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 167.19,
+          "w" : 65,
           "weight" : 400
         },
         {
@@ -13277,9 +11890,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.28,
+          "w" : 129.71,
           "weight" : 400
         },
         {
@@ -13569,105 +12182,14 @@
         },
         {
           "face" : "mitr",
-          "h" : 58.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.89,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 56.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.9,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 54.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.07,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 53.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.24,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.28,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.15,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.02,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 23.55,
+          "h" : 29.05,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
+          "size" : 18.5,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 135.56,
+          "w" : 65,
           "weight" : 400,
           "width" : 139.29166666666669
         },
@@ -13678,9 +12200,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.28,
+          "w" : 129.71,
           "weight" : 400,
           "width" : 139.29166666666666
         },
@@ -13741,9 +12263,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -13766,9 +12288,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -13829,9 +12351,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -13842,9 +12364,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },
@@ -13905,9 +12427,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 167.19,
+          "w" : 65,
           "weight" : 400
         },
         {
@@ -13930,9 +12452,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.28,
+          "w" : 129.71,
           "weight" : 400
         },
         {
@@ -14222,105 +12744,14 @@
         },
         {
           "face" : "mitr",
-          "h" : 58.1,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.89,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 56.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 18,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 137.9,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 54.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.07,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 53.38,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 17,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 130.24,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 51.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 136.28,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 50.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 132.15,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 48.68,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 128.02,
-          "weight" : 400,
-          "width" : 139.29166666666669
-        },
-        {
-          "face" : "mitr",
-          "h" : 23.55,
+          "h" : 29.05,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15,
-          "t" : "@maneerat.review",
+          "size" : 18.5,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 135.56,
+          "w" : 65,
           "weight" : 400,
           "width" : 139.29166666666669
         },
@@ -14331,9 +12762,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 18.5,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 113.28,
+          "w" : 129.71,
           "weight" : 400,
           "width" : 139.29166666666666
         },
@@ -14394,9 +12825,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.29,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 147.22,
+          "w" : 57.23,
           "weight" : 400
         },
         {
@@ -14419,9 +12850,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.29,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 99.75,
+          "w" : 114.21,
           "weight" : 400
         },
         {
@@ -14581,27 +13012,14 @@
         },
         {
           "face" : "mitr",
-          "h" : 51.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 16.29,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 134.54,
-          "weight" : 400,
-          "width" : 144.6325
-        },
-        {
-          "face" : "mitr",
-          "h" : 24.79,
+          "h" : 25.58,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 15.79,
-          "t" : "@maneerat.review",
+          "size" : 16.29,
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 142.7,
+          "w" : 57.23,
           "weight" : 400,
           "width" : 144.6325
         },
@@ -14612,9 +13030,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 16.29,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 99.75,
+          "w" : 114.21,
           "weight" : 400,
           "width" : 144.6325
         },
@@ -14675,9 +13093,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.145,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 127.83,
+          "w" : 49.7,
           "weight" : 400
         },
         {
@@ -14700,9 +13118,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.145,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 86.61,
+          "w" : 99.18,
           "weight" : 400
         },
         {
@@ -14763,11 +13181,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.145,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 127.83,
+          "w" : 49.7,
           "weight" : 400,
-          "width" : 149.81624999999997
+          "width" : 149.81625
         },
         {
           "face" : "mitr",
@@ -14776,9 +13194,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 14.145,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 86.61,
+          "w" : 99.18,
           "weight" : 400,
           "width" : 149.81625
         },
@@ -14839,9 +13257,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400
         },
         {
@@ -14864,9 +13282,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400
         },
         {
@@ -14927,9 +13345,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "@maneerat.review",
+          "t" : "@lineid",
           "tracking" : 0,
-          "w" : 108.45,
+          "w" : 42.16,
           "weight" : 400,
           "width" : 155
         },
@@ -14940,9 +13358,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 12,
-          "t" : "0891234567",
+          "t" : "08x-xxx-xxxx",
           "tracking" : 0,
-          "w" : 73.48,
+          "w" : 84.14,
           "weight" : 400,
           "width" : 155
         },

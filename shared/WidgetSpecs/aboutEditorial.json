@@ -41,7 +41,8 @@
     ],
     "if": "surface=glass"
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สำรับบรรณาธิการ · หน้าแนะนำตัว — หัวเรื่องยักษ์สองบรรทัด (note#0 note#1) บนกระดาษครีมอุ่น · เส้นตั้งสองเส้น · รูปมุมขวา (ช่อง 1) · หัวข้อย่อย (note#2) + ย่อหน้าแนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutEditorial) · สีตาม Ed.skin: กระดาษ Ed.creamWarm เฉพาะ papered & !duo · คู่สี = plate + plateInk · ปิดพื้น/pane = หมึกการ์ด · หัวเรื่อง/เส้น = ed.red (กระดาษ → accentPaper · คู่สี → plateInk · ไม่มีพื้น → accent) · ขนาดหัวเรื่องต้นฉบับ = min(Ed.fitted ของสองบรรทัด กว้าง 63% เพดาน 26% สูง) = 66 ที่กรอบดีไซน์กับข้อความตั้งต้น — ผังผูกขนาดสองโหนดเข้าด้วยกันไม่ได้ จึงตรึง 66 ทั้งคู่ (ย่อได้ด้วย shrinkTo · ขยายตามคำสั้นไม่ได้) · ระยะตัวอักษร −0.05×ขนาด ใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
  "root": {
@@ -50,33 +51,21 @@
    {
     "type": "rect",
     "id": "sheet",
-    "fill": "#F2EADB",
-    "if": "papered & !duo"
+    "fill": "bg",
+    "if": "papered"
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered & !duo",
-    "platePattern": "#F2EADB"
-   },
-   {
-    "type": "rect",
-    "id": "plate",
-    "fill": "plate",
-    "if": "papered & duo"
-   },
-   {
-    "type": "rect",
-    "id": "platePattern",
-    "if": "papered & duo",
-    "platePattern": "plate"
+    "if": "papered",
+    "platePattern": "bg"
    },
    {
     "type": "rect",
     "id": "ruleTop",
     "w": 1,
     "h": "8.5%",
-    "fill": "ed.red@0.9",
+    "fill": "accent@0.9",
     "place": "top-left",
     "dx": 199.5,
     "dy": 0
@@ -86,7 +75,7 @@
     "id": "ruleMid",
     "w": 1,
     "h": "13.5%",
-    "fill": "ed.red@0.9",
+    "fill": "accent@0.9",
     "place": "top-left",
     "dx": 86,
     "dy": 154.7
@@ -108,7 +97,7 @@
       "weight": 900,
       "size": 69,
       "kerning": -3.45,
-      "color": "ed.red",
+      "color": "accent",
       "maxLines": 1,
       "shrinkTo": 10,
       "w": "fill",
@@ -120,7 +109,7 @@
       "weight": 900,
       "size": 69,
       "kerning": -3.45,
-      "color": "ed.red",
+      "color": "accent",
       "maxLines": 1,
       "shrinkTo": 10,
       "w": "fill",
@@ -162,7 +151,7 @@
       "weight": 700,
       "size": 17,
       "kerning": -0.3,
-      "color": "ed.ink",
+      "color": "ink",
       "maxLines": 1,
       "shrinkTo": 10.5,
       "w": "fill",
@@ -176,7 +165,7 @@
       "weight": 400,
       "size": 8.5,
       "lineHeight": 1.24,
-      "color": "ed.ink@0.85",
+      "color": "ink@0.85",
       "maxLines": 0,
       "w": "fill",
       "grow": 1

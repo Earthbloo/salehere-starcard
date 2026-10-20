@@ -88,7 +88,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "light"
  },
  "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -103,7 +104,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 20
      },
      {
@@ -142,7 +143,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 20
        },
        {
@@ -177,7 +178,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -227,7 +228,7 @@
         "id": "border",
         "radius": 13,
         "stroke": {
-         "color": "kit.border",
+         "color": "line",
          "width": 2
         }
        }
@@ -253,7 +254,7 @@
           "id": "border",
           "radius": 13,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -275,7 +276,7 @@
           "id": "border",
           "radius": 2,
           "stroke": {
-           "color": "kit.border",
+           "color": "line",
            "width": 2
           }
          }
@@ -299,7 +300,7 @@
         "face": "noto",
         "size": 25,
         "weight": 800,
-        "color": "kit.title",
+        "color": "ink",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 17.5,

@@ -15,7 +15,8 @@
   "order": 63,
   "ownSurface": true,
   "keepAspect": true,
-  "motion": "mid"
+  "motion": "mid",
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก 03 พวงกุญแจโซเชียล — วัตถุลอย (ไม่มีแผ่น) · ห่วงกุญแจเงิน (วงแหวน + ก้าน) · ป้ายห้อย scrap.mid มุม 17 เงาเฉดแผ่น มีรูเจาะ (วงกลม black@0.14 ทับ = mid ผสมดำ) · ช่องทาง 3 อันดับยอดผู้ติดตาม (sort followersRaw desc · limit 3): โลโก้ในกล่องขาว 42 เงาแข็ง y 2 + ยอดดำหนัก · 'ผู้ติดตาม' มิตรขาว · กรอบแนวนอน (ratio<0.667) = variant ป้ายวางนอน ห่วงซ้าย (ตัวเลขของผัง 370×180 คูณ 1.722 ให้เท่ากล่อง 637×310) · แปลงจาก ScrapbookWidgets.swift (ScrapKeyTabWidget) · ใช้ไม่ได้: ขนาดโลโก้ต่างตามชนิด badge/ไม่ badge (ใช้ 26 เดียว)",
  "variants": [
@@ -55,14 +56,14 @@
       "id": "tab",
       "w": "84%",
       "h": 148,
-      "fill": "scrap.mid",
+      "fill": "bg2",
       "radius": 17,
       "place": "center-left",
       "dx": 79,
       "shadow": {
        "sigma": 7,
        "y": 14,
-       "color": "scrap.shade@0.24"
+       "color": "black@0.24"
       },
       "children": [
        {
@@ -93,7 +94,7 @@
            "shadow": {
             "sigma": 0,
             "y": 3.4,
-            "color": "scrap.shade@0.18"
+            "color": "black@0.18"
            },
            "children": [
             {
@@ -185,14 +186,14 @@
     "id": "tab",
     "w": 75,
     "h": 265,
-    "fill": "scrap.mid",
+    "fill": "bg2",
     "radius": 17,
     "place": "top-center",
     "dy": 39,
     "shadow": {
      "sigma": 4,
      "y": 8,
-     "color": "scrap.shade@0.24"
+     "color": "black@0.24"
     },
     "children": [
      {
@@ -229,7 +230,7 @@
            "shadow": {
             "sigma": 0,
             "y": 2,
-            "color": "scrap.shade@0.18"
+            "color": "black@0.18"
            },
            "children": [
             {

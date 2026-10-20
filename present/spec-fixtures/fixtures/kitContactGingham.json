@@ -93,7 +93,7 @@
           "h" : 266.54,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -101,7 +101,7 @@
           "h" : 266.54,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -109,7 +109,7 @@
           "h" : 32,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -152,11 +152,11 @@
           "h" : 22.67,
           "id" : "r\/2\/2\/1\/0\/0\/0\/1",
           "lines" : 1,
-          "size" : 14,
+          "size" : 15,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 134,
+          "w" : 95.78,
           "x" : 67,
           "y" : 61.85
         },
@@ -165,14 +165,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 211,
+          "x" : 172.78,
           "y" : 73.18
         },
         {
           "h" : 228.54,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -180,7 +180,7 @@
           "h" : 210.19,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -188,16 +188,16 @@
           "h" : 184,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
-          "w" : 184,
-          "x" : 26,
+          "w" : 147.78,
+          "x" : 25,
           "y" : 108.28
         },
         {
           "h" : 172,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
-          "w" : 172,
-          "x" : 32,
+          "w" : 135.78,
+          "x" : 31,
           "y" : 114.28
         },
         {
@@ -208,7 +208,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 84.41,
-          "x" : 75.8,
+          "x" : 56.69,
           "y" : 309.37
         },
         {
@@ -249,7 +249,7 @@
           "lines" : 1,
           "size" : 13,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 82.74,
           "x" : 53,
@@ -379,24 +379,6 @@
             "outWeight" : 900,
             "size" : 6.08,
             "weight" : 900
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14.5,
-            "outWeight" : 700,
-            "size" : 14.5,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14,
-            "outWeight" : 700,
-            "size" : 14,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
           }
         ],
         "lists" : {
@@ -405,15 +387,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -457,14 +443,6 @@
           "size" : 6.08,
           "v" : 9.19,
           "weight" : 900
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 14,
-          "v" : 21.15,
-          "weight" : 700
         }
       ],
       "measures" : [
@@ -488,9 +466,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -513,7 +491,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -532,6 +510,19 @@
         },
         {
           "face" : "noto",
+          "h" : 14.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.5,
+          "t" : "สแกนเพิ่มเพื่อน LINE",
+          "tracking" : 0,
+          "w" : 84.41,
+          "weight" : 600,
+          "width" : 147.78
+        },
+        {
+          "face" : "noto",
           "h" : 9.19,
           "kerning" : 0,
           "lineHeight" : 1,
@@ -545,42 +536,16 @@
         },
         {
           "face" : "noto",
-          "h" : 45.34,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 127.94,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 43.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 123.68,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 21.15,
+          "h" : 22.67,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 14,
-          "t" : "@maneerat.review",
+          "size" : 15,
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 131.39,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 134
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -602,7 +567,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,
@@ -719,7 +684,7 @@
           "h" : 666.54,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -727,7 +692,7 @@
           "h" : 666.54,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -735,7 +700,7 @@
           "h" : 32,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -778,11 +743,11 @@
           "h" : 22.67,
           "id" : "r\/2\/2\/1\/0\/0\/0\/1",
           "lines" : 1,
-          "size" : 14,
+          "size" : 15,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 134,
+          "w" : 95.78,
           "x" : 67,
           "y" : 61.85
         },
@@ -791,14 +756,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 211,
+          "x" : 172.78,
           "y" : 73.18
         },
         {
           "h" : 628.54,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -806,7 +771,7 @@
           "h" : 610.19,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -814,16 +779,16 @@
           "h" : 184,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
-          "w" : 184,
-          "x" : 26,
+          "w" : 147.78,
+          "x" : 25,
           "y" : 308.27
         },
         {
           "h" : 172,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
-          "w" : 172,
-          "x" : 32,
+          "w" : 135.78,
+          "x" : 31,
           "y" : 314.27
         },
         {
@@ -834,7 +799,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 84.41,
-          "x" : 75.8,
+          "x" : 56.69,
           "y" : 709.37
         },
         {
@@ -875,7 +840,7 @@
           "lines" : 1,
           "size" : 13,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 82.74,
           "x" : 53,
@@ -1005,24 +970,6 @@
             "outWeight" : 900,
             "size" : 6.08,
             "weight" : 900
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14.5,
-            "outWeight" : 700,
-            "size" : 14.5,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14,
-            "outWeight" : 700,
-            "size" : 14,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
           }
         ],
         "lists" : {
@@ -1031,15 +978,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -1083,14 +1034,6 @@
           "size" : 6.08,
           "v" : 9.19,
           "weight" : 900
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 14,
-          "v" : 21.15,
-          "weight" : 700
         }
       ],
       "measures" : [
@@ -1114,9 +1057,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -1139,7 +1082,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -1158,6 +1101,19 @@
         },
         {
           "face" : "noto",
+          "h" : 14.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.5,
+          "t" : "สแกนเพิ่มเพื่อน LINE",
+          "tracking" : 0,
+          "w" : 84.41,
+          "weight" : 600,
+          "width" : 147.78
+        },
+        {
+          "face" : "noto",
           "h" : 9.19,
           "kerning" : 0,
           "lineHeight" : 1,
@@ -1171,42 +1127,16 @@
         },
         {
           "face" : "noto",
-          "h" : 45.34,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 127.94,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 43.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 123.68,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 21.15,
+          "h" : 22.67,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 14,
-          "t" : "@maneerat.review",
+          "size" : 15,
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 131.39,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 134
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -1228,7 +1158,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,
@@ -1345,7 +1275,7 @@
           "h" : 204.96,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 310.9,
+          "w" : 228.14,
           "x" : 25,
           "y" : 74.68
         },
@@ -1353,7 +1283,7 @@
           "h" : 204.96,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 310.9,
+          "w" : 228.14,
           "x" : 25,
           "y" : 74.68
         },
@@ -1361,7 +1291,7 @@
           "h" : 41.68,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 310.9,
+          "w" : 228.14,
           "x" : 25,
           "y" : 74.68
         },
@@ -1406,9 +1336,9 @@
           "lines" : 1,
           "size" : 27.59,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 258.9,
+          "w" : 176.14,
           "x" : 67,
           "y" : 74.68
         },
@@ -1417,14 +1347,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 335.9,
+          "x" : 253.14,
           "y" : 95.52
         },
         {
           "h" : 157.28,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 310.9,
+          "w" : 228.14,
           "x" : 25,
           "y" : 122.36
         },
@@ -1432,7 +1362,7 @@
           "h" : 120.28,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 310.9,
+          "w" : 228.14,
           "x" : 25,
           "y" : 122.36
         },
@@ -1441,7 +1371,7 @@
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
           "w" : 184,
-          "x" : 88.45,
+          "x" : 47.07,
           "y" : 122.36
         },
         {
@@ -1449,7 +1379,7 @@
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
           "w" : 172,
-          "x" : 94.45,
+          "x" : 53.07,
           "y" : 128.36
         },
         {
@@ -1460,7 +1390,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 194.05,
-          "x" : 83.42,
+          "x" : 42.04,
           "y" : 246.64
         },
         {
@@ -1501,7 +1431,7 @@
           "lines" : 1,
           "size" : 27.59,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 175.56,
           "x" : 53,
@@ -1682,15 +1612,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -1789,9 +1723,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 258.9,
+          "w" : 176.14,
           "weight" : 700
         },
         {
@@ -1814,7 +1748,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 175.56,
           "weight" : 400
@@ -1842,7 +1776,7 @@
           "tracking" : 0,
           "w" : 194.05,
           "weight" : 600,
-          "width" : 310.9
+          "width" : 228.14
         },
         {
           "face" : "noto",
@@ -1864,11 +1798,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 258.9,
+          "w" : 176.14,
           "weight" : 700,
-          "width" : 258.9
+          "width" : 176.14
         },
         {
           "face" : "noto",
@@ -1890,7 +1824,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 175.56,
           "weight" : 400,
@@ -1929,9 +1863,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -1954,7 +1888,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -1982,7 +1916,7 @@
           "tracking" : 0,
           "w" : 84.41,
           "weight" : 600,
-          "width" : 192.78
+          "width" : 147.78
         },
         {
           "face" : "noto",
@@ -2004,11 +1938,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 140.78
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -2030,7 +1964,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,
@@ -2069,9 +2003,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 258.9,
+          "w" : 176.14,
           "weight" : 700
         },
         {
@@ -2094,7 +2028,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 175.56,
           "weight" : 400
@@ -2122,7 +2056,7 @@
           "tracking" : 0,
           "w" : 194.05,
           "weight" : 600,
-          "width" : 310.9
+          "width" : 228.14
         },
         {
           "face" : "noto",
@@ -2144,11 +2078,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 258.9,
+          "w" : 176.14,
           "weight" : 700,
-          "width" : 258.9
+          "width" : 176.14
         },
         {
           "face" : "noto",
@@ -2170,7 +2104,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 27.586206896551726,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 175.56,
           "weight" : 400,
@@ -2287,7 +2221,7 @@
           "h" : 266.18,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 192.78,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -2295,7 +2229,7 @@
           "h" : 266.18,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 192.78,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -2303,7 +2237,7 @@
           "h" : 32,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 192.78,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -2348,9 +2282,9 @@
           "lines" : 1,
           "size" : 15,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 140.78,
+          "w" : 95.78,
           "x" : 67,
           "y" : 61.85
         },
@@ -2359,14 +2293,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 217.78,
+          "x" : 172.78,
           "y" : 73.18
         },
         {
           "h" : 228.18,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 192.78,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -2374,7 +2308,7 @@
           "h" : 208.49,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 192.78,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -2382,16 +2316,16 @@
           "h" : 184,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
-          "w" : 184,
-          "x" : 29.39,
+          "w" : 147.78,
+          "x" : 25,
           "y" : 107.43
         },
         {
           "h" : 172,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
-          "w" : 172,
-          "x" : 35.39,
+          "w" : 135.78,
+          "x" : 31,
           "y" : 113.43
         },
         {
@@ -2402,7 +2336,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 92.25,
-          "x" : 75.27,
+          "x" : 52.77,
           "y" : 307.67
         },
         {
@@ -2443,7 +2377,7 @@
           "lines" : 1,
           "size" : 13.11,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 83.47,
           "x" : 53,
@@ -2607,15 +2541,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -2698,9 +2636,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -2723,7 +2661,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.114754098360656,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 83.47,
           "weight" : 400
@@ -2751,7 +2689,7 @@
           "tracking" : 0,
           "w" : 92.25,
           "weight" : 600,
-          "width" : 192.78
+          "width" : 147.78
         },
         {
           "face" : "noto",
@@ -2773,11 +2711,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 140.78
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -2799,7 +2737,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.114754098360656,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 83.47,
           "weight" : 400,
@@ -2838,9 +2776,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -2863,7 +2801,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -2891,7 +2829,7 @@
           "tracking" : 0,
           "w" : 84.41,
           "weight" : 600,
-          "width" : 192.78
+          "width" : 147.78
         },
         {
           "face" : "noto",
@@ -2913,11 +2851,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 140.78
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -2939,7 +2877,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,
@@ -2978,9 +2916,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -3003,7 +2941,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.114754098360656,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 83.47,
           "weight" : 400
@@ -3031,7 +2969,7 @@
           "tracking" : 0,
           "w" : 92.25,
           "weight" : 600,
-          "width" : 192.78
+          "width" : 147.78
         },
         {
           "face" : "noto",
@@ -3053,11 +2991,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 140.78
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -3079,7 +3017,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13.114754098360656,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 83.47,
           "weight" : 400,
@@ -3196,7 +3134,7 @@
           "h" : 239.34,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 239.7,
+          "w" : 179.7,
           "x" : 25,
           "y" : 63.22
         },
@@ -3204,7 +3142,7 @@
           "h" : 239.34,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 239.7,
+          "w" : 179.7,
           "x" : 25,
           "y" : 63.22
         },
@@ -3212,7 +3150,7 @@
           "h" : 32,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 239.7,
+          "w" : 179.7,
           "x" : 25,
           "y" : 63.22
         },
@@ -3257,9 +3195,9 @@
           "lines" : 1,
           "size" : 20,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 187.7,
+          "w" : 127.7,
           "x" : 67,
           "y" : 64.11
         },
@@ -3268,14 +3206,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 264.7,
+          "x" : 204.7,
           "y" : 79.22
         },
         {
           "h" : 201.34,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 239.7,
+          "w" : 179.7,
           "x" : 25,
           "y" : 101.22
         },
@@ -3283,7 +3221,7 @@
           "h" : 173.42,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 239.7,
+          "w" : 179.7,
           "x" : 25,
           "y" : 101.22
         },
@@ -3291,16 +3229,16 @@
           "h" : 173.42,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
-          "w" : 184,
-          "x" : 52.85,
+          "w" : 179.7,
+          "x" : 25,
           "y" : 101.22
         },
         {
           "h" : 161.42,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
-          "w" : 172,
-          "x" : 58.85,
+          "w" : 167.7,
+          "x" : 31,
           "y" : 107.22
         },
         {
@@ -3311,7 +3249,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 140.68,
-          "x" : 74.51,
+          "x" : 44.51,
           "y" : 278.64
         },
         {
@@ -3352,7 +3290,7 @@
           "lines" : 1,
           "size" : 20,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 127.28,
           "x" : 53,
@@ -3533,15 +3471,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -3640,9 +3582,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 187.7,
+          "w" : 127.7,
           "weight" : 700
         },
         {
@@ -3665,7 +3607,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 127.28,
           "weight" : 400
@@ -3693,7 +3635,7 @@
           "tracking" : 0,
           "w" : 140.68,
           "weight" : 600,
-          "width" : 239.7
+          "width" : 179.7
         },
         {
           "face" : "noto",
@@ -3715,11 +3657,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 187.7,
+          "w" : 127.7,
           "weight" : 700,
-          "width" : 187.7
+          "width" : 127.7
         },
         {
           "face" : "noto",
@@ -3741,7 +3683,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 127.28,
           "weight" : 400,
@@ -3780,9 +3722,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -3805,7 +3747,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -3833,7 +3775,7 @@
           "tracking" : 0,
           "w" : 84.41,
           "weight" : 600,
-          "width" : 192.78
+          "width" : 147.78
         },
         {
           "face" : "noto",
@@ -3855,11 +3797,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 140.78
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -3881,7 +3823,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,
@@ -3920,9 +3862,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 187.7,
+          "w" : 127.7,
           "weight" : 700
         },
         {
@@ -3945,7 +3887,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 127.28,
           "weight" : 400
@@ -3973,7 +3915,7 @@
           "tracking" : 0,
           "w" : 140.68,
           "weight" : 600,
-          "width" : 239.7
+          "width" : 179.7
         },
         {
           "face" : "noto",
@@ -3995,11 +3937,11 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 187.7,
+          "w" : 127.7,
           "weight" : 700,
-          "width" : 187.7
+          "width" : 127.7
         },
         {
           "face" : "noto",
@@ -4021,7 +3963,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 20,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 127.28,
           "weight" : 400,
@@ -4138,7 +4080,7 @@
           "h" : 417.21,
           "id" : "r\/2\/2\/1\/0",
           "type" : "stack",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -4146,7 +4088,7 @@
           "h" : 417.21,
           "id" : "r\/2\/2\/1\/0\/0",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -4154,7 +4096,7 @@
           "h" : 32,
           "id" : "r\/2\/2\/1\/0\/0\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 57.18
         },
@@ -4197,11 +4139,11 @@
           "h" : 22.67,
           "id" : "r\/2\/2\/1\/0\/0\/0\/1",
           "lines" : 1,
-          "size" : 14,
+          "size" : 15,
           "slot" : "stat:lineFlow",
-          "text" : "@maneerat.review",
+          "text" : "@nirabeauty",
           "type" : "text",
-          "w" : 134,
+          "w" : 95.78,
           "x" : 67,
           "y" : 61.85
         },
@@ -4210,14 +4152,14 @@
           "id" : "r\/2\/2\/1\/0\/0\/0\/2",
           "type" : "spacer",
           "w" : 0,
-          "x" : 211,
+          "x" : 172.78,
           "y" : 73.18
         },
         {
           "h" : 379.21,
           "id" : "r\/2\/2\/1\/0\/0\/1",
           "type" : "col",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -4225,7 +4167,7 @@
           "h" : 360.86,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0",
           "type" : "row",
-          "w" : 186,
+          "w" : 147.78,
           "x" : 25,
           "y" : 95.18
         },
@@ -4233,16 +4175,16 @@
           "h" : 184,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0",
           "type" : "stack",
-          "w" : 184,
-          "x" : 26,
+          "w" : 147.78,
+          "x" : 25,
           "y" : 183.61
         },
         {
           "h" : 172,
           "id" : "r\/2\/2\/1\/0\/0\/1\/0\/0\/0",
           "type" : "icon",
-          "w" : 172,
-          "x" : 32,
+          "w" : 135.78,
+          "x" : 31,
           "y" : 189.61
         },
         {
@@ -4253,7 +4195,7 @@
           "text" : "สแกนเพิ่มเพื่อน LINE",
           "type" : "text",
           "w" : 84.41,
-          "x" : 75.8,
+          "x" : 56.69,
           "y" : 460.04
         },
         {
@@ -4294,7 +4236,7 @@
           "lines" : 1,
           "size" : 13,
           "slot" : "stat:phoneFmt",
-          "text" : "089-123-4567",
+          "text" : "081-234-5678",
           "type" : "text",
           "w" : 82.74,
           "x" : 53,
@@ -4424,24 +4366,6 @@
             "outWeight" : 900,
             "size" : 6.08,
             "weight" : 900
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14.5,
-            "outWeight" : 700,
-            "size" : 14.5,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 14,
-            "outWeight" : 700,
-            "size" : 14,
-            "slot" : "stat:lineFlow",
-            "weight" : 700
           }
         ],
         "lists" : {
@@ -4450,15 +4374,19 @@
         "texts" : [
           {
             "slot" : "stat:lineFlow",
-            "v" : "@maneerat.review"
+            "v" : "@nirabeauty"
           },
           {
             "slot" : "stat:phoneFmt",
-            "v" : "089-123-4567"
+            "v" : "081-234-5678"
           },
           {
             "slot" : "stat:site",
             "v" : "nirabeauty.co"
+          },
+          {
+            "slot" : "handle",
+            "v" : "mae.review"
           }
         ]
       },
@@ -4502,14 +4430,6 @@
           "size" : 6.08,
           "v" : 9.19,
           "weight" : 900
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 14,
-          "v" : 21.15,
-          "weight" : 700
         }
       ],
       "measures" : [
@@ -4533,9 +4453,9 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 15,
-          "t" : "@maneerat.review",
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 140.78,
+          "w" : 95.78,
           "weight" : 700
         },
         {
@@ -4558,7 +4478,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400
@@ -4577,6 +4497,19 @@
         },
         {
           "face" : "noto",
+          "h" : 14.35,
+          "kerning" : 0,
+          "lineHeight" : 1,
+          "lines" : 1,
+          "size" : 9.5,
+          "t" : "สแกนเพิ่มเพื่อน LINE",
+          "tracking" : 0,
+          "w" : 84.41,
+          "weight" : 600,
+          "width" : 147.78
+        },
+        {
+          "face" : "noto",
           "h" : 9.19,
           "kerning" : 0,
           "lineHeight" : 1,
@@ -4590,42 +4523,16 @@
         },
         {
           "face" : "noto",
-          "h" : 45.34,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 15,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 127.94,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 43.82,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 14.5,
-          "t" : "@maneerat.review",
-          "tracking" : 0,
-          "w" : 123.68,
-          "weight" : 700,
-          "width" : 134
-        },
-        {
-          "face" : "noto",
-          "h" : 21.15,
+          "h" : 22.67,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 14,
-          "t" : "@maneerat.review",
+          "size" : 15,
+          "t" : "@nirabeauty",
           "tracking" : 0,
-          "w" : 131.39,
+          "w" : 95.78,
           "weight" : 700,
-          "width" : 134
+          "width" : 95.78
         },
         {
           "face" : "noto",
@@ -4647,7 +4554,7 @@
           "lineHeight" : 1,
           "lines" : 1,
           "size" : 13,
-          "t" : "089-123-4567",
+          "t" : "081-234-5678",
           "tracking" : 0,
           "w" : 82.74,
           "weight" : 400,

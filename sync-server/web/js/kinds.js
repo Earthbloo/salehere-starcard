@@ -35,11 +35,14 @@ export function kindInfo(kind, spec) {
  * ชนิดที่วาดจริงของชิ้นในไฟล์ (= `WidgetKind.decode`) — ชื่อเก่าตกไปที่ใบที่ประกาศ `widget.replaces`
  * ชุดห้าสไตล์ก่อน 19 ต.ค. 2569 เป็นชนิดเดียวต่อหัวข้อ + `kit.style` ในชิ้น → ใบที่ `widget.kit.look` ตรงกัน
  */
-export function resolveKind(kind, kit, specs) {
+export function resolveKind(kind, kit, specs, popSkin = 'glass') {
   if (kind === TEXT_LAYER || specs[kind]) return kind
   const look = kit ? (kit.style || 'purple') : null
   const all = Object.values(specs).filter((s) => s.widget?.replaces?.includes(kind))
-  return (all.find((s) => (s.widget.kit?.look ?? null) === look) || all[0])?.kind || kind
+  if (all.length) return (all.find((s) => (s.widget.kit?.look ?? null) === look) || all[0]).kind
+  // สำรับสติกเกอร์ในไฟล์เก่าไม่มีวัสดุติดมากับชนิด — มาจากมุมของธีม (`corner == soft` → กระดาษ) (= `WidgetKind.decode`)
+  const suffixed = kind + (popSkin === 'paper' ? 'Paper' : 'Glass')
+  return specs[suffixed] ? suffixed : kind
 }
 
 /** ระยะขอบในของเนื้อหา (= `contentInset`) — 12 เมื่อ chrome วาดแผ่นหรือมีเส้นขอบ */

@@ -88,7 +88,8 @@
     "if": "bordered",
     "refit": false
    }
-  ]
+  ],
+  "on": "dark"
  },
  "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา night · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile",
  "root": {
@@ -103,7 +104,7 @@
       "type": "rect",
       "if": "!cfg:fill=clear",
       "id": "fill",
-      "fill": "kit.fill",
+      "fill": "bg",
       "radius": 16
      },
      {
@@ -130,7 +131,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 16
        },
        {
@@ -153,7 +154,7 @@
         "type": "rect",
         "if": "!cfg:fill=clear",
         "id": "fill",
-        "fill": "kit.fill",
+        "fill": "bg",
         "radius": 3
        },
        {
@@ -180,7 +181,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 6,
       "dy": 4.5
@@ -190,7 +191,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-left",
       "dx": 4.5,
       "dy": 6
@@ -200,7 +201,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -6,
       "dy": 4.5
@@ -210,7 +211,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "top-right",
       "dx": -4.5,
       "dy": 6
@@ -220,7 +221,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 6,
       "dy": -4.5
@@ -230,7 +231,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-left",
       "dx": 4.5,
       "dy": -6
@@ -240,7 +241,7 @@
       "w": 30,
       "h": 3,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -6,
       "dy": -4.5
@@ -250,7 +251,7 @@
       "w": 3,
       "h": 30,
       "circle": true,
-      "fill": "kit.border",
+      "fill": "line",
       "place": "bottom-right",
       "dx": -4.5,
       "dy": -6
@@ -273,7 +274,7 @@
       "face": "noto",
       "size": 19,
       "weight": 700,
-      "color": "kit.title",
+      "color": "ink",
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
@@ -297,10 +298,10 @@
            "type": "rect",
            "if": "bordered",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 10,
            "stroke": {
-            "color": "kit.border@0.3",
+            "color": "line@0.3",
             "width": 1
            }
           },
@@ -308,10 +309,10 @@
            "type": "rect",
            "if": "!bordered",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 10,
            "stroke": {
-            "color": "kit.mut@0.17",
+            "color": "ink2@0.17",
             "width": 1
            }
           },
@@ -335,7 +336,7 @@
                "face": "noto",
                "size": 13,
                "weight": 600,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "shrinkTo": 9.75
               },
@@ -350,7 +351,7 @@
                "face": "noto",
                "size": 17.5,
                "weight": 800,
-               "color": "kit.accent",
+               "color": "accent",
                "maxLines": 1,
                "id": "price",
                "shrink": 0
@@ -378,10 +379,10 @@
            "type": "rect",
            "if": "bordered",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 10,
            "stroke": {
-            "color": "kit.border@0.3",
+            "color": "line@0.3",
             "width": 1
            }
           },
@@ -389,10 +390,10 @@
            "type": "rect",
            "if": "!bordered",
            "id": "block",
-           "fill": "kit.block",
+           "fill": "bg2",
            "radius": 10,
            "stroke": {
-            "color": "kit.mut@0.17",
+            "color": "ink2@0.17",
             "width": 1
            }
           },
@@ -416,7 +417,7 @@
                "face": "noto",
                "size": 13,
                "weight": 600,
-               "color": "kit.ink",
+               "color": "ink",
                "maxLines": 1,
                "shrinkTo": 9.75
               },
@@ -431,7 +432,7 @@
                "face": "noto",
                "size": 10.5,
                "weight": 400,
-               "color": "kit.mut",
+               "color": "ink2",
                "maxLines": 1,
                "shrink": 0
               },
@@ -441,7 +442,7 @@
                "face": "noto",
                "size": 17.5,
                "weight": 800,
-               "color": "kit.accent",
+               "color": "accent",
                "maxLines": 1,
                "id": "price",
                "shrink": 0

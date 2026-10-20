@@ -19,7 +19,8 @@
   "motion": "mid",
   "replaces": [
    "scrapFolder"
-  ]
+  ],
+  "on": "light"
  },
  "notes": "สแครปบุ๊ก 02 บัตรครีเอเตอร์ — วัตถุลอย (ไม่มีแผ่น) · สายคล้องชมพู (scrap.mid + เส้นประขาว) + ห่วงเงิน · บัตรครีม #FFFDF8 มุม 12 เงาเฉดแผ่น: 'STAR' ดำหนัก 25 + 'ครีเอเตอร์' มิตรชมพูเอียง · รูป 1 ในกรอบ scrap.band · ชื่อ · @handle · สายงานแรก · QR + 'สแกนดูการ์ด' · แคปซูล blush ด้านบน · กรอบแนวนอน (ratio<0.667) = variant บัตรวางนอน (ตัวเลขของผัง 370×180 คูณ 1.722 ให้เท่ากล่อง 637×310) · แปลงจาก ScrapbookWidgets.swift (ScrapBadgeWidget) · ใช้ไม่ได้: ตะขอโค้งของห่วง (วาดแค่วงแหวน) · ซ่อน ' · ' เมื่อไม่มีสายงาน",
  "variants": [
@@ -33,7 +34,7 @@
       "id": "lanyard",
       "w": 38,
       "h": 45,
-      "fill": "scrap.mid",
+      "fill": "bg2",
       "dx": 69,
       "dy": 0
      },
@@ -69,7 +70,7 @@
         "shadow": {
          "sigma": 7.7,
          "y": 14,
-         "color": "scrap.shade@0.22"
+         "color": "black@0.22"
         },
         "children": [
          {
@@ -85,7 +86,7 @@
             "type": "stack",
             "w": 186,
             "h": 186,
-            "fill": "scrap.band",
+            "fill": "bg2",
             "pad": 7,
             "children": [
              {
@@ -121,7 +122,7 @@
                 "face": "mitr",
                 "weight": 400,
                 "size": 29,
-                "color": "scrap.paperAccent",
+                "color": "accent",
                 "rotate": -4,
                 "maxLines": 1
                }
@@ -241,7 +242,7 @@
           "w": 60,
           "h": 10,
           "circle": true,
-          "fill": "scrap.blush",
+          "fill": "bg2",
           "dx": 58,
           "dy": 10
          }
@@ -270,7 +271,7 @@
     "id": "lanyard",
     "w": 22,
     "h": 50,
-    "fill": "scrap.mid",
+    "fill": "bg2",
     "place": "top-center",
     "children": [
      {
@@ -335,7 +336,7 @@
       "shadow": {
        "sigma": 4.5,
        "y": 8,
-       "color": "scrap.shade@0.22"
+       "color": "black@0.22"
       },
       "children": [
        {
@@ -371,7 +372,7 @@
             "face": "mitr",
             "weight": 400,
             "size": 20,
-            "color": "scrap.paperAccent",
+            "color": "accent",
             "textAlign": "right",
             "rotate": -4,
             "maxLines": 1,
@@ -383,7 +384,7 @@
           "type": "stack",
           "w": 88,
           "h": 88,
-          "fill": "scrap.band",
+          "fill": "bg2",
           "pad": 4,
           "children": [
            {
@@ -513,7 +514,7 @@
         "w": 35,
         "h": 6,
         "circle": true,
-        "fill": "scrap.blush",
+        "fill": "bg2",
         "place": "top-center",
         "dy": 8
        }

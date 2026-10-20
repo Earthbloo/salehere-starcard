@@ -80,8 +80,10 @@ data class WidgetSpec(
         val controls: List<KitControl>? = null,
         /** ชุดห้าสไตล์ — หน้าตาของใบ (`look`) */
         val kit: Kit? = null,
-        /** วัสดุแผ่นสติกเกอร์ `paper` · `glass` */
+        /** วัสดุแผ่นสติกเกอร์ `paper` · `glass` (พื้น `pop`) */
         val skin: String? = null,
+        /** พื้นตั้งต้นที่สีของใบนี้คิดจาก — `card` (ไม่ใส่) · `light` · `dark` (§4) */
+        val on: String? = null,
         /** ป้าย Verified by Sale Here — `followers` · `insight` · `work` */
         val stamp: String? = null,
         /** ใบที่ไม่มีช่องหัวข้อ — chrome วางป้ายมุมขวาบนด้านใน */
@@ -298,6 +300,8 @@ data class SpecNode(
     val lineHeight: Double? = null,
     val textCase: String? = null,
     val color: String? = null,
+    /** พื้นที่โหนดนี้นั่งอยู่ — คิดสีของ `bg bg2 ink ink2 accent line` จากพื้นนี้แทนพื้นตั้งต้นของใบ (`widget.on`) · §4 */
+    val on: String? = null,
     val textAlign: String? = null,
     val italic: Boolean? = null,
     /** พาดหัวสองเสียง — คำแรกตามฟอนต์ของโหนด ที่เหลือเซริฟเอียง (กติกาโปสเตอร์ "MY *Social*") */
