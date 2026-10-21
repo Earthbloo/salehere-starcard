@@ -44,11 +44,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -70,6 +74,9 @@ import co.salehere.starcard.model.CardTemplate
 import co.salehere.starcard.model.LocalPhotoStore
 import co.salehere.starcard.theme.CardBackdrop
 import co.salehere.starcard.theme.CardTheme
+import co.salehere.starcard.theme.PIcon
+import co.salehere.starcard.theme.Ph
+import co.salehere.starcard.theme.PhWeight
 import co.salehere.starcard.theme.SFSymbol
 import co.salehere.starcard.theme.SHFont
 import co.salehere.starcard.theme.opacity
@@ -88,12 +95,14 @@ import kotlin.math.roundToInt
  * กริดสองคอลัมน์ + แท็บขีดใต้ คือหน้าตาของ "รายการไฟล์" · สำรับปัดทีละใบสวยแต่เห็นสไตล์เดียวต่อครั้ง
  * ผนังจึงเอาสองอย่างมารวมกัน: ของหลายใบพร้อมกันแบบกริด แต่ทุกใบเป็นวัตถุจริงบนเวทีมืดแบบสำรับ
  * เวทีอาบสีของใบที่อยู่ใกล้กลางจอที่สุด · แตะใบไหน = เริ่มแต่งใบนั้น
+ * - onBlank: เริ่มจากการ์ดเปล่า — ใบแรกบนผนัง ไม่ต้องผ่านเทมเพลต (null = ไม่มีช่องนี้)
  * - onBack: ทางกลับไปคลังการ์ด — null เมื่อคลังยังว่าง (หน้านี้คือหน้าแรก ไม่มีที่ให้กลับ)
  */
 @Composable
 fun TemplatePicker(
     initialFormat: CardFormat = CardFormat.portfolio,
     onPick: (CardFormat, CardTemplate) -> Unit,
+    onBlank: ((CardFormat) -> Unit)? = null,
     onBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
@@ -157,6 +166,7 @@ fun TemplatePicker(
                     appeared = appeared,
                     nearest = nearest,
                     onNearestChange = { nearest = it },
+                    onBlank = onBlank?.let { b -> { b(f) } },
                     onPick = { picked -> onPick(f, picked) },
                 )
             }
@@ -365,10 +375,15 @@ fun TemplateWall(
     appeared: Boolean,
     nearest: CardTemplate?,
     onNearestChange: (CardTemplate?) -> Unit,
+    /** ใบ "เริ่มจากว่าง" — ช่องแรกของผนัง (null = ไม่มีช่องนี้) */
+    onBlank: (() -> Unit)? = null,
     onPick: (CardTemplate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val size = TemplateWall.cardSize(format)
+    /** ช่องบนผนัง — ช่องแรกเป็น "เริ่มจากว่าง" (ถ้ามี) ที่เหลือเป็นเทมเพลตตามลำดับ */
+    val blankOffset = if (onBlank == null) 0 else 1
+    val slotCount = templates.size + blankOffset
     val scroll = rememberScrollState()
     val density = LocalDensity.current.density
     var viewportH by remember { mutableFloatStateOf(0f) }
@@ -378,15 +393,16 @@ fun TemplateWall(
     val current by rememberUpdatedState(nearest)
 
     // ใบที่ใกล้กลางจอที่สุด — เวทีอาบสีของมัน (ผังคงที่ คำนวณจากระยะเลื่อนได้ตรง ๆ ไม่ต้องวัดทีละใบ)
-    LaunchedEffect(templates, format, size) {
+    LaunchedEffect(templates, format, size, blankOffset) {
         snapshotFlow {
             if (templates.isEmpty() || viewportH <= 0f) -1
             else {
                 val midY = (scroll.value + viewportH / 2f) / density
-                templates.indices.minByOrNull { abs(TemplateWall.centerY(it, size, format) - midY) } ?: 0
+                (0 until slotCount).minByOrNull { abs(TemplateWall.centerY(it, size, format) - midY) } ?: 0
             }
         }.distinctUntilChanged().collect { i ->
-            if (i in templates.indices && current?.id != templates[i].id) report(templates[i])
+            val t = i - blankOffset
+            if (t in templates.indices && current?.id != templates[t].id) report(templates[t])
         }
     }
 
@@ -419,39 +435,146 @@ fun TemplateWall(
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val card: @Composable (Int) -> Unit = { i ->
-                WallCard(
-                    template = templates[i],
-                    index = i,
-                    size = size,
-                    radius = TemplateWall.radius(format),
-                    format = format,
-                    appeared = appeared,
-                    viewTop = { viewTop },
-                    viewBottom = { viewTop + viewportH },
-                    onPick = onPick,
-                )
+            // ช่องบนผนัง — ช่องแรกเป็น "เริ่มจากว่าง" (ถ้ามี) ที่เหลือเป็นเทมเพลตตามลำดับ
+            val slot: @Composable (Int) -> Unit = { i ->
+                if (onBlank != null && i == 0) {
+                    BlankCard(
+                        size = size,
+                        radius = TemplateWall.radius(format),
+                        appeared = appeared,
+                        viewTop = { viewTop },
+                        viewBottom = { viewTop + viewportH },
+                        onTap = onBlank,
+                    )
+                } else {
+                    WallCard(
+                        template = templates[i - blankOffset],
+                        index = i,
+                        size = size,
+                        radius = TemplateWall.radius(format),
+                        format = format,
+                        appeared = appeared,
+                        viewTop = { viewTop },
+                        viewBottom = { viewTop + viewportH },
+                        onPick = onPick,
+                    )
+                }
             }
             if (format == CardFormat.story) {
                 Row(horizontalArrangement = Arrangement.spacedBy(TemplateWall.gutter.dp), verticalAlignment = Alignment.Top) {
                     Column(verticalArrangement = Arrangement.spacedBy(TemplateWall.rowSpacing.dp)) {
-                        for (i in templates.indices step 2) card(i)
+                        for (i in 0 until slotCount step 2) slot(i)
                     }
                     Column(
                         Modifier.padding(top = TemplateWall.stagger.dp),
                         verticalArrangement = Arrangement.spacedBy(TemplateWall.rowSpacing.dp),
                     ) {
-                        for (i in 1 until templates.size step 2) card(i)
+                        for (i in 1 until slotCount step 2) slot(i)
                     }
                 }
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(TemplateWall.rowSpacing.dp)) {
-                    for (i in templates.indices) card(i)
+                    for (i in 0 until slotCount) slot(i)
                 }
             }
         }
     }
 }
+
+/**
+ * ท่าของใบบนผนัง (ใช้ร่วมกันทั้งใบเปล่าและใบเทมเพลต): ใบที่กำลังพ้นขอบบนล่างเอียงหนีและจางลง — ผนังโค้งออกจากสายตา
+ * + ท่าเข้าฉาก (จาง + ลอยขึ้น 22) · `enter` = 0…1 ของท่าเข้าฉาก
+ */
+private fun Modifier.wallCardMotion(
+    heightDp: Float,
+    enter: () -> Float,
+    top: () -> Float,
+    measured: () -> Boolean,
+    viewTop: () -> Float,
+    viewBottom: () -> Float,
+): Modifier = graphicsLayer {
+    val h = heightDp * density
+    val phase = if (!measured() || h <= 0f) 0f else {
+        val t = top(); val b = t + h
+        when {
+            t < viewTop() -> -min(1f, (viewTop() - t) / h)
+            b > viewBottom() -> min(1f, (b - viewBottom()) / h)
+            else -> 0f
+        }
+    }
+    val e = enter()
+    val s = 1f - 0.06f * abs(phase)
+    scaleX = s; scaleY = s
+    rotationX = -10f * phase
+    cameraDistance = 10f * density
+    alpha = ((1f - 0.45f * abs(phase)) * e).coerceIn(0f, 1f)
+    translationY = 22f * (1f - e) * density
+}
+
+/** ใบเปล่า — กรอบเส้นประบนกระจก + เครื่องหมายบวก: อ่านเป็น "ผืนว่างรอวาด" ไม่ใช่สไตล์หนึ่งในผนัง (= `blankCard`) */
+@Composable
+private fun BlankCard(
+    size: Size,
+    radius: Float,
+    appeared: Boolean,
+    viewTop: () -> Float,
+    viewBottom: () -> Float,
+    onTap: () -> Unit,
+) {
+    val shape = RoundedCornerShape(radius.dp)
+    var top by remember { mutableFloatStateOf(0f) }
+    var measured by remember { mutableStateOf(false) }
+
+    // ท่าเข้าฉาก: ใบแรกถูกแปะขึ้นผนังก่อน (หน่วง 0.12 เท่าใบเทมเพลตใบแรก)
+    val enter = remember { Animatable(if (appeared) 1f else 0f) }
+    LaunchedEffect(appeared) {
+        if (appeared && enter.value < 1f) {
+            delay(120)
+            enter.animateTo(1f, Motion.settle.float)
+        }
+    }
+
+    Column(
+        Modifier
+            .onGloballyPositioned { c ->
+                top = c.positionInRoot().y
+                measured = true
+            }
+            .wallCardMotion(size.height, { enter.value }, { top }, { measured }, viewTop, viewBottom)
+            .semantics { contentDescription = "เริ่มจากการ์ดเปล่า" }
+            .dockPress {
+                Haptics.impact(Haptics.Style.medium)
+                onTap()
+            }
+            .size(size.width.dp, size.height.dp)
+            .clip(shape)
+            .background(Color.White.opacity(0.06))
+            .dashedBorder(Color.White.opacity(0.4), width = 1.4f, radius = radius, dash = 7f, gap = 6f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+    ) {
+        Box(Modifier.size(52.dp).background(Color.White.opacity(0.14), CircleShape), contentAlignment = Alignment.Center) {
+            PIcon(Ph.plus, size = 22f, weight = PhWeight.bold, tint = Color.White)
+        }
+        Text("เริ่มจากว่าง", style = sh(15f, SHFont.bold), color = Color.White)
+    }
+}
+
+/** `shape.strokeBorder(color, style: StrokeStyle(lineWidth:, dash:))` — เส้นประด้านในขอบ */
+private fun Modifier.dashedBorder(color: Color, width: Float, radius: Float, dash: Float, gap: Float): Modifier =
+    drawWithContent {
+        drawContent()
+        val w = width.dp.toPx()
+        val half = w / 2f
+        val r = (radius.dp.toPx() - half).coerceAtLeast(0f)
+        drawRoundRect(
+            color = color,
+            topLeft = Offset(half, half),
+            size = Size(size.width - w, size.height - w),
+            cornerRadius = CornerRadius(r),
+            style = Stroke(width = w, pathEffect = PathEffect.dashPathEffect(floatArrayOf(dash.dp.toPx(), gap.dp.toPx()))),
+        )
+    }
 
 /** ใบหนึ่งใบ — รูปจริง + แสงสีธีมส่องจากด้านหลัง */
 @Composable
@@ -468,7 +591,6 @@ private fun WallCard(
 ) {
     val shape = RoundedCornerShape(radius.dp)
     val accent = template.theme.rawAccent
-    val density = LocalDensity.current.density
     var top by remember { mutableFloatStateOf(0f) }
     var measured by remember { mutableStateOf(false) }
 
@@ -491,25 +613,8 @@ private fun WallCard(
                 top = c.positionInRoot().y
                 measured = true
             }
-            .graphicsLayer {
-                // ใบที่กำลังพ้นขอบบนล่างเอียงหนีและจางลง — ผนังโค้งออกจากสายตา
-                val h = size.height * density
-                val phase = if (!measured || h <= 0f) 0f else {
-                    val t = top; val b = top + h
-                    when {
-                        t < viewTop() -> -min(1f, (viewTop() - t) / h)
-                        b > viewBottom() -> min(1f, (b - viewBottom()) / h)
-                        else -> 0f
-                    }
-                }
-                val e = enter.value
-                val s = 1f - 0.06f * abs(phase)
-                scaleX = s; scaleY = s
-                rotationX = -10f * phase
-                cameraDistance = 10f * density
-                alpha = ((1f - 0.45f * abs(phase)) * e).coerceIn(0f, 1f)
-                translationY = 22f * (1f - e) * density
-            }
+            // ใบที่กำลังพ้นขอบบนล่างเอียงหนีและจางลง — ผนังโค้งออกจากสายตา
+            .wallCardMotion(size.height, { enter.value }, { top }, { measured }, viewTop, viewBottom)
             .semantics { contentDescription = "${template.name} — ${template.blurb}" }
             .dockPress {
                 Haptics.impact(Haptics.Style.medium)

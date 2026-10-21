@@ -19,11 +19,25 @@ import co.salehere.starcard.theme.opacity
 //
 // ทุกปุ่มในแอปใช้ตัวใดตัวหนึ่งในไฟล์นี้ — ห้ามใช้ `clickable` ที่มี indication ของ Material
 
-/** แตะได้ ไม่มีเอฟเฟกต์ (= `Button { }.buttonStyle(.plain)`) */
+/** แตะได้ ไม่มีเอฟเฟกต์ — ใช้กับพื้นที่ที่ไม่ใช่ปุ่ม (= `.onTapGesture`) · ปุ่มใช้ `plainPress` */
 @Composable
 fun Modifier.tap(enabled: Boolean = true, onClick: () -> Unit): Modifier {
     val source = remember { MutableInteractionSource() }
     return this.clickable(interactionSource = source, indication = null, enabled = enabled, onClick = onClick)
+}
+
+/**
+ * กดแล้วป้ายจางลง ไม่มี ripple (= `Button { }.buttonStyle(.plain)` ของ SwiftUI ที่หรี่ label ขณะกด)
+ * ชิปฟอนต์/สี · ชิปหมวดในตู้ · ปุ่มปิด · ไอคอนเครื่องมือ · ปุ่มล้าง
+ */
+@Composable
+fun Modifier.plainPress(enabled: Boolean = true, onClick: () -> Unit): Modifier {
+    val source = remember { MutableInteractionSource() }
+    val pressed by source.collectIsPressedAsState()
+    val k by animateFloatAsState(if (pressed) 1f else 0f, Motion.snap.float, label = "plainPress")
+    return this
+        .graphicsLayer { alpha = 1f - 0.25f * k }
+        .clickable(interactionSource = source, indication = null, enabled = enabled, onClick = onClick)
 }
 
 /** กดแล้วยุบ 0.94 และจางเล็กน้อย (= `DockPress`) — ปุ่มบนถาดแต่งและแผงเครื่องมือทั้งหมด */

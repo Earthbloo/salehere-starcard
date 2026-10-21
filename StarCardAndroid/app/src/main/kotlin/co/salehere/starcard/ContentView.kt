@@ -263,6 +263,13 @@ fun StarCardSpace(
                             editedHere = true
                             editingCardID = record.id
                         },
+                        onBlank = { pickedFormat ->
+                            lastFormat = pickedFormat
+                            val record = CardLibrary.shared.createBlank(pickedFormat)
+                            freshFromTemplate = true
+                            editedHere = true
+                            editingCardID = record.id
+                        },
                         // คลังว่าง = ไม่มีคลังให้กลับ → ปิดกลับ Star Profile
                         onBack = if (CardLibrary.shared.isEmpty) onExit else backToGallery,
                     )

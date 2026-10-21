@@ -11,12 +11,15 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -48,6 +51,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imeAnimationTarget
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
@@ -143,6 +147,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
 import co.salehere.starcard.AppContext
 import co.salehere.starcard.components.GlassPanel
+import co.salehere.starcard.components.SoftShadow
 import co.salehere.starcard.components.LocalPageScrub
 import co.salehere.starcard.components.Motion
 import co.salehere.starcard.components.PageScrub
@@ -167,6 +172,9 @@ import co.salehere.starcard.model.PhotoSlotButton
 import co.salehere.starcard.model.PhotoSlotRef
 import co.salehere.starcard.model.PhotoStore
 import co.salehere.starcard.model.KitControl
+import co.salehere.starcard.model.KitNiche
+import co.salehere.starcard.model.isKit
+import co.salehere.starcard.model.kitStyle
 import co.salehere.starcard.model.KitOpt
 import co.salehere.starcard.model.SocialType
 import co.salehere.starcard.model.shortName
@@ -183,6 +191,7 @@ import co.salehere.starcard.model.ProfileField
 import co.salehere.starcard.model.StarFlow
 import co.salehere.starcard.model.StarTopic
 import co.salehere.starcard.model.TextSlotID
+import co.salehere.starcard.model.WidgetFamily
 import co.salehere.starcard.model.WidgetInstance
 import co.salehere.starcard.model.WidgetKind
 import co.salehere.starcard.model.WidgetSurface
@@ -201,6 +210,7 @@ import co.salehere.starcard.theme.InkStyle
 import co.salehere.starcard.theme.LocalCardInk
 import co.salehere.starcard.theme.MarbleVeins
 import co.salehere.starcard.theme.Palette
+import co.salehere.starcard.theme.PhWeight
 import co.salehere.starcard.theme.SFSymbol
 import co.salehere.starcard.theme.SHFont
 import co.salehere.starcard.theme.SHIcon
@@ -244,6 +254,7 @@ import co.salehere.starcard.ui.salehere.starflow.StarTopicFill
 import co.salehere.starcard.ui.widgets.FlowLayout
 import co.salehere.starcard.ui.widgets.TextBlockSpec
 import co.salehere.starcard.ui.widgets.WidgetChrome
+import co.salehere.starcard.ui.widgets.WidgetChromeLock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -400,7 +411,12 @@ fun CardScreen(
 }
 
 /** คำขอจากตู้ widget: ใบ `kind` ต้องการหัวข้อ `topic` ที่ยังว่าง */
-data class TopicFillRequest(val kind: WidgetKind, val topic: StarTopic) {
+data class TopicFillRequest(
+    val kind: WidgetKind,
+    val topic: StarTopic,
+    /** true = ขอจากตู้ (กรอกเสร็จวางใบให้) · false = แตะใบที่วางอยู่แล้วบนการ์ด (กรอกเสร็จใบปลดล็อกเอง) */
+    val place: Boolean = true,
+) {
     val id: String get() = kind.raw
 }
 
@@ -1480,6 +1496,20 @@ private class CardEditorState(
             if (selected == p.id) enterTextMode(p.id) else select(p.id)
             return
         }
+        // ใบที่ล็อก: แตะ **ปุ่มปลดล็อก** = กรอกข้อมูลนั้น (กรอกเสร็จใบปลดล็อกในที่เดิม)
+        // แตะส่วนอื่นของใบ = เลือก/ลาก/ลบ ตามปกติ (ผู้ใช้ 29 ก.ย. 2569)
+        // ตรารับรองล็อกตาม "ยืนยันตัวตนผ่านแล้วหรือยัง" ไม่ใช่ตามว่าหัวข้อถูกกรอก (ดู `WidgetChrome`)
+        val fam = p.item.kind.family
+        val sealLocked = fam == WidgetFamily.seal && fam.missing
+        val t = fam.topic
+        if (t != null && (!t.filled || sealLocked)) {
+            val drawn = (if (resizeID == p.id) resizeLive else null) ?: drawnSize(p)
+            if (WidgetChromeLock.hitRect(drawn).contains(at)) {
+                Haptics.light()
+                if (t.fillable) topicFill = TopicFillRequest(p.item.kind, t, place = false) else askJobs = true
+                return
+            }
+        }
         if (selected != p.id) {
             select(p.id); return
         }
@@ -1760,12 +1790,15 @@ private class CardEditorState(
     }
 
     /** ตั้งค่าตัวเลือก `opt` ของชิ้น (`widget.controls`) — null = ค่าตั้งต้น (ไม่เก็บ) · `clears` = ล้างตัวเลือกอื่นด้วย */
-    fun setOption(sel: WidgetInstance, opt: String, value: String?, clears: List<String>? = null) {
-        val changed = updateItem(sel.id) { w ->
-            val o = w.options.toMutableMap()
+    fun setOption(sel: WidgetInstance, opt: String, value: String?, clears: List<String>? = null, refit: Boolean = true) {
+        val changed = updateItem(sel.id) { w0 ->
+            val o = w0.options.toMutableMap()
             if (value == null) o.remove(opt) else o[opt] = value
             clears?.forEach { o.remove(it) }
-            w.copy(options = o)
+            var w = w0.copy(options = o)
+            // ตัวเลือกที่เปลี่ยนความสูงตามธรรมชาติของชิ้น (เช่น จำนวนแถว) ต้องบีบกลับเข้าหน้า (= `editOptions(refit:)` ของ iOS)
+            if (refit) w = w.withRect(PageLayout.clamp(w, pageSize))
+            w
         }
         if (changed) Haptics.light()
     }
@@ -1778,13 +1811,14 @@ private class CardEditorState(
                 if (a.size < 2) null else a[0].jsonPrimitive.content to a[1].jsonPrimitive.content
             }
         }
-        val c = Profile.me.creator
-        val rates = c.rates.filter { it.price > 0 }
+        val me = Profile.me
+        val rates = me.shownRates.filter { it.price > 0 }
         return when ((items as? JsonPrimitive)?.contentOrNull) {
-            "socials", "shownSocials" -> c.socials.map { it.type.raw to it.type.shortName }
+            "socials" -> me.creator.socials.map { it.type.raw to it.type.shortName }
+            "shownSocials" -> me.shownSocials.map { it.type.raw to it.type.shortName }
             "rates" -> rates.map { it.id to it.label }
             "ratePlatforms" -> SocialType.entries.filter { t -> rates.any { it.platform == t } }.map { it.raw to it.shortName }
-            "categories" -> Profile.me.categories.map { it to it }
+            "categories" -> StarFlow.shared.categories.map { it to KitNiche.clean(it) }
             else -> emptyList()
         }
     }
@@ -1793,6 +1827,7 @@ private class CardEditorState(
     @Composable
     fun ControlRow(sel: WidgetInstance, ctl: KitControl) {
         val c = sel.kit
+        val refit = ctl.refit ?: true
         when (ctl.type) {
             "pick" -> {
                 val opt = ctl.opt ?: return
@@ -1802,7 +1837,7 @@ private class CardEditorState(
                     DockSegment(
                         options = items.map { segOpt(it.first, it.second) },
                         selection = sel.options[opt] ?: items.firstOrNull()?.first.orEmpty(),
-                        onPick = { v -> setOption(sel, opt, v) },
+                        onPick = { v -> setOption(sel, opt, v, refit = refit) },
                     )
                 }
             }
@@ -1812,7 +1847,7 @@ private class CardEditorState(
                     DockSegment(
                         options = ctl.options.orEmpty().map { segOpt(it.firstOrNull(), it.getOrNull(1) ?: "") },
                         selection = sel.options[opt],
-                        onPick = { v -> setOption(sel, opt, v, ctl.clears) },
+                        onPick = { v -> setOption(sel, opt, v, ctl.clears, refit = refit) },
                     )
                 }
             }
@@ -1820,13 +1855,13 @@ private class CardEditorState(
                 val opt = ctl.opt ?: return
                 val d = (ctl.default as? JsonPrimitive)?.intOrNull ?: 0
                 DockRow(label = ctl.label) {
-                    TrayStepper(values = ctl.values.orEmpty(), value = c.int(opt, d)) { v -> setOption(sel, opt, v.toString()) }
+                    TrayStepper(values = ctl.values.orEmpty(), value = c.int(opt, d)) { v -> setOption(sel, opt, v.toString(), refit = refit) }
                 }
             }
             "switch" -> {
                 val opt = ctl.opt ?: return
                 val d = (ctl.default as? JsonPrimitive)?.booleanOrNull ?: false
-                TraySwitchRow(label = ctl.label, on = c.flag(opt, d)) { v -> setOption(sel, opt, if (v == d) null else if (v) "1" else "0") }
+                TraySwitchRow(label = ctl.label, on = c.flag(opt, d)) { v -> setOption(sel, opt, if (v == d) null else if (v) "1" else "0", refit = refit) }
             }
             "checks" -> {
                 val items = controlItems(ctl.items)
@@ -1953,7 +1988,8 @@ private class CardEditorState(
 
     fun topicFilled(req: TopicFillRequest, done: Boolean) {
         topicFill = null
-        if (!done || !req.topic.filled) return
+        // แตะปุ่มปลดล็อกบนใบที่วางอยู่แล้ว (`place = false`) = กรอกเสร็จใบปลดล็อกในที่เดิม ไม่วางซ้ำ
+        if (!done || !req.topic.filled || !req.place) return
         // กรอกครบแล้ว = ใบที่แตะไว้ใช้ได้ทันที วางลงการ์ดให้เลย
         scope.launch {
             delay(450)
@@ -2109,6 +2145,9 @@ private fun CardEditorState.Deck(size: Size, fit: Float, modifier: Modifier) {
     val paper = RoundedCornerShape((22f * inv).dp)
     val ink = theme.inkStyle
     val quiet by remember { derivedStateOf { abs(swipe) < 0.02f } }
+    // ม่านกระจกตอนพิมพ์เบลอ **ฉากหลังของการ์ด** ที่อยู่ข้างหลัง (= `.thinMaterial` ของ iOS) — API 31+ เท่านั้น ต่ำกว่านั้นหรี่อย่างเดียว
+    val veilK by animateFloatAsState(if (showroomID != null) 1f else 0f, Motion.settle.float, label = "veilBlur")
+    val veilBlur = if (Build.VERSION.SDK_INT >= 31) 20f * inv * veilK else 0f
 
     // หมึกของการ์ดครอบทั้งสำรับ — ไม่ครอบไปถึงแถบเครื่องมือกับชีตแต่ง
     CompositionLocalProvider(
@@ -2138,14 +2177,13 @@ private fun CardEditorState.Deck(size: Size, fit: Float, modifier: Modifier) {
                             .requiredSize(strip.width.dp, strip.height.dp),
                     ) {
                         // ฉากหลัง **ผืนเดียวคลุมทั้งแผ่น** — มุมและเงาหารกลับด้วย fit ให้ที่ตาเห็นคงที่
+                        // เงาใต้กระดาษ = `.shadow(black 0.5, radius 26, y 12)` ของ iOS (แผ่นดำเบลอ ไม่ใช่เงา elevation)
+                        SoftShadow(Color.Black.opacity(0.5), radius = 26f * inv, y = 12f * inv, shape = paper, modifier = Modifier.matchParentSize())
                         Box(
                             Modifier
                                 .matchParentSize()
-                                .shadow(
-                                    elevation = (26f * inv).dp, shape = paper, clip = false,
-                                    ambientColor = Color.Black.opacity(0.5), spotColor = Color.Black.opacity(0.5),
-                                )
-                                .clip(paper),
+                                .clip(paper)
+                                .let { if (veilBlur > 0f) it.blur(veilBlur.dp, BlurredEdgeTreatment(paper)) else it },
                         ) { CardBackdrop(theme = theme, ignoreSafeArea = false, signed = true) }
                         // แตะที่ว่างบนกระดาษ — อยู่หลังทุกช่อง
                         Box(Modifier.matchParentSize().emptyTap(this@Deck))
@@ -2162,8 +2200,13 @@ private fun CardEditorState.Deck(size: Size, fit: Float, modifier: Modifier) {
                         }
                     }
                     // ชั้นลอยของตัวที่ลาก — อยู่ระดับหน้าต่าง ไม่ผูกกับช่องใดช่องหนึ่ง จึงลอยข้ามช่องได้
-                    val item = dragItem
-                    if (dragID != null && item != null) DragLayer(item)
+                    // วางแล้วสำเนาที่ลอยจางออกพร้อมกับ tile จริงจางเข้า (= iOS `withAnimation(Motion.settle)` ใน endDrag) · ยกขึ้นโผล่ทันที
+                    val item = rememberLast(dragItem)
+                    AnimatedVisibility(
+                        visible = dragID != null && dragItem != null,
+                        enter = EnterTransition.None,
+                        exit = fadeOut(Motion.settle.spec()),
+                    ) { if (item != null) DragLayer(item) }
                 }
             }
         }
@@ -2235,10 +2278,16 @@ private fun CardEditorState.Sheet(page: CardPage, i: Int, size: Size, interactiv
                 exit = fadeOut(Motion.settle.spec()),
             ) { CanvasGrid(theme = theme, ink = theme.inkStyle, page = size, modifier = Modifier.fillMaxSize()) }
 
-            if (isEditing && showroomID == null) {
+            // กรอบประของหน้า — จางเข้า/ออกพร้อมกริด (= iOS `.animation(Motion.settle)` ตอนเข้า/ออกโหมดแต่ง)
+            AnimatedVisibility(
+                visible = isEditing && showroomID == null,
+                modifier = Modifier.matchParentSize(),
+                enter = fadeIn(Motion.settle.spec()),
+                exit = fadeOut(Motion.settle.spec()),
+            ) {
                 val line = theme.inkStyle.line(0.16)
                 Box(
-                    Modifier.matchParentSize().drawBehind {
+                    Modifier.fillMaxSize().drawBehind {
                         strokeBorder(line, 0.8.dp.toPx(), 4.dp.toPx(), floatArrayOf(5.dp.toPx(), 5.dp.toPx()))
                     },
                 )
@@ -2316,6 +2365,11 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
     val srScale = animateFloatAsState(showroomScale(p), Motion.settle.float, label = "showroomScale")
     val srDim = animateFloatAsState(showroomDim(p).toFloat(), Motion.settle.float, label = "showroomDim")
     val pressK by animateFloatAsState(if (touch != null) 1f else 0f, Motion.snap.float, label = "press")
+    // ยกขึ้นลาก = tile จริงหายทันที (iOS ตั้ง dragID นอก withAnimation) · วางแล้วจางกลับเข้ามาด้วย settle พร้อมสำเนาที่ลอยจางออก
+    val dragA by animateFloatAsState(if (isDrag) 0f else 1f, if (isDrag) snap() else Motion.settle.float, label = "dragAlpha")
+    // ใต้ม่านกระจกตอนพิมพ์ ชิ้นอื่นถูกเบลอโดยวัสดุของระบบบน iOS — Android เบลอทีละชิ้น (API 31+) ให้ภาพเดียวกัน
+    val veilK by animateFloatAsState(if (sid != null && !inShowroom) 1f else 0f, Motion.settle.float, label = "tileVeil")
+    val veilBlur = if (Build.VERSION.SDK_INT >= 31) 20f / max(pageFit, 0.01f) * veilK else 0f
     // ถูกใบที่กำลังยืดดันลง — ตามนิ้วด้วยสปริงเดียวกับใบที่ยืด (iOS ใส่ไว้ใน `withAnimation(homeFollow)` เดียวกัน)
     val push by animateFloatAsState(resizePush(p), Motion.homeFollow.float, label = "resizePush")
     val appear = remember { Animatable(if (booted) 0f else 1f) }
@@ -2350,10 +2404,18 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
                 alpha = srDim.value * appear.value
             }
             .pageChoreo(p.item.kind.entranceStyle, order, 0f, flat = flat)
-            .graphicsLayer { alpha = if (isDrag) 0f else 1f }
+            .graphicsLayer { alpha = dragA }
+            .let { if (veilBlur > 0f) it.blur(veilBlur.dp, BlurredEdgeTreatment.Unbounded) else it }
             .onGloballyPositioned { origin.root = it.localToRoot(Offset.Zero) }
             .size(sz.width.dp, sz.height.dp),
     ) {
+        // แสงเรืองตอนกดค้าง = `.shadow(accent 0.45, radius 24, y 8)` ของ `PressTilt` — แผ่นสีเน้นเบลอหลังชิ้น เอียงตามชิ้น
+        if (pressK > 0.001f) {
+            SoftShadow(
+                accent.opacity(0.45 * pressK), radius = 24f * pressK, y = 8f * pressK, shape = shape,
+                modifier = Modifier.matchParentSize().pressTilt(touch, sz.width, sz.height),
+            )
+        }
         CompositionLocalProvider(
             // เส้นประรอบข้อความที่แก้ได้ขึ้นเฉพาะบนแคนวาสในโหมดแต่ง
             LocalTextEditMode provides (isEditing && interactive),
@@ -2363,12 +2425,9 @@ private fun CardEditorState.Tile(p: Placed, page: CardPage, interactive: Boolean
             WidgetChrome(
                 placed = pd,
                 theme = theme,
-                modifier = Modifier
-                    .shadow(
-                        elevation = (24f * pressK).dp, shape = shape, clip = false,
-                        ambientColor = accent.opacity(0.45 * pressK), spotColor = accent.opacity(0.45 * pressK),
-                    )
-                    .pressTilt(touch, sz.width, sz.height),
+                modifier = Modifier.pressTilt(touch, sz.width, sz.height),
+                // ห้องแต่ง: ใบที่ยังไม่มีข้อมูลขึ้นชุดตัวอย่างใต้ชั้นเทา + ปุ่มปลดล็อกที่มุม (รูปที่แชร์ไม่ขึ้น)
+                lockBadge = isEditing && interactive,
             )
 
             // คง catcher ไว้ขณะที่มันถือการลากอยู่ — ถอดตรงนี้แล้ว event ปล่อยนิ้วหาย
@@ -2607,6 +2666,16 @@ private fun CardEditorState.SelectionLayer(sel: Placed, anim: TileAnim, interact
                     .blur(5.dp, BlurredEdgeTreatment.Unbounded)
                     .drawBehind { strokeBorder(accent.opacity(0.18), 7.dp.toPx(), radius.dp.toPx()) },
             )
+            // ระหว่างลากหมุดปรับขนาด กล่องที่ยืดตามนิ้วมี "วัสดุ" ให้เห็น — จางพอให้เห็นว่าเป็นกล่องเดียวกับชิ้น
+            if (resizeID == sel.id) {
+                Box(
+                    Modifier.matchParentSize().drawBehind {
+                        val r = CornerRadius(radius.dp.toPx())
+                        drawRoundRect(accent.opacity(0.10), cornerRadius = r)
+                        drawRoundRect(Color.White.opacity(0.06), cornerRadius = r)
+                    },
+                )
+            }
             Box(Modifier.matchParentSize().drawBehind { strokeBorder(accent, 1.5.dp.toPx(), radius.dp.toPx()) })
             // จุดมุมสี่จุดบอกว่า "ขอบลากได้" — ก้อนข้อความไม่มีหมุดขอบ
             // ชิ้นที่ตรึงก็ไม่มีจุด — จุดแปลว่า "ลากขอบได้" ซึ่งมันทำไม่ได้
@@ -2661,12 +2730,11 @@ private fun CardEditorState.SizeHandle(p: Placed, modifier: Modifier) {
     val pNow by rememberUpdatedState(p)
     CornerGrip(
         accent = theme.accent,
-        modifier = modifier
-            .offset(14.dp, 14.dp)
-            .handleDrag(p.id, onDrag = { t -> sizeHandleChanged(pNow, t) }, onEnd = {
-                endResize()
-                Haptics.medium()
-            }),
+        modifier = modifier.offset(14.dp, 14.dp),
+        input = Modifier.handleDrag(p.id, onDrag = { t -> sizeHandleChanged(pNow, t) }, onEnd = {
+            endResize()
+            Haptics.medium()
+        }),
     )
 }
 
@@ -2676,19 +2744,18 @@ private fun CardEditorState.CornerHandle(p: Placed, modifier: Modifier) {
     val pNow by rememberUpdatedState(p)
     CornerGrip(
         accent = theme.accent,
-        modifier = modifier
-            .offset(30.dp, 30.dp)
-            .handleDrag(p.id, onDrag = { t -> resizeCorner(pNow, t) }, onEnd = {
-                endResize()
-                Haptics.medium()
-            }),
+        modifier = modifier.offset(30.dp, 30.dp),
+        input = Modifier.handleDrag(p.id, onDrag = { t -> resizeCorner(pNow, t) }, onEnd = {
+            endResize()
+            Haptics.medium()
+        }),
     )
 }
 
-/** หน้าตาของหมุดมุม — วงขาวกับลูกศรทแยง */
+/** หน้าตาของหมุดมุม — วงขาวกับลูกศรทแยง · พื้นที่แตะเป็น **วงกลม** 44 (= `contentShape(Circle())`) — `input` ต่อหลัง clip จึงถูกตัดด้วย */
 @Composable
-private fun CornerGrip(accent: Color, modifier: Modifier = Modifier) {
-    Box(modifier.size(44.dp), contentAlignment = Alignment.Center) {
+private fun CornerGrip(accent: Color, modifier: Modifier = Modifier, input: Modifier = Modifier) {
+    Box(modifier.size(44.dp).clip(CircleShape).then(input), contentAlignment = Alignment.Center) {
         Box(
             Modifier
                 .size(22.dp)
@@ -2696,42 +2763,69 @@ private fun CornerGrip(accent: Color, modifier: Modifier = Modifier) {
                 .background(Color.White, CircleShape)
                 .border(1.6.dp, accent, CircleShape),
         )
-        SFSymbol("arrow.up.left.and.arrow.down.right", size = 10f, tint = accent)
+        SFSymbol("arrow.up.left.and.arrow.down.right", size = 10f, tint = accent, weight = PhWeight.bold)
     }
 }
 
-/** ชั้นลอยของตัวที่ลาก — ยกขึ้น 1.05 พร้อมเงา · ไม่รับทัช */
+/**
+ * ชั้นลอยของตัวที่ลาก — ยกขึ้น = โต 1.1 + เงานุ่มใต้ชิ้น (หน้าจอ iPhone) · ไม่มีกรอบสีเน้น: ของที่ลอยอยู่ไม่ต้องมีอะไรชี้ · ไม่รับทัช
+ * ตามนิ้วแบบมีแรงเฉื่อยนิด ๆ (= `.animation(Motion.homeFollow, value: dragTranslation)`)
+ */
 @Composable
 private fun CardEditorState.DragLayer(item: WidgetInstance) {
-    val k by animateFloatAsState(if (lifted) 1f else 0f, Motion.lift.float, label = "lift")
+    val k by animateFloatAsState(if (lifted) 1f else 0f, Motion.homeLift.float, label = "lift")
     val start = dragStart
     val shape = RoundedCornerShape(chromeRadius(item.kind).dp)
+    // ตำแหน่งที่วาดไล่ตามนิ้วด้วยสปริงสั้นมาก — ท่าเดียวกับ `TileAnim.size`: effect เดียว เก็บเป้าล่าสุด แล้ว animateTo ใหม่
+    val follow = remember { Animatable(dragTranslation, Offset.VectorConverter) }
+    val target = rememberUpdatedState(dragTranslation)
+    LaunchedEffect(follow) {
+        snapshotFlow { target.value }.collect { t -> launch { follow.animateTo(t, Motion.homeFollow.spec()) } }
+    }
     Box(
         Modifier
             .offset {
-                val t = dragTranslation
+                val t = follow.value
                 IntOffset(((start.left + t.x) * density).roundToInt(), ((start.top + t.y) * density).roundToInt())
             }
             .zIndex(200f)
             .graphicsLayer {
-                val s = 1f + 0.05f * k
+                val s = 1f + 0.1f * k
                 scaleX = s
                 scaleY = s
             }
-            .shadow(
-                elevation = (30f * k).dp, shape = shape, clip = false,
-                ambientColor = Color.Black.opacity(0.55 * k), spotColor = Color.Black.opacity(0.55 * k),
-            )
-            .size(start.width.dp, start.height.dp)
-            .border(1.5.dp, theme.accent, shape),
+            .size(start.width.dp, start.height.dp),
     ) {
+        // `.shadow(black 0.38, radius 22, y 12)` ตอนยก — แผ่นดำเบลอหลังชิ้น
+        SoftShadow(Color.Black.opacity(0.38 * k), radius = 22f * k, y = 12f * k, shape = shape, modifier = Modifier.matchParentSize())
         CompositionLocalProvider(LocalSlotRegistry provides null, LocalTextEditMode provides false) {
-            WidgetChrome(placed = Placed(item, start), theme = theme)
+            // ใบที่ล็อกต้องหน้าตาเดิมตอนถูกยกขึ้นลาก (ตัวอย่าง + ชั้นเทา) — ไม่ใช่กลายเป็นป้ายรอข้อมูลกลางนิ้ว
+            WidgetChrome(placed = Placed(item, start), theme = theme, lockBadge = true)
         }
     }
 }
 
 // MARK: - Chrome (แถบบน)
+
+/**
+ * กระจกย้อมสีทึบของปุ่มเด่น (= `.glassEffect(.regular.tint(theme.rawAccent))` บนเวที) — วงกลมสีเน้นเต็ม
+ * ขอบแสงชุดเดียวกับ `GlassPanel` · ไม่ใช้สูตร "ดำ 70% + สีเน้น 5%" ของ GlassPanel ซึ่งเป็นของกระจกชั้น verified เท่านั้น
+ */
+@Composable
+private fun ProminentGlass(fill: Color, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Box(
+        modifier
+            .background(fill, CircleShape)
+            .border(
+                0.6.dp,
+                Brush.linearGradient(
+                    0f to Color.White.opacity(0.35), 0.6f to Color.White.opacity(0.0),
+                    start = Offset.Zero, end = Offset.Infinite,
+                ),
+                CircleShape,
+            ),
+    ) { content() }
+}
 
 /** กระจกของเวที (= `.glassEffect(.regular…)`) — แผงเครื่องมือนั่งบนเวทีมืด ไม่ใช่บนการ์ด */
 @Composable
@@ -2796,7 +2890,7 @@ private fun CardEditorState.TopBar() {
 private fun CardEditorState.LibraryButton(go: () -> Unit) {
     StageGlass(radius = 20f, modifier = Modifier.dockPress { leaveToLibrary(go) }) {
         Box(Modifier.size(40.dp).semantics { contentDescription = "กลับคลังการ์ด" }, contentAlignment = Alignment.Center) {
-            SFSymbol("square.grid.2x2", size = 15f, tint = Color.White.opacity(0.92))
+            SFSymbol("square.grid.2x2", size = 15f, tint = Color.White.opacity(0.92), weight = PhWeight.bold)
         }
     }
 }
@@ -2872,7 +2966,7 @@ private fun CardEditorState.UndoRedo() {
                 contentAlignment = Alignment.Center,
             ) {
                 // ไอคอนวนตามเข็มกลับด้าน = ทวนเข็ม
-                SFSymbol("arrow.uturn.backward", size = 13f, tint = tint, modifier = Modifier.graphicsLayer { scaleX = -1f })
+                SFSymbol("arrow.uturn.backward", size = 13f, tint = tint)
             }
             Box(Modifier.size(1.dp, 14.dp).background(Color.White.opacity(0.18)))
             Box(
@@ -2922,7 +3016,11 @@ private fun CardEditorState.PageDots() {
 /** ปุ่มเด่นปุ่มเดียวบนแถบบน — แชร์คือเป้าหมายของทั้งหน้า */
 @Composable
 private fun CardEditorState.ShareButton(prominent: Boolean) {
-    StageGlass(radius = 20f, tint = if (prominent) theme.rawAccent else null, modifier = Modifier.dockPress { share() }) {
+    // ปุ่มเด่น = วงกลมทึบสีเน้น (`.glassEffect(.regular.tint(rawAccent))`) · ปุ่มรอง = กระจกใสของเวที
+    val host: @Composable (Modifier, @Composable () -> Unit) -> Unit = { m, c ->
+        if (prominent) ProminentGlass(theme.rawAccent, modifier = m, content = c) else StageGlass(radius = 20f, modifier = m, content = c)
+    }
+    host(Modifier.dockPress { share() }) {
         Box(Modifier.size(40.dp).semantics { contentDescription = "แชร์การ์ด" }, contentAlignment = Alignment.Center) {
             // ยกขึ้นหนึ่งพอยต์เพราะน้ำหนักของรูปอยู่ด้านล่าง
             SFSymbol(
@@ -3162,7 +3260,7 @@ private fun CardEditorState.BackdropTray() {
     ) {
         // ขึ้นบรรทัดเองเมื่อชิปเต็มแถว — แต่ถาดนี้ห้ามเลื่อน: แบบพื้นที่มองไม่เห็นคือแบบที่ไม่มีใครกด
         FlowLayout(spacing = 7f, modifier = Modifier.fillMaxWidth()) {
-            BackdropStyle.entries.forEach { st ->
+            BackdropStyle.offered.forEach { st ->
                 OptionChip(
                     st.displayName,
                     on = theme.backdrop == st,
@@ -3221,9 +3319,9 @@ private fun CardEditorState.BackdropTray() {
         }
 
         // มุมกับแถบผู้ออกบัตรไม่ใช่ของที่ต้องถาม — ค่าตั้งต้นของธีมตัดสินให้
+        // แถว "ลายเซ็น" (ตัวเขียน/พิมพ์/ปั๊มนูน) ถอดออก 20 ต.ค. 2569 — การ์ดใช้ค่าตั้งต้น `StripStyle.line` ทุกใบ
         // แถวโทนมีเฉพาะการ์ดคู่สี (20 ต.ค. 2569) · หมึกของสีเดียว = `autoInk` ตอนเลือกสี
         if (theme.duoColors != null) ToneRow()
-        SignatureRow()
     }
 }
 
@@ -3409,26 +3507,6 @@ private fun CardEditorState.HexPromptField() {
     )
 }
 
-/** ลายเซ็น Sale Here บนตัวการ์ด — ถอดไม่ได้ แต่เลือกได้ว่าเป็นตัวเขียนจางหรือตรา */
-@Composable
-private fun CardEditorState.SignatureRow() {
-    val opts = listOf(
-        segOpt(StripStyle.line, "ตัวเขียน"),
-        segOpt(StripStyle.foil, "พิมพ์"),
-        segOpt(StripStyle.emboss, "ปั๊มนูน"),
-    )
-    DockRow(label = "ลายเซ็น") {
-        DockSegment(
-            options = opts,
-            selection = if (theme.strip.isStamp) theme.strip else StripStyle.line,
-            onPick = { c ->
-                setTheme(theme.copy(strip = c))
-                Haptics.light()
-            },
-        )
-    }
-}
-
 /**
  * โทนของการ์ดคู่สี — เข้ม · อ่อน = สีไหนของคู่ขึ้นเป็นพื้น (แตะแค่ `ink` ไม่แตะค่าสีใน doc) (= iOS `toneRow`)
  * สีเดียวไม่มีแถวนี้ (20 ต.ค. 2569): พื้นคือ hex ที่เลือกเป๊ะ หมึกเลือกเองจาก `autoInk` · พื้นเป็นรูป = คู่สีถอยไปแล้ว แถวไม่ขึ้น
@@ -3597,7 +3675,7 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
             }
         }
         // แถวท้าย: ท่าที่ใช้กับชิ้นนี้ (เงียบ ๆ) + ลบ — ลบเป็นตัวหนังสือแดงในแคปซูลจาง ไม่ใช่ปุ่มแดงทึบ
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().heightIn(min = 34.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically) {
                 SFSymbol(if (sel.pinned) "lock.fill" else if (isText) "hand.tap" else if (resizable) "hand.draw" else "lock", size = 9.5f, tint = Color.White.opacity(0.4))
                 Text(
@@ -3632,7 +3710,9 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
 /** แบบอื่นในตระกูลเดียวกัน — ชิ้นที่มีแบบเดียวไม่มีแถวนี้เลย ไม่ใช่แถวว่าง */
 @Composable
 private fun CardEditorState.VariantsRow(sel: WidgetInstance) {
+    // ลำดับเดียวกับตู้ (= `WidgetGallery.orderedEntries()` ของ iOS) — ชุดห้าสไตล์ขึ้นก่อนแบบเดิม
     val siblings = WidgetKind.entries.filter { it.family == sel.kind.family }
+        .sortedWith(compareBy<WidgetKind>({ it.family.trayGroup.ordinal }, { it.family.ordinal }, { if (it.isKit) 0 else 1 }))
     if (siblings.size <= 1) return
     Row(
         Modifier
@@ -3645,26 +3725,28 @@ private fun CardEditorState.VariantsRow(sel: WidgetInstance) {
         siblings.forEach { k ->
             key(k) {
                 val active = k == sel.kind
+                // กรอบกับป้ายไหลไปยังช่องที่เลือก (= `.animation(Motion.snap, value: active)`) — น้ำหนักตัวอักษรสลับทันที (ไม่มีค่ากลาง)
+                val frameW by animateDpAsState(if (active) 2.dp else 0.6.dp, Motion.snap.spec(), label = "variantFrame")
+                val frameC by animateColorAsState(if (active) theme.rawAccent else Color.White.opacity(0.14), Motion.snap.spec(), label = "variantFrameColor")
+                val labelC by animateColorAsState(if (active) Color.White else Color.White.opacity(0.5), Motion.snap.spec(), label = "variantLabel")
                 Column(Modifier.tap { swap(sel, k) }, verticalArrangement = Arrangement.spacedBy(5.dp)) {
                     WidgetThumb(
                         kind = k,
                         theme = theme.toolTheme,
-                        width = 92f,
-                        modifier = Modifier.border(
-                            if (active) 2.dp else 0.6.dp,
-                            if (active) theme.rawAccent else Color.White.opacity(0.14),
-                            RoundedCornerShape(12.dp),
-                        ),
+                        width = 127f,
+                        ratio = 84f / 127f,
+                        modifier = Modifier.border(frameW, frameC, RoundedCornerShape(12.dp)),
                     )
                     Text(
-                        k.title,
+                        // ชุดห้าสไตล์เรียกตามชื่อสไตล์ (ม่วงสติกเกอร์ · ครีมนุ่ม …) ไม่ใช่ชื่อชิ้น
+                        if (k.isKit) k.kitStyle.displayName else k.title,
                         style = sh(9.5f, if (active) SHFont.semibold else SHFont.regular),
-                        color = if (active) Color.White else Color.White.opacity(0.5),
+                        color = labelC,
                         maxLines = 1,
                         softWrap = false,
                         textAlign = TextAlign.Center,
                         autoSize = autoShrink(9.5f, 0.7f),
-                        modifier = Modifier.width(92.dp),
+                        modifier = Modifier.width(127.dp),
                     )
                 }
             }

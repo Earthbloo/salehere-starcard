@@ -209,6 +209,8 @@ enum class BackdropStyle(val raw: String) {
 
     companion object {
         fun from(raw: String?): BackdropStyle? = entries.firstOrNull { it.raw == raw }
+        /** แบบที่แผงพื้นหลังเสนอ (20 ต.ค. 2569 — ผู้ใช้ตัดเหลือสองแบบ) · เคสอื่นคงไว้ให้การ์ดเก่ายังถอดรหัสและวาดได้ */
+        val offered: List<BackdropStyle> = listOf(solid, gradient)
     }
 }
 

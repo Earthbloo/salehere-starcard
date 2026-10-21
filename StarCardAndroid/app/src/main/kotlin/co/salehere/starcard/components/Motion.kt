@@ -63,7 +63,9 @@ object Motion {
     /** เข้าที่อย่างสงบ — เข้า/ออกโหมดแต่ง */
     val settle = SpringToken(260f, 28f)
 
-    // iOS สองตัวนี้ตั้งด้วย `spring(response:dampingFraction:)` — แปลงเป็นค่าดิบ: stiffness = (2π/response)² · damping = 2·ratio·√stiffness
+    // iOS สามตัวนี้ตั้งด้วย `spring(response:dampingFraction:)` — แปลงเป็นค่าดิบ: stiffness = (2π/response)² · damping = 2·ratio·√stiffness
+    /** ยกขึ้นติดนิ้ว — โต 1.1 เด้งสั้น (= `spring(response: 0.28, dampingFraction: 0.62)`) */
+    val homeLift = SpringToken(503.5f, 27.8f)
     /** วางลง — ของที่ปล่อยจากนิ้วเข้าที่ (= `spring(response: 0.38, dampingFraction: 0.72)`) */
     val homeDrop = SpringToken(273.4f, 23.81f)
     /** ตามนิ้ว — สปริงสั้นมากของชิ้นที่ลอยอยู่ (= `interactiveSpring(response: 0.16, dampingFraction: 0.86)`) */

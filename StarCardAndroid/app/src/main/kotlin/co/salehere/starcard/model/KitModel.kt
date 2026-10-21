@@ -353,3 +353,17 @@ class KitLook(c: KitConfig, border: Boolean, cardDark: Boolean) {
     val blockMut: Color get() = if (style == KitStyle.purple || style == KitStyle.gingham) Color.Black.opacity(0.52) else mut
     val hair: Color get() = if (dark) Color.White.opacity(0.1) else Color.Black.opacity(0.09)
 }
+
+/** ไอคอนต่อสายงาน — = `KitNiche` ของ iOS (Views/Widgets/Primitives/KitLook.swift) */
+object KitNiche {
+    /** ตัดอีโมจิหน้าชื่อหมวด ("👗 แฟชั่น" → "แฟชั่น") — Canva แสดงคำล้วน ไอคอนมาจากสไตล์ */
+    fun clean(c: String): String {
+        var i = 0
+        while (i < c.length) {
+            val cp = c.codePointAt(i)
+            if (Character.isLetter(cp) && cp < 0x2000) break
+            i += Character.charCount(cp)
+        }
+        return c.substring(i).trim()
+    }
+}

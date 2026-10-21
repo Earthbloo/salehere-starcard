@@ -1,6 +1,34 @@
 package co.salehere.starcard.ui.widgets
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.geometry.Rect
+import co.salehere.starcard.components.Motion
+import co.salehere.starcard.components.SoftShadow
+import co.salehere.starcard.components.float
+import co.salehere.starcard.model.Profile
+import co.salehere.starcard.model.StarTopic
+import co.salehere.starcard.theme.PhWeight
+import co.salehere.starcard.theme.SFSymbol
+import co.salehere.starcard.theme.SHFont
+import co.salehere.starcard.theme.rgb
+import co.salehere.starcard.theme.sh
+import co.salehere.starcard.ui.LocalGhostData
+import co.salehere.starcard.ui.editor.LocalGhostKeepsText
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -86,7 +114,16 @@ fun contentInset(kind: WidgetKind, surface: WidgetSurface, border: Boolean): Flo
  * กรอบคือ **คอนเทนเนอร์** — ผังได้ที่กว้างขึ้นไปจัดเอง ตัวอักษรกับรูปไม่ถูกบีบ · ย่อทั้งก้อนเฉพาะตอนกรอบแคบกว่าผัง
  */
 @Composable
-fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier, forceSample: Boolean = false) {
+fun WidgetChrome(
+    placed: Placed,
+    theme: CardTheme,
+    modifier: Modifier = Modifier,
+    forceSample: Boolean = false,
+    /** ห้องแต่ง: ใบที่ข้อมูลยังไม่กรอกวาดด้วยชุดตัวอย่างใต้ชั้นเทา + ปุ่มปลดล็อกที่มุม (= `lockBadge` ของ iOS) */
+    lockBadge: Boolean = false,
+    /** รูปย่อที่เจ้าของเห็นเอง (คลัง · Star Profile): หน้าตาเดียวกับในห้องแต่ง แต่ **ไม่มีปุ่มปลดล็อก** (= `lockPreview`) */
+    lockPreview: Boolean = false,
+) {
     val p = placed
     val ink = theme.inkStyle
     val kind = p.item.kind
@@ -126,6 +163,12 @@ fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier
     val replayed = (LocalSpecDataOverride.current as? ReplayData)?.flags?.get("stamped")
     val stamped = replayed ?: (!missing && (kind.stampFacts?.verified ?: false))
     val sampleOuter = LocalSampleData.current
+    // ใบที่ล็อกในห้องแต่ง = วาดใบจริงด้วยชุดตัวอย่าง ให้เห็นว่ากรอกแล้วได้อะไร — ไม่ใช่กรอบเปล่ากับขีด "–"
+    // (ผู้ใช้ 1 ต.ค. 2569) · ภาพที่แชร์/โหมดดูไม่ผ่านทางนี้ ยังเป็นป้ายรอข้อมูลเหมือนเดิม (= iOS `lockLook`/`sampled`)
+    val lockLook = lockBadge || lockPreview
+    val sampled = forceSample || sampleOuter || (lockLook && missing && Profile.me.lacks(kind.family))
+    // กุญแจของตราที่ล็อกย่อตามใบ — ตราครึ่งหน้าบนสตอรี่ได้กุญแจเล็กลงตามส่วน
+    val lockScale = max(0.7f, s)
 
     val content: @Composable () -> Unit = {
         CompositionLocalProvider(
@@ -137,8 +180,11 @@ fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier
             LocalWidgetPattern provides p.item.pattern,
             LocalSaleHereStamped provides stamped,
             LocalKitConfig provides p.item.kit,
-            // แคตตาล็อก/ตัวส่งออกวาดใบเต็มด้วยชุดตัวอย่าง (= `forceSample` ของ iOS)
-            LocalSampleData provides (forceSample || sampleOuter),
+            // แคตตาล็อก/ตัวส่งออกวาดใบเต็มด้วยชุดตัวอย่าง (= `forceSample` ของ iOS) · ใบที่ล็อกในห้องแต่งก็ชุดตัวอย่าง
+            LocalSampleData provides sampled,
+            LocalGhostData provides (missing && !sampled && !sealLocked),
+            // หัวข้อที่แก้ได้บนการ์ดจริงยังอยู่ ขีด "–" เฉพาะค่าข้อมูล (= `ghostKeepsText` ของ iOS)
+            LocalGhostKeepsText provides true,
             LocalWidgetRenderScale provides s.toDouble(),
         ) {
             Box(
@@ -164,43 +210,80 @@ fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier
         }
     }
 
-    var root = modifier.size(frameW.dp, frameH.dp)
-    // ชุดห้าสไตล์/สติกเกอร์วาดเส้นขอบของตัวเองในผัง (`"if": "bordered"`) — chrome ไม่วาดซ้ำ
-    if (p.item.border && !kind.drawsOwnBorder) root = root.border(0.7.dp, ink.line(0.12), shape)
+    // เส้นขอบ/แผ่นเปลี่ยนแบบไหลเข้าหากัน (= iOS `withAnimation(Motion.flow)` ใน setSurface/setBorder)
+    val borderColor by animateColorAsState(
+        if (p.item.border && !kind.drawsOwnBorder) ink.line(0.12) else Color.Transparent,
+        Motion.flow.spec(), label = "chromeBorder",
+    )
+    // ชุดห้าสไตล์/สติกเกอร์วาดเส้นขอบของตัวเองในผัง (`"if": "bordered"`) — chrome ไม่วาดซ้ำ (สีใส = ไม่เห็น)
+    val root = modifier.size(frameW.dp, frameH.dp).border(0.7.dp, borderColor, shape)
     val byline = if (stamped) kind.stampOverlay else null
+    val topic = kind.family.topic
 
     Box(root) {
-        if (!framed) {
-            // ของที่วาดพื้นเอง — chrome ไม่ยุ่งกับมันเลย นอกจากกันของล้นกรอบ (สี่เหลี่ยมตรง ไม่ใช่มุมมน)
-            Box(if (isText) Modifier else Modifier.clip(RectangleShape)) { content() }
-        } else {
-            when (surface) {
-                WidgetSurface.glass, WidgetSurface.pane -> {
-                    // คู่สี: กระจกต้องไม่ย้อมสีเน้นของการ์ด — กระจกในงานสองสีคือ **เงาดำใส** ไม่ใช่สีที่สาม
-                    val tinted = kind.tier == co.salehere.starcard.model.WidgetTier.verified && theme.activeDuo == null
-                    GlassPanel(
-                        tint = if (tinted) theme.accent else null,
-                        tintStrength = if (tinted) 0.13 else 0.0,
-                        // คู่สีไม่ต้องส่งม่านแยกแล้ว — ค่าที่ iOS วาดจริงบนคู่สีเท่ากับหมึกมืดทั่วไป (ดู GlassPanel)
-                        veil = null,
-                        radius = radius,
-                    ) {
-                        Box(if (isText) Modifier else Modifier.clip(shape)) { content() }
+        // แผ่นของ chrome อยู่หลังเนื้อหา — สลับพื้นแล้วแผ่นเก่าจางออก แผ่นใหม่จางเข้า ส่วนเนื้อหาวาดครั้งเดียว
+        if (framed) {
+            Crossfade(
+                targetState = surface, modifier = Modifier.matchParentSize(),
+                animationSpec = Motion.flow.float, label = "chromePlate",
+            ) { sf ->
+                when (sf) {
+                    WidgetSurface.glass, WidgetSurface.pane -> {
+                        // คู่สี: กระจกต้องไม่ย้อมสีเน้นของการ์ด — กระจกในงานสองสีคือ **เงาดำใส** ไม่ใช่สีที่สาม
+                        val tinted = kind.tier == co.salehere.starcard.model.WidgetTier.verified && theme.activeDuo == null
+                        GlassPanel(
+                            tint = if (tinted) theme.accent else null,
+                            tintStrength = if (tinted) 0.13 else 0.0,
+                            // คู่สีไม่ต้องส่งม่านแยกแล้ว — ค่าที่ iOS วาดจริงบนคู่สีเท่ากับหมึกมืดทั่วไป (ดู GlassPanel)
+                            veil = null,
+                            radius = radius,
+                            modifier = Modifier.fillMaxSize(),
+                        ) {}
+                    }
+                    WidgetSurface.clear -> {}
+                    WidgetSurface.dim -> {
+                        // "เข้ม" = แผ่น **ทึบ 100%** — แผ่นทึบเปลี่ยนพื้นของตัวหนังสือทั้งดุ้น
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .shadow(
+                                    elevation = (ink.liftRadius * 0.7f).dp, shape = shape, clip = false,
+                                    ambientColor = ink.lift.opacity(0.6), spotColor = ink.lift.opacity(0.6),
+                                )
+                                .background(slab(theme), shape),
+                        )
                     }
                 }
-                WidgetSurface.clear -> Box(if (isText) Modifier else Modifier.clip(shape)) { content() }
-                WidgetSurface.dim -> {
-                    // "เข้ม" = แผ่น **ทึบ 100%** — แผ่นทึบเปลี่ยนพื้นของตัวหนังสือทั้งดุ้น
-                    Box(
-                        Modifier
-                            .shadow(
-                                elevation = (ink.liftRadius * 0.7f).dp, shape = shape, clip = false,
-                                ambientColor = ink.lift.opacity(0.6), spotColor = ink.lift.opacity(0.6),
-                            )
-                            .background(slab(theme), shape)
-                            .let { if (isText) it else it.clip(shape) },
-                    ) { content() }
-                }
+            }
+        }
+        // ของที่วาดพื้นเอง — chrome ไม่ยุ่งกับมันเลย นอกจากกันของล้นกรอบ (สี่เหลี่ยมตรง ไม่ใช่มุมมน) · ก้อนข้อความไม่ clip
+        Box(if (isText) Modifier else if (framed) Modifier.clip(shape) else Modifier.clip(RectangleShape)) { content() }
+
+        // ใบที่ล็อก = สีของใบยังเต็ม มีแค่ชั้นเทาโปร่งทับ (ผู้ใช้ 1 ต.ค. 2569) · ตรารับรองที่ยังล็อกมีชั้นเทา **ทุกที่** รวมรูปที่แชร์
+        if (missing && (lockLook || sealLocked) && !forceSample) {
+            Box(Modifier.matchParentSize().background(WidgetChromeLock.veil, shape))
+        }
+        if (lockBadge && missing && topic != null) {
+            // ปุ่มจริงของใบที่ล็อก — แตะรับที่ `CardScreen` ผ่าน `WidgetChromeLock.hitRect` (ชั้นนี้ไม่รับทัชเอง)
+            LockCTA(
+                title = when (topic) {
+                    StarTopic.Verify -> "ยืนยันตัวตนเพื่อปลดล็อก"
+                    StarTopic.Work -> "ทำงานจบ 1 งานเพื่อปลดล็อก"
+                    else -> "กรอกข้อมูลเพื่อปลดล็อก"
+                },
+                modifier = Modifier.align(Alignment.TopEnd).padding(WidgetChromeLock.inset.dp),
+            )
+        } else if (sealLocked) {
+            // นอกห้องแต่ง (หน้าดู · รูปที่แชร์) ไม่มีปุ่ม — กุญแจดวงเดียวพอ ของที่ดูเหมือนกดได้ห้ามอยู่ในรูป
+            Box(
+                Modifier
+                    .align(Alignment.TopEnd)
+                    .padding((WidgetChromeLock.inset * lockScale).dp)
+                    .size((26f * lockScale).dp)
+                    .background(Color.White, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                SFSymbol("lock.fill", size = 11f * lockScale, tint = WidgetChromeLock.ink, weight = PhWeight.fill)
             }
         }
         // ใบที่ไม่มีช่องหัวข้อ — ป้าย Verified by Sale Here มุมขวาบนด้านใน (= `WidgetKind.stampOverlay`)
@@ -209,6 +292,53 @@ fun WidgetChrome(placed: Placed, theme: CardTheme, modifier: Modifier = Modifier
                 tint = contentInk.text(0.85), tone = byline.first,
                 modifier = Modifier.align(Alignment.TopEnd).padding(top = byline.second.dp, end = byline.third.dp),
             )
+        }
+    }
+}
+
+/** ปุ่มปลดล็อกอยู่มุมขวาบนของใบ — ใช้ร่วมกับ `CardScreen` เพื่อรู้ว่าแตะโดนปุ่ม (= `WidgetChrome.lockHeight/lockInset/lockHitRect`) */
+object WidgetChromeLock {
+    const val height: Float = 30f
+    const val inset: Float = 8f
+    /** พื้นที่แตะของปุ่ม (พิกัดในใบ) — เผื่อขอบกว้างกว่าตัวปุ่มให้นิ้วแตะง่าย */
+    fun hitRect(size: Size): Rect = Rect(size.width - 230f, 0f, size.width, inset + height + 10f)
+    /** ชั้นเทาที่ทับใบซึ่งยังล็อกอยู่ (= `lockVeil` · white 0.22 @ 0.5) */
+    val veil: Color = Color(0.22f, 0.22f, 0.22f, 0.5f)
+    /** หมึกบนปุ่ม/กุญแจ (= `Color(red: 0.09, green: 0.09, blue: 0.11)`) */
+    val ink: Color = rgb(0.09, 0.09, 0.11)
+}
+
+/**
+ * ปุ่มปลดล็อกบนใบที่ยังไม่มีข้อมูล — ขาวทึบ (ดังกว่าใบที่หม่นอยู่ข้างหลัง) · กุญแจเปิด · ลูกศร = "กดได้" (= `LockCTA`)
+ * วงแสงหายใจช้า ๆ รอบปุ่ม บอกว่าเป็นของที่ต้องแตะ ไม่ใช่ป้ายสถานะ (เฉพาะในห้องแต่ง) · ไม่รับทัชเอง
+ */
+@Composable
+fun LockCTA(title: String, modifier: Modifier = Modifier) {
+    val breathe = rememberInfiniteTransition(label = "lockBreathe")
+    val t by breathe.animateFloat(
+        initialValue = 0f, targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(1600, easing = EaseOut), RepeatMode.Restart),
+        label = "breathe",
+    )
+    Box(modifier) {
+        SoftShadow(Color.Black.opacity(0.35), radius = 6f, y = 3f, shape = CircleShape, modifier = Modifier.matchParentSize())
+        Box(
+            Modifier
+                .matchParentSize()
+                .graphicsLayer { scaleX = 1f + 0.25f * t; scaleY = 1f + 0.25f * t }
+                .border(2.dp, Color.White.opacity(0.7 * (1.0 - t)), CircleShape),
+        )
+        Row(
+            Modifier
+                .background(Color.White, CircleShape)
+                .height(WidgetChromeLock.height.dp)
+                .padding(start = 10.dp, end = 9.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            SFSymbol("lock.open.fill", size = 11f, tint = WidgetChromeLock.ink, weight = PhWeight.fill)
+            Text(title, style = sh(11.5f, SHFont.bold), color = WidgetChromeLock.ink, maxLines = 1, softWrap = false)
+            SFSymbol("chevron.right", size = 9f, tint = WidgetChromeLock.ink.opacity(0.55), weight = PhWeight.bold)
         }
     }
 }

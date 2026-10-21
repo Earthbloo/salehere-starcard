@@ -5,6 +5,8 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,6 +49,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -82,6 +85,8 @@ import co.salehere.starcard.theme.opacity
 import co.salehere.starcard.theme.rgb
 import co.salehere.starcard.theme.sh
 import co.salehere.starcard.ui.Haptics
+import co.salehere.starcard.ui.plainPress
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.max
@@ -141,23 +146,26 @@ fun TextTools(
             ToolIcon("textformat", on = row == ToolRow.font) { row = ToolRow.font }
 
             // วงสี — ตัวเดียวที่ไม่ใช่ไอคอนขาว เพราะสีคือสิ่งที่มันเปิด
-            val colorSrc = remember { MutableInteractionSource() }
             Box(
                 Modifier
                     .size(44.dp)
-                    .background(Color.White.opacity(if (row == ToolRow.color) 0.22 else 0.0), RoundedCornerShape(10.dp))
-                    .clickable(colorSrc, indication = null) {
+                    .plainPress {
                         row = ToolRow.color
                         Haptics.impact(Haptics.Style.light)
-                    },
+                    }
+                    .background(Color.White.opacity(if (row == ToolRow.color) 0.22 else 0.0), RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center,
             ) {
                 Box(
                     Modifier
                         .size(22.dp)
                         .background(
+                            // สีระบบของ SwiftUI ตัวต่อตัว (.red .yellow .green .cyan .blue .purple .red)
                             Brush.sweepGradient(
-                                listOf(Color.Red, Color.Yellow, Color.Green, Color.Cyan, Color.Blue, Color.Magenta, Color.Red),
+                                listOf(
+                                    Color(0xFFFF3B30), Color(0xFFFFCC00), Color(0xFF34C759), Color(0xFF32ADE6),
+                                    Color(0xFF007AFF), Color(0xFFAF52DE), Color(0xFFFF3B30),
+                                ),
                             ),
                             CircleShape,
                         )
@@ -187,15 +195,14 @@ fun TextTools(
 /** ไอคอนหนึ่งช่องในแถวเครื่องมือ — ช่องที่ทำงานอยู่ได้พื้นสว่างเหมือน IG */
 @Composable
 private fun ToolIcon(symbol: String, on: Boolean, action: () -> Unit) {
-    val src = remember { MutableInteractionSource() }
     Box(
         Modifier
             .size(44.dp)
-            .background(Color.White.opacity(if (on) 0.9 else 0.0), RoundedCornerShape(10.dp))
-            .clickable(src, indication = null) {
+            .plainPress {
                 action()
                 Haptics.impact(Haptics.Style.light)
-            },
+            }
+            .background(Color.White.opacity(if (on) 0.9 else 0.0), RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center,
     ) {
         SFSymbol(symbol, size = 17f, tint = if (on) Color.Black.opacity(0.85) else Color.White.opacity(0.9))
@@ -315,13 +322,23 @@ fun FontCarousel(selection: CardFont, onPick: (CardFont) -> Unit, modifier: Modi
                 info.visibleItemsInfo.minByOrNull { abs(it.offset + it.size / 2 - c) }?.index
             }
         }
-        LaunchedEffect(centered) {
+        // เฟรมแรกต้องให้ใบที่เลือกอยู่กลางก่อน (= `.onAppear { centered = selection }`) — รายการยังไม่มี layoutInfo
+        // ตอน effect เริ่ม จึงรอจนมีใบปรากฏ แล้วค่อยเลื่อนแบบไม่อนิเมต · ก่อนหน้านั้นห้ามส่งใบที่บังเอิญอยู่กลางออกไป
+        var settled by remember { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            snapshotFlow { state.layoutInfo.visibleItemsInfo.isNotEmpty() }.first { it }
+            state.centerOn(selection.ordinal, animate = false)
+            settled = true
+        }
+        LaunchedEffect(centered, settled) {
+            if (!settled) return@LaunchedEffect
             val i = centered ?: return@LaunchedEffect
             val f = fonts[i]
             if (f != selection) onPick(f)
         }
-        LaunchedEffect(selection) {
-            if (centered != selection.ordinal && !state.isScrollInProgress) state.centerOn(selection.ordinal, animate = centered != null)
+        LaunchedEffect(selection, settled) {
+            if (!settled) return@LaunchedEffect
+            if (centered != selection.ordinal && !state.isScrollInProgress) state.centerOn(selection.ordinal, animate = true)
         }
         LazyRow(
             state = state,
@@ -365,17 +382,16 @@ fun FontChip(font: CardFont, on: Boolean, action: () -> Unit, modifier: Modifier
     val fg by animateColorAsState(if (on) Color.Black.opacity(0.88) else Color.White.opacity(0.92), Motion.snap.spec(), label = "fg")
     val bg by animateColorAsState(if (on) Color.White.opacity(0.95) else Color.White.opacity(0.08), Motion.snap.spec(), label = "bg")
     val rim by animateColorAsState(Color.White.opacity(if (on) 0.0 else 0.22), Motion.snap.spec(), label = "rim")
-    val src = remember { MutableInteractionSource() }
     Box(
         modifier
             .height(38.dp)
-            .clip(CircleShape)
-            .background(bg)
-            .border(0.8.dp, rim, CircleShape)
-            .clickable(src, indication = null) {
+            .plainPress {
                 action()
                 Haptics.impact(Haptics.Style.light)
             }
+            .clip(CircleShape)
+            .background(bg)
+            .border(0.8.dp, rim, CircleShape)
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -389,8 +405,7 @@ fun FontChip(font: CardFont, on: Boolean, action: () -> Unit, modifier: Modifier
  */
 @Composable
 fun TintChip(tint: TextTint, on: Boolean, accent: Color, onTap: () -> Unit, modifier: Modifier = Modifier) {
-    val src = remember { MutableInteractionSource() }
-    val click = Modifier.clickable(src, indication = null) {
+    val click = Modifier.plainPress {
         onTap()
         Haptics.impact(Haptics.Style.light)
     }
@@ -401,10 +416,10 @@ fun TintChip(tint: TextTint, on: Boolean, accent: Color, onTap: () -> Unit, modi
         Box(
             modifier
                 .height(36.dp)
+                .then(click)
                 .clip(CircleShape)
                 .background(bg)
                 .border(0.8.dp, rim, CircleShape)
-                .then(click)
                 .padding(horizontal = 14.dp),
             contentAlignment = Alignment.Center,
         ) {
@@ -432,11 +447,10 @@ fun TintChip(tint: TextTint, on: Boolean, accent: Color, onTap: () -> Unit, modi
 /** จัดวางวนสามแบบในไอคอนเดียว — ไอคอนคือสถานะปัจจุบัน (ท่าเดียวกับปุ่มจัดวางของ IG) */
 @Composable
 fun TextAlignButton(align: TextAlignment, onPick: (TextAlignment) -> Unit, modifier: Modifier = Modifier) {
-    val src = remember { MutableInteractionSource() }
     Box(
         modifier
             .size(44.dp)
-            .clickable(src, indication = null) {
+            .plainPress {
                 val all = TextAlignment.entries
                 val i = all.indexOf(align).let { if (it < 0) 0 else it }
                 onPick(all[(i + 1) % all.size])
@@ -444,6 +458,16 @@ fun TextAlignButton(align: TextAlignment, onPick: (TextAlignment) -> Unit, modif
             },
         contentAlignment = Alignment.Center,
     ) {
-        SFSymbol(align.icon, size = 17f, tint = Color.White.opacity(0.9))
+        // ไอคอนเก่าจางหายพร้อมย่อ ไอคอนใหม่โผล่พร้อมขยาย (= `.contentTransition(.symbolEffect(.replace))`)
+        AnimatedContent(
+            targetState = align,
+            transitionSpec = {
+                (fadeIn(Motion.snap.spec()) + scaleIn(Motion.snap.spec())) togetherWith
+                    (fadeOut(Motion.snap.spec()) + scaleOut(Motion.snap.spec()))
+            },
+            label = "alignIcon",
+        ) { a ->
+            SFSymbol(a.icon, size = 17f, tint = Color.White.opacity(0.9))
+        }
     }
 }

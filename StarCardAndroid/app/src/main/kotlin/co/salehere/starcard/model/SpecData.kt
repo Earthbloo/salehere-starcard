@@ -56,7 +56,7 @@ data class AndroidSpecData(
     private val shownRates: List<RateItem> get() = if (lacks(WidgetFamily.rate)) Mock.creator.rates else p.creator.rates
     private val shownAudience: AudienceInsight get() = if (lacks(WidgetFamily.audience)) Mock.creator.audience else p.creator.audience
     private fun shownTrack(f: WidgetFamily): TrackRecord = if (lacks(f)) Mock.creator.track else p.creator.track
-    private val shownAbout: String get() = if (lacks(WidgetFamily.intro)) Mock.creator.about else p.about
+    private val shownAbout: String get() = p.shownAbout
 
     private fun pct0(v: Double): String = Fmt.f(v, 0) + "%"
 

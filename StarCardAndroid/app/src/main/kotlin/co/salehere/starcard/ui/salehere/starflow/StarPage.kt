@@ -109,6 +109,9 @@ private enum class StarPane { info, card }  // info = `.data` ของ Swift
  * - onNext: reveal — ต่อไปฟอร์มสมัคร
  * - onFill: เปิด wizard เฉพาะข้อที่ส่งมา (kind one) แล้วกลับมาหน้านี้
  * - onOpenStarCard: profile — เปิดพื้นที่ Star Card เดิม (คลัง/ห้องแต่ง)
+ * - onInsight: profile — แถบกราฟใต้ Star Card → หน้า ST★R Insight (`StarInsightPage`) · null = ไม่มีปุ่ม
+ * - onPickTemplate: profile — ยังไม่เคยเปิดการ์ด: แตะเทมเพลตในแถบตัวอย่าง → เริ่มการ์ดใบแรกจากแบบนั้น
+ *   (null = shell ไม่ได้ส่งมา → หน้านี้ใช้ `onOpenStarCard(Create)` แทน เพื่อให้แถบตัวอย่างโชว์เหมือน iOS ที่ shell ส่งเสมอ)
  * - hosted: หัว (title + toggle) และพื้น/ดวงไฟ ถูกวาดโดย shell (`StarHeader` + `StarGround`) — หน้านี้เว้นที่ไว้ให้เฉย ๆ
  */
 @Composable
@@ -121,6 +124,8 @@ fun StarPage(
     onKyc: () -> Unit,
     onShare: () -> Unit = {},
     onOpenStarCard: (StarCardIntent) -> Unit = {},
+    onInsight: (() -> Unit)? = null,
+    onPickTemplate: ((CardTemplate) -> Unit)? = null,
     hosted: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
@@ -129,8 +134,14 @@ fun StarPage(
     val quiet = mode == StarPageMode.profile || flow.revealSeen
     /** คลังการ์ด — Star Profile โชว์ใบที่กำลังแสดงอยู่เป็นพระเอก (Star Card = Star Profile ที่เป็นภาพ) */
     val library = CardLibrary.shared
-    /** ใบที่กำลังแสดงอยู่ = หน้าตาของ Star Profile · ยังไม่มีใบในคลัง = การ์ดกระจกสรุปไปก่อน + ปุ่มเลือกแบบการ์ด */
-    val liveCard: CardRecord? = if (mode == StarPageMode.profile) library.displayOrder.firstOrNull() else null
+    /**
+     * ใบที่กำลังแสดงอยู่ = หน้าตาของ Star Profile (ผู้ใช้ 24 ก.ย. 2569 เลิก toggle ข้อมูล | การ์ด)
+     * ยังไม่มีใบในคลัง = โชว์การ์ดตั้งต้นที่ทุกคนมี (ผู้ใช้ 29 ก.ย. 2569: "ต้องมีหลอกล่อให้เข้าไปดู")
+     */
+    val liveCard: CardRecord? = if (mode == StarPageMode.profile) (library.displayOrder.firstOrNull() ?: CardLibrary.defaultPreview) else null
+    /** iOS: shell ส่ง `onPickTemplate` มาเสมอบนหน้า profile — ไม่มีก็เปิดหน้าเลือกเทมเพลตตรง ๆ (ActivateTease เรียกแค่ `onOpen`) */
+    val pickTemplate: ((CardTemplate) -> Unit)? =
+        if (mode != StarPageMode.profile) null else onPickTemplate ?: { _ -> onOpenStarCard(StarCardIntent.Create) }
 
     val cardIn = remember { Animatable(if (quiet) 1f else 0f) }
     val rowsIn = remember { Animatable(if (quiet) 1f else 0f) }
@@ -233,8 +244,11 @@ fun StarPage(
                     StarGlassCard(
                         onAvatar = if (mode == StarPageMode.profile && flow.hasCard) ({ onFill(listOf(WizStep.media)) }) else null,
                         liveCard = liveCard,
+                        cardIsDefault = library.records.isEmpty(),
                         cardCount = library.records.size,
                         onOpenCard = { onOpenStarCard(StarCardIntent.Gallery) },
+                        onInsight = if (mode == StarPageMode.profile) onInsight else null,
+                        onPickTemplate = pickTemplate,
                     )
                     if (liveCard == null && mode == StarPageMode.profile && flow.hasCard) {
                         GlassActionButton(title = "เลือกแบบการ์ด", symbol = Ph.sparkle, action = { onOpenStarCard(StarCardIntent.Create) })

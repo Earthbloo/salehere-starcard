@@ -93,6 +93,7 @@ import androidx.compose.ui.window.DialogProperties
 import co.salehere.starcard.components.Motion
 import co.salehere.starcard.components.float
 import co.salehere.starcard.model.CardRecord
+import co.salehere.starcard.model.CardTemplate
 import co.salehere.starcard.model.LocalStarFlow
 import co.salehere.starcard.model.StarDataKey
 import co.salehere.starcard.model.StarFlow
@@ -553,8 +554,12 @@ fun StarGlassCard(
     onAvatar: (() -> Unit)? = null,
     /** หมวดสุดท้าย "Star Card" (ใบที่กำลังแสดง) — null = ไม่มีหมวดนี้ (หน้า reveal / intro / ยังไม่มีใบในคลัง) */
     liveCard: CardRecord? = null,
+    /** ใบที่โชว์คือการ์ดตั้งต้น (ยังไม่มีใบจริงในคลัง) */
+    cardIsDefault: Boolean = false,
     cardCount: Int = 0,
     onOpenCard: () -> Unit = {},
+    onInsight: (() -> Unit)? = null,
+    onPickTemplate: ((CardTemplate) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val flow = LocalStarFlow.current
@@ -685,7 +690,10 @@ fun StarGlassCard(
                 }
             }
             if (ghosts.isEmpty() && liveCard != null) {
-                StarCardSection(record = liveCard, onOpen = onOpenCard)
+                StarCardSection(
+                    record = liveCard, isDefault = cardIsDefault, published = flow.hasCard,
+                    onOpen = onOpenCard, onInsight = onInsight, onPickTemplate = onPickTemplate,
+                )
             }
         }
         if (flow.isStar || ghosts.isNotEmpty()) {

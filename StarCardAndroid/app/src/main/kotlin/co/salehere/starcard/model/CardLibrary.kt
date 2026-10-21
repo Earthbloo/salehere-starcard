@@ -134,6 +134,22 @@ class CardLibrary private constructor() {
         return record
     }
 
+    /** การ์ดเปล่า — เริ่มจากหน้าว่างครบจำนวนหน้าของรูปแบบ ธีมตั้งต้น ไม่ต้องผ่านเทมเพลต (= `createBlank(format:)`) */
+    fun createBlank(format: CardFormat): CardRecord {
+        val record = record(
+            name = "การ์ดใหม่", format = format,
+            pages = List(format.pageCount) { CardPage() },
+            theme = CardTheme(), index = 0,
+        )
+        records = records + record
+        if (publishedID == null) publishedID = record.id
+        persist()
+        return record
+    }
+
+    /** = `createDefault()` — ไม่มีใครเรียกแล้ว (เดิมสร้างการ์ดตั้งต้นเป็นใบจริงตอนเข้าครั้งแรก) */
+    fun createDefault(): CardRecord? = defaultTemplate?.let { create(it) }
+
     /** สำเนาไว้ลองแก้ — ทางที่ปลอดภัยของ "อยากลองเปลี่ยนโดยไม่แตะใบที่ส่งไปแล้ว" */
     fun duplicate(id: String): CardRecord? {
         val src = records.firstOrNull { it.id == id } ?: return null
@@ -231,6 +247,21 @@ class CardLibrary private constructor() {
 
         private const val recordsKey = "starcard.library.v1"
         private const val publishedKey = "starcard.library.published"
+
+        /**
+         * การ์ดตั้งต้นที่ทุกคนมี (ผู้ใช้ 29 ก.ย. 2569) = เทมเพลตออกแบบใบแรก — โชว์บน Star Profile ก่อนมีใบจริง ล่อให้กดเข้าไปดู
+         * ยังไม่อยู่ในคลัง (id คงที่ ให้รูปอบใช้แคชเดิม) · เป็นแค่ภาพตัวอย่าง — เข้า Star Card ครั้งแรกไปหน้าเลือกเทมเพลต (ผู้ใช้ 1 ต.ค. 2569)
+         */
+        val defaultTemplate: CardTemplate? by lazy { CardTemplate.designed(CardFormat.portfolio).firstOrNull() }
+        val defaultPreview: CardRecord? by lazy {
+            defaultTemplate?.let { t ->
+                CardRecord(
+                    id = "default-card", name = t.name, formatRaw = t.format.raw,
+                    snapshot = CardStore.snapshot(t.makePages(), t.theme, 0),
+                    createdAt = 0L, updatedAt = 0L,
+                )
+            }
+        }
 
         // MARK: ประกอบ record
 

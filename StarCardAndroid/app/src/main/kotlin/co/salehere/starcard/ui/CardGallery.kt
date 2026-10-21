@@ -117,9 +117,10 @@ import co.salehere.starcard.theme.StarSeal
 import co.salehere.starcard.theme.VerifiedFacts
 import co.salehere.starcard.theme.grey
 import co.salehere.starcard.theme.opacity
-import co.salehere.starcard.theme.rgb
 import co.salehere.starcard.theme.sh
 import co.salehere.starcard.ui.salehere.starflow.GL
+import co.salehere.starcard.ui.salehere.starflow.StarCaps
+import co.salehere.starcard.ui.salehere.starflow.serifInkBrush
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -615,22 +616,12 @@ private fun GalleryHeader(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-                    BasicText(
-                        "Star",
-                        style = sh(30f, SHFont.heavy).merge(
-                            TextStyle(color = Color.White, letterSpacing = (-0.8).sp, shadow = shadow),
-                        ),
-                        modifier = Modifier.alignBy(LastBaseline),
-                    )
+                // คำ Star = ตรา ST★R ของ Sale Here (ผู้ใช้ 30 ก.ย. 2569)
+                Row(horizontalArrangement = Arrangement.spacedBy(StarCaps.gapForSerif(40f).dp)) {
+                    StarCaps(height = StarCaps.heightForSerif(40f), color = Color.White, modifier = Modifier.alignBy(LastBaseline))
                     BasicText(
                         "Card",
-                        style = GL.serif(40f).merge(
-                            TextStyle(
-                                brush = Brush.verticalGradient(listOf(Color.White, Color.White, rgb(232 / 255.0, 199 / 255.0, 102 / 255.0))),
-                                shadow = shadow,
-                            ),
-                        ),
+                        style = GL.serif(40f).merge(TextStyle(brush = serifInkBrush(onDark = true), shadow = shadow)),
                         modifier = Modifier.alignBy(LastBaseline),
                     )
                 }
@@ -1120,7 +1111,7 @@ private fun GalleryDock(
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         if (isLive) {
                             PrimaryButton(Ph.pencilSimple, "แต่งการ์ด", tint = theme.rawAccent, modifier = Modifier.weight(1f)) { onOpen(r) }
-                            SecondaryButton(Ph.shareNetwork, "แชร์", fg = fg, light = light, lift = true) { onShare(url) }
+                            SecondaryButton(Ph.share, "แชร์", fg = fg, light = light, lift = true) { onShare(url) }
                         } else {
                             // ปุ่มหลักของใบที่ยังไม่แสดงคือ "ใช้ใบนี้" — ท่าที่คนมาหน้านี้เพื่อทำมากที่สุด
                             PrimaryButton(Ph.check, "ใช้ใบนี้", tint = theme.rawAccent, modifier = Modifier.weight(1f)) { onPublish(r) }
@@ -1204,12 +1195,8 @@ private fun MoreButton(fg: Color, light: Boolean, onClick: () -> Unit) {
             .semantics { contentDescription = "ตัวเลือกของการ์ดใบนี้" }
             .dockPress { onClick() },
     ) {
-        Row(
-            Modifier.size(52.dp),
-            horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            repeat(3) { Box(Modifier.size(4.dp).background(fg, CircleShape)) }
+        Box(Modifier.size(52.dp), contentAlignment = Alignment.Center) {
+            PIcon(Ph.dotsThree, size = 16f, weight = PhWeight.bold, tint = fg)
         }
     }
 }
@@ -1337,8 +1324,8 @@ private fun SheetContent(
                     g.renameText = record.name
                     g.mode = GallerySheetMode.rename
                 }
-                SheetRow(Ph.browsers, "ทำสำเนา") { onDuplicate(record) }
-                SheetRow(Ph.x, "ลบการ์ด", destructive = true) { g.mode = GallerySheetMode.confirmDelete }
+                SheetRow(Ph.plusSquare, "ทำสำเนา", weight = PhWeight.regular) { onDuplicate(record) }
+                SheetRow(Ph.trash, "ลบการ์ด", destructive = true) { g.mode = GallerySheetMode.confirmDelete }
             }
 
             GallerySheetMode.rename -> {
@@ -1392,7 +1379,7 @@ private fun SheetContent(
 
 /** แถวคำสั่งในชีต — ไอคอน + ตัวหนังสือฟอนต์แอป บนแผ่นจาง ๆ */
 @Composable
-private fun SheetRow(icon: Ph, title: String, destructive: Boolean = false, action: () -> Unit) {
+private fun SheetRow(icon: Ph, title: String, destructive: Boolean = false, weight: PhWeight = PhWeight.bold, action: () -> Unit) {
     val tint = if (destructive) SHColor.red else Color.White.opacity(0.9)
     Row(
         Modifier
@@ -1404,7 +1391,7 @@ private fun SheetRow(icon: Ph, title: String, destructive: Boolean = false, acti
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.width(22.dp), contentAlignment = Alignment.Center) {
-            PIcon(icon, size = 15f, weight = PhWeight.bold, tint = tint)
+            PIcon(icon, size = 15f, weight = weight, tint = tint)
         }
         Text(title, style = sh(14.5f, SHFont.semibold), color = tint, modifier = Modifier.weight(1f))
     }

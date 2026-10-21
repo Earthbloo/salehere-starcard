@@ -979,31 +979,44 @@ CSS = '''
   .page9 { position:relative; width:540px; height:960px; transform-origin:top left; border-radius:22px; background:radial-gradient(120% 80% at 20% 0%, #2a3160, #141834 60%, #0f1226); box-shadow:0 10px 30px rgba(0,0,0,.25); flex:none; touch-action:none; }
   .page9::before { content:""; position:absolute; inset:18px; border:1px dashed rgba(255,255,255,.12); border-radius:12px; pointer-events:none; }
   .page9.drop { outline:3px solid var(--pt); outline-offset:4px; }
-  /* ถาดพื้นหลังของการ์ดในแท็บ "ลองวางการ์ด" — ก๊อปถาดของแอป: แบบพื้น · สี (สีของฉัน + สำเร็จรูป) · โทน (เฉพาะคู่สี: เข้ม/อ่อน) */
-  .ptheme { display:flex; flex-direction:column; gap:8px; background:#1c1c22; color:#ddd; border-radius:12px; padding:10px 12px; margin:0 0 10px; font-size:12px; }
-  .ptheme .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .ptheme .lbl { color:rgba(255,255,255,.45); font-size:10.5px; font-weight:600; min-width:34px; }
-  .ptheme .seg { display:inline-flex; background:rgba(255,255,255,.08); border-radius:999px; padding:2px; }
-  .ptheme .seg button { border:0; background:transparent; color:rgba(255,255,255,.78); font:600 12px var(--display); padding:5px 12px; border-radius:999px; cursor:pointer; }
-  .ptheme .seg button.on { background:rgba(255,255,255,.92); color:rgba(0,0,0,.86); }
-  .ptheme .dots { display:flex; gap:9px; align-items:center; overflow-x:auto; padding:3px 2px; scrollbar-width:none; }
-  .ptheme .dot { width:30px; height:30px; border-radius:50%; border:0.5px solid rgba(255,255,255,.2); cursor:pointer; flex:0 0 auto; padding:0; background:#888; transition:transform .15s; position:relative; }
-  .ptheme .dot.on { border:2px solid rgba(255,255,255,.95); transform:scale(1.1); }
-  .ptheme .dot.duo { background:linear-gradient(135deg, var(--a) 50%, var(--b) 50%); }
-  .ptheme .dot.my { background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.55); display:grid; place-items:center; font-size:13px; color:#fff; }
-  .ptheme .dot.my input { position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
-  .ptheme .vsep { width:1px; height:30px; background:rgba(255,255,255,.14); margin:0 4px; }
-  .ptheme .group { display:flex; flex-direction:column; gap:4px; min-width:0; }
-  .ptheme .hex { font:11px var(--mono); color:rgba(255,255,255,.6); }
+  /* ถาดพื้นหลังของการ์ด = ถาดของแอป (`buildTray` + TRAY_CSS จาก sync-server) — ก่อนโหลดเป็นกล่องว่าง */
+  .ptheme { margin:0 0 10px; min-height:0; }
+  .bar .status { font-size:12.5px; color:var(--pt); } .bar .status code { font:12px var(--mono); }
+  /* ชิ้นบนการ์ด = widget จริงที่ `mountWidget` วาด — ลูกทั้งหมดไม่รับ pointer (ลาก/เลือกที่กล่อง) ยกเว้นหมุดมุม */
   .it { position:absolute; cursor:grab; touch-action:none; user-select:none; -webkit-user-select:none; }
-  .it .im { position:absolute; inset:0; overflow:hidden; border-radius:10px; pointer-events:none; } .it .im img { position:absolute; pointer-events:none; }
-  .it.sel { outline:3px solid var(--pt); outline-offset:2px; border-radius:10px; z-index:5; }
-  .it .rs { position:absolute; right:-10px; bottom:-10px; width:22px; height:22px; border-radius:50%; background:var(--pt); border:3px solid #1d1416; cursor:nwse-resize; display:none; }
-  .it.sel .rs { display:block; } .it.pin::after { content:"ตรึง"; position:absolute; left:6px; top:6px; font:700 11px var(--body); color:#1d1416; background:var(--pt); padding:1px 6px; border-radius:6px; }
+  .it > * { pointer-events:none; }
+  .it.sel { outline:3px solid var(--pt); outline-offset:2px; border-radius:10px; }
+  .it.live { outline-color:#fff; }
+  .it .err { position:absolute; inset:0; margin:0; color:#f77; font:10px var(--mono); overflow:hidden; white-space:pre-wrap; }
+  .it .rs { position:absolute; right:-11px; bottom:-11px; width:22px; height:22px; border-radius:50%; background:#fff; border:1.6px solid var(--pt); box-shadow:0 1px 3px rgba(0,0,0,.4); cursor:nwse-resize; pointer-events:auto; }
+  .it .rs::after { content:"⤡"; position:absolute; inset:0; display:grid; place-items:center; font:700 11px var(--display); color:var(--pt); }
+  .it.pin::after { content:"ตรึง"; position:absolute; left:6px; top:6px; font:700 11px var(--body); color:#1d1416; background:var(--pt); padding:1px 6px; border-radius:6px; }
   .ghost { position:fixed; z-index:50; pointer-events:none; opacity:.85; width:120px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+  /* ถาดชิ้น (= `pieceTray` ของแอป) — ใช้ชั้น .bt ของถาดแอปเมื่อมีชิ้นเลือก */
   .sel { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:10px 12px; font-size:13.5px; display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
-  .sel b { font:600 15px var(--display); } .sel button { font:inherit; font-size:13px; padding:4px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); cursor:pointer; }
-  .sel button[disabled] { opacity:.4; cursor:not-allowed; }
+  /* มีชิ้นเลือก = ถาดลอยติดขอบล่างของจอเหมือน dock sheet ของแอป — เลื่อนดูการ์ดยาว ๆ แล้วถาดยังอยู่ */
+  .sel.bt { display:flex; flex-direction:column; align-items:stretch; gap:8px; position:sticky; bottom:10px; z-index:6; box-shadow:0 10px 30px rgba(0,0,0,.45); max-height:46vh; overflow:auto; }
+  .sel .ph { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
+  .sel .ph b { font:600 15px var(--display); color:#fff; } .sel .ph code { font:12px var(--mono); color:rgba(255,255,255,.6); }
+  .sel .ph a { color:#9ab; font-size:12.5px; }
+  .sel .act { font:inherit; font-size:12.5px; padding:4px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); color:#fff; cursor:pointer; }
+  .sel .act[disabled] { opacity:.4; cursor:not-allowed; }
+  .sel .hintrow { font-size:12px; } .sel .mut { color:rgba(255,255,255,.5); }
+  .sel .vars { display:flex; gap:10px; overflow-x:auto; padding:2px 1px; scrollbar-width:none; }
+  .sel .vars button { flex:0 0 auto; width:127px; border:0; background:transparent; color:rgba(255,255,255,.8); font:600 11px var(--display); cursor:pointer; padding:0; display:flex; flex-direction:column; gap:5px; align-items:center; }
+  .sel .vars img { width:127px; height:84px; object-fit:cover; border-radius:12px; box-shadow:inset 0 0 0 .6px rgba(255,255,255,.14); display:block; background:#0e1024; }
+  .sel .vars button.on img { box-shadow:inset 0 0 0 2px var(--pt); }
+  .sel .chk { display:flex; flex-wrap:wrap; gap:6px; }
+  .sel .chk button { display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 10px; border-radius:999px; border:0; background:rgba(255,255,255,.05); color:rgba(255,255,255,.55); font:600 12px var(--display); cursor:pointer; }
+  .sel .chk button.on { background:rgba(255,255,255,.12); color:rgba(255,255,255,.92); } .sel .chk button.locked { opacity:.6; cursor:default; }
+  .sel .chk i { font-style:normal; font-size:14px; }
+  .sel .stp { display:inline-flex; align-items:center; height:32px; border-radius:999px; background:rgba(0,0,0,.28); }
+  .sel .stp button { width:40px; height:32px; border:0; background:transparent; color:rgba(255,255,255,.9); font:700 14px var(--display); cursor:pointer; } .sel .stp button.off { color:rgba(255,255,255,.25); cursor:default; }
+  .sel .stp b { width:40px; text-align:center; color:#fff; font:700 14px var(--display); font-variant-numeric:tabular-nums; }
+  .sel .swrow { justify-content:space-between; } .sel .swrow .lbl { min-width:0; color:rgba(255,255,255,.8); font-size:12px; }
+  .sel .sw { width:51px; height:31px; border-radius:999px; border:0; background:rgba(120,120,128,.32); position:relative; cursor:pointer; padding:0; transition:background .15s; }
+  .sel .sw i { position:absolute; top:2px; left:2px; width:27px; height:27px; border-radius:50%; background:#fff; box-shadow:0 2px 4px rgba(0,0,0,.3); transition:left .15s; }
+  .sel .sw.on { background:#34C759; } .sel .sw.on i { left:22px; }
   .api { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:10px; position:sticky; top:62px; max-height:calc(100vh - 80px); overflow:auto; }
   @media (max-width:1100px) { .api { position:static; max-height:none; } }
   .ptabs { display:flex; gap:4px; margin-bottom:8px; } .ptabs button.on { background:var(--ink); color:var(--paper); border-color:var(--ink); }
@@ -1078,13 +1091,34 @@ COLOUR_HTML = '''<div class="colour" id="colour">
     </div>'''
 
 # สคริปต์ module: โหลดตัววาดเว็บจาก sync-server เมื่อผู้ใช้เปิดแผงสี · ธีมตั้งต้น = ภาพ iOS เดิม
+LIB_JS = r'''
+// ---------- ตัววาดเว็บจาก sync-server (sync-server/web/js) — โหลดครั้งเดียว ใช้ร่วมกันระหว่างแผงสีของแคตตาล็อกกับแท็บ "ลองวางการ์ด" ----------
+const SERVER = 'http://localhost:8787';
+let _lib = null, _libP = null;
+function loadLib() {
+  if (_lib) return Promise.resolve(_lib);
+  if (_libP) return _libP;
+  _libP = (async () => {
+    const j = (f) => import(`${SERVER}/card/js/${f}`);
+    const [tray, model, measure, data, chrome, backdrop, replay, theme, page] = await Promise.all([j('backdrop-tray.js'), j('spec-model.js'), j('measure.js'), j('data.js'), j('chrome.js'), j('backdrop.js'), j('replay.js'), j('theme.js'), j('page.js')]);
+    document.head.appendChild(Object.assign(document.createElement('style'), { textContent: tray.TRAY_CSS }));
+    await measure.loadFonts(`${SERVER}/card/fonts/`);
+    // GET ธรรมดา (ไม่มี preflight ข้าม origin) — ผังอ่านสดจาก shared/WidgetSpecs ชุดเดียวกับ GraphQL
+    const r = await fetch(`${SERVER}/api/specs`);
+    const specs = Object.fromEntries(Object.entries((await r.json()).specs).map(([k, j]) => [k, model.parseSpec(j)]));
+    _lib = { ...tray, ...data, ...chrome, ...backdrop, ...replay, ...page, specs, measurer: new measure.WebMeasurer(), specPalette: theme.specPalette, css: theme.css, makeTheme: theme.makeTheme };
+    return _lib;
+  })().catch((e) => { _libP = null; throw e; });
+  return _libP;
+}
+'''
+
 LIVE_JS = r'''
 // ---------- สีพื้นหลังตามแอป: วาด widget สดด้วยตัววาดเว็บ (sync-server/web/js) — ภาพนิ่งคือธีมตั้งต้นของตัวส่งออก iOS ----------
-const SERVER = 'http://localhost:8787';
 const KEY = 'sc-cat-colour-v2';   // v2 = เก็บ hex (colors.primary/secondary) ไม่ใช่ชื่อพาเลตต์
 const trayEl = document.getElementById('col-tray'), note = document.getElementById('col-note'), toggle = document.getElementById('col-toggle');
 const cards = [...document.querySelectorAll('#home .cw')];
-let lib = null, loading = null, state = { page: null, per: {} };
+let lib = null, state = { page: null, per: {} };
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.page) state = { page: s.page, per: s.per || {} }; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 const fixtures = {};
@@ -1092,23 +1126,14 @@ const fixture = async (k) => (fixtures[k] ??= await fetch(`${SERVER}/card/fixtur
 
 async function load() {
   if (lib) return lib;
-  if (loading) return loading;
   note.textContent = 'กำลังโหลดตัววาดจาก sync-server…';
-  loading = (async () => {
-    const j = (f) => import(`${SERVER}/card/js/${f}`);
-    const [tray, model, measure, data, chrome, backdrop, replay, theme] = await Promise.all([j('backdrop-tray.js'), j('spec-model.js'), j('measure.js'), j('data.js'), j('chrome.js'), j('backdrop.js'), j('replay.js'), j('theme.js')]);
-    document.head.appendChild(Object.assign(document.createElement('style'), { textContent: tray.TRAY_CSS }));
-    await measure.loadFonts(`${SERVER}/card/fonts/`);
-    // GET ธรรมดา (ไม่มี preflight ข้าม origin) — ผังอ่านสดจาก shared/WidgetSpecs ชุดเดียวกับ GraphQL
-    const r = await fetch(`${SERVER}/api/specs`);
-    const specs = Object.fromEntries(Object.entries((await r.json()).specs).map(([k, j]) => [k, model.parseSpec(j)]));
-    lib = { ...tray, ...data, ...chrome, ...backdrop, ...replay, specs, measurer: new measure.WebMeasurer(), specPalette: theme.specPalette, css: theme.css };
+  try {
+    lib = await loadLib();
     if (!state.page) state.page = lib.defaultChoice();
     document.body.classList.add('live');
     note.textContent = 'ธีมตั้งต้น = ภาพจาก iOS · เลือกสีแล้วทุกใบวาดใหม่ด้วยตัววาดเว็บ (ผัง JSON ชุดเดียวกัน) · "ปรับ" บนใบ = สีเฉพาะใบนั้น';
     return lib;
-  })().catch((e) => { loading = null; note.textContent = 'โหลดตัววาดไม่ได้ — เปิด sync-server ก่อน (preview "sync-server" · node sync-server/server.mjs · พอร์ต 8787): ' + e.message; throw e; });
-  return loading;
+  } catch (e) { note.textContent = 'โหลดตัววาดไม่ได้ — เปิด sync-server ก่อน (preview "sync-server" · node sync-server/server.mjs · พอร์ต 8787): ' + e.message; throw e; }
 }
 
 const choiceFor = (k) => state.per[k] || state.page;
@@ -1226,15 +1251,15 @@ PLAY_HTML = '''
   <header class="top ptop">
     <div class="eyebrow">Star Card · ลองวางการ์ด</div>
     <h1>วาง widget แล้วดูว่า API เก็บอะไร</h1>
-    <p class="lede">ลาก widget จากซ้ายลงการ์ด (หรือแตะเพื่อเพิ่ม) · ลากย้าย · ลากมุมขวาล่างเพื่อปรับขนาด · ขวามือคือสิ่งที่แอปส่งไปบันทึกจริง</p>
+    <p class="lede">ลาก widget จากซ้ายลงการ์ด (หรือแตะเพื่อเพิ่ม) · ลากย้าย · ลากมุมขวาล่างเพื่อปรับขนาด · แตะชิ้นแล้วปรับกล่อง/ตัวเลือก/ขอบเหมือนถาดในแอป · การ์ดวาดสดด้วยตัววาดเว็บ (กติกาเดียวกับ iOS) · ขวามือคือสิ่งที่แอปส่งไปบันทึกจริง</p>
   </header>
   <div class="pl">
     <aside class="pal" aria-label="widget ทั้งหมด"><input id="pq" type="search" placeholder="ค้นหา widget" aria-label="ค้นหา widget"><div id="pal"></div></aside>
     <div class="boardwrap">
-      <div class="bar"><span>สตอรี่ 540 × 960</span><span id="cnt"></span><button type="button" id="preset">ตัวอย่าง</button><button type="button" id="reset">ล้าง</button></div>
+      <div class="bar"><span>สตอรี่ 540 × 960</span><span id="cnt"></span><span id="pstatus" class="status"></span><button type="button" id="preset">ตัวอย่าง</button><button type="button" id="reset">ล้าง</button></div>
       <div class="ptheme" id="ptheme" aria-label="พื้นหลังของการ์ด"></div>
       <div class="board" id="board"><div class="page9" id="page9"></div></div>
-      <div class="sel" id="sel"><span class="mut">แตะชิ้นบนการ์ดเพื่อดูว่าเก็บอะไร</span></div>
+      <div class="sel" id="sel"><span class="mut">แตะชิ้นบนการ์ดเพื่อดูว่าเก็บอะไร · ปรับได้เหมือนถาดในแอป</span></div>
     </div>
     <aside class="api" aria-label="API">
       <div class="ptabs" role="tablist"><button type="button" class="on" data-p="doc">doc ที่เก็บ</button><button type="button" data-p="save">บันทึก</button><button type="button" data-p="load">เปิดการ์ด</button></div>
@@ -1246,129 +1271,113 @@ PLAY_HTML = '''
 </section>'''
 
 PLAY_JS = r'''
-// ---------- ลองวางการ์ด: การ์ดสตอรี่ 540×960 · doc = สิ่งที่แอปบันทึกจริง ----------
+// ---------- ลองวางการ์ด: การ์ดสตอรี่ 540×960 **วาดจริง** ด้วยตัววาดเว็บ (sync-server/web/js — ผัง JSON · ตัวคิด · ตัวทาสี ชุดเดียวกับ iOS) ----------
+// กติกาของกระดาน = iOS: ขอบเขต `PageLayout.bounds` (ชนขอบหน้าได้) · เล็กสุด 100×40 · ที่วางอัตโนมัติเว้นขอบ 18 ห่าง 10 สแนป 6
+// · ยืดอิสระจากมุม (เพดาน = ขอบหน้า) · ผัง `solvePage` ดันชิ้นที่ทับลง · ตราที่ตรึงนั่งก้นหน้าเสมอ
+// ถาดพื้นหลัง = `buildTray` (ชุดเดียวกับแอป) · ถาดชิ้น = `pieceTray` ของ CardScreen.swift: แบบ · กล่อง · `widget.controls` · ขอบ
 (() => {
-  const PAGE = { w: 540, h: 960 }, M = 18, STEP = 6, MIN = 100;
+  const PAGE = { w: 540, h: 960 }, M = 18, GAP = 10, STEP = 6, MIN = { w: 100, h: 40 };
   const byK = Object.fromEntries(PLAY.map(p => [p.k, p]));
-  const page = document.getElementById('page9'), board = document.getElementById('board');
-  const pal = document.getElementById('pal'), docEl = document.getElementById('doc'), mutEl = document.getElementById('mut');
-  const logEl = document.getElementById('log'), callsEl = document.getElementById('calls'), selEl = document.getElementById('sel'), cntEl = document.getElementById('cnt');
+  const $ = id => document.getElementById(id);
+  const page = $('page9'), board = $('board'), pal = $('pal'), docEl = $('doc'), mutEl = $('mut'), logEl = $('log'), callsEl = $('calls'), selEl = $('sel'), cntEl = $('cnt'), themeHost = $('ptheme'), statusEl = $('pstatus');
   const uid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
   const snap = v => Math.round(v / STEP) * STEP;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  let items = [], sel = null, rev = 1, scale = 1, saveT = null, log = [];
-  // ---- สีของการ์ด = สิ่งที่ doc เก็บจริง (`theme.colors`) · พาเลตต์/คู่สีเป็นปุ่มลัดที่เขียน hex (20 ต.ค. 2569 รอบ 3)
-  const PAL = PRESETS.palettes || {}, DUOS = PRESETS.duos || {}, DEF = PRESETS.defaultPrimary || '#1A1F35';
-  const DUO_IDS = ['indigo', 'ink', 'field', 'cocoa', 'teal', 'plum', 'merlot', 'cordovan', 'cobalt', 'clay', 'acid'].filter(k => DUOS[k]);
-  let ptheme = { backdrop: 'solid', primary: DEF, secondary: null, tone: 'dark' };
-  const up = v => (v || '').toUpperCase();
-  const hsbOf = hex => { const n = parseInt(hex.slice(1), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let h = 0; if (d) { h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h = (h / 6 + 1) % 1; } return { h, s: mx ? d / mx : 0, b: mx }; };
-  const lum = hex => { const n = parseInt(hex.slice(1), 16); const f = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(n >> 16 & 255) + 0.7152 * f(n >> 8 & 255) + 0.0722 * f(n & 255); };
-  const darker = (hex, k) => { const n = parseInt(hex.slice(1), 16); const c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(v => Math.round(v * (1 - k))); return '#' + c.map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase(); };
-  /** = `CardTheme` ส่วนที่แอปเขียนลง doc: คู่สี → `ink` ตามโทน เข้ม/อ่อน (สีไหนขึ้นเป็นพื้น) · สีเดียว → ไม่มีโทน หมึกเลือกเองจากความสว่างของพื้น (= `autoInk`) */
-  const lightInkOf = hex => hsbOf(hex).s >= 0.35 ? 'mist' : 'paper';
-  const autoInkOf = hex => { const l = lum(hex); return (l + 0.05) / 0.07 > 1.05 / (l + 0.05) ? lightInkOf(hex) : 'night'; };
-  function docTheme() {
-    const colors = { primary: ptheme.primary }; if (ptheme.secondary) colors.secondary = ptheme.secondary;
-    const ink = ptheme.secondary ? (ptheme.tone === 'dark' ? 'night' : lightInkOf(ptheme.primary)) : autoInkOf(ptheme.primary);
-    return { colors, ink, backdrop: ptheme.backdrop };
+  const KEY = 'sc-play-v3';
+  let lib = null, items = [], sel = null, rev = 1, scale = 1, saveT = null, log = [], choice = null, live = null, raf = 0, frames = new Map(), profile = null;
+
+  // ---- คุณสมบัติของชนิด (= `WidgetKind` ของ iOS) — อ่านจากบล็อก `widget` ของผังเท่านั้น
+  const meta = k => lib.specs[k]?.widget || {};
+  const design = k => lib.specs[k]?.design || { w: byK[k].dw, h: byK[k].dh };
+  const defaultSize = k => meta(k).size || design(k);
+  const ownSurface = k => !!meta(k).ownSurface;
+  const surfaceOptions = k => meta(k).surfaces || (ownSurface(k) ? [] : ['glass', 'dim', 'clear']);
+  const SURF_NAME = { glass: 'กระจก', dim: 'เข้ม', clear: 'ไม่มีพื้น', pane: 'กระจก' };   // = `WidgetSurface.name`
+  const LOOK_NAME = { purple: 'ม่วงสติกเกอร์', cream: 'ครีมนุ่ม', gingham: 'กรอบตาราง', night: 'กลางคืน', mac: 'หน้าต่าง Mac' };   // = `KitStyle.name`
+  const variantTitle = k => meta(k).kit ? (LOOK_NAME[meta(k).kit.look] || meta(k).kit.look || byK[k].t) : byK[k].t;
+  const surfaceName = (k, s) => meta(k).surfaceNames?.[s] || SURF_NAME[s] || s;
+  const defaultSurface = k => surfaceOptions(k)[0] || 'glass';
+  const defaultBorder = k => meta(k).border ?? !ownSurface(k);
+  const canResize = k => meta(k).resize ?? true;
+  const isPinned = k => !!meta(k).pinned;
+  const famOf = k => meta(k).category || byK[k]?.c;
+  /** ความสูงที่คู่กับความกว้างนี้ตามสัดส่วนที่ออกแบบ (= `WidgetKind.height(forWidth:)`) */
+  const aspectH = (k, w) => { const d = defaultSize(k); return Math.max(1, Math.round(w * d.h / Math.max(d.w, 1))); };
+
+  // ---- ชิ้นในไฟล์ = 8 ฟิลด์หลัก + `options` (ค่าที่เปลี่ยนจากค่าตั้งต้นของ `widget.controls` · ค่าตั้งต้นไม่เก็บ)
+  function mk(kind, x, y, w, h) { const d = defaultSize(kind); return { id: uid(), kind, x, y, w: w ?? d.w, h: h ?? d.h, surface: defaultSurface(kind), border: defaultBorder(kind), options: {} }; }
+  const sealKind = () => (PLAY.find(p => p.pin) || {}).k;
+  const seal = () => { const k = sealKind(); const w = 246, h = aspectH(k, w); return mk(k, PAGE.w - M - w, PAGE.h - M - h, w, h); };
+  /** = `PageLayout.clamp`: จำกัดขนาดก่อน แล้วค่อยรูดตำแหน่งเข้าหน้า (ขอบเขต = ทั้งหน้า ไม่หักขอบกระดาษ) */
+  function clampRect(it) { const w = clamp(it.w, MIN.w, PAGE.w), h = clamp(it.h, MIN.h, PAGE.h); it.w = w; it.h = h; it.x = clamp(it.x, 0, PAGE.w - w); it.y = clamp(it.y, 0, PAGE.h - h); return it; }
+  /** ชิ้นในรูปที่ตัววาดใช้ (= `flatItem` ของเว็บดูการ์ด) — `kit.opts` = options ให้เงื่อนไข `opt:` `hidden:` ของผังอ่าน */
+  function flat(it) {
+    const o = {}; for (const [k, v] of Object.entries(it.options || {})) if (v != null && typeof v !== 'object') o[k] = String(v);
+    const f = { id: it.id, kind: it.kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: it.border, options: o,
+      kit: { fill: o.fill || 'solid', corner: o.corner || 'round', opts: o }, pattern: o.pattern || 'plain', pinned: isPinned(it.kind) };
+    if (live && live.id === it.id) Object.assign(f, live);   // ระหว่างลาก: ที่/ขนาดตามนิ้วจริง (= `resizeLive`) — ข้อมูลจริงยังไม่ถูกแตะ
+    return f;
   }
-  /** พื้นของกระดาน = สิ่งที่ renderer จะทำจาก doc: คู่สี → โทนมืดใช้สีเข้มของคู่ · โทนสว่างใช้สีอ่อน */
-  function paintPage() {
-    const p = ptheme.primary, s = ptheme.secondary;
-    let bg = p, ink = null;
-    if (s) { const dark = lum(p) < lum(s) ? p : s, light = dark === p ? s : p; bg = ptheme.tone === 'light' ? light : dark; ink = bg === dark ? light : dark; }
-    const bottom = ink ? (lum(ink) < lum(bg) ? darker(bg, 0.10) : darker(bg, 0.26)) : darker(bg, 0.20);
-    page.style.background = ptheme.backdrop === 'gradient' ? `linear-gradient(180deg, ${bg}, ${bottom})` : bg;
-    page.style.setProperty('--pink', docTheme().ink !== 'night' ? 'rgba(0,0,0,.18)' : 'rgba(255,255,255,.12)');
-  }
-  function describeTheme() { return `${ptheme.backdrop === 'gradient' ? 'ไล่เฉด' : 'สีเดียว'} · ${ptheme.primary}${ptheme.secondary ? ` + ${ptheme.secondary} · ${ptheme.tone === 'dark' ? 'เข้ม' : 'อ่อน'}` : ''}`; }
-  function buildTheme() {
-    const host = document.getElementById('ptheme'); host.innerHTML = '';
-    const seg = (opts, val, pick) => { const d = document.createElement('div'); d.className = 'seg'; for (const [v, t] of opts) { const b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.className = v === val ? 'on' : ''; b.onclick = () => { pick(v); onTheme(); }; d.appendChild(b); } return d; };
-    const row = (label, ...kids) => { const d = document.createElement('div'); d.className = 'row'; if (label) { const l = document.createElement('span'); l.className = 'lbl'; l.textContent = label; d.appendChild(l); } kids.forEach(k => d.appendChild(k)); host.appendChild(d); return d; };
-    row('', seg([['solid', 'สีเดียว'], ['gradient', 'ไล่เฉด']], ptheme.backdrop, v => { ptheme.backdrop = v; }));
-    const presetHex = new Set(Object.values(PAL).flatMap(p => [p.dark, p.light]));
-    const mine = !ptheme.secondary && !presetHex.has(up(ptheme.primary));
-    const my = document.createElement('div'); my.className = 'group'; my.innerHTML = '<span class="lbl">สีของฉัน</span>';
-    const myDots = document.createElement('div'); myDots.className = 'dots';
-    const pick = document.createElement('button'); pick.type = 'button'; pick.className = 'dot my' + (mine ? ' on' : ''); pick.textContent = '✎'; if (mine) pick.style.background = ptheme.primary;
-    const input = document.createElement('input'); input.type = 'color'; input.value = ptheme.primary;
-    input.oninput = () => { ptheme.primary = up(input.value); ptheme.secondary = null; onTheme(); };
-    pick.appendChild(input); myDots.appendChild(pick);
-    const hexLbl = document.createElement('span'); hexLbl.className = 'hex'; hexLbl.textContent = ptheme.secondary ? `${ptheme.primary} + ${ptheme.secondary}` : ptheme.primary; myDots.appendChild(hexLbl);
-    my.appendChild(myDots);
-    const sep = document.createElement('div'); sep.className = 'vsep';
-    const presets = document.createElement('div'); presets.className = 'group'; presets.innerHTML = '<span class="lbl">สำเร็จรูป</span>';
-    const dots = document.createElement('div'); dots.className = 'dots';
-    for (const id of DUO_IDS) {
-      const d = DUOS[id], cur = [up(ptheme.primary), up(ptheme.secondary)];
-      const on = !!ptheme.secondary && cur.includes(d.dark) && cur.includes(d.light);
-      const flip = ptheme.tone === 'light';   // ซีกซ้าย = สีที่ขึ้นเป็นพื้นตามโทน (แค่แสดงผล — doc เก็บคู่ตามนิยาม)
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'dot duo' + (on ? ' on' : ''); b.title = id;
-      b.style.setProperty('--a', flip ? d.light : d.dark); b.style.setProperty('--b', flip ? d.dark : d.light);
-      b.onclick = () => { ptheme.primary = d.dark; ptheme.secondary = d.light; onTheme(); };
-      dots.appendChild(b);
-    }
-    for (const [name, p] of Object.entries(PAL)) {
-      const on = !ptheme.secondary && (up(ptheme.primary) === p.dark || up(ptheme.primary) === p.light);
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'dot' + (on ? ' on' : ''); b.title = name;
-      b.style.background = `linear-gradient(135deg, ${p.accentSoft}, ${p.accent})`;
-      // แตะครั้งแรก = เฉดเข้ม · แตะซ้ำเม็ดที่เลือกอยู่ = สลับเข้ม/อ่อน (= `CardTheme.setPreset`)
-      b.onclick = () => { ptheme.primary = on && up(ptheme.primary) === p.dark ? p.light : p.dark; ptheme.secondary = null; onTheme(); };
-      dots.appendChild(b);
-    }
-    presets.appendChild(dots);
-    row('สี', my, sep, presets);
-    // โทน — เฉพาะคู่สี (20 ต.ค. 2569): เข้ม/อ่อน = สีไหนของคู่ขึ้นเป็นพื้น · แตะแค่ `ink` ไม่เขียนทับค่าสี
-    if (ptheme.secondary) row('โทน', seg([['dark', 'เข้ม'], ['light', 'อ่อน']], ptheme.tone, v => { ptheme.tone = v; }));
-  }
-  function onTheme() { buildTheme(); paintPage(); change('เปลี่ยนพื้นหลัง → theme (' + describeTheme() + ')'); }
-  const seal = () => { const p = byK.proofSeal; const w = 246, h = Math.round(w * p.dh / p.dw); return mk('proofSeal', PAGE.w - M - w, PAGE.h - M - h, w, h); };
-  function mk(k, x, y, w, h) { const p = byK[k]; return Object.assign({ id: uid(), kind: k, x, y, w: w ?? p.it.w, h: h ?? p.it.h }, JSON.parse(JSON.stringify(p.it)), { w: w ?? p.it.w, h: h ?? p.it.h, x, y }); }
-  function order(it) { const { id, kind, x, y, w, h, ...rest } = it; return { id, kind, x, y, w, h, ...rest }; }
-  function save() { try { localStorage.setItem('sc-play-v2', JSON.stringify({ items, rev, theme: ptheme })); } catch (e) {} }
-  function load() { try { const s = JSON.parse(localStorage.getItem('sc-play-v2')); if (s && s.items) { items = s.items.filter(i => byK[i.kind]); rev = s.rev || 1; if (s.theme && s.theme.primary) ptheme = s.theme; return true; } } catch (e) {} return false; }
+  function order(it) { const { id, kind, x, y, w, h, surface, border, options, ...rest } = it; return { id, kind, x, y, w, h, surface, border, options: options || {}, ...rest }; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ items, rev, choice })); } catch (e) {} }
+  function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items) { items = s.items.filter(i => lib.specs[i.kind]).map(i => ({ ...mk(i.kind, i.x, i.y, i.w, i.h), ...i })); rev = s.rev || 1; if (s.choice && s.choice.primary) choice = s.choice; return items.length > 0; } } catch (e) {} return false; }
+  const firstOf = (k, cat) => byK[k] ? k : (PLAY.find(p => p.c === cat && !p.pin) || {}).k;
   function preset() {
-    items = [mk('heroMinimal', 18, 18, 504, null), mk('statPoster', 18, 0), mk('kitRatePurple', 18, 0), seal()];
-    items[1].y = items[0].y + items[0].h + 10; items[2].y = items[1].y + items[1].h + 10; items[2].w = 246; items[2].h = Math.round(246 * byK.kitRatePurple.dh / byK.kitRatePurple.dw);
-    items[0].h = Math.round(504 * byK.heroMinimal.dh / byK.heroMinimal.dw);
-    items[1].y = items[0].y + items[0].h + 10; items[2].y = items[1].y + items[1].h + 10;
+    const hero = firstOf('heroMinimal', 'hero'), stat = firstOf('statPoster', 'followers'), rate = firstOf('kitRatePurple', 'rate');
+    items = [];
+    if (hero) { const w = PAGE.w - M * 2; items.push(mk(hero, M, M, w, aspectH(hero, w))); }
+    if (stat) { const w = PAGE.w - M * 2; items.push(mk(stat, M, M, w, aspectH(stat, w))); }
+    if (rate) items.push(mk(rate, M, M, 246, aspectH(rate, 246)));
+    let y = M; for (const it of items) { it.y = y; y += it.h + GAP; }
+    items.push(seal());
   }
-  // ---- จานซ้าย
+
+  // ---- จานซ้าย (รูปย่อจาก iOS — แค่ไว้เลือก ชิ้นบนการ์ดวาดสด)
   function paletteHTML(q) {
     const g = {}; PLAY.filter(p => !p.pin && (!q || (p.t + p.k + p.cl).toLowerCase().includes(q))).forEach(p => (g[p.c] ??= []).push(p));
     return Object.values(g).map(ps => `<div class="pg" data-g="${ps[0].g}"><b>${ps[0].cl}</b>` + ps.map(p => `<div class="pw" data-k="${p.k}" title="${p.k}"><img src="${IMG[p.k] || ''}" alt=""><span>${p.t}</span></div>`).join('') + '</div>').join('');
   }
   pal.innerHTML = paletteHTML('');
-  document.getElementById('pq').addEventListener('input', e => { pal.innerHTML = paletteHTML(e.target.value.trim().toLowerCase()); });
-  // ---- วาด
+  $('pq').addEventListener('input', e => { pal.innerHTML = paletteHTML(e.target.value.trim().toLowerCase()); });
+
+  // ---- วาด: ฉากหลังจากธีม → ผังดันชิ้นที่ทับ (`solvePage`) → `mountWidget` ทุกชิ้นที่ขนาดจริง
   function fitScale() { const avail = board.clientWidth - 28; scale = Math.min(1, avail / PAGE.w, (window.innerHeight - 200) / PAGE.h); scale = Math.max(scale, .3);
     page.style.transform = `scale(${scale})`; page.parentElement.style.height = (PAGE.h * scale + 28) + 'px'; page.style.marginRight = (PAGE.w * scale - PAGE.w) + 'px'; page.style.marginBottom = (PAGE.h * scale - PAGE.h) + 'px'; }
-  function imgBox(it) { const p = byK[it.kind], k = Math.min(it.w / p.dw, it.h / p.dh); const W = (p.dw + 24) * k, H = (p.dh + 24) * k;
-    return `left:${(it.w - p.dw * k) / 2 - 12 * k}px;top:${(it.h - p.dh * k) / 2 - 12 * k}px;width:${W}px;height:${H}px`; }
-  function render() {
-    page.innerHTML = items.map((it, i) => `<div class="it${it.id === sel ? ' sel' : ''}${it.pinned || it.options?.pinned ? ' pin' : ''}" data-id="${it.id}" style="left:${it.x}px;top:${it.y}px;width:${it.w}px;height:${it.h}px;z-index:${i + 1}">
-      <div class="im"><img src="${IMG[it.kind] || ''}" style="${imgBox(it)}" alt="${it.kind}"></div><span class="rs" data-rs="1"></span></div>`).join('');
-    cntEl.textContent = items.length + ' ชิ้น';
-    renderSel(); renderDoc(); renderCalls();
+  function envOf(theme) {
+    return { doc: { photos: {}, owner: OWNER, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: `${SERVER}/card/`, imageURL: id => `${SERVER}/api/images/${id}` };
   }
-  function docObj() { return { schemaVersion: 1, format: 'story', name: 'การ์ดของฉัน', theme: docTheme(), pages: [{ items: items.map(order) }] }; }
+  function paint() {
+    if (!lib) return;
+    const theme = lib.themeOf(choice);
+    page.innerHTML = '';
+    lib.paintBackdrop(page, theme, PAGE.w, PAGE.h, { pageW: PAGE.w });
+    const placed = lib.solvePage(items.map(flat), { width: PAGE.w, height: PAGE.h });
+    const env = envOf(theme);
+    frames = new Map();
+    for (const p of placed) {
+      const it = p.item, f = p.frame; frames.set(it.id, f);
+      const host = document.createElement('div');
+      host.className = 'it' + (it.id === sel ? ' sel' : '') + (it.pinned ? ' pin' : '') + (live && live.id === it.id ? ' live' : '');
+      host.dataset.id = it.id; host.style.cssText = `left:${f.x}px;top:${f.y}px;width:${f.width}px;height:${f.height}px`;
+      try { lib.mountWidget(host, it, { x: 0, y: 0, width: f.width, height: f.height }, env); } catch (e) { host.innerHTML = `<pre class="err">${e.message}</pre>`; }
+      if (it.id === sel && canResize(it.kind) && !it.pinned) host.insertAdjacentHTML('beforeend', '<span class="rs" data-rs="1" title="ลากเพื่อปรับขนาด"></span>');
+      page.appendChild(host);
+    }
+    cntEl.textContent = items.length + ' ชิ้น';
+  }
+  function render() { paint(); renderSel(); renderDoc(); renderCalls(); }
+  /** หลังปล่อยนิ้ว: เขียนกรอบที่ผังดันแล้วลงชิ้น — doc ขวามือจึงตรงกับที่เห็นบนการ์ด */
+  function settle() { for (const it of items) { const f = frames.get(it.id); if (f) { it.x = Math.round(f.x); it.y = Math.round(f.y); it.w = Math.round(f.width); it.h = Math.round(f.height); } } }
+
+  // ---- doc · บันทึก · เปิดการ์ด (ขวามือ)
+  function docObj() { return { schemaVersion: 1, format: 'story', name: 'การ์ดของฉัน', theme: lib.docTheme(choice), pages: [{ items: items.map(order) }] }; }
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function hl(s) { return esc(s).replace(/("[^"]*")(\s*:)/g, '<span class="jk">$1</span>$2').replace(/(:\s*)("[^"]*")/g, '$1<span class="js">$2</span>').replace(/(:\s*)(-?\d+(?:\.\d+)?|true|false|null)/g, '$1<span class="jn">$2</span>'); }
   function renderDoc() {
+    if (!lib) return;
     const d = docObj(); const parts = JSON.stringify({ ...d, pages: [{ items: '§' }] }, null, 2).split('"§"');
     const its = d.pages[0].items.map(it => { const t = JSON.stringify(it, null, 2).replace(/\n/g, '\n        '); return it.id === sel ? `<span class="isel">        ${hl(t)}</span>` : '        ' + hl(t); });
     docEl.innerHTML = hl(parts[0]) + '[\n' + its.join(',\n') + '\n      ]' + hl(parts[1]);
-  }
-  function renderSel() {
-    const it = items.find(i => i.id === sel);
-    if (!it) { selEl.innerHTML = '<span class="mut">แตะชิ้นบนการ์ดเพื่อดูว่าเก็บอะไร</span>'; return; }
-    const p = byK[it.kind], pinned = it.options?.pinned;
-    selEl.innerHTML = `<b>${p.t}</b><code>${it.kind}</code><span class="mut">หมวด${p.cl} · x ${it.x} · y ${it.y} · ${it.w}×${it.h}</span>
-      <a href="#w/${it.kind}">ดู widget →</a><button type="button" id="up">ขึ้นบน</button><button type="button" id="del" ${pinned ? 'disabled title="ตราที่ตรึงลบไม่ได้"' : ''}>ลบ</button>`;
-    selEl.querySelector('#del').onclick = () => remove(it.id);
-    selEl.querySelector('#up').onclick = () => { items = items.filter(i => i !== it).concat(it); change(`ยก ${it.kind} ขึ้นบนสุด`); };
   }
   function renderCalls() {
     const by = {}; items.forEach(it => (by[byK[it.kind].c] ??= []).push(it));
@@ -1378,6 +1387,7 @@ PLAY_JS = r'''
       `<p class="hint">รวม <b>${cats.length + 1}</b> request สำหรับ ${items.length} ชิ้น · query ของแต่ละหมวดดูได้ในหน้า widget ช่อง ②</p>`;
   }
   function renderMut() {
+    if (!lib) return;
     const doc = JSON.stringify(docObj());
     mutEl.innerHTML = `<span class="c"># ส่งทั้ง doc เป็นข้อความ JSON · server ตรวจแล้วเก็บ rev ใหม่</span>
 mutation SaveStarCardDraft($id: Int!, $doc: String!, $baseRev: Int!) {
@@ -1396,25 +1406,151 @@ mutation SaveStarCardDraft($id: Int!, $doc: String!, $baseRev: Int!) {
     clearTimeout(saveT);
     saveT = setTimeout(() => { rev += 1; log.push({ rev, t: what }); renderMut(); save(); docEl.classList.remove('flash'); void docEl.offsetWidth; docEl.classList.add('flash'); }, 450);
   }
-  function remove(id) { const it = items.find(i => i.id === id); if (!it || it.options?.pinned) return; items = items.filter(i => i.id !== id); sel = null; change(`ลบ ${it.kind}`); }
-  function free(w, h) {          // หาที่ว่างจากบนลงล่าง (สแนป 6) — ไม่เจอ = วางบนสุด
+  function remove(id) { const it = items.find(i => i.id === id); if (!it || isPinned(it.kind)) return; items = items.filter(i => i.id !== id); sel = null; change(`ลบ ${it.kind}`); }
+  /** = `PageLayout.freeSpot`: หาที่ว่างในกระดาษ (เว้นขอบ 18) จากบนลงล่าง ห่างชิ้นอื่น 10 สแนป 6 — ไม่เจอ = มุมบนซ้าย */
+  function free(w, h) {
+    const taken = [...frames.values()].map(f => ({ x: f.x - GAP / 2, y: f.y - GAP / 2, w: f.width + GAP, h: f.height + GAP }));
     for (let y = M; y + h <= PAGE.h - M; y += STEP) for (let x = M; x + w <= PAGE.w - M; x += STEP) {
-      if (!items.some(o => x < o.x + o.w && x + w > o.x && y < o.y + o.h && y + h > o.y)) return { x, y };
+      if (!taken.some(o => x < o.x + o.w && x + w > o.x && y < o.y + o.h && y + h > o.y)) return { x, y };
     } return { x: M, y: M };
   }
   function add(k, at) {
-    const p = byK[k]; let w = p.it.w, h = p.it.h;
-    if (w > PAGE.w - M * 2) { h = Math.round(h * (PAGE.w - M * 2) / w); w = PAGE.w - M * 2; }
-    const pos = at ? { x: snap(clamp(at.x - w / 2, M, PAGE.w - M - w)), y: snap(clamp(at.y - h / 2, M, PAGE.h - M - h)) } : free(w, h);
-    const it = mk(k, pos.x, pos.y, w, h); const pinIdx = items.findIndex(i => i.options?.pinned);
+    const d = defaultSize(k); let w = d.w, h = d.h;
+    if (w > PAGE.w - M * 2) { h = aspectH(k, PAGE.w - M * 2); w = PAGE.w - M * 2; }
+    const pos = at ? { x: snap(clamp(at.x - w / 2, 0, PAGE.w - w)), y: snap(clamp(at.y - h / 2, 0, PAGE.h - h)) } : free(w, h);
+    const it = mk(k, pos.x, pos.y, w, h); const pinIdx = items.findIndex(i => isPinned(i.kind));
     pinIdx >= 0 ? items.splice(pinIdx, 0, it) : items.push(it);
-    sel = it.id; change(`วาง ${k} → pages[0].items[${items.indexOf(it)}]`);
+    sel = it.id; paint(); settle(); change(`วาง ${k} → pages[0].items[${items.indexOf(it)}]`);
   }
+
+  // ---- ถาดชิ้น (= `pieceTray` ใน CardScreen.swift): แบบอื่นในหมวด · กล่อง · ตัวเลือกจาก `widget.controls` · ขอบ
+  const listOf = s => (s || '').split(',').filter(Boolean);
+  const flagOf = (o, k, d) => o[k] == null ? d : o[k] === '1';
+  const intOf = (o, k, d) => o[k] == null ? d : (parseInt(o[k], 10) || d);
+  function controlItems(src) {
+    if (Array.isArray(src)) return src.filter(p => p.length >= 2).map(p => [p[0], p[1]]);
+    const short = t => lib.SOCIAL[t]?.short || t;
+    const rates = lib.MOCK.rates.filter(r => r.price > 0);
+    switch (src) {
+      case 'socials': case 'shownSocials': return lib.MOCK.socials.map(s => [s.type, short(s.type)]);
+      case 'rates': return rates.map(r => [r.id, r.label]);
+      case 'ratePlatforms': return [...new Set(rates.map(r => r.platform))].map(t => [t, short(t)]);
+      case 'categories': return profile.items('categories').map(c => [c, c]);
+      default: return [];
+    }
+  }
+  /** เงื่อนไขของแถว (= `controlCondition`): `opt:k=v` · `opt:k` · `hidden:key` · `surface=glass` · `bordered` · นำหน้า `!` = กลับค่า */
+  function cond(c, it) {
+    let t = (c || '').trim(); if (!t) return true;
+    const neg = t.startsWith('!'); if (neg) t = t.slice(1);
+    const o = it.options || {}; let v = false;
+    if (t.startsWith('opt:')) { const b = t.slice(4), eq = b.indexOf('='); v = eq >= 0 ? o[b.slice(0, eq)] === b.slice(eq + 1) : o[b] != null; }
+    else if (t.startsWith('hidden:')) v = listOf(o.hide).includes(t.slice(7));
+    else if (t.startsWith('surface=')) v = it.surface === t.slice(8);
+    else if (t === 'bordered') v = !!it.border;
+    return neg ? !v : v;
+  }
+  /** แก้ตัวเลือกของชิ้น แล้ว (ถ้า refit) รูดกรอบกลับเข้าหน้า (= `editOptions`) */
+  function edit(it, what, refit, fn) { fn(it); if (refit) clampRect(it); change(what); }
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  function row(label, ...kids) { const d = h('div', 'row'); if (label) d.appendChild(h('span', 'lbl', esc(label))); kids.forEach(k => d.appendChild(k)); return d; }
+  function seg(opts, value, pick) {
+    const s = h('div', 'seg');
+    for (const [v, title] of opts) { const b = h('button', (v ?? null) === (value ?? null) ? 'on' : '', esc(title)); b.type = 'button'; b.onclick = () => pick(v); s.appendChild(b); }
+    return s;
+  }
+  function controlRow(it, ctl) {
+    const o = it.options, refit = ctl.refit ?? true, label = ctl.label || '';
+    if (!cond(ctl.if, it)) return null;
+    switch (ctl.type) {
+      case 'pick': {
+        const list = controlItems(ctl.items); if (!ctl.opt || list.length < (ctl.minItems ?? 0)) return null;
+        const cur = o[ctl.opt] ?? list[0]?.[0] ?? '';
+        return row(label, seg(list, cur, v => edit(it, `ตัวเลือก ${it.kind}.${ctl.opt} = ${v}`, refit, w => { w.options[ctl.opt] = v; })));
+      }
+      case 'segment': {
+        if (!ctl.opt) return null;
+        const opts = (ctl.options || []).map(p => [p[0] ?? null, p[1] ?? '']);
+        return row(label, seg(opts, o[ctl.opt] ?? null, v => edit(it, `ตัวเลือก ${it.kind}.${ctl.opt} = ${v ?? 'ค่าตั้งต้น'}`, refit, w => {
+          if (v == null) delete w.options[ctl.opt]; else w.options[ctl.opt] = v;
+          for (const k of ctl.clears || []) delete w.options[k];
+        })));
+      }
+      case 'stepper': {
+        if (!ctl.opt) return null;
+        const values = ctl.values || [], cur = intOf(o, ctl.opt, Number(ctl.default) || 0), i = Math.max(0, values.indexOf(cur));
+        const s = h('div', 'stp'); const go = v => edit(it, `ตัวเลือก ${it.kind}.${ctl.opt} = ${v}`, refit, w => { w.options[ctl.opt] = String(v); });
+        const minus = h('button', i > 0 ? '' : 'off', '−'); minus.type = 'button'; minus.onclick = () => { if (i > 0) go(values[i - 1]); };
+        const plus = h('button', i < values.length - 1 ? '' : 'off', '+'); plus.type = 'button'; plus.onclick = () => { if (i < values.length - 1) go(values[i + 1]); };
+        s.append(minus, h('b', '', String(cur)), plus);
+        return row(label, s);
+      }
+      case 'switch': {
+        if (!ctl.opt) return null;
+        const d = ctl.default === true || ctl.default === 'true', on = flagOf(o, ctl.opt, d);
+        const sw = h('button', 'sw' + (on ? ' on' : ''), '<i></i>'); sw.type = 'button'; sw.setAttribute('role', 'switch'); sw.setAttribute('aria-checked', on);
+        sw.onclick = () => edit(it, `ตัวเลือก ${it.kind}.${ctl.opt} = ${!on}`, refit, w => { const v = !on; if (v === d) delete w.options[ctl.opt]; else w.options[ctl.opt] = v ? '1' : '0'; });
+        const r = row(label, sw); r.classList.add('swrow'); return r;
+      }
+      case 'checks': {
+        const list = controlItems(ctl.items); if (list.length < (ctl.minItems ?? 0)) return null;
+        const opt = ctl.opt || 'hide', flags = ctl.flags || null;
+        const hidden = new Set(flags ? list.map(p => p[0]).filter(k => flags[k] && flagOf(o, flags[k], false)) : listOf(o[opt]));
+        const shown = list.filter(p => !hidden.has(p[0])).length;
+        const wrap = h('div', 'chk');
+        for (const [key, title] of list) {
+          const on = !hidden.has(key), locked = on && shown <= 1;   // เหลือได้น้อยสุดหนึ่งช่องเสมอ
+          const b = h('button', (on ? 'on' : '') + (locked ? ' locked' : ''), `<i>${on ? '☑' : '☐'}</i>${esc(title)}`); b.type = 'button';
+          b.onclick = () => { if (locked) return; edit(it, `${on ? 'ซ่อน' : 'แสดง'} ${key} ใน ${it.kind}`, true, w => {
+            if (flags && flags[key]) { const f = flags[key]; w.options[f] === '1' ? delete w.options[f] : (w.options[f] = '1'); }
+            else { const s = new Set(listOf(w.options[opt])); s.has(key) ? s.delete(key) : s.add(key); if (s.size) w.options[opt] = [...s].sort().join(','); else delete w.options[opt]; }
+          }); };
+          wrap.appendChild(b);
+        }
+        return row(label, wrap);
+      }
+      default: return null;
+    }
+  }
+  function swap(it, kind) {
+    if (kind === it.kind || isPinned(it.kind)) return;
+    // แบบใหม่มีสัดส่วนของตัวเอง — คงความกว้าง ความสูงมาจากผังของแบบใหม่ · กลับไปใช้พื้น/ขอบตั้งต้นของมัน (= `swap` ใน CardScreen)
+    edit(it, `สลับ ${it.kind} → ${kind}`, true, w => { w.kind = kind; w.h = aspectH(kind, w.w); w.surface = defaultSurface(kind); w.border = defaultBorder(kind); });
+  }
+  function renderSel() {
+    const it = items.find(i => i.id === sel);
+    selEl.classList.toggle('bt', !!it && !!lib);
+    if (!it || !lib) { selEl.innerHTML = '<span class="mut">แตะชิ้นบนการ์ดเพื่อดูว่าเก็บอะไร · ปรับได้เหมือนถาดในแอป</span>'; return; }
+    const p = byK[it.kind], pinned = isPinned(it.kind), f = frames.get(it.id) || it;
+    selEl.innerHTML = '';
+    const head = h('div', 'ph', `<b>${esc(p.t)}</b><code>${it.kind}</code><span class="mut">หมวด${esc(p.cl)} · x ${Math.round(f.x)} · y ${Math.round(f.y)} · ${Math.round(f.width ?? f.w)}×${Math.round(f.height ?? f.h)}</span>
+      <a href="#w/${it.kind}">ดู widget →</a><button type="button" class="act" id="up">ขึ้นบน</button><button type="button" class="act" id="del" ${pinned ? 'disabled title="ตราที่ตรึงลบไม่ได้"' : ''}>ลบ</button>`);
+    head.querySelector('#del').onclick = () => remove(it.id);
+    head.querySelector('#up').onclick = () => { items = items.filter(i => i !== it).concat(it); const pi = items.findIndex(i => isPinned(i.kind)); if (pi >= 0 && pi < items.length - 1) { const pin = items.splice(pi, 1)[0]; items.push(pin); } change(`ยก ${it.kind} ขึ้นบนสุด`); };
+    selEl.appendChild(head);
+    // แบบอื่นในหมวดเดียวกัน (= `variantsRow`) — ตราที่ตรึงไม่มีแบบอื่นให้สลับ
+    if (!pinned) {
+      const sib = PLAY.filter(q => !q.pin && famOf(q.k) === famOf(it.kind));
+      if (sib.length > 1) {
+        const v = h('div', 'vars');
+        for (const q of sib) { const b = h('button', q.k === it.kind ? 'on' : '', `<img src="${IMG[q.k] || ''}" alt=""><span>${esc(variantTitle(q.k))}</span>`); b.type = 'button'; b.title = q.k; b.onclick = () => swap(it, q.k); v.appendChild(b); }
+        selEl.appendChild(row('แบบ', v));
+      }
+    }
+    // กล่อง (`widget.surfaces`) — ใบที่วาดพื้นเองไม่มีแถวนี้
+    const surfs = surfaceOptions(it.kind);
+    if (surfs.length > 1) selEl.appendChild(row('กล่อง', seg(surfs.map(s => [s, surfaceName(it.kind, s)]), it.surface, v => edit(it, `กล่อง ${it.kind} = ${v}`, false, w => { w.surface = v; }))));
+    for (const ctl of meta(it.kind).controls || []) { const r = controlRow(it, ctl); if (r) selEl.appendChild(r); }
+    selEl.appendChild(row('ขอบ', seg([[true, 'มีขอบ'], [false, 'ไม่มีขอบ']], !!it.border, v => edit(it, `ขอบ ${it.kind} = ${v}`, false, w => { w.border = v; }))));
+    const hint = pinned ? 'Sale Here วางให้ทุกการ์ด · ย้ายหรือลบไม่ได้' : canResize(it.kind) ? 'ลากเพื่อย้าย · หมุดมุมยืดกว้าง/สูง' : 'ลากเพื่อย้าย · ขนาดล็อก หลักฐานต้องเทียบกันได้';
+    selEl.appendChild(h('div', 'hintrow', `<span class="mut">${hint}</span>`));
+  }
+
   // ---- ลากจากจาน (pointer — ใช้ได้ทั้งเมาส์และนิ้ว)
   let drag = null;
   const toPage = (cx, cy) => { const r = page.getBoundingClientRect(); return { x: (cx - r.left) / scale, y: (cy - r.top) / scale, inside: cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom }; };
   pal.addEventListener('pointerdown', e => {
-    const pw = e.target.closest('.pw'); if (!pw) return;
+    const pw = e.target.closest('.pw'); if (!pw || !lib) return;
     drag = { k: pw.dataset.k, sx: e.clientX, sy: e.clientY, moved: false, ghost: null }; try { pw.setPointerCapture(e.pointerId); } catch (_) {}
   });
   pal.addEventListener('pointermove', e => {
@@ -1427,36 +1563,78 @@ mutation SaveStarCardDraft($id: Int!, $doc: String!, $baseRev: Int!) {
     if (!d.moved) { add(d.k); return; }
     const pt = toPage(e.clientX, e.clientY); if (pt.inside) add(d.k, pt);
   });
-  // ---- ย้าย / ปรับขนาดบนการ์ด
+  // ---- ย้าย / ปรับขนาดบนการ์ด — ระหว่างลากวาดที่ขนาดนิ้วจริงและผังดันชิ้นอื่นลงเป็นลูกโซ่ (= `resizeLive` + `resizePush`)
   let act = null;
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; paint(); renderSel(); }); };
   page.addEventListener('pointerdown', e => {
+    if (!lib) return;
     const el = e.target.closest('.it'); if (!el) { sel = null; render(); return; }
-    const it = items.find(i => i.id === el.dataset.id); sel = it.id;
-    act = { it, rs: !!e.target.dataset.rs, sx: e.clientX, sy: e.clientY, x: it.x, y: it.y, w: it.w, h: it.h, moved: false };
+    const it = items.find(i => i.id === el.dataset.id); if (!it) return; sel = it.id;
+    const f = frames.get(it.id) || it;
+    act = { it, rs: !!e.target.dataset.rs, sx: e.clientX, sy: e.clientY, x: f.x, y: f.y, w: f.width ?? f.w, h: f.height ?? f.h, moved: false };
     try { page.setPointerCapture(e.pointerId); } catch (_) {} render();
   });
   page.addEventListener('pointermove', e => {
-    if (!act) return; const dx = (e.clientX - act.sx) / scale, dy = (e.clientY - act.sy) / scale; const it = act.it, p = byK[it.kind];
-    if (Math.abs(dx) + Math.abs(dy) > 2) act.moved = true;
-    if (it.options?.pinned) return;
-    if (act.rs) { let w = snap(clamp(act.w + dx, MIN, PAGE.w - it.x - M)); let h = p.ka ? Math.round(w * p.dh / p.dw) : snap(clamp(act.h + dy, MIN * .6, PAGE.h - it.y - M)); it.w = w; it.h = h; }
-    else { it.x = snap(clamp(act.x + dx, M, PAGE.w - M - it.w)); it.y = snap(clamp(act.y + dy, M, PAGE.h - M - it.h)); }
-    const el = page.querySelector(`.it[data-id="${it.id}"]`); el.style.cssText = `left:${it.x}px;top:${it.y}px;width:${it.w}px;height:${it.h}px;z-index:${items.indexOf(it) + 1}`; el.querySelector('img').style.cssText = imgBox(it);
+    if (!act) return; const dx = (e.clientX - act.sx) / scale, dy = (e.clientY - act.sy) / scale; const it = act.it;
+    if (Math.abs(dx) + Math.abs(dy) > 2) act.moved = true; if (!act.moved) return;
+    if (isPinned(it.kind) || (act.rs && !canResize(it.kind))) return;
+    if (act.rs) {
+      // เพดานคือขอบหน้า (ยืดจนเต็มได้) · พื้นคือขนาดเล็กสุด (= `sizeHandle`: roomWidth/roomHeight จากมุมบนซ้ายของกรอบปัจจุบัน)
+      const roomW = Math.max(MIN.w, PAGE.w - act.x), roomH = Math.max(MIN.h, PAGE.h - act.y);
+      live = { id: it.id, w: clamp(act.w + dx, MIN.w, roomW), h: clamp(act.h + dy, MIN.h, roomH) };
+    } else {
+      live = { id: it.id, x: clamp(act.x + dx, 0, PAGE.w - act.w), y: clamp(act.y + dy, 0, PAGE.h - act.h) };
+    }
+    schedule();
   });
-  page.addEventListener('pointerup', () => { if (!act) return; const a = act; act = null; if (a.moved && !a.it.options?.pinned) change(a.rs ? `ปรับขนาด ${a.it.kind} → ${a.it.w}×${a.it.h}` : `ย้าย ${a.it.kind} → x ${a.it.x} · y ${a.it.y}`); });
+  const endAct = () => {
+    if (!act) return; const a = act; act = null; if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    if (!a.moved || isPinned(a.it.kind)) { live = null; render(); return; }
+    const it = a.it;
+    if (live && live.w != null) { it.w = Math.round(live.w); it.h = Math.round(live.h); }           // ปัดเป็นจุดเต็ม ไม่สแนปขั้น (= `endResize`)
+    else if (live) { it.x = snap(live.x); it.y = snap(live.y); clampRect(it); }                         // ย้าย: สแนป 6 แล้วรูดเข้าหน้า
+    live = null; paint(); settle();
+    change(a.rs ? `ปรับขนาด ${it.kind} → ${it.w}×${it.h}` : `ย้าย ${it.kind} → x ${it.x} · y ${it.y}`);
+  };
+  page.addEventListener('pointerup', endAct); page.addEventListener('pointercancel', endAct);
   document.addEventListener('keydown', e => { if (!document.body.classList.contains('play') || !sel || e.target.closest('input')) return; if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); remove(sel); } });
   // ---- แท็บขวา
   document.querySelector('.ptabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
     document.querySelectorAll('.ptabs button').forEach(x => x.classList.toggle('on', x === b)); document.querySelectorAll('.api .pp').forEach(x => x.hidden = x.dataset.p !== b.dataset.p); });
-  document.getElementById('reset').onclick = () => { items = [seal()]; sel = null; change('ล้างการ์ด (เหลือตราที่ตรึง)'); };
-  document.getElementById('preset').onclick = () => { preset(); sel = null; change('ใส่การ์ดตัวอย่าง'); };
-  if (!load()) preset();
-  buildTheme(); paintPage();
-  if (!items.some(i => i.options?.pinned)) items.push(seal());
-  log.push({ rev, t: 'เปิดการ์ด' });
+  $('reset').onclick = () => { if (!lib) return; items = [seal()]; sel = null; change('ล้างการ์ด (เหลือตราที่ตรึง)'); };
+  $('preset').onclick = () => { if (!lib) return; preset(); sel = null; paint(); settle(); change('ใส่การ์ดตัวอย่าง'); };
+  // ---- ถาดพื้นหลัง = ถาดของแอป (`buildTray`) — ค่าที่เลือกคือ `theme` ใน doc
+  function rebuildTray() { lib.buildTray(themeHost, choice, () => { save(); rebuildTray(); change('เปลี่ยนพื้นหลัง → theme (' + lib.describe(choice) + ')'); }); }
+
+  // ---- ข้อมูลเจ้าของ (ตัวอย่าง) — ชิ้นบนการ์ดอ่านจาก Profile เหมือนแอป · doc ไม่เก็บข้อความพวกนี้
+  const OWNER = { values: { name: 'นิรา ภัทรวดี', nickname: 'นิรา', about: 'รีวิวสกินแคร์และเมคอัพแบบตรงไปตรงมา เน้นผิวแพ้ง่าย ถ่ายเองตัดเองทุกคลิป', quote: 'ทำงานไว ส่งตรงเวลา แก้ได้ 2 รอบ',
+      handle: 'nira.beauty', contactName: 'นิรา ภัทรวดี', role: 'ติดต่อโดยตรง', phone: '081-234-5678', email: 'nira@email.com', lineId: '@nirabeauty', website: 'nirabeauty.co', workArea: 'กรุงเทพมหานคร' },
+    list: { categories: ['บิวตี้', 'สกินแคร์', 'ไลฟ์สไตล์'] },
+    // ฟอร์ม Star Profile (= `owner.intake`): ช่องทาง · เรต · วันเวลา/พื้นที่ — ใบที่อ่านของพวกนี้จึงมีค่าจริงไม่ใช่ตัวอย่างจาง
+    intake: { kind: 'creator', interests: ['บิวตี้', 'สกินแคร์', 'ไลฟ์สไตล์'],
+      socials: [{ type: 'instagram', link: 'https://instagram.com/nira.beauty', followers: 184000, enabled: true, source: 'connected' },
+                { type: 'tiktok', link: 'https://tiktok.com/@nirabeauty', followers: 320500, enabled: true, source: 'connected' },
+                { type: 'youtube', link: 'https://youtube.com/@niraskin', followers: 41200, enabled: true, source: 'connected' }],
+      rates: [{ platform: 'tiktok', formatKey: 'short', price: 35000 }, { platform: 'instagram', formatKey: 'reels', price: 25000 }, { platform: 'instagram', formatKey: 'story', price: 12000 }, { platform: 'youtube', formatKey: 'integrated', price: 18000 }],
+      availability: { days: [1, 2, 3, 4, 5], slots: [3], provinces: ['กรุงเทพมหานคร', 'นนทบุรี'] } } };
+  const SERVER = 'http://localhost:8787';
+
+  async function boot() {
+    statusEl.textContent = 'กำลังโหลดตัววาดจาก sync-server…';
+    try { lib = await loadLib(); }
+    catch (e) { statusEl.innerHTML = '<b>โหลดตัววาดไม่ได้</b> — เปิด sync-server ก่อน (preview "sync-server" · <code>node sync-server/server.mjs</code> · พอร์ต 8787) แล้วรีเฟรช · ' + esc(e.message); return; }
+    profile = new lib.Profile(OWNER, {});
+    statusEl.textContent = '';
+    if (!load()) { choice = choice || lib.defaultChoice(); preset(); } else { choice = choice || lib.defaultChoice(); }
+    if (!items.some(i => isPinned(i.kind)) && sealKind()) items.push(seal());
+    log.push({ rev, t: 'เปิดการ์ด' });
+    rebuildTray(); fitScale(); paint(); settle(); render(); renderMut();
+  }
   window.addEventListener('resize', fitScale);
-  window.addEventListener('play-open', () => { fitScale(); render(); renderMut(); });
-  if (location.hash === '#play') { fitScale(); render(); renderMut(); }
+  let booted = false;
+  const open = () => { if (!booted) { booted = true; boot(); } else { fitScale(); render(); renderMut(); } };
+  window.addEventListener('play-open', open);
+  if (location.hash === '#play') open();
 })();
 '''
 
@@ -1820,11 +1998,12 @@ const RD = {json.dumps(rdat, ensure_ascii=False)};
 const CATQ = {json.dumps({c: 'StarCard' + c[0].upper() + c[1:] + 'Model' for c in cats})};
 const PRESETS = {json.dumps(load_presets())};
 {JS}
-{PLAY_JS}
 {RENDER_JS}
 </script>
 <script type="module">
+{LIB_JS}
 {LIVE_JS}
+{PLAY_JS}
 </script>
 '''
     open(OUT, 'w', encoding='utf-8').write(page)

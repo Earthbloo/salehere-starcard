@@ -16,8 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.input.pointer.pointerInput
+import co.salehere.starcard.model.Profile
 import co.salehere.starcard.model.WidgetKind
 import co.salehere.starcard.model.WidgetSurface
+import co.salehere.starcard.ui.LocalSampleData
 import co.salehere.starcard.theme.CardTheme
 import co.salehere.starcard.theme.opacity
 import co.salehere.starcard.ui.widgets.WidgetBody
@@ -48,7 +52,9 @@ fun WidgetThumb(
         modifier
             .size(width.dp, (width * ratio).dp)
             .clip(shape)
-            .background(Color.White.opacity(0.05)),
+            .background(Color.White.opacity(0.05))
+            // = `.allowsHitTesting(false)` — เนื้อในเป็นแค่รูป ปุ่มในวิดเจ็ตห้ามรับแตะ
+            .pointerInput(Unit) { awaitPointerEventScope { while (true) awaitPointerEvent().changes.forEach { it.consume() } } },
         contentAlignment = Alignment.TopStart,
     ) {
         Box(
@@ -62,7 +68,10 @@ fun WidgetThumb(
                 }
                 .padding(pad.dp),
         ) {
-            WidgetBody(kind, theme, Size(vw, vh))
+            // ตระกูลที่ยังไม่มีข้อมูล = รูปย่อวาดด้วยชุดตัวอย่าง ไม่ใช่ป้ายรอข้อมูลที่หน้าตาเหมือนกันทุกแบบ
+            CompositionLocalProvider(LocalSampleData provides Profile.me.lacks(kind.family)) {
+                WidgetBody(kind, theme, Size(vw, vh))
+            }
         }
     }
 }

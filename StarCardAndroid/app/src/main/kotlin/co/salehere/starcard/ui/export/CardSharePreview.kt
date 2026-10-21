@@ -2,7 +2,6 @@ package co.salehere.starcard.ui.export
 
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -57,7 +56,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import co.salehere.starcard.components.Motion
 import co.salehere.starcard.model.AppRuntime
 import co.salehere.starcard.model.CardFormat
 import co.salehere.starcard.model.CardPage
@@ -192,19 +190,19 @@ fun CardSharePreview(
                     // แชร์รูป
                     if (img != null && file != null) {
                         ActionLabel(
-                            "แชร์รูป", Ph.shareNetwork, prominent = true,
+                            "แชร์รูป", Ph.share, prominent = true,
                             modifier = Modifier.weight(1f).tap {
                                 CardExport.share(context, file, "Sale Here STAR · @${invocation.slug}")
                             },
                         )
                     } else {
-                        ActionLabel("แชร์รูป", Ph.shareNetwork, prominent = true, modifier = Modifier.weight(1f).alpha(0.38f))
+                        ActionLabel("แชร์รูป", Ph.share, prominent = true, modifier = Modifier.weight(1f).alpha(0.38f))
                     }
                     // ลิงก์คัดลอกได้จากแถวบนอยู่แล้ว ช่องนี้จึงยกให้ "บันทึกรูป" · คลิปเซฟไม่ได้ → คัดลอกลิงก์แทน
                     if (AppRuntime.isClip) {
                         ActionLabel(
                             if (copied) "คัดลอกแล้ว" else "คัดลอกลิงก์",
-                            if (copied) Ph.check else Ph.clipboardText,
+                            if (copied) Ph.check else Ph.copy,
                             prominent = false,
                             modifier = Modifier.weight(1f)
                                 .semantics { contentDescription = "คัดลอกลิงก์" }
@@ -213,9 +211,8 @@ fun CardSharePreview(
                     } else {
                         ActionLabel(
                             if (saved) "บันทึกแล้ว" else "บันทึกรูป",
-                            if (saved) Ph.check else Ph.arrowRight,
+                            if (saved) Ph.check else Ph.downloadSimple,
                             prominent = false,
-                            iconTurn = if (saved) 0f else 90f,
                             modifier = Modifier.weight(1f)
                                 .alpha(if (image == null) 0.38f else 1f)
                                 .semantics { contentDescription = "บันทึกรูปลงคลังรูป" }
@@ -266,7 +263,9 @@ private fun TopBar(format: CardFormat, onClose: () -> Unit) {
 private fun PreviewStage(image: Bitmap?, failed: Boolean, format: CardFormat, modifier: Modifier) {
     BoxWithConstraints(modifier, contentAlignment = Alignment.Center) {
         val box = Size(maxWidth.value, maxHeight.value)
-        Crossfade(targetState = image, animationSpec = Motion.settle.spec(), label = "sharePreview") { img ->
+        // รูปโผล่ทันทีเมื่อพร้อม — iOS ไม่มี transition (ไม่ Crossfade)
+        run {
+            val img = image
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 when {
                     img != null -> {
@@ -336,7 +335,6 @@ private fun ActionLabel(
     icon: Ph,
     prominent: Boolean,
     modifier: Modifier = Modifier,
-    iconTurn: Float = 0f,
 ) {
     val fg = if (prominent) Color.Black.opacity(0.86) else Color.White.opacity(0.9)
     Row(
@@ -346,7 +344,7 @@ private fun ActionLabel(
         horizontalArrangement = Arrangement.spacedBy(7.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        PIcon(icon, size = 13f, weight = PhWeight.bold, tint = fg, modifier = Modifier.graphicsLayer { rotationZ = iconTurn })
+        PIcon(icon, size = 13f, weight = PhWeight.bold, tint = fg)
         Text(title, style = sh(14.5f, SHFont.semibold), color = fg, maxLines = 1)
     }
 }

@@ -33,7 +33,10 @@ internal object StarDataKeySerializer : RawSerializer<StarDataKey>(
 @Serializable(with = StarDataKeySerializer::class)
 enum class StarDataKey(val raw: String) {
     kind("kind"), socials("socials"), categories("categories"), about("about"), media("media"), rate("rate"),
-    insight("insight"), province("province"), availability("availability"), address("address"), bank("bank"),
+    insight("insight"), province("province"), availability("availability"),
+    /** ช่องทางติดต่อ (LINE · เบอร์ · เว็บไซต์) — ขึ้นบนการ์ด · ล็อกตระกูล "ติดต่อ" ในตู้จนกว่าจะกรอก (= iOS) */
+    contact("contact"),
+    address("address"), bank("bank"),
     draftRounds("draftRounds"),
     /** สัดส่วน = `bodyMeasurement` ของ salehere-ios — กรอกเองใน Star Profile ไม่ถามใน flow สมัคร (ผู้ใช้ 6 ต.ค. 2569) */
     body("body");
@@ -51,6 +54,7 @@ enum class StarDataKey(val raw: String) {
         insight -> "ข้อมูลผู้ติดตาม"
         province -> "พื้นที่รับงาน"
         availability -> "วันเวลาว่างรับงาน"
+        contact -> "ช่องทางติดต่อ"
         address -> "ที่อยู่รับของ"
         bank -> "บัญชีรับเงิน"
         draftRounds -> "รอบแก้งาน"
@@ -236,6 +240,7 @@ data class StarRow(
         StarDataKey.body -> "ขึ้นช่องสัดส่วนบนการ์ดสายแฟชั่น"
         StarDataKey.province -> "ขึ้นป้ายพื้นที่รับงาน"
         StarDataKey.availability -> "ขึ้นวันว่างในส่วนรับงาน"
+        StarDataKey.contact -> "ขึ้น LINE · เบอร์ · เว็บไซต์บนการ์ด"
         StarDataKey.socials -> "ขึ้นยอดผู้ติดตามรายช่อง"
         StarDataKey.categories -> "ขึ้นชิปสายงานใต้ชื่อ"
         StarDataKey.bank, StarDataKey.draftRounds, StarDataKey.address -> "ไม่ขึ้นการ์ด · ใช้ตอนได้งาน"
@@ -456,6 +461,12 @@ class StarFlow private constructor() {
                 if (provinces.size > 2) provinces.take(2).map { shortProvince(it) } + listOf("+${provinces.size - 2}")
                 else provinces.map { shortProvince(it) }
             StarDataKey.availability -> listOf(availDays, availTime)
+            // ช่องทางติดต่ออยู่ใน `Profile` ฝั่งนี้ (iOS เก็บใน `StarFlow.lineID/phone/website`)
+            StarDataKey.contact -> listOf(
+                Profile.me.stored(ProfileField.lineId)?.let { "LINE $it" } ?: "",
+                Profile.me.stored(ProfileField.phone) ?: "",
+                Profile.me.stored(ProfileField.website) ?: "",
+            ).filter { it.isNotEmpty() }
             StarDataKey.socials -> StarSocial.entries.filter { connected.contains(it) }.map { "${it.short} ${fmt(it.followers)}" }
             StarDataKey.categories -> categories.map { it.split(" ").filter { p -> p.isNotEmpty() }.drop(1).joinToString(" ") }
             StarDataKey.bank -> if (payKind == "company") listOf("นามบริษัท", "กสิกรไทย", "···7890") else listOf("นามบุคคล", "กสิกรไทย", "···7890")
@@ -634,6 +645,7 @@ class StarFlow private constructor() {
             Rule(key = null, askAt = 1, needFrom = 2), Rule(key = StarDataKey.rate, askAt = 1, needFrom = 2),
             Rule(key = StarDataKey.insight, askAt = 1, needFrom = 99), Rule(key = StarDataKey.province, askAt = 2, needFrom = 99),
             Rule(key = StarDataKey.availability, askAt = 2, needFrom = 99),
+            Rule(key = StarDataKey.contact, askAt = 1, needFrom = 2),
             Rule(key = StarDataKey.address, askAt = 7, needFrom = 8), Rule(key = StarDataKey.bank, askAt = 7, needFrom = 8),
             Rule(key = StarDataKey.draftRounds, askAt = 7, needFrom = 8),
         )
@@ -642,7 +654,7 @@ class StarFlow private constructor() {
 
         val cardKeys: Set<StarDataKey> = setOf(StarDataKey.kind, StarDataKey.socials, StarDataKey.categories, StarDataKey.about)
         val mediaKeys: Set<StarDataKey> = setOf(StarDataKey.media)
-        val applyKeys: Set<StarDataKey> = cardKeys + mediaKeys + setOf(StarDataKey.rate, StarDataKey.insight, StarDataKey.province, StarDataKey.availability)
+        val applyKeys: Set<StarDataKey> = cardKeys + mediaKeys + setOf(StarDataKey.rate, StarDataKey.insight, StarDataKey.province, StarDataKey.availability, StarDataKey.contact)
         val allKeys: Set<StarDataKey> = StarDataKey.entries.toSet()
 
         val presets: List<Preset> = listOf(

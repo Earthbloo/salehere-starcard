@@ -147,7 +147,7 @@ fun CardStripPreview(
                         } else {
                             Modifier.clip(shape)
                         }
-                        CardPageCanvas(page = pages.getOrNull(i) ?: blank, size = pageSize, theme = theme, modifier = framed)
+                        CardPageCanvas(page = pages.getOrNull(i) ?: blank, size = pageSize, theme = theme, modifier = framed, lockPreview = true)
                     }
                 }
                 if (!flat && theme.strip.isStamp) {
@@ -200,7 +200,7 @@ fun CardFramePreview(
         ScaledSheet(pageSize, s) {
             PreviewLocals(theme, pageSize) {
                 PreviewGround(theme, flat)
-                CardPageCanvas(page = page, size = pageSize, theme = theme)
+                CardPageCanvas(page = page, size = pageSize, theme = theme, lockPreview = true)
                 if (!flat && theme.strip.isStamp) {
                     SignatureEmboss(
                         light = theme.inkStyle.isLight, foil = theme.strip == StripStyle.foil, tint = theme.inkStyle.base,
@@ -385,10 +385,26 @@ internal fun StageGlassPanel(
     content: @Composable () -> Unit,
 ) {
     val ink = if (light) InkStyle(CardInk.paper, GL.ink) else InkStyle.night
+    if (tint != null) {
+        // `.glassEffect(.regular.tint(c))` บนเวที = แผ่นสีเน้นทึบ (ปุ่ม แต่งการ์ด / แชร์เด่น) — ไม่ใช่สูตรกระจก verified ของวิดเจ็ต
+        val shape = RoundedCornerShape(radius.dp)
+        Box(
+            modifier
+                .background(tint, shape)
+                .border(
+                    0.6.dp,
+                    Brush.linearGradient(
+                        0f to Color.White.opacity(0.35), 0.6f to Color.White.opacity(0.0),
+                        start = Offset.Zero, end = Offset.Infinite,
+                    ),
+                    shape,
+                ),
+        ) { content() }
+        return
+    }
     CompositionLocalProvider(LocalCardInk provides ink) {
         GlassPanel(
-            tint = tint,
-            tintStrength = if (tint != null) 0.88 else 0.16,
+            tint = null,
             veil = if (light) null else Color.White.opacity(0.10),
             radius = radius,
             interactive = true,

@@ -230,6 +230,14 @@ class Profile private constructor() {
     /** ตระกูล widget ที่ตอนนี้แสดง **ข้อมูลตัวอย่าง** แทนของจริง (ยังไม่กรอก) — บนการ์ดจริงขึ้นป้ายรอกรอก */
     val sampleFamilies: Set<WidgetFamily> get() = _sampleFamilies.value
 
+    /** ตระกูลนี้ยังไม่มีข้อมูลจริง (วาดด้วยตัวอย่างอยู่) — = `lacks(_:)` ของ iOS */
+    fun lacks(f: WidgetFamily): Boolean = f in sampleFamilies
+    /** ชุดที่ "โชว์" — ตระกูลที่ยังไม่มีข้อมูลยืมตัวอย่างมาวาด (= `shownSocials` / `shownRates` ของ Profile.swift) */
+    val shownSocials: List<SocialProfile> get() = if (lacks(WidgetFamily.followers)) Mock.creator.socials else creator.socials
+    val shownRates: List<RateItem> get() = if (lacks(WidgetFamily.rate)) Mock.creator.rates else creator.rates
+    /** ย่อหน้าแนะนำตัวที่ "โชว์" — ยังไม่มีแนะนำตัว = ย่อหน้าตัวอย่าง (= `shownAbout` ของ Profile.swift) */
+    val shownAbout: String get() = if (lacks(WidgetFamily.intro)) Mock.creator.about else about
+
     private val scope = CoroutineScope(Dispatchers.Main)
     private var saveJob: Job? = null
 
@@ -626,8 +634,9 @@ class Profile private constructor() {
 
         return CreatorProfile(
             name = name, handle = handle, tagline = tagline, location = text(ProfileField.workArea), about = about,
-            // ตราดาว = ทุกช่องที่เปิดไว้ยืนยันยอดผ่านการเชื่อมบัญชี/API แล้ว · `-labVerified` บังคับสถานะยืนยันครบ
-            verified = VerifiedFacts.labForce || (socials.isNotEmpty() && socials.all { it.source.isVerified }),
+            // ตรา Verified = ยืนยันตัวตน (KYC) ผ่านแล้ว — สถานะเดียวกับแถว "ยืนยันตัวตน" ใน Star Profile (= iOS)
+            // ยอดผู้ติดตามมาจากแพลตฟอร์มหรือไม่เป็นอีกเรื่อง (ดู `VerifiedFacts.numbersVerified`) · `labForce` บังคับยืนยันครบ
+            verified = VerifiedFacts.labForce || d.status == ReviewStatus.approved,
             categories = categories, interests = d.interests, styleTags = emptyList(), formats = formats,
             workTime = workTime, socials = shownSocials, rates = shownRates,
             // แพ็กเกจ/เงื่อนไขไม่มีในฟอร์มเว็บ · เวลาตอบกลับ ผู้ชม ผลงานยืนยัน มาจากระบบเท่านั้น — ยังไม่ต่อ backend = ว่าง

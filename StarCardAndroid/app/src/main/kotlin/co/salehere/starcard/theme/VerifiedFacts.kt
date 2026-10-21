@@ -61,11 +61,13 @@ data class VerifiedFacts(val rows: List<Row>, val serial: String) {
                 val fresh = linked.firstOrNull()?.syncedAgo ?: ""
                 val names = linked.take(3).joinToString(" · ") { it.type.name }
 
+                // ตัวตนจริง = ยืนยันตัวตน (KYC) ใน Star Profile ผ่านแล้ว — สถานะเดียวกับตราบนชื่อ (`CreatorProfile.verified`)
+                val identity = c.verified
                 return VerifiedFacts(
                     rows = listOf(
                         // วันที่ยืนยันตัวตนยังเป็นค่าจำลอง (ดู `Signature.verifiedOn`) จนกว่าจะต่อ `userVerify`
-                        Row(id = 0, title = "ตัวตนจริง", detail = "ตรวจบัตรประชาชนแล้ว",
-                            value = Signature.verifiedOn, ok = true),
+                        Row(id = 0, title = "ตัวตนจริง", detail = if (identity) "ตรวจบัตรประชาชนแล้ว" else "ยังไม่ได้ยืนยันตัวตน",
+                            value = if (identity) Signature.verifiedOn else "รอยืนยัน", ok = identity),
                         Row(id = 1, title = "เจ้าของช่องจริง",
                             detail = if (names.isEmpty()) "ยังไม่ได้เชื่อมบัญชี" else names,
                             value = if (linked.isEmpty()) "รอเชื่อม" else "${linked.size} ช่อง", ok = linked.isNotEmpty()),

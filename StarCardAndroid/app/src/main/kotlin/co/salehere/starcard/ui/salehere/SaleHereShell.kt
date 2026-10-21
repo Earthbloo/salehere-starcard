@@ -79,6 +79,11 @@ import co.salehere.starcard.ui.salehere.starflow.RegisterSuccessDialog
 import co.salehere.starcard.ui.salehere.starflow.StarGround
 import co.salehere.starcard.ui.salehere.starflow.StarHeader
 import co.salehere.starcard.ui.salehere.starflow.StarPage
+import androidx.compose.ui.platform.LocalContext
+import co.salehere.starcard.model.LocalClipInvocation
+import co.salehere.starcard.model.CardTemplate
+import co.salehere.starcard.ui.sharePlainText
+import co.salehere.starcard.ui.salehere.starflow.StarInsightPage
 import co.salehere.starcard.ui.salehere.starflow.StarPageMode
 import co.salehere.starcard.ui.salehere.starflow.StarWizard
 import kotlinx.coroutines.CoroutineScope
@@ -116,6 +121,8 @@ fun SaleHereShell(modifier: Modifier = Modifier) {
 
     val first = CardLibrary.shared.displayOrder.firstOrNull()
     val publishedTheme: CardTheme? = remember(first) { first?.let { CardStore.restore(it.snapshot)?.theme } }
+    val shellContext = LocalContext.current
+    val shellInvocation = LocalClipInvocation.current
     val cardK by animateFloatAsState(if (st.isCard) 1f else 0f, Motion.page.float, label = "flowBehindCard")
 
     CompositionLocalProvider(LocalStarFlow provides flow) {
@@ -271,6 +278,28 @@ fun SaleHereShell(modifier: Modifier = Modifier) {
                 }
             }
 
+            // หน้า ST★R Insight — เหนือหัวร่วม "Star Profile" (3.5) และปุ่มกลับ (3.6) เพราะมีหัวของตัวเอง (= iOS `insightOpen`)
+            AnimatedVisibility(
+                visible = st.insightOpen,
+                modifier = Modifier.fillMaxSize().zIndex(3.7f),
+                enter = slideInHorizontally(Motion.page.spec()) { it },
+                exit = slideOutHorizontally(Motion.page.spec()) { it },
+            ) {
+                StarInsightPage(
+                    theme = publishedTheme,
+                    onClose = { st.insightOpen = false },
+                    onEditCard = {
+                        st.insightOpen = false
+                        st.openStarCard(StarCardIntent.Gallery)
+                    },
+                    onShare = {
+                        CardLibrary.shared.displayOrder.firstOrNull()?.let { r ->
+                            sharePlainText(shellContext, CardLibrary.shared.url(r, shellInvocation.slug))
+                        }
+                    },
+                )
+            }
+
             // ปุ่ม Lab ลอยอยู่ทุกหน้าทุกที่ (รวมห้องแต่ง/คลัง) — เครื่องมือทดสอบ ไม่ใช่ UI จริง
             Box(Modifier.fillMaxSize().zIndex(20f)) {
                 LabFab(action = { if (!st.showLab) st.showLab = true })
@@ -410,6 +439,8 @@ private fun ShellFlowView(st: ShellState, s: FlowScreen) {
             onKyc = { st.openKyc(back = FlowScreen.StarProfile) },
             onShare = { st.toast("แชร์การ์ด — จำลอง") },
             onOpenStarCard = { intent -> st.openStarCard(intent) },
+            onInsight = { st.insightOpen = true },
+            onPickTemplate = { t -> st.pendingTemplate = t; st.openStarCard(StarCardIntent.Create) },
             hosted = true,
         )
         FlowScreen.Kyc -> Unit
@@ -535,7 +566,20 @@ private class ShellState(private val scope: CoroutineScope) {
 
     /** กดดูการ์ดตอนยังไม่ครบ 3 ข้อขั้นต่ำ → ถาม 3 ข้อก่อน แล้วเปิดการ์ดด้วย intent นี้ตอน wizard จบ (= iOS `openStarCard`) */
     var cardAfterWizard: StarCardIntent? by mutableStateOf(null)
+    /** หน้า ST★R Insight (ยอดวิว) เปิดอยู่ (= iOS `insightOpen`) */
+    var insightOpen by mutableStateOf(false)
+    /** เทมเพลตที่แตะจากแถบตัวอย่างบน Star Profile — สร้างใบแรกจากแบบนั้นทันทีที่การ์ดพร้อม (= iOS `pendingTemplate`) */
+    var pendingTemplate by mutableStateOf<CardTemplate?>(null)
     fun openStarCard(intent: StarCardIntent) {
+        pendingTemplate?.let { t ->
+            if (flow.cardReady) {
+                // แตะเทมเพลตจากแถบตัวอย่าง = สร้างใบแรกจากแบบนั้น แล้วเข้าห้องแต่งเลย
+                pendingTemplate = null
+                val record = CardLibrary.shared.create(t)
+                creatorIntent = StarCardIntent.Edit(record.id)
+                return
+            }
+        }
         if (flow.cardReady) { creatorIntent = intent; return }
         startWizard(WizKind.one, flow.cardMissing, back = FlowScreen.StarProfile)
         cardAfterWizard = intent

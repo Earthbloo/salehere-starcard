@@ -77,7 +77,10 @@ enum class WidgetFamily {
     // ลำดับนี้คือลำดับที่โผล่ในตู้ — ของหลักมาก่อน ถ้อยคำปิดท้ายทั้งสองหมวด
     // `text` อยู่ต่อจาก `intro` ไม่ใช่ท้ายสุด · `seal` ต่อจาก `hero` ทันที
     hero, seal, intro, text, followers, audience, tags, brand, verified,
-    photo, showcase, words, rate,
+    photo, showcase,
+    /** ไม่มีใน iOS — เหลือไว้แค่ให้ `WidgetContent` คอมไพล์ · `from()` ไม่คืนค่านี้ จึงไม่มีชนิดไหนตกตระกูลนี้และไม่เกิดก้อนในตู้ */
+    words,
+    rate,
     // ชุดห้าสไตล์ — สองหัวข้อที่ตู้เดิมไม่มี (ผู้ใช้ 12 ต.ค. 2569)
     availability,
     /** สัดส่วนร่างกาย — สายแฟชั่น/บิวตี้/นายแบบ */
@@ -123,9 +126,9 @@ enum class WidgetFamily {
             // แบรนด์ + ผลงานยืนยัน = หลักฐานจากระบบ ปลดล็อกเมื่อทำงานผ่าน Sale Here จบแล้วอย่างน้อย 1 งาน (ผู้ใช้ 23 ก.ย. 2569)
             brand, verified -> StarTopic.Work
             // ติดต่อ · รูปผลงาน ผูกหัวข้อด้วย (ผู้ใช้ 19 ต.ค. 2569: เปิดการ์ดถามแค่ 3 ข้อ ที่เหลือล็อกจนกว่าจะกรอก) = iOS
-            // Android ยังไม่มี StarDataKey.contact (Star Profile ฝั่งนี้ยังไม่ได้ port ช่องทางติดต่อ) — ติดต่อจึงยังไม่ล็อก ต่างจาก iOS
             photo, showcase -> StarTopic.Data(StarDataKey.media)
-            text, contact -> null
+            contact -> StarTopic.Data(StarDataKey.contact)
+            text -> null
             availability -> StarTopic.Data(StarDataKey.availability)
             body -> StarTopic.Data(StarDataKey.body)
         }
@@ -168,7 +171,7 @@ enum class WidgetFamily {
             else topic?.let { !it.filled } ?: false
 
     companion object {
-        fun from(raw: String?): WidgetFamily? = entries.firstOrNull { it.raw == raw }
+        fun from(raw: String?): WidgetFamily? = entries.firstOrNull { it != words && it.raw == raw }
     }
 }
 
@@ -210,7 +213,8 @@ enum class TrayGroup {
             schedule -> StarTopic.Data(StarDataKey.availability)
             verify -> StarTopic.Verify
             work -> StarTopic.Data(StarDataKey.media)
-            contact, decor -> null
+            contact -> StarTopic.Data(StarDataKey.contact)
+            decor -> null
         }
 
     companion object {
@@ -259,10 +263,15 @@ sealed class StarTopic {
             Work -> WizStep.about
         }
 
-    /** กรอกหัวข้อนี้แล้วหรือยัง (ดูจาก state ของ flow ใหม่ — ตัวเดียวกับ Star Profile) */
+    /**
+     * กรอกหัวข้อนี้แล้วหรือยัง (ดูจาก state ของ flow ใหม่ — ตัวเดียวกับ Star Profile)
+     * ช่องทางติดต่อ: wizard ฝั่งนี้ยังไม่มีขั้น `contact` (iOS ติ๊ก `has(.contact)` ตอนบันทึกขั้นนั้น) —
+     * จึงนับจากข้อมูลเดียวกับที่ขั้นนั้นเก็บ: มี LINE · เบอร์ · หรือเว็บไซต์พิมพ์ไว้ใน `Profile`
+     */
     val filled: Boolean
         get() = when (this) {
-            is Data -> StarFlow.shared.has(key)
+            is Data -> StarFlow.shared.has(key) || (key == StarDataKey.contact &&
+                listOf(ProfileField.lineId, ProfileField.phone, ProfileField.website).any { Profile.me.stored(it) != null })
             Verify -> StarFlow.shared.verify != VerifyStatus.none
             Work -> StarFlow.shared.reviewed
         }

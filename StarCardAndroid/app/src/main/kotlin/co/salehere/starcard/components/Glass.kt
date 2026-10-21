@@ -1,5 +1,6 @@
 package co.salehere.starcard.components
 
+import android.os.Build
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -24,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
@@ -31,6 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -94,6 +99,32 @@ fun GlassPanel(
         shape,
     )
     Box(m) { content() }
+}
+
+/**
+ * เงานุ่มแบบ `.shadow(color:radius:y:)` ของ SwiftUI — แผ่นสีเดียวรูปเดียวกับชิ้น เบลอฟุ้งแล้วเลื่อนลง `y`
+ *
+ * วางเป็น **ลูกตัวแรก** ของ Box ที่ครอบชิ้น (`Modifier.matchParentSize()`) จึงอยู่หลังชิ้นเสมอ ·
+ * `Modifier.shadow(elevation)` ของ Compose เป็นเงาแสงจากบน (ความเข้ม/ระยะฟุ้งผูกกับ elevation) — ไม่ใช่สูตรเดียวกับ iOS
+ * API 31+ ใช้ `RenderEffect` เบลอจริง · ต่ำกว่านั้นถอยไปใช้เงา elevation สีเดียวกัน
+ */
+@Composable
+fun SoftShadow(color: Color, radius: Float, y: Float, shape: Shape, modifier: Modifier = Modifier) {
+    if (color.alpha <= 0f || radius <= 0f && y == 0f) return
+    if (Build.VERSION.SDK_INT >= 31) {
+        Box(
+            modifier
+                .offset(y = y.dp)
+                .blur(radius.dp, BlurredEdgeTreatment.Unbounded)
+                .background(color, shape),
+        )
+    } else {
+        Box(
+            modifier
+                .offset(y = (y * 0.5f).dp)
+                .shadow(radius.dp, shape, clip = false, ambientColor = color, spotColor = color),
+        )
+    }
 }
 
 // MARK: - Small parts

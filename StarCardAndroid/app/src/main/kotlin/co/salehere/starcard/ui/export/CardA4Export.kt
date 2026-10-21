@@ -592,6 +592,8 @@ fun CardPageCanvas(
     size: Size,
     theme: CardTheme,
     modifier: Modifier = Modifier,
+    /** รูปย่อที่เจ้าของการ์ดเห็นเอง — ใบที่ล็อกโชว์ตัวอย่างใต้ชั้นเทาเหมือนในห้องแต่ง (ดู `WidgetChrome.lockPreview`) */
+    lockPreview: Boolean = false,
 ) {
     val solved = remember(page.items, size) { PageLayout.solve(page.items, size) }
     CompositionLocalProvider(
@@ -605,6 +607,7 @@ fun CardPageCanvas(
                         placed = p,
                         theme = theme,
                         modifier = Modifier.offset(p.frame.left.dp, p.frame.top.dp),
+                        lockPreview = lockPreview,
                     )
                 }
             }

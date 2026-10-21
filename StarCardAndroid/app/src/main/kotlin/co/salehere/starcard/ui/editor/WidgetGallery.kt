@@ -60,9 +60,12 @@ import co.salehere.starcard.components.Motion
 import co.salehere.starcard.components.float
 import co.salehere.starcard.model.CatalogEntry
 import co.salehere.starcard.model.Mock
+import co.salehere.starcard.model.Profile
 import co.salehere.starcard.model.StarTopic
 import co.salehere.starcard.model.TrayGroup
+import co.salehere.starcard.model.WidgetFamily
 import co.salehere.starcard.model.WidgetKind
+import co.salehere.starcard.model.isKit
 import co.salehere.starcard.theme.CardTheme
 import co.salehere.starcard.theme.SFSymbol
 import co.salehere.starcard.theme.SHFont
@@ -71,7 +74,7 @@ import co.salehere.starcard.theme.sh
 import co.salehere.starcard.ui.Haptics
 import co.salehere.starcard.ui.LocalGhostData
 import co.salehere.starcard.ui.LocalSampleData
-import co.salehere.starcard.ui.tap
+import co.salehere.starcard.ui.plainPress
 import co.salehere.starcard.ui.widgets.WidgetBody
 import kotlin.math.abs
 import kotlin.math.max
@@ -104,6 +107,28 @@ internal fun galleryMetrics(k: WidgetKind): Size {
     return Size(max(1f, s.width), max(1f, s.height))
 }
 
+/** ทุกใบในตู้ (= `WidgetGallery.allEntries`) — ก้อนข้อความมีปุ่มของตัวเองบนแถบล่าง จึงไม่อยู่ในตู้ */
+private fun galleryAllEntries(): List<CatalogEntry> =
+    (Mock.catalog + Mock.lockedTeasers)
+        // `words` ไม่มีใน iOS — กันไว้อีกชั้นไม่ให้เกิดก้อนในตู้ (ดู `WidgetFamily.words`)
+        .filter { !it.kind.isTextLayer && it.kind.family != WidgetFamily.words }
+        .sortedWith(compareBy<CatalogEntry>({ it.kind.family.ordinal }, { if (it.unlocked) 0 else 1 }))
+
+/**
+ * ลำดับทั้งตู้ (ทุกหมวด) — ตัวเดียวกับที่ก้อนในตู้ใช้ (= `WidgetGallery.orderedEntries`)
+ * หมวด → ตระกูล → ชุดห้าสไตล์ขึ้นก่อนแบบเดิมในหัวข้อของมันเอง (ผู้ใช้ 14 ต.ค. 2569: ไม่แยกเป็นหัวข้อ "ชุดใหม่")
+ */
+fun orderedEntries(): List<CatalogEntry> = galleryAllEntries().sortedWith(
+    compareBy<CatalogEntry>(
+        { it.kind.family.trayGroup.ordinal },
+        { it.kind.family.ordinal },
+        { if (it.kind.isKit) 0 else 1 },
+    ),
+)
+
+/** = `WidgetGallery.orderedKinds` */
+fun orderedKinds(): List<WidgetKind> = orderedEntries().map { it.kind }
+
 /**
  * Widget Gallery — ชิปหมวด (= หัวข้อ Star Profile) · กริดสองคอลัมน์ · เห็นหลายใบพร้อมกัน
  * - onFill: ช่องที่ผูกกับหัวข้อ Star Profile ที่ยังไม่ได้กรอก — ผู้เรียกพาไปกรอกข้อนั้น แล้วค่อยเพิ่มใบนี้ให้
@@ -126,14 +151,7 @@ fun WidgetGallery(
     var colW by remember { mutableFloatStateOf(160f) }
     val density = LocalDensity.current.density
 
-    // ก้อนข้อความมีปุ่มของตัวเองบนแถบล่าง — สองทางเข้าสำหรับของชิ้นเดียวคือความงงที่ไม่จำเป็น
-    val all = (Mock.catalog + Mock.lockedTeasers)
-        .filter { !it.kind.isTextLayer }
-        .sortedWith(compareBy<CatalogEntry>({ it.kind.family.ordinal }, { if (it.unlocked) 0 else 1 }))
-
-    val ordered = all.sortedWith(
-        compareBy<CatalogEntry>({ it.kind.family.trayGroup.ordinal }, { it.kind.family.ordinal }),
-    )
+    val ordered = orderedEntries()
     val sections = mutableListOf<GallerySection>()
     for (e in ordered) {
         if (e.kind.family.trayGroup != group) continue
@@ -244,8 +262,8 @@ private fun GalleryBar(onClose: (() -> Unit)?) {
             Box(
                 Modifier
                     .size(30.dp)
-                    .background(Color.White.opacity(0.1), CircleShape)
-                    .tap(onClick = onClose),
+                    .plainPress(onClick = onClose)
+                    .background(Color.White.opacity(0.1), CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 SFSymbol("xmark", size = 11f, tint = Color.White.opacity(0.7))
@@ -267,6 +285,7 @@ private fun GalleryChip(group: TrayGroup, active: Boolean, missing: Boolean, acc
     Row(
         Modifier
             .height(34.dp)
+            .plainPress(onClick = onTap)
             .background(bg, CircleShape)
             .drawWithContent {
                 drawContent()
@@ -279,7 +298,6 @@ private fun GalleryChip(group: TrayGroup, active: Boolean, missing: Boolean, acc
                     )
                 }
             }
-            .tap(onClick = onTap)
             .padding(horizontal = 13.dp),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -337,7 +355,9 @@ private fun GalleryTile(
     val press by animateFloatAsState(if (pressed) 0.96f else 1f, Motion.snap.float, label = "tilePress")
     val m = galleryMetrics(entry.kind)
     // สเกลจริงที่ใช้ — ตัวเดียวกันทั้งวัดความสูงและวาด จึงไม่มีทางคำนวณเหลื่อมกัน
-    val scale = min(max(colWidth / m.width, TileScaleMin), TileScaleMax)
+    // เพดานสุดท้ายคือความกว้างของคอลัมน์ — ใบที่กว้างเกินหน้าปกติ (แผ่นสติกเกอร์สามช่อง · หน้าต่างช่องทาง 504)
+    // โดนพื้น 0.45 ดันให้ล้นคอลัมน์ไปถูกตัดขอบทั้งสองข้าง
+    val scale = min(min(max(colWidth / m.width, TileScaleMin), TileScaleMax), colWidth / m.width)
     val tileH = max(TileMinHeight, m.height * scale)
     val add by rememberUpdatedState(onAdd)
     val unlocked by rememberUpdatedState(entry.unlocked)
@@ -411,10 +431,11 @@ private fun GalleryPreview(
                 },
             contentAlignment = Alignment.TopStart,
         ) {
-            // ยังไม่มีข้อมูลของหัวข้อนี้ = เห็นใบเต็ม ๆ แต่ค่าของผู้ใช้เป็นแท่งว่าง
+            // ยังไม่มีข้อมูลของหัวข้อนี้ = เห็นใบเต็ม ๆ ด้วยชุดตัวอย่าง (`Profile.shown…`) — กรอกแล้วจะได้หน้าตานี้
+            // ตระกูลที่ไม่มีชุดตัวอย่าง (ข้อความที่พิมพ์เอง) ค่าของผู้ใช้ยังเป็นขีด "–"
             CompositionLocalProvider(
-                LocalGhostData provides (missingTopic != null),
-                LocalSampleData provides true,
+                LocalGhostData provides (missingTopic != null && !Profile.me.lacks(kind.family)),
+                LocalSampleData provides (missingTopic != null || Profile.me.lacks(kind.family)),
             ) {
                 val body: @Composable () -> Unit = {
                     Box(

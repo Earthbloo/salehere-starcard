@@ -24,10 +24,13 @@ object Symbols {
         "checkmark.seal.fill" to (Ph.sealCheck to PhWeight.fill),
         "seal.fill" to (Ph.sealCheck to PhWeight.fill),
         "plus" to (Ph.plus to PhWeight.bold),
+        "minus" to (Ph.minus to PhWeight.bold),
         "pencil" to (Ph.pencilSimple to PhWeight.bold),
         "trash" to (Ph.trash to PhWeight.bold),
         "lock.fill" to (Ph.lockSimple to PhWeight.fill),
+        "lock" to (Ph.lockSimple to PhWeight.regular),
         "lock.open" to (Ph.lockOpen to PhWeight.bold),
+        "lock.open.fill" to (Ph.lockOpen to PhWeight.fill),
         "ellipsis" to (Ph.dotsThree to PhWeight.bold),
         "chevron.left" to (Ph.caretLeft to PhWeight.bold),
         "chevron.right" to (Ph.caretRight to PhWeight.bold),
@@ -61,14 +64,14 @@ object Symbols {
         "arrowshape.turn.up.right.fill" to (Ph.shareFat to PhWeight.fill),
         "square.and.arrow.up" to (Ph.share to PhWeight.bold),
         "arrow.counterclockwise" to (Ph.arrowsClockwise to PhWeight.bold),
-        "arrow.uturn.backward" to (Ph.arrowsClockwise to PhWeight.bold),
-        "arrow.uturn.forward" to (Ph.arrowsClockwise to PhWeight.bold),
+        "arrow.uturn.backward" to (Ph.arrowUUpLeft to PhWeight.bold),
+        "arrow.uturn.forward" to (Ph.arrowUUpRight to PhWeight.bold),
         "arrow.up.left.and.arrow.down.right" to (Ph.caretUpDown to PhWeight.bold),
         "arrow.up.and.down.and.arrow.left.and.right" to (Ph.arrowsClockwise to PhWeight.bold),
         "arrow.left.arrow.right" to (Ph.arrowRight to PhWeight.bold),
         "arrow.triangle.2.circlepath" to (Ph.arrowsClockwise to PhWeight.bold),
         "clock" to (Ph.clock to PhWeight.regular),
-        "eyedropper" to (Ph.magicWand to PhWeight.bold),
+        "eyedropper" to (Ph.eyedropper to PhWeight.bold),
         "speaker.wave.2.fill" to (Ph.broadcast to PhWeight.fill),
         "forward.end.fill" to (Ph.skipForward to PhWeight.fill),
         "backward.end.fill" to (Ph.skipBack to PhWeight.fill),
@@ -102,9 +105,9 @@ object Symbols {
         "moon.stars.fill" to (Ph.sparkle to PhWeight.fill),
         "doc.plaintext.fill" to (Ph.clipboardText to PhWeight.fill),
         "drop.fill" to (Ph.circleHalf to PhWeight.fill),
-        "textformat" to (Ph.textAlignLeft to PhWeight.bold),
+        "textformat" to (Ph.textAa to PhWeight.bold),
         "textformat.alt" to (Ph.textAlignLeft to PhWeight.bold),
-        "textformat.size" to (Ph.textAlignLeft to PhWeight.bold),
+        "textformat.size" to (Ph.textAa to PhWeight.bold),
         "text.alignleft" to (Ph.textAlignLeft to PhWeight.bold),
         "text.aligncenter" to (Ph.textAlignLeft to PhWeight.bold),
         "text.alignright" to (Ph.textAlignLeft to PhWeight.bold),
@@ -188,9 +191,19 @@ object Symbols {
     fun lookup(sfName: String): Pair<Ph, PhWeight> = table[sfName] ?: (Ph.circleDashed to PhWeight.regular)
 }
 
-/** `Image(systemName:)` — วาดไอคอน Phosphor ที่ความหมายตรงกัน ย้อมสีตาม `LocalContentColor` */
+/**
+ * `Image(systemName:)` — วาดไอคอน Phosphor ที่ความหมายตรงกัน ย้อมสีตาม `LocalContentColor`
+ * `weight` = น้ำหนักที่จุดเรียกขอ (= `.font(.system(size:weight:))` ของ iOS) · null = ใช้น้ำหนักจากตาราง
+ * Phosphor มีแค่ regular/bold/fill — semibold/heavy ของ SF ตกที่ bold
+ */
 @Composable
-fun SFSymbol(name: String, size: Float = 14f, tint: Color = LocalContentColor.current, modifier: Modifier = Modifier) {
-    val (icon, weight) = Symbols.lookup(name)
-    Icon(painterResource(icon.res(weight)), contentDescription = null, tint = tint, modifier = modifier.size(size.dp))
+fun SFSymbol(
+    name: String,
+    size: Float = 14f,
+    tint: Color = LocalContentColor.current,
+    modifier: Modifier = Modifier,
+    weight: PhWeight? = null,
+) {
+    val (icon, tableWeight) = Symbols.lookup(name)
+    Icon(painterResource(icon.res(weight ?: tableWeight)), contentDescription = null, tint = tint, modifier = modifier.size(size.dp))
 }

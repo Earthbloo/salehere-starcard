@@ -22,6 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.IntOffset
+import co.salehere.starcard.components.Motion
+import co.salehere.starcard.components.float
+import co.salehere.starcard.ui.dockPress
 import co.salehere.starcard.theme.PIcon
 import co.salehere.starcard.theme.Ph
 import co.salehere.starcard.theme.PhWeight
@@ -51,7 +59,8 @@ fun TrayCheckRow(
                 Modifier
                     .height(30.dp)
                     .background(Color.White.opacity(if (on) 0.12 else 0.05), CircleShape)
-                    .tap { if (!locked) onToggle(key) }
+                    // ช่องที่ล็อกยังรับแตะ (ยุบตามนิ้ว) แต่ไม่ทำอะไร — = `DockPress` ของ iOS
+                    .dockPress { if (!locked) onToggle(key) }
                     .padding(horizontal = 10.dp)
                     .alpha(if (locked) 0.6f else 1f),
                 verticalAlignment = Alignment.CenterVertically,
@@ -61,12 +70,13 @@ fun TrayCheckRow(
                     Modifier
                         .size(14.dp)
                         .then(
-                            if (on) Modifier.background(Color.White, RoundedCornerShape(3.dp))
-                            else Modifier.border(1.5.dp, Color.White.opacity(0.45), RoundedCornerShape(3.dp)),
+                            // = `checkmark.square.fill` / `square` 14pt semibold ของ iOS (ช่องเต็มขาว เครื่องหมายเป็นรูเจาะ)
+                            if (on) Modifier.background(Color.White, RoundedCornerShape(2.5.dp))
+                            else Modifier.border(1.3.dp, Color.White.opacity(0.45), RoundedCornerShape(2.5.dp)),
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    if (on) PIcon(Ph.check, size = 10f, weight = PhWeight.bold, tint = Color.Black.opacity(0.86))
+                    if (on) PIcon(Ph.check, size = 9f, weight = PhWeight.bold, tint = Color.Black.opacity(0.86))
                 }
                 Text(title, style = sh(12f, SHFont.semibold), color = Color.White.opacity(if (on) 0.92 else 0.55), maxLines = 1)
             }
@@ -82,17 +92,18 @@ fun TrayStepper(values: List<Int>, value: Int, onChange: (Int) -> Unit) {
         Modifier.height(32.dp).background(Color.Black.opacity(0.28), CircleShape),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        StepButton("−", enabled = i > 0) { onChange(values[i - 1]) }
+        StepButton(Ph.minus, enabled = i > 0) { onChange(values[i - 1]) }
         Text("$value", style = sh(14f, SHFont.bold), color = Color.White, modifier = Modifier.width(40.dp),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-        StepButton("+", enabled = i < values.size - 1) { onChange(values[i + 1]) }
+        StepButton(Ph.plus, enabled = i < values.size - 1) { onChange(values[i + 1]) }
     }
 }
 
 @Composable
-private fun StepButton(glyph: String, enabled: Boolean, onClick: () -> Unit) {
-    Box(Modifier.width(40.dp).height(32.dp).tap(enabled) { onClick() }, contentAlignment = Alignment.Center) {
-        Text(glyph, style = sh(15f, SHFont.bold), color = Color.White.opacity(if (enabled) 0.9 else 0.25))
+private fun StepButton(glyph: Ph, enabled: Boolean, onClick: () -> Unit) {
+    // = SF `minus`/`plus` 12pt bold ใน `DockPress` · ปิดใช้ = จาง 0.25
+    Box(Modifier.width(40.dp).height(32.dp).dockPress(enabled) { onClick() }, contentAlignment = Alignment.Center) {
+        PIcon(glyph, size = 12f, weight = PhWeight.bold, tint = Color.White.opacity(if (enabled) 0.9 else 0.25))
     }
 }
 
@@ -102,15 +113,23 @@ fun TraySwitchRow(label: String, on: Boolean, onChange: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(label, style = sh(12f, SHFont.semibold), color = Color.White.opacity(0.8))
         Spacer(Modifier.weight(1f))
+        // = UISwitch ของระบบ: ราง 51×31 · ปุ่ม 27 · เขียว #33C759 / เทา #39393D (โหมดมืด) · ปุ่มเลื่อนและสีรางไหล
+        val k by animateFloatAsState(if (on) 1f else 0f, Motion.snap.float, label = "switch")
+        val track by animateColorAsState(if (on) Color(0xFF33C759) else Color(0xFF39393D), Motion.snap.spec(), label = "switchTrack")
         Box(
             Modifier
-                .width(46.dp).height(28.dp)
-                .background(if (on) Color(0xFF33C759) else Color.White.opacity(0.18), CircleShape)
+                .width(51.dp).height(31.dp)
+                .background(track, CircleShape)
                 .tap { onChange(!on) }
-                .padding(3.dp),
-            contentAlignment = if (on) Alignment.CenterEnd else Alignment.CenterStart,
+                .padding(2.dp),
+            contentAlignment = Alignment.CenterStart,
         ) {
-            Box(Modifier.size(22.dp).background(Color.White, CircleShape))
+            Box(
+                Modifier
+                    .offset { IntOffset(((51f - 4f - 27f) * k * density).toInt(), 0) }
+                    .size(27.dp)
+                    .background(Color.White, CircleShape),
+            )
         }
     }
 }

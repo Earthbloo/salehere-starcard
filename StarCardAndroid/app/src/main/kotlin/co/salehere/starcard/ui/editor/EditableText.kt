@@ -31,12 +31,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,7 +49,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.CornerRadius
@@ -58,6 +61,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -65,6 +69,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -72,11 +77,12 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.salehere.starcard.components.GlassPanel
 import co.salehere.starcard.components.Motion
-import co.salehere.starcard.components.redacted
 import co.salehere.starcard.model.Profile
 import co.salehere.starcard.model.ProfileField
 import co.salehere.starcard.model.TextSlotID
@@ -96,9 +102,11 @@ import co.salehere.starcard.theme.sh
 import co.salehere.starcard.ui.Haptics
 import co.salehere.starcard.ui.LocalCardAccent
 import co.salehere.starcard.ui.LocalGhostData
+import co.salehere.starcard.ui.LocalSampleData
 import co.salehere.starcard.ui.LocalSlotTilt
 import co.salehere.starcard.ui.LocalTextEditMode
 import co.salehere.starcard.ui.LocalWidgetID
+import co.salehere.starcard.ui.plainPress
 import co.salehere.starcard.ui.widgets.contactURL
 import co.salehere.starcard.ui.widgets.linkSlot
 import java.util.UUID
@@ -270,12 +278,47 @@ fun TextSlotDashes(style: TextSlotStyle, accent: Color, modifier: Modifier = Mod
 }
 
 /**
+ * บนการ์ดจริง: ช่องข้อความที่แก้ได้ (หัวข้อของดีไซน์) คงไว้ — ขีดแค่ค่าข้อมูล (`dataValue()`)
+ * ในตู้ widget ยังขีดทุกช่องเหมือนเดิม (= `\.ghostKeepsText`) · `WidgetChrome` ของการ์ดจริงเป็นคนให้ค่า true
+ */
+val LocalGhostKeepsText = compositionLocalOf { false }
+
+/**
+ * ยังไม่มีข้อมูล = ค่ากลายเป็น "–" ในที่เดิม (= `GhostDash` ของ EditableText.swift · ผู้ใช้ 29 ก.ย. 2569:
+ * "ต้องเห็น widget แค่ข้อมูลที่กรอกเป็น - พอ") — ตัวจริงยังวางอยู่ (ไม่วาด) ขนาดกล่องจึงไม่เปลี่ยน ·
+ * ขีดเป็นฟอนต์ของช่อง ชิดตามการจัดข้อความของก้อนนั้น · กลางแนวตั้ง
+ * - style/color: ของช่อง — ไม่ส่ง = ตามที่ครอบอยู่ (`dataValue()` ของตัวเลขจากระบบ)
+ */
+fun Modifier.ghostDash(on: Boolean, style: TextStyle? = null, color: Color? = null): Modifier = if (!on) this else composed {
+    val ts = style ?: LocalTextStyle.current
+    val ink = color ?: LocalContentColor.current
+    val measurer = rememberTextMeasurer()
+    val dash = remember(ts, measurer) {
+        measurer.measure(
+            AnnotatedString("–"),
+            style = ts.copy(textAlign = TextAlign.Start, lineHeight = TextUnit.Unspecified),
+            maxLines = 1,
+            softWrap = false,
+        )
+    }
+    drawWithContent {
+        val w = dash.size.width.toFloat()
+        val x = when (ts.textAlign) {
+            TextAlign.Center -> (size.width - w) / 2f
+            TextAlign.End, TextAlign.Right -> size.width - w
+            else -> 0f
+        }
+        drawText(dash, color = ink, topLeft = Offset(x, (size.height - dash.size.height) / 2f))
+    }
+}
+
+/**
  * ประกาศว่าตัวหนังสือก้อนนี้คือ "ค่าข้อมูลของผู้ใช้" (ยอดฟอล · % · ราคา) ไม่ใช่ป้ายของดีไซน์
- * ในโหมดพรีวิวไม่มีข้อมูล ก้อนนี้กลายเป็นแท่งว่าง ส่วนป้ายรอบ ๆ ยังอ่านออก
+ * ในโหมดพรีวิวไม่มีข้อมูล ก้อนนี้กลายเป็นขีด "–" ส่วนป้ายรอบ ๆ ยังอ่านออก
  */
 fun Modifier.dataValue(): Modifier = composed {
     val ghost = LocalGhostData.current
-    Modifier.redacted(ghost)
+    Modifier.ghostDash(ghost)
 }
 
 // MARK: - ตัวประกาศว่า "ข้อความก้อนนี้แก้ได้" (PORTING §11)
@@ -340,6 +383,7 @@ fun EditableText(
     val accent = LocalCardAccent.current
     val tilt = LocalSlotTilt.current
     val ghost = LocalGhostData.current
+    val keepsText = LocalGhostKeepsText.current
     val slotStyle = style.tuned(tune, id, ink, accent)
     slotStyle.tilt = tilt
 
@@ -368,8 +412,8 @@ fun EditableText(
             autoSize = autoSize,
             modifier = modifier
                 .editableSlot(id, slotStyle)
-                // ช่องแก้ได้ทุกช่องคือข้อมูลของผู้ใช้ — พรีวิว "ไม่มีข้อมูล" ทำให้เป็นแท่งว่างเท่าตัวอักษร
-                .redacted(ghost),
+                // ช่องแก้ได้ทุกช่องคือข้อมูลของผู้ใช้ — พรีวิว "ไม่มีข้อมูล" ทำให้เป็นขีด "–" ในฟอนต์ของช่อง
+                .ghostDash(ghost && !keepsText, ts, slotStyle.color),
         )
     }
 }
@@ -395,6 +439,8 @@ fun EditableParagraph(
     val tune = LocalWidgetTextStyle.current
     val ink = LocalCardInk.current
     val accent = LocalCardAccent.current
+    // ใบที่ล็อก/ช่องในตู้ที่ยังไม่มีแนะนำตัว — วาดย่อหน้าตัวอย่างให้เห็นว่ากรอกแล้วใบนี้เป็นยังไง
+    val sample = LocalSampleData.current
     val id = TextSlotID(field = field, widget = widget)
     // ย่อหน้าต้องรู้ความสูงบรรทัดก่อนวาด จึงปรับสไตล์ตรงนี้ด้วย (ตัวประกาศช่องปรับให้อีกชั้นตอนวาดจริง)
     val tuned = style.tuned(tune, id, ink, accent)
@@ -413,6 +459,7 @@ fun EditableParagraph(
             field = field,
             widget = widget,
             style = style,
+            text = if (sample && field == ProfileField.about) Profile.me.shownAbout else null,
             maxLines = lines,
             softWrap = true,
             modifier = Modifier.fillMaxWidth(),
@@ -519,13 +566,12 @@ private fun EditToolPicker(
 
 @Composable
 private fun AutoChip(on: Boolean, action: () -> Unit) {
-    val src = remember { MutableInteractionSource() }
     Box(
         Modifier
             .height(36.dp)
+            .plainPress(onClick = action)
             .background(if (on) Color.White.opacity(0.95) else Color.White.opacity(0.08), CircleShape)
             .border(0.8.dp, Color.White.opacity(if (on) 0.0 else 0.22), CircleShape)
-            .clickable(src, indication = null, onClick = action)
             .padding(horizontal = 14.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -536,14 +582,13 @@ private fun AutoChip(on: Boolean, action: () -> Unit) {
 
 @Composable
 private fun SizeChip(v: WidgetTextSize, on: Boolean, action: () -> Unit) {
-    val src = remember { MutableInteractionSource() }
     Box(
         Modifier
             .height(36.dp)
             .widthIn(min = 40.dp)
+            .plainPress(onClick = action)
             .background(if (on) Color.White.opacity(0.95) else Color.White.opacity(0.08), CircleShape)
-            .border(0.8.dp, Color.White.opacity(if (on) 0.0 else 0.22), CircleShape)
-            .clickable(src, indication = null, onClick = action),
+            .border(0.8.dp, Color.White.opacity(if (on) 0.0 else 0.22), CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         Text(v.label, style = sh(12f, SHFont.bold),
@@ -554,15 +599,14 @@ private fun SizeChip(v: WidgetTextSize, on: Boolean, action: () -> Unit) {
 /** ปุ่มกางเครื่องมือหนึ่งตัว — กดซ้ำที่ตัวเดิมคือหุบ (แป้นพิมพ์ไม่หุบตาม) */
 @Composable
 private fun ToolButton(t: EditTool, symbol: String, on: Boolean, primary: Color, onToggle: (EditTool) -> Unit) {
-    val src = remember { MutableInteractionSource() }
     Box(
         Modifier
             .size(34.dp, 30.dp)
-            .background(if (on) Color.White.opacity(0.92) else Color.Transparent, RoundedCornerShape(9.dp))
-            .clickable(src, indication = null) {
+            .plainPress {
                 onToggle(t)
                 Haptics.impact(Haptics.Style.light)
-            },
+            }
+            .background(if (on) Color.White.opacity(0.92) else Color.Transparent, RoundedCornerShape(9.dp)),
         contentAlignment = Alignment.Center,
     ) {
         SFSymbol(symbol, size = 15f, tint = if (on) Color.Black.opacity(0.85) else primary.opacity(0.65))
@@ -586,8 +630,9 @@ private fun EditBarPanel(
     onDone: () -> Unit,
 ) {
     val light = theme.inkStyle.isLight
-    val primary = if (light) Color.Black.opacity(0.9) else Color.White
-    val secondary = primary.opacity(0.6)
+    // iOS ตรึงแผ่นพิมพ์ไว้ที่โทนมืด (`.environment(\.colorScheme, .dark)`) — ตัวหนังสือ/ตัวนับ/ไอคอนจึงขาวเสมอ ไม่ตามหมึกของการ์ด
+    val primary = Color.White
+    val secondary = Color.White.opacity(0.6)
     val onAccent = if (RGB(theme.accent).luminance > 0.45) Color.Black.opacity(0.88) else Color.White
     val shape = RoundedCornerShape(26.dp)
     val focus = remember { FocusRequester() }
@@ -609,7 +654,8 @@ private fun EditBarPanel(
         veil = if (light) Color.White.opacity(0.5) else Color.Black.opacity(0.22),
         modifier = Modifier
             .padding(start = 12.dp, end = 12.dp, bottom = 10.dp)
-            .shadow(18.dp, shape, clip = false, ambientColor = Color.Black.opacity(0.32), spotColor = Color.Black.opacity(0.32))
+            // = `.shadow(color: .black.opacity(0.32), radius: 18, y: 8)`
+            .dropShadow(shape, Shadow(radius = 18.dp, color = Color.Black.opacity(0.32), offset = DpOffset(0.dp, 8.dp)))
             // ปัดลงบนแผ่นเพื่อปิด — ท่าที่มือไปถึงง่ายที่สุดขณะพิมพ์
             .pointerInput(Unit) {
                 detectVerticalDragGestures(
@@ -663,9 +709,9 @@ private fun EditBarPanel(
 
             // ล้างทั้งช่องในปุ่มเดียว — เร็วกว่าลากเลือกทั้งก้อนแล้วลบในช่องแคบ ๆ
             if (value.isNotEmpty()) {
-                val src = remember { MutableInteractionSource() }
+                // ตัวอักษรเปล่า 16pt ไม่มีกล่องกดรอบตัว (= iOS)
                 Box(
-                    Modifier.size(24.dp).clickable(src, indication = null) {
+                    Modifier.size(16.dp).plainPress {
                         Profile.me.set(id, "")
                         Haptics.impact(Haptics.Style.light)
                     },
@@ -676,11 +722,13 @@ private fun EditBarPanel(
             }
 
             val doneSrc = remember { MutableInteractionSource() }
+            // แคปซูลสีเน้นทึบ = ค่าที่วัดจาก glassProminent (กติกากระจกที่วัดแล้ว) · สูง 32 เท่า iOS
             Box(
                 Modifier
+                    .height(32.dp)
                     .background(theme.accent, CircleShape)
                     .clickable(doneSrc, indication = null, onClick = onDone)
-                    .padding(horizontal = 14.dp, vertical = 8.dp),
+                    .padding(horizontal = 14.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Text("เสร็จ", style = sh(13f, SHFont.semibold), color = onAccent, maxLines = 1, softWrap = false)
