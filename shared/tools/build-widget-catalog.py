@@ -23,6 +23,11 @@ LABEL = dict(hero='โปรไฟล์', seal='ตรารับรอง', i
 GROUP = {**{k:'เกี่ยวกับฉัน' for k in 'hero seal intro text followers audience tags body'.split()},
          **{k:'รับงาน' for k in 'rate availability contact'.split()}, **{k:'ผลงาน' for k in 'brand verified photo showcase'.split()}}
 GROUP_KEY = {k: {'เกี่ยวกับฉัน': 'me', 'รับงาน': 'job', 'ผลงาน': 'work'}[v] for k, v in GROUP.items()}
+# ---- ชิปในตู้ของ iOS (= `TrayGroup` ใน WidgetModel.swift) — ลำดับ + ชื่อ ตรงกับแอป 1:1 · หมวด (WidgetFamily) → ชิป = `WidgetFamily.trayGroup`
+TRAY = [('profile', 'โปรไฟล์'), ('channels', 'ช่องทาง'), ('niche', 'สายที่ใช่'), ('intro', 'แนะนำตัว'), ('body', 'สัดส่วน'), ('rate', 'เรทรับงาน'),
+        ('schedule', 'วันเวลา·พื้นที่'), ('audience', 'ข้อมูลผู้ติดตาม'), ('verify', 'ยืนยันตัวตน'), ('work', 'ผลงาน'), ('contact', 'ติดต่อ'), ('decor', 'ข้อความ')]
+TRAY_OF = dict(hero='profile', followers='channels', tags='niche', intro='intro', body='body', rate='rate', availability='schedule', audience='audience',
+               seal='verify', photo='work', showcase='work', brand='work', verified='work', contact='contact', text='decor')
 TIER = {**{k:'connected' for k in 'followers audience rate'.split()}, **{k:'verified' for k in 'brand verified seal'.split()}}
 TIER_TH = dict(personal='ใช้ได้ทุกคน', connected='ต้องเชื่อมข้อมูลก่อน', verified='ต้องผ่าน Sale Here ก่อน')
 LOCK = dict(hero='สายงาน', tags='สายงาน', followers='ช่องทาง', intro='แนะนำตัว', rate='เรต', audience='insight ผู้ชม', seal='ยืนยันตัวตน (KYC)',
@@ -778,7 +783,11 @@ CSS = '''
   .ng a { text-decoration:none; font-size:13px; padding:5px 10px; border-radius:999px; background:var(--paper); border:1px solid var(--line); white-space:nowrap; }
   .ng a small { color:var(--faint); margin-left:5px; font-size:11.5px; } .ng a:hover { border-color:var(--g); }
   .grp { margin-top:34px; }
-  .gh { font:600 13px var(--display); color:var(--g); letter-spacing:.02em; display:flex; align-items:center; gap:10px; } .gh::after { content:""; flex:1; height:2px; background:var(--g); opacity:.25; }
+  .grp { scroll-margin-top:104px; }
+  .gh { font:700 24px/1.2 var(--display); color:var(--ink); display:flex; align-items:baseline; gap:10px; } .gh::after { content:""; flex:1; height:2px; background:var(--g); opacity:.25; align-self:center; }
+  .gh code { font:500 13px var(--mono); color:var(--g); background:var(--gs); padding:2px 8px; border-radius:6px; } .gh .n { font:500 13px var(--sans); color:var(--faint); }
+  .ng a.g-me, .ng a.g-job, .ng a.g-work { --g:var(--me); } .ng a.g-job { --g:var(--job); } .ng a.g-work { --g:var(--work); }
+  .cat.sub { margin-top:14px; } .cat.sub .ch h2 { font-size:15px; } .cat:not(.sub) .ch { margin-top:4px; }
   section.cat { margin-top:16px; background:var(--paper); border:1px solid var(--line); border-top:4px solid var(--g); border-radius:16px; padding:18px 18px 20px; scroll-margin-top:64px; }
   .ch { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px; margin-bottom:14px; }
   .ch h2 { font:700 24px/1.2 var(--display); margin:0; } .ch code { color:var(--g); background:var(--gs); padding:2px 8px; border-radius:6px; }
@@ -1086,27 +1095,50 @@ CSS = '''
 '''
 
 COLOUR_HTML = '''<div class="colour" id="colour">
-      <div class="col-head"><button type="button" class="pill" id="col-toggle">🎨 สีพื้นหลังตามแอป</button><span class="note" id="col-note">เลือกสีเดียว/ไล่เฉด · สี · โทน (เฉพาะคู่สี) เหมือนถาด "พื้นหลัง" ในแอป แล้วทุก widget วาดใหม่ด้วยสีนั้น · กด "ปรับ" บนใบไหนก็ตั้งสีเฉพาะใบนั้นได้ (ต้องเปิด sync-server พอร์ต 8787)</span></div>
+      <div class="col-head"><button type="button" class="pill" id="col-toggle">🎨 สีพื้นหลังตามแอป</button><span class="note" id="col-note">เลือกสีเดียว/ไล่เฉด · สี · โทน (เฉพาะคู่สี) เหมือนถาด "พื้นหลัง" ในแอป แล้วทุก widget วาดใหม่ด้วยสีนั้น · กด "ปรับ" บนใบไหนก็ตั้งสีเฉพาะใบนั้นได้</span></div>
       <div id="col-tray" hidden></div>
     </div>'''
 
-# สคริปต์ module: โหลดตัววาดเว็บจาก sync-server เมื่อผู้ใช้เปิดแผงสี · ธีมตั้งต้น = ภาพ iOS เดิม
+# สคริปต์ module: โหลดตัววาดเว็บเมื่อผู้ใช้เปิดแผงสี · ธีมตั้งต้น = ภาพ iOS เดิม
+# แหล่งตัววาด: (1) ก้อนที่ฝังในไฟล์ (`window.SC_BUNDLE` จาก shared/tools/bundle-catalog.mjs — โค้ด · ผัง · ฟอนต์ · ไอคอน · fixture) → เปิดไฟล์เดียวก็เล่นได้
+#               (2) ไม่มีก้อน → sync-server พอร์ต 8787 (อ่านสดจาก sync-server/web/js + shared/WidgetSpecs)
 LIB_JS = r'''
-// ---------- ตัววาดเว็บจาก sync-server (sync-server/web/js) — โหลดครั้งเดียว ใช้ร่วมกันระหว่างแผงสีของแคตตาล็อกกับแท็บ "ลองวางการ์ด" ----------
+// ---------- ตัววาดเว็บ (sync-server/web/js) — โหลดครั้งเดียว ใช้ร่วมกันระหว่างแผงสีของแคตตาล็อกกับแท็บ "ลองวางการ์ด" ----------
 const SERVER = 'http://localhost:8787';
+const BUNDLE = window.SC_BUNDLE || null;   // ก้อนที่ฝังโดย bundle-catalog.mjs — มี = ไม่ต้องเปิด sync-server
+const NO_LIB = 'ไฟล์นี้ไม่มีตัววาดฝังไว้ — รัน node shared/tools/bundle-catalog.mjs หรือเปิด sync-server ก่อน (preview "sync-server" · node sync-server/server.mjs · พอร์ต 8787)';
 let _lib = null, _libP = null;
+// โมดูลที่ฝัง → blob: URL ตามลำดับพึ่งพา (import './x.js' ภายในชี้ไป URL ของ x) · เบราว์เซอร์ที่ไม่ยอม import blob: บนหน้า file:// ใช้ data: แทน
+function bundleImporter(asData) {
+  const urls = {};
+  for (const name of BUNDLE.order) {
+    const code = BUNDLE.modules[name].replace(/from '\.\/([\w-]+\.js)'/g, (m, f) => `from '${urls[f]}'`);
+    urls[name] = asData ? 'data:text/javascript;charset=utf-8,' + encodeURIComponent(code) : URL.createObjectURL(new Blob([code], { type: 'text/javascript' }));
+  }
+  return (f) => import(urls[f]);
+}
+async function importer() {
+  if (!BUNDLE) return (f) => import(`${SERVER}/card/js/${f}`);
+  const blob = bundleImporter(false);
+  try { await blob('theme.js'); return blob; } catch (e) { return bundleImporter(true); }
+}
 function loadLib() {
   if (_lib) return Promise.resolve(_lib);
   if (_libP) return _libP;
   _libP = (async () => {
-    const j = (f) => import(`${SERVER}/card/js/${f}`);
+    const j = await importer();
     const [tray, model, measure, data, chrome, backdrop, replay, theme, page] = await Promise.all([j('backdrop-tray.js'), j('spec-model.js'), j('measure.js'), j('data.js'), j('chrome.js'), j('backdrop.js'), j('replay.js'), j('theme.js'), j('page.js')]);
     document.head.appendChild(Object.assign(document.createElement('style'), { textContent: tray.TRAY_CSS }));
-    await measure.loadFonts(`${SERVER}/card/fonts/`);
-    // GET ธรรมดา (ไม่มี preflight ข้าม origin) — ผังอ่านสดจาก shared/WidgetSpecs ชุดเดียวกับ GraphQL
-    const r = await fetch(`${SERVER}/api/specs`);
-    const specs = Object.fromEntries(Object.entries((await r.json()).specs).map(([k, j]) => [k, model.parseSpec(j)]));
-    _lib = { ...tray, ...data, ...chrome, ...backdrop, ...replay, ...page, specs, measurer: new measure.WebMeasurer(), specPalette: theme.specPalette, css: theme.css, makeTheme: theme.makeTheme };
+    await measure.loadFonts(BUNDLE ? (f) => BUNDLE.fonts[f] : `${SERVER}/card/fonts/`);
+    // ผัง: จากก้อนที่ฝัง หรือ GET ธรรมดา (ไม่มี preflight ข้าม origin) อ่านสดจาก shared/WidgetSpecs ชุดเดียวกับ GraphQL
+    const raw = BUNDLE ? BUNDLE.specs : (await (await fetch(`${SERVER}/api/specs`)).json()).specs;
+    const specs = Object.fromEntries(Object.entries(raw).map(([k, j]) => [k, model.parseSpec(j)]));
+    // base = ที่มาของไอคอน (function ชื่อ→data: ที่ฝัง · ไม่มีชื่อนั้นค่อยไปถาม server) · imageURL = รูปที่อัปขึ้น sync-server (แคตตาล็อกไม่ใช้)
+    const base = BUNDLE ? (name) => BUNDLE.icons[name] || `${SERVER}/card/icon/${encodeURIComponent(name)}` : `${SERVER}/card/`;
+    const fixture = BUNDLE ? async (k) => BUNDLE.fixtures[k] || null
+      : async (k) => fetch(`${SERVER}/card/fixtures/fixtures/${k}.json`).then(r => (r.ok ? r.json() : null)).then(f => f?.cases.find(c => c.probe === 'design') || null).catch(() => null);
+    _lib = { ...tray, ...data, ...chrome, ...backdrop, ...replay, ...page, specs, theme, measurer: new measure.WebMeasurer(), specPalette: theme.specPalette, css: theme.css, makeTheme: theme.makeTheme,
+      base, imageURL: (id) => `${SERVER}/api/images/${id}`, fixture, bundled: !!BUNDLE, builtAt: BUNDLE?.builtAt || null };
     return _lib;
   })().catch((e) => { _libP = null; throw e; });
   return _libP;
@@ -1122,23 +1154,26 @@ let lib = null, state = { page: null, per: {} };
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.page) state = { page: s.page, per: s.per || {} }; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 const fixtures = {};
-const fixture = async (k) => (fixtures[k] ??= await fetch(`${SERVER}/card/fixtures/fixtures/${k}.json`).then(r => (r.ok ? r.json() : null)).then(f => f?.cases.find(c => c.probe === 'design') || null).catch(() => null));
+const fixture = async (k) => (fixtures[k] ??= await lib.fixture(k));   // กรณี `design` ของ fixture (ค่าที่ iOS วาดภาพนิ่ง) — จากก้อนที่ฝังหรือจาก server
 
 async function load() {
   if (lib) return lib;
-  note.textContent = 'กำลังโหลดตัววาดจาก sync-server…';
+  note.textContent = BUNDLE ? 'กำลังโหลดตัววาด…' : 'กำลังโหลดตัววาดจาก sync-server…';
   try {
     lib = await loadLib();
     if (!state.page) state.page = lib.defaultChoice();
     document.body.classList.add('live');
-    note.textContent = 'ธีมตั้งต้น = ภาพจาก iOS · เลือกสีแล้วทุกใบวาดใหม่ด้วยตัววาดเว็บ (ผัง JSON ชุดเดียวกัน) · "ปรับ" บนใบ = สีเฉพาะใบนั้น';
+    note.textContent = 'ธีมตั้งต้น = ภาพจาก iOS · เลือกสีแล้วทุกใบวาดใหม่ด้วยตัววาดเว็บ (ผัง JSON ชุดเดียวกัน) · "ปรับ" บนใบ = สีเฉพาะใบนั้น' + (lib.bundled ? ' · ตัววาดฝังในไฟล์ ' + lib.builtAt : ' · ตัววาดสดจาก sync-server');
     return lib;
-  } catch (e) { note.textContent = 'โหลดตัววาดไม่ได้ — เปิด sync-server ก่อน (preview "sync-server" · node sync-server/server.mjs · พอร์ต 8787): ' + e.message; throw e; }
+  } catch (e) { note.textContent = (BUNDLE ? 'โหลดตัววาดไม่ได้: ' : NO_LIB + ': ') + e.message; throw e; }
 }
 
 const choiceFor = (k) => state.per[k] || state.page;
-function fit(live) { const inner = live.firstChild; if (!inner) return; const r = live.getBoundingClientRect(); const k = Math.min(r.width / inner.offsetWidth, r.height / inner.offsetHeight); inner.style.transform = `translate(-50%,-50%) scale(${k})`; }
-window.addEventListener('resize', () => document.querySelectorAll('.th .live').forEach(fit));
+function fit(live) { const inner = live.firstChild; if (!inner) return; const r = live.getBoundingClientRect(); if (!r.width || !inner.offsetWidth) return; const k = Math.min(r.width / inner.offsetWidth, r.height / inner.offsetHeight); inner.style.transform = `translate(-50%,-50%) scale(${k})`; }
+// วาดตอนแท็บนี้ถูกซ่อน (เปิดหน้าที่ #color · #play …) กรอบกว้าง 0 → ย่อไม่ได้ · คิดใหม่ทุกครั้งที่กรอบภาพเปลี่ยนขนาด รวมถึงตอนกลับมาที่แท็บนี้
+const fitRO = new ResizeObserver((es) => es.forEach((e) => { const l = e.target.querySelector('.live'); if (l) fit(l); }));
+cards.forEach((cw) => fitRO.observe(cw.querySelector('.th')));
+window.addEventListener('hashchange', () => setTimeout(() => document.querySelectorAll('#home .th .live').forEach(fit), 0));   // กลับมาแท็บนี้ (route ซ่อน/โชว์ #home ก่อน)
 
 async function renderCard(cw) {
   const kind = cw.dataset.k, th = cw.querySelector('.th'), img = th.querySelector('img[data-k]');
@@ -1160,8 +1195,8 @@ async function renderCard(cw) {
   const profile = new lib.Profile({}, {});
   const fallback = new lib.WebSpecData({ profile, item: {}, sample: true, surface: 'glass' });
   const item = { id: '00000000-0000-0000-0000-000000000000', kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false };
-  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: `${SERVER}/card/`,
-    imageURL: (id) => `${SERVER}/api/images/${id}`, makeData: fx ? () => new lib.ReplayData(fx.data, fallback) : null };
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: lib.base,
+    imageURL: lib.imageURL, makeData: fx ? () => new lib.ReplayData(fx.data, fallback) : null };
   try { lib.mountWidget(inner, item, { x: M, y: M, width: W, height: H }, env); } catch (e) { inner.innerHTML = `<pre style="color:#f77;font-size:10px">${e.message}</pre>`; }
   img.style.visibility = 'hidden';
   fit(live);
@@ -1210,7 +1245,7 @@ for (const cw of cards) {
   });
 }
 
-// เคยเลือกไว้ → วาดต่อให้เลยตอนเปิดหน้า (ถ้า sync-server ไม่เปิดก็ยังเห็นภาพ iOS ตามเดิม)
+// เคยเลือกไว้ → วาดต่อให้เลยตอนเปิดหน้า (โหลดตัววาดไม่ได้ก็ยังเห็นภาพ iOS ตามเดิม)
 if (state.page && (Object.keys(state.per).length || state.page.backdrop !== 'solid' || (state.page.primary || '').toUpperCase() !== '#1A1F35' || state.page.secondary || state.page.tone !== 'dark')) {
   load().then(() => { renderAll(false); for (const cw of cards) if (state.per[cw.dataset.k]) { cw.querySelector('.col-adj').click(); } }).catch(() => {});
 }
@@ -1227,6 +1262,12 @@ function route() {
   if (h.startsWith('w/')) {
     const a = document.querySelector('article.wd[data-k="' + h.slice(2) + '"]');
     if (a) { fill(a); a.hidden = false; cur = a; document.body.classList.add('detail'); window.scrollTo(0, 0); document.title = a.querySelector('h2').textContent + ' · Widget Catalog'; return; }
+  }
+  document.body.classList.toggle('color', h === 'color');
+  if (h === 'color') {   // แท็บสี — เขียนแยกก่อนบรรทัด view เพราะ build-flow.mjs --splice แทนที่บรรทัดนั้นตรงตัว
+    ['detail', 'play', 'render', 'flow'].forEach(c => document.body.classList.remove(c));
+    document.querySelectorAll('nav.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === 'color'));
+    document.title = 'สีทำงานยังไง · Widget Catalog'; window.scrollTo(0, 0); window.dispatchEvent(new Event('color-open')); return;
   }
   const view = (h === 'play' || h === 'render') ? h : 'cat';
   document.body.classList.toggle('play', view === 'play'); document.body.classList.toggle('render', view === 'render');
@@ -1344,7 +1385,7 @@ PLAY_JS = r'''
   function fitScale() { const avail = board.clientWidth - 28; scale = Math.min(1, avail / PAGE.w, (window.innerHeight - 200) / PAGE.h); scale = Math.max(scale, .3);
     page.style.transform = `scale(${scale})`; page.parentElement.style.height = (PAGE.h * scale + 28) + 'px'; page.style.marginRight = (PAGE.w * scale - PAGE.w) + 'px'; page.style.marginBottom = (PAGE.h * scale - PAGE.h) + 'px'; }
   function envOf(theme) {
-    return { doc: { photos: {}, owner: OWNER, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: `${SERVER}/card/`, imageURL: id => `${SERVER}/api/images/${id}` };
+    return { doc: { photos: {}, owner: OWNER, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: lib.base, imageURL: lib.imageURL };
   }
   function paint() {
     if (!lib) return;
@@ -1617,12 +1658,10 @@ mutation SaveStarCardDraft($id: Int!, $doc: String!, $baseRev: Int!) {
                 { type: 'youtube', link: 'https://youtube.com/@niraskin', followers: 41200, enabled: true, source: 'connected' }],
       rates: [{ platform: 'tiktok', formatKey: 'short', price: 35000 }, { platform: 'instagram', formatKey: 'reels', price: 25000 }, { platform: 'instagram', formatKey: 'story', price: 12000 }, { platform: 'youtube', formatKey: 'integrated', price: 18000 }],
       availability: { days: [1, 2, 3, 4, 5], slots: [3], provinces: ['กรุงเทพมหานคร', 'นนทบุรี'] } } };
-  const SERVER = 'http://localhost:8787';
-
   async function boot() {
-    statusEl.textContent = 'กำลังโหลดตัววาดจาก sync-server…';
+    statusEl.textContent = BUNDLE ? 'กำลังโหลดตัววาด…' : 'กำลังโหลดตัววาดจาก sync-server…';
     try { lib = await loadLib(); }
-    catch (e) { statusEl.innerHTML = '<b>โหลดตัววาดไม่ได้</b> — เปิด sync-server ก่อน (preview "sync-server" · <code>node sync-server/server.mjs</code> · พอร์ต 8787) แล้วรีเฟรช · ' + esc(e.message); return; }
+    catch (e) { statusEl.innerHTML = '<b>โหลดตัววาดไม่ได้</b> — ' + esc(BUNDLE ? e.message : NO_LIB + ' แล้วรีเฟรช · ' + e.message); return; }
     profile = new lib.Profile(OWNER, {});
     statusEl.textContent = '';
     if (!load()) { choice = choice || lib.defaultChoice(); preset(); } else { choice = choice || lib.defaultChoice(); }
@@ -1923,16 +1962,354 @@ RENDER_JS = r'''
 })();
 '''
 
+# แท็บ "สีทำงานยังไง" (#color): hex ที่เลือก → token 6 × 3 พื้น (specPalette) → ทุกส่วนใน widget ที่วาดสด
+TOKENS_CSS = '''
+  /* ===== แท็บ สีทำงานยังไง ===== */
+  #color { display:none; } body.color #color { display:block; } body.color #home, body.color article.wd { display:none !important; }
+  #color h2.cx-h { font:700 22px/1.25 var(--display); margin:0 0 4px; display:flex; align-items:center; gap:10px; }
+  #color h2.cx-h i { font:700 13px/1 var(--mono); font-style:normal; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; background:var(--ink); color:var(--bg); flex:none; }
+  #color .cx-sec { margin-top:34px; } #color .cx-sec > .lede { margin-bottom:14px; max-width:780px; }
+  .cx-sw { --c:transparent; display:inline-block; width:18px; height:18px; border-radius:5px; flex:none; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
+           background:linear-gradient(var(--c),var(--c)), repeating-conic-gradient(#d4d4d4 0 25%, #fff 0 50%) 0 0/8px 8px; }
+  .cx-sw.lg { width:34px; height:34px; border-radius:9px; }
+  code.cx-tok { font:600 11.5px var(--mono); padding:2px 7px; border-radius:6px; background:var(--chip); white-space:nowrap; }
+  .cx-on { font:600 10.5px var(--mono); padding:1px 6px; border-radius:999px; border:1px solid var(--line); color:var(--mute); white-space:nowrap; }
+  .cx-on.card { background:#1a1f35; color:#dfe3f5; border-color:#1a1f35; } .cx-on.light { background:#f6f0e6; color:#5b4a2c; border-color:#e5dccb; } .cx-on.dark { background:#4a1d2b; color:#f5e4e9; border-color:#4a1d2b; }
+  .cx-on.fixed { border-style:dashed; }
+  /* แผนภาพ 4 กล่อง */
+  .cx-flow { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px; }
+  .cx-step { position:relative; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:12px 14px 14px; min-width:0; display:flex; flex-direction:column; gap:4px; }
+  .cx-step:not(:last-child)::after { content:"→"; position:absolute; right:-13px; top:22px; color:var(--faint); font-size:15px; }
+  .cx-step > b { font:600 15px/1.3 var(--display); display:flex; align-items:center; gap:7px; }
+  .cx-step > b i { font:700 11px/1 var(--mono); font-style:normal; width:20px; height:20px; border-radius:50%; display:grid; place-items:center; border:1.5px solid currentColor; flex:none; }
+  .cx-step > p { margin:0; color:var(--mute); font-size:12.5px; line-height:1.5; } .cx-step > p code { font-size:11.5px; }
+  .cx-body { margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; align-items:flex-start; }
+  .cx-hex { display:inline-flex; align-items:center; gap:7px; } .cx-hex code { font:600 12.5px var(--mono); }
+  .cx-tp { flex:1; min-width:58px; text-align:center; font:600 12.5px var(--display); padding:14px 4px; border-radius:9px; box-shadow:inset 0 0 0 1px rgba(127,127,127,.25); }
+  .cx-g18 { display:grid; grid-template-columns:auto repeat(3, 1fr); gap:4px 6px; align-items:center; width:100%; }
+  .cx-g18 code { font:11px var(--mono); color:var(--mute); padding-right:6px; } .cx-g18 em { font:600 11px var(--display); font-style:normal; color:var(--mute); text-align:center; }
+  .cx-g18 > span { display:flex; justify-content:center; } .cx-g18 > span[data-r] { cursor:default; }
+  .cx-mini { flex:1; min-width:70px; border-radius:9px; padding:8px; display:flex; flex-direction:column; gap:3px; box-shadow:inset 0 0 0 1px rgba(127,127,127,.25); }
+  .cx-mini b { font:700 12.5px/1.2 var(--display); } .cx-mini small { font-size:10px; } .cx-mini > i { height:1px; margin:2px 0; }
+  .cx-mini span { display:flex; align-items:center; gap:4px; } .cx-mini em { font-size:9.5px; font-style:normal; padding:1px 6px; border-radius:999px; } .cx-mini strong { font:700 12px var(--display); }
+  @media (max-width:980px) { .cx-flow { grid-template-columns:repeat(2, minmax(0,1fr)); } .cx-step:nth-child(2)::after { display:none; } }
+  @media (max-width:560px) { .cx-flow { grid-template-columns:minmax(0,1fr); } .cx-step::after { display:none; } }
+  .cx-pick { margin-bottom:18px; } .cx-pick .bt { border-radius:14px; }
+  @media (min-width:900px) and (min-height:900px) { .cx-pick { position:sticky; top:50px; z-index:6; } }
+  /* ลองดูใน widget */
+  .cx-a { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:16px; align-items:start; }
+  @media (max-width:900px) { .cx-a { grid-template-columns:minmax(0,1fr); } }
+  .cx-box { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:14px; min-width:0; }
+  .cx-ctl { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:10px; font-size:13px; }
+  .cx-ctl label { color:var(--mute); font-size:12.5px; } .cx-ctl select { font:14px var(--body); padding:6px 8px; border-radius:9px; border:1px solid var(--line); background:var(--bg); color:var(--ink); max-width:100%; }
+  .cx-seg { display:inline-flex; background:var(--chip); border-radius:999px; padding:2px; } .cx-seg button { border:0; background:transparent; font:600 12.5px var(--body); padding:5px 11px; border-radius:999px; color:var(--mute); cursor:pointer; }
+  .cx-seg button.on { background:var(--paper); color:var(--ink); box-shadow:0 0 0 1px var(--line); }
+  .cx-stage { position:relative; border-radius:12px; overflow:hidden; display:grid; place-items:center; background:#202024; min-height:260px; transition:background .2s; }
+  .cx-stage .cx-w { position:relative; } .cx-stage .cx-in { position:absolute; left:0; top:0; transform-origin:0 0; }
+  .cx-hl { position:absolute; pointer-events:none; border:2px solid #ffd36b; border-radius:4px; box-shadow:0 0 0 2px rgba(0,0,0,.45), 0 0 18px rgba(255,211,107,.55); transition:all .12s; }
+  .cx-hl.soft { border-color:rgba(255,211,107,.85); box-shadow:0 0 0 1px rgba(0,0,0,.35); }
+  .cx-tip { position:absolute; pointer-events:none; z-index:3; background:rgba(16,16,20,.94); color:#eee; font:12px/1.45 var(--body); padding:7px 9px; border-radius:9px; max-width:240px; }
+  .cx-tip code { font-size:11px; color:#ffd36b; }
+  .cx-note { font-size:12.5px; color:var(--mute); margin:10px 0 0; line-height:1.5; } .cx-note b { color:var(--ink); }
+  .cx-parts { list-style:none; margin:8px 0 0; padding:0; max-height:420px; overflow:auto; border-top:1px solid var(--line); }
+  .cx-parts li { display:grid; grid-template-columns:18px minmax(0,1fr) auto auto; gap:8px; align-items:center; padding:7px 6px; border-bottom:1px solid var(--line); cursor:pointer; font-size:13.5px; border-radius:8px; }
+  .cx-parts li:hover { background:var(--bg); } .cx-parts li.on { background:color-mix(in srgb, #ffd36b 22%, var(--paper)); }
+  .cx-parts .pl { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .cx-parts .pl small { color:var(--faint); margin-left:6px; font-size:12px; }
+  .cx-parts .grp { display:block; cursor:default; padding:10px 6px 4px; font:600 12px var(--display); color:var(--mute); border-bottom:0; } .cx-parts .grp:hover { background:none; }
+  /* token ของใบ */
+  .cx-sum { display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; font-size:14px; padding:2px 2px 10px; }
+  .cx-sum .pk { display:inline-flex; align-items:center; gap:6px; font:12px var(--mono); } .cx-sum .ar { color:var(--faint); } .cx-sum b { font:700 18px var(--display); }
+  .cx-toks { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px; }
+  .cx-toks li { display:grid; grid-template-columns:18px auto auto minmax(0,1fr) auto; gap:8px; align-items:center; padding:6px 8px; border-radius:9px; background:var(--bg); border:1px solid var(--line); cursor:pointer; font-size:13px; }
+  .cx-toks li:hover { border-color:var(--faint); } .cx-toks li.on { border-color:#e0b43f; background:color-mix(in srgb, #ffd36b 16%, var(--paper)); }
+  .cx-toks .hx { font:11.5px var(--mono); color:var(--mute); } .cx-toks .al { font-family:var(--body); color:var(--faint); } .cx-toks .n { font-size:12px; color:var(--faint); white-space:nowrap; }
+  .cx-sub { font:600 12px var(--display); color:var(--mute); margin:14px 0 6px; }
+'''
+
+TOKENS_HTML = '''
+<section id="color" aria-label="สีทำงานยังไง">
+  <header class="top ptop">
+    <div class="eyebrow">Star Card · สี</div>
+    <h1>สีทำงานยังไง</h1>
+  </header>
+  <div class="cx-pick" id="cxpick"><p class="mut">กำลังโหลดตัววาด…</p></div>
+  <div class="cx-sec" style="margin-top:0">
+    <div id="cxdia"></div>
+  </div>
+  <div class="cx-sec">
+    <h2 class="cx-h">ใน widget</h2>
+    <div class="cx-a">
+      <div class="cx-box">
+        <div class="cx-ctl"><label for="cxk">widget</label><select id="cxk"></select><span id="cxsurf"></span></div>
+        <div class="cx-stage" id="cxstage"></div>
+        <p class="cx-note" id="cxnote"></p>
+      </div>
+      <div class="cx-box">
+        <div id="cxchain"></div>
+        <ul class="cx-parts" id="cxparts"></ul>
+      </div>
+    </div>
+  </div>
+</section>'''
+
+TOKENS_JS = r'''
+// ---------- สีทำงานยังไง: hex ที่เลือก → token 6 บทบาท × 3 พื้น (specPalette) → ทุกส่วนใน widget ----------
+// ตัวคิดทุกตัวคือของตัววาดเว็บ (sync-server/web/js) — ส่วนที่ตัววาดวาดจริงถือกล่องของตัวเองไว้ที่ `el.__spec` · ตัวแปลงของใบอยู่ที่ `host.__palette`
+(() => {
+  const sec = document.getElementById('color'); if (!sec) return;
+  const $ = (id) => document.getElementById(id);
+  const KEY = 'sc-cat-tokens-v1';
+  const ROLES = ['bg', 'bg2', 'ink', 'ink2', 'accent', 'line'];
+  const ROLE = { bg: ['พื้น', 'พื้นของแผ่นที่ส่วนนั้นนั่ง'], bg2: ['พื้นรอง', 'กล่องย่อย ชิป แถบหัว · คำตัวใหญ่ฉากหลัง'], ink: ['หมึก', 'ตัวหนังสือหลัก ไอคอน'],
+    ink2: ['หมึกจาง', 'ป้าย ตัวรอง คำอธิบาย'], accent: ['สีเน้น', 'ตัวเลขเด่น จุดเน้น'], line: ['เส้น', 'เส้นขอบ เส้นคั่น'] };
+  const SURF = { card: ['บนการ์ด', 'ไม่มีแผ่นของตัวเอง — ตัวหนังสือวางบนพื้นการ์ดตรง ๆ ใช้หมึกของการ์ดแล้วปรับแค่ความทึบ'],
+    light: ['แผ่นสว่าง', 'กระดาษครีมของใบ — สีเดียวอมเฉดของสีที่เลือก · คู่สี = สีอ่อนของคู่ หมึก = สีเข้ม'],
+    dark: ['แผ่นเข้ม', 'แผ่นอิ่มสีของใบ — สีเดียวคิดจากเฉด · คู่สี = สีเข้มของคู่ หมึก = สีอ่อน'] };
+  const LIVE_FLAGS = new Set(['ink.light', 'bordered', 'papered', 'duo', 'kit.dark']);
+  const BOX = { glass: 'กระจก', dim: 'เข้ม', clear: 'ไม่มีพื้น', pane: 'กระจก (chrome)' };
+  const WHERE = { fill: 'พื้น', fillCycle: 'พื้น', gradient: 'ไล่สี', stroke: 'เส้นขอบ', color: 'ตัวหนังสือ', tint: 'ไอคอน', shadow: 'เงา', pattern: 'ลาย', platePattern: 'ลายแผ่น' };
+  const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const short = (s, n = 18) => { s = String(s ?? '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+  const f2 = (v) => (+v).toFixed(2), deg = (h) => Math.round(h * 360) + '°', pct = (a) => Math.round(a * 100) + '%';
+
+  let lib = null, T = null, choice = null, kind = null, surf = null, built = false;
+  let theme = null, palette = null, parts = [], rows = [], selRow = 0, B = null;
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) { choice = s.choice || null; kind = s.kind || null; surf = s.surf || null; } } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ choice, kind, surf })); } catch (e) {} };
+
+  const hexA = (c) => T.hexOf(c) + (c.a < 0.999 ? ' · ' + pct(c.a) : '');
+  const sw = (c, cls = '') => `<span class="cx-sw ${cls}" style="--c:${lib.css(c)}" title="${hexA(c)}"></span>`;
+  const tokChip = (tok) => `<code class="cx-tok">${esc(tok)}</code>`;
+  const onPill = (s) => `<span class="cx-on ${s}">${s === 'fixed' ? 'ตายตัว' : s}</span>`;
+
+  // สีที่ user เลือก (hex ใน doc)
+  const bases = (t) => ({ primary: { c: t.primary }, secondary: t.secondary ? { c: t.secondary } : null });
+
+  // ---------- ส่วนของ widget ที่ตัววาดวาดจริง ----------
+  function refsOf(b) {
+    const n = b.node, out = [];
+    if (n.type === 'text') { out.push(['color', n.color ?? 'ink']); if (n.shadow) out.push(['shadow', n.shadow.color]); return out; }
+    if (n.type === 'icon') { if (n.tint) out.push(['tint', n.tint]); return out; }
+    const cyc = n.fillCycle?.length && b.item ? n.fillCycle[b.item.i % n.fillCycle.length] : null;
+    const fill = cyc ?? n.fill ?? (n.type === 'line' ? 'ink@0.12' : null);
+    if (typeof fill === 'string') out.push([cyc ? 'fillCycle' : 'fill', fill]);
+    if (n.gradient) { out.push(['gradient', n.gradient.from]); out.push(['gradient', n.gradient.to]); }
+    if (n.stroke?.color) out.push(['stroke', n.stroke.color]);
+    if (n.pattern) { out.push(['pattern', n.pattern.color]); if (n.pattern.color2) out.push(['pattern', n.pattern.color2]); }
+    if (n.platePattern) out.push(['platePattern', n.platePattern]);
+    if (n.shadow) out.push(['shadow', n.shadow.color]);
+    return out.filter(([, t]) => typeof t === 'string');
+  }
+  function label(b) {
+    const n = b.node, nm = n.slot ? (SLOT_TH[n.slot] || n.slot) : n.id || '';
+    if (n.type === 'text') return (nm ? nm + ' ' : '') + '“' + short(b.text?.string || n.text || '') + '”';
+    if (n.type === 'icon') return 'ไอคอน ' + short(n.icon || nm, 22);
+    if (n.type === 'image') return 'รูป ' + nm;
+    if (n.type === 'line') return 'เส้นคั่น ' + nm;
+    if (b.id === 'r') return 'พื้นทั้งใบ';
+    return (n.type === 'chips' ? 'ชิป ' : 'กล่อง ') + nm;
+  }
+  const surfOf = (tok, n) => {
+    const name = tok.split('@')[0];
+    if (tok.startsWith('$') || !ROLES.includes(name)) return 'fixed';
+    const ex = ['card', 'light', 'dark'].includes(n.on) ? n.on : null;
+    return ex ?? (palette.pal.noSheet ? 'card' : palette.pal.base);
+  };
+
+  function collect(host) {
+    const all = [...host.querySelectorAll('*')];
+    const palHost = all.find((e) => e.__palette); palette = palHost ? palHost.__palette : null;
+    const byNode = new Map();
+    for (const e of all) { const b = e.__spec; if (!b) continue; if (!byNode.has(b.node)) byNode.set(b.node, { b, els: [] }); byNode.get(b.node).els.push(e); }
+    parts = []; rows = [];
+    if (!palette) return;
+    for (const { b, els } of byNode.values()) {
+      const refs = refsOf(b); if (!refs.length) continue;
+      const p = { b, els, label: label(b), rows: [] }; parts.push(p);
+      const seen = new Set();
+      for (const [where, tok] of refs) {
+        const key = where + '|' + tok; if (seen.has(key)) continue; seen.add(key);
+        const s = surfOf(tok, b.node), c = palette.colorObj(tok, b.node.on, b.item);
+        const r = { p, where, tok, s, c, i: rows.length }; rows.push(r); p.rows.push(r);
+      }
+    }
+  }
+
+  // ---------- วาด ----------
+  const stage = $('cxstage');
+  let hl = [], tip = null;
+  function clearHL() { hl.forEach((x) => x.remove()); hl = []; }
+  function outline(els, soft) {
+    const sr = stage.getBoundingClientRect();
+    for (const e of els) {
+      const r = e.getBoundingClientRect(); if (r.width < 1 && r.height < 1) continue;
+      const d = document.createElement('div'); d.className = 'cx-hl' + (soft ? ' soft' : '');
+      d.style.cssText = `left:${r.left - sr.left - 3}px;top:${r.top - sr.top - 3}px;width:${r.width + 6}px;height:${r.height + 6}px`;
+      stage.appendChild(d); hl.push(d);
+    }
+  }
+  function select(i, scroll) {
+    const r = rows[i]; if (!r) { $('cxchain').innerHTML = '<p class="mut">ใบนี้ไม่มีส่วนที่ใช้ token สี</p>'; return; }
+    selRow = i;
+    document.querySelectorAll('#cxparts li[data-i]').forEach((li) => li.classList.toggle('on', +li.dataset.i === i));
+    if (scroll) document.querySelector(`#cxparts li[data-i="${i}"]`)?.scrollIntoView({ block: 'nearest' });
+    clearHL(); outline(r.p.els);
+    document.querySelectorAll('#cxchain li[data-t]').forEach((li) => li.classList.toggle('on', li.dataset.t === keyOf(r)));
+  }
+  // token ที่สีที่เลือกถูกแปลงออกมาในใบนี้ — นับ (บทบาท × พื้น) ไม่ซ้ำ · `@ความทึบ` เป็นแค่การใช้ token เดิมที่จางลง จึงรวมแถวเดียว
+  // สีตายตัว/จากข้อมูลไม่แสดงในรายการนี้ เพราะไม่ได้มาจากสีที่เลือก
+  let toks = [];
+  const keyOf = (r) => (r.s === 'fixed' ? r.tok : r.tok.split('@')[0]) + '|' + r.s;
+  function renderTokens() {
+    const by = new Map();
+    for (const r of rows) {
+      const k = keyOf(r), name = r.s === 'fixed' ? r.tok : r.tok.split('@')[0];
+      if (!by.has(k)) by.set(k, { k, tok: name, s: r.s, c: r.s === 'fixed' ? r.c : palette.colorObj(name, r.s === 'card' ? 'card' : r.s, r.p.b.item), rows: [], alphas: new Set() });
+      const t = by.get(k); t.rows.push(r); if (r.s !== 'fixed' && r.tok.includes('@')) t.alphas.add(r.tok.split('@')[1]);
+    }
+    const SO = { light: 0, dark: 1, card: 2, fixed: 3 }, ro = (t) => { const i = ROLES.indexOf(t.split('@')[0]); return i < 0 ? 99 : i; };
+    toks = [...by.values()].sort((a, b) => SO[a.s] - SO[b.s] || ro(a.tok) - ro(b.tok) || a.tok.localeCompare(b.tok));
+    const mine = toks.filter((t) => t.s !== 'fixed');
+    const pick = [B.primary.c].concat(B.secondary ? [B.secondary.c] : []);
+    const li = (t) => `<li data-t="${esc(t.k)}">${sw(t.c)}${tokChip(t.tok)}${onPill(t.s)}<span class="hx">${hexA(t.c)}${t.alphas.size ? ` <span class="al">ใช้จางด้วย ${[...t.alphas].map((a) => '@' + a).join(' ')}</span>` : ''}</span><span class="n">${t.rows.length} ส่วน</span></li>`;
+    $('cxchain').innerHTML = `<div class="cx-sum"><span class="mut">สีที่เลือก</span>${pick.map((c) => `<span class="pk">${sw(c)}${T.hexOf(c)}</span>`).join('')}<span class="ar">→</span><b>${mine.length} token</b><span class="mut">ในใบนี้</span></div>` +
+      `<ul class="cx-toks">${mine.map(li).join('') || '<li class="mut">ใบนี้ไม่ได้ใช้สีจากสีที่เลือก</li>'}</ul>` +
+      '<div class="cx-sub">แต่ละส่วนใช้ token ไหน</div>';
+  }
+  function renderParts() {
+    const ul = $('cxparts');
+    const groups = { light: [], dark: [], card: [], fixed: [] };
+    rows.forEach((r) => groups[r.s].push(r));
+    const GT = { light: 'บนแผ่นสว่าง (light)', dark: 'บนแผ่นเข้ม (dark)', card: 'บนการ์ด (card)', fixed: 'สีตายตัว / จากข้อมูล' };
+    ul.innerHTML = Object.entries(groups).filter(([, rs]) => rs.length).map(([g, rs]) => `<li class="grp">${GT[g]} · ${rs.length}</li>` +
+      rs.map((r) => `<li data-i="${r.i}">${sw(r.c)}<span class="pl">${esc(r.p.label)}<small>${WHERE[r.where]}</small></span>${tokChip(r.tok)}${onPill(r.s)}</li>`).join('')).join('')
+      || '<li class="grp">ใบนี้ไม่ได้ใช้ token สี</li>';
+  }
+  let drawGen = 0;
+  async function drawWidget() {
+    const spec = lib.specs[kind]; if (!spec) return;
+    const gen = ++drawGen;   // กดเร็ว ๆ หลายครั้ง → รอบเก่าที่ยังรอ fixture ทิ้งไป ไม่เขียนทับรอบใหม่
+    const surfaces = spec.widget?.surfaces?.length ? spec.widget.surfaces : ['glass'];
+    if (!surfaces.includes(surf)) surf = surfaces[0];
+    $('cxsurf').innerHTML = surfaces.length > 1 ? '<label>กล่อง</label> <span class="cx-seg">' + surfaces.map((s) => `<button type="button" data-s="${s}" class="${s === surf ? 'on' : ''}">${esc(spec.widget?.surfaceNames?.[s] || BOX[s] || s)}</button>`).join('') + '</span>' : '';
+    const W = spec.design.w, H = spec.design.h, M = 10, CW = W + M * 2, CH = H + M * 2;
+    const k = Math.max(0.5, Math.min(1.7, (stage.clientWidth - 24) / CW, 560 / CH));
+    stage.innerHTML = '';
+    const wrap = document.createElement('div'); wrap.className = 'cx-w'; wrap.style.cssText = `width:${CW * k}px;height:${CH * k}px;margin:12px`;
+    const inner = document.createElement('div'); inner.className = 'cx-in'; inner.style.cssText = `width:${CW}px;height:${CH}px;transform:scale(${k})`;
+    wrap.appendChild(inner); stage.appendChild(wrap);
+    // ไม่วาดพื้นการ์ด — widget ลอยบนเวทีกลาง ๆ (เทาอ่อนเมื่อหมึกการ์ดมืด · เทาเข้มเมื่อหมึกขาว ให้ตัวหนังสือบนการ์ดยังอ่านออก)
+    stage.style.background = theme.inkStyle.isLight ? '#E6E6EA' : '#202024';
+    const fx = await lib.fixture(kind);
+    if (gen !== drawGen) return;
+    const profile = new lib.Profile({}, {});
+    const item = { id: '00000000-0000-0000-0000-000000000000', kind, x: M, y: M, w: W, h: H, surface: surf, border: false };
+    // ข้อความ/รายการ = ค่าที่ iOS บันทึกไว้ · เงื่อนไขที่ขึ้นกับกล่องหรือสี (papered · duo · ink.light …) คิดสดจากที่เลือก — fixture จดไว้ใต้ธีมตั้งต้น + กล่องแรก
+    const live = new lib.WebSpecData({ profile, item, sample: true, surface: surf, inkLight: surf === 'dim' ? false : theme.inkStyle.isLight, duo: !!theme.activeDuo, kitDark: spec.widget?.on === 'dark' });
+    const replay = () => { const d = new lib.ReplayData(fx.data, live), own = d.flag.bind(d); d.flag = (n) => (LIVE_FLAGS.has(n) || n.startsWith('surface=') || n.startsWith('cfg:') ? live.flag(n) : own(n)); return d; };
+    const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: lib.specs, measurer: lib.measurer, base: lib.base, imageURL: lib.imageURL,
+      makeData: fx ? replay : null };
+    try { lib.mountWidget(inner, item, { x: M, y: M, width: W, height: H }, env); } catch (e) { inner.innerHTML = `<pre style="color:#f77">${esc(e.message)}</pre>`; }
+    collect(inner);
+    const base = spec.widget?.on || 'card';
+    $('cxnote').innerHTML = `Type ${onPill(base)}` + (palette?.pal.noSheet && base !== 'card' ? ` → ${onPill('card')} (ไม่มีพื้น)` : '');
+    renderParts();
+    renderTokens();
+    select(Math.min(selRow, rows.length - 1), false);
+  }
+
+  // ---------- ขั้น 1 · 2 · 3 + สายพาน ----------
+  // ---------- แผนภาพ 4 กล่อง: hex ที่เลือก → 3 Types → 6 Tokens ต่อ Type → รวมกันใน widget ----------
+  const TYPE = { card: 'Card', light: 'Light', dark: 'Dark' };
+  const TYPES = ['card', 'light', 'dark'];
+  function renderDiagram() {
+    const pal = lib.specPalette({ t: theme, ink: theme.inkStyle, accent: theme.accent, surface: 'glass', skin: null, kit: {}, border: false, base: 'card' });
+    const C = (r, s) => lib.css(pal.color(r, s)), bd = theme.backdropColors;
+    const cardBg = `linear-gradient(${lib.css(bd.top)},${lib.css(choice.backdrop === 'gradient' ? bd.bottom : bd.top)})`;
+    const pick = [B.primary.c].concat(B.secondary ? [B.secondary.c] : []);
+    const bgOf = (s) => (s === 'card' ? cardBg : C('bg', s));
+    const box = (n, title, sub, body) => `<div class="cx-step"><b><i>${n}</i>${title}</b><p>${sub}</p><div class="cx-body">${body}</div></div>`;
+    $('cxdia').innerHTML = '<div class="cx-flow">' + [
+      box(1, 'hex ที่เลือก', `user เลือก${pick.length > 1 ? 'คู่สี 2 สี' : 'สีเดียว'} · API เก็บแค่ hex นี้ ไม่มี token`,
+        pick.map((c) => `<span class="cx-hex">${sw(c, 'lg')}<code>${T.hexOf(c)}</code></span>`).join('')),
+      box(2, '3 Types ของ widget', 'Card · Light · Dark — คนทำ widget เลือกใน JSON (<code>widget.on</code>) ว่าใบนั้นนั่งบน Type ไหน',
+        TYPES.map((s) => `<span class="cx-tp" style="background:${bgOf(s)};color:${C('ink', s)}">${TYPE[s]}</span>`).join('')),
+      box(3, '6 Tokens ต่อ Type = 18 สี', 'bg · bg2 · ink · ink2 · accent · line — ผังของ widget อ้างแค่ชื่อพวกนี้ ตัววาดเติมสีตาม Type',
+        `<div class="cx-g18"><span></span>${TYPES.map((s) => `<em>${TYPE[s]}</em>`).join('')}` +
+        ROLES.map((r) => `<code>${r}</code>` + TYPES.map((s) => `<span data-s="${s}" data-r="${r}" title="${TYPE[s]} · ${r} · ${hexA(pal.color(r, s))}">${sw(pal.color(r, s))}</span>`).join('')).join('') + '</div>'),
+      box(4, 'รวมกัน = สีใน widget', 'พื้นใช้ bg · ตัวหนังสือใช้ ink/ink2 · ป้ายใช้ bg2 · ตัวเลขเด่นใช้ accent · เส้นใช้ line',
+        TYPES.map((s) => `<div class="cx-mini" style="background:${bgOf(s)}"><b style="color:${C('ink', s)}">${TYPE[s]}</b><small style="color:${C('ink2', s)}">@handle</small><i style="background:${C('line', s)}"></i><span><em style="background:${C('bg2', s)};color:${C('ink', s)}">Tag</em><strong style="color:${C('accent', s)}">58.3K</strong></span></div>`).join('')),
+    ].join('') + '</div>';
+  }
+
+  function buildTray() {
+    lib.buildTray($('cxpick'), choice, () => { save(); buildTray(); redraw(); });
+  }
+  async function redraw() {
+    theme = lib.themeOf(choice); B = bases(theme);
+    await drawWidget();
+    renderDiagram();
+  }
+
+  async function boot() {
+    try { lib = await loadLib(); } catch (e) { $('cxpick').innerHTML = `<p class="mut">${esc((BUNDLE ? 'โหลดตัววาดไม่ได้: ' : NO_LIB + ': ') + e.message)}</p>`; return; }
+    T = lib.theme;
+    if (!choice) choice = { ...lib.defaultChoice(), primary: '#3D5AFE' };
+    const ks = PLAY.filter((p) => lib.specs[p.k]);
+    if (!kind || !lib.specs[kind]) kind = lib.specs.aboutEditorial ? 'aboutEditorial' : ks[0].k;
+    const groups = {}; ks.forEach((p) => (groups[p.cl] ??= []).push(p));
+    const sel = $('cxk');
+    sel.innerHTML = Object.entries(groups).map(([g, ps]) => `<optgroup label="${esc(g)}">` + ps.map((p) => `<option value="${p.k}">${esc(p.t)} · ${p.k}</option>`).join('') + '</optgroup>').join('');
+    sel.value = kind;
+    sel.onchange = () => { kind = sel.value; selRow = 0; save(); redraw(); };
+    $('cxsurf').addEventListener('click', (e) => { const b = e.target.closest('button[data-s]'); if (!b) return; surf = b.dataset.s; selRow = 0; save(); redraw(); });
+    $('cxparts').addEventListener('click', (e) => { const li = e.target.closest('li[data-i]'); if (li) select(+li.dataset.i, false); });
+    $('cxparts').addEventListener('mouseover', (e) => { const li = e.target.closest('li[data-i]'); if (!li) return; const r = rows[+li.dataset.i]; clearHL(); outline(rows[selRow]?.p.els || []); if (r && r !== rows[selRow]) outline(r.p.els, true); });
+    $('cxparts').addEventListener('mouseleave', () => { clearHL(); outline(rows[selRow]?.p.els || []); });
+    // ชี้ token → ทุกส่วนที่ใช้ token นั้น · แตะ = เลือกส่วนแรกของมัน
+    $('cxchain').addEventListener('mouseover', (e) => { const li = e.target.closest('li[data-t]'); if (!li) return; const t = toks.find((t) => t.k === li.dataset.t); clearHL(); if (t) outline(t.rows.flatMap((r) => r.p.els)); });
+    $('cxchain').addEventListener('mouseleave', () => { clearHL(); outline(rows[selRow]?.p.els || []); });
+    $('cxchain').addEventListener('click', (e) => { const li = e.target.closest('li[data-t]'); if (!li) return; const t = toks.find((t) => t.k === li.dataset.t); if (t) select(t.rows[0].i, true); });
+    // ชี้บน widget → ส่วนที่ลึกที่สุดที่ใช้สี
+    const hit = (e) => { let x = e.target; while (x && x !== stage) { if (x.__spec) { const p = parts.find((p) => p.els.includes(x)); if (p) return p; } x = x.parentElement; } return null; };
+    stage.addEventListener('mousemove', (e) => {
+      const p = hit(e); tip?.remove(); tip = null; clearHL(); outline(rows[selRow]?.p.els || []);
+      if (!p) return;
+      if (rows[selRow]?.p !== p) outline(p.els, true);
+      const sr = stage.getBoundingClientRect();
+      tip = document.createElement('div'); tip.className = 'cx-tip';
+      tip.innerHTML = `<b>${esc(p.label)}</b><br>` + p.rows.map((r) => `${WHERE[r.where]} <code>${esc(r.tok)}</code> บน ${r.s === 'fixed' ? 'ตายตัว' : r.s}`).join('<br>');
+      tip.style.left = Math.min(e.clientX - sr.left + 14, sr.width - 250) + 'px'; tip.style.top = (e.clientY - sr.top + 14) + 'px';
+      stage.appendChild(tip);
+    });
+    stage.addEventListener('mouseleave', () => { tip?.remove(); tip = null; clearHL(); outline(rows[selRow]?.p.els || []); });
+    stage.addEventListener('click', (e) => { const p = hit(e); if (p) select(p.rows[0].i, true); });
+    // ชี้แถวในตาราง 3 พื้น → ไฮไลต์ทุกจุดในใบที่ใช้ token นั้น
+    // ชี้ token ในแผนภาพ → ทุกจุดใน widget ที่ใช้ token นั้น
+    $('cxdia').addEventListener('mouseover', (e) => { const li = e.target.closest('[data-r]'); if (!li) return; clearHL(); outline(rows.filter((x) => x.s === li.dataset.s && x.tok.split('@')[0] === li.dataset.r).flatMap((x) => x.p.els), true); });
+    $('cxdia').addEventListener('mouseleave', () => { clearHL(); outline(rows[selRow]?.p.els || []); });
+    let rt = 0; addEventListener('resize', () => { if (!document.body.classList.contains('color')) return; clearTimeout(rt); rt = setTimeout(() => drawWidget(), 200); });
+    buildTray(); await redraw();
+  }
+  const open = () => { if (!built) { built = true; boot(); } };
+  window.addEventListener('color-open', open);
+  if (location.hash === '#color') open();
+})();
+'''
+
 def main():
     specs = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(SPECS, '*.json')))]
     cm = json.load(open(os.path.join(ROOT, 'shared/category-models.json')))
     SAMPLE.update(load_sample())
     bycat = collections.defaultdict(list)
     for s in specs: bycat[s['widget']['category']].append(s)
-    for c in bycat: bycat[c].sort(key=lambda s: (s['widget'].get('order', 10**9), s['kind']))
+    # ลำดับในหมวด = ตู้ iOS (`WidgetGallery.orderedEntries`): ชุดห้าสไตล์ (kit) ขึ้นก่อน แล้วค่อยตาม order
+    for c in bycat: bycat[c].sort(key=lambda s: (not s['widget'].get('kit'), s['widget'].get('order', 10**9), s['kind']))
     cats = [c for c in ORDER if bycat.get(c)]
-    groups = collections.OrderedDict((g, []) for g in ('เกี่ยวกับฉัน', 'รับงาน', 'ผลงาน'))
-    for c in cats: groups[GROUP[c]].append(c)
+    groups = collections.OrderedDict((g, []) for g, _l in TRAY)
+    for c in cats: groups[TRAY_OF[c]].append(c)
+    groups = collections.OrderedDict((g, cs) for g, cs in groups.items() if cs)
+    TRAY_TH = dict(TRAY)
     pairs = set()
     for s0 in specs:
         base0 = s0['widget'].get('on') or 'card'
@@ -1947,8 +2324,10 @@ def main():
     imgs, index, details, nav, play, rdat = {}, [], [], [], [], {}
     for g, cs in groups.items():
         gk = GROUP_KEY[cs[0]]
-        nav.append(f'<div class="ng g-{gk}"><span>{g}</span>' + ''.join(f'<a href="#cat-{c}">{LABEL[c]}<small>{len(bycat[c])}</small></a>' for c in cs) + '</div>')
-        index.append(f'<div class="grp g-{gk}"><div class="gh">ตู้ “{g}”</div>')
+        n_g = sum(len(bycat[c]) for c in cs)
+        nav.append(f'<a class="g-{gk}" href="#cat-{g}">{TRAY_TH[g]}<small>{n_g}</small></a>')
+        # หนึ่งชิป = หนึ่งหัวข้อ · ชิปที่รวมหลายหมวด (ผลงาน) แยกหัวข้อย่อยตามหมวดเหมือน section ในตู้ iOS
+        index.append(f'<div class="grp g-{gk}" id="cat-{g}"><div class="gh">{TRAY_TH[g]}<code>{g}</code><span class="n">{n_g} widget</span></div>')
         for c in cs:
             items = bycat[c]; kinds = [s['kind'] for s in items]
             cards = []
@@ -1965,7 +2344,8 @@ def main():
                                  own=bool(w.get('ownSurface')), ka=bool(w.get('keepAspect')), pin=bool(w.get('pinned')), it=it))
                 cards.append(f'<div class="cw" data-k="{k}"><a class="card" href="#w/{k}"><span class="th"><img data-k="{k}" alt=""><button type="button" class="col-adj" title="ปรับสีเฉพาะใบนี้">ปรับ</button></span><b>{esc(w["title"])}</b><code>{k} <i class="surf">{w.get("on") or "card"}</i></code></a><div class="col-tray" hidden></div><span class="col-state"></span></div>')
             meta = [TIER_TH[TIER.get(c, 'personal')]] + ([f'ล็อกจนกรอก{LOCK[c]}'] if LOCK.get(c) else [])
-            index.append(f'<section class="cat" id="cat-{c}"><div class="ch"><h2>{LABEL[c]}</h2><code>{c}</code><span class="n">{len(items)} widget</span>'
+            sub = len(cs) > 1
+            index.append(f'<section class="cat{" sub" if sub else ""}" id="cat-{c}"><div class="ch">{f"<h2>{LABEL[c]}</h2>" if sub else ""}<code>{c}</code>{f"<span class=n>{len(items)} widget</span>" if sub else ""}'
                          f'<span class="cm">{" · ".join(meta)}</span></div><div class="cards">{"".join(cards)}</div></section>')
         index.append('</div>')
     page = f'''<!doctype html>
@@ -1974,21 +2354,22 @@ def main():
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Star Card Widget Catalog</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>{CSS}</style>
-<nav class="tabs" aria-label="หน้า"><a href="#" data-tab="cat">Widget ทั้งหมด</a><a href="#play" data-tab="play">ลองวางการ์ด <small>ดูว่า API เก็บยังไง</small></a><a href="#render" data-tab="render">วิธีวาด <small>ข้อมูล merge ตรงไหน</small></a></nav>
+<style>{CSS}{TOKENS_CSS}</style>
+<nav class="tabs" aria-label="หน้า"><a href="#" data-tab="cat">Widget ทั้งหมด</a><a href="#play" data-tab="play">ลองวางการ์ด <small>ดูว่า API เก็บยังไง</small></a><a href="#color" data-tab="color">สีทำงานยังไง <small>hex → token → widget</small></a><a href="#render" data-tab="render">วิธีวาด <small>ข้อมูล merge ตรงไหน</small></a></nav>
 <div class="page">
 <div id="home">
   <header class="top">
     <div class="eyebrow">Star Card · Widget Catalog</div>
     <h1>Widget ทั้งหมด</h1>
-    <p class="lede">{len(specs)} widget · {len(cats)} หมวด · แตะ widget เพื่อดูว่าใช้ข้อมูลอะไร มาจากไหน</p>
+    <p class="lede">{len(specs)} widget · {len(groups)} หัวข้อ (= ชิปในตู้ของแอป) · {len(cats)} หมวด · แตะ widget เพื่อดูว่าใช้ข้อมูลอะไร มาจากไหน</p>
     {COLOUR_HTML}
   </header>
-  <nav class="cats" aria-label="ไปยังหมวด">{"".join(nav)}</nav>
+  <nav class="cats" aria-label="ไปยังหมวด"><div class="ng">{"".join(nav)}</div></nav>
   {"".join(index)}
 </div>
 {"".join(details)}
 {PLAY_HTML}
+{TOKENS_HTML}
 {RENDER_HTML}
 </div>
 <script>
@@ -1997,6 +2378,7 @@ const PLAY = {json.dumps(play, ensure_ascii=False)};
 const RD = {json.dumps(rdat, ensure_ascii=False)};
 const CATQ = {json.dumps({c: 'StarCard' + c[0].upper() + c[1:] + 'Model' for c in cats})};
 const PRESETS = {json.dumps(load_presets())};
+const SLOT_TH = {json.dumps(SLOT_TH, ensure_ascii=False)};
 {JS}
 {RENDER_JS}
 </script>
@@ -2004,9 +2386,13 @@ const PRESETS = {json.dumps(load_presets())};
 {LIB_JS}
 {LIVE_JS}
 {PLAY_JS}
+{TOKENS_JS}
 </script>
 '''
     open(OUT, 'w', encoding='utf-8').write(page)
     print('wrote', os.path.relpath(OUT, ROOT), f'{os.path.getsize(OUT)//1024} KB · {len(specs)} widget · {len(cats)} หมวด')
+    # ฝังตัววาดเว็บ + ผัง + ฟอนต์ + ไอคอน + fixture ลงไฟล์ → ส่งไฟล์เดียวให้ทีมอื่นแล้วปรับสี/ลองวางการ์ดได้โดยไม่ต้องเปิด sync-server
+    r = subprocess.run(['node', os.path.join(ROOT, 'shared/tools/bundle-catalog.mjs')])
+    if r.returncode: print('bundle-catalog.mjs ล้มเหลว — ไฟล์นี้ยังต้องเปิด sync-server ถึงปรับสีได้', file=sys.stderr)
 
 main()

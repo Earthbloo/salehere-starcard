@@ -1,0 +1,371 @@
+<title>แบบ A เลือกหลายวัน</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>
+/* layout: header → four tappable phones (A + one multi-day idea each) in a wrapping grid → tap-count table → pick */
+:root {
+  --bg: #F9FAFB; --card: #fff; --ink: #16181D; --muted: #5B6069; --ph: #9CA3AF;
+  --line: #E5E7EB; --line2: #D1D5DB; --field: #F3F4F6; --charcoal: #2B2D33; --red: #ED1C24;
+  --green-ink: #067647; --green-t: #E7F6EF;
+  --stage: #ECEEF1; --dim: rgba(22, 24, 29, .38); --bezel: #16181D;
+  --font: "Noto Sans Thai", -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--stage); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 64px; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+button:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 2px; }
+button:disabled { cursor: default; opacity: .4; }
+.page { max-width: 1560px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+h1 { margin: 0; font-size: clamp(24px, 4vw, 32px); line-height: 1.25; text-wrap: balance; }
+h2.sec { margin: 0 0 14px; font-size: 13px; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+.lede { margin: 8px 0 0; color: var(--muted); max-width: 64ch; }
+
+.vars { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 40px 24px; justify-items: center; }
+.var { width: 100%; max-width: 372px; display: flex; flex-direction: column; gap: 14px; }
+.vhead { display: flex; flex-direction: column; gap: 2px; min-height: 84px; }
+.vhead .tag { font-size: 13px; font-weight: 700; color: var(--muted); }
+.vhead h3 { margin: 0; font-size: 19px; }
+.vhead p { margin: 0; font-size: 13px; color: var(--muted); }
+.pick-badge { font-size: 12px; font-weight: 700; color: var(--green-ink); background: var(--green-t); border-radius: 6px; padding: 1px 8px; margin-left: 4px; }
+.tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tools b { color: var(--ink); }
+.reset { font-size: 13px; font-weight: 600; border: 1px solid var(--line2); background: var(--card); border-radius: 999px; padding: 4px 12px; }
+.pros { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.pros li { display: grid; grid-template-columns: 18px 1fr; gap: 6px; }
+.pros li::before { content: "+"; font-weight: 700; color: var(--green-ink); text-align: center; }
+.pros li.con::before { content: "–"; color: var(--red); }
+
+/* ---------- phone ---------- */
+.phone { position: relative; width: 100%; height: 720px; background: var(--bg); border-radius: 36px; overflow: hidden;
+  box-shadow: 0 0 0 8px var(--bezel), 0 26px 50px -22px rgba(22, 24, 29, .45); display: flex; flex-direction: column; }
+.nav { display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; padding: 16px 14px 6px; }
+.nav p { grid-column: 2; margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+.x { grid-column: 3; width: 32px; height: 32px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 4px rgba(22, 24, 29, .12); display: grid; place-items: center; }
+.scroll { flex: 1; overflow-y: auto; padding: 10px 18px 18px; display: flex; flex-direction: column; gap: 14px; }
+.q { margin: 0; font-size: 20px; font-weight: 700; }
+.sub { margin: -10px 0 0; font-size: 13px; color: var(--muted); }
+.foot { padding: 10px 18px 22px; border-top: 1px solid var(--line); background: var(--bg); display: flex; gap: 10px; }
+.cta { flex: 1; height: 48px; border-radius: 14px; background: var(--charcoal); color: #fff; font-weight: 600; font-size: 16px; text-align: center; }
+.ghost { height: 48px; padding: 0 18px; border-radius: 14px; border: 1px solid var(--line2); background: var(--card); font-weight: 600; text-align: center; }
+
+.box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line2); background: var(--card); display: grid; place-items: center; flex: none; transition: background .15s, border-color .15s; }
+.box svg { opacity: 0; }
+[aria-checked="true"] > .box { background: var(--charcoal); border-color: var(--charcoal); }
+[aria-checked="true"] > .box svg { opacity: 1; }
+
+/* list (the picked design) */
+.listhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: -6px; }
+.listhead span { font-size: 13px; color: var(--muted); }
+.link { font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line2); }
+.week { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.rowwrap { display: flex; align-items: center; }
+.rowwrap + .rowwrap { border-top: 1px solid var(--line); }
+.tick { padding: 0 0 0 14px; align-self: stretch; display: flex; align-items: center; }
+.row { flex: 1; min-width: 0; display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 8px; padding: 8px 10px 8px 14px; }
+.tick + .row { padding-left: 10px; grid-template-columns: 66px 1fr; }
+.row b { font-weight: 600; }
+.rowwrap.sel { background: var(--field); }
+.rowwrap.sel .dd { background: var(--card); }
+.dd { min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 6px 8px 6px 12px; background: var(--field); border-radius: 10px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.dd span { min-width: 0; }
+.dd.off span { color: var(--ph); }
+.dd svg { flex: none; color: var(--muted); }
+.flash { animation: flash .9s ease-out; }
+@keyframes flash { 0% { background: #DDE0E5; } 100% { background: var(--field); } }
+
+/* A4 shortcuts */
+.shortcuts { display: flex; flex-direction: column; gap: 8px; }
+.shortcuts span { font-size: 13px; color: var(--muted); }
+.sc-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.sc { height: 38px; border: 1px solid var(--line2); border-radius: 10px; background: var(--card); font-size: 13px; font-weight: 600; text-align: center; }
+
+/* sheet */
+.scrim { position: absolute; inset: 0; background: var(--dim); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--card); border-radius: 22px 22px 0 0; padding: 8px 18px 24px;
+  transform: translateY(105%); transition: transform .32s cubic-bezier(.16, 1, .3, 1); display: flex; flex-direction: column; gap: 4px; }
+.open .scrim { opacity: 1; pointer-events: auto; }
+.open .sheet { transform: none; }
+.grab { width: 38px; height: 5px; border-radius: 3px; background: var(--line2); margin: 0 auto 10px; }
+.sheet h4 { margin: 0; font-size: 18px; }
+.sheet .lbl { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.quick { display: flex; gap: 12px; }
+.quick button { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line2); }
+.circles { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 6px 0 4px; }
+.circ { aspect-ratio: 1; max-width: 100%; border-radius: 50%; border: 1.5px solid var(--line2); display: grid; place-items: center; font-size: 13px; font-weight: 600; background: var(--card); text-align: center; }
+.circ[aria-pressed="true"] { background: var(--charcoal); border-color: var(--charcoal); color: #fff; }
+.opt { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 2px; font-size: 15px; font-variant-numeric: tabular-nums; }
+.opt + .opt { border-top: 1px solid var(--line); }
+.opt.all { border-top-color: var(--line2); }
+.sheet .cta { margin-top: 10px; flex: none; width: 100%; }
+.mix { font-size: 13px; color: var(--muted); margin: 2px 0 0; }
+
+.toast { position: absolute; left: 50%; bottom: 96px; transform: translate(-50%, 12px); background: var(--charcoal); color: #fff; font-size: 13px;
+  padding: 8px 14px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* table + pick */
+.tablewrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; max-width: 900px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+td.n, th.n { text-align: center; width: 13%; font-variant-numeric: tabular-nums; }
+td.n { font-weight: 600; }
+td.best { color: var(--green-ink); }
+td.bad { color: var(--red); }
+td small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.note { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.verdict { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+.verdict h3 { margin: 0; font-size: 18px; }
+.verdict p { margin: 0; }
+.verdict ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 420px) { .phone { height: 660px; border-radius: 26px; box-shadow: 0 0 0 5px var(--bezel); } .vars { grid-template-columns: 1fr; } .vhead { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .sheet, .scrim, .toast { transition: none; } .flash { animation: none; } }
+</style>
+
+<div class="page">
+  <header>
+    <h1>แบบ A + เลือกหลายวันแล้วตั้งเวลาทีเดียว</h1>
+    <p class="lede">หน้ารายการวันเหมือนเดิมทุกเครื่อง ต่างกันแค่วิธีเลือกหลายวัน 4 แบบ ลองกดได้จริง กด “เริ่มจากว่าง” เพื่อนับจำนวนแตะ ข้อมูลยังเป็น 4 ช่วงต่อวันเหมือน salehere-ios</p>
+  </header>
+  <section><div class="vars" id="vars"></div></section>
+
+  <section>
+    <h2 class="sec">จำนวนแตะ เริ่มจากว่าง ไม่นับปุ่มถัดไปของหน้า</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>ว่างแบบนี้</th><th class="n">A เดิม</th><th class="n">A1</th><th class="n">A2</th><th class="n">A3</th><th class="n">A4</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <p class="note">ตัวเลขคำนวณสด ๆ ตอนเปิดหน้า: สคริปต์กดปุ่มจริงในเครื่องที่ซ่อนไว้ แล้วเช็กว่าผลตรงกับที่ตั้งใจ · A เดิม = รายการ + sheet ที่มีปุ่ม “ใช้กับทุกวัน”</p>
+  </section>
+
+  <section class="verdict">
+    <h3>เลือก A1 (เลือกวันใน sheet)</h3>
+    <p>หน้าหลักเหมือนที่เลือกไว้ทุกอย่าง ไม่มีปุ่มหรือช่องติ๊กเพิ่ม ทุกครั้งที่กดวันไหน sheet จะโชว์แถววันให้แตะเพิ่มได้เลย คนเลยเจอฟีเจอร์นี้เองตอนตั้งเวลาวันแรก</p>
+    <ul>
+      <li>A4 แตะน้อยกว่านิดหน่อย แต่เพิ่มปุ่ม 4 ปุ่มบนหน้าหลัก</li>
+      <li>A3 มีช่องติ๊กหน้าวันตลอด เสี่ยงอ่านเป็น “ติ๊ก = ว่าง” แบบเดียวกับที่วงกลมเดิมโดน</li>
+      <li>A2 (ปุ่ม “เลือกหลายวัน” แบบ iOS) คนต้องรู้ก่อนว่ามีโหมดนี้</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const WEEK = [['จ', 'จันทร์'], ['อ', 'อังคาร'], ['พ', 'พุธ'], ['พฤ', 'พฤหัสบดี'], ['ศ', 'ศุกร์'], ['ส', 'เสาร์'], ['อา', 'อาทิตย์']];
+const DAYS = WEEK.map(w => w[0]), FULL = Object.fromEntries(WEEK);
+const SLOTS = ['slot_09_12', 'slot_12_14', 'slot_14_17', 'slot_17_late'];
+const HOURS = { slot_09_12: [9, 12], slot_12_14: [12, 14], slot_14_17: [14, 17], slot_17_late: [17, null] };
+const hh = h => String(h).padStart(2, '0') + '.00';
+const lab = ([a, b]) => b == null ? `${hh(a)} เป็นต้นไป` : `${hh(a)}–${hh(b)}`;
+const WKD = ['จ', 'อ', 'พ', 'พฤ', 'ศ'], WKE = ['ส', 'อา'];
+const QUICK = { all: DAYS, wkd: WKD, wke: WKE };
+const sample = () => Object.fromEntries(DAYS.map(d => [d, WKD.includes(d) ? ['slot_17_late'] : []]));
+const empty = () => Object.fromEntries(DAYS.map(d => [d, []]));
+const order = ds => DAYS.filter(d => ds.includes(d));
+
+// ครบ 4 = ทุกช่วงเวลา · ช่วงติดกันรวมเป็นช่วงเดียว (= slotText ของ desktop/)
+function summary(keys) {
+  const picked = SLOTS.filter(k => keys.includes(k));
+  if (!picked.length) return ''; if (picked.length === SLOTS.length) return 'ทุกช่วงเวลา';
+  const runs = []; picked.forEach(k => { const [a, b] = HOURS[k], last = runs[runs.length - 1]; if (last && last[1] === a) last[1] = b; else runs.push([a, b]); });
+  return runs.map(lab).join(', ');
+}
+// วันติดกันรวมเป็น "จ–ศ" · ครบ 7 = ทุกวัน
+function dayText(ds) {
+  const idx = DAYS.map((d, i) => ds.includes(d) ? i : -1).filter(i => i >= 0);
+  if (!idx.length) return ''; if (idx.length === 7) return 'ทุกวัน';
+  const runs = []; idx.forEach(i => { const l = runs[runs.length - 1]; if (l && l[1] === i - 1) l[1] = i; else runs.push([i, i]); });
+  return runs.map(([a, b]) => a === b ? DAYS[a] : `${DAYS[a]}–${DAYS[b]}`).join(', ');
+}
+function weekText(w) {
+  const groups = []; DAYS.forEach(d => { if (!w[d].length) return; const key = summary(w[d]), g = groups.find(x => x.key === key); g ? g.days.push(d) : groups.push({ key, days: [d] }); });
+  return groups.map(g => `${dayText(g.days)} · ${g.key}`).join(' / ') || 'ไม่ว่างเลย';
+}
+const toggleSlot = (list, k) => k === '*' ? (SLOTS.every(s => list.includes(s)) ? [] : [...SLOTS]) : (list.includes(k) ? list.filter(s => s !== k) : [...list, k]);
+const toggleIn = (list, x) => list.includes(x) ? list.filter(y => y !== x) : [...list, x];
+const sameSlots = (a, b) => a.length === b.length && a.every(k => b.includes(k));
+
+const ic = {
+  x: '<svg width="13" height="13" viewBox="0 0 256 256" fill="currentColor"><path d="M205.7 194.3a8 8 0 0 1-11.4 11.4L128 139.3l-66.3 66.4a8 8 0 0 1-11.4-11.4l66.4-66.3-66.4-66.3a8 8 0 0 1 11.4-11.4l66.3 66.4 66.3-66.4a8 8 0 0 1 11.4 11.4L139.3 128Z"/></svg>',
+  caret: '<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M213.7 101.7l-80 80a8 8 0 0 1-11.4 0l-80-80a8 8 0 0 1 11.4-11.4L128 164.7l74.3-74.4a8 8 0 0 1 11.4 11.4Z"/></svg>',
+  tick: '<svg width="13" height="13" viewBox="0 0 256 256" fill="#fff"><path d="M232.5 77.5l-128 128a12 12 0 0 1-17 0l-56-56a12 12 0 0 1 17-17L96 180l119.5-119.5a12 12 0 0 1 17 17Z"/></svg>',
+};
+const box = `<span class="box">${ic.tick}</span>`;
+const quick = () => `<span class="quick"><button data-a="squick" data-q="all">ทุกวัน</button><button data-a="squick" data-q="wkd">จ–ศ</button><button data-a="squick" data-q="wke">ส–อา</button></span>`;
+function shell(inner, foot = '<button class="cta" data-a="none" data-nocount>ถัดไป</button>') {
+  return `<div class="nav"><p>สมัครเป็น ST★R</p><button class="x" aria-label="ปิด" data-a="none">${ic.x}</button></div>
+    <div class="scroll"><h4 class="q">ว่างรับงานวันไหน? 📅</h4><p class="sub">แบรนด์ดูวันว่างของคุณตอนคัดคน</p>${inner}</div><div class="foot">${foot}</div>`;
+}
+
+// ---------- shared list + sheet; each variant only changes how days get picked ----------
+// st = { w, sel: days the sheet edits, draft, picker: show day circles in the sheet, ticks: days ticked on the list }
+const newState = fresh => ({ w: fresh ? empty() : sample(), sel: [], draft: [], picker: false, ticks: [] });
+function list(st, flash, { ticks = false } = {}) {
+  return `<div class="week">${WEEK.map(([d, f]) => { const s = summary(st.w[d]), on = st.ticks.includes(d);
+    return `<div class="rowwrap${on ? ' sel' : ''}">${ticks ? `<button class="tick" role="checkbox" aria-label="เลือก${f}" aria-checked="${on}" data-a="tick" data-d="${d}">${box}</button>` : ''}
+      <button class="row" data-a="${ticks === 'mode' ? 'tick' : 'open'}" data-d="${d}"><b>${f}</b><span class="dd${s ? '' : ' off'}${flash.includes(d) ? ' flash' : ''}"><span>${s || 'ไม่ว่าง'}</span>${ic.caret}</span></button></div>`; }).join('')}</div>`;
+}
+function sheet(st, { all7 = false } = {}) {
+  const title = st.picker ? 'ตั้งเวลา' : st.sel.length === 1 ? FULL[st.sel[0]] : `${dayText(st.sel)} (${st.sel.length} วัน)`;
+  const mixed = st.sel.length > 1 && !st.sel.every(d => sameSlots(st.w[d], st.w[st.sel[0]]));
+  return `<div class="scrim" data-a="close"></div><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div><h4>${title}</h4>
+    ${st.picker ? `<div class="lbl"><span>ใช้กับวัน</span>${quick()}</div><div class="circles">${DAYS.map(d => `<button class="circ" aria-label="${FULL[d]}" aria-pressed="${st.sel.includes(d)}" data-a="sday" data-d="${d}">${d}</button>`).join('')}</div>` : ''}
+    ${mixed ? '<p class="mix">วันที่เลือกตั้งเวลาไว้ไม่เหมือนกัน เลือกใหม่แล้วจะใช้กับทุกวันที่เลือก</p>' : ''}
+    <div>${[...SLOTS.map(k => [k, lab(HOURS[k])]), ['*', 'ทุกช่วงเวลา']].map(([k, t]) => `<button class="opt${k === '*' ? ' all' : ''}" role="checkbox" aria-checked="${k === '*' ? SLOTS.every(s => st.draft.includes(s)) : st.draft.includes(k)}" data-a="sslot" data-k="${k}">${box}${t}</button>`).join('')}</div>
+    ${all7 ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><button class="ghost" data-a="all7">ใช้กับทุกวัน</button><button class="cta" style="margin:0" data-a="ok">ตกลง</button></div>`
+      : `<button class="cta" data-a="ok" ${st.sel.length ? '' : 'disabled'}>${st.sel.length > 1 ? `ตกลง · ${st.sel.length} วัน` : 'ตกลง'}</button>`}</div>`;
+}
+function openSheet(st, days, picker) {
+  st.sel = order(days); st.picker = picker;
+  const first = st.w[st.sel[0]] || [];
+  st.draft = st.sel.length && st.sel.every(d => sameSlots(st.w[d], first)) ? [...first] : [];
+  return { open: true };
+}
+function sheetAct(st, a, el) {
+  if (a === 'sday') { st.sel = order(toggleIn(st.sel, el.dataset.d)); return { open: true }; }
+  if (a === 'squick') { st.sel = [...QUICK[el.dataset.q]]; return { open: true }; }
+  if (a === 'sslot') { st.draft = toggleSlot(st.draft, el.dataset.k); return { open: true }; }
+  if (a === 'ok') { const ds = st.sel; ds.forEach(d => st.w[d] = [...st.draft]); st.sel = []; st.ticks = []; return { flash: ds, toast: ds.length > 1 ? `ตั้งเวลา ${ds.length} วันแล้ว` : '' }; }
+  if (a === 'all7') { DAYS.forEach(d => st.w[d] = [...st.draft]); st.sel = []; return { flash: DAYS, toast: 'ใช้เวลานี้กับทุกวันแล้ว' }; }
+  if (a === 'close') { st.sel = []; return {}; }
+}
+const toastEl = '<div class="toast" role="status"></div>';
+
+const variants = [
+  { id: 'A0', hidden: true, init(f) { this.st = newState(f); },
+    render(fl) { return shell(list(this.st, fl)) + sheet(this.st, { all7: true }) + toastEl; },
+    act(a, el) { return a === 'open' ? openSheet(this.st, [el.dataset.d], false) : sheetAct(this.st, a, el); } },
+
+  { id: 'A1', tag: 'A1 · Apple Health ตารางนอน', title: 'เลือกวันเพิ่มใน sheet', sub: 'กดวันไหนก็ได้ แล้วแตะวันอื่นเพิ่มในแถววันบน sheet', pick: true,
+    pros: ['หน้าหลักเหมือนเดิมทุกอย่าง', 'เจอฟีเจอร์เองตอนตั้งวันแรก'], cons: ['sheet สูงขึ้นอีกหนึ่งแถว'],
+    init(f) { this.st = newState(f); },
+    render(fl) { return shell(list(this.st, fl)) + sheet(this.st) + toastEl; },
+    act(a, el) { return a === 'open' ? openSheet(this.st, [el.dataset.d], true) : sheetAct(this.st, a, el); } },
+
+  { id: 'A2', tag: 'A2 · iOS Mail / Photos', title: 'ปุ่ม “เลือกหลายวัน”', sub: 'กดปุ่มแล้วแถวมีช่องติ๊ก เลือกเสร็จกด “ตั้งเวลา”',
+    pros: ['คุ้นจากแอป iOS ทั่วไป', 'โหมดปกติยังกดวันเดียวได้เหมือนเดิม'], cons: ['ต้องรู้ก่อนว่ามีปุ่มนี้', 'แตะเยอะสุดในกลุ่ม'],
+    init(f) { this.st = newState(f); this.mode = false; },
+    render(fl) {
+      const st = this.st, n = st.ticks.length;
+      const head = `<div class="listhead"><span>${this.mode ? `เลือกแล้ว ${n} วัน` : ''}</span>${this.mode
+        ? `<button class="link" data-a="selAll">${n === 7 ? 'ไม่เลือกเลย' : 'เลือกทั้งหมด'}</button>` : '<button class="link" data-a="mode">เลือกหลายวัน</button>'}</div>`;
+      const foot = this.mode ? `<button class="ghost" data-a="cancel">ยกเลิก</button><button class="cta" data-a="setMany" ${n ? '' : 'disabled'}>ตั้งเวลา ${n} วัน</button>` : undefined;
+      return shell(head + list(st, fl, { ticks: this.mode ? 'mode' : false }), foot) + sheet(st) + toastEl;
+    },
+    act(a, el) {
+      const st = this.st;
+      if (a === 'mode') { this.mode = true; st.ticks = []; return {}; }
+      if (a === 'cancel') { this.mode = false; st.ticks = []; return {}; }
+      if (a === 'tick') { st.ticks = toggleIn(st.ticks, el.dataset.d); return {}; }
+      if (a === 'selAll') { st.ticks = st.ticks.length === 7 ? [] : [...DAYS]; return {}; }
+      if (a === 'setMany') return openSheet(st, st.ticks, false);
+      if (a === 'open') return openSheet(st, [el.dataset.d], false);
+      const r = sheetAct(st, a, el); if (a === 'ok') this.mode = false; return r;
+    } },
+
+  { id: 'A3', tag: 'A3 · Gmail', title: 'ช่องติ๊กหน้าวันตลอด', sub: 'ติ๊กกี่วันก็ได้ แถบล่างขึ้น “ตั้งเวลา N วัน”',
+    pros: ['ไม่ต้องเปิดโหมด เห็นได้ทันทีว่าเลือกหลายวันได้'], cons: ['ช่องติ๊กหน้าวันอ่านเป็น “ติ๊ก = ว่าง” ได้ (ปัญหาเดียวกับวงกลมเดิม)'],
+    init(f) { this.st = newState(f); },
+    render(fl) {
+      const st = this.st, n = st.ticks.length;
+      const head = `<div class="listhead"><span>ติ๊กหลายวันเพื่อตั้งเวลาทีเดียว</span><button class="link" data-a="selAll">${n === 7 ? 'ไม่เลือกเลย' : 'เลือกทั้งหมด'}</button></div>`;
+      const foot = n ? `<button class="ghost" data-a="clear">ยกเลิก</button><button class="cta" data-a="setMany">ตั้งเวลา ${n} วัน</button>` : undefined;
+      return shell(head + list(st, fl, { ticks: true }), foot) + sheet(st) + toastEl;
+    },
+    act(a, el) {
+      const st = this.st;
+      if (a === 'tick') { st.ticks = toggleIn(st.ticks, el.dataset.d); return {}; }
+      if (a === 'selAll') { st.ticks = st.ticks.length === 7 ? [] : [...DAYS]; return {}; }
+      if (a === 'clear') { st.ticks = []; return {}; }
+      if (a === 'setMany') return openSheet(st, st.ticks, false);
+      if (a === 'open') return openSheet(st, [el.dataset.d], false);
+      return sheetAct(st, a, el);
+    } },
+
+  { id: 'A4', tag: 'A4 · ทางลัด', title: 'ปุ่มตั้งทีเดียวเหนือรายการ', sub: 'ทุกวัน · จ–ศ · ส–อา · เลือกเอง เปิด sheet ของวันชุดนั้น',
+    pros: ['แตะน้อยที่สุดเมื่อว่างเป็นแพทเทิร์น'], cons: ['เพิ่มปุ่ม 4 ปุ่มบนหน้าหลัก', 'มีสองทางทำเรื่องเดียวกัน'],
+    init(f) { this.st = newState(f); },
+    render(fl) {
+      const sc = `<div class="shortcuts"><span>ตั้งเวลาทีเดียวหลายวัน</span><div class="sc-row"><button class="sc" data-a="sc" data-q="all">ทุกวัน</button><button class="sc" data-a="sc" data-q="wkd">จ–ศ</button><button class="sc" data-a="sc" data-q="wke">ส–อา</button><button class="sc" data-a="sc" data-q="own">เลือกเอง</button></div></div>`;
+      return shell(sc + list(this.st, fl)) + sheet(this.st) + toastEl;
+    },
+    act(a, el) {
+      if (a === 'sc') { const q = el.dataset.q; return q === 'own' ? openSheet(this.st, [], true) : openSheet(this.st, QUICK[q], false); }
+      if (a === 'open') return openSheet(this.st, [el.dataset.d], false);
+      return sheetAct(this.st, a, el);
+    } },
+];
+
+// ---------- wiring ----------
+function mount(v, host, visible) {
+  const root = document.createElement('div'); root.className = 'var'; root.id = 'v' + v.id;
+  root.innerHTML = visible ? `<div class="vhead"><span class="tag">${v.tag}${v.pick ? ' <span class="pick-badge">แนะนำ</span>' : ''}</span><h3>${v.title}</h3><p>${v.sub}</p></div>
+    <div class="tools"><span>แตะไป <b data-count>0</b> ครั้ง</span><button class="reset" data-reset>เริ่มจากว่าง</button></div>
+    <div class="phone" data-phone></div>
+    <ul class="pros">${v.pros.map(p => `<li>${p}</li>`).join('')}${v.cons.map(c => `<li class="con">${c}</li>`).join('')}</ul>`
+    : '<b data-count></b><div class="phone" data-phone></div>';
+  host.append(root);
+  const ph = root.querySelector('[data-phone]'), cnt = root.querySelector('[data-count]');
+  const m = { taps: 0, v, ph };
+  const draw = (res = {}) => {
+    const keep = ph.querySelector('.scroll')?.scrollTop || 0;
+    ph.innerHTML = v.render(res.flash || []);
+    ph.querySelector('.scroll').scrollTop = keep;
+    if (res.open && !ph.classList.contains('open')) void ph.offsetHeight; // let the sheet slide up
+    ph.classList.toggle('open', !!res.open);
+    if (res.toast) { const t = ph.querySelector('.toast'); t.textContent = res.toast; requestAnimationFrame(() => t.classList.add('show')); setTimeout(() => t.classList.remove('show'), 1600); }
+    cnt.textContent = m.taps;
+  };
+  m.start = fresh => { v.init(fresh); m.taps = 0; draw(); };
+  ph.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (!el || el.disabled) return;
+    if (!el.hasAttribute('data-nocount') && el.dataset.a !== 'none') m.taps++;
+    draw(v.act(el.dataset.a, el) || {}); });
+  root.querySelector('[data-reset]')?.addEventListener('click', () => m.start(true));
+  m.start(false);
+  return m;
+}
+const host = document.getElementById('vars');
+variants.filter(v => !v.hidden).forEach(v => mount(v, host, true));
+
+// ---------- tap counts: replay each scenario on a hidden copy, check the result ----------
+const row = d => `.row[data-d="${d}"]`, slot = k => `.opt[data-k="${k}"]`, L = 'slot_17_late', OK = '[data-a=ok]';
+const SCEN = [
+  { t: 'ทุกวัน ทุกช่วงเวลา', want: 'ทุกวัน · ทุกช่วงเวลา', steps: {
+    A0: [row('จ'), slot('*'), '[data-a=all7]'],
+    A1: [row('จ'), '[data-q=all]', slot('*'), OK],
+    A2: ['[data-a=mode]', '[data-a=selAll]', '[data-a=setMany]', slot('*'), OK],
+    A3: ['[data-a=selAll]', '[data-a=setMany]', slot('*'), OK],
+    A4: ['[data-a=sc][data-q=all]', slot('*'), OK] } },
+  { t: 'จันทร์–ศุกร์ 17.00 เป็นต้นไป', want: 'จ–ศ · 17.00 เป็นต้นไป', steps: {
+    A0: [row('จ'), slot(L), '[data-a=all7]', row('ส'), slot(L), OK, row('อา'), slot(L), OK],
+    A1: [row('จ'), '[data-q=wkd]', slot(L), OK],
+    A2: ['[data-a=mode]', ...WKD.map(row), '[data-a=setMany]', slot(L), OK],
+    A3: [...WKD.map(d => `.tick[data-d="${d}"]`), '[data-a=setMany]', slot(L), OK],
+    A4: ['[data-a=sc][data-q=wkd]', slot(L), OK] } },
+  { t: 'จ–ศ 17.00 เป็นต้นไป + ส–อา ทุกช่วงเวลา', want: 'จ–ศ · 17.00 เป็นต้นไป / ส–อา · ทุกช่วงเวลา', steps: {
+    A0: [row('จ'), slot(L), '[data-a=all7]', row('ส'), slot('*'), OK, row('อา'), slot('*'), OK],
+    A1: [row('จ'), '[data-q=wkd]', slot(L), OK, row('ส'), '[data-q=wke]', slot('*'), OK],
+    A2: ['[data-a=mode]', ...WKD.map(row), '[data-a=setMany]', slot(L), OK, '[data-a=mode]', row('ส'), row('อา'), '[data-a=setMany]', slot('*'), OK],
+    A3: [...WKD.map(d => `.tick[data-d="${d}"]`), '[data-a=setMany]', slot(L), OK, '.tick[data-d="ส"]', '.tick[data-d="อา"]', '[data-a=setMany]', slot('*'), OK],
+    A4: ['[data-a=sc][data-q=wkd]', slot(L), OK, '[data-a=sc][data-q=wke]', slot('*'), OK] } },
+  { t: 'จันทร์ · พุธ · ศุกร์ ทุกช่วงเวลา', note: 'ไม่เป็นแพทเทิร์น', want: 'จ, พ, ศ · ทุกช่วงเวลา', steps: {
+    A0: [row('จ'), slot('*'), OK, row('พ'), slot('*'), OK, row('ศ'), slot('*'), OK],
+    A1: [row('จ'), '.circ[data-d="พ"]', '.circ[data-d="ศ"]', slot('*'), OK],
+    A2: ['[data-a=mode]', row('จ'), row('พ'), row('ศ'), '[data-a=setMany]', slot('*'), OK],
+    A3: ['.tick[data-d="จ"]', '.tick[data-d="พ"]', '.tick[data-d="ศ"]', '[data-a=setMany]', slot('*'), OK],
+    A4: ['[data-a=sc][data-q=own]', '.circ[data-d="จ"]', '.circ[data-d="พ"]', '.circ[data-d="ศ"]', slot('*'), OK] } },
+];
+const ids = ['A0', 'A1', 'A2', 'A3', 'A4'];
+const lab2 = document.createElement('div'); lab2.style.cssText = 'position:absolute;left:-9999px;top:0;width:372px'; document.body.append(lab2);
+const runners = Object.fromEntries(ids.map(id => [id, mount(Object.create(variants.find(v => v.id === id)), lab2, false)]));
+const res = SCEN.map(s => ids.map(id => { const r = runners[id]; r.start(true);
+  for (const sel of s.steps[id]) { const el = r.ph.querySelector(sel); if (!el) return { n: '?', ok: false }; el.click(); }
+  return { n: r.taps, ok: weekText(r.v.st.w) === s.want }; }));
+lab2.remove();
+document.getElementById('tbody').innerHTML = SCEN.map((s, i) => { const nums = res[i].map(x => x.n), min = Math.min(...nums.filter(n => typeof n === 'number'));
+  return `<tr><td>${s.t}${s.note ? `<small>${s.note}</small>` : ''}</td>${res[i].map(x => `<td class="n${x.ok ? (x.n === min ? ' best' : '') : ' bad'}">${x.ok ? x.n : 'ผิด'}</td>`).join('')}</tr>`; }).join('');
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.phone.open').forEach(p => p.querySelector('.scrim')?.click()); });
+</script>

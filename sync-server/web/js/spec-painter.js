@@ -7,7 +7,7 @@
 //         platePattern ('plain'|'stripe'|'diamond'), mixed(css,…) }
 
 import { shapePath, drawPattern, drawPlatePattern, makeCanvas } from './spec-shapes.js'
-import { el } from './spec-icons.js'
+import { el, iconURL } from './spec-icons.js'
 
 const NS = 'http://www.w3.org/2000/svg'
 let uid = 0
@@ -42,6 +42,7 @@ export function paintWidget(host, boxes, k, ctx) {
 function node(b, kids, parent, ctx) {
   const n = b.node, f = b.frame
   const d = el('div', `position:absolute;left:${f.x - parent.x}px;top:${f.y - parent.y}px;width:${f.width}px;height:${f.height}px`)
+  d.__spec = b   // กล่องของโหนดนี้ (node · frame · item) — แท็บ "สี" ของแคตตาล็อกใช้ชี้ว่าส่วนนี้ใช้ token อะไร · ไม่มีผลกับการวาด
   const rot = rotation(n, b.item)
   if (rot) d.style.transform = `rotate(${rot}deg)`
   if (n.opacity != null && n.opacity !== 1) d.style.opacity = n.opacity
@@ -193,7 +194,7 @@ function image(d, b, ctx) {
   img.decoding = 'async'; img.referrerPolicy = 'no-referrer'
   img.style.cssText = `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:${contain ? 'contain' : 'cover'}`
   if (src) {
-    img.src = src.startsWith('http') ? src : `${ctx.base}icon/${encodeURIComponent(src)}`
+    img.src = src.startsWith('http') ? src : iconURL(ctx.base, src)
   } else {
     const p = ctx.photo(slot)
     img.src = p.url

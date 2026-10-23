@@ -27,9 +27,12 @@ function svg(w, h, body, style = '') {
   return s
 }
 
+/** URL ของไอคอน `name` — `base` เป็น prefix ของ server (`…/card/`) หรือ function ชื่อ→URL (แคตตาล็อกไฟล์เดียวที่ฝังไอคอนเป็น data: ไว้แล้ว) */
+export const iconURL = (base, name) => (typeof base === 'function' ? base(name) : `${base}icon/${encodeURIComponent(name)}`)
+
 /** ภาพจากไฟล์ asset — ย้อมสีด้วย mask เมื่อมี tint (= `FitIcon`) */
 export function assetIcon(name, w, h, tint, base) {
-  const url = `${base}icon/${encodeURIComponent(name)}`
+  const url = iconURL(base, name)
   if (tint) {
     return el('div', `position:absolute;inset:0;background:${tint};-webkit-mask:url("${url}") center/contain no-repeat;mask:url("${url}") center/contain no-repeat`)
   }
@@ -276,7 +279,7 @@ export function specIcon(o) {
       const light = ink.isLight
       const depth = Math.max(0.6, lh * 0.03)
       // แสงบนซ้าย + เงาล่างขวา แล้วเจาะเนื้อตราออก (= DstOut) — เว็บใช้ mask ซ้อนแทน
-      const url = `${o.base}icon/sh%3Astar`
+      const url = iconURL(o.base, 'sh:star')
       const layer = (color, dx, dy) => el('div', `position:absolute;left:${dx}px;top:${dy}px;width:${lw}px;height:${lh}px;background:${color};-webkit-mask:url("${url}") center/contain no-repeat;mask:url("${url}") center/contain no-repeat`)
       const shade = el('div', `position:absolute;inset:0;-webkit-mask:url("${url}") center/contain no-repeat exclude, linear-gradient(#000,#000);mask:url("${url}") center/contain no-repeat exclude, linear-gradient(#000,#000)`)
       shade.appendChild(layer(light ? 'rgba(255,255,255,0.72)' : 'rgba(255,255,255,0.42)', -depth, -depth))

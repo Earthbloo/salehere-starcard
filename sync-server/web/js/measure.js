@@ -22,10 +22,12 @@ const notoFile = (w) => NOTO.find(([lim]) => w < lim)
 const METRICS = { noto: [1061, 450, 0], mitr: [1150, 420, 0] }
 
 /** ลงทะเบียนฟอนต์ของแอป — เรียกครั้งเดียวก่อนวัด */
+/** `base` = prefix ของโฟลเดอร์ฟอนต์ หรือ function ชื่อไฟล์→URL (แคตตาล็อกไฟล์เดียวส่ง data: ที่ฝังไว้) */
 export async function loadFonts(base = 'fonts/') {
+  const u = (f) => (typeof base === 'function' ? base(f) : base + f)
   const faces = []
-  for (const [, name, css] of NOTO) faces.push(new FontFace('SC Noto', `url(${base}NotoSansThai-${name}.ttf)`, { weight: String(css) }))
-  faces.push(new FontFace('SC Mitr', `url(${base}Mitr-Regular.ttf)`, { weight: '100 900' }))
+  for (const [, name, css] of NOTO) faces.push(new FontFace('SC Noto', `url(${u(`NotoSansThai-${name}.ttf`)})`, { weight: String(css) }))
+  faces.push(new FontFace('SC Mitr', `url(${u('Mitr-Regular.ttf')})`, { weight: '100 900' }))
   await Promise.all(faces.map((f) => f.load().then((ff) => document.fonts.add(ff))))
 }
 

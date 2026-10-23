@@ -444,7 +444,7 @@ export function specPalette({ t, ink, accent, surface, skin, kit, border, base }
     }
     return alpha != null ? opacity(c, alpha) : c
   }
-  return { look, base: baseSurface, color }
+  return { look, base: baseSurface, noSheet, color }
 }
 
 /** หมึกบนแผ่นของ chrome (= `chromeInk` ใน WidgetChrome.kt) */

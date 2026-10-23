@@ -1,0 +1,162 @@
+<title>วันเวลาว่างรับงาน</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>
+/* layout: one phone-sized screen centred on the Sale Here grey, short "what changed" notes beside it (stacked on phones) */
+:root {
+  --bg: #F9FAFB; --card: #fff; --ink: #16181D; --muted: #5B6069; --ph: #9CA3AF;
+  --line: #E5E7EB; --line2: #D1D5DB; --field: #F3F4F6; --charcoal: #2B2D33; --red: #ED1C24;
+  --stage: #ECEEF1; --dim: rgba(22, 24, 29, .38);
+  --font: "Noto Sans Thai", -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--stage); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 48px; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 2px; }
+
+.wrap { display: flex; gap: 40px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+
+/* ---------- phone ---------- */
+.phone { position: relative; width: 390px; max-width: 100%; height: 780px; background: var(--bg); border-radius: 40px; overflow: hidden;
+  box-shadow: 0 0 0 10px #16181D, 0 30px 60px -20px rgba(22, 24, 29, .45); display: flex; flex-direction: column; }
+.nav { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; padding: 18px 16px 8px; }
+.nav p { grid-column: 2; margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+.x { width: 34px; height: 34px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 4px rgba(22, 24, 29, .12); display: grid; place-items: center; grid-column: 3; }
+
+.body { flex: 1; overflow-y: auto; padding: 12px 20px 20px; display: flex; flex-direction: column; gap: 16px; }
+h1 { margin: 0; font-size: 21px; font-weight: 700; }
+.sub { margin: -10px 0 0; font-size: 13px; color: var(--muted); }
+
+.week { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.row { width: 100%; display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 10px; padding: 9px 12px 9px 16px; text-align: left; }
+.row + .row { border-top: 1px solid var(--line); }
+.row b { font-weight: 600; font-size: 15px; }
+.dd { min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px 6px 12px;
+  background: var(--field); border-radius: 10px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.dd span { min-width: 0; }
+.dd.off span { color: var(--ph); }
+.dd svg { flex: none; color: var(--muted); }
+.row.flash .dd { animation: flash .9s var(--ease, ease-out); }
+@keyframes flash { 0% { background: #DDE0E5; } 100% { background: var(--field); } }
+
+.foot { padding: 12px 20px 26px; background: var(--bg); border-top: 1px solid var(--line); }
+.cta { width: 100%; height: 50px; border-radius: 14px; background: var(--charcoal); color: #fff; font-weight: 600; font-size: 16px; }
+
+/* ---------- sheet ---------- */
+.scrim { position: absolute; inset: 0; background: var(--dim); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--card); border-radius: 22px 22px 0 0; padding: 8px 20px 26px;
+  transform: translateY(105%); transition: transform .32s cubic-bezier(.16, 1, .3, 1); display: flex; flex-direction: column; gap: 6px; }
+.open .scrim { opacity: 1; pointer-events: auto; }
+.open .sheet { transform: none; }
+.grab { width: 38px; height: 5px; border-radius: 3px; background: var(--line2); margin: 0 auto 10px; }
+.sheet h2 { margin: 0 0 4px; font-size: 18px; font-weight: 700; }
+.opts { display: flex; flex-direction: column; }
+.opt { display: flex; align-items: center; gap: 12px; padding: 12px 2px; text-align: left; font-size: 15px; font-variant-numeric: tabular-nums; }
+.opt + .opt { border-top: 1px solid var(--line); }
+.opt.all { border-top: 1px solid var(--line2); margin-top: 4px; }
+.box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line2); display: grid; place-items: center; flex: none; transition: background .15s, border-color .15s; }
+.box svg { opacity: 0; }
+.opt[aria-checked="true"] .box { background: var(--charcoal); border-color: var(--charcoal); }
+.opt[aria-checked="true"] .box svg { opacity: 1; }
+.acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.ghost { height: 48px; border-radius: 14px; border: 1px solid var(--line2); background: var(--card); font-weight: 600; font-size: 15px; }
+.acts .cta { height: 48px; font-size: 15px; }
+
+.toast { position: absolute; left: 50%; bottom: 104px; transform: translate(-50%, 12px); background: var(--charcoal); color: #fff; font-size: 13px;
+  padding: 8px 14px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- notes ---------- */
+.notes { width: 300px; max-width: 100%; display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
+.notes h3 { margin: 0; font-size: 13px; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+.notes ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.notes li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 14px; }
+.notes li i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: var(--card); border: 1px solid var(--line2); display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+.notes li b { display: block; font-weight: 600; }
+.notes li span { color: var(--muted); }
+.notes .keep { font-size: 13px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--line2); margin: 0; }
+
+@media (max-width: 440px) { body { padding-block: 16px 32px; } .phone { height: 720px; border-radius: 28px; box-shadow: 0 0 0 6px #16181D; } }
+@media (prefers-reduced-motion: reduce) { .sheet, .scrim, .toast { transition: none; } .row.flash .dd { animation: none; } }
+</style>
+
+<div class="wrap">
+  <div class="phone" id="phone">
+    <div class="nav"><p>สมัครเป็น ST★R</p><button class="x" aria-label="ปิด"><svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M205.7 194.3a8 8 0 0 1-11.4 11.4L128 139.3l-66.3 66.4a8 8 0 0 1-11.4-11.4l66.4-66.3-66.4-66.3a8 8 0 0 1 11.4-11.4l66.3 66.4 66.3-66.4a8 8 0 0 1 11.4 11.4L139.3 128Z"/></svg></button></div>
+    <div class="body">
+      <h1>ว่างรับงานวันไหน? 📅</h1>
+      <p class="sub">แบรนด์ดูวันว่างของคุณตอนคัดคน</p>
+      <div class="week" id="week"></div>
+    </div>
+    <div class="foot"><button class="cta">ถัดไป</button></div>
+
+    <div class="scrim" id="scrim"></div>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetT">
+      <div class="grab"></div>
+      <h2 id="sheetT">จันทร์</h2>
+      <div class="opts" id="opts" role="group"></div>
+      <div class="acts"><button class="ghost" id="all7">ใช้กับทุกวัน</button><button class="cta" id="ok">ตกลง</button></div>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+
+  <aside class="notes">
+    <h3>เปลี่ยนอะไร</h3>
+    <ol>
+      <li><i>1</i><p style="margin:0"><b>เห็นครบ 7 วันในหน้าเดียว</b><span>วันเรียงบนลงล่าง ข้างวันบอกเวลาที่เลือกไว้เลย ไม่ต้องกดทีละวัน</span></p></li>
+      <li><i>2</i><p style="margin:0"><b>กดช่องเวลา → เลือกได้หลายช่วง</b><span>ช่องติ๊ก 4 ช่วง + ทุกช่วงเวลา ไม่ติ๊กเลย = ไม่ว่าง</span></p></li>
+      <li><i>3</i><p style="margin:0"><b>ใช้กับทุกวัน</b><span>ตั้งครั้งเดียวได้ทั้งสัปดาห์ แล้วค่อยแก้วันที่ต่าง</span></p></li>
+    </ol>
+    <p class="keep">ข้อมูลเหมือนเดิม: 4 ช่วงเวลาต่อวัน (คีย์เดียวกับ salehere-ios) เปลี่ยนแค่หน้าตา</p>
+  </aside>
+</div>
+
+<script>
+const WEEK = [['จ', 'จันทร์'], ['อ', 'อังคาร'], ['พ', 'พุธ'], ['พฤ', 'พฤหัสบดี'], ['ศ', 'ศุกร์'], ['ส', 'เสาร์'], ['อา', 'อาทิตย์']];
+const SLOTS = ['slot_09_12', 'slot_12_14', 'slot_14_17', 'slot_17_late'];
+const HOURS = { slot_09_12: [9, 12], slot_12_14: [12, 14], slot_14_17: [14, 17], slot_17_late: [17, null] };
+const hh = h => String(h).padStart(2, '0') + '.00';
+const label = ([a, b]) => b == null ? `${hh(a)} เป็นต้นไป` : `${hh(a)}–${hh(b)}`;
+// ตัวอย่างข้อมูล
+const week = { 'จ': ['slot_09_12', 'slot_17_late'], 'อ': [...SLOTS], 'พ': [], 'พฤ': ['slot_12_14'], 'ศ': [], 'ส': [...SLOTS], 'อา': [...SLOTS] };
+
+// ครบ 4 = ทุกช่วงเวลา · ช่วงติดกันรวมเป็นช่วงเดียว · ไม่มี = ไม่ว่าง
+function summary(keys) {
+  const picked = SLOTS.filter(k => keys.includes(k));
+  if (!picked.length) return ''; if (picked.length === SLOTS.length) return 'ทุกช่วงเวลา';
+  const runs = []; picked.forEach(k => { const [a, b] = HOURS[k], last = runs[runs.length - 1]; if (last && last[1] === a) last[1] = b; else runs.push([a, b]); });
+  return runs.map(label).join(', ');
+}
+
+const caret = '<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M213.7 101.7l-80 80a8 8 0 0 1-11.4 0l-80-80a8 8 0 0 1 11.4-11.4L128 164.7l74.3-74.4a8 8 0 0 1 11.4 11.4Z"/></svg>';
+const tick = '<svg width="14" height="14" viewBox="0 0 256 256" fill="#fff"><path d="M232.5 77.5l-128 128a12 12 0 0 1-17 0l-56-56a12 12 0 0 1 17-17L96 180l119.5-119.5a12 12 0 0 1 17 17Z"/></svg>';
+const $ = id => document.getElementById(id);
+let editing = null, draft = [];
+
+function renderWeek(flash) {
+  $('week').innerHTML = WEEK.map(([d, full]) => { const s = summary(week[d]);
+    return `<button class="row${flash && flash.includes(d) ? ' flash' : ''}" data-d="${d}" aria-haspopup="dialog"><b>${full}</b><span class="dd${s ? '' : ' off'}"><span>${s || 'ไม่ว่าง'}</span>${caret}</span></button>`; }).join('');
+}
+function renderOpts() {
+  const all = SLOTS.every(k => draft.includes(k));
+  $('opts').innerHTML = SLOTS.map(k => opt(k, label(HOURS[k]), draft.includes(k))).join('') + opt('*', 'ทุกช่วงเวลา', all, 'all');
+}
+const opt = (k, t, on, cls = '') => `<button class="opt ${cls}" role="checkbox" aria-checked="${on}" data-k="${k}"><span class="box">${tick}</span>${t}</button>`;
+
+function open(d) { editing = d; draft = [...week[d]]; $('sheetT').textContent = WEEK.find(w => w[0] === d)[1]; renderOpts(); $('phone').classList.add('open'); }
+function close() { $('phone').classList.remove('open'); editing = null; }
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 1600); }
+
+$('week').addEventListener('click', e => { const r = e.target.closest('.row'); if (r) open(r.dataset.d); });
+$('opts').addEventListener('click', e => { const o = e.target.closest('.opt'); if (!o) return; const k = o.dataset.k;
+  if (k === '*') draft = SLOTS.every(s => draft.includes(s)) ? [] : [...SLOTS];
+  else draft = draft.includes(k) ? draft.filter(s => s !== k) : [...draft, k];
+  renderOpts(); });
+$('ok').addEventListener('click', () => { const d = editing; week[d] = [...draft]; close(); renderWeek([d]); });
+$('all7').addEventListener('click', () => { WEEK.forEach(([d]) => week[d] = [...draft]); close(); renderWeek(WEEK.map(w => w[0])); toast(draft.length ? 'ใช้เวลานี้กับทุกวันแล้ว' : 'ตั้งเป็นไม่ว่างทุกวันแล้ว'); });
+$('scrim').addEventListener('click', close);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && editing) close(); });
+renderWeek();
+</script>

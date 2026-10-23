@@ -1,0 +1,280 @@
+<title>หน้าตารายการวันว่าง</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>
+/* layout: short header → five phones in a wrapping grid, each the same A2·2 behaviour with a different list look */
+:root {
+  --bg: #F9FAFB; --card: #fff; --ink: #16181D; --muted: #5B6069; --ph: #9CA3AF;
+  --line: #E5E7EB; --line2: #D1D5DB; --field: #F3F4F6; --sel: #F1F2F4; --fresh: #E8F5EE; --charcoal: #2B2D33;
+  --green-ink: #067647; --green-t: #E7F6EF;
+  --stage: #ECEEF1; --dim: rgba(22, 24, 29, .38); --bezel: #16181D;
+  --font: "Noto Sans Thai", -apple-system, "Segoe UI", sans-serif;
+  --ease: cubic-bezier(.2, .8, .2, 1); --t: 240ms;
+  --soft: 0 1px 2px rgba(22, 24, 29, .04), 0 6px 16px -8px rgba(22, 24, 29, .10);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--stage); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 64px; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+button:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 2px; }
+.page { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
+h1 { margin: 0; font-size: clamp(24px, 4vw, 32px); line-height: 1.25; text-wrap: balance; }
+.lede { margin: 8px 0 0; color: var(--muted); max-width: 64ch; }
+
+.vars { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 40px 24px; justify-items: center; }
+.var { width: 100%; max-width: 372px; display: flex; flex-direction: column; gap: 12px; }
+.vhead { display: flex; flex-direction: column; gap: 2px; min-height: 66px; }
+.vhead .tag { font-size: 13px; font-weight: 700; color: var(--muted); }
+.vhead h3 { margin: 0; font-size: 19px; }
+.vhead p { margin: 0; font-size: 13px; color: var(--muted); }
+.badge { font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 8px; margin-left: 4px; color: var(--green-ink); background: var(--green-t); }
+.tools { display: flex; justify-content: flex-end; gap: 6px; }
+.pill { font-size: 13px; font-weight: 600; border: 1px solid var(--line2); background: var(--card); border-radius: 999px; padding: 4px 12px; }
+.pill.dark { background: var(--charcoal); border-color: var(--charcoal); color: #fff; }
+.pill:disabled { opacity: .45; cursor: default; }
+
+/* ---------- phone shell (same as select-mode.html) ---------- */
+.phone { position: relative; width: 100%; height: 720px; background: var(--bg); border-radius: 38px; overflow: hidden;
+  box-shadow: 0 0 0 8px var(--bezel), 0 26px 50px -22px rgba(22, 24, 29, .45); display: flex; flex-direction: column; }
+.nav { display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; padding: 16px 14px 6px; }
+.nav p { grid-column: 2; margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+.x { grid-column: 3; width: 32px; height: 32px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 4px rgba(22, 24, 29, .12); display: grid; place-items: center; }
+.scroll { flex: 1; overflow-y: auto; padding: 10px 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+.q { margin: 0; font-size: 21px; font-weight: 700; }
+.sub { margin: -12px 0 0; font-size: 13px; color: var(--muted); }
+.listhead { display: flex; justify-content: space-between; align-items: center; min-height: 32px; margin-bottom: -6px; }
+.selall { font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line2); opacity: 0; pointer-events: none; transition: opacity var(--t) var(--ease); }
+.mode .selall { opacity: 1; pointer-events: auto; }
+.modebtn { min-width: 104px; font-size: 13px; font-weight: 600; border: 1px solid var(--line2); background: var(--card); border-radius: 999px; padding: 6px 14px; text-align: center; transition: background-color var(--t), color var(--t), border-color var(--t); }
+.mode .modebtn { background: var(--charcoal); border-color: var(--charcoal); color: #fff; }
+
+/* row skeleton: tick · lead · dd (the time, hides in select mode) · chev */
+.row { width: 100%; display: grid; grid-template-columns: auto auto 1fr auto; grid-template-areas: "tick lead dd chev"; align-items: center; column-gap: 0;
+  transition: background-color var(--t) var(--ease), border-color var(--t) var(--ease), box-shadow var(--t) var(--ease); }
+.tick { grid-area: tick; width: 0; overflow: hidden; display: flex; align-items: center; opacity: 0; transition: width var(--t) var(--ease), opacity var(--t) var(--ease); }
+.mode .tick { width: 36px; opacity: 1; }
+.lead { grid-area: lead; display: flex; align-items: center; gap: 12px; min-width: 0; }
+.lead b { font-weight: 600; }
+.dd { grid-area: dd; min-width: 0; max-height: 90px; font-variant-numeric: tabular-nums;
+  transition: opacity var(--t) var(--ease), transform var(--t) var(--ease), max-height var(--t) var(--ease), margin var(--t) var(--ease), background-color 600ms ease-out; }
+.chev { grid-area: chev; display: flex; color: var(--ph); transition: opacity var(--t) var(--ease); }
+.mode .dd { opacity: 0; transform: translateX(20px); pointer-events: none; }
+.mode .chev { opacity: 0; }
+.off { color: var(--ph); }
+.dd.fresh { background-color: var(--fresh) !important; transition: none; }
+.box { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid var(--line2); background: var(--card); display: grid; place-items: center; transition: background-color 120ms, border-color 120ms; }
+.box svg { opacity: 0; transition: opacity 120ms; }
+.sel .box, .opt[aria-checked="true"] .box { background: var(--charcoal); border-color: var(--charcoal); }
+.sel .box svg, .opt[aria-checked="true"] .box svg { opacity: 1; }
+
+/* ---------- S1 การ์ดลอย ---------- */
+.s1 .week { display: flex; flex-direction: column; gap: 8px; }
+.s1 .row { background: var(--card); border-radius: 16px; box-shadow: var(--soft); padding: 14px 14px 14px 16px; min-height: 58px; }
+.s1 .lead b { width: 80px; }
+.s1 .dd { text-align: right; font-size: 14px; padding-right: 6px; border-radius: 8px; }
+.s1 .mode .sel, .mode.s1 .sel { box-shadow: 0 0 0 1.5px var(--charcoal); }
+
+/* ---------- S2 แท็กเวลา ---------- */
+.s2 .week { display: flex; flex-direction: column; gap: 8px; }
+.s2 .row { grid-template-columns: auto 1fr auto; grid-template-areas: "tick lead chev" "tick dd dd"; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px 14px 16px; row-gap: 0; }
+.s2 .row.empty { background: transparent; border-style: dashed; border-color: var(--line2); }
+.s2 .dd { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; border-radius: 10px; }
+.s2 .chip { font-size: 13px; font-weight: 500; background: var(--field); border-radius: 8px; padding: 3px 10px; }
+.s2 .dd .off { font-size: 13px; }
+.mode.s2 .dd { max-height: 0; margin-top: 0; }
+.mode.s2 .sel { border-color: var(--charcoal); border-style: solid; background: var(--card); }
+
+/* ---------- S3 วงกลมวัน ---------- */
+.s3 .week { background: var(--card); border-radius: 20px; box-shadow: var(--soft); padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+.s3 .row { grid-template-columns: auto auto 1fr auto; grid-template-areas: "tick circ name chev" "tick circ dd chev"; padding: 9px 10px; border-radius: 14px; min-height: 58px; }
+.s3 .lead { display: contents; }
+.s3 .lead b { grid-area: name; }
+.s3 .circ { grid-area: circ; margin-right: 12px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; background: var(--field); color: var(--ph); transition: background-color var(--t), color var(--t); }
+.s3 .circ.on { background: var(--charcoal); color: #fff; }
+.s3 .dd { font-size: 13px; color: var(--muted); border-radius: 6px; }
+.mode.s3 .dd { max-height: 0; }
+.mode.s3 .sel { background: var(--sel); }
+
+/* ---------- S4 แถบเวลา ---------- */
+.s4 .week { background: var(--card); border-radius: 20px; box-shadow: var(--soft); padding: 8px 14px; }
+.s4 .scale { display: grid; grid-template-columns: 76px repeat(4, 1fr); gap: 4px; font-size: 11px; color: var(--ph); padding: 6px 0 2px; font-variant-numeric: tabular-nums; transition: opacity var(--t); }
+.s4 .scale span:first-child { grid-column: 2; }
+.mode .s4-scale, .mode.s4 .scale { opacity: 0; }
+.s4 .row { grid-template-columns: auto 76px 1fr; grid-template-areas: "tick lead dd"; padding: 10px 0; min-height: 52px; border-radius: 10px; }
+.s4 .row + .row { border-top: 1px solid var(--line); }
+.s4 .dd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; border-radius: 6px; }
+.s4 .seg { height: 22px; border-radius: 6px; background: var(--field); }
+.s4 .seg.on { background: var(--charcoal); }
+.s4 .chev { display: none; }
+.mode.s4 .sel { background: var(--sel); }
+
+/* ---------- S5 มินิมอล ---------- */
+.s5 .week { display: flex; flex-direction: column; }
+.s5 .row { grid-template-columns: auto 1fr auto; grid-template-areas: "tick lead chev" "tick dd chev"; padding: 12px 4px; min-height: 64px; border-radius: 14px; }
+.s5 .row + .row { box-shadow: 0 -1px 0 var(--line); }
+.s5 .lead b { font-size: 17px; }
+.s5 .dd { font-size: 14px; color: var(--muted); margin-top: 1px; border-radius: 6px; }
+.mode.s5 .dd { max-height: 0; margin-top: 0; }
+.mode.s5 .sel { background: var(--sel); }
+.mode.s5 .row { padding-left: 8px; }
+
+/* bottom bar + sheet (same as select-mode.html) */
+.foot { display: grid; padding: 10px 18px 24px; border-top: 1px solid var(--line); background: var(--bg); overflow: hidden; }
+.fn, .fm { grid-area: 1 / 1; display: flex; transition: transform var(--t) var(--ease), opacity var(--t) var(--ease); }
+.fm { transform: translateY(120%); opacity: 0; pointer-events: none; }
+.mode .fm { transform: none; opacity: 1; pointer-events: auto; }
+.mode .fn { opacity: 0; pointer-events: none; }
+.cta { flex: 1; height: 50px; border-radius: 15px; background: var(--charcoal); color: #fff; font-weight: 600; font-size: 16px; text-align: center; font-variant-numeric: tabular-nums; }
+.cta.dim { opacity: .35; cursor: default; }
+.scrim { position: absolute; inset: 0; background: var(--dim); opacity: 0; pointer-events: none; transition: opacity var(--t); }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 8px 20px 26px;
+  transform: translateY(105%); transition: transform 300ms var(--ease); display: flex; flex-direction: column; }
+.open .scrim { opacity: 1; pointer-events: auto; }
+.open .sheet { transform: none; }
+.grab { width: 38px; height: 5px; border-radius: 3px; background: var(--line2); margin: 0 auto 12px; }
+.sheet h4 { margin: 0; font-size: 18px; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 12px 0 4px; }
+.days span { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 600; background: var(--field); color: var(--ph); }
+.days span.on { background: var(--charcoal); color: #fff; }
+.mix { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+.opts { margin-top: 6px; }
+.opt { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 2px; font-size: 15px; font-variant-numeric: tabular-nums; }
+.opt + .opt { border-top: 1px solid var(--line); }
+.opt.all { border-top-color: var(--line2); }
+.sheet .cta { margin-top: 12px; flex: none; width: 100%; }
+
+@media (max-width: 420px) { .phone { height: 680px; border-radius: 26px; box-shadow: 0 0 0 5px var(--bezel); } .vars { grid-template-columns: 1fr; } .vhead { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 1ms !important; } }
+</style>
+
+<div class="page">
+  <header>
+    <h1>รายการวันว่าง: 5 หน้าตาที่ไม่ใช่ตาราง</h1>
+    <p class="lede">ทุกเครื่องทำงานเหมือน A2·2 ที่เลือกไว้ (เลือกหลายวัน → ช่องเวลาหลบ → ตั้งเวลาทีเดียว) ต่างกันแค่หน้าตารายการ ข้อมูลตัวอย่างเหมือนภาพที่ส่งมา กด “▶ ดูตัวอย่าง” หรือกดเองได้</p>
+  </header>
+  <div class="vars" id="vars"></div>
+</div>
+
+<script>
+const WEEK = [['จ', 'จันทร์'], ['อ', 'อังคาร'], ['พ', 'พุธ'], ['พฤ', 'พฤหัสบดี'], ['ศ', 'ศุกร์'], ['ส', 'เสาร์'], ['อา', 'อาทิตย์']];
+const DAYS = WEEK.map(w => w[0]), FULL = Object.fromEntries(WEEK);
+const SLOTS = ['slot_09_12', 'slot_12_14', 'slot_14_17', 'slot_17_late'];
+const HOURS = { slot_09_12: [9, 12], slot_12_14: [12, 14], slot_14_17: [14, 17], slot_17_late: [17, null] };
+const hh = h => String(h).padStart(2, '0') + '.00';
+const lab = ([a, b]) => b == null ? `${hh(a)} เป็นต้นไป` : `${hh(a)}–${hh(b)}`;
+const sample = () => ({ 'จ': ['slot_09_12', 'slot_12_14', 'slot_17_late'], 'อ': ['slot_09_12', 'slot_12_14', 'slot_17_late'], 'พ': ['slot_17_late'], 'พฤ': ['slot_17_late'], 'ศ': ['slot_17_late'], 'ส': [], 'อา': [] });
+const order = ds => DAYS.filter(d => ds.includes(d));
+const sameSlots = (a, b) => a.length === b.length && a.every(k => b.includes(k));
+const toggleSlot = (list, k) => k === '*' ? (SLOTS.every(s => list.includes(s)) ? [] : [...SLOTS]) : (list.includes(k) ? list.filter(s => s !== k) : [...list, k]);
+const toggleIn = (list, x) => list.includes(x) ? list.filter(y => y !== x) : [...list, x];
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+// ช่วงติดกันรวมเป็นช่วงเดียว (= slotText ของ desktop/) · ครบ 4 = ทุกช่วงเวลา
+function runs(keys) {
+  const picked = SLOTS.filter(k => keys.includes(k)); if (!picked.length) return [];
+  if (picked.length === SLOTS.length) return ['ทุกช่วงเวลา'];
+  const r = []; picked.forEach(k => { const [a, b] = HOURS[k], last = r[r.length - 1]; if (last && last[1] === a) last[1] = b; else r.push([a, b]); });
+  return r.map(lab);
+}
+const summary = keys => runs(keys).join(', ');
+
+const ic = {
+  x: '<svg width="13" height="13" viewBox="0 0 256 256" fill="currentColor"><path d="M205.7 194.3a8 8 0 0 1-11.4 11.4L128 139.3l-66.3 66.4a8 8 0 0 1-11.4-11.4l66.4-66.3-66.4-66.3a8 8 0 0 1 11.4-11.4l66.3 66.4 66.3-66.4a8 8 0 0 1 11.4 11.4L139.3 128Z"/></svg>',
+  down: '<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M213.7 101.7l-80 80a8 8 0 0 1-11.4 0l-80-80a8 8 0 0 1 11.4-11.4L128 164.7l74.3-74.4a8 8 0 0 1 11.4 11.4Z"/></svg>',
+  right: '<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M181.7 133.7l-80 80a8 8 0 0 1-11.4-11.4L164.7 128 90.3 53.7a8 8 0 0 1 11.4-11.4l80 80a8 8 0 0 1 0 11.4Z"/></svg>',
+  pen: '<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M227.3 73.4 182.6 28.7a16 16 0 0 0-22.6 0L36.7 152A15.9 15.9 0 0 0 32 163.3V208a16 16 0 0 0 16 16h44.7a15.9 15.9 0 0 0 11.3-4.7L227.3 96a16 16 0 0 0 0-22.6ZM92.7 208H48v-44.7l88-88L180.7 120ZM192 108.7 147.3 64l24-24L216 84.7Z"/></svg>',
+};
+const box = '<span class="box"><svg width="13" height="13" viewBox="0 0 256 256" fill="#fff"><path d="M232.5 77.5l-128 128a12 12 0 0 1-17 0l-56-56a12 12 0 0 1 17-17L96 180l119.5-119.5a12 12 0 0 1 17 17Z"/></svg></span>';
+
+// each look = lead (left), val (the time; hides in select mode), chev, plus extra classes on the row
+const LOOKS = [
+  { id: 's1', name: 'การ์ดลอย', sub: 'วันละการ์ด เงาบาง ไม่มีเส้นตาราง เวลาชิดขวา',
+    lead: (d, f) => `<b>${f}</b>`, val: k => summary(k) || '<span class="off">ไม่ว่าง</span>', chev: ic.down },
+  { id: 's2', name: 'แท็กเวลา', sub: 'เวลาเป็นแท็กใต้ชื่อวัน วันที่ไม่ว่างเป็นการ์ดเส้นประ', pick: true,
+    lead: (d, f) => `<b>${f}</b>`, val: k => runs(k).map(t => `<span class="chip">${t}</span>`).join('') || '<span class="off">ไม่ว่าง · แตะเพื่อเพิ่ม</span>', chev: ic.pen,
+    rowCls: k => k.length ? '' : 'empty' },
+  { id: 's3', name: 'วงกลมวัน', sub: 'วงกลมทึบ = มีเวลาว่าง อ่านทั้งสัปดาห์ได้จากแถววงกลม',
+    lead: (d, f, k) => `<span class="circ${k.length ? ' on' : ''}">${d}</span><b>${f}</b>`, val: k => summary(k) || '<span class="off">ไม่ว่าง</span>', chev: ic.right },
+  { id: 's4', name: 'แถบเวลา', sub: 'เวลาเป็นแถบ 4 ช่อง (เช้า→ค่ำ) เห็นภาพรวมเร็วที่สุด',
+    lead: (d, f) => `<b>${f}</b>`, val: k => SLOTS.map(s => `<span class="seg${k.includes(s) ? ' on' : ''}" title="${lab(HOURS[s])}"></span>`).join(''), chev: '',
+    top: `<div class="scale"><span>09</span><span>12</span><span>14</span><span>17+</span></div>` },
+  { id: 's5', name: 'มินิมอล', sub: 'ไม่มีกล่อง ชื่อวันตัวใหญ่ เวลาบรรทัดล่าง แบบ iOS Settings',
+    lead: (d, f) => `<b>${f}</b>`, val: k => summary(k) || '<span class="off">ไม่ว่าง</span>', chev: ic.right },
+];
+
+function Phone(host, L) {
+  const root = document.createElement('div'); root.className = 'var';
+  root.innerHTML = `<div class="vhead"><span class="tag">${L.id.toUpperCase()}${L.pick ? ' <span class="badge">แนะนำ</span>' : ''}</span><h3>${L.name}</h3><p>${L.sub}</p></div>
+    <div class="tools"><button class="pill" data-reset>เริ่มใหม่</button><button class="pill dark" data-demo>▶ ดูตัวอย่าง</button></div>
+    <div class="phone ${L.id}" data-phone>
+      <div class="nav"><p>สมัครเป็น ST★R</p><button class="x" aria-label="ปิด">${ic.x}</button></div>
+      <div class="scroll">
+        <h4 class="q">ว่างรับงานวันไหน? 📅</h4><p class="sub">แบรนด์ดูวันว่างของคุณตอนคัดคน</p>
+        <div class="listhead"><button class="selall" data-a="selAll" tabindex="-1">เลือกทั้งหมด</button><button class="modebtn" data-a="modeBtn">เลือกหลายวัน</button></div>
+        <div class="week">${L.top || ''}${WEEK.map(([d, f]) => `<button class="row" data-a="row" data-d="${d}"><span class="tick">${box}</span><span class="lead"></span><span class="dd"></span><span class="chev">${L.chev}</span></button>`).join('')}</div>
+      </div>
+      <div class="foot"><div class="fn"><button class="cta" tabindex="-1">ถัดไป</button></div><div class="fm"><button class="cta dim" data-a="setMany">เลือกวันก่อน</button></div></div>
+      <div class="scrim" data-a="close"></div><div class="sheet" role="dialog" aria-modal="true"></div>
+    </div>`;
+  host.append(root);
+  const ph = root.querySelector('[data-phone]'), $ = sel => ph.querySelector(sel), rowOf = d => ph.querySelector(`.row[data-d="${d}"]`);
+  const s = { w: sample(), mode: false, sel: [], sheetDays: [], draft: [] };
+
+  const paintRow = d => { const r = rowOf(d), k = s.w[d];
+    r.querySelector('.lead').innerHTML = L.lead(d, FULL[d], k); r.querySelector('.dd').innerHTML = L.val(k);
+    r.className = `row ${L.rowCls ? L.rowCls(k) : ''}${s.sel.includes(d) ? ' sel' : ''}`; r.setAttribute('aria-label', `${FULL[d]} ${summary(k) || 'ไม่ว่าง'}`); };
+  const paintSel = () => {
+    const n = s.sel.length;
+    DAYS.forEach(d => { rowOf(d).classList.toggle('sel', s.sel.includes(d)); s.mode ? rowOf(d).setAttribute('aria-pressed', s.sel.includes(d)) : rowOf(d).removeAttribute('aria-pressed'); });
+    $('[data-a=setMany]').textContent = n ? `ตั้งเวลา ${n} วัน` : 'เลือกวันก่อน'; $('[data-a=setMany]').classList.toggle('dim', !n);
+    $('[data-a=modeBtn]').textContent = s.mode ? 'ยกเลิก' : 'เลือกหลายวัน';
+    $('[data-a=selAll]').textContent = n === 7 ? 'ไม่เลือกเลย' : 'เลือกทั้งหมด'; $('[data-a=selAll]').tabIndex = s.mode ? 0 : -1;
+  };
+  const setMode = on => { s.mode = on; s.sel = []; ph.classList.toggle('mode', on); paintSel(); };
+  const paintSheet = () => {
+    const n = s.sheetDays.length, multi = n > 1 || s.mode, first = s.w[s.sheetDays[0]];
+    const mixed = n > 1 && !s.sheetDays.every(d => sameSlots(s.w[d], first));
+    $('.sheet').innerHTML = `<div class="grab"></div><h4>${multi ? `ตั้งเวลา ${n} วัน` : FULL[s.sheetDays[0]]}</h4>
+      ${multi ? `<div class="days">${DAYS.map(d => `<span class="${s.sheetDays.includes(d) ? 'on' : ''}">${d}</span>`).join('')}</div>` : ''}
+      ${mixed ? '<p class="mix">วันที่เลือกตั้งเวลาไว้ไม่เหมือนกัน เวลาที่เลือกตรงนี้จะใช้แทนทั้งหมด</p>' : ''}
+      <div class="opts">${[...SLOTS.map(k => [k, lab(HOURS[k])]), ['*', 'ทุกช่วงเวลา']].map(([k, t]) => `<button class="opt${k === '*' ? ' all' : ''}" role="checkbox" aria-checked="${k === '*' ? SLOTS.every(x => s.draft.includes(x)) : s.draft.includes(k)}" data-a="slot" data-k="${k}">${box}${t}</button>`).join('')}</div>
+      <button class="cta" data-a="ok">${multi ? `ใช้กับ ${n} วัน` : 'ตกลง'}</button>`;
+  };
+  const openSheet = days => { s.sheetDays = order(days); const f = s.w[s.sheetDays[0]]; s.draft = s.sheetDays.every(d => sameSlots(s.w[d], f)) ? [...f] : []; paintSheet(); void ph.offsetHeight; ph.classList.add('open'); };
+  // ตกลง: ปิด sheet + ออกโหมดพร้อมกัน ช่องที่ได้เวลาใหม่ขึ้นสีอ่อนแล้วจาง
+  const apply = () => {
+    const days = s.sheetDays; days.forEach(d => s.w[d] = [...s.draft]);
+    ph.classList.remove('open'); if (s.mode) setMode(false);
+    days.forEach(d => { paintRow(d); const dd = rowOf(d).querySelector('.dd'); dd.classList.add('fresh'); void dd.offsetWidth; requestAnimationFrame(() => dd.classList.remove('fresh')); });
+  };
+  ph.addEventListener('click', e => {
+    const el = e.target.closest('[data-a]'); if (!el) return; const a = el.dataset.a;
+    if (a === 'modeBtn') setMode(!s.mode);
+    else if (a === 'selAll') { s.sel = s.sel.length === 7 ? [] : [...DAYS]; paintSel(); }
+    else if (a === 'row') { const d = el.dataset.d; if (s.mode) { s.sel = toggleIn(s.sel, d); paintSel(); } else openSheet([d]); }
+    else if (a === 'setMany') { if (s.sel.length) openSheet(s.sel); }
+    else if (a === 'slot') { s.draft = toggleSlot(s.draft, el.dataset.k); paintSheet(); }
+    else if (a === 'ok') apply();
+    else if (a === 'close') ph.classList.remove('open');
+  });
+  const reset = () => { ph.classList.remove('open'); s.w = sample(); setMode(false); DAYS.forEach(paintRow); };
+  async function demo() {
+    const btns = root.querySelectorAll('.pill'); btns.forEach(b => b.disabled = true);
+    const click = sel => $(sel).click();
+    reset(); await wait(500);
+    click('[data-a=modeBtn]'); await wait(800);
+    for (const d of ['ส', 'อา']) { click(`.row[data-d="${d}"]`); await wait(450); }
+    await wait(300); click('[data-a=setMany]'); await wait(800);
+    click('.opt[data-k="slot_09_12"]'); await wait(350); click('.opt[data-k="slot_12_14"]'); await wait(650);
+    click('[data-a=ok]'); await wait(1200);
+    btns.forEach(b => b.disabled = false);
+  }
+  root.querySelector('[data-reset]').addEventListener('click', reset);
+  root.querySelector('[data-demo]').addEventListener('click', demo);
+  DAYS.forEach(paintRow); paintSel();
+}
+const host = document.getElementById('vars');
+LOOKS.forEach(L => Phone(host, L));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.phone.open').forEach(p => p.classList.remove('open')); });
+</script>

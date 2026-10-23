@@ -3,6 +3,7 @@
 // วาดผืนเดียวคลุมทั้งแผ่น (ทุกหน้าต่อกัน) ลง canvas — ทุกลายเป็นเรขาคณิตที่สุ่มด้วยเมล็ดคงที่ จึงได้ลายเดียวกับแอป
 
 import { css, opacity, hsb, WHITE, BLACK } from './theme.js'
+import { iconURL } from './spec-icons.js'
 
 /** วาดฉากหลังลงในกล่อง `host` ขนาด w×h หน่วยออกแบบ */
 export function paintBackdrop(host, t, w, h, opts = {}) {
@@ -245,7 +246,7 @@ export function signatureCorner(host, t, w, h, base) {
   const ink = t.inkStyle
   const side = Math.min(w, h) * 0.68
   const alpha = t.isLight ? 0.07 : 0.17
-  const url = `${base}icon/sh%3Awordmark`
+  const url = iconURL(base, 'sh:wordmark')
   const d = document.createElement('div')
   d.style.cssText = `position:absolute;left:${w - side + side * 0.12}px;top:${h - side + side * 0.06}px;width:${side}px;height:${side}px;`
     + `transform-origin:100% 100%;transform:rotate(-8deg);opacity:${alpha};`

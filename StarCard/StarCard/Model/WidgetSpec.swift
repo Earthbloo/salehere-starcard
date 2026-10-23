@@ -494,9 +494,9 @@ enum SpecCatalog {
     private static var cache: [String: WidgetSpec] = {
         var out: [String: WidgetSpec] = [:]
         let dec = JSONDecoder()
-        // โปรเจกต์แบบ folder-synced วางไฟล์ไว้ที่รากของบันเดิล (ไม่มีโฟลเดอร์ย่อย) — ลองโฟลเดอร์ก่อน ว่างค่อยกวาดราก
-        var urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "WidgetSpecs") ?? []
-        if urls.isEmpty { urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [] }
+        // อ่านเฉพาะโฟลเดอร์ `WidgetSpecs/` ในบันเดิล (folder reference) — ห้ามกวาดรากบันเดิล: แอปที่ไม่ฝังผัง (salehere-ios) มี json อื่นเต็มไปหมด
+        // (Lottie / apollo config / schema) จะเสียเวลา parse แล้ว decode ไม่ผ่านทุกไฟล์ · ไม่มีโฟลเดอร์ = เริ่มว่าง รอ `replace(with:)`
+        let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "WidgetSpecs") ?? []
         for u in urls {
             guard let data = try? Data(contentsOf: u) else { continue }
             do {

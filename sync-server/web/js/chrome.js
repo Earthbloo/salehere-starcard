@@ -123,6 +123,7 @@ function paintSpec(host, item, spec, info, box, s, ink, theme, stamped, env) {
     }
     return pal.color(token, on)
   }
+  host.__palette = { colorObj, pal, ink }   // ตัวแปลง token → สีของใบนี้ — แท็บ "สี" ของแคตตาล็อกอ่านไปอธิบาย · ไม่มีผลกับการวาด
   const socials = data.socials || []
   const prov = socials.length && socials.every((x) => x.source !== 'manual')
     ? { type: 'connected', ago: socials[0].syncedAgo || 'วันนี้' } : { type: 'manual', label: 'กรอกเอง · รอตรวจสอบ' }
