@@ -632,6 +632,19 @@ struct IOSSpecData: SpecDataSource {
                     "unit": r.unit, "platform": r.platform.rawValue, "platformName": r.platform.name,
                     "platformOrder": String(SocialType.allCases.firstIndex(of: r.platform) ?? 99), "priceNum": Fmt.thousands(r.price), "icon": r.platform.icon, "tint": r.platform.tintHex, "format": r.format.rawValue])
             }
+        case "rateSocials":
+            // หนึ่งชิ้นต่อโซเชียล ราคาแยกตามประเภท = รูปเดียวกับ socialProfiles[].photoPrice/shortVdoPrice/longVdoPrice/sharingPrice ของ API
+            let rates = p.shownRates.filter { $0.price > 0 }
+            return SocialType.allCases.filter { t in rates.contains { $0.platform == t } }.enumerated().map { (i, t) in
+                var f: [String: String] = ["platform": t.rawValue, "platformName": t.name, "icon": t.icon, "tint": t.tintHex,
+                                           "platformOrder": String(SocialType.allCases.firstIndex(of: t) ?? 99)]
+                for fmt in ["shortVideo", "photo", "longVideo", "seeding"] {
+                    if let low = rates.filter({ $0.platform == t && $0.format.rawValue == fmt }).map(\.price).min() {
+                        f[fmt] = "฿" + Fmt.thousands(low); f[fmt + "Raw"] = String(low)
+                    }
+                }
+                return SpecItem(id: t.rawValue, i: i, fields: f)
+            }
         case "brands":
             return p.shownTrack(.brand).brands.enumerated().map { (i, b) in
                 SpecItem(id: b.name, i: i, fields: ["name": b.name, "logo": b.logo ?? "", "industry": b.industry])

@@ -163,6 +163,9 @@ export class SpecSolver {
         v = item.value(k) === item.value(`${k}.max`) && item.value(k).length > 0
       } else if (body.endsWith('=first')) {
         v = item.i === 0
+      } else if (body.includes('=')) {
+        // เทียบข้อความ: `$format=photo` (ฟิลด์ของชิ้นเท่ากับค่านี้ทุกตัวอักษร)
+        const eq = body.indexOf('='); v = item.value(body.slice(0, eq)) === body.slice(eq + 1)
       } else {
         v = item.value(body).length > 0
       }

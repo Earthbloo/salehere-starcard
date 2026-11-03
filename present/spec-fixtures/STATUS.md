@@ -1,13 +1,12 @@
 # สถานะการแปลง widget → ผัง JSON
 
-สร้างโดย sync.sh 2026-10-21 00:23 · ชนิดที่มีไฟล์ใน shared/WidgetSpecs/ วาดผ่าน SpecSolver + SpecPainter แล้ว
+สร้างโดย sync.sh 2026-11-03 15:45 · ชนิดที่มีไฟล์ใน shared/WidgetSpecs/ วาดผ่าน SpecSolver + SpecPainter แล้ว
 
 | kind | ผัง | fixture |
 |---|---|---|
 | aboutBehind | ✓ | fixtures/aboutBehind.json |
 | aboutEditorial | ✓ | fixtures/aboutEditorial.json |
 | aboutMe | ✓ | fixtures/aboutMe.json |
-| aboutNote | ✓ | fixtures/aboutNote.json |
 | aboutText | ✓ | fixtures/aboutText.json |
 | artDuo | ✓ | fixtures/artDuo.json |
 | artFilmstrip | ✓ | fixtures/artFilmstrip.json |
@@ -19,7 +18,6 @@
 | audienceMap | ✓ | fixtures/audienceMap.json |
 | audiencePoster | ✓ | fixtures/audiencePoster.json |
 | audienceSplit | ✓ | fixtures/audienceSplit.json |
-| contactBar | ✓ | fixtures/contactBar.json |
 | contactCard | ✓ | fixtures/contactCard.json |
 | contactChips | ✓ | fixtures/contactChips.json |
 | contactLine | ✓ | fixtures/contactLine.json |
@@ -97,9 +95,6 @@
 | popWorkPaper | ✓ | fixtures/popWorkPaper.json |
 | portfolioGingham | ✓ | fixtures/portfolioGingham.json |
 | portfolioWindow | ✓ | fixtures/portfolioWindow.json |
-| proofBrandCoins | ✓ | fixtures/proofBrandCoins.json |
-| proofBrandGrid | ✓ | fixtures/proofBrandGrid.json |
-| proofBrandRail | ✓ | fixtures/proofBrandRail.json |
 | proofSeal | ✓ | fixtures/proofSeal.json |
 | proofTicket | ✓ | fixtures/proofTicket.json |
 | proofWork | ✓ | fixtures/proofWork.json |
@@ -121,7 +116,6 @@
 | statGiant | ✓ | fixtures/statGiant.json |
 | statPoster | ✓ | fixtures/statPoster.json |
 | stickerTags | ✓ | fixtures/stickerTags.json |
-| typeMarquee | ✓ | fixtures/typeMarquee.json |
 | wallMemory | ✓ | fixtures/wallMemory.json |
 | wallPolaroid | ✓ | fixtures/wallPolaroid.json |
 | workFeatured | ✓ | fixtures/workFeatured.json |

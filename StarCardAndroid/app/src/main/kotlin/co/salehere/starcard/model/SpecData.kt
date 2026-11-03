@@ -168,6 +168,20 @@ data class AndroidSpecData(
                 "priceNum" to Fmt.thousands(r.price), "icon" to r.platform.specIcon, "tint" to r.platform.tintHex, "format" to r.format.raw,
             ))
         }
+        "rateSocials" -> {
+            // หนึ่งชิ้นต่อโซเชียล ราคาแยกตามประเภท = รูปเดียวกับ socialProfiles[].photoPrice/shortVdoPrice/longVdoPrice/sharingPrice ของ API
+            val rates = shownRates.filter { it.price > 0 }
+            SocialType.entries.filter { t -> rates.any { it.platform == t } }.mapIndexed { i, t ->
+                val f = mutableMapOf("platform" to t.raw, "platformName" to t.name, "icon" to t.specIcon, "tint" to t.tintHex,
+                    "platformOrder" to SocialType.entries.indexOf(t).toString())
+                for (fmt in listOf("shortVideo", "photo", "longVideo", "seeding")) {
+                    rates.filter { it.platform == t && it.format.raw == fmt }.minOfOrNull { it.price }?.let { low ->
+                        f[fmt] = "฿" + Fmt.thousands(low); f[fmt + "Raw"] = low.toString()
+                    }
+                }
+                SpecItem(t.raw, i, f)
+            }
+        }
         "brands" -> shownTrack(WidgetFamily.brand).brands.mapIndexed { i, b ->
             SpecItem(b.name, i, mapOf("name" to b.name, "logo" to (b.logo ?: ""), "industry" to b.industry))
         }

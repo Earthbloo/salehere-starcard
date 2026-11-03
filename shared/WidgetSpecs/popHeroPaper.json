@@ -48,7 +48,8 @@
     "maxLines": 1,
     "shrinkTo": 29.5,
     "color": "ink",
-    "w": "fill"
+    "w": "fill",
+    "on": "card"
    },
    {
     "type": "row",
@@ -125,11 +126,6 @@
          0
         ],
         "children": [
-         {
-          "type": "icon",
-          "icon": "sh:instagram",
-          "size": 15
-         },
          {
           "type": "row",
           "gap": 0,

@@ -271,7 +271,8 @@
             "w": "13.3%",
             "h": 0.9,
             "shrink": 1,
-            "fill": "ink@0.5"
+            "fill": "ink@0.5",
+            "on": "dark"
            },
            {
             "type": "row",
@@ -289,14 +290,16 @@
               "weight": 400,
               "color": "ink@0.9",
               "maxLines": 1,
-              "shrinkTo": 12
+              "shrinkTo": 12,
+              "on": "dark"
              },
              {
               "type": "icon",
               "icon": "starSeal",
               "size": 10.3,
               "tint": "ink@0.9",
-              "if": "owner.verified"
+              "if": "owner.verified",
+              "on": "dark"
              }
             ]
            },
@@ -306,9 +309,11 @@
             "w": "13.3%",
             "h": 0.9,
             "shrink": 1,
-            "fill": "ink@0.5"
+            "fill": "ink@0.5",
+            "on": "dark"
            }
-          ]
+          ],
+          "on": "dark"
          },
          {
           "type": "text",
@@ -631,7 +636,8 @@
           "w": "13.3%",
           "h": 0.9,
           "shrink": 1,
-          "fill": "ink@0.5"
+          "fill": "ink@0.5",
+          "on": "light"
          },
          {
           "type": "row",
@@ -649,14 +655,16 @@
             "weight": 400,
             "color": "ink@0.9",
             "maxLines": 1,
-            "shrinkTo": 12
+            "shrinkTo": 12,
+            "on": "light"
            },
            {
             "type": "icon",
             "icon": "starSeal",
             "size": 10.3,
             "tint": "ink@0.9",
-            "if": "owner.verified"
+            "if": "owner.verified",
+            "on": "light"
            }
           ]
          },
@@ -666,9 +674,11 @@
           "w": "13.3%",
           "h": 0.9,
           "shrink": 1,
-          "fill": "ink@0.5"
+          "fill": "ink@0.5",
+          "on": "light"
          }
-        ]
+        ],
+        "on": "light"
        },
        {
         "type": "text",

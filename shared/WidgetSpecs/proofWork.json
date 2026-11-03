@@ -89,7 +89,8 @@
             "width": 0.5
            },
            "src": "$cover",
-           "photoRef": "$workPhoto"
+           "photoRef": "$workPhoto",
+           "fit": "cover"
           },
           {
            "type": "row",
@@ -127,39 +128,7 @@
            "pad": 6,
            "justify": "end",
            "align": "end",
-           "children": [
-            {
-             "type": "row",
-             "id": "ep",
-             "gap": 3.4,
-             "align": "center",
-             "pad": [
-              2.85,
-              5.6
-             ],
-             "fill": "#17141A",
-             "radius": 4.1,
-             "children": [
-              {
-               "type": "rect",
-               "w": 3.75,
-               "h": 3.75,
-               "radius": 1.9,
-               "fill": "#DA3832"
-              },
-              {
-               "type": "text",
-               "text": "{ep}",
-               "face": "noto",
-               "size": 7.5,
-               "weight": 700,
-               "tracking": 0.4,
-               "color": "#FAF5EB",
-               "maxLines": 1
-              }
-             ]
-            }
-           ]
+           "children": []
           }
          ],
          "clip": true,
@@ -196,13 +165,6 @@
            "type": "spacer",
            "grow": 1,
            "minW": 3
-          },
-          {
-           "type": "icon",
-           "id": "platform",
-           "icon": "$icon",
-           "w": 11,
-           "h": 11
           }
          ],
          "minH": 20
@@ -385,7 +347,8 @@
             "width": 0.5
            },
            "src": "$cover",
-           "photoRef": "$workPhoto"
+           "photoRef": "$workPhoto",
+           "fit": "cover"
           },
           {
            "type": "row",
@@ -423,39 +386,7 @@
            "pad": 6,
            "justify": "end",
            "align": "end",
-           "children": [
-            {
-             "type": "row",
-             "id": "ep",
-             "gap": 3.4,
-             "align": "center",
-             "pad": [
-              2.85,
-              5.6
-             ],
-             "fill": "#17141A",
-             "radius": 4.1,
-             "children": [
-              {
-               "type": "rect",
-               "w": 3.75,
-               "h": 3.75,
-               "radius": 1.9,
-               "fill": "#DA3832"
-              },
-              {
-               "type": "text",
-               "text": "{ep}",
-               "face": "noto",
-               "size": 7.5,
-               "weight": 700,
-               "tracking": 0.4,
-               "color": "#FAF5EB",
-               "maxLines": 1
-              }
-             ]
-            }
-           ]
+           "children": []
           }
          ],
          "clip": true,
@@ -492,13 +423,6 @@
            "type": "spacer",
            "grow": 1,
            "minW": 3
-          },
-          {
-           "type": "icon",
-           "id": "platform",
-           "icon": "$icon",
-           "w": 11,
-           "h": 11
           }
          ],
          "minH": 20
@@ -681,7 +605,8 @@
             "width": 0.5
            },
            "src": "$cover",
-           "photoRef": "$workPhoto"
+           "photoRef": "$workPhoto",
+           "fit": "cover"
           },
           {
            "type": "row",
@@ -719,39 +644,7 @@
            "pad": 6,
            "justify": "end",
            "align": "end",
-           "children": [
-            {
-             "type": "row",
-             "id": "ep",
-             "gap": 3.4,
-             "align": "center",
-             "pad": [
-              2.85,
-              5.6
-             ],
-             "fill": "#17141A",
-             "radius": 4.1,
-             "children": [
-              {
-               "type": "rect",
-               "w": 3.75,
-               "h": 3.75,
-               "radius": 1.9,
-               "fill": "#DA3832"
-              },
-              {
-               "type": "text",
-               "text": "{ep}",
-               "face": "noto",
-               "size": 7.5,
-               "weight": 700,
-               "tracking": 0.4,
-               "color": "#FAF5EB",
-               "maxLines": 1
-              }
-             ]
-            }
-           ]
+           "children": []
           }
          ],
          "clip": true,
@@ -788,13 +681,6 @@
            "type": "spacer",
            "grow": 1,
            "minW": 3
-          },
-          {
-           "type": "icon",
-           "id": "platform",
-           "icon": "$icon",
-           "w": 11,
-           "h": 11
           }
          ],
          "minH": 20
@@ -976,7 +862,8 @@
           "width": 0.5
          },
          "src": "$cover",
-         "photoRef": "$workPhoto"
+         "photoRef": "$workPhoto",
+         "fit": "cover"
         },
         {
          "type": "row",
@@ -1014,39 +901,7 @@
          "pad": 6,
          "justify": "end",
          "align": "end",
-         "children": [
-          {
-           "type": "row",
-           "id": "ep",
-           "gap": 3.4,
-           "align": "center",
-           "pad": [
-            2.85,
-            5.6
-           ],
-           "fill": "#17141A",
-           "radius": 4.1,
-           "children": [
-            {
-             "type": "rect",
-             "w": 3.75,
-             "h": 3.75,
-             "radius": 1.9,
-             "fill": "#DA3832"
-            },
-            {
-             "type": "text",
-             "text": "{ep}",
-             "face": "noto",
-             "size": 7.5,
-             "weight": 700,
-             "tracking": 0.4,
-             "color": "#FAF5EB",
-             "maxLines": 1
-            }
-           ]
-          }
-         ]
+         "children": []
         }
        ],
        "clip": true,
@@ -1083,13 +938,6 @@
          "type": "spacer",
          "grow": 1,
          "minW": 3
-        },
-        {
-         "type": "icon",
-         "id": "platform",
-         "icon": "$icon",
-         "w": 11,
-         "h": 11
         }
        ],
        "minH": 20

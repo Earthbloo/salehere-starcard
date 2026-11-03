@@ -65,7 +65,7 @@
     "id": "tiles",
     "list": "socials",
     "wrap": false,
-    "gap": 8,
+    "gap": 6,
     "grow": 1,
     "align": "center",
     "each": {
@@ -157,20 +157,63 @@
            "weight": 700,
            "color": "ink@0.98",
            "maxLines": 1
-          },
-          {
-           "type": "text",
-           "slot": "$name",
-           "face": "noto",
-           "size": 9,
-           "weight": 500,
-           "color": "ink@0.42",
-           "maxLines": 1,
-           "shrinkTo": 6.3
           }
          ]
         }
-       ]
+       ],
+       "if": "!list:socials>4"
+      },
+      {
+       "type": "col",
+       "gap": 3,
+       "align": "center",
+       "pad": [
+        6,
+        3
+       ],
+       "children": [
+        {
+         "type": "stack",
+         "w": 26,
+         "h": 26,
+         "children": [
+          {
+           "type": "rect",
+           "radius": 9,
+           "fill": "$tint@0.16",
+           "stroke": {
+            "color": "$tint@0.28",
+            "width": 0.6
+           }
+          },
+          {
+           "type": "icon",
+           "icon": "$icon",
+           "size": 14,
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "col",
+         "gap": 1,
+         "align": "center",
+         "children": [
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "size": 13,
+           "weight": 700,
+           "color": "ink@0.98",
+           "maxLines": 1,
+           "textAlign": "center",
+           "shrinkTo": 8
+          }
+         ]
+        }
+       ],
+       "if": "list:socials>4"
       }
      ]
     }

@@ -115,38 +115,79 @@
       "id": "pills",
       "list": "socials",
       "wrap": false,
-      "gap": 8,
+      "gap": 6,
       "align": "center",
       "each": {
-       "type": "row",
-       "gap": 6,
-       "align": "center",
-       "pad": [
-        6,
-        10
-       ],
-       "circle": true,
-       "fill": "white@0.12",
+       "type": "stack",
+       "grow": 1,
        "children": [
         {
-         "type": "icon",
-         "icon": "$icon",
-         "size": 17
+         "type": "row",
+         "gap": 6,
+         "align": "center",
+         "pad": [
+          6,
+          10
+         ],
+         "circle": true,
+         "fill": "white@0.12",
+         "children": [
+          {
+           "type": "icon",
+           "icon": "$icon",
+           "size": 17
+          },
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "size": 14,
+           "weight": 800,
+           "color": "white",
+           "maxLines": 1
+          }
+         ],
+         "stroke": {
+          "color": "white@0.3",
+          "width": 0.5
+         },
+         "if": "!list:socials>4"
         },
         {
-         "type": "text",
-         "slot": "$followers",
-         "face": "noto",
-         "size": 14,
-         "weight": 800,
-         "color": "white",
-         "maxLines": 1
+         "type": "col",
+         "if": "list:socials>4",
+         "grow": 1,
+         "gap": 2,
+         "align": "center",
+         "pad": [
+          6,
+          3
+         ],
+         "radius": 12,
+         "fill": "white@0.12",
+         "stroke": {
+          "color": "white@0.3",
+          "width": 0.5
+         },
+         "children": [
+          {
+           "type": "icon",
+           "icon": "$icon",
+           "size": 15
+          },
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "size": 13,
+           "weight": 800,
+           "color": "white",
+           "maxLines": 1,
+           "shrinkTo": 8
+          }
+         ]
         }
-       ],
-       "stroke": {
-        "color": "white@0.3",
-        "width": 0.5
-       }
+       ]
       },
       "w": "fill"
      }

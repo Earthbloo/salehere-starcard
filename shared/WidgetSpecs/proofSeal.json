@@ -294,66 +294,6 @@
           "children": [
            {
             "type": "text",
-            "text": "เจ้าของช่องจริง",
-            "face": "noto",
-            "weight": 600,
-            "size": 10.5,
-            "color": "ink@0.95",
-            "maxLines": 1,
-            "on": "card"
-           },
-           {
-            "type": "rect",
-            "grow": 1,
-            "h": 1,
-            "minW": 6,
-            "stroke": {
-             "color": "line@0.24",
-             "width": 1,
-             "dash": [
-              0.6,
-              3.4
-             ]
-            },
-            "alignSelf": "end",
-            "on": "card"
-           },
-           {
-            "type": "row",
-            "gap": 2,
-            "align": "end",
-            "children": [
-             {
-              "type": "text",
-              "slot": "count:socials",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "ink@0.58",
-              "maxLines": 1,
-              "on": "card"
-             },
-             {
-              "type": "text",
-              "text": "ช่อง",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "ink@0.58",
-              "maxLines": 1,
-              "on": "card"
-             }
-            ]
-           }
-          ]
-         },
-         {
-          "type": "row",
-          "gap": 5,
-          "align": "end",
-          "children": [
-           {
-            "type": "text",
             "text": "ยอดจากแพลตฟอร์ม",
             "face": "noto",
             "weight": 600,
@@ -421,38 +361,6 @@
             "h": 12.2,
             "tint": "white",
             "place": "center"
-           }
-          ]
-         },
-         {
-          "type": "col",
-          "gap": 1,
-          "align": "start",
-          "shrink": 1,
-          "children": [
-           {
-            "type": "text",
-            "text": "STAR CARD NO.",
-            "face": "noto",
-            "weight": 600,
-            "size": 6,
-            "tracking": 0.9,
-            "color": "ink@0.46",
-            "maxLines": 1,
-            "on": "card"
-           },
-           {
-            "type": "text",
-            "id": "serial",
-            "slot": "handle",
-            "face": "noto",
-            "weight": 700,
-            "size": 9,
-            "tracking": 0.6,
-            "color": "ink@0.58",
-            "maxLines": 1,
-            "shrinkTo": 6,
-            "on": "card"
            }
           ]
          },
@@ -667,62 +575,6 @@
           "children": [
            {
             "type": "text",
-            "text": "เจ้าของช่องจริง",
-            "face": "noto",
-            "weight": 600,
-            "size": 10.5,
-            "color": "bg",
-            "maxLines": 1
-           },
-           {
-            "type": "rect",
-            "grow": 1,
-            "h": 1,
-            "minW": 6,
-            "stroke": {
-             "color": "bg@0.22",
-             "width": 1,
-             "dash": [
-              0.6,
-              3.4
-             ]
-            },
-            "alignSelf": "end"
-           },
-           {
-            "type": "row",
-            "gap": 2,
-            "align": "end",
-            "children": [
-             {
-              "type": "text",
-              "slot": "count:socials",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "bg@0.66",
-              "maxLines": 1
-             },
-             {
-              "type": "text",
-              "text": "ช่อง",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "bg@0.66",
-              "maxLines": 1
-             }
-            ]
-           }
-          ]
-         },
-         {
-          "type": "row",
-          "gap": 5,
-          "align": "end",
-          "children": [
-           {
-            "type": "text",
             "text": "ยอดจากแพลตฟอร์ม",
             "face": "noto",
             "weight": 600,
@@ -787,36 +639,6 @@
             "h": 12.2,
             "tint": "white",
             "place": "center"
-           }
-          ]
-         },
-         {
-          "type": "col",
-          "gap": 1,
-          "align": "start",
-          "shrink": 1,
-          "children": [
-           {
-            "type": "text",
-            "text": "STAR CARD NO.",
-            "face": "noto",
-            "weight": 600,
-            "size": 6,
-            "tracking": 0.9,
-            "color": "bg@0.53",
-            "maxLines": 1
-           },
-           {
-            "type": "text",
-            "id": "serial",
-            "slot": "handle",
-            "face": "noto",
-            "weight": 700,
-            "size": 9,
-            "tracking": 0.6,
-            "color": "bg@0.66",
-            "maxLines": 1,
-            "shrinkTo": 6
            }
           ]
          },
@@ -1030,62 +852,6 @@
           "children": [
            {
             "type": "text",
-            "text": "เจ้าของช่องจริง",
-            "face": "noto",
-            "weight": 600,
-            "size": 10.5,
-            "color": "ink",
-            "maxLines": 1
-           },
-           {
-            "type": "rect",
-            "grow": 1,
-            "h": 1,
-            "minW": 6,
-            "stroke": {
-             "color": "ink@0.24",
-             "width": 1,
-             "dash": [
-              0.6,
-              3.4
-             ]
-            },
-            "alignSelf": "end"
-           },
-           {
-            "type": "row",
-            "gap": 2,
-            "align": "end",
-            "children": [
-             {
-              "type": "text",
-              "slot": "count:socials",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "ink@0.64",
-              "maxLines": 1
-             },
-             {
-              "type": "text",
-              "text": "ช่อง",
-              "face": "noto",
-              "weight": 600,
-              "size": 9,
-              "color": "ink@0.64",
-              "maxLines": 1
-             }
-            ]
-           }
-          ]
-         },
-         {
-          "type": "row",
-          "gap": 5,
-          "align": "end",
-          "children": [
-           {
-            "type": "text",
             "text": "ยอดจากแพลตฟอร์ม",
             "face": "noto",
             "weight": 600,
@@ -1150,36 +916,6 @@
             "h": 12.2,
             "tint": "white",
             "place": "center"
-           }
-          ]
-         },
-         {
-          "type": "col",
-          "gap": 1,
-          "align": "start",
-          "shrink": 1,
-          "children": [
-           {
-            "type": "text",
-            "text": "STAR CARD NO.",
-            "face": "noto",
-            "weight": 600,
-            "size": 6,
-            "tracking": 0.9,
-            "color": "ink@0.51",
-            "maxLines": 1
-           },
-           {
-            "type": "text",
-            "id": "serial",
-            "slot": "handle",
-            "face": "noto",
-            "weight": 700,
-            "size": 9,
-            "tracking": 0.6,
-            "color": "ink@0.64",
-            "maxLines": 1,
-            "shrinkTo": 6
            }
           ]
          },

@@ -262,6 +262,9 @@ final class SpecSolver {
                 let k = String(body.dropLast(4)); v = item.value(k) == item.value(k + ".max") && !item.value(k).isEmpty
             } else if body.hasSuffix("=first") {
                 v = item.i == 0
+            } else if let eq = body.firstIndex(of: "=") {
+                // เทียบข้อความ: `$format=photo` (ฟิลด์ของชิ้นเท่ากับค่านี้ทุกตัวอักษร)
+                v = item.value(String(body[..<eq])) == String(body[body.index(after: eq)...])
             } else {
                 v = !item.value(body).isEmpty
             }

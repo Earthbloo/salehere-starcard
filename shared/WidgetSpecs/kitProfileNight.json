@@ -355,55 +355,6 @@
             "w": "fill"
            }
           ]
-         },
-         {
-          "type": "chips",
-          "id": "handle",
-          "list": "socials",
-          "sort": "followersRaw desc",
-          "limit": 1,
-          "justify": "center",
-          "each": {
-           "type": "text",
-           "slot": "$handle",
-           "face": "noto",
-           "size": 11.5,
-           "weight": 400,
-           "color": "ink2",
-           "maxLines": 1
-          }
-         },
-         {
-          "type": "col",
-          "if": "!list:socials",
-          "align": "center",
-          "children": [
-           {
-            "type": "row",
-            "if": "has:handle",
-            "gap": 0,
-            "children": [
-             {
-              "type": "text",
-              "text": "@",
-              "face": "noto",
-              "size": 11.5,
-              "weight": 400,
-              "color": "ink2",
-              "maxLines": 1
-             },
-             {
-              "type": "text",
-              "slot": "handle",
-              "face": "noto",
-              "size": 11.5,
-              "weight": 400,
-              "color": "ink2",
-              "maxLines": 1
-             }
-            ]
-           }
-          ]
          }
         ]
        }

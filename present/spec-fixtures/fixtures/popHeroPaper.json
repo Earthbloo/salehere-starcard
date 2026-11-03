@@ -70,75 +70,67 @@
           "h" : 27.38,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 132,
+          "w" : 128.22,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 122.34
-        },
-        {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
-          "w" : 57.16,
-          "x" : 151,
+          "w" : 73.38,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 11.5,
           "text" : "@",
           "type" : "text",
           "w" : 10.33,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
-          "w" : 46.83,
-          "x" : 161.33,
+          "w" : 63.05,
+          "x" : 141.33,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 213.16,
+          "x" : 209.38,
           "y" : 122.34
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 218.96,
+          "x" : 215.18,
           "y" : 124.34
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 11.5,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 28.04,
-          "x" : 234.96,
+          "x" : 231.18,
           "y" : 121.15
         },
         {
@@ -265,60 +257,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11,
-            "outWeight" : 500,
-            "size" : 11,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5,
-            "outWeight" : 500,
-            "size" : 10.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10,
-            "outWeight" : 500,
-            "size" : 10,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5,
-            "outWeight" : 500,
-            "size" : 9.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9,
-            "outWeight" : 500,
-            "size" : 9,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5,
-            "outWeight" : 500,
-            "size" : 8.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 10.5,
             "outWeight" : 400,
             "size" : 10.5,
@@ -380,14 +318,6 @@
           "size" : 11,
           "v" : 16.62,
           "weight" : 400
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 8.5,
-          "v" : 12.84,
-          "weight" : 500
         },
         {
           "face" : "noto",
@@ -487,94 +417,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -703,75 +555,67 @@
           "h" : 27.38,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 132,
+          "w" : 128.22,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 122.34
-        },
-        {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
-          "w" : 57.16,
-          "x" : 151,
+          "w" : 73.38,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 11.5,
           "text" : "@",
           "type" : "text",
           "w" : 10.33,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
-          "w" : 46.83,
-          "x" : 161.33,
+          "w" : 63.05,
+          "x" : 141.33,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 213.16,
+          "x" : 209.38,
           "y" : 122.34
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 218.96,
+          "x" : 215.18,
           "y" : 124.34
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 11.5,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 28.04,
-          "x" : 234.96,
+          "x" : 231.18,
           "y" : 121.15
         },
         {
@@ -898,60 +742,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11,
-            "outWeight" : 500,
-            "size" : 11,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5,
-            "outWeight" : 500,
-            "size" : 10.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10,
-            "outWeight" : 500,
-            "size" : 10,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5,
-            "outWeight" : 500,
-            "size" : 9.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9,
-            "outWeight" : 500,
-            "size" : 9,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5,
-            "outWeight" : 500,
-            "size" : 8.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 10.5,
             "outWeight" : 400,
             "size" : 10.5,
@@ -1013,14 +803,6 @@
           "size" : 11,
           "v" : 16.62,
           "weight" : 400
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 8.5,
-          "v" : 12.84,
-          "weight" : 500
         },
         {
           "face" : "noto",
@@ -1120,94 +902,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -1336,75 +1040,67 @@
           "h" : 27.38,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 132,
+          "w" : 128.22,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 122.34
-        },
-        {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
-          "w" : 57.16,
-          "x" : 151,
+          "w" : 73.38,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 11.5,
           "text" : "@",
           "type" : "text",
           "w" : 10.33,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
-          "w" : 46.83,
-          "x" : 161.33,
+          "w" : 63.05,
+          "x" : 141.33,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 213.16,
+          "x" : 209.38,
           "y" : 122.34
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 218.96,
+          "x" : 215.18,
           "y" : 124.34
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 11.5,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 28.04,
-          "x" : 234.96,
+          "x" : 231.18,
           "y" : 121.15
         },
         {
@@ -1720,24 +1416,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 7.307471264367816,
-            "outWeight" : 500,
-            "size" : 7.307471264367816,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 6.807471264367816,
-            "outWeight" : 500,
-            "size" : 6.807471264367816,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 17.01149425287356,
             "outWeight" : 400,
             "size" : 17.01149425287356,
@@ -1952,60 +1630,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11,
-            "outWeight" : 500,
-            "size" : 11,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5,
-            "outWeight" : 500,
-            "size" : 10.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10,
-            "outWeight" : 500,
-            "size" : 10,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5,
-            "outWeight" : 500,
-            "size" : 9.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9,
-            "outWeight" : 500,
-            "size" : 9,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5,
-            "outWeight" : 500,
-            "size" : 8.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 10.5,
             "outWeight" : 400,
             "size" : 10.5,
@@ -2178,42 +1802,6 @@
             "outSize" : 8.992931034482758,
             "outWeight" : 500,
             "size" : 8.992931034482758,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.492931034482758,
-            "outWeight" : 500,
-            "size" : 8.492931034482758,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.992931034482758,
-            "outWeight" : 500,
-            "size" : 7.992931034482758,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.492931034482758,
-            "outWeight" : 500,
-            "size" : 7.492931034482758,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 6.992931034482758,
-            "outWeight" : 500,
-            "size" : 6.992931034482758,
             "slot" : "handle",
             "weight" : 500
           },
@@ -2452,78 +2040,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 10.24646551724138,
-            "outWeight" : 500,
-            "size" : 10.24646551724138,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.74646551724138,
-            "outWeight" : 500,
-            "size" : 9.74646551724138,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.24646551724138,
-            "outWeight" : 500,
-            "size" : 9.24646551724138,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.74646551724138,
-            "outWeight" : 500,
-            "size" : 8.74646551724138,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.24646551724138,
-            "outWeight" : 500,
-            "size" : 8.24646551724138,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.746465517241379,
-            "outWeight" : 500,
-            "size" : 7.746465517241379,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.246465517241379,
-            "outWeight" : 500,
-            "size" : 7.246465517241379,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 6.746465517241379,
-            "outWeight" : 500,
-            "size" : 6.746465517241379,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 12.648793103448275,
             "outWeight" : 400,
             "size" : 12.648793103448275,
@@ -2662,8 +2178,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 6.807471264367816,
-          "v" : 10.29,
+          "size" : 7.807471264367816,
+          "v" : 11.8,
           "weight" : 500
         },
         {
@@ -2702,14 +2218,6 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 8.5,
-          "v" : 12.84,
-          "weight" : 500
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
           "size" : 10.5,
           "v" : 15.87,
           "weight" : 400
@@ -2742,8 +2250,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 6.992931034482758,
-          "v" : 10.57,
+          "size" : 8.992931034482758,
+          "v" : 13.59,
           "weight" : 500
         },
         {
@@ -2782,8 +2290,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 6.746465517241379,
-          "v" : 10.19,
+          "size" : 10.74646551724138,
+          "v" : 16.24,
           "weight" : 500
         },
         {
@@ -2884,263 +2392,263 @@
         },
         {
           "face" : "noto",
-          "h" : 165.96,
+          "h" : 82.98,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 6,
+          "lines" : 3,
           "size" : 18.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.52,
+          "w" : 43.36,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 134.55,
+          "h" : 80.73,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 17.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 24.05,
+          "w" : 42.17,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 130.75,
+          "h" : 78.44999999999999,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 17.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.37,
+          "w" : 40.99,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 127,
+          "h" : 76.19999999999999,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 16.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.85,
+          "w" : 39.81,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 123.2,
+          "h" : 73.92,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 16.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.15,
+          "w" : 38.62,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 95.56,
+          "h" : 47.78,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 24.08,
+          "w" : 43.84,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 92.52,
+          "h" : 46.26,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.32,
+          "w" : 42.45,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 89.48,
+          "h" : 44.74,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 14.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.56,
+          "w" : 41.07,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 86.48,
+          "h" : 43.24,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 14.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.8,
+          "w" : 39.68,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 83.44,
+          "h" : 41.72,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 13.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.03,
+          "w" : 38.29,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 80.44,
+          "h" : 40.22,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 13.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.99,
+          "w" : 36.91,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 77.4,
+          "h" : 38.7,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 12.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.08,
+          "w" : 42.59,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 74.4,
+          "h" : 37.2,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 12.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.18,
+          "w" : 40.93,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 71.36,
+          "h" : 35.68,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 11.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.28,
+          "w" : 39.26,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 51.269999999999996,
+          "h" : 34.18,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 11.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.69,
+          "w" : 43.55,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 48.989999999999995,
+          "h" : 32.66,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 10.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.65,
+          "w" : 41.62,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 46.71,
+          "h" : 31.14,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 10.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.6,
+          "w" : 42.5,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 44.46,
+          "h" : 29.64,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 9.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.23,
+          "w" : 40.44,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 42.18,
+          "h" : 28.12,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 9.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.05,
+          "w" : 43.52,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 39.93,
+          "h" : 26.62,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 8.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 20.86,
+          "w" : 41.18,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
@@ -3151,48 +2659,22 @@
           "size" : 8.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.04,
+          "w" : 38.84,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 23.6,
+          "h" : 11.8,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 7.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.66,
+          "w" : 42.81,
           "weight" : 500,
-          "width" : 24.110000000000014
-        },
-        {
-          "face" : "noto",
-          "h" : 22.08,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.307471264367816,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 20.27,
-          "weight" : 500,
-          "width" : 24.110000000000014
-        },
-        {
-          "face" : "noto",
-          "h" : 20.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 6.807471264367816,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 22.64,
-          "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
@@ -3568,94 +3050,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -3797,263 +3201,263 @@
         },
         {
           "face" : "noto",
-          "h" : 165.96,
+          "h" : 82.98,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 6,
+          "lines" : 3,
           "size" : 18.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.52,
+          "w" : 43.36,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 134.55,
+          "h" : 80.73,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 17.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 24.05,
+          "w" : 42.17,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 130.75,
+          "h" : 78.44999999999999,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 17.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.37,
+          "w" : 40.99,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 127,
+          "h" : 76.19999999999999,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 16.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.85,
+          "w" : 39.81,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 123.2,
+          "h" : 73.92,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 5,
+          "lines" : 3,
           "size" : 16.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.15,
+          "w" : 38.62,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 95.56,
+          "h" : 47.78,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 24.08,
+          "w" : 43.84,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 92.52,
+          "h" : 46.26,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.32,
+          "w" : 42.45,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 89.48,
+          "h" : 44.74,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 14.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.56,
+          "w" : 41.07,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 86.48,
+          "h" : 43.24,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 14.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.8,
+          "w" : 39.68,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 83.44,
+          "h" : 41.72,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 13.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.03,
+          "w" : 38.29,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 80.44,
+          "h" : 40.22,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 13.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.99,
+          "w" : 36.91,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 77.4,
+          "h" : 38.7,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 12.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.08,
+          "w" : 42.59,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 74.4,
+          "h" : 37.2,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 12.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.18,
+          "w" : 40.93,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 71.36,
+          "h" : 35.68,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 11.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.28,
+          "w" : 39.26,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 51.269999999999996,
+          "h" : 34.18,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 11.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.69,
+          "w" : 43.55,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 48.989999999999995,
+          "h" : 32.66,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 10.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.65,
+          "w" : 41.62,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 46.71,
+          "h" : 31.14,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 10.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.6,
+          "w" : 42.5,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 44.46,
+          "h" : 29.64,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 9.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.23,
+          "w" : 40.44,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 42.18,
+          "h" : 28.12,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 9.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 22.05,
+          "w" : 43.52,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 39.93,
+          "h" : 26.62,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 8.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 20.86,
+          "w" : 41.18,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
@@ -4064,48 +3468,22 @@
           "size" : 8.307471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 23.04,
+          "w" : 38.84,
           "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
-          "h" : 23.6,
+          "h" : 11.8,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 7.807471264367816,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 21.66,
+          "w" : 42.81,
           "weight" : 500,
-          "width" : 24.110000000000014
-        },
-        {
-          "face" : "noto",
-          "h" : 22.08,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.307471264367816,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 20.27,
-          "weight" : 500,
-          "width" : 24.110000000000014
-        },
-        {
-          "face" : "noto",
-          "h" : 20.58,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 6.807471264367816,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 22.64,
-          "weight" : 500,
-          "width" : 24.110000000000014
+          "width" : 44.110000000000014
         },
         {
           "face" : "noto",
@@ -4481,133 +3859,133 @@
         },
         {
           "face" : "noto",
-          "h" : 96.68,
+          "h" : 48.34,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 28.82,
+          "w" : 44.35,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 93.64,
+          "h" : 46.82,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 4,
+          "lines" : 2,
           "size" : 15.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 27.92,
+          "w" : 51.52,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 67.94999999999999,
+          "h" : 45.3,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 14.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 31.42,
+          "w" : 49.86,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 65.69999999999999,
+          "h" : 43.8,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 14.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 30.37,
+          "w" : 48.19,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 63.42,
+          "h" : 42.28,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 13.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 29.32,
+          "w" : 46.53,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 61.17,
+          "h" : 40.78,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 13.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 28.27,
+          "w" : 44.87,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 58.89,
+          "h" : 39.26,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 12.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 30.77,
+          "w" : 50.04,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 56.64,
+          "h" : 37.76,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 12.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 29.59,
+          "w" : 51.51,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 54.36,
+          "h" : 36.24,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 11.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 28.4,
+          "w" : 49.45,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 52.11,
+          "h" : 34.74,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 3,
+          "lines" : 2,
           "size" : 11.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 27.22,
+          "w" : 47.39,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
@@ -4618,9 +3996,9 @@
           "size" : 10.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 30.49,
+          "w" : 51.4,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
@@ -4631,9 +4009,9 @@
           "size" : 10.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 29.1,
+          "w" : 49.06,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
@@ -4644,9 +4022,9 @@
           "size" : 9.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 27.72,
+          "w" : 46.72,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
@@ -4657,74 +4035,22 @@
           "size" : 9.492931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 31.57,
+          "w" : 44.38,
           "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
-          "h" : 27.18,
+          "h" : 13.59,
           "kerning" : 0,
           "lineHeight" : 1,
-          "lines" : 2,
+          "lines" : 1,
           "size" : 8.992931034482758,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 29.91,
+          "w" : 49.3,
           "weight" : 500,
-          "width" : 31.829999999999984
-        },
-        {
-          "face" : "noto",
-          "h" : 25.66,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.492931034482758,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 28.24,
-          "weight" : 500,
-          "width" : 31.829999999999984
-        },
-        {
-          "face" : "noto",
-          "h" : 24.16,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.992931034482758,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 30.79,
-          "weight" : 500,
-          "width" : 31.829999999999984
-        },
-        {
-          "face" : "noto",
-          "h" : 22.64,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.492931034482758,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 30.9,
-          "weight" : 500,
-          "width" : 31.829999999999984
-        },
-        {
-          "face" : "noto",
-          "h" : 21.14,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 6.992931034482758,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 28.84,
-          "weight" : 500,
-          "width" : 31.829999999999984
+          "width" : 51.829999999999984
         },
         {
           "face" : "noto",
@@ -5055,9 +4381,9 @@
           "size" : 13.74646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 38.12,
+          "w" : 56.68,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5068,9 +4394,9 @@
           "size" : 13.24646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 36.74,
+          "w" : 54.62,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5081,9 +4407,9 @@
           "size" : 12.74646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 35.35,
+          "w" : 52.56,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5094,9 +4420,9 @@
           "size" : 12.24646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 33.96,
+          "w" : 57.26,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5107,9 +4433,9 @@
           "size" : 11.74646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 39.06,
+          "w" : 54.92,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5120,126 +4446,22 @@
           "size" : 11.24646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 37.4,
+          "w" : 52.58,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
-          "h" : 32.48,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.74646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 35.74,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 30.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.24646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 34.07,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 29.46,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.74646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 37.54,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 27.94,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.24646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.13,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 26.44,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.74646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.07,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 24.92,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.24646551724138,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.56,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 23.4,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.746465517241379,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.22,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 21.9,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.246465517241379,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 33.88,
-          "weight" : 500,
-          "width" : 39.33
-        },
-        {
-          "face" : "noto",
-          "h" : 10.19,
+          "h" : 16.24,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 6.746465517241379,
+          "size" : 10.74646551724138,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 36.99,
+          "w" : 58.92,
           "weight" : 500,
-          "width" : 39.33
+          "width" : 59.33
         },
         {
           "face" : "noto",
@@ -5485,94 +4707,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -5701,75 +4845,67 @@
           "h" : 27.38,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 132,
+          "w" : 128.22,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 122.34
-        },
-        {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
-          "w" : 57.16,
-          "x" : 151,
+          "w" : 73.38,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 11.5,
           "text" : "@",
           "type" : "text",
           "w" : 10.33,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
-          "w" : 46.83,
-          "x" : 161.33,
+          "w" : 63.05,
+          "x" : 141.33,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 213.16,
+          "x" : 209.38,
           "y" : 122.34
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 218.96,
+          "x" : 215.18,
           "y" : 124.34
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 11.5,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 28.04,
-          "x" : 234.96,
+          "x" : 231.18,
           "y" : 121.15
         },
         {
@@ -5896,60 +5032,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11,
-            "outWeight" : 500,
-            "size" : 11,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5,
-            "outWeight" : 500,
-            "size" : 10.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10,
-            "outWeight" : 500,
-            "size" : 10,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5,
-            "outWeight" : 500,
-            "size" : 9.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9,
-            "outWeight" : 500,
-            "size" : 9,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5,
-            "outWeight" : 500,
-            "size" : 8.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 10.5,
             "outWeight" : 400,
             "size" : 10.5,
@@ -6011,14 +5093,6 @@
           "size" : 11,
           "v" : 16.62,
           "weight" : 400
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
-          "size" : 8.5,
-          "v" : 12.84,
-          "weight" : 500
         },
         {
           "face" : "noto",
@@ -6118,94 +5192,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -6334,75 +5330,67 @@
           "h" : 38.96,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 215.83,
+          "w" : 195.83,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 128.13
-        },
-        {
           "h" : 28.96,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
           "w" : 122.3,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 28.96,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 19.17,
           "text" : "@",
           "type" : "text",
           "w" : 17.22,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 28.96,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
           "size" : 19.17,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
           "w" : 105.08,
-          "x" : 168.22,
+          "x" : 148.22,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 278.3,
+          "x" : 258.3,
           "y" : 128.13
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 284.1,
+          "x" : 264.1,
           "y" : 130.13
         },
         {
           "h" : 28.96,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 19.17,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 46.73,
-          "x" : 300.1,
+          "x" : 280.1,
           "y" : 121.15
         },
         {
@@ -6925,7 +5913,7 @@
           "tracking" : 0,
           "w" : 72.01,
           "weight" : 400,
-          "width" : 86.33000000000003
+          "width" : 72.01
         },
         {
           "face" : "noto",
@@ -7140,75 +6128,67 @@
           "h" : 27.38,
           "id" : "r\/1\/1\/0",
           "type" : "row",
-          "w" : 132,
+          "w" : 128.22,
           "x" : 131,
           "y" : 111.15
         },
         {
-          "h" : 15,
-          "id" : "r\/1\/1\/0\/0",
-          "type" : "icon",
-          "w" : 15,
-          "x" : 131,
-          "y" : 122.34
-        },
-        {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1",
+          "id" : "r\/1\/1\/0\/0",
           "type" : "row",
-          "w" : 57.16,
-          "x" : 151,
+          "w" : 73.38,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/0",
+          "id" : "r\/1\/1\/0\/0\/0",
           "lines" : 1,
           "size" : 11.5,
           "text" : "@",
           "type" : "text",
           "w" : 10.33,
-          "x" : 151,
+          "x" : 131,
           "y" : 121.15
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/1\/1",
+          "id" : "r\/1\/1\/0\/0\/1",
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "slot" : "handle",
           "text" : "mae.review",
           "type" : "text",
-          "w" : 46.83,
-          "x" : 161.33,
+          "w" : 63.05,
+          "x" : 141.33,
           "y" : 121.15
         },
         {
           "h" : 15,
-          "id" : "r\/1\/1\/0\/2",
+          "id" : "r\/1\/1\/0\/1",
           "type" : "rect",
           "w" : 0.8,
-          "x" : 213.16,
+          "x" : 209.38,
           "y" : 122.34
         },
         {
           "h" : 11,
-          "id" : "r\/1\/1\/0\/3",
+          "id" : "r\/1\/1\/0\/2",
           "type" : "icon",
           "w" : 11,
-          "x" : 218.96,
+          "x" : 215.18,
           "y" : 124.34
         },
         {
           "h" : 17.38,
-          "id" : "r\/1\/1\/0\/4",
+          "id" : "r\/1\/1\/0\/3",
           "lines" : 1,
           "size" : 11.5,
           "slot" : "stat:creatorKind",
           "text" : "บุคคล",
           "type" : "text",
           "w" : 28.04,
-          "x" : 234.96,
+          "x" : 231.18,
           "y" : 121.15
         },
         {
@@ -7380,69 +6360,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 10.272916666666667,
-            "outWeight" : 500,
-            "size" : 10.272916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.772916666666667,
-            "outWeight" : 500,
-            "size" : 9.772916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.272916666666667,
-            "outWeight" : 500,
-            "size" : 9.272916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.772916666666667,
-            "outWeight" : 500,
-            "size" : 8.772916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.272916666666667,
-            "outWeight" : 500,
-            "size" : 8.272916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.772916666666667,
-            "outWeight" : 500,
-            "size" : 7.772916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.272916666666667,
-            "outWeight" : 500,
-            "size" : 7.272916666666667,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 12.195833333333333,
             "outWeight" : 400,
             "size" : 12.195833333333333,
@@ -7549,60 +6466,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11,
-            "outWeight" : 500,
-            "size" : 11,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5,
-            "outWeight" : 500,
-            "size" : 10.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10,
-            "outWeight" : 500,
-            "size" : 10,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5,
-            "outWeight" : 500,
-            "size" : 9.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9,
-            "outWeight" : 500,
-            "size" : 9,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5,
-            "outWeight" : 500,
-            "size" : 8.5,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 10.5,
             "outWeight" : 400,
             "size" : 10.5,
@@ -7676,69 +6539,6 @@
             "outSize" : 11.170125,
             "outWeight" : 500,
             "size" : 11.170125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.670125,
-            "outWeight" : 500,
-            "size" : 10.670125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.170125,
-            "outWeight" : 500,
-            "size" : 10.170125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.670125,
-            "outWeight" : 500,
-            "size" : 9.670125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.170125,
-            "outWeight" : 500,
-            "size" : 9.170125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.670125,
-            "outWeight" : 500,
-            "size" : 8.670125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.170125,
-            "outWeight" : 500,
-            "size" : 8.170125,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 7.6701250000000005,
-            "outWeight" : 500,
-            "size" : 7.6701250000000005,
             "slot" : "handle",
             "weight" : 500
           },
@@ -7842,69 +6642,6 @@
           {
             "face" : "noto",
             "outFace" : "noto",
-            "outSize" : 11.0850625,
-            "outWeight" : 500,
-            "size" : 11.0850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.5850625,
-            "outWeight" : 500,
-            "size" : 10.5850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 10.0850625,
-            "outWeight" : 500,
-            "size" : 10.0850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.5850625,
-            "outWeight" : 500,
-            "size" : 9.5850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 9.0850625,
-            "outWeight" : 500,
-            "size" : 9.0850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.5850625,
-            "outWeight" : 500,
-            "size" : 8.5850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
-            "outSize" : 8.0850625,
-            "outWeight" : 500,
-            "size" : 8.0850625,
-            "slot" : "handle",
-            "weight" : 500
-          },
-          {
-            "face" : "noto",
-            "outFace" : "noto",
             "outSize" : 11.059625,
             "outWeight" : 400,
             "size" : 11.059625,
@@ -7989,8 +6726,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 7.272916666666667,
-          "v" : 10.99,
+          "size" : 10.772916666666667,
+          "v" : 16.28,
           "weight" : 500
         },
         {
@@ -8029,14 +6766,6 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 8.5,
-          "v" : 12.84,
-          "weight" : 500
-        },
-        {
-          "face" : "noto",
-          "italic" : false,
-          "lineHeight" : 1,
           "size" : 10.5,
           "v" : 15.87,
           "weight" : 400
@@ -8069,8 +6798,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 7.6701250000000005,
-          "v" : 11.59,
+          "size" : 11.170125,
+          "v" : 16.88,
           "weight" : 500
         },
         {
@@ -8109,8 +6838,8 @@
           "face" : "noto",
           "italic" : false,
           "lineHeight" : 1,
-          "size" : 8.0850625,
-          "v" : 12.22,
+          "size" : 11.5850625,
+          "v" : 17.51,
           "weight" : 500
         },
         {
@@ -8218,9 +6947,9 @@
           "size" : 13.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 36.81,
+          "w" : 54.73,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8231,9 +6960,9 @@
           "size" : 12.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 35.42,
+          "w" : 59.72,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8244,9 +6973,9 @@
           "size" : 12.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 40.81,
+          "w" : 57.38,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8257,9 +6986,9 @@
           "size" : 11.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 39.15,
+          "w" : 55.04,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8270,113 +6999,22 @@
           "size" : 11.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 37.49,
+          "w" : 52.71,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
-          "h" : 32.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 35.82,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 31.04,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 39.57,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 29.54,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 40.3,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 28.02,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.24,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 26.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.18,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 25,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.68,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 23.48,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.34,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 10.99,
+          "h" : 16.28,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 7.272916666666667,
+          "size" : 10.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 39.88,
+          "w" : 59.06,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8596,94 +7234,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",
@@ -8832,9 +7392,9 @@
           "size" : 13.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 36.81,
+          "w" : 54.73,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8845,9 +7405,9 @@
           "size" : 12.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 35.42,
+          "w" : 59.72,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8858,9 +7418,9 @@
           "size" : 12.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 40.81,
+          "w" : 57.38,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8871,9 +7431,9 @@
           "size" : 11.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 39.15,
+          "w" : 55.04,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -8884,113 +7444,22 @@
           "size" : 11.272916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 37.49,
+          "w" : 52.71,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
-          "h" : 32.56,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 35.82,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 31.04,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 39.57,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 29.54,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 40.3,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 28.02,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.24,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 26.52,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.18,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 25,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.272916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.68,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 23.48,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 7.772916666666667,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 36.34,
-          "weight" : 500,
-          "width" : 40.92
-        },
-        {
-          "face" : "noto",
-          "h" : 10.99,
+          "h" : 16.28,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 7.272916666666667,
+          "size" : 10.772916666666667,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 39.88,
+          "w" : 59.06,
           "weight" : 500,
-          "width" : 40.92
+          "width" : 60.92
         },
         {
           "face" : "noto",
@@ -9217,9 +7686,9 @@
           "size" : 12.670125,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 42.13,
+          "w" : 59.24,
           "weight" : 500,
-          "width" : 42.93000000000002
+          "width" : 62.93000000000001
         },
         {
           "face" : "noto",
@@ -9230,9 +7699,9 @@
           "size" : 12.170125,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 40.47,
+          "w" : 56.9,
           "weight" : 500,
-          "width" : 42.93000000000002
+          "width" : 62.93000000000001
         },
         {
           "face" : "noto",
@@ -9243,113 +7712,22 @@
           "size" : 11.670125,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 38.81,
+          "w" : 54.56,
           "weight" : 500,
-          "width" : 42.93000000000002
+          "width" : 62.93000000000001
         },
         {
           "face" : "noto",
-          "h" : 33.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.170125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 37.15,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 32.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.670125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 41.1,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 30.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.170125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 41.94,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 29.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.670125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 39.87,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 27.72,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.170125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.88,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 26.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.670125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 40.54,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 24.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.170125,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 38.2,
-          "weight" : 500,
-          "width" : 42.93000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 11.59,
+          "h" : 16.88,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 7.6701250000000005,
+          "size" : 11.170125,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 42.05,
+          "w" : 61.24,
           "weight" : 500,
-          "width" : 42.93000000000002
+          "width" : 62.93000000000001
         },
         {
           "face" : "noto",
@@ -9550,113 +7928,22 @@
           "size" : 12.0850625,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 40.19,
+          "w" : 56.5,
           "weight" : 500,
-          "width" : 44.87000000000002
+          "width" : 64.87
         },
         {
           "face" : "noto",
-          "h" : 35.02,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.62,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 33.5,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.0850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.69,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 31.98,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.65,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 30.48,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.0850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 41.59,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 28.96,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.82,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 27.46,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.0850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.48,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 25.94,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 8.5850625,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 40.14,
-          "weight" : 500,
-          "width" : 44.87000000000002
-        },
-        {
-          "face" : "noto",
-          "h" : 12.22,
+          "h" : 17.51,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.0850625,
+          "size" : 11.5850625,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 44.33,
+          "w" : 63.51,
           "weight" : 500,
-          "width" : 44.87000000000002
+          "width" : 64.87
         },
         {
           "face" : "noto",
@@ -9824,94 +8111,16 @@
         },
         {
           "face" : "noto",
-          "h" : 34.76,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.29,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 33.24,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 11,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 45.36,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 31.74,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 43.3,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 30.22,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 10,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 46.75,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 28.7,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9.5,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 44.42,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 27.2,
-          "kerning" : 0,
-          "lineHeight" : 1,
-          "lines" : 2,
-          "size" : 9,
-          "t" : "mae.review",
-          "tracking" : 0,
-          "w" : 42.08,
-          "weight" : 500,
-          "width" : 46.83
-        },
-        {
-          "face" : "noto",
-          "h" : 12.84,
+          "h" : 17.38,
           "kerning" : 0,
           "lineHeight" : 1,
           "lines" : 1,
-          "size" : 8.5,
+          "size" : 11.5,
           "t" : "mae.review",
           "tracking" : 0,
-          "w" : 46.6,
+          "w" : 63.05,
           "weight" : 500,
-          "width" : 46.83
+          "width" : 63.05
         },
         {
           "face" : "noto",

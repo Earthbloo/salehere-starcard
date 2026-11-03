@@ -438,6 +438,18 @@ export class WebSpecData {
         platformName: SOCIAL[r.platform]?.name ?? '', platformOrder: String(SOCIAL_ORDER.indexOf(r.platform) < 0 ? 99 : SOCIAL_ORDER.indexOf(r.platform)),
         priceNum: Fmt.baht(r.price), icon: 'sh:' + r.platform, tint: SOCIAL[r.platform]?.tint ?? '', format: r.format,
       }))
+      case 'rateSocials': {
+        // หนึ่งชิ้นต่อโซเชียล ราคาแยกตามประเภท = รูปเดียวกับ socialProfiles[].photoPrice/shortVdoPrice/longVdoPrice/sharingPrice ของ API
+        const rates = this.rates.filter((r) => r.price > 0)
+        return SOCIAL_ORDER.filter((t) => rates.some((r) => r.platform === t)).map((t, i) => {
+          const f = { platform: t, platformName: SOCIAL[t]?.name ?? '', icon: 'sh:' + t, tint: SOCIAL[t]?.tint ?? '', platformOrder: String(SOCIAL_ORDER.indexOf(t)) }
+          for (const fmt of ['shortVideo', 'photo', 'longVideo', 'seeding']) {
+            const ps = rates.filter((r) => r.platform === t && r.format === fmt).map((r) => r.price)
+            if (ps.length) { const low = Math.min(...ps); f[fmt] = '฿' + Fmt.baht(low); f[fmt + 'Raw'] = String(low) }
+          }
+          return I(t, i, f)
+        })
+      }
       case 'brands': return this.track().brands.map((b, i) => I(b.name, i, { name: b.name, logo: b.logo || '', industry: b.industry }))
       case 'works': {
         const tr = this.track()

@@ -70,8 +70,6 @@
         "type": "chips",
         "id": "socials",
         "list": "socials",
-        "sort": "followersRaw desc",
-        "limit": 3,
         "wrap": false,
         "gap": 31,
         "pad": [
@@ -185,7 +183,7 @@
     "type": "stack",
     "id": "tab",
     "w": 75,
-    "h": 265,
+    "h": "85.5%",
     "fill": "bg2",
     "radius": 17,
     "place": "top-center",
@@ -200,9 +198,9 @@
       "type": "col",
       "pad": [
        27,
-       0,
-       10,
-       0
+       5,
+       16,
+       5
       ],
       "gap": 5,
       "align": "center",
@@ -211,8 +209,6 @@
         "type": "chips",
         "id": "socials",
         "list": "socials",
-        "sort": "followersRaw desc",
-        "limit": 3,
         "direction": "col",
         "gap": 5,
         "align": "center",
@@ -249,7 +245,8 @@
            "size": 15,
            "color": "#141414",
            "textAlign": "center",
-           "maxLines": 1
+           "maxLines": 1,
+           "shrinkTo": 10
           }
          ]
         }
@@ -284,5 +281,14 @@
     ]
    }
   ]
- }
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
 }

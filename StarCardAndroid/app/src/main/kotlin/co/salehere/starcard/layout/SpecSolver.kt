@@ -282,6 +282,9 @@ class SpecSolver(
                 val k = body.dropLast(4); v = item.value(k) == item.value("$k.max") && item.value(k).isNotEmpty()
             } else if (body.endsWith("=first")) {
                 v = item.i == 0
+            } else if (body.contains('=')) {
+                // เทียบข้อความ: `$format=photo` (ฟิลด์ของชิ้นเท่ากับค่านี้ทุกตัวอักษร)
+                val eq = body.indexOf('='); v = item.value(body.substring(0, eq)) == body.substring(eq + 1)
             } else {
                 v = item.value(body).isNotEmpty()
             }

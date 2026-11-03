@@ -236,61 +236,6 @@
           "type": "spacer",
           "grow": 1,
           "minW": 4
-         },
-         {
-          "type": "col",
-          "gap": 3,
-          "align": "end",
-          "children": [
-           {
-            "type": "chips",
-            "id": "socials",
-            "list": "socials",
-            "gap": 8,
-            "justify": "end",
-            "align": "center",
-            "each": {
-             "type": "row",
-             "gap": 3,
-             "align": "center",
-             "children": [
-              {
-               "type": "stack",
-               "w": 17,
-               "h": 17,
-               "radius": 5.1,
-               "fill": "bg2",
-               "children": [
-                {
-                 "type": "icon",
-                 "icon": "$icon",
-                 "size": 11,
-                 "place": "center"
-                }
-               ]
-              },
-              {
-               "type": "text",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 11,
-               "color": "#141414",
-               "maxLines": 1
-              }
-             ]
-            }
-           },
-           {
-            "type": "text",
-            "text": "ผู้ติดตาม",
-            "face": "noto",
-            "weight": 600,
-            "size": 6,
-            "color": "#7A5664",
-            "maxLines": 1
-           }
-          ]
          }
         ]
        },
