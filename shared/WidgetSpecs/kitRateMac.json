@@ -408,7 +408,7 @@
           "where": "!hidden:$platform",
           "each": {
            "type": "col",
-           "grow": 0,
+           "grow": 1,
            "children": [
             {
              "type": "rect",
@@ -580,7 +580,8 @@
              ]
             }
            ]
-          }
+          },
+          "grow": 1
          }
         ],
         "gap": 8
