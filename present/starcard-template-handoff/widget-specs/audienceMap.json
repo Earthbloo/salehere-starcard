@@ -1,0 +1,166 @@
+{
+ "kind": "audienceMap",
+ "design": {
+  "w": 366,
+  "h": 188
+ },
+ "widget": {
+  "title": "ผู้ชมในประเทศ",
+  "category": "audience",
+  "symbol": "mappin.and.ellipse",
+  "order": 45,
+  "stamp": "insight",
+  "motion": "anchored"
+ },
+ "notes": "หัวข้อ 'ผู้ชมอยู่ที่ไหน' + หมุด + 'อันดับ 1–N' (N = count:places) · แถวต่อเมือง (แถบสัดส่วน pct $shareRaw/max หลังตัวหนังสือ · rank2 · ชื่อ · %) · แปลงจาก InsightWidgets.swift (AudienceMapWidget) · แถวเรียงตามรายการ (อันดับจริง) grow 1 เท่ากัน · แถบ = share/max เหมือนต้นฉบับ · อันดับ 1 เข้มกว่า (accent@0.2 vs accent@0.09) ด้วย `$i=first` · หมึกจาก ink ของพื้นที่ใบนั่ง · สีเน้น = accent ของพื้น (ของเดิมใช้ theme.accent ระดับการ์ด ซึ่งบนแผ่นเข้มทึบบนการ์ดกระดาษจะได้สีเข้มที่จมแผ่น — ผังใช้ accent ที่ปรับตามพื้นตามกติกา WidgetBody) · chrome วาดแผ่น/ขอบให้",
+ "root": {
+  "type": "col",
+  "gap": 9,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "label",
+    "gap": 10,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "ผู้ชมอยู่ที่ไหน",
+      "face": "noto",
+      "size": 13.5,
+      "weight": 700,
+      "color": "ink@0.88",
+      "maxLines": 1,
+      "shrinkTo": 9.5
+     },
+     {
+      "type": "rect",
+      "h": 0.8,
+      "grow": 1,
+      "gradient": {
+       "from": "line@0.2",
+       "to": "line@0.04",
+       "angle": 0
+      }
+     },
+     {
+      "type": "row",
+      "gap": 4,
+      "align": "center",
+      "children": [
+       {
+        "type": "icon",
+        "icon": "ph:map-pin",
+        "size": 10,
+        "tint": "accent"
+       },
+       {
+        "type": "row",
+        "gap": 0,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "อันดับ 1–",
+          "face": "noto",
+          "size": 9.5,
+          "weight": 700,
+          "color": "accent",
+          "maxLines": 1
+         },
+         {
+          "type": "text",
+          "slot": "count:places",
+          "face": "noto",
+          "size": 9.5,
+          "weight": 700,
+          "color": "accent",
+          "maxLines": 1
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "chips",
+    "id": "places",
+    "list": "places",
+    "direction": "col",
+    "gap": 0,
+    "grow": 1,
+    "each": {
+     "type": "stack",
+     "grow": 1,
+     "children": [
+      {
+       "type": "row",
+       "children": [
+        {
+         "type": "rect",
+         "pct": "$shareRaw/max",
+         "radius": 7,
+         "fill": "accent@0.2",
+         "if": "$i=first"
+        },
+        {
+         "type": "rect",
+         "pct": "$shareRaw/max",
+         "radius": 7,
+         "fill": "accent@0.09",
+         "if": "!$i=first"
+        }
+       ]
+      },
+      {
+       "type": "row",
+       "gap": 10,
+       "align": "center",
+       "pad": [
+        4,
+        10
+       ],
+       "children": [
+        {
+         "type": "text",
+         "text": "{rank2}",
+         "face": "noto",
+         "size": 10,
+         "weight": 900,
+         "color": "ink@0.32",
+         "maxLines": 1
+        },
+        {
+         "type": "text",
+         "slot": "$name",
+         "face": "noto",
+         "size": 13,
+         "weight": 700,
+         "color": "ink@0.94",
+         "maxLines": 1,
+         "shrinkTo": 9.1
+        },
+        {
+         "type": "spacer",
+         "grow": 1,
+         "minW": 4
+        },
+        {
+         "type": "text",
+         "slot": "$share",
+         "face": "noto",
+         "size": 13,
+         "weight": 800,
+         "color": "ink@0.94",
+         "maxLines": 1
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

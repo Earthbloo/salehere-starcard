@@ -1,0 +1,441 @@
+{
+ "kind": "aboutMe",
+ "design": {
+  "w": 366,
+  "h": 380
+ },
+ "widget": {
+  "title": "about me.",
+  "category": "intro",
+  "symbol": "text.word.spacing",
+  "order": 121,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "segment",
+    "label": "ลาย",
+    "opt": "pattern",
+    "options": [
+     [
+      null,
+      "เรียบ"
+     ],
+     [
+      "stripe",
+      "ลายทาง"
+     ],
+     [
+      "diamond",
+      "ข้าวหลามตัด"
+     ]
+    ],
+    "if": "surface=glass"
+   }
+  ],
+  "on": "dark"
+ },
+ "notes": "หน้าแนะนำตัวแบบ 'about me.' — คำยักษ์สองบรรทัด (note#0 'about' · note#1 'me.') หมึกขาวบนแผ่นเทาเขียว · รูปช่อง 1 ขาวดำมุมมนยาวต่อท้าย 'me.' · หัวข้อย่อย note#2 'nice to meet you!' + แนะนำตัว (about) ซ้ายล่าง · พื้นผิว: กระดาษ = เทาเขียว #8D8E86 + ขาวนวล · คู่สี = plate + plateInk · ไม่มีพื้น/pane = หมึกการ์ด · 4 พ.ย. 2569: ตัดลายเซ็นชื่อ · หัวข้อย่อย+แนะนำตัวชิดใต้ 'me.' (ไม่ดันลงล่าง) · คำยักษ์ 136→112 · แนะนำตัว 17pt (h≥460 → 20 · h≥560 → 23) สูงสุด 8 บรรทัด · fitScale กันข้อความยาวล้น · รูปสูง 124 กว้างไม่เกิน 104 (แนวตั้ง ไม่ครอปหัว) ชิดล่างแถว",
+ "variants": [
+  {
+   "when": "papered & !duo",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "id": "sheet",
+      "fill": "#8D8E86"
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "stroke": {
+       "color": "#F2F2EE@0.35",
+       "width": 1
+      },
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "id": "body",
+      "pad": [
+       2,
+       16,
+       16,
+       16
+      ],
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "weight": 700,
+        "size": 112,
+        "kerning": -6.8,
+        "lineHeight": 0.66,
+        "color": "#F2F2EE",
+        "maxLines": 1,
+        "shrinkTo": 30,
+        "w": "fill",
+        "text": "about"
+       },
+       {
+        "type": "row",
+        "id": "meRow",
+        "gap": 8,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 700,
+          "size": 112,
+          "kerning": -6.8,
+          "lineHeight": 0.66,
+          "color": "#F2F2EE",
+          "maxLines": 1,
+          "shrinkTo": 30,
+          "text": "me."
+         },
+         {
+          "type": "image",
+          "id": "portrait",
+          "photo": 1,
+          "removeBg": true,
+          "mono": true,
+          "radius": 20,
+          "h": 124,
+          "grow": 1,
+          "minW": 60,
+          "maxW": 104
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 16,
+        "shrink": 0
+       },
+       {
+        "type": "col",
+        "id": "intro",
+        "gap": 8,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 700,
+          "size": 27,
+          "kerning": -1.2,
+          "color": "#F2F2EE",
+          "maxLines": 1,
+          "shrinkTo": 12,
+          "w": "fill",
+          "text": "nice to meet you!"
+         },
+         {
+          "type": "text",
+          "id": "about",
+          "slot": "about",
+          "face": "noto",
+          "weight": 400,
+          "size": 17,
+          "lineHeight": 1.15,
+          "color": "#F2F2EE@0.88",
+          "maxLines": 8,
+          "w": "fill",
+          "shrinkTo": 12,
+          "sizeWhen": [
+           {
+            "when": "h>=560",
+            "size": 23
+           },
+           {
+            "when": "h>=460",
+            "size": 20
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "when": "papered & duo",
+   "root": {
+    "type": "stack",
+    "children": [
+     {
+      "type": "rect",
+      "id": "sheet",
+      "fill": "bg"
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "stroke": {
+       "color": "ink@0.35",
+       "width": 1
+      },
+      "if": "bordered"
+     },
+     {
+      "type": "col",
+      "id": "body",
+      "pad": [
+       2,
+       16,
+       16,
+       16
+      ],
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "weight": 700,
+        "size": 112,
+        "kerning": -6.8,
+        "lineHeight": 0.66,
+        "color": "ink",
+        "maxLines": 1,
+        "shrinkTo": 30,
+        "w": "fill",
+        "text": "about"
+       },
+       {
+        "type": "row",
+        "id": "meRow",
+        "gap": 8,
+        "align": "end",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 700,
+          "size": 112,
+          "kerning": -6.8,
+          "lineHeight": 0.66,
+          "color": "ink",
+          "maxLines": 1,
+          "shrinkTo": 30,
+          "text": "me."
+         },
+         {
+          "type": "image",
+          "id": "portrait",
+          "photo": 1,
+          "removeBg": true,
+          "mono": true,
+          "radius": 20,
+          "h": 124,
+          "grow": 1,
+          "minW": 60,
+          "maxW": 104
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 16,
+        "shrink": 0
+       },
+       {
+        "type": "col",
+        "id": "intro",
+        "gap": 8,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "weight": 700,
+          "size": 27,
+          "kerning": -1.2,
+          "color": "ink",
+          "maxLines": 1,
+          "shrinkTo": 12,
+          "w": "fill",
+          "text": "nice to meet you!"
+         },
+         {
+          "type": "text",
+          "id": "about",
+          "slot": "about",
+          "face": "noto",
+          "weight": 400,
+          "size": 17,
+          "lineHeight": 1.15,
+          "color": "ink@0.85",
+          "maxLines": 8,
+          "w": "fill",
+          "shrinkTo": 12,
+          "sizeWhen": [
+           {
+            "when": "h>=560",
+            "size": 23
+           },
+           {
+            "when": "h>=460",
+            "size": 20
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "border",
+    "stroke": {
+     "color": "ink@0.35",
+     "width": 1
+    },
+    "if": "bordered",
+    "on": "card"
+   },
+   {
+    "type": "col",
+    "id": "body",
+    "pad": [
+     2,
+     16,
+     16,
+     16
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "text",
+      "face": "noto",
+      "weight": 700,
+      "size": 112,
+      "kerning": -6.8,
+      "lineHeight": 0.66,
+      "color": "ink",
+      "maxLines": 1,
+      "shrinkTo": 30,
+      "w": "fill",
+      "text": "about",
+      "on": "card"
+     },
+     {
+      "type": "row",
+      "id": "meRow",
+      "gap": 8,
+      "align": "end",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "weight": 700,
+        "size": 112,
+        "kerning": -6.8,
+        "lineHeight": 0.66,
+        "color": "ink",
+        "maxLines": 1,
+        "shrinkTo": 30,
+        "text": "me.",
+        "on": "card"
+       },
+       {
+        "type": "image",
+        "id": "portrait",
+        "photo": 1,
+        "removeBg": true,
+        "mono": true,
+        "radius": 20,
+        "h": 124,
+        "grow": 1,
+        "minW": 60,
+        "maxW": 104
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 16,
+      "shrink": 0
+     },
+     {
+      "type": "col",
+      "id": "intro",
+      "gap": 8,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "weight": 700,
+        "size": 27,
+        "kerning": -1.2,
+        "color": "ink",
+        "maxLines": 1,
+        "shrinkTo": 12,
+        "w": "fill",
+        "text": "nice to meet you!",
+        "on": "card"
+       },
+       {
+        "type": "text",
+        "id": "about",
+        "slot": "about",
+        "face": "noto",
+        "weight": 400,
+        "size": 17,
+        "lineHeight": 1.15,
+        "color": "ink@0.75",
+        "maxLines": 8,
+        "w": "fill",
+        "on": "card",
+        "shrinkTo": 12,
+        "sizeWhen": [
+         {
+          "when": "h>=560",
+          "size": 23
+         },
+         {
+          "when": "h>=460",
+          "size": 20
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6
+ ]
+}

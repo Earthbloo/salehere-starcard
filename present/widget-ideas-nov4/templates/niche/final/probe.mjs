@@ -1,0 +1,17 @@
+// อ่านรายงานรูปของหน้า final (?src=niche = ทุกใบของชุดสายงาน) → final/probe-report.json
+import fs from 'node:fs'; import path from 'node:path'; import { fileURLToPath } from 'node:url'; import { createRequire } from 'node:module'
+const here = path.dirname(fileURLToPath(import.meta.url)); const require = createRequire(path.resolve(here, '../../../../../sync-server/package.json'))
+const puppeteer = require('puppeteer-core')
+const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
+const pg = await b.newPage(); await pg.setViewport({ width: 1600, height: 1000 })
+pg.on('pageerror', (e) => console.error('page error:', e.message))
+await pg.goto('http://localhost:8802/templates/niche/final/index.html' + (process.argv[2] ? '?src=' + process.argv[2] : ''), { waitUntil: 'networkidle0', timeout: 300000 })
+await pg.waitForFunction('window.__done === true', { timeout: 600000 })
+await new Promise((ok) => setTimeout(ok, 2000))
+// ตรวจซ้ำอีกรอบหลังรูปโหลดครบ (บางชิ้นใส่ภาพหลังโหลด)
+const rep = await pg.evaluate(() => window.__report)
+fs.writeFileSync(path.join(here, process.argv[2] ? 'probe-report.json' : 'final-report.json'), JSON.stringify(rep, null, 1))
+const bad = Object.entries(rep).filter(([, r]) => r.over.length || r.dupes.length || r.other)
+console.log(Object.keys(rep).length, 'ใบ · มีปัญหา', bad.length)
+for (const [id, r] of bad.slice(0, 40)) console.log(id, 'self', r.self, 'work', r.work, r.over.join('; '), r.dupes.join(' '), r.other ? 'other ' + r.other : '')
+await b.close()

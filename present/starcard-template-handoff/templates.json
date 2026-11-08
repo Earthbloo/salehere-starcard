@@ -1,0 +1,2216 @@
+[
+ {
+  "name": "Kit Lavender",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#ECE4FA"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "kitProfilePurple",
+       "x": 18,
+       "y": 18,
+       "w": 247,
+       "h": 300,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitBioPurple",
+       "x": 275,
+       "y": 18,
+       "w": 247,
+       "h": 145,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitNichePurple",
+       "x": 275,
+       "y": 173,
+       "w": 247,
+       "h": 145,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitSocialPurple",
+       "x": 18,
+       "y": 328,
+       "w": 247,
+       "h": 236,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitInsightPurple",
+       "x": 275,
+       "y": 328,
+       "w": 247,
+       "h": 236,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "hide": "reach"
+       }
+      },
+      {
+       "kind": "kitRatePurple",
+       "x": 18,
+       "y": 574,
+       "w": 190,
+       "h": 202,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 218,
+       "y": 574,
+       "w": 304,
+       "h": 202,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitContactPurple",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "qr": "1"
+       }
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Pop Peach",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#FFE1D6"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "popHeroPaper",
+       "x": 18,
+       "y": 18,
+       "w": 311,
+       "h": 250,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "popNichePaper",
+       "x": 339,
+       "y": 18,
+       "w": 183,
+       "h": 250,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 278,
+       "w": 247,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 275,
+       "y": 278,
+       "w": 247,
+       "h": 135,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "popStatsGlass",
+       "x": 18,
+       "y": 423,
+       "w": 504,
+       "h": 172,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 605,
+       "w": 279,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 307,
+       "y": 605,
+       "w": 215,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "popContactPaper",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Window Night",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#121417"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "portfolioWindow",
+       "x": 18,
+       "y": 18,
+       "w": 247,
+       "h": 420,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 275,
+       "y": 18,
+       "w": 247,
+       "h": 133,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 275,
+       "y": 161,
+       "w": 247,
+       "h": 133,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 275,
+       "y": 304,
+       "w": 247,
+       "h": 134,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "youtube"
+       }
+      },
+      {
+       "kind": "socialWindow",
+       "x": 18,
+       "y": 448,
+       "w": 504,
+       "h": 124,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 582,
+       "w": 504,
+       "h": 194,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Poster Merlot",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#4A1830",
+     "secondary": "#F6C9D3"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "artPortfolio",
+       "x": 18,
+       "y": 18,
+       "w": 259,
+       "h": 430,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "reelShowcase",
+       "x": 287,
+       "y": 18,
+       "w": 235,
+       "h": 163,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "statPoster",
+       "x": 287,
+       "y": 191,
+       "w": 235,
+       "h": 137,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 287,
+       "y": 338,
+       "w": 235,
+       "h": 110,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 458,
+       "w": 274,
+       "h": 318,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 302,
+       "y": 458,
+       "w": 220,
+       "h": 154,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 302,
+       "y": 622,
+       "w": 220,
+       "h": 154,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Ledger Green",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#10302A",
+     "secondary": "#E8E0C8"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "heroMinimal",
+       "x": 18,
+       "y": 18,
+       "w": 504,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutEditorial",
+       "x": 18,
+       "y": 163,
+       "w": 269,
+       "h": 300,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "socialChips",
+       "x": 297,
+       "y": 163,
+       "w": 225,
+       "h": 300,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 473,
+       "w": 269,
+       "h": 303,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 297,
+       "y": 473,
+       "w": 225,
+       "h": 201,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 297,
+       "y": 684,
+       "w": 225,
+       "h": 92,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "contactCard",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Carbon Type",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#101215"
+    },
+    "ink": "night",
+    "backdrop": "gradient"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "artTypeOver",
+       "x": 18,
+       "y": 18,
+       "w": 269,
+       "h": 300,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 297,
+       "y": 18,
+       "w": 225,
+       "h": 173,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 297,
+       "y": 201,
+       "w": 225,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "statGiant",
+       "x": 18,
+       "y": 328,
+       "w": 248,
+       "h": 200,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 538,
+       "w": 248,
+       "h": 222,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "reelShowcase",
+       "x": 18,
+       "y": 770,
+       "w": 248,
+       "h": 172,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitTimeNight",
+       "x": 276,
+       "y": 328,
+       "w": 246,
+       "h": 256,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "fill": "clear"
+       }
+      },
+      {
+       "kind": "audienceSplit",
+       "x": 276,
+       "y": 594,
+       "w": 246,
+       "h": 92,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 276,
+       "y": 696,
+       "w": 246,
+       "h": 80,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "youtube"
+       }
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Tomato Pop",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#E5482C"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "popHeroGlass",
+       "x": 18,
+       "y": 18,
+       "w": 220,
+       "h": 206,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "statGiant",
+       "x": 248,
+       "y": 18,
+       "w": 274,
+       "h": 206,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "reelShowcase",
+       "x": 18,
+       "y": 234,
+       "w": 247,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 275,
+       "y": 234,
+       "w": 247,
+       "h": 81,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 275,
+       "y": 325,
+       "w": 247,
+       "h": 80,
+       "surface": "dim",
+       "border": false,
+       "options": {
+        "chan": "tiktok"
+       }
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 415,
+       "w": 269,
+       "h": 361,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 297,
+       "y": 415,
+       "w": 225,
+       "h": 234,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 297,
+       "y": 659,
+       "w": 225,
+       "h": 117,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "kitTimeCream",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Latte Scrap",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#E9DCCB"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "scrapBadge",
+       "x": 18,
+       "y": 18,
+       "w": 174,
+       "h": 300,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "scrapAbout",
+       "x": 202,
+       "y": 18,
+       "w": 320,
+       "h": 199,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 202,
+       "y": 227,
+       "w": 320,
+       "h": 91,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "scrapTags",
+       "x": 18,
+       "y": 328,
+       "w": 247,
+       "h": 196,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitTimeCream",
+       "x": 275,
+       "y": 328,
+       "w": 247,
+       "h": 106,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "socialTiles",
+       "x": 275,
+       "y": 444,
+       "w": 247,
+       "h": 80,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "scrapStats",
+       "x": 18,
+       "y": 534,
+       "w": 247,
+       "h": 242,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 275,
+       "y": 534,
+       "w": 247,
+       "h": 242,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "scrapNote",
+       "x": 18,
+       "y": 786,
+       "w": 248,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Picnic Gingham",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#FCEBD5"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "portfolioGingham",
+       "x": 18,
+       "y": 18,
+       "w": 248,
+       "h": 424,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 452,
+       "w": 248,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 579,
+       "w": 248,
+       "h": 229,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 818,
+       "w": 248,
+       "h": 124,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitTimeGingham",
+       "x": 276,
+       "y": 18,
+       "w": 246,
+       "h": 200,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "galleryMasonry",
+       "x": 276,
+       "y": 228,
+       "w": 246,
+       "h": 254,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "socialTiles",
+       "x": 276,
+       "y": 492,
+       "w": 246,
+       "h": 92,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceSplit",
+       "x": 276,
+       "y": 594,
+       "w": 246,
+       "h": 92,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 276,
+       "y": 696,
+       "w": 246,
+       "h": 80,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Mint Kit",
+  "format": "story",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#DDF3EE"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "kitProfileGingham",
+       "x": 18,
+       "y": 18,
+       "w": 248,
+       "h": 272,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitBioGingham",
+       "x": 18,
+       "y": 300,
+       "w": 248,
+       "h": 170,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 480,
+       "w": 248,
+       "h": 342,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 832,
+       "w": 248,
+       "h": 110,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitNicheGingham",
+       "x": 276,
+       "y": 18,
+       "w": 246,
+       "h": 110,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitInsightGingham",
+       "x": 276,
+       "y": 138,
+       "w": 246,
+       "h": 230,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "hide": "reach"
+       }
+      },
+      {
+       "kind": "kitSocialGingham",
+       "x": 276,
+       "y": 378,
+       "w": 246,
+       "h": 200,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitRateGingham",
+       "x": 276,
+       "y": 588,
+       "w": 246,
+       "h": 188,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 276,
+       "y": 786,
+       "w": 246,
+       "h": 156,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Poster Ink",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#14161A",
+     "secondary": "#F1EEE6"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "artPortfolio",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 398,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 426,
+       "w": 366,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "nicheTags",
+       "x": 18,
+       "y": 571,
+       "w": 366,
+       "h": 81,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "statPoster",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 214,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "audiencePoster",
+       "x": 18,
+       "y": 242,
+       "w": 366,
+       "h": 283,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 535,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "tiktok"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 212,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactPoster",
+       "x": 18,
+       "y": 240,
+       "w": 366,
+       "h": 170,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Gingham Picnic",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#FFE1D6"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "portfolioGingham",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 489,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 517,
+       "w": 366,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "socialGingham",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 128,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 18,
+       "y": 156,
+       "w": 366,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 18,
+       "y": 337,
+       "w": 366,
+       "h": 188,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 535,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactChips",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Pop Clay",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#8E3620",
+     "secondary": "#F3E3D0"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "popHeroPaper",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 250,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 278,
+       "w": 366,
+       "h": 150,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "popNichePaper",
+       "x": 18,
+       "y": 438,
+       "w": 178,
+       "h": 214,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "popContactPaper",
+       "x": 206,
+       "y": 438,
+       "w": 178,
+       "h": 214,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "popStatsGlass",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 172,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 18,
+       "y": 200,
+       "w": 366,
+       "h": 188,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 18,
+       "y": 398,
+       "w": 366,
+       "h": 254,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Kit Latte",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#D9B99B"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "kitProfileCream",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 330,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "corner": "square"
+       }
+      },
+      {
+       "kind": "kitBioCream",
+       "x": 18,
+       "y": 358,
+       "w": 366,
+       "h": 167,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "corner": "square"
+       }
+      },
+      {
+       "kind": "contactChips",
+       "x": 18,
+       "y": 535,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "kitSocialCream",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 324,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "corner": "square"
+       }
+      },
+      {
+       "kind": "kitInsightCream",
+       "x": 18,
+       "y": 352,
+       "w": 366,
+       "h": 300,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "corner": "square",
+        "hide": "gender,reach"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "youtube"
+       }
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Editorial Cocoa",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#3E000C",
+     "secondary": "#FFECD1"
+    },
+    "ink": "mist",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "heroMinimal",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutEditorial",
+       "x": 18,
+       "y": 163,
+       "w": 366,
+       "h": 398,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "nicheTags",
+       "x": 18,
+       "y": 571,
+       "w": 366,
+       "h": 81,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "socialTiles",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 18,
+       "y": 145,
+       "w": 366,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 18,
+       "y": 326,
+       "w": 366,
+       "h": 199,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 535,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "youtube"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactLine",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Ledger Green",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#10302A",
+     "secondary": "#E8E0C8"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "heroMinimal",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutEditorial",
+       "x": 18,
+       "y": 163,
+       "w": 366,
+       "h": 344,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactCard",
+       "x": 18,
+       "y": 517,
+       "w": 366,
+       "h": 135,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "audiencePoster",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 520,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 548,
+       "w": 366,
+       "h": 104,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "socialChips",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 150,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 178,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Tomato Pop",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#E5482C"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "popHeroGlass",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 250,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 278,
+       "w": 366,
+       "h": 110,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "reelShowcase",
+       "x": 18,
+       "y": 398,
+       "w": 366,
+       "h": 254,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "popStatsGlass",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 172,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "audienceMap",
+       "x": 18,
+       "y": 200,
+       "w": 366,
+       "h": 160,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "kitTimeCream",
+       "x": 18,
+       "y": 370,
+       "w": 366,
+       "h": 165,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 545,
+       "w": 366,
+       "h": 107,
+       "surface": "dim",
+       "border": false,
+       "options": {
+        "chan": "tiktok"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 247,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 275,
+       "w": 366,
+       "h": 135,
+       "surface": "dim",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Latte Scrap",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#E9DCCB"
+    },
+    "ink": "paper",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "scrapBadge",
+       "x": 18,
+       "y": 18,
+       "w": 180,
+       "h": 310,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactQR",
+       "x": 208,
+       "y": 18,
+       "w": 176,
+       "h": 310,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "scrapAbout",
+       "x": 18,
+       "y": 338,
+       "w": 366,
+       "h": 227,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "socialTiles",
+       "x": 18,
+       "y": 575,
+       "w": 366,
+       "h": 77,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "scrapStats",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 240,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitTimeCream",
+       "x": 18,
+       "y": 268,
+       "w": 366,
+       "h": 267,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 545,
+       "w": 366,
+       "h": 107,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "galleryFilm",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Carbon Type",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#101215"
+    },
+    "ink": "night",
+    "backdrop": "gradient"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "artTypeOver",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 367,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 395,
+       "w": 366,
+       "h": 130,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactStack",
+       "x": 18,
+       "y": 535,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "statGiant",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 206,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "kitTimeNight",
+       "x": 18,
+       "y": 234,
+       "w": 366,
+       "h": 174,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "fill": "clear"
+       }
+      },
+      {
+       "kind": "audienceSplit",
+       "x": 18,
+       "y": 418,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 545,
+       "w": 366,
+       "h": 107,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "youtube"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "galleryFilm",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "name": "Merlot Reel",
+  "format": "portfolio",
+  "snapshot": {
+   "theme": {
+    "colors": {
+     "primary": "#4A1830",
+     "secondary": "#F6C9D3"
+    },
+    "ink": "night",
+    "backdrop": "solid"
+   },
+   "pages": [
+    {
+     "items": [
+      {
+       "kind": "artPortfolio",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 370,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "reelShowcase",
+       "x": 18,
+       "y": 398,
+       "w": 366,
+       "h": 254,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "statPoster",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 214,
+       "surface": "pane",
+       "border": false
+      },
+      {
+       "kind": "audienceAge",
+       "x": 18,
+       "y": 242,
+       "w": 366,
+       "h": 171,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "aboutText",
+       "x": 18,
+       "y": 423,
+       "w": 366,
+       "h": 112,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "rateTags",
+       "x": 18,
+       "y": 545,
+       "w": 366,
+       "h": 107,
+       "surface": "glass",
+       "border": false,
+       "options": {
+        "chan": "instagram"
+       }
+      }
+     ]
+    },
+    {
+     "items": [
+      {
+       "kind": "proofWork",
+       "x": 18,
+       "y": 18,
+       "w": 366,
+       "h": 265,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "contactChips",
+       "x": 18,
+       "y": 293,
+       "w": 366,
+       "h": 117,
+       "surface": "glass",
+       "border": false
+      },
+      {
+       "kind": "proofSeal",
+       "x": 18,
+       "y": 420,
+       "w": 366,
+       "h": 232,
+       "surface": "glass",
+       "border": false
+      }
+     ]
+    }
+   ]
+  }
+ }
+]

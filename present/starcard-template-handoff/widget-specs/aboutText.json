@@ -1,0 +1,82 @@
+{
+ "kind": "aboutText",
+ "design": {
+  "w": 366,
+  "h": 135
+ },
+ "widget": {
+  "title": "แนะนำตัว",
+  "category": "intro",
+  "symbol": "text.alignleft",
+  "order": 5,
+  "motion": "light"
+ },
+ "notes": "เส้นไล่สีซ้าย + หัวข้อ + ย่อหน้าแนะนำตัว (บรรทัดตามความสูง · ต้นฉบับ lineSpacing 7 ที่ 14pt = lineHeight 21.15+7 → ตัวคูณ 1.33) + สายงาน (เว้นบน 2 เพิ่มจาก gap 10) · แปลงจาก AboutWidgets.swift (AboutText) · design 366×135 = defaultSize ของต้นฉบับ",
+ "root": {
+  "type": "row",
+  "gap": 14,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "rect",
+    "w": 2.5,
+    "radius": 1.25,
+    "gradient": {
+     "from": "accent",
+     "to": "accent@0.08",
+     "angle": 90
+    }
+   },
+   {
+    "type": "col",
+    "gap": 10,
+    "grow": 1,
+    "align": "start",
+    "children": [
+     {
+      "type": "text",
+      "id": "label",
+      "text": "แนะนำตัว",
+      "textCase": "upper",
+      "face": "noto",
+      "weight": 600,
+      "size": 9.5,
+      "tracking": 1.4,
+      "color": "accent@0.85",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "id": "about",
+      "slot": "about",
+      "face": "noto",
+      "weight": 400,
+      "size": 14,
+      "lineHeight": 1.33,
+      "color": "ink@0.88",
+      "w": "fill",
+      "grow": 1,
+      "maxLines": 0
+     },
+     {
+      "type": "text",
+      "id": "tagline",
+      "slot": "tagline",
+      "face": "noto",
+      "weight": 700,
+      "size": 11,
+      "pad": [
+       2,
+       0,
+       0,
+       0
+      ],
+      "color": "accent@0.85",
+      "maxLines": 1,
+      "w": "fill"
+     }
+    ]
+   }
+  ]
+ }
+}

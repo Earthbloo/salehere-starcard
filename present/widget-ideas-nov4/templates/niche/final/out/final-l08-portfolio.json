@@ -1,0 +1,392 @@
+{
+ "format": "portfolio",
+ "id": "designed.final-l08-portfolio",
+ "name": "Latte Scrap (แนวนอน 3 หน้า)",
+ "snapshot": {
+  "index": 0,
+  "version": 2,
+  "pages": [
+   {
+    "items": [
+     {
+      "id": "CD3EE4FD-BA3A-48E6-96A7-6ECDFE29571E",
+      "kind": "scrapBadge",
+      "x": 18,
+      "y": 18,
+      "w": 180,
+      "h": 310,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "55CEAA2F-8049-4131-8985-0BA8828AFC8F",
+      "kind": "contactQR",
+      "x": 208,
+      "y": 18,
+      "w": 176,
+      "h": 310,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "034D753A-A3F8-428D-8395-8FE8FBB80EA0",
+      "kind": "scrapAbout",
+      "x": 18,
+      "y": 338,
+      "w": 366,
+      "h": 227,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "17D91B36-DFA5-4754-8D56-1B0E3D07D276",
+      "kind": "socialTiles",
+      "x": 18,
+      "y": 575,
+      "w": 366,
+      "h": 77,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "18AA4C12-A729-4549-866B-F34C17D5D16C",
+      "kind": "scrapStats",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 240,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "D6FC54E6-1FF3-4675-A444-3B630DE306FE",
+      "kind": "kitTimeCream",
+      "x": 18,
+      "y": 268,
+      "w": 366,
+      "h": 267,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "E98A574A-A3C3-46B7-BEF0-731FBF701BCF",
+      "kind": "rateTags",
+      "x": 18,
+      "y": 545,
+      "w": 366,
+      "h": 107,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "chan": "instagram"
+      }
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "2E3AB5EB-F042-4929-BCAA-07A78CF8AA5F",
+      "kind": "proofWork",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 265,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "97EAC570-F2B5-4541-AA01-85342193CB3B",
+      "kind": "galleryFilm",
+      "x": 18,
+      "y": 293,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "colors": {
+    "primary": "#E9DCCB"
+   },
+   "ink": "paper",
+   "backdrop": "solid",
+   "photoDim": 0.42,
+   "photoEffect": "none"
+  }
+ },
+ "owner": {
+  "verified": true,
+  "values": {
+   "name": "มะลิ สุวรรณรัตน์",
+   "nickname": "มะลิ",
+   "handle": "mali.cafe",
+   "about": "พาเดินคาเฟ่เชียงใหม่ทุกสุดสัปดาห์ ดื่มเองทุกแก้ว ถ่ายให้สวยในแสงจริง",
+   "phone": "086-402-1188",
+   "lineId": "@malicafe",
+   "website": "malicafe.co",
+   "workArea": "เชียงใหม่",
+   "contactName": "มะลิ สุวรรณรัตน์",
+   "role": "ติดต่อโดยตรง",
+   "quote": "กาแฟดี วิวดี วันดี"
+  },
+  "list": {
+   "categories": [
+    "คาเฟ่",
+    "กาแฟ",
+    "เชียงใหม่"
+   ]
+  },
+  "intake": {
+   "kind": "creator",
+   "interests": [
+    "คาเฟ่",
+    "กาแฟ",
+    "เชียงใหม่"
+   ],
+   "socials": [
+    {
+     "type": "instagram",
+     "link": "https://instagram.com/mali.cafe",
+     "followers": 58000,
+     "views": 26680,
+     "er": 6.5,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "tiktok",
+     "link": "https://tiktok.com/malicafe",
+     "followers": 92000,
+     "views": 76360,
+     "er": 4.8,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "lemon8",
+     "link": "https://lemon8.com/mali.cafe",
+     "followers": 21000,
+     "views": 9450,
+     "er": 3.2,
+     "enabled": true,
+     "source": "connected"
+    }
+   ],
+   "rates": [
+    {
+     "platform": "instagram",
+     "formatKey": "post",
+     "price": 6000
+    },
+    {
+     "platform": "instagram",
+     "formatKey": "reels",
+     "price": 9000
+    },
+    {
+     "platform": "tiktok",
+     "formatKey": "short",
+     "price": 12000
+    },
+    {
+     "platform": "lemon8",
+     "formatKey": "photo",
+     "price": 4000
+    }
+   ],
+   "availability": {
+    "days": [
+     5,
+     6,
+     0
+    ],
+    "slots": [
+     1,
+     2
+    ],
+    "provinces": [
+     "เชียงใหม่",
+     "ลำพูน"
+    ]
+   }
+  },
+  "creatorImageIds": [
+   "30ae63d5e0604fe7b0f5cb2eb28e0224",
+   "77192441a8183f592718d847481e25d0",
+   "fb0d219ce4281261feee886ffc100918"
+  ],
+  "workImageIds": [
+   "4212c09f26267e2831ebdaa4c7599d53",
+   "3badfea79049a85235f6579a918a108d",
+   "9a1d15b8961494124b65b70e641d0fcb",
+   "dce3220052c4f402a5c9fd346a30b5a6",
+   "24d8fff9ab530c0c7d6a369be0a0be37",
+   "3badfea79049a85235f6579a918a108d"
+  ],
+  "libraryImageIds": [],
+  "preview": {
+   "cutoutImageId": "6cb5261c1039fc91d43c92530781be4f",
+   "audience": {
+    "female": 72,
+    "male": 26,
+    "other": 2,
+    "ages": [
+     [
+      "18–24",
+      38
+     ],
+     [
+      "25–34",
+      40
+     ],
+     [
+      "35–44",
+      16
+     ],
+     [
+      "45+",
+      6
+     ]
+    ],
+    "places": [
+     [
+      "เชียงใหม่",
+      46
+     ],
+     [
+      "กรุงเทพฯ",
+      22
+     ],
+     [
+      "ลำปาง",
+      5
+     ],
+     [
+      "เชียงราย",
+      4
+     ]
+    ]
+   },
+   "brands": [
+    {
+     "name": "Nescafé",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Oatside",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Ristr8to",
+     "logo": null,
+     "industry": ""
+    }
+   ],
+   "works": [
+    {
+     "brand": "Oatside",
+     "ep": "EP.41",
+     "campaign": "Oat Latte Week",
+     "platform": "tiktok",
+     "format": "คลิปสั้น",
+     "views": 320000,
+     "engagementRate": 8.4,
+     "photo": 7,
+     "saves": 14000,
+     "shares": 5200,
+     "likes": 31000,
+     "comments": 840,
+     "viralTag": "High Save Rate",
+     "cover": null
+    },
+    {
+     "brand": "Nescafé",
+     "ep": "EP.36",
+     "campaign": "Cold Brew Morning",
+     "platform": "instagram",
+     "format": "Reel",
+     "views": 210000,
+     "engagementRate": 7.1,
+     "photo": 8,
+     "saves": 9800,
+     "shares": 2600,
+     "likes": 18000,
+     "comments": 410,
+     "viralTag": null,
+     "cover": null
+    },
+    {
+     "brand": "Ristr8to",
+     "ep": "EP.30",
+     "campaign": "Nimman Café Hop",
+     "platform": "lemon8",
+     "format": "Photo Set",
+     "views": 96000,
+     "engagementRate": 9.2,
+     "photo": 9,
+     "saves": 7100,
+     "shares": 1200,
+     "likes": 9800,
+     "comments": 330,
+     "viralTag": null,
+     "cover": null
+    }
+   ],
+   "niche": "คาเฟ่ · กาแฟ",
+   "tier": "micro",
+   "gender": "F",
+   "socials": [
+    {
+     "type": "instagram",
+     "views": 26680,
+     "er": 6.5
+    },
+    {
+     "type": "tiktok",
+     "views": 76360,
+     "er": 4.8
+    },
+    {
+     "type": "lemon8",
+     "views": 9450,
+     "er": 3.2
+    }
+   ]
+  }
+ },
+ "template": {
+  "style": "Latte Scrap",
+  "niche": "คาเฟ่",
+  "goal": "C",
+  "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · กำแพงรูปเกิน 8 → แถบฟิล์ม",
+  "persona": "mali",
+  "orient": "portfolio",
+  "page": {
+   "w": 402,
+   "h": 670
+  },
+  "pageCount": 3,
+  "seal": {
+   "w": 366,
+   "h": 232
+  }
+ }
+}

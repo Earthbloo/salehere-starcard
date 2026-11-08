@@ -1,0 +1,403 @@
+{
+ "format": "portfolio",
+ "id": "designed.final-l05-portfolio",
+ "name": "Editorial Cocoa (แนวนอน 3 หน้า)",
+ "snapshot": {
+  "index": 0,
+  "version": 2,
+  "pages": [
+   {
+    "items": [
+     {
+      "id": "49B3D9FF-AF4D-4FEA-8244-CEEBD1793EFD",
+      "kind": "heroMinimal",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 135,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "D2CF7E24-EDF3-4E14-8740-47D5A1B7A5CA",
+      "kind": "aboutEditorial",
+      "x": 18,
+      "y": 163,
+      "w": 366,
+      "h": 398,
+      "surface": "pane",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "47F88FDA-03B5-4FFB-9984-49E2AB3E046E",
+      "kind": "nicheTags",
+      "x": 18,
+      "y": 571,
+      "w": 366,
+      "h": 81,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "5F6ED838-8CBC-42BA-B8A8-F5850A6D01AD",
+      "kind": "socialTiles",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "2AEF9695-A477-458F-BA17-28DECD314E8D",
+      "kind": "audienceAge",
+      "x": 18,
+      "y": 145,
+      "w": 366,
+      "h": 171,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "93260F0A-F635-4E7D-A2A7-8ADF971CC837",
+      "kind": "audienceMap",
+      "x": 18,
+      "y": 326,
+      "w": 366,
+      "h": 199,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "B4174350-85EF-47D5-85DE-3207E8796B01",
+      "kind": "rateTags",
+      "x": 18,
+      "y": 535,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "chan": "youtube"
+      }
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "63C8B8DF-1E31-45DD-A179-568BF76D3BA3",
+      "kind": "proofWork",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 265,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "669B1EFD-C214-4D43-ABB2-2F6DF7A8B231",
+      "kind": "contactLine",
+      "x": 18,
+      "y": 293,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "colors": {
+    "primary": "#3E000C",
+    "secondary": "#FFECD1"
+   },
+   "ink": "mist",
+   "backdrop": "solid",
+   "photoDim": 0.42,
+   "photoEffect": "none"
+  }
+ },
+ "owner": {
+  "verified": true,
+  "values": {
+   "name": "ปิติ วรเวช",
+   "nickname": "ครูพีท",
+   "handle": "krupete.science",
+   "about": "ติวฟิสิกส์ ม.ปลาย ทั้งในห้องและออนไลน์ — สรุปเป็นแผนผังความคิด ให้เด็กเห็นภาพก่อน แล้วค่อยจำสูตร",
+   "phone": "084-771-0326",
+   "lineId": "@krupete",
+   "website": "krupete.science",
+   "workArea": "กรุงเทพมหานคร",
+   "contactName": "ปิติ วรเวช",
+   "role": "ติดต่อโดยตรง",
+   "quote": "ทุกสูตรมีที่มา"
+  },
+  "list": {
+   "categories": [
+    "การศึกษา",
+    "ฟิสิกส์",
+    "STEM"
+   ]
+  },
+  "intake": {
+   "kind": "creator",
+   "interests": [
+    "การศึกษา",
+    "ฟิสิกส์",
+    "STEM"
+   ],
+   "socials": [
+    {
+     "type": "tiktok",
+     "link": "https://tiktok.com/krupete.science",
+     "followers": 128000,
+     "views": 74000,
+     "er": 7.8,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "youtube",
+     "link": "https://youtube.com/krupete",
+     "followers": 96000,
+     "views": 41000,
+     "er": 6.9,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "facebook",
+     "link": "https://facebook.com/krupete",
+     "followers": 52000,
+     "views": 18000,
+     "er": 4.1,
+     "enabled": true,
+     "source": "connected"
+    }
+   ],
+   "rates": [
+    {
+     "platform": "tiktok",
+     "formatKey": "short",
+     "price": 12000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "shorts",
+     "price": 9000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "integrated",
+     "price": 15000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "dedicated",
+     "price": 30000
+    },
+    {
+     "platform": "facebook",
+     "formatKey": "live",
+     "price": 8000
+    }
+   ],
+   "availability": {
+    "days": [
+     6,
+     0
+    ],
+    "slots": [
+     0,
+     1,
+     2
+    ],
+    "provinces": [
+     "กรุงเทพมหานคร",
+     "นนทบุรี"
+    ]
+   }
+  },
+  "creatorImageIds": [
+   "073433b4344e8fa2befe1a952e3d4b9a",
+   "0fe6b4ec63c575726dd2c849ded601c3",
+   "fc7ee85ebcc838990e90086873f99d80"
+  ],
+  "workImageIds": [
+   "09fc55522b37897b2cc7c6ffb22942e2",
+   "a2cd604aba81b52e3a74c0ba27d474c3",
+   "892c5ef152f1db7b9260e3f1cf12d38c",
+   "1858b8109565d31f7f852e6b3abab21d",
+   "99a7bb8c4da204717b5450b5000cfc82",
+   "a2cd604aba81b52e3a74c0ba27d474c3"
+  ],
+  "libraryImageIds": [],
+  "preview": {
+   "cutoutImageId": "8e23b0e5db7990494084dd49f0752c42",
+   "audience": {
+    "female": 47,
+    "male": 51,
+    "other": 2,
+    "ages": [
+     [
+      "18–24",
+      57
+     ],
+     [
+      "25–34",
+      18
+     ],
+     [
+      "35–44",
+      17
+     ],
+     [
+      "45+",
+      8
+     ]
+    ],
+    "places": [
+     [
+      "กรุงเทพฯ",
+      38
+     ],
+     [
+      "นนทบุรี",
+      8
+     ],
+     [
+      "ขอนแก่น",
+      6
+     ],
+     [
+      "นครราชสีมา",
+      5
+     ]
+    ]
+   },
+   "brands": [
+    {
+     "name": "Casio",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "StartDee",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Ondemand",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "SE-ED",
+     "logo": null,
+     "industry": ""
+    }
+   ],
+   "works": [
+    {
+     "brand": "Casio",
+     "ep": "EP.58",
+     "campaign": "เครื่องคิดเลขสอบเข้า",
+     "platform": "tiktok",
+     "format": "คลิปสั้น",
+     "views": 380000,
+     "engagementRate": 8.4,
+     "photo": 7,
+     "saves": 27000,
+     "shares": 8200,
+     "likes": 33000,
+     "comments": 1100,
+     "viralTag": "High Save Rate",
+     "cover": null
+    },
+    {
+     "brand": "StartDee",
+     "ep": "EP.51",
+     "campaign": "ไฟฟ้าใน 15 นาที",
+     "platform": "youtube",
+     "format": "คลิปยาว",
+     "views": 210000,
+     "engagementRate": 6.6,
+     "photo": 8,
+     "saves": 16000,
+     "shares": 3900,
+     "likes": 14000,
+     "comments": 940,
+     "viralTag": null,
+     "cover": null
+    },
+    {
+     "brand": "Ondemand",
+     "ep": "EP.46",
+     "campaign": "ติวสรุปก่อนสอบ",
+     "platform": "facebook",
+     "format": "Live",
+     "views": 120000,
+     "engagementRate": 4.8,
+     "photo": 9,
+     "saves": 5200,
+     "shares": 2600,
+     "likes": 7100,
+     "comments": 880,
+     "viralTag": null,
+     "cover": null
+    }
+   ],
+   "niche": "ฟิสิกส์ · STEM",
+   "tier": "micro",
+   "gender": "M",
+   "socials": [
+    {
+     "type": "tiktok",
+     "views": 74000,
+     "er": 7.8
+    },
+    {
+     "type": "youtube",
+     "views": 41000,
+     "er": 6.9
+    },
+    {
+     "type": "facebook",
+     "views": 18000,
+     "er": 4.1
+    }
+   ]
+  }
+ },
+ "template": {
+  "style": "Editorial Cocoa",
+  "niche": "การศึกษา",
+  "goal": "C",
+  "why": "บรรณาธิการ \"เกี่ยวกับฉัน.\" (Beauty Nude ผังคล้าย) → เก็บโกโก้/ครีม",
+  "persona": "pete",
+  "orient": "portfolio",
+  "page": {
+   "w": 402,
+   "h": 670
+  },
+  "pageCount": 3,
+  "seal": {
+   "w": 366,
+   "h": 232
+  }
+ }
+}

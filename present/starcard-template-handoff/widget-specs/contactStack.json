@@ -1,0 +1,128 @@
+{
+ "kind": "contactStack",
+ "design": {
+  "w": 366,
+  "h": 153
+ },
+ "widget": {
+  "title": "สามบรรทัด",
+  "category": "contact",
+  "symbol": "list.bullet",
+  "order": 38,
+  "motion": "anchored"
+ },
+ "notes": "สามบรรทัด ป้ายซ้ายกว้าง 40 + ค่าตัวหนา · เส้นคั่นบาง 0.7 ระหว่างบรรทัด (ต้นฉบับเป็น overlay ไม่กินที่ · ที่นี่เป็น line กิน 0.7pt) · แปลงจาก BookingWidgets.swift (ContactStackWidget)",
+ "root": {
+  "type": "col",
+  "gap": 0,
+  "align": "stretch",
+  "children": [
+   {
+    "type": "row",
+    "id": "line",
+    "gap": 12,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "LINE",
+      "w": 40,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.4",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "lineId",
+      "face": "noto",
+      "size": 14,
+      "weight": 700,
+      "color": "ink@0.94",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "line",
+    "h": 0.7,
+    "fill": "line@0.1"
+   },
+   {
+    "type": "row",
+    "id": "phone",
+    "gap": 12,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "โทร",
+      "w": 40,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.4",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "phone",
+      "face": "noto",
+      "size": 14,
+      "weight": 700,
+      "color": "ink@0.94",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "line",
+    "h": 0.7,
+    "fill": "line@0.1"
+   },
+   {
+    "type": "row",
+    "id": "web",
+    "gap": 12,
+    "align": "center",
+    "grow": 1,
+    "children": [
+     {
+      "type": "text",
+      "text": "เว็บ",
+      "w": 40,
+      "face": "noto",
+      "size": 10.5,
+      "weight": 600,
+      "color": "ink@0.4",
+      "maxLines": 1
+     },
+     {
+      "type": "text",
+      "slot": "website",
+      "face": "noto",
+      "size": 14,
+      "weight": 700,
+      "color": "ink@0.94",
+      "maxLines": 1
+     },
+     {
+      "type": "spacer",
+      "grow": 1
+     }
+    ]
+   }
+  ]
+ }
+}

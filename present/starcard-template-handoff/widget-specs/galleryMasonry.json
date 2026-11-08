@@ -1,0 +1,90 @@
+{
+ "kind": "galleryMasonry",
+ "design": {
+  "w": 366,
+  "h": 242
+ },
+ "widget": {
+  "title": "บอร์ดพิน",
+  "category": "photo",
+  "symbol": "rectangle.split.2x2.fill",
+  "order": 25,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored",
+  "replaces": [
+   "galleryMosaic"
+  ]
+ },
+ "notes": "บอร์ดพิน 2 คอลัมน์เท่ากัน ร่อง 7: ซ้าย รูป 4 (44%) + 5 (56%) · ขวา รูป 6 (30%) + 7 (36%) + 8 (34%) · มุม 14 ขอบ line@0.12 0.6 · สัดส่วนสูงคิดจากที่ว่างหลังหักร่อง = grow · การไหลสวนกัน (offset ตาม scrub) ไม่อยู่ในผัง · แปลงจาก GalleryWidgets.swift (GalleryMasonry)",
+ "root": {
+  "type": "row",
+  "gap": 7,
+  "children": [
+   {
+    "type": "col",
+    "gap": 7,
+    "grow": 1,
+    "children": [
+     {
+      "type": "image",
+      "photo": 4,
+      "radius": 14,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 44
+     },
+     {
+      "type": "image",
+      "photo": 5,
+      "radius": 14,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 56
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "gap": 7,
+    "grow": 1,
+    "children": [
+     {
+      "type": "image",
+      "photo": 6,
+      "radius": 14,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 30
+     },
+     {
+      "type": "image",
+      "photo": 7,
+      "radius": 14,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 36
+     },
+     {
+      "type": "image",
+      "photo": 8,
+      "radius": 14,
+      "stroke": {
+       "color": "line@0.12",
+       "width": 0.6
+      },
+      "grow": 34
+     }
+    ]
+   }
+  ]
+ }
+}

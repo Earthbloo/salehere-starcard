@@ -1,0 +1,3105 @@
+{
+ "builtAt": "2026-11-05T07:26:48.786Z",
+ "templates": [
+  {
+   "id": "final-p01-portrait",
+   "style": "final-p01",
+   "name": "Kit Lavender",
+   "nicheGroup": "เกม",
+   "group": "F",
+   "source": "liked",
+   "liked": "kit-purple",
+   "nicheNotes": [
+    "สายเกม ต้องมี วันว่าง/พื้นที่"
+   ],
+   "final": 1,
+   "mergedFrom": [
+    "beauty-kit-purple-portrait",
+    "beauty-kit-purple-plum-portrait",
+    "beauty-kit-cream-portrait",
+    "beauty-kit-gingham-portrait",
+    "fashion-kit-purple-portrait",
+    "food-kit-purple-portrait",
+    "cafe-kit-gingham-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "A",
+   "persona": "zen",
+   "personaName": "เซน ธีรภัทร",
+   "niche": "เกม PC · อีสปอร์ต",
+   "tier": "mid",
+   "theme": {
+    "colors": {
+     "primary": "#ECE4FA"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#ECE4FA"
+   },
+   "font": null,
+   "family": "kit",
+   "why": "ชุด kit ตาราง 2 คอลัมน์ (ติ๊กมา 7 ใบ หน้าตา 4 แบบ = ผังเดียวกัน) → เก็บหน้าตาม่วงที่ติ๊กมากสุด",
+   "widgets": [
+    {
+     "kind": "kitProfilePurple",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 247,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitBioPurple",
+     "new": false,
+     "cat": "intro",
+     "x": 275,
+     "y": 18,
+     "w": 247,
+     "h": 145,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitNichePurple",
+     "new": false,
+     "cat": "tags",
+     "x": 275,
+     "y": 173,
+     "w": 247,
+     "h": 145,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitSocialPurple",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 328,
+     "w": 247,
+     "h": 236,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitInsightPurple",
+     "new": false,
+     "cat": "audience",
+     "x": 275,
+     "y": 328,
+     "w": 247,
+     "h": 236,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "hide": "reach"
+     },
+     "page": 0
+    },
+    {
+     "kind": "kitRatePurple",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 574,
+     "w": 190,
+     "h": 202,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 218,
+     "y": 574,
+     "w": 304,
+     "h": 202,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitContactPurple",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "qr": "1"
+     },
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p02-portrait",
+   "style": "final-p02",
+   "name": "Pop Peach",
+   "nicheGroup": "อีเวนต์ & กิจกรรม",
+   "group": "B",
+   "source": "liked",
+   "liked": "pop-paper",
+   "nicheNotes": [
+    "สายอีเวนต์ & กิจกรรม ต้องมี รูป",
+    "สายอีเวนต์ & กิจกรรม ต้องมี วันว่าง/พื้นที่",
+    "สายอีเวนต์ & กิจกรรม: รูป ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 0%)",
+    "สายอีเวนต์ & กิจกรรม: วันว่าง/พื้นที่ ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 0%)"
+   ],
+   "final": 2,
+   "mergedFrom": [
+    "event-pop-paper-portrait",
+    "beauty-pop-paper-portrait",
+    "beauty-pop-clay-portrait",
+    "food-pop-clay-portrait",
+    "mom-rose-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "C",
+   "persona": "jane",
+   "personaName": "เจนจิรา สุขประเสริฐ",
+   "niche": "พิธีกร · งานอีเวนต์",
+   "tier": "mid",
+   "theme": {
+    "colors": {
+     "primary": "#FFE1D6"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#FFE1D6"
+   },
+   "font": null,
+   "family": "pop",
+   "why": "สติกเกอร์กระดาษ (Pop Paper / Pop Clay / Mom Rose ชิ้นชุดเดียวกัน) → เก็บ Pop Paper พื้นพีช",
+   "widgets": [
+    {
+     "kind": "popHeroPaper",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 311,
+     "h": 250,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popNichePaper",
+     "new": false,
+     "cat": "tags",
+     "x": 339,
+     "y": 18,
+     "w": 183,
+     "h": 250,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 278,
+     "w": 247,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 275,
+     "y": 278,
+     "w": 247,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 0
+    },
+    {
+     "kind": "popStatsGlass",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 423,
+     "w": 504,
+     "h": 172,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 605,
+     "w": 279,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 307,
+     "y": 605,
+     "w": 215,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popContactPaper",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p03-portrait",
+   "style": "final-p03",
+   "name": "Window Night",
+   "nicheGroup": "บันเทิง & ดารา",
+   "group": "A",
+   "source": "liked",
+   "liked": "window-night",
+   "nicheNotes": [
+    "สายบันเทิง & ดารา ต้องมี รูป",
+    "สายบันเทิง & ดารา ต้องมี สัดส่วน",
+    "สายบันเทิง & ดารา: รูป ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 0%)"
+   ],
+   "final": 3,
+   "mergedFrom": [
+    "star-window-night-portrait",
+    "fashion-sand-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "A",
+   "persona": "kris",
+   "personaName": "กฤษฎ์ ภูวนาท",
+   "niche": "นักแสดง · นักร้อง",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#121417"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#121417"
+   },
+   "font": null,
+   "family": "window",
+   "why": "หน้าต่าง macOS รูปใหญ่ซ้าย (Fashion Sand ใช้หน้าต่างเดียวกัน) → เก็บแบบกลางคืน",
+   "widgets": [
+    {
+     "kind": "portfolioWindow",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 247,
+     "h": 420,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 275,
+     "y": 18,
+     "w": 247,
+     "h": 133,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 275,
+     "y": 161,
+     "w": 247,
+     "h": 133,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 275,
+     "y": 304,
+     "w": 247,
+     "h": 134,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "youtube"
+     },
+     "page": 0
+    },
+    {
+     "kind": "socialWindow",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 448,
+     "w": 504,
+     "h": 124,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 582,
+     "w": 504,
+     "h": 194,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p04-portrait",
+   "style": "final-p04",
+   "name": "Poster Merlot",
+   "nicheGroup": "บิวตี้",
+   "group": "A",
+   "source": "liked",
+   "liked": "beauty-merlot",
+   "nicheNotes": [],
+   "final": 4,
+   "mergedFrom": [
+    "beauty-merlot-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "B",
+   "persona": "praew",
+   "personaName": "ณัฐชา พงษ์พิพัฒน์",
+   "niche": "เมคอัพ · บิวตี้",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#4A1830",
+     "secondary": "#F6C9D3"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#4A1830",
+    "secondary": "#F6C9D3",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "poster",
+   "why": "โปสเตอร์คนยืนบนการ์ด + คลิปล่าสุด · ไวน์/ชมพู",
+   "widgets": [
+    {
+     "kind": "artPortfolio",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 259,
+     "h": 430,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "reelShowcase",
+     "new": false,
+     "cat": "showcase",
+     "x": 287,
+     "y": 18,
+     "w": 235,
+     "h": 163,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statPoster",
+     "new": false,
+     "cat": "followers",
+     "x": 287,
+     "y": 191,
+     "w": 235,
+     "h": 137,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 287,
+     "y": 338,
+     "w": 235,
+     "h": 110,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 458,
+     "w": 274,
+     "h": 318,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 302,
+     "y": 458,
+     "w": 220,
+     "h": 154,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 302,
+     "y": 622,
+     "w": 220,
+     "h": 154,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p05-portrait",
+   "style": "final-p05",
+   "name": "Ledger Green",
+   "nicheGroup": "การเงิน & การลงทุน",
+   "group": "C",
+   "source": "liked",
+   "liked": "fin-ledger",
+   "nicheNotes": [],
+   "final": 5,
+   "mergedFrom": [
+    "fin-ledger-portrait",
+    "beauty-nude-portrait",
+    "cafe-cocoa-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "C",
+   "persona": "fern",
+   "personaName": "ชุติมา วงศ์ไพศาล",
+   "niche": "การเงินส่วนบุคคล",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#10302A",
+     "secondary": "#E8E0C8"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#10302A",
+    "secondary": "#E8E0C8",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "editorial",
+   "why": "บรรณาธิการ \"เกี่ยวกับฉัน.\" (Beauty Nude / Cafe Cocoa ผังคล้ายกัน) → เก็บแบบเขียวเข้ม",
+   "widgets": [
+    {
+     "kind": "heroMinimal",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 504,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutEditorial",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 163,
+     "w": 269,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialChips",
+     "new": false,
+     "cat": "followers",
+     "x": 297,
+     "y": 163,
+     "w": 225,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 473,
+     "w": 269,
+     "h": 303,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 297,
+     "y": 473,
+     "w": 225,
+     "h": 201,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 297,
+     "y": 684,
+     "w": 225,
+     "h": 92,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 0
+    },
+    {
+     "kind": "contactCard",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 95,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p06-portrait",
+   "style": "final-p06",
+   "name": "Carbon Type",
+   "nicheGroup": "รถยนต์ & ยานยนต์",
+   "group": "C",
+   "source": "liked",
+   "liked": "auto-carbon",
+   "nicheNotes": [],
+   "final": 6,
+   "mergedFrom": [
+    "auto-carbon-portrait",
+    "star-noir-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "A",
+   "persona": "golf",
+   "personaName": "ภูริช ศักดิ์ดี",
+   "niche": "รีวิวรถ · ทดลองขับ",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#101215"
+    },
+    "ink": "night",
+    "backdrop": "gradient",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "gradient",
+    "primary": "#101215"
+   },
+   "font": null,
+   "family": "minimal",
+   "why": "ชื่อยักษ์ทับรูป + ตัวเลขยักษ์ (Star Noir ผังคล้ายกัน) → เก็บแบบคาร์บอน",
+   "widgets": [
+    {
+     "kind": "artTypeOver",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 269,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 297,
+     "y": 18,
+     "w": 225,
+     "h": 173,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 297,
+     "y": 201,
+     "w": 225,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statGiant",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 328,
+     "w": 248,
+     "h": 200,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 538,
+     "w": 248,
+     "h": 222,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "reelShowcase",
+     "new": false,
+     "cat": "showcase",
+     "x": 18,
+     "y": 770,
+     "w": 248,
+     "h": 172,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitTimeNight",
+     "new": false,
+     "cat": "availability",
+     "x": 276,
+     "y": 328,
+     "w": 246,
+     "h": 256,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "fill": "clear"
+     },
+     "page": 0
+    },
+    {
+     "kind": "audienceSplit",
+     "new": false,
+     "cat": "audience",
+     "x": 276,
+     "y": 594,
+     "w": 246,
+     "h": 92,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 276,
+     "y": 696,
+     "w": 246,
+     "h": 80,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "youtube"
+     },
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p07-portrait",
+   "style": "final-p07",
+   "name": "Tomato Pop",
+   "nicheGroup": "อาหาร & เครื่องดื่ม",
+   "group": "B",
+   "source": "liked",
+   "liked": "food-tomato",
+   "nicheNotes": [],
+   "final": 7,
+   "mergedFrom": [
+    "food-tomato-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "A",
+   "persona": "ton",
+   "personaName": "กิตติภพ ศรีสุข",
+   "niche": "อาหาร · สตรีทฟู้ด",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#E5482C"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#E5482C"
+   },
+   "font": null,
+   "family": "pop",
+   "why": "สติกเกอร์แผ่นเข้มบนแดง + ตัวเลขยักษ์ + คลิป + ผู้ชมตามจังหวัด + วันว่าง",
+   "widgets": [
+    {
+     "kind": "popHeroGlass",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 220,
+     "h": 206,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statGiant",
+     "new": false,
+     "cat": "followers",
+     "x": 248,
+     "y": 18,
+     "w": 274,
+     "h": 206,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "reelShowcase",
+     "new": false,
+     "cat": "showcase",
+     "x": 18,
+     "y": 234,
+     "w": 247,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 275,
+     "y": 234,
+     "w": 247,
+     "h": 81,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 275,
+     "y": 325,
+     "w": 247,
+     "h": 80,
+     "surface": "dim",
+     "border": false,
+     "options": {
+      "chan": "tiktok"
+     },
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 415,
+     "w": 269,
+     "h": 361,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 297,
+     "y": 415,
+     "w": 225,
+     "h": 234,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 297,
+     "y": 659,
+     "w": 225,
+     "h": 117,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitTimeCream",
+     "new": false,
+     "cat": "availability",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p08-portrait",
+   "style": "final-p08",
+   "name": "Latte Scrap",
+   "nicheGroup": "คาเฟ่",
+   "group": "B",
+   "source": "liked",
+   "liked": "cafe-latte",
+   "nicheNotes": [
+    "สายคาเฟ่ ต้องมี รูป",
+    "สายคาเฟ่: รูป ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 0%)",
+    "สายคาเฟ่: วันว่าง/พื้นที่ ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 6%)"
+   ],
+   "final": 8,
+   "mergedFrom": [
+    "cafe-latte-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "C",
+   "persona": "mali",
+   "personaName": "มะลิ สุวรรณรัตน์",
+   "niche": "คาเฟ่ · กาแฟ",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#E9DCCB"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#E9DCCB"
+   },
+   "font": null,
+   "family": "scrap",
+   "why": "สแครปบุ๊ก · กำแพงรูปใช้รูปเกิน 8 → เปลี่ยนเป็นแท็กสายงานสติกเกอร์ (ชุดสแครปเดียวกัน)",
+   "widgets": [
+    {
+     "kind": "scrapBadge",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 174,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "scrapAbout",
+     "new": false,
+     "cat": "intro",
+     "x": 202,
+     "y": 18,
+     "w": 320,
+     "h": 199,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 202,
+     "y": 227,
+     "w": 320,
+     "h": 91,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 0
+    },
+    {
+     "kind": "scrapTags",
+     "new": false,
+     "cat": "tags",
+     "x": 18,
+     "y": 328,
+     "w": 247,
+     "h": 196,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitTimeCream",
+     "new": false,
+     "cat": "availability",
+     "x": 275,
+     "y": 328,
+     "w": 247,
+     "h": 106,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialTiles",
+     "new": false,
+     "cat": "followers",
+     "x": 275,
+     "y": 444,
+     "w": 247,
+     "h": 80,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "scrapStats",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 534,
+     "w": 247,
+     "h": 242,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 275,
+     "y": 534,
+     "w": 247,
+     "h": 242,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "scrapNote",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 786,
+     "w": 248,
+     "h": 156,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p09-portrait",
+   "style": "final-p09",
+   "name": "Picnic Gingham",
+   "nicheGroup": "แม่และเด็ก",
+   "group": "D",
+   "source": "liked",
+   "liked": "cafe-gingham",
+   "nicheNotes": [
+    "สายแม่และเด็ก: ผู้ชม ต้องเป็นชิ้นใหญ่ ≥8% (ได้ 5%)"
+   ],
+   "final": 9,
+   "mergedFrom": [
+    "cafe-gingham-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "C",
+   "persona": "opor",
+   "personaName": "อรพรรณ ทวีศักดิ์",
+   "niche": "เลี้ยงลูก · ของเล่น",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#FCEBD5"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#FCEBD5"
+   },
+   "font": null,
+   "family": "window",
+   "why": "ผ้าปิกนิก 2 คอลัมน์ · รูปพอร์ต + วันว่าง + แกลเลอรี",
+   "widgets": [
+    {
+     "kind": "portfolioGingham",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 248,
+     "h": 424,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 452,
+     "w": 248,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 579,
+     "w": 248,
+     "h": 229,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 818,
+     "w": 248,
+     "h": 124,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitTimeGingham",
+     "new": false,
+     "cat": "availability",
+     "x": 276,
+     "y": 18,
+     "w": 246,
+     "h": 200,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "galleryMasonry",
+     "new": false,
+     "cat": "photo",
+     "x": 276,
+     "y": 228,
+     "w": 246,
+     "h": 254,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialTiles",
+     "new": false,
+     "cat": "followers",
+     "x": 276,
+     "y": 492,
+     "w": 246,
+     "h": 92,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audienceSplit",
+     "new": false,
+     "cat": "audience",
+     "x": 276,
+     "y": 594,
+     "w": 246,
+     "h": 92,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 276,
+     "y": 696,
+     "w": 246,
+     "h": 80,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-p10-portrait",
+   "style": "final-p10",
+   "name": "Mint Kit",
+   "nicheGroup": "การศึกษา",
+   "group": "C",
+   "source": "liked",
+   "liked": "edu-aqua",
+   "nicheNotes": [],
+   "final": 10,
+   "mergedFrom": [
+    "edu-aqua-portrait",
+    "mom-cream-portrait"
+   ],
+   "orient": "portrait",
+   "goal": "C",
+   "persona": "pete",
+   "personaName": "ปิติ วรเวช",
+   "niche": "ฟิสิกส์ · STEM",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#DDF3EE"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#DDF3EE"
+   },
+   "font": null,
+   "family": "kit",
+   "why": "ชุด kit 2 คอลัมน์ (Mom Cream ผังเดียวกัน) → เก็บมินต์ (สีไม่ซ้ำครีม/พีชใบอื่น)",
+   "widgets": [
+    {
+     "kind": "kitProfileGingham",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 248,
+     "h": 272,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitBioGingham",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 300,
+     "w": 248,
+     "h": 170,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 480,
+     "w": 248,
+     "h": 342,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 832,
+     "w": 248,
+     "h": 110,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitNicheGingham",
+     "new": false,
+     "cat": "tags",
+     "x": 276,
+     "y": 18,
+     "w": 246,
+     "h": 110,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitInsightGingham",
+     "new": false,
+     "cat": "audience",
+     "x": 276,
+     "y": 138,
+     "w": 246,
+     "h": 230,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "hide": "reach"
+     },
+     "page": 0
+    },
+    {
+     "kind": "kitSocialGingham",
+     "new": false,
+     "cat": "followers",
+     "x": 276,
+     "y": 378,
+     "w": 246,
+     "h": 200,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitRateGingham",
+     "new": false,
+     "cat": "rate",
+     "x": 276,
+     "y": 588,
+     "w": 246,
+     "h": 188,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    }
+   ],
+   "coverage": 94,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l01-portfolio",
+   "style": "final-l01",
+   "name": "Poster Ink",
+   "nicheGroup": "กีฬา",
+   "group": "E",
+   "source": "liked",
+   "liked": "poster-ink",
+   "nicheNotes": [
+    "สายกีฬา ต้องมี รูป",
+    "สายกีฬา ต้องมี วันว่าง/พื้นที่",
+    "สายกีฬา ต้องมี สัดส่วน",
+    "สายกีฬา: รูป ต้องเป็นชิ้นใหญ่ ≥15% (ได้ 0%)",
+    "สายกีฬา: วันว่าง/พื้นที่ ต้องเป็นชิ้นใหญ่ ≥15% (ได้ 0%)"
+   ],
+   "final": 1,
+   "mergedFrom": [
+    "beauty-poster-ink-portfolio",
+    "fashion-poster-ink-portfolio",
+    "cafe-poster-ink-portfolio",
+    "fin-poster-ink-portfolio",
+    "star-violet-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "B",
+   "persona": "ken",
+   "personaName": "กฤติน ศรีสวัสดิ์",
+   "niche": "มวยไทย · ฟิตเนส",
+   "tier": "mid",
+   "theme": {
+    "colors": {
+     "primary": "#14161A",
+     "secondary": "#F1EEE6"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#14161A",
+    "secondary": "#F1EEE6",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "poster",
+   "why": "โปสเตอร์ดำ/ครีม (ติ๊กมา 4 สาย + Star Violet ผังคล้าย) → ใบเดียว",
+   "widgets": [
+    {
+     "kind": "artPortfolio",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 398,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 426,
+     "w": 366,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "nicheTags",
+     "new": false,
+     "cat": "tags",
+     "x": 18,
+     "y": 571,
+     "w": 366,
+     "h": 81,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statPoster",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 214,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audiencePoster",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 242,
+     "w": 366,
+     "h": 283,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 535,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "tiktok"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 212,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "contactPoster",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 240,
+     "w": 366,
+     "h": 170,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l02-portfolio",
+   "style": "final-l02",
+   "name": "Gingham Picnic",
+   "nicheGroup": "สัตว์เลี้ยง",
+   "group": "D",
+   "source": "liked",
+   "liked": "gingham-picnic",
+   "nicheNotes": [
+    "สายสัตว์เลี้ยง ต้องมี วิดีโอ",
+    "สายสัตว์เลี้ยง ต้องมี รูป",
+    "สายสัตว์เลี้ยง: วิดีโอ ต้องเป็นชิ้นใหญ่ ≥15% (ได้ 0%)"
+   ],
+   "final": 2,
+   "mergedFrom": [
+    "beauty-gingham-picnic-portfolio",
+    "fashion-gingham-picnic-portfolio",
+    "star-gingham-picnic-portfolio",
+    "event-gingham-picnic-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "pang",
+   "personaName": "ปางรัตน์ บุญเรือง",
+   "niche": "คอร์กี้ · แมวส้ม",
+   "tier": "mid",
+   "theme": {
+    "colors": {
+     "primary": "#FFE1D6"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#FFE1D6"
+   },
+   "font": null,
+   "family": "window",
+   "why": "ผ้าปิกนิก (ติ๊กมา 4 สาย = ผังเดียวกัน) → ใบเดียว",
+   "widgets": [
+    {
+     "kind": "portfolioGingham",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 489,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 517,
+     "w": 366,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialGingham",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 128,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 156,
+     "w": 366,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 337,
+     "w": 366,
+     "h": 188,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 535,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "contactChips",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l03-portfolio",
+   "style": "final-l03",
+   "name": "Pop Clay",
+   "nicheGroup": "แฟชั่น",
+   "group": "A",
+   "source": "liked",
+   "liked": "pop-clay",
+   "nicheNotes": [
+    "สายแฟชั่น ต้องมี สัดส่วน",
+    "สายแฟชั่น ต้องมี รูป",
+    "สายแฟชั่น: รูป ต้องเป็นชิ้นใหญ่ ≥15% (ได้ 0%)",
+    "สายแฟชั่น: สัดส่วน ต้องเป็นชิ้นใหญ่ ≥15% (ได้ 0%)"
+   ],
+   "final": 3,
+   "mergedFrom": [
+    "beauty-pop-clay-portfolio",
+    "fashion-pop-clay-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "mew",
+   "personaName": "กมลชนก อินทรีย์",
+   "niche": "แฟชั่น · OOTD",
+   "tier": "mid",
+   "theme": {
+    "colors": {
+     "primary": "#8E3620",
+     "secondary": "#F3E3D0"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#8E3620",
+    "secondary": "#F3E3D0",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "pop",
+   "why": "สติกเกอร์กระดาษดินเผา · หน้า 3 แถบฟิล์มทำให้รูปเกิน 8 → ย้ายเรตมาแทน",
+   "widgets": [
+    {
+     "kind": "popHeroPaper",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 250,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 278,
+     "w": 366,
+     "h": 150,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popNichePaper",
+     "new": false,
+     "cat": "tags",
+     "x": 18,
+     "y": 438,
+     "w": 178,
+     "h": 214,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popContactPaper",
+     "new": false,
+     "cat": "contact",
+     "x": 206,
+     "y": 438,
+     "w": 178,
+     "h": 214,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popStatsGlass",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 172,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 200,
+     "w": 366,
+     "h": 188,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 398,
+     "w": 366,
+     "h": 254,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l04-portfolio",
+   "style": "final-l04",
+   "name": "Kit Latte",
+   "nicheGroup": "เทคโนโลยี & แกดเจ็ต",
+   "group": "C",
+   "source": "liked",
+   "liked": "kit-cream-square",
+   "nicheNotes": [
+    "สายเทคโนโลยี & แกดเจ็ต ต้องมี วิดีโอ หรือ รูป"
+   ],
+   "final": 4,
+   "mergedFrom": [
+    "beauty-kit-cream-square-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "poon",
+   "personaName": "ปุณณ์ ธีรวัฒน์",
+   "niche": "เทค · แกดเจ็ต",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#D9B99B"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#D9B99B"
+   },
+   "font": null,
+   "family": "kit",
+   "why": "ชุด kit มุมเหลี่ยมบนสีลาเต้",
+   "widgets": [
+    {
+     "kind": "kitProfileCream",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 330,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "corner": "square"
+     },
+     "page": 0
+    },
+    {
+     "kind": "kitBioCream",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 358,
+     "w": 366,
+     "h": 167,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "corner": "square"
+     },
+     "page": 0
+    },
+    {
+     "kind": "contactChips",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 535,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "kitSocialCream",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 324,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "corner": "square"
+     },
+     "page": 1
+    },
+    {
+     "kind": "kitInsightCream",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 352,
+     "w": 366,
+     "h": 300,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "corner": "square",
+      "hide": "gender,reach"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "youtube"
+     },
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l05-portfolio",
+   "style": "final-l05",
+   "name": "Editorial Cocoa",
+   "nicheGroup": "การศึกษา",
+   "group": "C",
+   "source": "liked",
+   "liked": "editorial-cocoa",
+   "nicheNotes": [],
+   "final": 5,
+   "mergedFrom": [
+    "beauty-editorial-cocoa-portfolio",
+    "beauty-nude-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "pete",
+   "personaName": "ปิติ วรเวช",
+   "niche": "ฟิสิกส์ · STEM",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#3E000C",
+     "secondary": "#FFECD1"
+    },
+    "ink": "mist",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#3E000C",
+    "secondary": "#FFECD1",
+    "tone": "light"
+   },
+   "font": null,
+   "family": "editorial",
+   "why": "บรรณาธิการ \"เกี่ยวกับฉัน.\" (Beauty Nude ผังคล้าย) → เก็บโกโก้/ครีม",
+   "widgets": [
+    {
+     "kind": "heroMinimal",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutEditorial",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 163,
+     "w": 366,
+     "h": 398,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "nicheTags",
+     "new": false,
+     "cat": "tags",
+     "x": 18,
+     "y": 571,
+     "w": 366,
+     "h": 81,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialTiles",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 145,
+     "w": 366,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 326,
+     "w": 366,
+     "h": 199,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 535,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "youtube"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "contactLine",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 96,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l06-portfolio",
+   "style": "final-l06",
+   "name": "Ledger Green",
+   "nicheGroup": "การเงิน & การลงทุน",
+   "group": "C",
+   "source": "liked",
+   "liked": "fin-ledger",
+   "nicheNotes": [],
+   "final": 6,
+   "mergedFrom": [
+    "fin-ledger-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "fern",
+   "personaName": "ชุติมา วงศ์ไพศาล",
+   "niche": "การเงินส่วนบุคคล",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#10302A",
+     "secondary": "#E8E0C8"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#10302A",
+    "secondary": "#E8E0C8",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "editorial",
+   "why": "บรรณาธิการเขียวเข้ม · หน้า 2 โปสเตอร์ผู้ชมเต็มหน้า",
+   "widgets": [
+    {
+     "kind": "heroMinimal",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutEditorial",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 163,
+     "w": 366,
+     "h": 344,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactCard",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 517,
+     "w": 366,
+     "h": 135,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "audiencePoster",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 520,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 548,
+     "w": 366,
+     "h": 104,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 1
+    },
+    {
+     "kind": "socialChips",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 150,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 178,
+     "w": 366,
+     "h": 232,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l07-portfolio",
+   "style": "final-l07",
+   "name": "Tomato Pop",
+   "nicheGroup": "อาหาร & เครื่องดื่ม",
+   "group": "B",
+   "source": "liked",
+   "liked": "food-tomato",
+   "nicheNotes": [],
+   "final": 7,
+   "mergedFrom": [
+    "food-tomato-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "A",
+   "persona": "ton",
+   "personaName": "กิตติภพ ศรีสุข",
+   "niche": "อาหาร · สตรีทฟู้ด",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#E5482C"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#E5482C"
+   },
+   "font": null,
+   "family": "pop",
+   "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · ตัวเลขยักษ์มีรูปพื้น ทำให้รูปเกิน 8 → ใช้แถบสถิติกระจกชุดสติกเกอร์แทน",
+   "widgets": [
+    {
+     "kind": "popHeroGlass",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 250,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 278,
+     "w": 366,
+     "h": 110,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "reelShowcase",
+     "new": false,
+     "cat": "showcase",
+     "x": 18,
+     "y": 398,
+     "w": 366,
+     "h": 254,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "popStatsGlass",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 172,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceMap",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 200,
+     "w": 366,
+     "h": 160,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "kitTimeCream",
+     "new": false,
+     "cat": "availability",
+     "x": 18,
+     "y": 370,
+     "w": 366,
+     "h": 165,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 545,
+     "w": 366,
+     "h": 107,
+     "surface": "dim",
+     "border": false,
+     "options": {
+      "chan": "tiktok"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 247,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 275,
+     "w": 366,
+     "h": 135,
+     "surface": "dim",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 96,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l08-portfolio",
+   "style": "final-l08",
+   "name": "Latte Scrap",
+   "nicheGroup": "คาเฟ่",
+   "group": "B",
+   "source": "liked",
+   "liked": "cafe-latte",
+   "nicheNotes": [],
+   "final": 8,
+   "mergedFrom": [
+    "cafe-latte-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "C",
+   "persona": "mali",
+   "personaName": "มะลิ สุวรรณรัตน์",
+   "niche": "คาเฟ่ · กาแฟ",
+   "tier": "micro",
+   "theme": {
+    "colors": {
+     "primary": "#E9DCCB"
+    },
+    "ink": "paper",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#E9DCCB"
+   },
+   "font": null,
+   "family": "scrap",
+   "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · กำแพงรูปเกิน 8 → แถบฟิล์ม",
+   "widgets": [
+    {
+     "kind": "scrapBadge",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 180,
+     "h": 310,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactQR",
+     "new": false,
+     "cat": "contact",
+     "x": 208,
+     "y": 18,
+     "w": 176,
+     "h": 310,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "scrapAbout",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 338,
+     "w": 366,
+     "h": 227,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "socialTiles",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 575,
+     "w": 366,
+     "h": 77,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "scrapStats",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 240,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "kitTimeCream",
+     "new": false,
+     "cat": "availability",
+     "x": 18,
+     "y": 268,
+     "w": 366,
+     "h": 267,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 545,
+     "w": 366,
+     "h": 107,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "galleryFilm",
+     "new": false,
+     "cat": "photo",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l09-portfolio",
+   "style": "final-l09",
+   "name": "Carbon Type",
+   "nicheGroup": "รถยนต์ & ยานยนต์",
+   "group": "C",
+   "source": "liked",
+   "liked": "auto-carbon",
+   "nicheNotes": [],
+   "final": 9,
+   "mergedFrom": [
+    "auto-carbon-portfolio",
+    "star-noir-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "A",
+   "persona": "golf",
+   "personaName": "ภูริช ศักดิ์ดี",
+   "niche": "รีวิวรถ · ทดลองขับ",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#101215"
+    },
+    "ink": "night",
+    "backdrop": "gradient",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "gradient",
+    "primary": "#101215"
+   },
+   "font": null,
+   "family": "minimal",
+   "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · ชื่อยักษ์ทับรูป + ตัวเลขยักษ์",
+   "widgets": [
+    {
+     "kind": "artTypeOver",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 367,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 395,
+     "w": 366,
+     "h": 130,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "contactStack",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 535,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statGiant",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 206,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "kitTimeNight",
+     "new": false,
+     "cat": "availability",
+     "x": 18,
+     "y": 234,
+     "w": 366,
+     "h": 174,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "fill": "clear"
+     },
+     "page": 1
+    },
+    {
+     "kind": "audienceSplit",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 418,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 545,
+     "w": 366,
+     "h": 107,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "youtube"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "galleryFilm",
+     "new": false,
+     "cat": "photo",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 96,
+   "problems": [],
+   "spacing": []
+  },
+  {
+   "id": "final-l10-portfolio",
+   "style": "final-l10",
+   "name": "Merlot Reel",
+   "nicheGroup": "บิวตี้",
+   "group": "A",
+   "source": "liked",
+   "liked": "beauty-merlot",
+   "nicheNotes": [],
+   "final": 10,
+   "mergedFrom": [
+    "beauty-merlot-portfolio"
+   ],
+   "orient": "portfolio",
+   "goal": "B",
+   "persona": "praew",
+   "personaName": "ณัฐชา พงษ์พิพัฒน์",
+   "niche": "เมคอัพ · บิวตี้",
+   "tier": "macro",
+   "theme": {
+    "colors": {
+     "primary": "#4A1830",
+     "secondary": "#F6C9D3"
+    },
+    "ink": "night",
+    "backdrop": "solid",
+    "photoDim": 0.42,
+    "photoEffect": "none"
+   },
+   "themeChoice": {
+    "backdrop": "solid",
+    "primary": "#4A1830",
+    "secondary": "#F6C9D3",
+    "tone": "dark"
+   },
+   "font": null,
+   "family": "poster",
+   "why": "โปสเตอร์ไวน์ เน้นคลิป: หน้า 1 คนยืนบนการ์ด + คลิปล่าสุด (ต่างจาก Poster Ink ที่หน้า 1 เป็นแนะนำตัว)",
+   "widgets": [
+    {
+     "kind": "artPortfolio",
+     "new": false,
+     "cat": "hero",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 370,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "reelShowcase",
+     "new": false,
+     "cat": "showcase",
+     "x": 18,
+     "y": 398,
+     "w": 366,
+     "h": 254,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 0
+    },
+    {
+     "kind": "statPoster",
+     "new": false,
+     "cat": "followers",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 214,
+     "surface": "pane",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "audienceAge",
+     "new": false,
+     "cat": "audience",
+     "x": 18,
+     "y": 242,
+     "w": 366,
+     "h": 171,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "aboutText",
+     "new": false,
+     "cat": "intro",
+     "x": 18,
+     "y": 423,
+     "w": 366,
+     "h": 112,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 1
+    },
+    {
+     "kind": "rateTags",
+     "new": false,
+     "cat": "rate",
+     "x": 18,
+     "y": 545,
+     "w": 366,
+     "h": 107,
+     "surface": "glass",
+     "border": false,
+     "options": {
+      "chan": "instagram"
+     },
+     "page": 1
+    },
+    {
+     "kind": "proofWork",
+     "new": false,
+     "cat": "verified",
+     "x": 18,
+     "y": 18,
+     "w": 366,
+     "h": 265,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    },
+    {
+     "kind": "contactChips",
+     "new": false,
+     "cat": "contact",
+     "x": 18,
+     "y": 293,
+     "w": 366,
+     "h": 117,
+     "surface": "glass",
+     "border": false,
+     "options": {},
+     "page": 2
+    }
+   ],
+   "coverage": 97,
+   "problems": [],
+   "spacing": []
+  }
+ ]
+}

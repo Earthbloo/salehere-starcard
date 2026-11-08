@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Templates</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{--bg:#0f0f12;--panel:#17171c;--line:#2a2a32;--ink:#e8e8ec;--dim:#9a9aa6;--ok:#5CE6AD;--warn:#ffd166;--bad:#ff7a7a}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,"Noto Sans Thai",system-ui,sans-serif}
+  header{padding:22px 24px 8px;max-width:1500px;margin:0 auto} h1{font-size:22px;margin:0 0 4px} h1 small{color:var(--dim);font-weight:500;font-size:13px;margin-left:10px}
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:10px 0 0} .rules div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;color:#c9c9d2} .rules b{display:block;color:var(--ink);margin-bottom:3px}
+  #bar{position:sticky;top:0;z-index:20;background:rgba(15,15,18,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:8px 24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--dim)}
+  .seg{display:inline-flex;background:rgba(255,255,255,.08);border-radius:999px;padding:2px;flex-wrap:wrap} .seg button{border:0;background:transparent;color:rgba(255,255,255,.75);font:600 12px system-ui;padding:5px 12px;border-radius:999px;cursor:pointer} .seg button.on{background:#fff;color:#111}
+  #bar .go{border:0;border-radius:999px;padding:6px 14px;font:700 12px system-ui;cursor:pointer;background:var(--ok);color:#0f0f12}
+  main{max-width:1500px;margin:0 auto;padding:12px 24px 80px}
+  h2{font-size:18px;margin:26px 0 10px} h2 span{color:var(--dim);font-size:12px;font-weight:500;margin-left:8px}
+  .grid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .tpl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px} .tpl.portrait{width:calc(270px + 320px + 20px)} .tpl.portfolio{width:calc(629px + 300px + 20px)}
+  .tpl .row{display:flex;gap:12px;align-items:flex-start}
+  .page{position:relative;flex:none;border-radius:16px;overflow:hidden;background:var(--bg)} .page .in{position:absolute;left:0;top:0;transform-origin:0 0} .page .it{position:absolute} .page .pg{position:absolute;top:0;border-radius:22px;overflow:hidden}
+  .meta{flex:1;min-width:0;font-size:12px;color:#c9c9d2} .meta h3{margin:0;font-size:15px;color:var(--ink)} .meta h3 small{color:var(--dim);font-weight:500;font-size:11px;margin-left:6px}
+  .meta p{margin:6px 0} .tag{display:inline-block;background:rgba(255,255,255,.07);border-radius:6px;padding:1px 6px;margin:1px 2px 1px 0;font-size:11px}
+  .num{display:inline-block;min-width:26px;height:26px;border-radius:8px;background:#fff;color:#111;font:800 14px/26px system-ui;text-align:center;margin-right:8px;vertical-align:middle}
+  .photos{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0} .photos img{width:38px;height:48px;object-fit:cover;border-radius:5px;outline:2px solid transparent} .photos img.used{outline-color:var(--ok)} .photos img.unused{opacity:.3}
+  .ok{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+  .err{color:#f77;font-size:10px;white-space:pre-wrap}
+  #probe{position:fixed;left:-99999px;top:0;visibility:hidden}
+  @media (max-width: 960px){ header,main{padding-left:12px;padding-right:12px} #bar{padding:8px 12px;position:static} .tpl.portrait,.tpl.portfolio{width:100%} .tpl .row{flex-direction:column} .rules{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header>
+  <h1>Final Templates <small id="sub"></small></h1>
+  <div class="rules" id="rules"></div>
+</header>
+<div id="bar">
+  <span>แสดง</span><span class="seg" id="segOrient"></span>
+  <button class="go" id="dl">ดาวน์โหลดไฟล์ production</button>
+  <span id="status"></span>
+</div>
+<main id="main"></main>
+<div id="probe"></div>
+<script type="module">
+// Final: แต่ละใบใช้รูปตัวอย่างไม่ซ้ำกันเลย — รูปบุคคล 4 รูป (+ PNG ตัดพื้นของรูปเดียวกัน) · รูปผลงาน 4 รูปลงแกลเลอรี/ผลงาน
+// วิธี: วาดรอบแรกเพื่อดูว่าแต่ละชิ้นขอรูปช่องไหน (getter ใน doc.photos) → แจกรูปไม่ซ้ำ → วาดจริงด้วย doc.photos ที่ระบุชิ้นต่อชิ้น · ไม่แตะตัววาด/JSON
+const SERVER = 'http://localhost:8787'
+const $ = (s) => document.querySelector(s)
+const lib = {}
+try { for (const f of ['spec-model.js', 'measure.js', 'data.js', 'chrome.js', 'backdrop.js', 'theme.js', 'page.js']) Object.assign(lib, await import(`${SERVER}/card/js/${f}`)); await lib.loadFonts(`${SERVER}/card/fonts/`) }
+catch (e) { $('#status').innerHTML = '<b style="color:#f77">โหลดตัววาดไม่ได้</b> — เปิด preview "sync-server" (8787) แล้วรีเฟรช'; throw e }
+const q = new URLSearchParams(location.search)
+const SRC = '.'
+// ?scale=1 = วาดขนาดจริง (ใช้ทำภาพ preview ส่งทีม API) · ค่าตั้งต้น = ย่อครึ่ง
+const FORCE_SCALE = q.has('scale') ? Number(q.get('scale')) : null
+// ?sheet = วาดแบบหน้าเลือก template ของแอป (StarCardSheetView): แนวนอน 3 หน้า + ช่องว่าง 26 รอบและระหว่างหน้า บนพื้นสี backdropTop ของธีม
+const SHEET = q.has('sheet')
+const manifest = await (await fetch(`${SRC}/manifest.json?${Date.now()}`)).json()
+const SETS = await (await fetch('./photo-sets.json?' + Date.now())).json()
+const KINDS = Object.fromEntries((await (await fetch('./kinds.json')).json()).map((k) => [k.kind, k]))
+const live = (await (await fetch(`${SERVER}/api/specs`)).json()).specs
+const specs = Object.fromEntries(Object.entries(live).map(([k, v]) => [k, lib.parseSpec(v)]))
+const measurer = new lib.WebMeasurer()
+const _track = lib.WebSpecData.prototype.track
+lib.WebSpecData.prototype.track = function () { return this.p?.creator?.track || _track.call(this) }
+// คนยืนบนการ์ด: ชิ้นตระกูลคัตเอาต์ที่ได้ PNG ตัดพื้น (= iOS cutoutPlane รูปผู้ใช้มีช่องอัลฟา)
+const CUT_KINDS = new Set(['artPortfolio', 'nichePoster', 'contactPoster', 'audiencePoster', 'portfolioWindow', 'portfolioGingham', 'aboutBehind', 'aboutEditorial'])
+const cutOn = new Set()
+Object.defineProperty(lib.WebSpecData.prototype, 'cutout', { configurable: true, set() {}, get() { return cutOn.has(this.item?.id) } })
+const isPerson = (slot) => { const n = ((slot % 12) + 12) % 12; return n >= 1 && n <= 3 }
+const SCALE = 0.5, GUTTER = 26
+function profileOf(doc) {
+  const o = doc.owner, pv = o.preview
+  const p = new lib.Profile(o, {})
+  const total = o.intake.socials.reduce((a, s) => a + s.followers, 0)
+  p.creator.audience = { female: pv.audience.female, male: pv.audience.male, other: pv.audience.other,
+    ages: pv.audience.ages.map(([label, share]) => ({ label, share })), places: pv.audience.places.map(([name, share]) => ({ name, share })),
+    reach: { platform: o.intake.socials[0].type, window: '30 วัน', accounts: Math.round(total * 0.42), delta: 9.6, newShare: 58.3 } }
+  p.creator.track = { brands: pv.brands, works: pv.works }
+  for (const sc of p.creator.socials) { const src = (pv.socials || []).find((x) => x.type === sc.type); if (src) { sc.avgViewCount = src.views; sc.engagementRate = src.er } }
+  p.creator.verified = true
+  p.sampleFamilies = new Set()
+  return p
+}
+/** วาดทั้งใบลง host · photos = doc.photos ที่ใช้ */
+function paint(host, doc, photos, sc) {
+  const portfolio = doc.format === 'portfolio'
+  const P = portfolio ? { w: 402, h: 670 } : { w: 540, h: 960 }
+  const n = doc.snapshot.pages.length
+  const G = SHEET && portfolio ? GUTTER : 0   // ขอบรอบแผ่น (โหมด sheet)
+  const W = portfolio ? P.w * n + GUTTER * (n - 1) + G * 2 : P.w, H = P.h + G * 2
+  host.innerHTML = ''; host.style.cssText = `width:${W * sc}px;height:${H * sc}px`
+  const inner = document.createElement('div'); inner.className = 'in'; inner.style.cssText = `width:${W}px;height:${H}px;transform:scale(${sc})`
+  host.appendChild(inner)
+  const theme = lib.makeTheme(doc.snapshot.theme)
+  if (SHEET && portfolio) inner.style.background = lib.css(theme.backdropColors.top)
+  const env = { doc: { photos, owner: doc.owner, notes: {} }, theme, profile: profileOf(doc), specs, measurer, base: `${SERVER}/card/`, imageURL: (id) => `${SERVER}/api/images/${id}` }
+  const sealKind = Object.keys(specs).find((k) => specs[k].widget?.pinned)
+  const SZ = portfolio ? { w: 366, h: 232 } : { w: 246, h: 156 }
+  doc.snapshot.pages.forEach((pg, pi) => {
+    const pageEl = document.createElement('div'); pageEl.className = 'pg'; pageEl.style.cssText = `left:${G + pi * (P.w + GUTTER)}px;top:${G}px;width:${P.w}px;height:${P.h}px`
+    if (portfolio) pageEl.style.borderRadius = `${pi === 0 ? 22 : 0}px ${pi === n - 1 ? 22 : 0}px ${pi === n - 1 ? 22 : 0}px ${pi === 0 ? 22 : 0}px`
+    inner.appendChild(pageEl)
+    lib.paintBackdrop(pageEl, theme, P.w, P.h, { pageW: P.w })
+    const items = pg.items.map((it) => ({ ...it, options: { ...(it.options || {}) }, kit: { fill: 'solid', corner: 'round', opts: { ...(it.options || {}) } }, pattern: it.options?.pattern || 'plain', pinned: false }))
+    if (sealKind && pi === n - 1) items.push({ id: 'SEAL', kind: sealKind, x: P.w - 18 - SZ.w, y: P.h - 18 - SZ.h, w: SZ.w, h: SZ.h, surface: 'glass', border: false, options: {}, kit: { fill: 'solid', corner: 'round', opts: {} }, pattern: 'plain', pinned: true })
+    for (const p of lib.solvePage(items, { width: P.w, height: P.h })) {
+      const el = document.createElement('div'); el.className = 'it'; el.dataset.wid = p.item.id; el.style.cssText = `left:${p.frame.x}px;top:${p.frame.y}px;width:${p.frame.width}px;height:${p.frame.height}px`
+      try { lib.mountWidget(el, p.item, { x: 0, y: 0, width: p.frame.width, height: p.frame.height }, env) } catch (e) { el.innerHTML = `<pre class="err">${e.message}</pre>` }
+      pageEl.appendChild(el)
+    }
+  })
+}
+/** รอบแรก: ชิ้นไหนขอรูปช่องไหน */
+function probe(doc) {
+  const asked = new Map()   // wid → Set(slot)
+  const photos = {}
+  const set = SETS[doc.owner.preview.setPersona || doc.template.persona]
+  for (const pg of doc.snapshot.pages) for (const it of pg.items) {
+    if (CUT_KINDS.has(it.kind)) cutOn.add(it.id)
+    for (let s = -24; s <= 48; s++) Object.defineProperty(photos, `${it.id}#${s}`, { enumerable: true, get() { if (!asked.has(it.id)) asked.set(it.id, new Set()); asked.get(it.id).add(s); return { imageId: set.self[0].id } } })
+  }
+  paint($('#probe'), doc, photos, 1)
+  $('#probe').innerHTML = ''
+  return asked
+}
+/** แจกรูปไม่ซ้ำ (รวม 8 รูป: บุคคล 4 + ผลงาน 4)
+ *  1 ชิ้นคัตเอาต์ช่อง 1 → รูปบุคคล (ครึ่งตัวก่อน) · 2 hero → รูปบุคคล · 3 ผลงานยืนยัน → รูปผลงาน
+ *  4 ช่องบุคคลของชิ้นอื่น → รูปบุคคลที่เหลือ (หมด = รูปผลงานที่เหลือ) · 5 แกลเลอรี/วิดีโอ/อื่น ๆ → รูปผลงานที่เหลือ แล้วรูปบุคคลที่เหลือ */
+function allocate(doc, asked) {
+  const set = SETS[doc.owner.preview.setPersona || doc.template.persona]
+  const items = doc.snapshot.pages.flatMap((pg, pi) => pg.items.map((it) => ({ ...it, pi }))).sort((a, b) => a.pi - b.pi || a.y - b.y || a.x - b.x)
+  const req = []
+  items.forEach((it, order) => { for (const s of [...(asked.get(it.id) || [])].sort((a, b) => a - b)) {
+    const person = isPerson(s), cut = CUT_KINDS.has(it.kind) && s === 1, cat = KINDS[it.kind]?.cat
+    const phase = cut ? 0 : person && cat === 'hero' ? 1 : cat === 'verified' ? 2 : person ? 3 : 4
+    req.push({ it, s, cut, phase, order })
+  } })
+  req.sort((a, b) => a.phase - b.phase || a.order - b.order || a.s - b.s)
+  const freeSelf = [0, 1, 2, 3], freeWork = [0, 1, 2, 3]
+  const photos = {}, use = [], over = []
+  cutOn.clear()
+  const take = (pool, pref) => { const i = pref ? pref.find((x) => pool.includes(x)) : pool[0]; if (i !== undefined) pool.splice(pool.indexOf(i), 1); return i }
+  for (const r of req) {
+    let type = null, i
+    if (r.phase <= 1) { i = take(freeSelf, r.cut ? set.cutPref : null); type = 'self' }
+    else if (r.phase === 2) { i = take(freeWork); type = 'work' }
+    else if (r.phase === 3) { i = take(freeSelf); type = 'self'; if (i === undefined) { i = take(freeWork); type = 'work' } }
+    else { i = take(freeWork); type = 'work'; if (i === undefined) { i = take(freeSelf); type = 'self' } }
+    if (i === undefined) { over.push(`${r.it.kind} ช่อง ${r.s}`); continue }
+    const id = type === 'self' ? (r.cut ? set.self[i].cut : set.self[i].id) : set.work[i]
+    photos[`${r.it.id}#${r.s}`] = { imageId: id }
+    if (r.cut) cutOn.add(r.it.id)
+    use.push({ kind: r.it.kind, slot: r.s, type, i, cut: r.cut })
+  }
+  return { photos, use, over, set }
+}
+/** ตรวจจากหน้าจริง: รูปทุกรูปในใบ (img + พื้นหลัง CSS) ซ้ำกันไหม · นับ PNG ตัดพื้นเป็นรูปเดียวกับต้นฉบับ */
+function audit(host, set) {
+  const base = new Map(); set.self.forEach((x, i) => { base.set(x.id, 'คน' + (i + 1)); base.set(x.cut, 'คน' + (i + 1)) }); set.work.forEach((x, i) => base.set(x, 'ผลงาน' + (i + 1)))
+  const seen = new Map(), other = new Set()
+  const add = (u) => { const m = u.match(/\/api\/images\/([0-9a-f]+)/); if (!m) return; const k = base.get(m[1]); if (!k) { other.add(m[1]); return } seen.set(k, (seen.get(k) || 0) + 1) }
+  host.querySelectorAll('.it').forEach((w) => {
+    const urls = new Set()
+    w.querySelectorAll('img').forEach((im) => urls.add(im.src))
+    w.querySelectorAll('*').forEach((e) => { const b = e.style.backgroundImage; if (b && b.includes('url(')) for (const m of b.matchAll(/url\("?([^")]+)"?\)/g)) urls.add(m[1]) })
+    urls.forEach(add)    // ชิ้นเดียวกันใช้รูปเดิมซ้ำในตัวเอง (เช่น เงา/เบลอ) ไม่นับซ้ำ
+  })
+  return { dupes: [...seen].filter(([, n]) => n > 1).map(([k, n]) => `${k}×${n}`), other: [...other], used: [...seen.keys()] }
+}
+const report = {}, photoMap = {}   // photoMap = ผลการแจกรูปต่อใบ (ชุดข้อมูลส่งทีม API อ่านจาก window.__photoMap)
+async function build() {
+  window.__done = false
+  const main = $('#main'); main.innerHTML = ''
+  for (const orient of ['portrait', 'portfolio']) {
+    if (state.orient !== 'all' && state.orient !== orient) continue
+    const list = manifest.templates.filter((t) => t.orient === orient && !t.hidden)
+    if (!list.length) continue
+    const sec = document.createElement('section'); sec.innerHTML = `<h2>${orient === 'portrait' ? 'แนวตั้ง · story 540×960' : 'แนวนอน · portfolio 3 หน้า 402×670'}<span>${list.length} ใบ</span></h2><div class="grid"></div>`
+    main.appendChild(sec)
+    for (const [n, t] of list.entries()) {
+      const doc = await (await fetch(`${SRC}/out/${t.id}.json?${Date.now()}`)).json()
+      const card = document.createElement('div'); card.className = 'tpl ' + orient; card.dataset.id = t.id
+      card.innerHTML = `<div class="row"><div class="page"></div><div class="meta"></div></div>`
+      sec.querySelector('.grid').appendChild(card)
+      const host = card.querySelector('.page')
+      const asked = probe(doc)
+      const { photos, use, over, set } = allocate(doc, asked)
+      const P = orient === 'portfolio' ? 402 * 3 + GUTTER * 2 : 540
+      paint(host, doc, photos, FORCE_SCALE || Math.min(SCALE, (window.innerWidth - 48) / P))
+      photoMap[t.id] = { photos, cut: [...cutOn] }
+      host.querySelectorAll('img[loading="lazy"]').forEach((im) => { im.loading = 'eager' })
+      const a = audit(host, set)
+      const selfN = use.filter((u) => u.type === 'self').length, workN = use.filter((u) => u.type === 'work').length
+      report[t.id] = { self: selfN, work: workN, over, dupes: a.dupes, other: a.other.length, use }
+      const usedSelf = new Set(use.filter((u) => u.type === 'self').map((u) => u.i)), usedWork = new Set(use.filter((u) => u.type === 'work').map((u) => u.i))
+      card.querySelector('.meta').innerHTML = `<h3>${t.final ? `<span class="num">${t.final}</span>` : ''}${t.name}<small>${t.id}</small></h3>
+        <p><span class="tag">${t.nicheGroup || ''}</span> <span class="tag">${t.personaName}</span>${t.mergedFrom?.length ? ` <span class="tag">รวมจาก ${t.mergedFrom.length} ใบที่เลือก</span>` : ''}</p>
+        ${t.why ? `<p>${t.why}</p>` : ''}
+        <p><b>รูปบุคคล ${selfN}/4</b> · <b>รูปผลงาน ${workN}/4</b> · ${!over.length && !a.dupes.length && !a.other.length ? '<span class="ok">ไม่มีรูปซ้ำ ✓</span>' : `<span class="bad">${[...over.map((x) => 'รูปไม่พอ: ' + x), ...a.dupes.map((x) => 'ซ้ำ ' + x), ...(a.other.length ? ['รูปนอกชุด ' + a.other.length] : [])].join(' · ')}</span>`}</p>
+        <div class="photos">${set.self.map((x, i) => `<img src="${SERVER}/api/images/${x.id}" class="${usedSelf.has(i) ? 'used' : 'unused'}" title="คน ${i + 1}">`).join('')}<span style="width:8px"></span>${set.work.map((x, i) => `<img src="${SERVER}/api/images/${x}" class="${usedWork.has(i) ? 'used' : 'unused'}" title="ผลงาน ${i + 1}">`).join('')}</div>
+        <p style="color:var(--dim)">${use.map((u) => `${u.kind} ← ${u.type === 'self' ? 'คน ' + (u.i + 1) + (u.cut ? ' (ตัดพื้น)' : '') : 'ผลงาน ' + (u.i + 1)}`).join(' · ')}</p>`
+    }
+  }
+  window.__report = report
+  window.__photoMap = photoMap
+  window.__done = true
+}
+const state = { orient: 'all' }
+function seg(el, options, get, set) { el.innerHTML = ''; for (const [v, name] of options) { const b = document.createElement('button'); b.textContent = name; b.className = get() === v ? 'on' : ''; b.onclick = () => { set(v); seg(el, options, get, set); build() }; el.appendChild(b) } }
+seg($('#segOrient'), [['all', 'ทั้งหมด'], ['portrait', 'แนวตั้ง'], ['portfolio', 'แนวนอน 3 หน้า']], () => state.orient, (v) => { state.orient = v })
+const nP = manifest.templates.filter((t) => t.orient === 'portrait' && !t.hidden).length, nL = manifest.templates.filter((t) => t.orient === 'portfolio' && !t.hidden).length
+$('#sub').textContent = `แนวตั้ง ${nP} · แนวนอน ${nL} · ผังไม่ซ้ำกัน · รูปตัวอย่างไม่ซ้ำในใบ`
+$('#rules').innerHTML = `<div><b>รูปไม่ซ้ำในแต่ละใบ</b>รูปบุคคล 4 รูป (PNG ตัดพื้นนับเป็นรูปเดียวกับต้นฉบับ) · รูปผลงาน 4 รูปลงแกลเลอรีและผลงานยืนยัน · ใต้แต่ละใบบอกว่าชิ้นไหนใช้รูปไหน และตรวจจากหน้าจริงว่าไม่มีรูปซ้ำ</div><div><b>ใช้รูปที่ส่งมาเท่านั้น</b>ไม่มีรูปจากแหล่งอื่น · ไม่มีโลโก้แบรนด์จากเว็บ</div><div><b>ขึ้น production</b>"ดาวน์โหลดไฟล์ production" = ทุกใบในหน้านี้ รูปแบบ createStarCardTemplates (ใส่ตรา proofSeal แล้ว · ไม่มีรูปในไฟล์)</div>`
+// ไฟล์ production ของทุกใบในหน้า
+const SEAL_AT = { story: { x: 276, y: 786, w: 246, h: 156 }, portfolio: { x: 18, y: 420, w: 366, h: 232 } }
+$('#dl').onclick = async () => {
+  const out = []
+  for (const t of manifest.templates.filter((x) => !x.hidden)) {
+    const doc = await (await fetch(`${SRC}/out/${t.id}.json`)).json()
+    const last = doc.snapshot.pages.length - 1
+    out.push({ name: doc.name, format: doc.format, snapshot: { theme: { colors: doc.snapshot.theme.colors, ink: doc.snapshot.theme.ink, backdrop: doc.snapshot.theme.backdrop }, pages: doc.snapshot.pages.map((pg, i) => ({ items: [
+      ...pg.items.map((it) => ({ id: it.id, kind: it.kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: !!it.border, ...(it.options && Object.keys(it.options).length ? { options: it.options } : {}) })),
+      ...(i === last ? [{ id: crypto.randomUUID().toUpperCase(), kind: 'proofSeal', ...SEAL_AT[doc.format], surface: 'glass', border: false }] : []) ] })) } })
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' })); a.download = 'starcard-final-templates.json'; document.body.appendChild(a); a.click(); a.remove()
+  $('#status').textContent = `ดาวน์โหลด ${out.length} ใบ`
+}
+build()
+</script>
+</body>
+</html>

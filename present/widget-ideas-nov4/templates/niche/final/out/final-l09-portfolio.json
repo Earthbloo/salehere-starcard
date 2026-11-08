@@ -1,0 +1,410 @@
+{
+ "format": "portfolio",
+ "id": "designed.final-l09-portfolio",
+ "name": "Carbon Type (แนวนอน 3 หน้า)",
+ "snapshot": {
+  "index": 0,
+  "version": 2,
+  "pages": [
+   {
+    "items": [
+     {
+      "id": "B618D16C-CF80-42FB-90BD-ED1F513F82DD",
+      "kind": "artTypeOver",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 367,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "8D86154D-2297-48FF-AE16-8F82213285AF",
+      "kind": "aboutText",
+      "x": 18,
+      "y": 395,
+      "w": 366,
+      "h": 130,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "DC3298B1-8404-413B-8FC4-B4A3450A7D41",
+      "kind": "contactStack",
+      "x": 18,
+      "y": 535,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "37556B08-1028-4355-8987-42221CB82F7B",
+      "kind": "statGiant",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 206,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "3DA186C1-5F0B-43E9-AE5C-DF0C4B3FBAD0",
+      "kind": "kitTimeNight",
+      "x": 18,
+      "y": 234,
+      "w": 366,
+      "h": 174,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "fill": "clear"
+      }
+     },
+     {
+      "id": "CDFF62A7-BC96-43A2-9A66-5C923A70CCA6",
+      "kind": "audienceSplit",
+      "x": 18,
+      "y": 418,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "CEC6ABE1-113B-4853-A8B3-6CF75840BAF1",
+      "kind": "rateTags",
+      "x": 18,
+      "y": 545,
+      "w": 366,
+      "h": 107,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "chan": "youtube"
+      }
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "98F8F47A-A37E-4B6F-9A8F-5DB5C1064AA2",
+      "kind": "proofWork",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 265,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "948547E4-9A69-43CE-9B30-982724A939A2",
+      "kind": "galleryFilm",
+      "x": 18,
+      "y": 293,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "colors": {
+    "primary": "#101215"
+   },
+   "ink": "night",
+   "backdrop": "gradient",
+   "photoDim": 0.42,
+   "photoEffect": "none"
+  }
+ },
+ "owner": {
+  "verified": true,
+  "values": {
+   "name": "ภูริช ศักดิ์ดี",
+   "nickname": "กอล์ฟ",
+   "handle": "golf.drives",
+   "about": "ทดลองขับรถใหม่ทุกรุ่นที่เข้าไทย — วัดอัตราสิ้นเปลืองเอง บอกข้อเสียก่อนข้อดี",
+   "phone": "080-614-2290",
+   "lineId": "@golfdrives",
+   "website": "golfdrives.com",
+   "workArea": "กรุงเทพมหานคร",
+   "contactName": "ภูริช ศักดิ์ดี",
+   "role": "ติดต่อโดยตรง",
+   "quote": "ขับจริง 500 กม. ก่อนพูด"
+  },
+  "list": {
+   "categories": [
+    "รถยนต์ & ยานยนต์",
+    "รีวิวรถ",
+    "EV"
+   ]
+  },
+  "intake": {
+   "kind": "creator",
+   "interests": [
+    "รถยนต์ & ยานยนต์",
+    "รีวิวรถ",
+    "EV"
+   ],
+   "socials": [
+    {
+     "type": "youtube",
+     "link": "https://youtube.com/golfdrives",
+     "followers": 842000,
+     "views": 380000,
+     "er": 5.9,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "facebook",
+     "link": "https://facebook.com/golfdrives",
+     "followers": 610000,
+     "views": 190000,
+     "er": 4.1,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "tiktok",
+     "link": "https://tiktok.com/golf.drives",
+     "followers": 356000,
+     "views": 240000,
+     "er": 6.4,
+     "enabled": true,
+     "source": "connected"
+    }
+   ],
+   "rates": [
+    {
+     "platform": "youtube",
+     "formatKey": "shorts",
+     "price": 35000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "dedicated",
+     "price": 180000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "integrated",
+     "price": 80000
+    },
+    {
+     "platform": "facebook",
+     "formatKey": "video",
+     "price": 50000
+    },
+    {
+     "platform": "tiktok",
+     "formatKey": "short",
+     "price": 45000
+    }
+   ],
+   "availability": {
+    "days": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "slots": [
+     0,
+     1,
+     2
+    ],
+    "provinces": [
+     "กรุงเทพมหานคร",
+     "ชลบุรี",
+     "นครราชสีมา",
+     "เชียงใหม่"
+    ]
+   }
+  },
+  "creatorImageIds": [
+   "ecc65a74be2582ad119622511646ad22",
+   "284ce930bdb47df9ea7a58b2ec4d7d8f",
+   "6a80b4f2df8f4d37fada24ac85b17729"
+  ],
+  "workImageIds": [
+   "f0091674694c6965f6dba83b1ec51c76",
+   "03f741c773fc7b5c1020850a6702ced9",
+   "06a8fd49c50e8b43cae755409ed048aa",
+   "ed3c94ad6af22dd543008fb2f35e6f9c",
+   "b40b60ac63e68d8253a20d9e60b1e34a",
+   "03f741c773fc7b5c1020850a6702ced9"
+  ],
+  "libraryImageIds": [],
+  "preview": {
+   "cutoutImageId": "e5ce6ec943525b37ca16b3cc9e26029a",
+   "audience": {
+    "female": 22,
+    "male": 76,
+    "other": 2,
+    "ages": [
+     [
+      "18–24",
+      18
+     ],
+     [
+      "25–34",
+      42
+     ],
+     [
+      "35–44",
+      28
+     ],
+     [
+      "45+",
+      12
+     ]
+    ],
+    "places": [
+     [
+      "กรุงเทพฯ",
+      39
+     ],
+     [
+      "ชลบุรี",
+      9
+     ],
+     [
+      "นครราชสีมา",
+      6
+     ],
+     [
+      "เชียงใหม่",
+      6
+     ]
+    ]
+   },
+   "brands": [
+    {
+     "name": "BYD",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Toyota",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Michelin",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Shell",
+     "logo": null,
+     "industry": ""
+    }
+   ],
+   "works": [
+    {
+     "brand": "BYD",
+     "ep": "EP.233",
+     "campaign": "Seal กรุงเทพ–เชียงใหม่",
+     "platform": "youtube",
+     "format": "คลิปยาว",
+     "views": 2300000,
+     "engagementRate": 6.7,
+     "photo": 7,
+     "saves": 58000,
+     "shares": 22000,
+     "likes": 110000,
+     "comments": 6700,
+     "viralTag": "2M+ Views",
+     "cover": null
+    },
+    {
+     "brand": "Michelin",
+     "ep": "EP.226",
+     "campaign": "ยางกับถนนเปียก",
+     "platform": "tiktok",
+     "format": "คลิปสั้น",
+     "views": 1100000,
+     "engagementRate": 7.5,
+     "photo": 8,
+     "saves": 36000,
+     "shares": 15000,
+     "likes": 88000,
+     "comments": 2600,
+     "viralTag": null,
+     "cover": null
+    },
+    {
+     "brand": "Shell",
+     "ep": "EP.219",
+     "campaign": "น้ำมันกับรถ 10 ปี",
+     "platform": "facebook",
+     "format": "Video",
+     "views": 540000,
+     "engagementRate": 4.9,
+     "photo": 9,
+     "saves": 12000,
+     "shares": 8800,
+     "likes": 31000,
+     "comments": 1400,
+     "viralTag": null,
+     "cover": null
+    }
+   ],
+   "niche": "รีวิวรถ · ทดลองขับ",
+   "tier": "macro",
+   "gender": "M",
+   "socials": [
+    {
+     "type": "youtube",
+     "views": 380000,
+     "er": 5.9
+    },
+    {
+     "type": "facebook",
+     "views": 190000,
+     "er": 4.1
+    },
+    {
+     "type": "tiktok",
+     "views": 240000,
+     "er": 6.4
+    }
+   ]
+  }
+ },
+ "template": {
+  "style": "Carbon Type",
+  "niche": "รถยนต์ & ยานยนต์",
+  "goal": "A",
+  "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · ชื่อยักษ์ทับรูป + ตัวเลขยักษ์",
+  "persona": "golf",
+  "orient": "portfolio",
+  "page": {
+   "w": 402,
+   "h": 670
+  },
+  "pageCount": 3,
+  "seal": {
+   "w": 366,
+   "h": 232
+  }
+ }
+}

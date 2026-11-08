@@ -1,0 +1,101 @@
+{
+ "kind": "heroMinimal",
+ "design": {
+  "w": 366,
+  "h": 135
+ },
+ "widget": {
+  "title": "ชื่อมินิมอล",
+  "category": "hero",
+  "symbol": "textformat",
+  "order": 1,
+  "motion": "light"
+ },
+ "notes": "ชื่อยักษ์ตัวหนา + บรรทัดสายงาน tracking กว้าง · แปลงจาก HeroWidgets.swift (HeroMinimal) · design 366×135 = defaultSize ของต้นฉบับ (เดิม 124 ทำให้ทุกอย่างใหญ่กว่าต้นฉบับ ~9%) · โลโก้ ST★R สูง 12 → กว้าง 17 (asset 34×24) · ตราข้างชื่อ = StarSeal(size 11) = VerifiedSeal compact ⌀15 หมึก accent เครื่องหมายถูกสี punch ตั้งต้น white 0.10 → วาดเป็น rect scallop:8 + ph:check (icon verifiedSeal วาดแบบไม่ compact มีเส้นประ+เงาถูกตัดเป็นสี่เหลี่ยม · starSeal วาดใหญ่กว่ากรอบแล้วถูกตัด) · สายงานใช้ kerning 2 แทน tracking (ช่องแก้ได้วาด tracking ไม่ได้)",
+ "root": {
+  "type": "col",
+  "gap": 7,
+  "justify": "center",
+  "align": "start",
+  "children": [
+   {
+    "type": "row",
+    "gap": 7,
+    "align": "center",
+    "h": 15,
+    "children": [
+     {
+      "type": "rect",
+      "w": 14,
+      "h": 2,
+      "radius": 1,
+      "fill": "accent"
+     },
+     {
+      "type": "icon",
+      "icon": "starLockup",
+      "h": 12,
+      "w": 17,
+      "tint": "accent@0.95"
+     },
+     {
+      "type": "stack",
+      "w": 15,
+      "h": 15,
+      "if": "owner.verified",
+      "children": [
+       {
+        "type": "rect",
+        "shape": "scallop:8",
+        "fill": "accent@0.95"
+       },
+       {
+        "type": "icon",
+        "icon": "ph:check",
+        "size": 6.9,
+        "tint": "#1A1A1A",
+        "place": "center"
+       }
+      ],
+      "shadow": {
+       "sigma": 0.66,
+       "y": 0.55,
+       "color": "black@0.35"
+      }
+     }
+    ]
+   },
+   {
+    "type": "text",
+    "id": "name",
+    "slot": "name",
+    "face": "noto",
+    "weight": 900,
+    "size": 40,
+    "sizeWhen": [
+     {
+      "when": "w<260",
+      "size": 30
+     }
+    ],
+    "kerning": -1,
+    "maxLines": 2,
+    "color": "ink@0.98",
+    "w": "fill"
+   },
+   {
+    "type": "text",
+    "id": "tagline",
+    "slot": "tagline",
+    "face": "noto",
+    "weight": 600,
+    "size": 9.5,
+    "kerning": 2,
+    "textCase": "upper",
+    "maxLines": 1,
+    "color": "ink@0.45",
+    "w": "fill"
+   }
+  ]
+ }
+}

@@ -1,0 +1,389 @@
+{
+ "format": "portfolio",
+ "id": "designed.final-l07-portfolio",
+ "name": "Tomato Pop (แนวนอน 3 หน้า)",
+ "snapshot": {
+  "index": 0,
+  "version": 2,
+  "pages": [
+   {
+    "items": [
+     {
+      "id": "71720C08-D74B-4A0D-8B74-C60CE1906E91",
+      "kind": "popHeroGlass",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 250,
+      "surface": "dim",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "FB3C411D-E03D-4C0C-89D8-0C0D8156A222",
+      "kind": "aboutText",
+      "x": 18,
+      "y": 278,
+      "w": 366,
+      "h": 110,
+      "surface": "dim",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "0D884A3D-020C-4080-B6C0-5AEEB905EDE9",
+      "kind": "reelShowcase",
+      "x": 18,
+      "y": 398,
+      "w": 366,
+      "h": 254,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "926FA119-CF38-4609-A3C6-2BBF73B952D6",
+      "kind": "popStatsGlass",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 172,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "4A113533-3A67-4856-8AB8-BE6BEC29762C",
+      "kind": "audienceMap",
+      "x": 18,
+      "y": 200,
+      "w": 366,
+      "h": 160,
+      "surface": "dim",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "F0B76877-2F61-46A8-962D-C149E5AF9950",
+      "kind": "kitTimeCream",
+      "x": 18,
+      "y": 370,
+      "w": 366,
+      "h": 165,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "A260DCC1-0978-424F-B7FA-EA55ED013CD2",
+      "kind": "rateTags",
+      "x": 18,
+      "y": 545,
+      "w": 366,
+      "h": 107,
+      "surface": "dim",
+      "border": false,
+      "options": {
+       "chan": "tiktok"
+      }
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "F114090A-8D07-4085-9649-489B5693BC28",
+      "kind": "proofWork",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 247,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "1D4871E6-FA67-4922-9FAD-B6C9BD3BE919",
+      "kind": "contactStack",
+      "x": 18,
+      "y": 275,
+      "w": 366,
+      "h": 135,
+      "surface": "dim",
+      "border": false,
+      "options": {}
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "colors": {
+    "primary": "#E5482C"
+   },
+   "ink": "night",
+   "backdrop": "solid",
+   "photoDim": 0.42,
+   "photoEffect": "none"
+  }
+ },
+ "owner": {
+  "verified": true,
+  "values": {
+   "name": "กิตติภพ ศรีสุข",
+   "nickname": "ต้น",
+   "handle": "ton.eats",
+   "about": "กินทุกตรอก ซอกซอย ร้านไม่มีป้ายคือร้านโปรด — รีวิวแบบคนกินจริง ไม่ใช่คนรับงาน",
+   "phone": "080-993-4412",
+   "lineId": "@toneats",
+   "website": "toneats.com",
+   "workArea": "กรุงเทพมหานคร",
+   "contactName": "กิตติภพ ศรีสุข",
+   "role": "ติดต่อโดยตรง",
+   "quote": "อร่อยไม่ต้องแพง"
+  },
+  "list": {
+   "categories": [
+    "อาหาร",
+    "สตรีทฟู้ด",
+    "ร้านลับ"
+   ]
+  },
+  "intake": {
+   "kind": "creator",
+   "interests": [
+    "อาหาร",
+    "สตรีทฟู้ด",
+    "ร้านลับ"
+   ],
+   "socials": [
+    {
+     "type": "tiktok",
+     "link": "https://tiktok.com/ton.eats",
+     "followers": 890000,
+     "views": 711999,
+     "er": 2.8,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "facebook",
+     "link": "https://facebook.com/toneats",
+     "followers": 430000,
+     "views": 206400,
+     "er": 5.9,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "instagram",
+     "link": "https://instagram.com/ton.eats",
+     "followers": 120000,
+     "views": 56400,
+     "er": 4.9,
+     "enabled": true,
+     "source": "connected"
+    }
+   ],
+   "rates": [
+    {
+     "platform": "tiktok",
+     "formatKey": "short",
+     "price": 60000
+    },
+    {
+     "platform": "facebook",
+     "formatKey": "reels",
+     "price": 35000
+    },
+    {
+     "platform": "instagram",
+     "formatKey": "reels",
+     "price": 25000
+    }
+   ],
+   "availability": {
+    "days": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "slots": [
+     2,
+     3
+    ],
+    "provinces": [
+     "กรุงเทพมหานคร",
+     "สมุทรปราการ"
+    ]
+   }
+  },
+  "creatorImageIds": [
+   "0a27197281c27be4b2e76ca9ec54b21c",
+   "9f0433630aebc345b6a44f84bee4e9a4",
+   "5c596e8cc733a1f8506cb6af603c32b6"
+  ],
+  "workImageIds": [
+   "cc4eecf47fe91567b8995a300136eeb9",
+   "eddb58884588da737c906f5db880f72a",
+   "823c9582166c30d76fcc56fdce3d38da",
+   "2096b3fcf2330b598bfe5187a8c5e646",
+   "d52b9526a05b28088502a25b01343f49",
+   "eddb58884588da737c906f5db880f72a"
+  ],
+  "libraryImageIds": [],
+  "preview": {
+   "cutoutImageId": "ff4650220ccd16374b1fd971fc3fffa1",
+   "audience": {
+    "female": 55,
+    "male": 43,
+    "other": 2,
+    "ages": [
+     [
+      "18–24",
+      24
+     ],
+     [
+      "25–34",
+      39
+     ],
+     [
+      "35–44",
+      25
+     ],
+     [
+      "45+",
+      12
+     ]
+    ],
+    "places": [
+     [
+      "กรุงเทพฯ",
+      52
+     ],
+     [
+      "นนทบุรี",
+      9
+     ],
+     [
+      "ปทุมธานี",
+      6
+     ],
+     [
+      "ชลบุรี",
+      5
+     ]
+    ]
+   },
+   "brands": [
+    {
+     "name": "MK Restaurants",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Oishi",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Mama",
+     "logo": null,
+     "industry": ""
+    }
+   ],
+   "works": [
+    {
+     "brand": "MK Restaurants",
+     "ep": "EP.210",
+     "campaign": "ไม่จำกัด 90 นาที",
+     "platform": "tiktok",
+     "format": "คลิปสั้น",
+     "views": 3400000,
+     "engagementRate": 8.1,
+     "photo": 7,
+     "saves": 120000,
+     "shares": 54000,
+     "likes": 290000,
+     "comments": 7600,
+     "viralTag": "3M+ Views",
+     "cover": null
+    },
+    {
+     "brand": "Oishi",
+     "ep": "EP.198",
+     "campaign": "บุฟเฟ่ต์ 999",
+     "platform": "facebook",
+     "format": "Reels",
+     "views": 1900000,
+     "engagementRate": 6.4,
+     "photo": 8,
+     "saves": 48000,
+     "shares": 31000,
+     "likes": 140000,
+     "comments": 3900,
+     "viralTag": "High Share",
+     "cover": null
+    },
+    {
+     "brand": "Mama",
+     "ep": "EP.187",
+     "campaign": "มาม่า 7 วัน 7 สูตร",
+     "platform": "youtube",
+     "format": "คลิปยาว",
+     "views": 620000,
+     "engagementRate": 5.5,
+     "photo": 9,
+     "saves": 21000,
+     "shares": 7900,
+     "likes": 44000,
+     "comments": 1200,
+     "viralTag": null,
+     "cover": null
+    }
+   ],
+   "niche": "อาหาร · สตรีทฟู้ด",
+   "tier": "macro",
+   "gender": "M",
+   "socials": [
+    {
+     "type": "tiktok",
+     "views": 711999,
+     "er": 2.8
+    },
+    {
+     "type": "facebook",
+     "views": 206400,
+     "er": 5.9
+    },
+    {
+     "type": "instagram",
+     "views": 56400,
+     "er": 4.9
+    }
+   ]
+  }
+ },
+ "template": {
+  "style": "Tomato Pop",
+  "niche": "อาหาร & เครื่องดื่ม",
+  "goal": "A",
+  "why": "เติมจากแบบที่ติ๊กในแนวตั้ง · ตัวเลขยักษ์มีรูปพื้น ทำให้รูปเกิน 8 → ใช้แถบสถิติกระจกชุดสติกเกอร์แทน",
+  "persona": "ton",
+  "orient": "portfolio",
+  "page": {
+   "w": 402,
+   "h": 670
+  },
+  "pageCount": 3,
+  "seal": {
+   "w": 366,
+   "h": 232
+  }
+ }
+}

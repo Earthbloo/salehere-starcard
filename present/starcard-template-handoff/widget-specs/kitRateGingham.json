@@ -1,0 +1,489 @@
+{
+ "kind": "kitRateGingham",
+ "design": {
+  "w": 300,
+  "h": 290
+ },
+ "widget": {
+  "title": "เรทรับงาน",
+  "category": "rate",
+  "symbol": "tag.fill",
+  "order": 83,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "gingham"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitRate"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "ratePlatforms",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ],
+  "on": "light"
+ },
+ "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile · 3 พ.ย. 2569: กล่องละโซเชียลจาก rateSocials (ราคาต่อประเภทตาม salehere-ios) แทนสองโหมดเดิม",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "bg",
+      "radius": 20
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 20,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     },
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "grid",
+      "radius": 20,
+      "pattern": {
+       "kind": "grid",
+       "color": "#383F1A@0.22",
+       "size": 13,
+       "width": 1
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 20
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 20,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "grid",
+        "radius": 20,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "grid",
+        "radius": 3,
+        "pattern": {
+         "kind": "grid",
+         "color": "#383F1A@0.22",
+         "size": 13,
+         "width": 1
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "inner",
+    "pad": 11,
+    "children": [
+     {
+      "type": "stack",
+      "if": "!cfg:corner=square",
+      "children": [
+       {
+        "type": "rect",
+        "id": "card",
+        "fill": "white",
+        "radius": 13
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 13,
+        "stroke": {
+         "color": "line",
+         "width": 2
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "cfg:corner=square",
+      "children": [
+       {
+        "type": "stack",
+        "if": "!bordered",
+        "children": [
+         {
+          "type": "rect",
+          "id": "card",
+          "fill": "white",
+          "radius": 13
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 13,
+          "stroke": {
+           "color": "line",
+           "width": 2
+          }
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "if": "bordered",
+        "children": [
+         {
+          "type": "rect",
+          "id": "card",
+          "fill": "white",
+          "radius": 2
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 2,
+          "stroke": {
+           "color": "line",
+           "width": 2
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "content",
+      "pad": [
+       14,
+       14,
+       14,
+       14
+      ],
+      "gap": 8,
+      "children": [
+       {
+        "type": "text",
+        "face": "noto",
+        "size": 25,
+        "weight": 800,
+        "color": "ink",
+        "maxLines": 2,
+        "id": "title",
+        "shrinkTo": 17.5,
+        "text": "เรทรับงาน"
+       },
+       {
+        "type": "col",
+        "grow": 1,
+        "children": [
+         {
+          "type": "chips",
+          "id": "socials",
+          "list": "rateSocials",
+          "direction": "col",
+          "gap": 0,
+          "where": "!hidden:$platform",
+          "each": {
+           "type": "col",
+           "grow": 1,
+           "children": [
+            {
+             "type": "rect",
+             "if": "!$i=first",
+             "h": 1,
+             "fill": "#D9D9D9"
+            },
+            {
+             "type": "col",
+             "grow": 1,
+             "pad": [
+              8,
+              0
+             ],
+             "justify": "center",
+             "children": [
+              {
+               "type": "col",
+               "gap": 5,
+               "align": "stretch",
+               "children": [
+                {
+                 "type": "row",
+                 "gap": 6,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "$icon",
+                   "size": 15.8
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$platformName",
+                   "face": "noto",
+                   "size": 15,
+                   "weight": 600,
+                   "color": "#141417",
+                   "maxLines": 1,
+                   "shrinkTo": 10.5
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "gap": 10,
+                 "align": "start",
+                 "children": [
+                  {
+                   "type": "col",
+                   "if": "$shortVideo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Short Video",
+                     "face": "noto",
+                     "size": 10.2,
+                     "weight": 400,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$shortVideo",
+                     "face": "noto",
+                     "size": 17.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10.5
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$photo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Photo",
+                     "face": "noto",
+                     "size": 10.2,
+                     "weight": 400,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$photo",
+                     "face": "noto",
+                     "size": 17.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10.5
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$longVideo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Long Video",
+                     "face": "noto",
+                     "size": 10.2,
+                     "weight": 400,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$longVideo",
+                     "face": "noto",
+                     "size": 17.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10.5
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$seeding",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Seeding",
+                     "face": "noto",
+                     "size": 10.2,
+                     "weight": 400,
+                     "color": "black@0.52",
+                     "maxLines": 1,
+                     "shrinkTo": 7.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$seeding",
+                     "face": "noto",
+                     "size": 17.5,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10.5
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          "grow": 1
+         }
+        ],
+        "gap": 8
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

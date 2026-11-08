@@ -83,6 +83,7 @@
         "type": "image",
         "id": "photo",
         "photo": 1,
+        "removeBg": true,
         "fit": "cover",
         "radius": 4
        }
@@ -198,6 +199,7 @@
     "type": "image",
     "id": "subject",
     "photo": 1,
+    "removeBg": true,
     "fit": "contain",
     "w": "100%",
     "h": "80%",

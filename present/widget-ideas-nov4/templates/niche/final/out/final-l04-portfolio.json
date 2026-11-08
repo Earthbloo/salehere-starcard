@@ -1,0 +1,407 @@
+{
+ "format": "portfolio",
+ "id": "designed.final-l04-portfolio",
+ "name": "Kit Latte (แนวนอน 3 หน้า)",
+ "snapshot": {
+  "index": 0,
+  "version": 2,
+  "pages": [
+   {
+    "items": [
+     {
+      "id": "C7B295FB-74A9-400F-A45B-C372AF372B10",
+      "kind": "kitProfileCream",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 330,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "corner": "square"
+      }
+     },
+     {
+      "id": "864EEFC6-7E11-44E7-89BD-609E281A2900",
+      "kind": "kitBioCream",
+      "x": 18,
+      "y": 358,
+      "w": 366,
+      "h": 167,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "corner": "square"
+      }
+     },
+     {
+      "id": "3105A261-5B52-4305-8B28-A6C1600A2CA2",
+      "kind": "contactChips",
+      "x": 18,
+      "y": 535,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "C4A2A18B-B95E-4B48-8D75-33CBD4013FE7",
+      "kind": "kitSocialCream",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 324,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "corner": "square"
+      }
+     },
+     {
+      "id": "A26D8178-B598-4C0E-98BD-7600FF287C3A",
+      "kind": "kitInsightCream",
+      "x": 18,
+      "y": 352,
+      "w": 366,
+      "h": 300,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "corner": "square",
+       "hide": "gender,reach"
+      }
+     }
+    ]
+   },
+   {
+    "items": [
+     {
+      "id": "D083B7F4-FD6F-4BEC-A412-2EE7D37CF19F",
+      "kind": "proofWork",
+      "x": 18,
+      "y": 18,
+      "w": 366,
+      "h": 265,
+      "surface": "glass",
+      "border": false,
+      "options": {}
+     },
+     {
+      "id": "9983EE42-5278-4F0B-BC84-EB49D619BCA4",
+      "kind": "rateTags",
+      "x": 18,
+      "y": 293,
+      "w": 366,
+      "h": 117,
+      "surface": "glass",
+      "border": false,
+      "options": {
+       "chan": "youtube"
+      }
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "colors": {
+    "primary": "#D9B99B"
+   },
+   "ink": "paper",
+   "backdrop": "solid",
+   "photoDim": 0.42,
+   "photoEffect": "none"
+  }
+ },
+ "owner": {
+  "verified": true,
+  "values": {
+   "name": "ปุณณ์ ธีรวัฒน์",
+   "nickname": "ปุณณ์",
+   "handle": "poon.tech",
+   "about": "แกะกล่อง เทสต์จริง พูดตรง — มือถือ หูฟัง โน้ตบุ๊ก ทุกชิ้นใช้เองก่อนรีวิว",
+   "phone": "089-771-2043",
+   "lineId": "@poontech",
+   "website": "poontech.review",
+   "workArea": "กรุงเทพมหานคร",
+   "contactName": "ปุณณ์ ธีรวัฒน์",
+   "role": "ติดต่อโดยตรง",
+   "quote": "ทดสอบจริงก่อนบอกว่าดี"
+  },
+  "list": {
+   "categories": [
+    "เทคโนโลยี",
+    "แกดเจ็ต",
+    "รีวิว"
+   ]
+  },
+  "intake": {
+   "kind": "creator",
+   "interests": [
+    "เทคโนโลยี",
+    "แกดเจ็ต",
+    "รีวิว"
+   ],
+   "socials": [
+    {
+     "type": "youtube",
+     "link": "https://youtube.com/poontech",
+     "followers": 612000,
+     "views": 342720,
+     "er": 7.4,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "tiktok",
+     "link": "https://tiktok.com/poon.tech",
+     "followers": 455000,
+     "views": 354900,
+     "er": 5.4,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "facebook",
+     "link": "https://facebook.com/poontechreview",
+     "followers": 210000,
+     "views": 92400,
+     "er": 7.4,
+     "enabled": true,
+     "source": "connected"
+    },
+    {
+     "type": "instagram",
+     "link": "https://instagram.com/poon.tech",
+     "followers": 96000,
+     "views": 39360,
+     "er": 5.3,
+     "enabled": true,
+     "source": "connected"
+    }
+   ],
+   "rates": [
+    {
+     "platform": "youtube",
+     "formatKey": "shorts",
+     "price": 30000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "dedicated",
+     "price": 120000
+    },
+    {
+     "platform": "youtube",
+     "formatKey": "integrated",
+     "price": 55000
+    },
+    {
+     "platform": "tiktok",
+     "formatKey": "short",
+     "price": 40000
+    },
+    {
+     "platform": "facebook",
+     "formatKey": "post",
+     "price": 15000
+    }
+   ],
+   "availability": {
+    "days": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "slots": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "provinces": [
+     "กรุงเทพมหานคร"
+    ]
+   }
+  },
+  "creatorImageIds": [
+   "668e67bd09d1843d1ebb1273bfa45f1d",
+   "56d8294b2871545ae28c5de93a3aba58",
+   "99e3b768260c28713f97d30e8a74b1ab"
+  ],
+  "workImageIds": [
+   "8b46f6702f65361cb3b1726925a4b36f",
+   "ebae3f264aaa8180b6794e3ab354bffc",
+   "2eff0fca96209b4701f1ac037f0033da",
+   "1b91dc7b1dba4c6fa3230963c2c17b8d",
+   "5ac1c89eec4d21d18976585b23dbb5a7",
+   "ebae3f264aaa8180b6794e3ab354bffc"
+  ],
+  "libraryImageIds": [],
+  "preview": {
+   "cutoutImageId": "2374ac31e40a048ee0554d7a8b434a63",
+   "audience": {
+    "female": 31,
+    "male": 67,
+    "other": 2,
+    "ages": [
+     [
+      "18–24",
+      35
+     ],
+     [
+      "25–34",
+      44
+     ],
+     [
+      "35–44",
+      15
+     ],
+     [
+      "45+",
+      6
+     ]
+    ],
+    "places": [
+     [
+      "กรุงเทพฯ",
+      41
+     ],
+     [
+      "นนทบุรี",
+      8
+     ],
+     [
+      "เชียงใหม่",
+      6
+     ],
+     [
+      "ชลบุรี",
+      5
+     ]
+    ]
+   },
+   "brands": [
+    {
+     "name": "Samsung",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Lazada",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Anker",
+     "logo": null,
+     "industry": ""
+    },
+    {
+     "name": "Logitech",
+     "logo": null,
+     "industry": ""
+    }
+   ],
+   "works": [
+    {
+     "brand": "Samsung",
+     "ep": "EP.88",
+     "campaign": "Galaxy Unbox Day 1",
+     "platform": "youtube",
+     "format": "คลิปยาว",
+     "views": 2100000,
+     "engagementRate": 5.2,
+     "photo": 7,
+     "saves": 61000,
+     "shares": 24000,
+     "likes": 98000,
+     "comments": 4100,
+     "viralTag": "2M+ Views",
+     "cover": null
+    },
+    {
+     "brand": "Anker",
+     "ep": "EP.73",
+     "campaign": "Power Bank 7 วัน",
+     "platform": "tiktok",
+     "format": "คลิปสั้น",
+     "views": 980000,
+     "engagementRate": 6.1,
+     "photo": 8,
+     "saves": 22000,
+     "shares": 9100,
+     "likes": 61000,
+     "comments": 1500,
+     "viralTag": null,
+     "cover": null
+    },
+    {
+     "brand": "Logitech",
+     "ep": "EP.69",
+     "campaign": "Desk Setup",
+     "platform": "instagram",
+     "format": "Reel",
+     "views": 410000,
+     "engagementRate": 4.9,
+     "photo": 9,
+     "saves": 15000,
+     "shares": 3800,
+     "likes": 27000,
+     "comments": 620,
+     "viralTag": null,
+     "cover": null
+    }
+   ],
+   "niche": "เทค · แกดเจ็ต",
+   "tier": "macro",
+   "gender": "M",
+   "socials": [
+    {
+     "type": "youtube",
+     "views": 342720,
+     "er": 7.4
+    },
+    {
+     "type": "tiktok",
+     "views": 354900,
+     "er": 5.4
+    },
+    {
+     "type": "facebook",
+     "views": 92400,
+     "er": 7.4
+    },
+    {
+     "type": "instagram",
+     "views": 39360,
+     "er": 5.3
+    }
+   ]
+  }
+ },
+ "template": {
+  "style": "Kit Latte",
+  "niche": "เทคโนโลยี & แกดเจ็ต",
+  "goal": "C",
+  "why": "ชุด kit มุมเหลี่ยมบนสีลาเต้",
+  "persona": "poon",
+  "orient": "portfolio",
+  "page": {
+   "w": 402,
+   "h": 670
+  },
+  "pageCount": 3,
+  "seal": {
+   "w": 366,
+   "h": 232
+  }
+ }
+}

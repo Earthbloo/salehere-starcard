@@ -1,0 +1,196 @@
+{
+ "kind": "artTypeOver",
+ "design": {
+  "w": 366,
+  "h": 367
+ },
+ "widget": {
+  "title": "ตัวอักษรทับภาพ",
+  "category": "hero",
+  "symbol": "textformat.alt",
+  "order": 0,
+  "ownSurface": true,
+  "photo": true,
+  "motion": "anchored",
+  "replaces": [
+   "artPortrait",
+   "artPolaroid",
+   "heroAura"
+  ]
+ },
+ "notes": "รูป 1 มุม 20 + scrim ครึ่งล่าง · ชื่อเล่นยักษ์ bold 76 (= min(w,h)·0.235·0.88 ที่กรอบดีไซน์) kerning −2% ย่อได้ถึง 28% คร่อมขอบล่างรูป (baseline = photoH − fs·1.16 → กล่องข้อความล้นใต้รูป ≈ 8) · สองสี: ชั้นสีเน้น (อ่านอย่างเดียว) อยู่ล่าง + ชั้นขาว (ช่องแก้ได้) ถูก clip ด้วยกล่องรูป = มาสก์ของต้นฉบับ · ใต้รูป 46: ชื่อ 14/600 + ตรา + สายงาน 8.5/600 tracking 2 · scrub (เส้นแบ่งไหล/ไถล) ไม่อยู่ในผัง · แปลงจาก ArtWidgets.swift (ArtTypeOver) · ตราข้างชื่อ = verifiedSeal Ø13.6 (StarSeal(size 10) = VerifiedSeal radius 6.8 — ไอคอน starSeal ล้นกรอบ 1.36× แล้วถูก clip เป็นสี่เหลี่ยม)",
+ "root": {
+  "type": "col",
+  "children": [
+   {
+    "type": "stack",
+    "id": "photoBlock",
+    "grow": 1,
+    "children": [
+     {
+      "type": "col",
+      "children": [
+       {
+        "type": "stack",
+        "id": "photoArea",
+        "grow": 1,
+        "children": [
+         {
+          "type": "image",
+          "photo": 1,
+          "radius": 20,
+          "id": "photo"
+         },
+         {
+          "type": "col",
+          "id": "scrim",
+          "children": [
+           {
+            "type": "spacer",
+            "grow": 1
+           },
+           {
+            "type": "rect",
+            "grow": 1,
+            "radius": 20,
+            "gradient": {
+             "from": "clear",
+             "to": "black@0.45",
+             "angle": 90
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 8
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "giantUnder",
+      "pad": [
+       0,
+       11,
+       0,
+       11
+      ],
+      "children": [
+       {
+        "type": "text",
+        "slot": "nickname",
+        "face": "noto",
+        "weight": 700,
+        "size": 76,
+        "shrinkTo": 21,
+        "kerning": -1.5,
+        "maxLines": 1,
+        "color": "accent",
+        "place": "bottom-left",
+        "dy": 8
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "giantOver",
+      "children": [
+       {
+        "type": "stack",
+        "grow": 1,
+        "clip": true,
+        "radius": 20,
+        "pad": [
+         0,
+         11,
+         0,
+         11
+        ],
+        "children": [
+         {
+          "type": "text",
+          "id": "giant",
+          "slot": "nickname",
+          "face": "noto",
+          "weight": 700,
+          "size": 76,
+          "shrinkTo": 21,
+          "kerning": -1.5,
+          "maxLines": 1,
+          "color": "white",
+          "place": "bottom-left",
+          "dy": 16
+         }
+        ]
+       },
+       {
+        "type": "spacer",
+        "h": 8
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "footer",
+    "h": 46,
+    "pad": [
+     2,
+     0,
+     0,
+     13
+    ],
+    "gap": 2,
+    "align": "start",
+    "children": [
+     {
+      "type": "row",
+      "gap": 5,
+      "align": "center",
+      "w": "fill",
+      "children": [
+       {
+        "type": "text",
+        "id": "name",
+        "slot": "name",
+        "face": "noto",
+        "weight": 600,
+        "size": 14,
+        "maxLines": 1,
+        "color": "ink@0.9"
+       },
+       {
+        "type": "icon",
+        "icon": "verifiedSeal",
+        "size": 13.6,
+        "tint": "ink@0.9",
+        "if": "owner.verified"
+       },
+       {
+        "type": "spacer",
+        "grow": 1
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "id": "tagline",
+      "slot": "tagline",
+      "face": "noto",
+      "weight": 600,
+      "size": 8.5,
+      "tracking": 2,
+      "textCase": "upper",
+      "maxLines": 1,
+      "color": "ink@0.45",
+      "w": "fill"
+     }
+    ]
+   }
+  ]
+ }
+}

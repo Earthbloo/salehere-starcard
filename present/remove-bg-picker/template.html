@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เลือกรูปลบพื้นหลัง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F9FAFB; --card: #FFFFFF; --line: #E5E7EB; --line2: #D1D5DB;
+    --ink: #111827; --ink2: #4B5563; --ink3: #9CA3AF;
+    --sel: #F3F4F6; --chip: #FFFFFF; --stage: #F3F4F6; --tag: #F3F4F6;
+    --person: #FEF3C7; --personInk: #92400E;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Anuphan', -apple-system, system-ui, sans-serif; }
+  body { padding-bottom: 96px; }
+  header { padding: 28px 24px 8px; max-width: 1440px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--ink2); font-size: 15px; }
+  header code { background: var(--tag); padding: 1px 6px; border-radius: 6px; font-size: 13px; }
+
+  .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
+         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar-in { max-width: 1440px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .chip { border: 1px solid var(--line); background: var(--chip); color: var(--ink); border-radius: 999px; padding: 7px 14px;
+          font: 500 14px 'Anuphan', sans-serif; cursor: pointer; white-space: nowrap; }
+  .chip span { color: var(--ink3); margin-left: 4px; font-weight: 400; }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip.on span { color: #D1D5DB; }
+  .sp { flex: 1; }
+  .tog { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink2); cursor: pointer; user-select: none; }
+  .tog input { width: 16px; height: 16px; accent-color: var(--ink); }
+
+  main { max-width: 1440px; margin: 0 auto; padding: 8px 24px 24px; }
+  section { margin-top: 22px; }
+  section h2 { font-size: 17px; font-weight: 600; margin: 0 0 12px; display: flex; gap: 8px; align-items: baseline; }
+  section h2 small { color: var(--ink3); font-weight: 400; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+
+  .w { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .w.picked { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .w.none { opacity: .55; }
+  .stage { height: 210px; background: var(--stage); display: flex; align-items: center; justify-content: center; padding: 12px; cursor: zoom-in; }
+  .stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
+  .stage .noimg { color: var(--ink3); font-size: 13px; }
+  .meta { padding: 10px 12px 4px; }
+  .meta b { display: block; font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .meta code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink3); }
+  .slots { padding: 4px 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .slot { display: flex; gap: 8px; align-items: flex-start; padding: 7px 6px; border-radius: 10px; cursor: pointer; border: 1px solid transparent; }
+  .slot:hover { background: var(--sel); }
+  .slot.on { background: var(--sel); border-color: var(--ink); }
+  .slot input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ink); flex: none; }
+  .slot .t { font-size: 14px; line-height: 1.35; }
+  .slot .t b { font-weight: 600; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+  .tag { font-size: 11.5px; background: var(--tag); color: var(--ink2); border-radius: 6px; padding: 1px 6px; }
+  .tag.p { background: var(--person); color: var(--personInk); }
+  .empty { padding: 4px 12px 12px; color: var(--ink3); font-size: 13px; }
+
+  .foot { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--card); border-top: 1px solid var(--line); }
+  .foot-in { max-width: 1440px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 10px; align-items: center; }
+  .foot .n { font-size: 15px; } .foot .n b { font-size: 18px; }
+  .btn { border: 1px solid var(--line2); background: var(--card); color: var(--ink); border-radius: 12px; padding: 10px 16px; font: 600 15px 'Anuphan', sans-serif; cursor: pointer; }
+  .btn.pri { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .toast { position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 9; }
+  .toast.show { opacity: 1; }
+
+  dialog { border: none; border-radius: 18px; padding: 0; max-width: min(92vw, 720px); background: var(--card); color: var(--ink); }
+  dialog::backdrop { background: rgba(17,24,39,.55); }
+  .zoom { padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .zoom img { max-width: 100%; max-height: 78vh; object-fit: contain; }
+  .zoom textarea { width: min(80vw, 640px); height: 50vh; font: 12px ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+
+  @media (max-width: 600px) {
+    header, .bar-in, main, .foot-in { padding-left: 16px; padding-right: 16px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .stage { height: 160px; }
+    .foot-in { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>รูปไหนต้องลบพื้นหลัง</h1>
+  <p>ติ๊กช่องรูปที่ต้องการให้ใส่ <code>"removeBg": true</code> แล้วกดคัดลอกผลลัพธ์ส่งกลับมา</p>
+</header>
+<div class="bar"><div class="bar-in" id="chips"></div></div>
+<main id="list"></main>
+<div class="foot"><div class="foot-in">
+  <div class="n" id="count"></div>
+  <div class="sp"></div>
+  <button class="btn" id="clear">ล้าง</button>
+  <button class="btn pri" id="copy">คัดลอกผลลัพธ์</button>
+</div></div>
+<div class="toast" id="toast"></div>
+<dialog id="dlg"><div class="zoom" id="dlgBody"></div></dialog>
+
+<script>
+const DATA = /*__DATA__*/null;
+const KEY = 'rbg-picker-v2';
+let picked = {};
+try { picked = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { picked = {}; }
+for (const w of DATA.widgets) for (const s of w.slots) if (s.already) (picked[w.kind] ||= {})[s.key] = true;
+let group = 'all', onlyPhotos = false, onlyPicked = false;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picked)); } catch (e) {} };
+const isOn = (k, key) => !!(picked[k] && picked[k][key]);
+const nPicked = () => Object.values(picked).reduce((a, m) => a + Object.values(m).filter(Boolean).length, 0);
+const wPicked = () => Object.values(picked).filter(m => Object.values(m).some(Boolean)).length;
+
+function visible(w) {
+  if (group !== 'all' && w.group !== group) return false;
+  if (onlyPhotos && !w.slots.length) return false;
+  if (onlyPicked && !w.slots.some(s => isOn(w.kind, s.key))) return false;
+  return true;
+}
+
+function renderChips() {
+  const cnt = g => DATA.widgets.filter(w => g === 'all' || w.group === g).length;
+  const chips = [['all', 'ทั้งหมด'], ...DATA.groups].filter(([g]) => cnt(g) > 0)
+    .map(([g, t]) => `<button class="chip ${group === g ? 'on' : ''}" data-g="${g}">${esc(t)}<span>${cnt(g)}</span></button>`).join('');
+  $('#chips').innerHTML = chips + `<div class="sp"></div>
+    <label class="tog"><input type="checkbox" id="op" ${onlyPhotos ? 'checked' : ''}>เฉพาะที่มีรูป</label>
+    <label class="tog"><input type="checkbox" id="pk" ${onlyPicked ? 'checked' : ''}>เฉพาะที่เลือก</label>`;
+}
+
+function slotHTML(w, s) {
+  const tags = [];
+  if (s.person) tags.push(`<span class="tag p">รูปคน</span>`);
+  if (s.cutout && s.framed) tags.push(`<span class="tag">มี 2 ท่า: มีพื้น = ในกรอบ · ลบพื้น = คนยืน</span>`);
+  else if (s.cutout) tags.push(`<span class="tag">มีท่าคนยืน</span>`);
+  if (s.mono) tags.push(`<span class="tag">ขาวดำ</span>`);
+  return `<label class="slot ${isOn(w.kind, s.key) ? 'on' : ''}">
+    <input type="checkbox" data-k="${w.kind}" data-s="${esc(s.key)}" ${isOn(w.kind, s.key) ? 'checked' : ''}>
+    <div class="t"><b>${esc(s.label)}</b> · ${esc(s.desc)}<div class="tags">${tags.join('')}</div></div></label>`;
+}
+
+function cardHTML(w) {
+  const any = w.slots.some(s => isOn(w.kind, s.key));
+  const img = w.img ? `<img loading="lazy" src="${w.img}" alt="${esc(w.title)}">` : `<div class="noimg">ไม่มีพรีวิว</div>`;
+  return `<div class="w ${any ? 'picked' : ''} ${w.slots.length ? '' : 'none'}" data-kind="${w.kind}">
+    <div class="stage" data-zoom="${w.img || ''}">${img}</div>
+    <div class="meta"><b>${esc(w.title)}</b><code>${w.kind}</code></div>
+    ${w.slots.length ? `<div class="slots">${w.slots.map(s => slotHTML(w, s)).join('')}</div>` : `<div class="empty">ไม่มีรูปในชิ้นนี้</div>`}
+  </div>`;
+}
+
+function renderList() {
+  const out = [];
+  for (const [g, t] of DATA.groups) {
+    const ws = DATA.widgets.filter(w => w.group === g && visible(w));
+    if (!ws.length) continue;
+    const ph = ws.filter(w => w.slots.length).length;
+    out.push(`<section><h2>${esc(t)} <small>${ws.length} ชิ้น · มีรูป ${ph}</small></h2><div class="grid">${ws.map(cardHTML).join('')}</div></section>`);
+  }
+  $('#list').innerHTML = out.join('') || `<p style="color:var(--ink3)">ไม่มีชิ้นที่ตรงกับตัวกรอง</p>`;
+  renderCount();
+}
+
+function renderCount() {
+  const n = nPicked();
+  $('#count').innerHTML = `เลือกแล้ว <b>${n}</b> ช่อง · ${wPicked()} widget`;
+  $('#copy').disabled = $('#clear').disabled = n === 0;
+}
+
+function result() {
+  const out = {};
+  for (const w of DATA.widgets) {
+    const ks = w.slots.filter(s => isOn(w.kind, s.key)).map(s => s.key);
+    if (ks.length) out[w.kind] = ks;
+  }
+  return JSON.stringify({ removeBg: out }, null, 1);
+}
+
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 1600); }
+
+document.addEventListener('click', e => {
+  const c = e.target.closest('.chip');
+  if (c) { group = c.dataset.g; renderChips(); renderList(); window.scrollTo({ top: 0 }); return; }
+  const z = e.target.closest('.stage');
+  if (z && z.dataset.zoom) { $('#dlgBody').innerHTML = `<img src="${z.dataset.zoom}">`; $('#dlg').showModal(); return; }
+  if (e.target.id === 'dlg') $('#dlg').close();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'op') { onlyPhotos = t.checked; renderList(); return; }
+  if (t.id === 'pk') { onlyPicked = t.checked; renderList(); return; }
+  if (t.dataset.k) {
+    const m = (picked[t.dataset.k] ||= {});
+    if (t.checked) m[t.dataset.s] = true; else delete m[t.dataset.s];
+    save();
+    t.closest('.slot').classList.toggle('on', t.checked);
+    const card = t.closest('.w');
+    card.classList.toggle('picked', !!card.querySelector('.slot input:checked'));
+    renderCount();
+  }
+});
+$('#clear').onclick = () => { if (!confirm('ล้างที่เลือกทั้งหมด?')) return; picked = {}; save(); renderList(); };
+$('#copy').onclick = async () => {
+  const txt = result();
+  try { await navigator.clipboard.writeText(txt); toast('คัดลอกแล้ว — วางในแชทได้เลย'); }
+  catch (e) { $('#dlgBody').innerHTML = `<b>คัดลอกข้อความนี้</b><textarea readonly>${esc(txt)}</textarea>`; $('#dlg').showModal(); $('#dlgBody textarea').select(); }
+};
+
+renderChips();
+renderList();
+</script>
+</body>
+</html>

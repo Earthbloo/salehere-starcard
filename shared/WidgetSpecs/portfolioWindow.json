@@ -250,6 +250,7 @@
             "type": "image",
             "id": "photo",
             "photo": 1,
+            "removeBg": true,
             "fit": "cover"
            }
           ]
@@ -347,6 +348,7 @@
           "id": "subject",
           "if": "cutout",
           "photo": 1,
+          "removeBg": true,
           "fit": "contain",
           "w": "100%",
           "h": "86.5%",
@@ -615,6 +617,7 @@
           "type": "image",
           "id": "photo",
           "photo": 1,
+          "removeBg": true,
           "fit": "cover"
          }
         ]
@@ -712,6 +715,7 @@
         "id": "subject",
         "if": "cutout",
         "photo": 1,
+        "removeBg": true,
         "fit": "contain",
         "w": "100%",
         "h": "86.5%",
