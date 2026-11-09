@@ -1,0 +1,391 @@
+<title>Star Card Lock Checklist</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: QA checklist — sticky progress bar, a live simulator (toggle rows → widgets lock), then one test case per Star Profile row with the locked widgets drawn as pictures. Sale Here tokens. */
+:root{
+  --bg:#F9FAFB; --panel:#FFFFFF; --panel2:#F3F4F6; --ink:#16181D; --ink2:#5F636B; --ink3:#9A9EA6; --line:#E5E7EB; --line2:#EEF0F2;
+  --red:#ED1C24; --redBg:#FDECEC; --ok:#1A7F3C; --okBg:#E8F5EC; --warn:#9A6200; --warnBg:#FFF4DB; --lockBg:#FFFFFF;
+  --font:"Noto Sans Thai",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111215; --panel:#1A1C20; --panel2:#22252A; --ink:#ECEDEF; --ink2:#A3A7AF; --ink3:#6E727A; --line:#2A2D33; --line2:#22252A;
+  --red:#FF5A5F; --redBg:#3A1A1C; --ok:#6BD08F; --okBg:#14301E; --warn:#F2C15E; --warnBg:#33280F; --lockBg:#1A1C20; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111215; --panel:#1A1C20; --panel2:#22252A; --ink:#ECEDEF; --ink2:#A3A7AF; --ink3:#6E727A; --line:#2A2D33; --line2:#22252A;
+  --red:#FF5A5F; --redBg:#3A1A1C; --ok:#6BD08F; --okBg:#14301E; --warn:#F2C15E; --warnBg:#33280F; --lockBg:#1A1C20; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.55;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+.wrap{max-width:1240px;margin:0 auto;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1{font-size:28px;font-weight:700;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:19px;font-weight:700;margin:0;letter-spacing:-.005em}
+h3{font-size:15px;font-weight:700;margin:0}
+p{margin:0}
+.eyebrow{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);font-weight:700}
+.sub{color:var(--ink2);max-width:72ch}
+code,.mono{font-family:var(--mono);font-size:12px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink3);font-size:12.5px}
+.meta b{color:var(--ink);font-weight:600}
+
+/* progress bar */
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.progress .track{flex:1 1 180px;height:8px;border-radius:999px;background:var(--panel2);overflow:hidden;min-width:120px}
+.progress .fill{height:100%;background:var(--ok);width:0%;transition:width .2s}
+.progress .fill.bad{background:var(--red)}
+.progress .num{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink2)}
+.progress .num b{color:var(--ink)}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.small{padding:4px 10px;font-size:12px}
+.btn:focus-visible,.chip:focus-visible,.seg button:focus-visible,.tile:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* panels */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.rule{background:var(--panel2);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.rule b{font-weight:600}
+.rule span{color:var(--ink2);font-size:13px}
+.lockdemo{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed var(--red);border-radius:8px;padding:2px 8px;font-size:12px;color:var(--red);font-weight:600;background:var(--redBg)}
+
+/* steps table */
+.steps{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line2);text-align:left;vertical-align:top}
+thead th{background:var(--panel2);font-size:12px;font-weight:600;color:var(--ink2)}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink2)}
+td .mono{color:var(--ink3)}
+
+/* chips */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar .lbl{font-size:12px;color:var(--ink3);margin-right:2px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.chip .box{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--ink3);display:inline-block;position:relative;flex:none}
+.chip.on{background:var(--okBg);border-color:var(--ok);color:var(--ink)}
+.chip.on .box{background:var(--ok);border-color:var(--ok)}
+.chip.on .box::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.chip.lockedOnly{opacity:.7}
+.chip .sub2{color:var(--ink3);font-size:11px}
+.counts{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}
+.counts b{font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums;margin-right:4px}
+.counts .okc b{color:var(--ok)}.counts .lkc b{color:var(--red)}
+
+/* widget grid */
+.catTitle{font-size:12.5px;font-weight:700;color:var(--ink2);margin:8px 0 6px;display:flex;gap:8px;align-items:baseline}
+.catTitle span{font-weight:500;color:var(--ink3);font-size:11.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+.tile{position:relative;background:var(--lockBg);border:1.5px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;min-width:0;text-align:left;font:inherit;color:inherit;cursor:default}
+.tile .pic{aspect-ratio:1/1;max-width:100%;border-radius:8px;background:var(--panel2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tile img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.tile .t{font-size:12.5px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.tile .k{font-family:var(--mono);font-size:10.5px;color:var(--ink3);overflow-wrap:anywhere}
+.tile .req{display:flex;flex-wrap:wrap;gap:3px}
+.tile .req i{font-style:normal;font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--panel2);color:var(--ink2)}
+.tile .req i.miss{background:var(--redBg);color:var(--red);font-weight:600}
+.tile.locked{border-style:dashed;border-color:var(--red)}
+.tile.locked img{opacity:.55;filter:saturate(.6)}
+.tile.locked .pic::after{content:"";position:absolute}
+.tile .lock{position:absolute;top:12px;left:12px;background:var(--panel);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:1px 6px;font-size:10.5px;font-weight:700;display:flex;gap:4px;align-items:center;max-width:calc(100% - 24px);line-height:1.3}
+.tile .lock svg{flex:none}
+.tile .okdot{position:absolute;top:12px;left:12px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--panel)}
+.tile.checkable{cursor:pointer}
+.tile.checkable .lock{max-width:calc(100% - 48px)}
+.tile .cb{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--ink3);background:var(--panel);display:flex;align-items:center;justify-content:center}
+.tile.checked .cb{background:var(--ok);border-color:var(--ok)}
+.tile.checked .cb::after{content:"";width:5px;height:10px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+.tile.checked{box-shadow:inset 0 0 0 1px var(--ok);border-color:var(--ok)}
+
+/* test case */
+.tc{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0}
+.tc.pass{border-color:var(--ok)}.tc.fail{border-color:var(--red)}
+.tc > summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.tc > summary::-webkit-details-marker{display:none}
+.tc .id{font-family:var(--mono);font-size:12px;color:var(--ink3);min-width:52px}
+.tc .ttl{font-weight:700;font-size:16px;flex:1 1 240px}
+.tc .ttl small{display:block;font-weight:500;color:var(--ink2);font-size:13px}
+.pill{border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;background:var(--panel2);color:var(--ink2);white-space:nowrap}
+.pill.lk{background:var(--redBg);color:var(--red)}
+.pill.ok{background:var(--okBg);color:var(--ok)}
+.pill.warn{background:var(--warnBg);color:var(--warn)}
+.pill.res{border:1px solid var(--line);background:var(--panel)}
+.tc .body{padding:0 20px 20px;display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line2)}
+.tc .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding-top:16px}
+.tc .block{display:flex;flex-direction:column;gap:6px;min-width:0}
+.tc .block h4{margin:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.tc ol,.tc ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.tc li{line-height:1.5}
+.tc .expect li::marker{color:var(--ok)}
+.pre{background:var(--panel2);border-radius:10px;padding:10px 12px;font-size:13px}
+.pre b{font-weight:600}
+.hint{font-size:12.5px;color:var(--ink2)}
+.gridhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+.gridhead h3 span{color:var(--ink3);font-weight:500;font-size:12.5px;margin-left:6px}
+.gridhead .btn{margin-left:auto}
+details.more{border:1px dashed var(--line);border-radius:10px;padding:8px 12px}
+details.more summary{cursor:pointer;font-size:13px;color:var(--ink2)}
+details.more .names{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+details.more .names span{font-size:11.5px;background:var(--panel2);border-radius:6px;padding:2px 7px;color:var(--ink2)}
+.result{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;border-top:1px solid var(--line2);padding-top:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:var(--panel);color:var(--ink2);font:inherit;font-size:13px;padding:6px 14px;cursor:pointer}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button.on.pass{background:var(--okBg);color:var(--ok);font-weight:700}
+.seg button.on.fail{background:var(--redBg);color:var(--red);font-weight:700}
+.result input[type=text]{flex:1 1 220px;min-width:0;font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:7px 12px}
+.result .tester{color:var(--ink3);font-size:12px}
+.foot{color:var(--ink3);font-size:12px;display:flex;flex-direction:column;gap:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.toast.show{opacity:1}
+@media (max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}.tc > summary{padding:14px 16px}.tc .body{padding:0 16px 16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <div class="eyebrow">Star Card · QA · Happy case</div>
+    <h1>ล็อกวิดเจ็ตตามขั้น Star Profile</h1>
+    <p class="sub">ไล่เช็กว่า "ถ้าเจ้าของการ์ดยังไม่กรอกขั้นนี้ วิดเจ็ตไหนต้องล็อก" ทีละขั้น ใบที่ต้องล็อกมีรูปให้ดูทุกใบ ติ๊กได้ทีละใบ ผลเก็บไว้ในเครื่องของคนเช็ก</p>
+    <div class="meta"><span>วิดเจ็ต <b id="mTotal">—</b> ใบ</span><span>เงื่อนไข <b>12</b> ตัว</span><span>Test case <b id="mTc">—</b> ข้อ</span><span>ที่มา <b>shared/WidgetSpecs/*.json → widget.requires</b></span><span>กติกา <b>shared/docs/STAR-CARD-LOCK.md</b></span><span>9 พ.ย. 2569</span></div>
+  </header>
+
+  <div class="progress" id="progress">
+    <span class="num">เช็กแล้ว <b id="pDone">0</b>/<span id="pAll">0</span></span>
+    <div class="track"><div class="fill" id="pFill"></div></div>
+    <span class="num">ผ่าน <b id="pPass" style="color:var(--ok)">0</b> · ไม่ผ่าน <b id="pFail" style="color:var(--red)">0</b></span>
+    <button class="btn small" id="btnCopy" type="button">คัดลอกผลสรุป</button>
+    <button class="btn small" id="btnReset" type="button">ล้างผล</button>
+  </div>
+
+  <section class="panel">
+    <h2>ก่อนเริ่ม · กติกาที่ใช้เช็ก</h2>
+    <div class="rules">
+      <div class="rule"><b>ล็อก = ขาดอย่างน้อย 1 เงื่อนไข</b><span>แต่ละใบประกาศใน JSON ว่ารอแถวไหน (<code>requires</code>) ขาดตัวเดียวก็ล็อก ใบที่ <code>requires: []</code> ไม่ล็อกเสมอ ชั้นข้อความไม่ล็อกเสมอ</span></div>
+      <div class="rule"><b>เช็กจากข้อมูลเจ้าของการ์ด</b><span>สูตรเดียวกับติ๊กถูกในหน้า Star Profile ถ้าแถวในหน้า Star Profile ติ๊กเขียว ใบที่รอแถวนั้นต้องปลดพร้อมกัน</span></div>
+      <div class="rule"><b>หน้าตาใบที่ล็อก</b><span>วาดใบจริงด้วยข้อมูลตัวอย่าง + กรอบประ + ป้าย <span class="lockdemo">🔒 ชื่อแถวที่ขาด</span> บนการ์ด = ป้ายกุญแจมุมใบ ขาดหลายแถว ป้ายโชว์ทุกแถวที่ขาด</span></div>
+      <div class="rule"><b>แตะใบล็อก</b><span>เปิดวิซาร์ดเฉพาะขั้นที่ขาด ต่อกันรวดเดียว → กรอกครบ → ใบถูกวางให้เลย ยกเว้น "ผลงานกับ Sale Here" (กรอกเองไม่ได้) และ KYC ที่รอตรวจ</span></div>
+      <div class="rule"><b>ล็อกเฉพาะฝั่งเจ้าของ</b><span>คนอื่นเปิดลิงก์การ์ด ไม่เห็นกรอบประ ป้าย หรือข้อมูลตัวอย่าง</span></div>
+      <div class="rule"><b>บัญชีทดสอบ</b><span>ใช้บัญชีใหม่ที่ยังไม่กรอกอะไรเลย แล้วกรอกเพิ่มทีละขั้นตาม TC-01 → TC-12 (TC-12 ผลงานกับ Sale Here ต้องใช้บัญชีที่มีแคมเปญรีวิวแล้ว)</span></div>
+    </div>
+    <div class="steps">
+      <table>
+        <thead><tr><th>#</th><th>แถวในหน้า Star Profile</th><th>ผ่านเมื่อ</th><th>ขั้นวิซาร์ดที่เปิดเมื่อแตะใบล็อก</th><th style="text-align:right">ใบที่รอ</th></tr></thead>
+        <tbody id="stepRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="sim">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2>ตัวจำลอง · ติ๊กขั้นที่กรอกแล้ว ดูว่าใบไหนล็อก</h2>
+      <p class="sub">ใช้เทียบกับหน้าจอจริง ตั้งค่าให้ตรงกับบัญชีทดสอบ แล้วไล่ดูว่าตู้วิดเจ็ตในแอปล็อก/ปลดตรงกับรูปนี้ทุกใบ</p>
+    </div>
+    <div class="bar" id="simChips"><span class="lbl">กรอกแล้ว:</span></div>
+    <div class="bar">
+      <button class="btn small" id="simNone" type="button">บัญชีใหม่ (ว่างหมด)</button>
+      <button class="btn small" id="simStar" type="button">ครบ 8 ขั้นสมัคร STAR</button>
+      <button class="btn small" id="simAll" type="button">ครบทุกอย่าง</button>
+      <div class="counts" style="margin-left:auto"><span class="okc"><b id="cOk">0</b>ใช้ได้</span><span class="lkc"><b id="cLk">0</b>ล็อก</span></div>
+    </div>
+    <div id="simGrid"></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2>Test cases</h2>
+      <p class="sub">แต่ละข้อ = บัญชีที่กรอกครบทุกอย่าง <b>ยกเว้นขั้นนั้นขั้นเดียว</b> ใบในรูปต้องล็อกทั้งหมด ใบอื่นต้องใช้ได้ แตะรูปเพื่อติ๊กว่าเช็กใบนั้นแล้ว</p>
+    </div>
+    <div id="tcs" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <div class="foot">
+    <span>ลำดับแถว = ลำดับหน้า Star Profile · เรทรับงานไม่มีแถวของตัวเอง (ป้ายราคาอยู่ในแถวช่องทาง) · ผลงานกับ Sale Here กรอกเองไม่ได้</span>
+    <span>สร้างจาก <code>shared/WidgetSpecs</code> ด้วย <code>present/widget-lock-testcases/build.mjs</code> · รูปจาก <code>present/widget-staritems/img</code></span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const WIDGETS = [{"kind":"aboutBehind","title":"ชื่อหลังภาพ","category":"intro","requires":["categories","about"],"pinned":false},{"kind":"aboutEditorial","title":"หน้าแนะนำตัว","category":"intro","requires":["about"],"pinned":false},{"kind":"aboutMe","title":"about me.","category":"intro","requires":["about"],"pinned":false},{"kind":"aboutText","title":"แนะนำตัว","category":"intro","requires":["categories","about"],"pinned":false},{"kind":"artDuo","title":"เบนโตะ","category":"photo","requires":["about"],"pinned":false},{"kind":"artFilmstrip","title":"แถบภาพ","category":"photo","requires":["about"],"pinned":false},{"kind":"artPair","title":"คู่แนวตั้ง","category":"photo","requires":["about"],"pinned":false},{"kind":"artPortfolio","title":"โปสเตอร์พอร์ต","category":"hero","requires":[],"pinned":false},{"kind":"artTypeOver","title":"ตัวอักษรทับภาพ","category":"hero","requires":["categories"],"pinned":false},{"kind":"audienceAge","title":"ช่วงอายุผู้ชม","category":"audience","requires":["insight"],"pinned":false},{"kind":"audienceLine","title":"ประโยคเดียว","category":"audience","requires":["insight"],"pinned":false},{"kind":"audienceMap","title":"ผู้ชมในประเทศ","category":"audience","requires":["insight"],"pinned":false},{"kind":"audiencePoster","title":"โปสเตอร์อินไซต์","category":"audience","requires":["insight"],"pinned":false},{"kind":"audienceSplit","title":"สัดส่วนผู้ชม","category":"audience","requires":["insight"],"pinned":false},{"kind":"contactCard","title":"นามบัตร","category":"contact","requires":["contact"],"pinned":false},{"kind":"contactChips","title":"ชิปช่องทาง","category":"contact","requires":["contact"],"pinned":false},{"kind":"contactLine","title":"ไลน์ตัวใหญ่","category":"contact","requires":["contact"],"pinned":false},{"kind":"contactPoster","title":"โปสเตอร์ติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"contactQR","title":"คิวอาร์การ์ด","category":"contact","requires":[],"pinned":false},{"kind":"contactStack","title":"สามบรรทัด","category":"contact","requires":["contact"],"pinned":false},{"kind":"galleryCarousel","title":"สไลด์การ์ด","category":"photo","requires":["about"],"pinned":false},{"kind":"galleryFilm","title":"ฟิล์ม 35 มม.","category":"photo","requires":["about"],"pinned":false},{"kind":"galleryMasonry","title":"บอร์ดพิน","category":"photo","requires":["about"],"pinned":false},{"kind":"galleryPost","title":"โพสต์โซเชียล","category":"photo","requires":["about"],"pinned":false},{"kind":"galleryStack","title":"กองรูปซ้อน","category":"photo","requires":["about"],"pinned":false},{"kind":"heroMinimal","title":"ชื่อมินิมอล","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitBioCream","title":"About Me","category":"intro","requires":["about"],"pinned":false},{"kind":"kitBioGingham","title":"About Me","category":"intro","requires":["about"],"pinned":false},{"kind":"kitBioMac","title":"About Me","category":"intro","requires":["about"],"pinned":false},{"kind":"kitBioNight","title":"About Me","category":"intro","requires":["about"],"pinned":false},{"kind":"kitBioPurple","title":"About Me","category":"intro","requires":["about"],"pinned":false},{"kind":"kitBodyCream","title":"สัดส่วน","category":"body","requires":["body"],"pinned":false},{"kind":"kitBodyGingham","title":"สัดส่วน","category":"body","requires":["body"],"pinned":false},{"kind":"kitBodyMac","title":"สัดส่วน","category":"body","requires":["body"],"pinned":false},{"kind":"kitBodyNight","title":"สัดส่วน","category":"body","requires":["body"],"pinned":false},{"kind":"kitBodyPurple","title":"สัดส่วน","category":"body","requires":["body"],"pinned":false},{"kind":"kitContactCream","title":"ช่องทางติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"kitContactGingham","title":"ช่องทางติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"kitContactMac","title":"ช่องทางติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"kitContactNight","title":"ช่องทางติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"kitContactPurple","title":"ช่องทางติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"kitInsightCream","title":"Insight","category":"audience","requires":["insight"],"pinned":false},{"kind":"kitInsightGingham","title":"Insight","category":"audience","requires":["insight"],"pinned":false},{"kind":"kitInsightMac","title":"Insight","category":"audience","requires":["insight"],"pinned":false},{"kind":"kitInsightNight","title":"Insight","category":"audience","requires":["insight"],"pinned":false},{"kind":"kitInsightPurple","title":"Insight","category":"audience","requires":["insight"],"pinned":false},{"kind":"kitNicheCream","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"kitNicheGingham","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"kitNicheMac","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"kitNicheNight","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"kitNichePurple","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"kitProfileCream","title":"รูปโปรไฟล์","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitProfileGingham","title":"รูปโปรไฟล์","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitProfileMac","title":"รูปโปรไฟล์","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitProfileNight","title":"รูปโปรไฟล์","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitProfilePurple","title":"รูปโปรไฟล์","category":"hero","requires":["categories"],"pinned":false},{"kind":"kitRateCream","title":"เรทรับงาน","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"kitRateGingham","title":"เรทรับงาน","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"kitRateMac","title":"เรทรับงาน","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"kitRateNight","title":"เรทรับงาน","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"kitRatePurple","title":"เรทรับงาน","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"kitSocialCream","title":"Social Media","category":"followers","requires":["socials"],"pinned":false},{"kind":"kitSocialGingham","title":"Social Media","category":"followers","requires":["socials"],"pinned":false},{"kind":"kitSocialMac","title":"Social Media","category":"followers","requires":["socials"],"pinned":false},{"kind":"kitSocialNight","title":"Social Media","category":"followers","requires":["socials"],"pinned":false},{"kind":"kitSocialPurple","title":"Social Media","category":"followers","requires":["socials"],"pinned":false},{"kind":"kitTimeCream","title":"วันเวลาและพื้นที่รับงาน","category":"availability","requires":["provinces","availability"],"pinned":false},{"kind":"kitTimeGingham","title":"วันเวลาและพื้นที่รับงาน","category":"availability","requires":["provinces","availability"],"pinned":false},{"kind":"kitTimeMac","title":"วันเวลาและพื้นที่รับงาน","category":"availability","requires":["provinces","availability"],"pinned":false},{"kind":"kitTimeNight","title":"วันเวลาและพื้นที่รับงาน","category":"availability","requires":["provinces","availability"],"pinned":false},{"kind":"kitTimePurple","title":"วันเวลาและพื้นที่รับงาน","category":"availability","requires":["provinces","availability"],"pinned":false},{"kind":"kitWorksCream","title":"รูปผลงาน","category":"photo","requires":["about"],"pinned":false},{"kind":"kitWorksGingham","title":"รูปผลงาน","category":"photo","requires":["about"],"pinned":false},{"kind":"kitWorksMac","title":"รูปผลงาน","category":"photo","requires":["about"],"pinned":false},{"kind":"kitWorksNight","title":"รูปผลงาน","category":"photo","requires":["about"],"pinned":false},{"kind":"kitWorksPurple","title":"รูปผลงาน","category":"photo","requires":["about"],"pinned":false},{"kind":"nichePoster","title":"โปสเตอร์สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"nicheTags","title":"สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"popContactGlass","title":"ช่องทางติดต่อสามแถว กระจกชมพู","category":"contact","requires":["contact"],"pinned":false},{"kind":"popContactPaper","title":"ช่องทางติดต่อสามแถว กระดาษเทป","category":"contact","requires":["contact"],"pinned":false},{"kind":"popHeroGlass","title":"ป้ายชื่อ กระจกชมพู","category":"hero","requires":["kind","provinces"],"pinned":false},{"kind":"popHeroPaper","title":"ป้ายชื่อ กระดาษเทป","category":"hero","requires":["kind","provinces"],"pinned":false},{"kind":"popNicheGlass","title":"สายงานแบบลิสต์ กระจกชมพู","category":"tags","requires":["categories"],"pinned":false},{"kind":"popNichePaper","title":"สายงานแบบลิสต์ กระดาษเทป","category":"tags","requires":["categories"],"pinned":false},{"kind":"popStatsGlass","title":"ผู้ติดตามสามช่อง กระจกชมพู","category":"followers","requires":["socials"],"pinned":false},{"kind":"popVideoGlass","title":"หน้าต่างวิดีโอ กระจกชมพู","category":"photo","requires":[],"pinned":false},{"kind":"popVideoPaper","title":"หน้าต่างวิดีโอ กระดาษเทป","category":"photo","requires":[],"pinned":false},{"kind":"popWorkGlass","title":"ผลงานสามใบ กระจกชมพู","category":"photo","requires":["about"],"pinned":false},{"kind":"popWorkPaper","title":"ผลงานสามใบ กระดาษเทป","category":"photo","requires":["work"],"pinned":false},{"kind":"portfolioGingham","title":"พอร์ตผ้าปิกนิก","category":"hero","requires":[],"pinned":false},{"kind":"portfolioWindow","title":"หน้าต่างพอร์ต","category":"hero","requires":[],"pinned":false},{"kind":"proofSeal","title":"ตรารับรอง Sale Here","category":"seal","requires":["kyc"],"pinned":true},{"kind":"proofTicket","title":"ตั๋วผลงาน","category":"verified","requires":["about","work"],"pinned":false},{"kind":"proofWork","title":"ผลงานที่ยืนยันแล้ว","category":"verified","requires":["about","work"],"pinned":false},{"kind":"rateTags","title":"ป้ายราคา","category":"rate","requires":["socials","rate"],"pinned":false},{"kind":"reelShowcase","title":"คลิปล่าสุด","category":"showcase","requires":["about"],"pinned":false},{"kind":"scrapAbout","title":"รู้จักตัวฉัน","category":"intro","requires":["about","provinces"],"pinned":false},{"kind":"scrapBadge","title":"บัตรครีเอเตอร์","category":"hero","requires":["categories"],"pinned":false},{"kind":"scrapFeed","title":"ฟีดของฉัน","category":"followers","requires":["categories","about"],"pinned":false},{"kind":"scrapInfo","title":"บัตรข้อมูลของฉัน","category":"intro","requires":["categories","provinces"],"pinned":false},{"kind":"scrapKeyTab","title":"พวงกุญแจโซเชียล","category":"followers","requires":["socials"],"pinned":false},{"kind":"scrapNote","title":"โน้ตติดต่อ","category":"contact","requires":["contact"],"pinned":false},{"kind":"scrapPhones","title":"กำแพงมือถือ","category":"photo","requires":["about"],"pinned":false},{"kind":"scrapStats","title":"สถิติผู้ชม","category":"audience","requires":["socials","insight"],"pinned":false},{"kind":"scrapTags","title":"ป้ายห้อยสายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"socialChips","title":"ผู้ติดตามแบบแถว","category":"followers","requires":["socials"],"pinned":false},{"kind":"socialGingham","title":"ช่องทางผ้าปิกนิก","category":"followers","requires":["socials"],"pinned":false},{"kind":"socialTiles","title":"ผู้ติดตามแบบชิป","category":"followers","requires":["socials"],"pinned":false},{"kind":"socialWindow","title":"หน้าต่างช่องทาง","category":"followers","requires":["socials"],"pinned":false},{"kind":"statGiant","title":"ตัวเลขยักษ์","category":"followers","requires":["socials"],"pinned":false},{"kind":"statPoster","title":"โปสเตอร์ผู้ติดตาม","category":"followers","requires":["socials"],"pinned":false},{"kind":"stickerTags","title":"สติกเกอร์สายงาน","category":"tags","requires":["categories"],"pinned":false},{"kind":"wallMemory","title":"บอร์ดรูปติดหมุด","category":"photo","requires":["about"],"pinned":false},{"kind":"wallPolaroid","title":"กำแพงโพลารอยด์","category":"verified","requires":["about","work"],"pinned":false},{"kind":"workFeatured","title":"ผลงานชิ้นเด่น","category":"photo","requires":["about"],"pinned":false},{"kind":"workReel","title":"คลิปแนวตั้ง","category":"photo","requires":["about"],"pinned":false}];
+const STEPS = [
+  {id:'kind',         row:'ประเภทครีเอเตอร์',  pass:'เลือกประเภทครีเอเตอร์แล้ว',                                               wiz:'ประเภทครีเอเตอร์', star:true},
+  {id:'socials',      row:'ช่องทางของฉัน',      pass:'ผูกโซเชียลอย่างน้อย 1 ช่องทาง',                                            wiz:'ช่องทางของฉัน', star:true},
+  {id:'rate',         row:'เรทรับงาน',           pass:'มีช่องทางที่ตั้งราคา > 0 อย่างน้อย 1 ช่อง (รูป · คลิปสั้น · คลิปยาว · แชร์)', wiz:'ช่องทางของฉัน (ป้ายราคาในแถวช่องทาง)', note:'ไม่มีแถวของตัวเอง ใบที่รอเรทรอช่องทางด้วยเสมอ'},
+  {id:'categories',   row:'สายที่ใช่',           pass:'เลือกสายงานอย่างน้อย 1 สาย',                                               wiz:'สายที่ใช่', star:true},
+  {id:'about',        row:'เกี่ยวกับคุณ',        pass:'มีครบ: รูปครีเอเตอร์ + ผลงาน + คลิป + แนะนำตัว',                             wiz:'เกี่ยวกับคุณ (มีเดีย)', star:true},
+  {id:'provinces',    row:'พื้นที่รับงาน',        pass:'เลือกจังหวัดอย่างน้อย 1',                                                  wiz:'พื้นที่รับงาน', star:true},
+  {id:'availability', row:'วันเวลาว่างรับงาน',   pass:'เลือกวัน/ช่วงเวลาว่างอย่างน้อย 1',                                           wiz:'วันเวลาว่างรับงาน', star:true},
+  {id:'contact',      row:'ช่องทางติดต่อ',       pass:'มีทั้งเบอร์โทร และ LINE (เว็บไซต์ไม่นับ)',                                   wiz:'ช่องทางติดต่อ', star:true},
+  {id:'insight',      row:'ข้อมูลผู้ติดตาม',     pass:'อัปโหลดภาพ insight สำเร็จ (completed) อย่างน้อย 1 ช่องทาง',                  wiz:'ข้อมูลผู้ติดตาม'},
+  {id:'body',         row:'สัดส่วน',             pass:'กรอกอย่างน้อย 1 ค่า จาก น้ำหนัก ส่วนสูง อก เอว สะโพก รองเท้า',               wiz:'สัดส่วน'},
+  {id:'kyc',          row:'ยืนยันตัวตน',         pass:'คำขอ KYC ล่าสุดได้รับอนุมัติ (รอตรวจ / ถูกปฏิเสธ = ยังไม่ผ่าน)',             wiz:'ยืนยันตัวตน (เฉพาะยังไม่ส่ง หรือถูกปฏิเสธ)', star:true},
+  {id:'work',         row:'ผลงานกับ Sale Here',  pass:'มีงานที่รีวิวแล้วผ่าน Sale Here อย่างน้อย 1 (แบรนด์ที่ชนะแต่ยังไม่รีวิว ไม่นับ)', wiz:'— ไม่มีขั้น กรอกเองไม่ได้', noFill:true},
+];
+const STEP = Object.fromEntries(STEPS.map(s=>[s.id,s]));
+const ORDER = STEPS.map(s=>s.id);
+const CATS = {hero:'โปรไฟล์',followers:'ช่องทาง',tags:'สายที่ใช่',intro:'แนะนำตัว',rate:'เรทรับงาน',body:'สัดส่วน',availability:'วันเวลา · พื้นที่',audience:'ข้อมูลผู้ติดตาม',seal:'ตรารับรอง',photo:'รูปผลงาน',showcase:'โชว์เคส',verified:'ผลงานกับ Sale Here',contact:'ติดต่อ'};
+const CAT_ORDER = ['hero','followers','tags','intro','rate','body','availability','audience','seal','photo','showcase','verified','contact'];
+WIDGETS.sort((a,b)=> CAT_ORDER.indexOf(a.category)-CAT_ORDER.indexOf(b.category) || a.kind.localeCompare(b.kind));
+const byRow = id => WIDGETS.filter(w=>w.requires.includes(id));
+const sortRows = arr => [...arr].sort((a,b)=>ORDER.indexOf(a)-ORDER.indexOf(b));
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LOCK = '<svg width="9" height="11" viewBox="0 0 9 11" aria-hidden="true"><rect x="0.75" y="4.5" width="7.5" height="6" rx="1.2" fill="currentColor"/><path d="M2.3 4.5V3a2.2 2.2 0 0 1 4.4 0v1.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>';
+
+/* ---- storage ---- */
+const KEY='starcard-lock-tc-v1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const tcState = id => (state[id] ||= {result:'',note:'',widgets:{}});
+
+/* ---- header numbers + step table ---- */
+document.getElementById('mTotal').textContent=WIDGETS.length;
+document.getElementById('stepRows').innerHTML = STEPS.map((s,i)=>`<tr><td class="n">${i+1}</td><td><b>${esc(s.row)}</b> <span class="mono">${s.id}</span>${s.note?`<div class="hint">${esc(s.note)}</div>`:''}</td><td>${esc(s.pass)}</td><td>${esc(s.wiz)}</td><td class="n">${byRow(s.id).length}</td></tr>`).join('');
+
+/* ---- tile ---- */
+function tile(w, done, opts={}){
+  const miss = sortRows(w.requires.filter(r=>!done.has(r)));
+  const locked = miss.length>0;
+  const checked = opts.tc && tcState(opts.tc).widgets[w.kind];
+  const cls = ['tile', locked?'locked':'', opts.tc?'checkable':'', checked?'checked':''].filter(Boolean).join(' ');
+  const req = w.requires.length ? `<div class="req">${sortRows(w.requires).map(r=>`<i class="${done.has(r)?'':'miss'}">${esc(STEP[r]?.row||r)}</i>`).join('')}</div>` : `<div class="req"><i>ไม่ต้องรอ</i></div>`;
+  const badge = locked ? `<span class="lock">${LOCK}${esc(miss.map(r=>STEP[r]?.row||r).join(' · '))}</span>` : `<span class="okdot" title="ใช้ได้"></span>`;
+  const tag = opts.tc ? 'button' : 'div';
+  return `<${tag} class="${cls}" data-kind="${w.kind}" ${opts.tc?`type="button" data-tc="${opts.tc}" aria-pressed="${checked?'true':'false'}"`:''}>
+    <div class="pic"><img src="img/${w.kind}.jpg" loading="lazy" alt="${esc(w.title)}"></div>${badge}${opts.tc?'<span class="cb" aria-hidden="true"></span>':''}
+    <div class="t">${esc(w.title)}${w.pinned?' <span class="pill warn" style="font-size:10px;padding:1px 6px">ตรึงทุกการ์ด</span>':''}</div>
+    <div class="k">${w.kind}</div>${req}</${tag}>`;
+}
+function groupedGrid(list, done, opts){
+  return CAT_ORDER.filter(c=>list.some(w=>w.category===c)).map(c=>{
+    const ws=list.filter(w=>w.category===c);
+    return `<div class="catTitle">${esc(CATS[c]||c)}<span>${ws.length} ใบ</span></div><div class="grid">${ws.map(w=>tile(w,done,opts)).join('')}</div>`;
+  }).join('');
+}
+
+/* ---- simulator ---- */
+const simDone = new Set();
+const chips = document.getElementById('simChips');
+chips.insertAdjacentHTML('beforeend', STEPS.map(s=>`<button class="chip" type="button" data-id="${s.id}" aria-pressed="false"><span class="box"></span>${esc(s.row)}<span class="sub2">${byRow(s.id).length}</span></button>`).join(''));
+function renderSim(){
+  chips.querySelectorAll('.chip').forEach(c=>{const on=simDone.has(c.dataset.id);c.classList.toggle('on',on);c.setAttribute('aria-pressed',on)});
+  const lk = WIDGETS.filter(w=>w.requires.some(r=>!simDone.has(r))).length;
+  document.getElementById('cOk').textContent=WIDGETS.length-lk; document.getElementById('cLk').textContent=lk;
+  document.getElementById('simGrid').innerHTML = groupedGrid(WIDGETS, simDone);
+}
+chips.addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;const id=c.dataset.id;simDone.has(id)?simDone.delete(id):simDone.add(id);renderSim()});
+document.getElementById('simNone').onclick=()=>{simDone.clear();renderSim()};
+document.getElementById('simStar').onclick=()=>{simDone.clear();STEPS.filter(s=>s.star).forEach(s=>simDone.add(s.id));renderSim()};
+document.getElementById('simAll').onclick=()=>{ORDER.forEach(id=>simDone.add(id));renderSim()};
+renderSim();
+
+/* ---- test cases ---- */
+const ALL = new Set(ORDER);
+const FREE = WIDGETS.filter(w=>w.requires.length===0);
+const TCS = [];
+TCS.push({id:'TC-00', title:'บัญชีใหม่ ยังไม่กรอกอะไรเลย', small:'ใช้ได้แค่ 6 ใบที่ไม่ต้องรอ ที่เหลือล็อกทั้งหมด',
+  done:new Set(), locked:WIDGETS.filter(w=>w.requires.length>0), showAs:'free',
+  pre:'สมัครบัญชีใหม่ · ยังไม่ทำขั้นใดในหน้า Star Profile (ทุกแถวยังไม่ติ๊ก) · ยังไม่ส่ง KYC',
+  steps:['เข้า Star Profile → เปิด Star Card → เข้าหน้าแต่งการ์ด → เปิดตู้วิดเจ็ต','ไล่ดูทุกหมวดในตู้'],
+  expect:[`ใช้ได้ (ไม่มีกรอบประ ไม่มีป้าย) เฉพาะ ${FREE.length} ใบในรูปด้านล่าง`,`อีก ${WIDGETS.length-FREE.length} ใบ ล็อกทั้งหมด: กรอบประ + ป้ายชื่อแถวที่ขาด (วาดด้วยข้อมูลตัวอย่าง)`,'ตรารับรอง Sale Here ตรึงอยู่บนการ์ดอยู่แล้ว มีป้ายกุญแจ "ยืนยันตัวตน"','กดแชร์ / บันทึกรูป / คัดลอกลิงก์ → ขึ้นชีตด่าน ไม่ออกไปข้างนอก']});
+STEPS.forEach((s,i)=>{
+  const done = new Set(ORDER.filter(x=>x!==s.id));
+  const locked = byRow(s.id);
+  const n = String(i+1).padStart(2,'0');
+  let steps, expect, pre=`กรอกครบทุกแถวในหน้า Star Profile (ติ๊กเขียวหมด) และ KYC อนุมัติแล้ว <b>ยกเว้น "${s.row}"</b> ที่ยังไม่ทำ`;
+  if(s.id==='work'){
+    pre='บัญชีที่ครบทุกอย่าง (รวม KYC อนุมัติ) แต่ <b>ยังไม่มีแคมเปญที่รีวิวแล้วผ่าน Sale Here</b>';
+    steps=['เปิดตู้วิดเจ็ต ไล่ดู 4 ใบในรูป','แตะใบล็อก 1 ใบ','วางการ์ดจากเทมเพลตที่มี "ผลงานที่ยืนยันแล้ว" (proofWork) แล้วกดแชร์','สลับไปบัญชีที่มีงานรีวิวแล้ว ≥ 1 เปิดตู้อีกครั้ง'];
+    expect=['4 ใบในรูปล็อก ป้าย "ผลงานกับ Sale Here" · ใบอื่นทั้งหมดใช้ได้','แตะแล้ว <b>ไม่เปิดวิซาร์ด</b> สั่นเบา ๆ + ข้อความ "ปลดได้เมื่อมีงานรีวิวผ่าน Sale Here"','ชีตด่านมีแถว "ผลงานกับ Sale Here · ยังไม่มีงานที่รีวิว" พร้อมปุ่ม "เอาวิดเจ็ตนี้ออก" (ไม่มีปุ่มกรอกให้ครบ) → กด → ยืนยัน → ชิ้นหาย → แชร์ต่อได้','บัญชีที่มีงานรีวิวแล้ว: 4 ใบปลดล็อก ไม่ต้องทำอะไรเพิ่ม'];
+  } else if(s.id==='kyc'){
+    pre='กรอกครบทุกแถว (รวมมีงานรีวิวแล้ว) <b>ยกเว้นยังไม่ส่ง KYC</b>';
+    steps=['เข้าหน้าแต่งการ์ด ดูตรารับรอง Sale Here ที่ตรึงมุมการ์ด','แตะป้ายกุญแจที่ตรา','กดแชร์ / บันทึกรูป / คัดลอกลิงก์ / ตั้งเป็นการ์ดหลัก','ส่ง KYC แล้วรอผล (สถานะรอตรวจ) → กดแชร์อีกครั้ง','อนุมัติ KYC (แอดมิน) → กลับมาหน้าแต่ง → กดแชร์'];
+    expect=['ตรามีป้ายกุญแจ "ยืนยันตัวตน" (ใบเดียวที่รอ KYC · ตราเอาออกไม่ได้)','เปิดวิซาร์ดขั้นยืนยันตัวตน','ทุกทางออกขึ้นชีตด่าน มีแถว "ยืนยันตัวตน" กรอกได้ · ไม่ออกไปข้างนอก','สถานะรอตรวจ: แถว "รอตรวจ" ไม่มีปุ่ม ไม่เปิดวิซาร์ด ออกไม่ได้ · แตะตราก็ไม่เปิดวิซาร์ด บอก "รอตรวจยืนยันตัวตน"','อนุมัติแล้ว: ตราปลดล็อก · แชร์ผ่านทันทีไม่มีชีต'];
+  } else if(s.id==='rate'){
+    pre='กรอกครบทุกแถว ผูก IG แล้ว <b>แต่ยังไม่ตั้งราคาช่องทางไหนเลย</b>';
+    steps=['เปิดตู้วิดเจ็ต ไล่ดูใบในรูป','แตะใบล็อก 1 ใบ','ใส่ราคารูปของ IG = ฿1,000 → ปิดวิซาร์ด'];
+    expect=['ใบในรูปล็อก ป้าย "เรทรับงาน" (ช่องทางผ่านแล้ว ป้ายไม่ขึ้น "ช่องทางของฉัน")','เปิดวิซาร์ดขั้นช่องทางของฉัน (ป้ายราคาอยู่ในแถวช่องทาง) · ถ้ากดแชร์ ชีตเขียน "เชื่อมแล้ว · ยังไม่ได้ตั้งเรท"','ใบในรูปปลดล็อกทั้งหมด ใบที่แตะถูกวางบนการ์ด'];
+  } else {
+    steps=['เปิดตู้วิดเจ็ต ไล่ดูใบในรูปทุกใบ','ไล่ดูใบอื่นนอกรูป','แตะใบล็อก 1 ใบ',`กรอก "${s.row}" ให้ผ่าน → ปิดวิซาร์ด`,'กลับไปหน้า Star Profile'];
+    expect=[`ทุกใบในรูป ล็อก: กรอบประ + ป้าย "${s.row}" (ขึ้นชื่อแถวนี้แถวเดียว เพราะแถวอื่นผ่านแล้ว)`,'ใบอื่นทั้งหมดใช้ได้ ไม่มีกรอบประ ไม่มีป้าย',`เปิดวิซาร์ดขั้น "${s.wiz}" ขั้นเดียว ไม่พาไปขั้นอื่น`,'ใบที่แตะถูกวางบนการ์ดทันที · ใบในรูปทุกใบปลดล็อก',`แถว "${s.row}" ติ๊กเขียว (ติ๊กกับปลดล็อกต้องตรงกันเสมอ)`];
+    if(s.id==='contact') expect.push('กรอกแค่เบอร์โทร ยังไม่มี LINE → ยังล็อกอยู่ (ต้องมีทั้งคู่)');
+    if(s.id==='body') expect.push('กรอกส่วนสูงค่าเดียวก็พอ → ปลดล็อก');
+    if(s.id==='about') expect.push('ขาดรูปครีเอเตอร์ / ผลงาน / คลิป / แนะนำตัว อย่างใดอย่างหนึ่ง → ยังล็อก');
+  }
+  TCS.push({id:`TC-${n}`, title:`ขาด "${s.row}"`, small:`${locked.length} ใบต้องล็อก · อีก ${WIDGETS.length-locked.length} ใบใช้ได้`, done, locked, pre, steps, expect, step:s});
+});
+TCS.push({id:'TC-13', title:'ครบทุกอย่าง', small:'ทั้ง 116 ใบใช้ได้ แชร์ผ่านโดยไม่มีชีตด่าน',
+  done:ALL, locked:[], pre:'ทุกแถวในหน้า Star Profile ติ๊กเขียว · KYC อนุมัติ · ตั้งเรท ≥ 1 ช่อง · อัปโหลด insight แล้ว · กรอกสัดส่วน ≥ 1 ค่า · มีงานรีวิวแล้ว ≥ 1',
+  steps:['เปิดตู้วิดเจ็ต ไล่ดูทุกหมวด','วางใบจากทุกหมวดลงการ์ด แล้วกดแชร์ / บันทึกรูป / คัดลอกลิงก์','เปิดลิงก์การ์ดด้วยบัญชีอื่น (หรือไม่ล็อกอิน)'],
+  expect:[`ไม่มีใบไหนล็อก (${WIDGETS.length}/${WIDGETS.length} ใช้ได้) ไม่มีกรอบประ ไม่มีป้าย`,'ออกไปข้างนอกได้ทันที ไม่มีชีตด่าน','คนอื่นเห็นข้อมูลจริง ไม่มีป้ายล็อก ไม่มีข้อความ "ยังไม่มีข้อมูล" ไม่มีข้อมูลตัวอย่าง']});
+document.getElementById('mTc').textContent=TCS.length;
+
+function renderTc(tc){
+  const st=tcState(tc.id);
+  const list = tc.showAs==='free' ? FREE : tc.locked;
+  const gridTitle = tc.showAs==='free' ? `ใบที่ต้องใช้ได้<span>${FREE.length} ใบ · ที่เหลือ ${WIDGETS.length-FREE.length} ใบล็อก</span>` : `ใบที่ต้องล็อก<span>${tc.locked.length} ใบ</span>`;
+  const others = tc.showAs==='free' ? WIDGETS.filter(w=>w.requires.length>0) : WIDGETS.filter(w=>!tc.locked.includes(w));
+  const othersLbl = tc.showAs==='free' ? `ดูรายชื่อ ${others.length} ใบที่ต้องล็อก` : `ดูรายชื่อ ${others.length} ใบที่ต้องใช้ได้`;
+  const checkedN = list.filter(w=>st.widgets[w.kind]).length;
+  const resPill = `<span class="pill ${st.result==='pass'?'ok':st.result==='fail'?'lk':'res'}" data-res="${tc.id}">${st.result==='pass'?'ผ่าน':st.result==='fail'?'ไม่ผ่าน':'ยังไม่เช็ก'}</span>`;
+  return `<details class="tc ${st.result}" id="${tc.id}" ${tc.id==='TC-00'?'open':''}>
+    <summary><span class="id">${tc.id}</span><span class="ttl">${esc(tc.title)}<small>${esc(tc.small)}</small></span>
+      ${tc.locked.length?`<span class="pill lk">${LOCK} ล็อก ${tc.locked.length}</span>`:''}<span class="pill">ใช้ได้ ${WIDGETS.length-tc.locked.length}</span>${list.length?`<span class="pill" data-count="${tc.id}">ติ๊กแล้ว ${checkedN}/${list.length}</span>`:''}${resPill}</summary>
+    <div class="body">
+      <div class="cols">
+        <div class="block"><h4>สภาพบัญชีก่อนเริ่ม</h4><div class="pre">${tc.pre}</div>${tc.step?.pass?`<div class="hint">ผ่านเมื่อ: ${esc(tc.step.pass)}</div>`:''}</div>
+        <div class="block"><h4>ขั้นตอน</h4><ol>${tc.steps.map(x=>`<li>${x}</li>`).join('')}</ol></div>
+        <div class="block"><h4>ต้องได้</h4><ul class="expect">${tc.expect.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      </div>
+      ${list.length?`<div class="gridhead"><h3>${gridTitle}</h3><button class="btn small" type="button" data-all="${tc.id}">ติ๊กทั้งหมด</button></div>
+      <div data-grid="${tc.id}">${groupedGrid(list, tc.done, {tc:tc.id})}</div>`:''}
+      <details class="more"><summary>${othersLbl}</summary><div class="names">${others.map(w=>`<span>${esc(w.title)} <code style="opacity:.7">${w.kind}</code></span>`).join('')}</div></details>
+      <div class="result">
+        <span class="tester">ผลการเช็ก</span>
+        <div class="seg" data-seg="${tc.id}"><button type="button" class="pass ${st.result==='pass'?'on':''}" data-r="pass">ผ่าน</button><button type="button" class="fail ${st.result==='fail'?'on':''}" data-r="fail">ไม่ผ่าน</button><button type="button" data-r="">ยังไม่เช็ก</button></div>
+        <input type="text" id="note-${tc.id}" placeholder="หมายเหตุ · เครื่อง / รุ่นแอป / ใบที่ไม่ตรง" value="${esc(st.note)}" aria-label="หมายเหตุ ${tc.id}">
+      </div>
+    </div></details>`;
+}
+const tcsEl=document.getElementById('tcs');
+tcsEl.innerHTML = TCS.map(renderTc).join('');
+
+function refreshTc(tc){
+  const st=tcState(tc.id);
+  const el=document.getElementById(tc.id);
+  el.classList.toggle('pass',st.result==='pass'); el.classList.toggle('fail',st.result==='fail');
+  el.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.r===st.result));
+  const list = tc.showAs==='free' ? FREE : tc.locked;
+  const cnt=el.querySelector(`[data-count="${tc.id}"]`); if(cnt) cnt.textContent=`ติ๊กแล้ว ${list.filter(w=>st.widgets[w.kind]).length}/${list.length}`;
+  const rp=el.querySelector(`[data-res="${tc.id}"]`); rp.className='pill '+(st.result==='pass'?'ok':st.result==='fail'?'lk':'res'); rp.textContent=st.result==='pass'?'ผ่าน':st.result==='fail'?'ไม่ผ่าน':'ยังไม่เช็ก';
+  progress();
+}
+tcsEl.addEventListener('click',e=>{
+  const t=e.target.closest('.tile.checkable'); if(t){const id=t.dataset.tc, k=t.dataset.kind; const st=tcState(id); st.widgets[k]=!st.widgets[k]; t.classList.toggle('checked',!!st.widgets[k]); t.setAttribute('aria-pressed',!!st.widgets[k]); save(); refreshTc(TCS.find(x=>x.id===id)); return}
+  const all=e.target.closest('[data-all]'); if(all){const tc=TCS.find(x=>x.id===all.dataset.all); const list=tc.showAs==='free'?FREE:tc.locked; const st=tcState(tc.id); const every=list.every(w=>st.widgets[w.kind]); list.forEach(w=>st.widgets[w.kind]=!every); save(); document.querySelector(`[data-grid="${tc.id}"]`).innerHTML=groupedGrid(list,tc.done,{tc:tc.id}); refreshTc(tc); return}
+  const r=e.target.closest('.seg button'); if(r){const id=r.parentElement.dataset.seg; tcState(id).result=r.dataset.r; save(); refreshTc(TCS.find(x=>x.id===id))}
+});
+tcsEl.addEventListener('input',e=>{const m=e.target.id?.match(/^note-(.+)$/); if(m){tcState(m[1]).note=e.target.value; save()}});
+
+function progress(){
+  const done=TCS.filter(t=>tcState(t.id).result).length, pass=TCS.filter(t=>tcState(t.id).result==='pass').length, fail=TCS.filter(t=>tcState(t.id).result==='fail').length;
+  document.getElementById('pDone').textContent=done; document.getElementById('pAll').textContent=TCS.length;
+  document.getElementById('pPass').textContent=pass; document.getElementById('pFail').textContent=fail;
+  const f=document.getElementById('pFill'); f.style.width=(done/TCS.length*100)+'%'; f.classList.toggle('bad',fail>0);
+}
+progress();
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._h);toast._h=setTimeout(()=>t.classList.remove('show'),1800)}
+document.getElementById('btnCopy').onclick=async()=>{
+  const lines=[`Star Card · ล็อกวิดเจ็ต · ผลเช็ก ${new Date().toLocaleDateString('th-TH')}`,''];
+  TCS.forEach(t=>{const st=tcState(t.id);const list=t.showAs==='free'?FREE:t.locked;const n=list.filter(w=>st.widgets[w.kind]).length;lines.push(`${t.id} ${t.title} — ${st.result==='pass'?'ผ่าน':st.result==='fail'?'ไม่ผ่าน':'ยังไม่เช็ก'}${list.length?` (ติ๊ก ${n}/${list.length})`:''}${st.note?` · ${st.note}`:''}`)});
+  const txt=lines.join('\n');
+  try{await navigator.clipboard.writeText(txt);toast('คัดลอกแล้ว')}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();toast('เลือกข้อความแล้ว กด ⌘C');setTimeout(()=>ta.remove(),4000)}
+};
+let resetArmed=false;
+document.getElementById('btnReset').onclick=e=>{
+  if(!resetArmed){resetArmed=true;e.target.textContent='กดอีกครั้งเพื่อล้าง';setTimeout(()=>{resetArmed=false;e.target.textContent='ล้างผล'},2500);return}
+  state={};save();tcsEl.innerHTML=TCS.map(renderTc).join('');progress();resetArmed=false;e.target.textContent='ล้างผล';toast('ล้างผลแล้ว');
+};
+</script>
