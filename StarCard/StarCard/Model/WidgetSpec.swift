@@ -90,6 +90,8 @@ struct WidgetSpec: Codable, Equatable {
         var pinned: Bool? = nil
         /// ชื่อชนิดเก่าที่ถอดแล้ว — การ์ดเก่าที่มีชื่อพวกนี้เปิดมาเป็นใบนี้
         var replaces: [String]? = nil
+        /// ล็อกต่อวิดเจ็ต — แถวติ๊กถูกใน Star Profile ที่ต้องผ่านครบ (enum 12 ค่า · String เพื่อให้ค่าใหม่ไม่ทำผังพัง) · WIDGET-SPEC.md §3.3d
+        var requires: [String]? = nil
 
         struct StampAt: Codable, Equatable {
             var tone: String
@@ -445,6 +447,8 @@ struct SpecNode: Codable, Equatable {
     /// `"cover"` (ตั้งต้น) · `"contain"`
     var fit: String? = nil
     var mono: Bool? = nil
+    /// ช่องรูปครีเอเตอร์ (photo 1–3) ต้องใช้รูปตัดพื้นหลัง — แอปตัดให้เองก่อนวาด · WIDGET-SPEC.md §3.1
+    var removeBg: Bool? = nil
 
     // MARK: ไอคอน
     /// `"starLockup"` · `"starSeal"` · `"ph:check"` · `"sh:instagram"` · `"$platform"` (จากรายการ)

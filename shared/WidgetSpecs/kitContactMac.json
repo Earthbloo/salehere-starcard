@@ -7,6 +7,9 @@
  "widget": {
   "title": "ช่องทางติดต่อ",
   "category": "contact",
+  "requires": [
+   "contact"
+  ],
   "symbol": "qrcode",
   "order": 100,
   "ownSurface": true,

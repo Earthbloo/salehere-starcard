@@ -7,6 +7,10 @@
  "widget": {
   "title": "รู้จักตัวฉัน",
   "category": "intro",
+  "requires": [
+   "about",
+   "provinces"
+  ],
   "symbol": "person.crop.square",
   "size": {
    "w": 366,

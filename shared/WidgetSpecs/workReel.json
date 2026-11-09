@@ -7,6 +7,9 @@
  "widget": {
   "title": "คลิปแนวตั้ง",
   "category": "photo",
+  "requires": [
+   "about"
+  ],
   "symbol": "play.rectangle.fill",
   "order": 22,
   "photo": true,
@@ -53,6 +56,7 @@
    {
     "type": "col",
     "id": "platformMark",
+    "if": "list:works>0",
     "w": 25,
     "h": 25,
     "place": "bottom-left",

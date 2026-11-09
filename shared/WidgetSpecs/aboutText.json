@@ -7,6 +7,10 @@
  "widget": {
   "title": "แนะนำตัว",
   "category": "intro",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "text.alignleft",
   "order": 5,
   "motion": "light"

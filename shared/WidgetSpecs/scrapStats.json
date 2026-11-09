@@ -7,6 +7,10 @@
  "widget": {
   "title": "สถิติผู้ชม",
   "category": "audience",
+  "requires": [
+   "socials",
+   "insight"
+  ],
   "symbol": "chart.bar.xaxis",
   "size": {
    "w": 366,

@@ -7,6 +7,9 @@
  "widget": {
   "title": "ช่วงอายุผู้ชม",
   "category": "audience",
+  "requires": [
+   "insight"
+  ],
   "symbol": "chart.bar.fill",
   "order": 44,
   "stamp": "insight",

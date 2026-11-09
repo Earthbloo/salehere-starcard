@@ -7,6 +7,10 @@
  "widget": {
   "title": "วันเวลาและพื้นที่รับงาน",
   "category": "availability",
+  "requires": [
+   "provinces",
+   "availability"
+  ],
   "symbol": "calendar",
   "order": 91,
   "ownSurface": true,

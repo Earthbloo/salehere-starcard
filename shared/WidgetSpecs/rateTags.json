@@ -7,6 +7,10 @@
  "widget": {
   "title": "ป้ายราคา",
   "category": "rate",
+  "requires": [
+   "socials",
+   "rate"
+  ],
   "symbol": "tag.fill",
   "order": 34,
   "ownSurface": true,

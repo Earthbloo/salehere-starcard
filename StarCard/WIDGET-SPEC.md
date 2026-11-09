@@ -102,7 +102,8 @@ box   = (W / s − 2·inset, H / s − 2·inset)  กล่องรากใน
 | รูป | `photo` | ลำดับช่องรูปของชิ้น (0, 1, 2 …) |
 | | `photoRef` | ช่องรูปจากฟิลด์ของรายการ — `"$workPhoto"` (ชนะ `photo`) |
 | | `src` | รูปจาก asset/URL — `"$cover"` · `"$brandLogo"` · ว่าง = กลับไปใช้ช่องรูป |
-| | `fit` `mono` | `cover` (ตั้งต้น) / `contain` · ขาวดำ (รูป PNG ใสที่ผู้ใช้ตัดพื้นมาเองเป็นคัตเอาต์ได้ — แอปไม่ลบพื้นหลังให้ · `lift` ถูกถอด 19 ต.ค. 2569) |
+| | `fit` `mono` | `cover` (ตั้งต้น) / `contain` · ขาวดำ (รูป PNG ใสที่ผู้ใช้ตัดพื้นมาเองเป็นคัตเอาต์ได้ · `lift` ถูกถอด 19 ต.ค. 2569) |
+| | `removeBg` | `true` = ช่องนี้ต้องเป็นรูปตัดพื้นหลัง — **แอปตัดให้เองก่อนวาด ไม่มีปุ่ม** (6 พ.ย. 2569 · 9 ใบ) · ใส่ได้เฉพาะ `image` ที่ `photo` ช่อง 1–3 (รูปครีเอเตอร์) · ไม่ต้องตัด = ไม่ใส่ field (ห้าม `false`) · ตรวจโดย check-widgets ข้อ 5 |
 | ไอคอน | `icon` | ชื่อตาม §6 (`ph:<name>` `sh:<name>` `url:<https…>` `byline` `starLockup` …) · `$icon` / `$logo` / `$brandLogo` (จากรายการ) · `tint` |
 | รายการ | `list` `each` `limit` | ชนิด `chips`: วาดแม่แบบ `each` ซ้ำต่อชิ้นใน `list` |
 | | `where` | กรองชิ้นก่อนวาด — เงื่อนไขเดียวกับ `if` ต่อชิ้น เช่น `"!hidden:$platform"` · `"$viewsRaw>0"` |
@@ -181,6 +182,7 @@ box   = (W / s − 2·inset, H / s − 2·inset)  กล่องรากใน
 "widget": {
   "title": "หน้าต่างช่องทาง",        // ชื่อในตู้ (บังคับ)
   "category": "followers",          // หมวด = WidgetFamily ที่แอปมี (บังคับ) · อ่านข้อมูลได้เฉพาะ Model ของหมวด (shared/category-models.json)
+  "requires": ["socials"],          // ล็อกต่อวิดเจ็ต: แถวติ๊กถูกใน Star Profile ที่ต้องผ่านครบ · [] = ไม่ล็อก · §3.3d
   "symbol": "macwindow",            // SF Symbol ในตู้/แถบ
   "size": { "w": 504, "h": 124 },   // ขนาดตอนวาง · ไม่ใส่ = design
   "order": 16,                      // ลำดับในตู้ (ในหมวดเดียวกัน) · ไม่ใส่ = ท้ายสุด
@@ -235,7 +237,18 @@ front/backend ไม่ต้องรู้จักชื่อตัวเล
 |---|---|
 | ส่วนของตู้ `group` | เกี่ยวกับฉัน = hero seal intro text followers audience tags body · รับงาน = rate availability contact · ผลงาน = brand verified photo showcase |
 | ชั้นสิทธิ์ `tier` ตั้งต้น | connected = followers audience rate · verified = brand verified seal · อื่น = personal (ใบที่ต่างใส่ `widget.tier` ทับ เช่น `typeMarquee`) |
-| หัวข้อ Star Profile ที่ล็อก `topic` | hero/tags → สายงาน · followers → ช่องทาง · intro → แนะนำตัว · rate → เรต · audience → insight · seal → ยืนยันตัวตน · brand/verified → ผลงานผ่าน Sale Here · availability/body → ตามชื่อ · text/photo/showcase/contact ไม่ล็อก |
+| ~~หัวข้อ Star Profile ที่ล็อก `topic`~~ | **เลิกใช้ 8 พ.ย. 2569 → `widget.requires` (§3.3d)** · เดิม: hero/tags → สายงาน · followers → ช่องทาง · intro → แนะนำตัว · rate → เรต · audience → insight · seal → ยืนยันตัวตน · brand/verified → ผลงานผ่าน Sale Here · availability/body → ตามชื่อ |
+
+### 3.3d `widget.requires` — ล็อกต่อวิดเจ็ต (8 พ.ย. 2569)
+
+ใบนี้ **ล็อกจนกว่าทุกค่าใน `requires` จะผ่าน** · `[]` = ไม่ล็อก · ค่า = enum 12 ตัว เรียงตามนี้เสมอ:
+`kind` `socials` `categories` `about` `provinces` `availability` `contact` `kyc` (8 แถวหลัก = `starItems`) · `insight` `body` (ข้อมูลเตรียมไว้) · `rate` `work` (ไม่มีแถวของตัวเอง)
+
+- ไฟล์ผังเก็บแค่ **ชื่อ** · เงื่อนไขว่าแต่ละชื่อผ่านเมื่อไหร่อยู่ในแอป = ฟังก์ชันเดียวกับติ๊กถูกในหน้า Star Profile → `shared/docs/STAR-CARD-LOCK.md`
+- **ไม่เขียนมือ** — คิดจาก binding: `node shared/tools/check-widgets.mjs --write-requires` · ตรวจตรงกันทุกครั้งที่รัน check-widgets (ข้อ 4)
+- กติกาที่ตัวคิดใช้: ข้อมูลบัญชี (ชื่อ · @handle · ชื่อเล่น) ไม่นับ · รูป `photo` ช่อง (mod 12) 1–3 = รูปครีเอเตอร์ → avatar ไม่นับ · ช่องอื่น + `photoRef` = รูปผลงาน → `about` ·
+  อ่านแค่ใน `if`/`where`/`when` ไม่นับ · works/brands ที่ทุกจุด `limit: 1` (ไอคอนประดับ) ไม่นับ · หมวด `seal` = `kyc` · มี `rate` ต้องมี `socials` · variants นับรวมทุกแบบ
+- แอปอ่านเป็น **String** (ค่าใหม่ไม่ทำผังพัง) แล้วค่อยแปลงเป็น enum — ค่าที่ไม่รู้จัก = ไม่ผ่าน
 
 **ชั้นข้อความ** (`textBlock` ในไฟล์การ์ด) ไม่ใช่ widget — ไม่มีไฟล์ผัง ไม่อยู่ในตู้ · นิสัยของมันอยู่ที่ `TextBlock.layer` (iOS/Android · `WidgetKind.textLayer`) / `TEXT_LAYER_META` ใน `kinds.js` · กล่อง = ตัวอักษรพอดี วาดด้วย `CardScreen.fitTextBlock` · คีย์ในไฟล์การ์ดยังเป็น `textBlock` การ์ดเก่าจึงเปิดได้
 

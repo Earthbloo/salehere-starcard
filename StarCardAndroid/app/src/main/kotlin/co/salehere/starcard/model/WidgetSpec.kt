@@ -94,6 +94,8 @@ data class WidgetSpec(
         val pinned: Boolean? = null,
         /** ชื่อชนิดเก่าที่ถอดแล้ว — การ์ดเก่าที่มีชื่อพวกนี้เปิดมาเป็นใบนี้ */
         val replaces: List<String>? = null,
+        /** ล็อกต่อวิดเจ็ต — แถวติ๊กถูกใน Star Profile ที่ต้องผ่านครบ (enum 12 ค่า · String เพื่อให้ค่าใหม่ไม่ทำผังพัง) · WIDGET-SPEC.md §3.3d */
+        val requires: List<String>? = null,
     ) {
         @Serializable
         data class StampAt(val tone: String, val top: Double, val trailing: Double)
@@ -316,6 +318,8 @@ data class SpecNode(
     val src: String? = null,
     val fit: String? = null,
     val mono: Boolean? = null,
+    /** ช่องรูปครีเอเตอร์ (photo 1–3) ต้องใช้รูปตัดพื้นหลัง — แอปตัดให้เองก่อนวาด · WIDGET-SPEC.md §3.1 */
+    val removeBg: Boolean? = null,
 
     // ไอคอน
     val icon: String? = null,

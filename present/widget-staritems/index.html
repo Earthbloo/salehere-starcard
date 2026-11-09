@@ -1,0 +1,315 @@
+<meta charset="utf-8">
+<title>Widget ล็อกตามติ๊กถูก</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one dense matrix — widgets down, 8 starItems across, grouped by category; filter chips on top */
+:root{
+  --bg:#F9FAFB; --panel:#FFFFFF; --ink:#16181D; --ink2:#666A73; --ink3:#9A9EA6; --line:#E5E7EB; --line2:#F0F1F3;
+  --dot:#16181D; --opt:#B7BBC2; --new:#E8F5EC; --newInk:#1A7F3C; --chg:#FFF4DB; --chgInk:#9A6200; --free:#EEF2FF; --freeInk:#3D4FC4;
+  --chip:#F3F4F6; --on:#16181D; --onInk:#FFFFFF; --red:#ED1C24; --coreBg:#FFF6DF; --coreBg2:#FFFCF2; --prepBg:#F3F4F6;
+  --font:"Noto Sans Thai",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111215; --panel:#1A1C20; --ink:#ECEDEF; --ink2:#A3A7AF; --ink3:#6E727A; --line:#2A2D33; --line2:#22252A;
+  --dot:#ECEDEF; --opt:#5A5E66; --new:#14301E; --newInk:#6BD08F; --chg:#33280F; --chgInk:#F2C15E; --free:#1C2240; --freeInk:#9BA8FF;
+  --chip:#22252A; --on:#ECEDEF; --onInk:#111215; --coreBg:#2B2516; --coreBg2:#1F1C15; --prepBg:#23262B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111215; --panel:#1A1C20; --ink:#ECEDEF; --ink2:#A3A7AF; --ink3:#6E727A; --line:#2A2D33; --line2:#22252A;
+  --dot:#ECEDEF; --opt:#5A5E66; --new:#14301E; --newInk:#6BD08F; --chg:#33280F; --chgInk:#F2C15E; --free:#1C2240; --freeInk:#9BA8FF;
+  --chip:#22252A; --on:#ECEDEF; --onInk:#111215; --coreBg:#2B2516; --coreBg2:#1F1C15; --prepBg:#23262B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5}
+.wrap{max-width:1400px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+h1{font-size:26px;font-weight:700;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.sub{color:var(--ink2);margin:4px 0 0;max-width:70ch}
+code,.mono{font-family:var(--mono);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.stat:focus-visible,.chip:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.stat b{font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--ink2);font-size:12.5px}
+.stat.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar .lbl{font-size:12px;color:var(--ink3);margin-right:4px;letter-spacing:.02em}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip .n{color:var(--ink3);font-variant-numeric:tabular-nums;font-size:12px}
+.chip.on{background:var(--on);color:var(--onInk);border-color:var(--on)}
+.chip.on .n{color:inherit;opacity:.7}
+input[type=search]{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;min-width:0;width:220px;max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:16px;color:var(--ink2);font-size:12.5px;align-items:center}
+.legend i{display:inline-block;vertical-align:middle;margin-right:6px}
+.tablebox{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line2);text-align:left;vertical-align:middle}
+thead th{position:sticky;top:0;background:var(--panel);font-size:12px;font-weight:600;color:var(--ink2);border-bottom:1px solid var(--line);z-index:1}
+thead th.si{text-align:center;width:76px;min-width:76px;max-width:76px;line-height:1.25;font-size:11.5px;padding:8px 4px}
+thead th.si small{display:block;overflow-wrap:anywhere;font-size:9.5px;font-family:var(--mono);font-weight:500;color:var(--ink3);font-size:10.5px}
+td.si{text-align:center}
+tr.cat td{background:var(--bg);font-weight:700;font-size:13px;padding-top:14px;color:var(--ink)}
+tr.cat td span{font-weight:500;color:var(--ink3);margin-left:8px;font-size:12px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--dot);display:inline-block}
+.ring{width:12px;height:12px;border-radius:50%;border:1.5px dashed var(--opt);display:inline-block}
+.w b{font-weight:600}
+.w .mono{color:var(--ink3);display:block}
+.w .note{display:block;color:var(--ink2);font-size:11.5px;margin-top:2px;max-width:46ch}
+thead tr#grp th{position:static;padding:8px 10px 4px;border-bottom:none;font-size:11.5px;font-weight:700;color:var(--ink3)}
+th.grp{text-align:center;border-radius:8px 8px 0 0}
+th.grp.core,thead th.si.core{background:var(--coreBg)}
+th.grp.prep,thead th.si.prep,td.si.prep{background:var(--prepBg)}
+td.si.core{background:var(--coreBg2)}
+.baht{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--dot);color:var(--panel);font-size:11px;font-weight:700;line-height:1}
+.wc{display:flex;gap:12px;align-items:center;min-width:300px;max-width:340px}
+.thumb{flex:none;width:120px;height:90px;border-radius:8px;background:var(--bg);border:1px solid var(--line2);padding:3px;cursor:zoom-in;display:grid;place-items:center}
+.thumb img{max-width:112px;max-height:82px;width:auto;height:auto;display:block;border-radius:4px}
+.thumb:focus-visible{outline:2px solid var(--dot);outline-offset:2px}
+.ph{display:block;font-size:11.5px;margin-top:3px;color:var(--ink2)}
+.ph .pf{color:var(--newInk);font-weight:600}
+.ph .pw{color:var(--chgInk);font-weight:600}
+dialog.lb{border:none;border-radius:16px;padding:16px;background:var(--panel);color:var(--ink);max-width:min(92vw,520px)}
+dialog.lb::backdrop{background:rgba(0,0,0,.55)}
+dialog.lb img{display:block;max-width:100%;max-height:70vh;margin:0 auto;border-radius:8px}
+dialog.lb p{margin:10px 0 0;text-align:center;font-size:13px}
+.src{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:s}
+.src li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 46px;position:relative}
+.src li::before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:12px;width:22px;height:22px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-size:12px;font-weight:700}
+.src span{color:var(--ink2)}
+.tag.ring{background:none;border:1px dashed var(--opt)}
+.rc{min-width:760px}
+.rc td,.rc th{vertical-align:top;font-size:13px}
+.rc code{white-space:nowrap}
+.ok{color:var(--newInk);font-weight:600}
+.warn{color:var(--chgInk);font-weight:600}
+.issues{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.issues li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.issues b{display:block;margin-bottom:2px}
+.issues span{color:var(--ink2)}
+h2{font-size:18px;margin:8px 0 0}
+.tag{display:inline-block;font-size:11.5px;border-radius:6px;padding:1px 7px;margin:1px 4px 1px 0;background:var(--chip);color:var(--ink2);white-space:nowrap}
+.st{font-size:11.5px;font-weight:600;border-radius:6px;padding:2px 8px;white-space:nowrap}
+.st.same{color:var(--ink3)}
+.st.free{background:var(--free);color:var(--freeInk)}
+.st.add{background:var(--new);color:var(--newInk)}
+.st.chg{background:var(--chg);color:var(--chgInk)}
+.now{color:var(--ink3);font-size:12px}
+.empty{padding:28px;text-align:center;color:var(--ink3)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-weight:600}
+details ul{margin:8px 0 0;padding-left:20px;color:var(--ink2)}
+details li{margin:3px 0}
+@media (max-width:600px){h1{font-size:22px}input[type=search]{width:100%}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>วิดเจ็ตแต่ละใบรอติ๊กถูกแถวไหน</h1>
+    <p class="sub">ล็อกต่อวิดเจ็ตด้วยติ๊กถูกเดียวกับหน้า Star Profile: ใบนี้ปลดล็อกเมื่อแถวที่มีจุดทึบติ๊กเขียวครบ · ไล่ binding ของ spec ทั้ง <b id="total"></b> ใบใน <code>shared/WidgetSpecs</code> แล้วตามว่า field นั้นมาจากข้อมูลของแถวไหน (salehere-ios + salehere-android · 8 พ.ย. 2569) · <b>จุดทึบในตาราง = <code>widget.requires</code> ใน JSON แล้วทุกใบ</b> · กติกาฝั่งแอป: <code>shared/docs/STAR-CARD-LOCK.md</code></p>
+  </header>
+
+  <section class="stats" id="stats" aria-label="สรุปตามสถานะ"></section>
+
+  <div class="bar" id="itemBar"><span class="lbl">รอแถว</span></div>
+  <div class="bar"><span class="lbl">ค้นหา</span><input type="search" id="q" placeholder="ชื่อ widget หรือ kind" aria-label="ค้นหาวิดเจ็ต"></div>
+
+  <div class="legend">
+    <span><i class="dot"></i>ต้องติ๊กถูก (ยังไม่ติ๊ก = ล็อก)</span>
+    <span><span class="baht">฿</span> ติ๊กถูกช่องทางของฉัน และต้องมีราคา (ป้าย "IG ฿1,000" ในแถว)</span>
+    <span><i class="ring"></i>ใช้ถ้ามี ไม่ล็อก</span>
+    <span><span class="tag">🔒 งานกับ Sale Here</span>ไม่มีแถวใน Star Profile ล็อกจนมีงานที่รีวิวแล้วผ่าน Sale Here</span>
+    <span>วางเมาส์บนหัวคอลัมน์ = ติ๊กถูกเมื่อไหร่ · การรับเงิน / ที่อยู่รับของ ไม่มีวิดเจ็ตไหนใช้</span>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr id="grp"></tr><tr id="head"></tr></thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+
+
+  <dialog class="lb" id="lb" aria-label="รูปวิดเจ็ต"><img alt=""><p></p></dialog>
+
+  <h2>รูปในวิดเจ็ตมาจากไหน ถ้ายังไม่กรอก "เกี่ยวกับคุณ"</h2>
+  <p class="sub">salehere-ios <code>StarCardRenderContext.photo(slot:)</code> → <code>StarCardOwnerPhotos.url</code> (Android <code>ownerPhotoUrl</code> ใช้กติกาเดียวกัน) · ไล่ทีละช่องรูป เจอที่ไหนก่อนใช้อันนั้น</p>
+  <ol class="src">
+    <li><b>รูปที่เลือกในเครื่อง</b><br><span>ระหว่างอัป หรือหลัง "จัดรูป" (Application Support/starcard-photos)</span></li>
+    <li><b>รูปที่ใส่ให้ช่องนั้นเองจาก "คลังรูป"</b><br><span><code>item.photos</code> บนการ์ดใน server · ใส่ได้ทุกช่อง ไม่ต้องกรอกเกี่ยวกับคุณ</span></li>
+    <li><b>รูปของเจ้าของ (ตอนผู้ใช้ไม่ได้เลือกรูปเอง)</b><br><span>ช่อง 1–3: <b>รูปครีเอเตอร์</b> ใน step เกี่ยวกับคุณ (<code>profileImages</code> · 3 ช่อง) วนตามจำนวนรูป → ไม่มีก็ใช้ <b>avatar บัญชี</b> (<code>profileImageUrl</code>) · ช่อง 4 ขึ้นไป: <b>รูปผลงาน</b> ใน step เกี่ยวกับคุณ (<code>portfolio.images</code>) วนตามจำนวนรูป → <b>ไม่มีก็ว่าง</b> ตัววาดไม่วาดอะไรในช่องนั้น (ไม่มีรูปตัวอย่างหรือ placeholder) · นับช่องเป็นรอบละ 12</span></li>
+  </ol>
+  <p class="sub">สรุป: กรอกเกี่ยวกับคุณแล้ว ช่อง 1–3 = รูปครีเอเตอร์ · ช่อง 4+ = รูปผลงาน · ถ้ายังไม่กรอก ช่อง 1–3 จะยังได้ avatar บัญชี แต่ช่อง 4+ จะว่าง จนกว่าจะใส่รูปจากคลังรูปเอง · ตัวอย่าง: วิดเจ็ตรูปผลงาน (kitWorks*) ใช้ช่อง 1–6 ช่อง 1–3 จะได้ avatar เดียวกันทั้ง 3 ช่อง ส่วนช่อง 4–6 จะว่าง · ตอนนี้วิดเจ็ตหมวดรูป/โชว์เคสล็อกด้วย <code>about</code> อยู่แล้ว เลยวางเพิ่มจากถาดไม่ได้ แต่ถ้าวิดเจ็ตมากับ template ก็จะมีช่องว่างแบบนี้บนการ์ด · รูปในตารางเป็นภาพ render จาก iOS พร้อมข้อมูลตัวอย่าง (widget-catalog 4 พ.ย.) ไม่ใช่ตอนที่ช่องว่าง</p>
+
+  <h2>ติ๊กถูกแต่ละแถวคิดยังไง เทียบกับล็อกของการ์ดตอนนี้</h2>
+  <p class="sub">iOS <code>StarProfileSnapshot.done(row)</code> → <code>has(topic)</code> · Android <code>StarProfileDataRowUiModel.isFilled</code> (<code>isFilledIn(starItems)</code> แล้ว fallback ข้อมูลดิบ) · การ์ด = iOS <code>StarCardTrayLocks</code> / Android <code>StarCardKitTopic.filled</code></p>
+  <div class="tablebox"><table class="rc">
+    <thead><tr><th>แถวใน Star Profile</th><th>ติ๊กถูกเมื่อ (iOS = Android)</th><th>การ์ดตอนนี้ล็อกเมื่อ</th><th>ผล</th></tr></thead>
+    <tbody>
+      <tr><td>8 แถว "ข้อมูลหลักบน ST★R Card"</td><td>อ่าน <code>starItems</code> จาก server ตรง ๆ แอปไม่คิดเอง</td><td><code>starItems</code> ตัวเดียวกัน</td><td class="ok">ตรง</td></tr>
+      <tr><td>เรท (ป้ายราคาในแถวช่องทางของฉัน · ไม่มีแถวเอง)</td><td><code>has(.rate)</code> = ราคา &gt; 0 อย่างน้อย 1 ช่อง</td><td><code>hasRatePrice</code> เงื่อนไขเดียวกัน</td><td class="ok">ตรง</td></tr>
+      <tr><td>ข้อมูลผู้ติดตาม</td><td>insight ครบ ≥ 1 ช่องทาง</td><td><code>hasCompletedInsight</code> เงื่อนไขเดียวกัน</td><td class="ok">ตรง</td></tr>
+      <tr><td>สัดส่วน</td><td>กรอก ≥ 1 ค่า (iOS <code>anyFilled</code> · Android มีป้ายค่าอย่างน้อย 1)</td><td>ครบ 6 ค่า (<code>hasFullBodyMeasurement</code>)</td><td class="warn">ไม่ตรง ต้องเลือกอย่างใดอย่างหนึ่ง</td></tr>
+      <tr><td>การรับเงิน · ที่อยู่รับของ</td><td>มีข้อมูล</td><td>ไม่มีวิดเจ็ตไหนใช้</td><td>—</td></tr>
+      <tr><td>(ไม่มีแถว) งานกับ Sale Here</td><td>—</td><td><code>works</code> (งานที่รีวิวแล้ว) ≥ 1 · ไม่นับ brands</td><td>ใช้เงื่อนไขเดิมต่อ</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Recheck: field ในการ์ด ↔ starItem ของ server</h2>
+  <p class="sub">server = <code>user-service/src/utils/user-rank/star-items.js</code> · iOS = <code>StarCardOwner(fields:)</code> + <code>StarCardPhotos</code> · Android = <code>StarCardProfile.applyOwner</code> + <code>StarCardKitSpecData</code> (origin/feature/star-card-redisign)</p>
+  <div class="tablebox"><table class="rc">
+    <thead><tr><th>starItem</th><th>server ให้ true เมื่อ</th><th>วิดเจ็ตอ่าน (iOS = Android)</th><th>ผล</th></tr></thead>
+    <tbody>
+      <tr><td><code>kind</code></td><td><code>creatorType</code> เป็น creator / page</td><td><code>stat:creatorKind</code> ← <code>creatorProfile.creatorType</code></td><td class="ok">ตรง</td></tr>
+      <tr><td><code>socials</code></td><td>ผูกโซเชียล ≥ 1 ช่อง</td><td><code>list:socials</code>, <code>stat:totalFollowers</code> ← <code>socialProfiles</code></td><td class="ok">ตรง</td></tr>
+      <tr><td><code>categories</code></td><td>หมวด type relation ≥ 3</td><td><code>list:categories</code>, <code>slot:tagline</code> ← <code>User.categories</code> (relation เหมือนกัน)</td><td class="ok">ตรง</td></tr>
+      <tr><td><code>about</code></td><td>รูปตัวเอง ≥ 1 + รูปผลงาน ≥ 1 + คลิป ≥ 1 + caption</td><td><code>slot:about</code> ← <code>caption</code> · รูปช่อง 4+ ← <code>portfolio.images</code> · รูปช่อง 1–3 ← <code>profileImages</code> แล้ว fallback avatar</td><td class="warn">ตรง แต่เข้มกว่าที่วิดเจ็ตใช้ (ไม่มีวิดเจ็ตไหนเล่นคลิป)</td></tr>
+      <tr><td><code>provinces</code></td><td>จังหวัด ≥ 1</td><td><code>slot:workArea</code>, <code>list:areas</code> ← <code>preferredProvinces</code></td><td class="ok">ตรง</td></tr>
+      <tr><td><code>availability</code></td><td>มี ≥ 1 วันที่เลือกช่วงเวลา</td><td><code>list:avail</code> ← <code>availableTimes</code> ที่ <code>isSelected</code></td><td class="ok">ตรง</td></tr>
+      <tr><td><code>contact</code></td><td><code>tel</code> และ <code>lineId</code> ไม่ว่าง</td><td><code>phone</code>, <code>lineId</code>, <code>website</code> ← <code>creatorProfile</code></td><td class="warn">tel + LINE ตรง · เว็บไซต์ไม่อยู่ในเงื่อนไข</td></tr>
+      <tr><td><code>kyc</code></td><td>คำขอยืนยันล่าสุด = approved</td><td><code>owner.verified</code> · iOS = <code>isVerify</code> หรือ approved · Android = approved</td><td class="warn">เกือบตรง (iOS ใช้ <code>isVerify</code> ด้วย)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>จุดที่ต้องรู้ก่อนเปลี่ยนเป็นล็อกต่อวิดเจ็ต</h2>
+  <ul class="issues">
+    <li><b>ใช้ฟังก์ชันเดียวกับติ๊กถูก</b><span>การ์ดใช้ <code>StarCardOwner</code> ส่วน Star Profile ใช้ <code>StarProfileSnapshot</code> คิดกันคนละที่ ต้องย้ายกฎไปไว้ที่เดียวให้ทั้งสองเรียก ไม่อย่างนั้นติ๊กเขียวแต่วิดเจ็ตยังล็อกจะกลับมาอีก</span></li>
+    <li><b>สัดส่วน: ติ๊กที่ 1 ค่า แต่การ์ดรอ 6 ค่า</b><span>เลือกได้ 2 ทาง: วิดเจ็ตปลดล็อกที่ 1 ค่าแล้วโชว์เฉพาะค่าที่มี หรือให้ติ๊กขึ้นเมื่อครบ 6 ค่า</span></li>
+    <li><b>รูปช่อง 1–3 ไม่ต้องล็อก</b><span>ทั้งสองแพลตฟอร์มใช้ <code>profileImages</code> ก่อน ถ้าไม่มีก็ใช้ avatar บัญชีแทน รูปจึงไม่ว่าง · popVideoGlass/Paper ใช้แค่ช่อง 2 เลยไม่ต้องล็อก</span></li>
+    <li><b>about ของ server เข้มกว่าที่วิดเจ็ตต้องใช้</b><span>มีแคปชันแล้วแต่ยังไม่อัปคลิป = <code>about</code> ยังเป็น false วิดเจ็ตแนะนำตัวจะล็อกต่อ ถ้าอยากให้ปลดเร็วกว่านี้ server ต้องแยก flag ย่อย (เช่น caption / portfolio)</span></li>
+    <li><b>เว็บไซต์ว่างได้แม้ contact = true</b><span>12 ใบที่แสดงเว็บไซต์จะขึ้นคำใบ้ <code>yourname.com</code> ถ้าไม่ได้กรอก · ไม่มีวิดเจ็ตไหนอ่านอีเมล</span></li>
+    <li><b>เรทไม่มีแถวของตัวเอง</b><span>ป้ายราคาอยู่ในแถวช่องทางของฉัน แต่ติ๊กถูกของแถวนั้นไม่รอราคา (server <code>socials</code> ไม่บังคับเรท) · วิดเจ็ตเรทจึงต้องเช็กราคาเพิ่ม (฿ ในตาราง) และปุ่มบนวิดเจ็ตพาไปขั้นผูกบัญชี</span></li>
+    <li><b>ชื่อในโค้ดยังไม่ตรงกับแถว</b><span>iOS การ์ดใช้ชื่อหมวดถาด (<code>profile</code>, <code>niche</code>, <code>intro</code> …) · ควรใช้ชื่อแถวชุดเดียวกับ Star Profile (iOS <code>StarTopic</code> / Android <code>StarProfileDataRowType</code>) ทั้งใน JSON และโค้ด</span></li>
+  </ul>
+
+  <details>
+    <summary>วิธีคิด</summary>
+    <ul>
+      <li>ใช้ตัวอ่าน binding ชุดเดียวกับ <code>shared/tools/check-widgets.mjs</code> (slot / list / text / photo / if / where / variants)</li>
+      <li>ชื่อ, @handle, ชื่อเล่น, รูปโปรไฟล์ = ข้อมูลบัญชี มีเสมอ ไม่นับเป็น starItem · ลิงก์การ์ด / QR ก็ไม่นับ</li>
+      <li><b>รูป</b>: ช่องที่ (เลข mod 12) อยู่ใน 1–3 = รูปตัวเอง fallback avatar → ไม่นับ · ช่องอื่น = รูปผลงาน → <code>about</code></li>
+      <li><b>works ที่ใช้แค่ไอคอนแพลตฟอร์ม 1 อัน</b> (galleryPost, workFeatured, workReel) = ใช้ถ้ามี ไม่ล็อก</li>
+      <li><b>เรท</b> = ราคาต่อช่องทาง → ติ๊กถูกช่องทางของฉัน + มีราคาอย่างน้อย 1 ช่อง (฿)</li>
+      <li><b>ข้อมูลผู้ติดตาม</b>, <b>สัดส่วน</b> = คอลัมน์ในกลุ่ม "ข้อมูลเตรียมไว้ ตอนได้งาน" · <b>งานกับ Sale Here</b> ไม่มีแถวใน Star Profile → 🔒 ในคอลัมน์ "ไม่มีแถวใน Star Profile"</li>
+      <li>ข้อมูลที่ถูกอ่านแค่ในเงื่อนไข (เช่น ติ๊ก Verified บน hero <code>if: owner.verified</code>) = วงประ ไม่ทำให้ล็อก</li>
+      <li>คอลัมน์ "เทียบตอนนี้" เทียบกับกติกาล็อกรายหมวดใน salehere-ios <code>StarCardTrayLocks</code> / Android <code>StarCardKitWidgetFamily.topic</code></li>
+    </ul>
+  </details>
+</div>
+
+<script>
+const ROWS = [{"kind": "aboutBehind", "title": "ชื่อหลังภาพ", "cat": "intro", "star": ["categories", "about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": [1]}, {"kind": "aboutEditorial", "title": "หน้าแนะนำตัว", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": [1]}, {"kind": "aboutMe", "title": "about me.", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": [1]}, {"kind": "aboutText", "title": "แนะนำตัว", "cat": "intro", "star": ["categories", "about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "artDuo", "title": "เบนโตะ", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [7, 8, 9, 10]}, {"kind": "artFilmstrip", "title": "แถบภาพ", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [6, 7, 8, 9]}, {"kind": "artPair", "title": "คู่แนวตั้ง", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 6]}, {"kind": "artPortfolio", "title": "โปสเตอร์พอร์ต", "cat": "hero", "star": [], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "artTypeOver", "title": "ตัวอักษรทับภาพ", "cat": "hero", "star": ["categories"], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "audienceAge", "title": "ช่วงอายุผู้ชม", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "audienceLine", "title": "ประโยคเดียว", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "audienceMap", "title": "ผู้ชมในประเทศ", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "audiencePoster", "title": "โปสเตอร์อินไซต์", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": [1]}, {"kind": "audienceSplit", "title": "สัดส่วนผู้ชม", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "contactCard", "title": "นามบัตร", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "contactChips", "title": "ชิปช่องทาง", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "contactLine", "title": "ไลน์ตัวใหญ่", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "", "ph": []}, {"kind": "contactPoster", "title": "โปสเตอร์ติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": [1]}, {"kind": "contactQR", "title": "คิวอาร์การ์ด", "cat": "contact", "star": [], "extra": [], "opt": ["kyc"], "now": "contact", "optExtra": [], "note": "", "ph": []}, {"kind": "contactStack", "title": "สามบรรทัด", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "galleryCarousel", "title": "สไลด์การ์ด", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5]}, {"kind": "galleryFilm", "title": "ฟิล์ม 35 มม.", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5, 6]}, {"kind": "galleryMasonry", "title": "บอร์ดพิน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5, 6, 7, 8]}, {"kind": "galleryPost", "title": "โพสต์โซเชียล", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": ["work"], "note": "works ใช้แค่ไอคอนแพลตฟอร์ม 1 อัน", "ph": [3, 4]}, {"kind": "galleryStack", "title": "กองรูปซ้อน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5, 6]}, {"kind": "heroMinimal", "title": "ชื่อมินิมอล", "cat": "hero", "star": ["categories"], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitBioCream", "title": "About Me", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "kitBioGingham", "title": "About Me", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "kitBioMac", "title": "About Me", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "kitBioNight", "title": "About Me", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "kitBioPurple", "title": "About Me", "cat": "intro", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": []}, {"kind": "kitBodyCream", "title": "สัดส่วน", "cat": "body", "star": [], "extra": ["body"], "opt": [], "now": "body", "optExtra": [], "note": "", "ph": []}, {"kind": "kitBodyGingham", "title": "สัดส่วน", "cat": "body", "star": [], "extra": ["body"], "opt": [], "now": "body", "optExtra": [], "note": "", "ph": []}, {"kind": "kitBodyMac", "title": "สัดส่วน", "cat": "body", "star": [], "extra": ["body"], "opt": [], "now": "body", "optExtra": [], "note": "", "ph": []}, {"kind": "kitBodyNight", "title": "สัดส่วน", "cat": "body", "star": [], "extra": ["body"], "opt": [], "now": "body", "optExtra": [], "note": "", "ph": []}, {"kind": "kitBodyPurple", "title": "สัดส่วน", "cat": "body", "star": [], "extra": ["body"], "opt": [], "now": "body", "optExtra": [], "note": "", "ph": []}, {"kind": "kitContactCream", "title": "ช่องทางติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "kitContactGingham", "title": "ช่องทางติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "kitContactMac", "title": "ช่องทางติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "kitContactNight", "title": "ช่องทางติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "kitContactPurple", "title": "ช่องทางติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "kitInsightCream", "title": "Insight", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "kitInsightGingham", "title": "Insight", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "kitInsightMac", "title": "Insight", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "kitInsightNight", "title": "Insight", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "kitInsightPurple", "title": "Insight", "cat": "audience", "star": [], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "kitNicheCream", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitNicheGingham", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitNicheMac", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitNicheNight", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitNichePurple", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "kitProfileCream", "title": "รูปโปรไฟล์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "kitProfileGingham", "title": "รูปโปรไฟล์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "kitProfileMac", "title": "รูปโปรไฟล์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "kitProfileNight", "title": "รูปโปรไฟล์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "kitProfilePurple", "title": "รูปโปรไฟล์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "kitRateCream", "title": "เรทรับงาน", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "kitRateGingham", "title": "เรทรับงาน", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "kitRateMac", "title": "เรทรับงาน", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "kitRateNight", "title": "เรทรับงาน", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "kitRatePurple", "title": "เรทรับงาน", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "kitSocialCream", "title": "Social Media", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "kitSocialGingham", "title": "Social Media", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "kitSocialMac", "title": "Social Media", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "kitSocialNight", "title": "Social Media", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "kitSocialPurple", "title": "Social Media", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "kitTimeCream", "title": "วันเวลาและพื้นที่รับงาน", "cat": "availability", "star": ["provinces", "availability"], "extra": [], "opt": [], "now": "availability", "optExtra": [], "note": "", "ph": []}, {"kind": "kitTimeGingham", "title": "วันเวลาและพื้นที่รับงาน", "cat": "availability", "star": ["provinces", "availability"], "extra": [], "opt": [], "now": "availability", "optExtra": [], "note": "", "ph": []}, {"kind": "kitTimeMac", "title": "วันเวลาและพื้นที่รับงาน", "cat": "availability", "star": ["provinces", "availability"], "extra": [], "opt": [], "now": "availability", "optExtra": [], "note": "", "ph": []}, {"kind": "kitTimeNight", "title": "วันเวลาและพื้นที่รับงาน", "cat": "availability", "star": ["provinces", "availability"], "extra": [], "opt": [], "now": "availability", "optExtra": [], "note": "", "ph": []}, {"kind": "kitTimePurple", "title": "วันเวลาและพื้นที่รับงาน", "cat": "availability", "star": ["provinces", "availability"], "extra": [], "opt": [], "now": "availability", "optExtra": [], "note": "", "ph": []}, {"kind": "kitWorksCream", "title": "รูปผลงาน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5, 6]}, {"kind": "kitWorksGingham", "title": "รูปผลงาน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5, 6]}, {"kind": "kitWorksMac", "title": "รูปผลงาน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5, 6]}, {"kind": "kitWorksNight", "title": "รูปผลงาน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5, 6]}, {"kind": "kitWorksPurple", "title": "รูปผลงาน", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5, 6]}, {"kind": "nichePoster", "title": "โปสเตอร์สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "nicheTags", "title": "สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "popContactGlass", "title": "ช่องทางติดต่อสามแถว กระจกชมพู", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "popContactPaper", "title": "ช่องทางติดต่อสามแถว กระดาษเทป", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "popHeroGlass", "title": "ป้ายชื่อ กระจกชมพู", "cat": "hero", "star": ["kind", "provinces"], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "popHeroPaper", "title": "ป้ายชื่อ กระดาษเทป", "cat": "hero", "star": ["kind", "provinces"], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "popNicheGlass", "title": "สายงานแบบลิสต์ กระจกชมพู", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "popNichePaper", "title": "สายงานแบบลิสต์ กระดาษเทป", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "popStatsGlass", "title": "ผู้ติดตามสามช่อง กระจกชมพู", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "popVideoGlass", "title": "หน้าต่างวิดีโอ กระจกชมพู", "cat": "photo", "star": [], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [2]}, {"kind": "popVideoPaper", "title": "หน้าต่างวิดีโอ กระดาษเทป", "cat": "photo", "star": [], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [2]}, {"kind": "popWorkGlass", "title": "ผลงานสามใบ กระจกชมพู", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5, 6]}, {"kind": "popWorkPaper", "title": "ผลงานสามใบ กระดาษเทป", "cat": "photo", "star": [], "extra": ["work"], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": []}, {"kind": "portfolioGingham", "title": "พอร์ตผ้าปิกนิก", "cat": "hero", "star": [], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "portfolioWindow", "title": "หน้าต่างพอร์ต", "cat": "hero", "star": [], "extra": [], "opt": ["kyc"], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "proofSeal", "title": "ตรารับรอง Sale Here", "cat": "seal", "star": ["kyc"], "extra": [], "opt": [], "now": "kyc", "optExtra": [], "note": "", "ph": []}, {"kind": "proofTicket", "title": "ตั๋วผลงาน", "cat": "verified", "star": ["about"], "extra": ["work"], "opt": [], "now": "work", "optExtra": [], "note": "", "ph": []}, {"kind": "proofWork", "title": "ผลงานที่ยืนยันแล้ว", "cat": "verified", "star": ["about"], "extra": ["work"], "opt": [], "now": "work", "optExtra": [], "note": "", "ph": []}, {"kind": "rateTags", "title": "ป้ายราคา", "cat": "rate", "star": ["socials"], "extra": ["rate"], "opt": [], "now": "rate", "optExtra": [], "note": "", "ph": []}, {"kind": "reelShowcase", "title": "คลิปล่าสุด", "cat": "showcase", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [4, 5, 6, 7]}, {"kind": "scrapAbout", "title": "รู้จักตัวฉัน", "cat": "intro", "star": ["about", "provinces"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "about = แคปชัน", "ph": [1]}, {"kind": "scrapBadge", "title": "บัตรครีเอเตอร์", "cat": "hero", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": [1]}, {"kind": "scrapFeed", "title": "ฟีดของฉัน", "cat": "followers", "star": ["categories", "about"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": [1, 2, 3, 4, 5]}, {"kind": "scrapInfo", "title": "บัตรข้อมูลของฉัน", "cat": "intro", "star": ["categories", "provinces"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": []}, {"kind": "scrapKeyTab", "title": "พวงกุญแจโซเชียล", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "scrapNote", "title": "โน้ตติดต่อ", "cat": "contact", "star": ["contact"], "extra": [], "opt": [], "now": "contact", "optExtra": [], "note": "เว็บไซต์ไม่อยู่ในเงื่อนไข contact (ว่างได้ → ขึ้นคำใบ้)", "ph": []}, {"kind": "scrapPhones", "title": "กำแพงมือถือ", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 2, 3, 4]}, {"kind": "scrapStats", "title": "สถิติผู้ชม", "cat": "audience", "star": ["socials"], "extra": ["insight"], "opt": [], "now": "insight", "optExtra": [], "note": "", "ph": []}, {"kind": "scrapTags", "title": "ป้ายห้อยสายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "socialChips", "title": "ผู้ติดตามแบบแถว", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "socialGingham", "title": "ช่องทางผ้าปิกนิก", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "socialTiles", "title": "ผู้ติดตามแบบชิป", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "socialWindow", "title": "หน้าต่างช่องทาง", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "statGiant", "title": "ตัวเลขยักษ์", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": [3]}, {"kind": "statPoster", "title": "โปสเตอร์ผู้ติดตาม", "cat": "followers", "star": ["socials"], "extra": [], "opt": [], "now": "socials", "optExtra": [], "note": "", "ph": []}, {"kind": "stickerTags", "title": "สติกเกอร์สายงาน", "cat": "tags", "star": ["categories"], "extra": [], "opt": [], "now": "categories", "optExtra": [], "note": "", "ph": []}, {"kind": "wallMemory", "title": "บอร์ดรูปติดหมุด", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": [], "note": "", "ph": [1, 4, 5, 6, 7, 8]}, {"kind": "wallPolaroid", "title": "กำแพงโพลารอยด์", "cat": "verified", "star": ["about"], "extra": ["work"], "opt": [], "now": "work", "optExtra": [], "note": "", "ph": []}, {"kind": "workFeatured", "title": "ผลงานชิ้นเด่น", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": ["work"], "note": "works ใช้แค่ไอคอนแพลตฟอร์ม 1 อัน", "ph": [4, 5, 6]}, {"kind": "workReel", "title": "คลิปแนวตั้ง", "cat": "photo", "star": ["about"], "extra": [], "opt": [], "now": "about", "optExtra": ["work"], "note": "works ใช้แค่ไอคอนแพลตฟอร์ม 1 อัน", "ph": [8]}];
+// คอลัมน์ = แถวติ๊กถูกใน Star Profile (ชื่อ/ลำดับตามแอป) · core = "ข้อมูลหลักบน ST★R Card" · prep = "ข้อมูลเตรียมไว้ ตอนได้งาน"
+// (การรับเงิน · ที่อยู่รับของ ไม่มีวิดเจ็ตไหนใช้ จึงไม่มีคอลัมน์)
+const ITEMS = [
+  ['kind','ประเภทครีเอเตอร์','core'],['socials','ช่องทางของฉัน','core'],['categories','สายที่ใช่','core'],['about','เกี่ยวกับคุณ','core'],
+  ['provinces','พื้นที่รับงาน','core'],['availability','วันเวลาว่างรับงาน','core'],['contact','ช่องทางติดต่อ','core'],['kyc','ยืนยันตัวตน','core'],
+  ['insight','ข้อมูลผู้ติดตาม','prep'],['body','สัดส่วน','prep']];
+// ติ๊กถูกเมื่อ (iOS StarProfileSnapshot.done → has(topic) · Android StarProfileDataRowUiModel.isFilled)
+const TICK = {kind:'starItems.kind · เลือก creator / page', socials:'starItems.socials · ผูกโซเชียล ≥ 1 ช่อง', categories:'starItems.categories · สาย ≥ 3',
+  about:'starItems.about · รูปครีเอเตอร์ + ผลงาน + คลิป + แนะนำตัว', provinces:'starItems.provinces · ≥ 1 จังหวัด', availability:'starItems.availability · ≥ 1 วันที่มีช่วงเวลา',
+  contact:'starItems.contact · เบอร์ + LINE', kyc:'starItems.kyc · คำขอล่าสุด approved', insight:'insight ครบ ≥ 1 ช่องทาง', body:'กรอก ≥ 1 ค่า'};
+const EXTRA = {rate:'ช่องทางของฉัน + ราคา',insight:'ข้อมูลผู้ติดตาม',body:'สัดส่วน',work:'งานกับ Sale Here'};
+for (const r of ROWS) {
+  // insight / body ย้ายเข้าคอลัมน์ติ๊กถูก · เรท = ป้ายราคาในแถวช่องทางของฉัน · งานกับ Sale Here ไม่มีแถว
+  r.need = [...r.star, ...r.extra.filter(x => x === 'insight' || x === 'body')];
+  r.rate = r.extra.includes('rate');
+  if (r.rate && !r.need.includes('socials')) r.need.push('socials');
+  r.work = r.extra.includes('work');
+  if (r.cat === 'body') r.note = 'ติ๊กถูกตั้งแต่กรอก 1 ค่า แต่การ์ดตอนนี้ล็อกจนครบ 6 ค่า (hasFullBodyMeasurement) · ต้องเลือกให้ตรงกัน';
+}
+const CATS = {hero:'โปรไฟล์',tags:'สายที่ใช่',followers:'ช่องทาง',intro:'แนะนำตัว',rate:'เรทรับงาน',audience:'ข้อมูลผู้ติดตาม',
+  body:'สัดส่วน',availability:'วันเวลา·พื้นที่',contact:'ติดต่อ',photo:'รูปผลงาน',showcase:'โชว์เคส',verified:'ผลงานกับ Sale Here',seal:'ยืนยันตัวตน'};
+const CAT_ORDER = ['hero','followers','tags','intro','rate','body','availability','audience','seal','photo','showcase','verified','contact'];
+// กติกาตอนนี้ (รายหมวด) แปลงเป็นภาษาเดียวกัน
+const NOW = {hero:[['categories'],[]],tags:[['categories'],[]],followers:[['socials'],[]],intro:[['about'],[]],photo:[['about'],[]],
+  showcase:[['about'],[]],rate:[['socials'],['rate']],audience:[[],['insight']],seal:[['kyc'],[]],verified:[[],['work']],
+  contact:[['contact'],[]],availability:[['availability'],[]],body:[[],['body']]};
+const key = (s,e) => [...s,...e].sort().join(',');
+for (const r of ROWS) {
+  const [ns, ne] = NOW[r.cat]; r.nowStar = ns; r.nowExtra = ne;
+  const a = key(r.star, r.extra), b = key(ns, ne);
+  const all = [...r.star, ...r.extra], nowAll = [...ns, ...ne];
+  r.status = a === b ? 'same' : !all.length ? 'free' : nowAll.every(x => all.includes(x)) ? 'add' : 'chg';
+}
+const ST = {same:['เหมือนเดิม','ล็อกเหมือนตอนนี้'],free:['ไม่ต้องล็อก','ไม่ต้องรอติ๊กถูกแถวไหน'],add:['ล็อกเพิ่ม','ต้องการมากกว่าตอนนี้'],chg:['ล็อกคนละแถว','ตอนนี้ล็อกผิดแถว']};
+const label = k => (ITEMS.find(i => i[0] === k) || [k, EXTRA[k] || k])[1];
+
+let fItem = null, fStatus = null, q = '';
+document.getElementById('total').textContent = ROWS.length;
+
+const stats = document.getElementById('stats');
+for (const s of ['same','add','chg','free']) {
+  const n = ROWS.filter(r => r.status === s).length;
+  const b = document.createElement('button'); b.className = 'stat'; b.type = 'button'; b.id = 'st-' + s;
+  b.innerHTML = `<b>${n}</b><span><span class="st ${s}">${ST[s][0]}</span> ${ST[s][1]}</span>`;
+  b.onclick = () => { fStatus = fStatus === s ? null : s; render(); };
+  stats.append(b);
+}
+const bar = document.getElementById('itemBar');
+const has = (r, k) => k === 'rate' ? r.rate : k === 'work' ? r.work : r.need.includes(k);
+const CHIPS = [...ITEMS.map(([k, l]) => [k, l]), ['rate', 'ช่องทาง + ราคา ฿'], ['work', 'งานกับ Sale Here']];
+for (const [k, l] of CHIPS) {
+  const n = ROWS.filter(r => has(r, k)).length;
+  const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.id = 'ch-' + k;
+  c.innerHTML = `${l} <span class="n">${n}</span>`;
+  c.onclick = () => { fItem = fItem === k ? null : k; render(); };
+  bar.append(c);
+}
+document.getElementById('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(); });
+
+const nCore = ITEMS.filter(i => i[2] === 'core').length;
+document.getElementById('grp').innerHTML = '<th></th>' +
+  `<th class="grp core" colspan="${nCore}">ข้อมูลหลักบน ST★R Card</th>` +
+  `<th class="grp prep" colspan="${ITEMS.length - nCore}">ข้อมูลเตรียมไว้ ตอนได้งาน</th><th></th><th></th>`;
+document.getElementById('head').innerHTML = '<th>วิดเจ็ต</th>' +
+  ITEMS.map(([k, l, g]) => `<th class="si ${g}" title="ติ๊กถูกเมื่อ: ${TICK[k]}">${l}<small>${k}</small></th>`).join('') +
+  '<th>ไม่มีแถวใน Star Profile</th><th>เทียบตอนนี้</th>';
+
+function render() {
+  for (const s of ['same','add','chg','free']) document.getElementById('st-' + s).classList.toggle('on', fStatus === s);
+  for (const [k] of CHIPS) document.getElementById('ch-' + k).classList.toggle('on', fItem === k);
+  const rows = ROWS.filter(r => (!fItem || has(r, fItem)) && (!fStatus || r.status === fStatus) &&
+    (!q || r.kind.toLowerCase().includes(q) || (r.title || '').toLowerCase().includes(q)));
+  const body = document.getElementById('body');
+  if (!rows.length) { body.innerHTML = `<tr><td colspan="${ITEMS.length + 3}" class="empty">ไม่มีวิดเจ็ตที่ตรงกับตัวกรอง</td></tr>`; return; }
+  let html = '';
+  for (const c of CAT_ORDER) {
+    const list = rows.filter(r => r.cat === c);
+    if (!list.length) continue;
+    html += `<tr class="cat"><td colspan="${ITEMS.length + 3}">${CATS[c]}<span>${c} · ${list.length} ใบ</span></td></tr>`;
+    for (const r of list) {
+      html += `<tr><td class="w"><div class="wc"><button class="thumb" data-k="${r.kind}" aria-label="ดูรูป ${r.title || r.kind}"><img src="img/${r.kind}.jpg" loading="lazy" alt=""></button><div><b>${r.title || r.kind}</b><span class="mono">${r.kind}</span>${phLine(r.ph)}${r.note ? `<span class="note">${r.note}</span>` : ''}</div></div></td>` +
+        ITEMS.map(([k, l, g]) => `<td class="si ${g}">${r.need.includes(k)
+          ? (k === 'socials' && r.rate ? `<span class="baht" title="ต้องติ๊กถูก ${l} และมีราคา > 0 อย่างน้อย 1 ช่อง">฿</span>` : `<i class="dot" title="ต้องติ๊กถูก ${l}"></i>`)
+          : r.opt.includes(k) ? `<i class="ring" title="ใช้ถ้ามี ${l}"></i>` : ''}</td>`).join('') +
+        `<td>${r.work ? '<span class="tag" title="มีงานที่รีวิวแล้วผ่าน Sale Here ≥ 1 (works)">🔒 งานกับ Sale Here</span>' : ''}${(r.optExtra || []).includes('work') ? '<span class="tag ring">งานกับ Sale Here</span>' : ''}</td>` +
+        `<td><span class="st ${r.status}">${ST[r.status][0]}</span>${r.status !== 'same' ? `<div class="now">ตอนนี้: ${[...r.nowStar, ...r.nowExtra].map(label).join(' + ') || '—'}</div>` : ''}</td></tr>`;
+    }
+  }
+  body.innerHTML = html;
+}
+// ช่องรูป → แหล่งรูปเมื่อไม่ได้เลือกรูปเอง (StarCardOwnerPhotos.url: ช่อง 1–3 ในรอบ 12 = รูปโปรไฟล์ → avatar · ช่องอื่น = รูปผลงาน)
+function ranges(a) {
+  const out = []; let i = 0;
+  while (i < a.length) { let j = i; while (j + 1 < a.length && a[j + 1] === a[j] + 1) j++; out.push(i === j ? `${a[i]}` : `${a[i]}–${a[j]}`); i = j + 1; }
+  return out.join(', ');
+}
+function phLine(ph) {
+  if (!ph || !ph.length) return '';
+  const pf = ph.filter(n => { const c = ((n % 12) + 12) % 12; return c >= 1 && c <= 3; }), pw = ph.filter(n => !pf.includes(n));
+  const parts = [];
+  if (pf.length) parts.push(`ช่อง ${ranges(pf)} <span class="pf">รูปครีเอเตอร์ → ไม่มีใช้ avatar บัญชี</span>`);
+  if (pw.length) parts.push(`ช่อง ${ranges(pw)} <span class="pw">รูปผลงาน → ไม่มีเป็นช่องว่าง</span>`);
+  return `<span class="ph">รูป: ${parts.join(' · ')}</span>`;
+}
+const lb = document.getElementById('lb');
+document.getElementById('body').addEventListener('click', e => {
+  const b = e.target.closest('.thumb'); if (!b) return;
+  const r = ROWS.find(x => x.kind === b.dataset.k);
+  lb.querySelector('img').src = `img/${r.kind}.jpg`;
+  lb.querySelector('p').textContent = `${r.title || r.kind} · ${r.kind}`;
+  lb.showModal();
+});
+lb.addEventListener('click', () => lb.close());
+render();
+</script>

@@ -7,6 +7,9 @@
  "widget": {
   "title": "สายงานแบบลิสต์ กระดาษเทป",
   "category": "tags",
+  "requires": [
+   "categories"
+  ],
   "symbol": "list.bullet.clipboard.fill",
   "order": 54,
   "ownSurface": true,

@@ -7,6 +7,9 @@
  "widget": {
   "title": "กองรูปซ้อน",
   "category": "photo",
+  "requires": [
+   "about"
+  ],
   "symbol": "square.stack.fill",
   "order": 23,
   "ownSurface": true,

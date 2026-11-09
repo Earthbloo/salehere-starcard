@@ -7,6 +7,10 @@
  "widget": {
   "title": "ผลงานที่ยืนยันแล้ว",
   "category": "verified",
+  "requires": [
+   "about",
+   "work"
+  ],
   "symbol": "checkmark.seal.fill",
   "order": 9,
   "photo": true,

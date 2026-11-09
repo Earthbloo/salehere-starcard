@@ -7,6 +7,9 @@
  "widget": {
   "title": "ตรารับรอง Sale Here",
   "category": "seal",
+  "requires": [
+   "kyc"
+  ],
   "symbol": "checkmark.seal.fill",
   "order": 11,
   "ownSurface": true,

@@ -7,6 +7,10 @@
  "widget": {
   "title": "เรทรับงาน",
   "category": "rate",
+  "requires": [
+   "socials",
+   "rate"
+  ],
   "symbol": "tag.fill",
   "order": 83,
   "ownSurface": true,

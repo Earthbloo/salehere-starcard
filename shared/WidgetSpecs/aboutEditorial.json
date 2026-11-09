@@ -7,6 +7,9 @@
  "widget": {
   "title": "หน้าแนะนำตัว",
   "category": "intro",
+  "requires": [
+   "about"
+  ],
   "symbol": "text.word.spacing",
   "order": 60,
   "ownSurface": true,

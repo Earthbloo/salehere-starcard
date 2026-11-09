@@ -7,6 +7,9 @@
  "widget": {
   "title": "นามบัตร",
   "category": "contact",
+  "requires": [
+   "contact"
+  ],
   "symbol": "person.text.rectangle.fill",
   "order": 35,
   "motion": "anchored"

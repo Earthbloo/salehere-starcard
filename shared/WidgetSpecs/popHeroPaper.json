@@ -7,6 +7,10 @@
  "widget": {
   "title": "ป้ายชื่อ กระดาษเทป",
   "category": "hero",
+  "requires": [
+   "kind",
+   "provinces"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 47,
   "ownSurface": true,

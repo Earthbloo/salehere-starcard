@@ -7,6 +7,9 @@
  "widget": {
   "title": "About Me",
   "category": "intro",
+  "requires": [
+   "about"
+  ],
   "symbol": "text.alignleft",
   "order": 107,
   "ownSurface": true,

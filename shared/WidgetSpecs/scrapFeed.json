@@ -7,6 +7,10 @@
  "widget": {
   "title": "ฟีดของฉัน",
   "category": "followers",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "square.grid.2x2",
   "size": {
    "w": 366,

@@ -7,6 +7,10 @@
  "widget": {
   "title": "ชื่อหลังภาพ",
   "category": "intro",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "person.and.background.dotted",
   "order": 61,
   "ownSurface": true,

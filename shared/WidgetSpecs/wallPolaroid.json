@@ -7,6 +7,10 @@
  "widget": {
   "title": "กำแพงโพลารอยด์",
   "category": "verified",
+  "requires": [
+   "about",
+   "work"
+  ],
   "symbol": "photo.stack",
   "order": 58,
   "ownSurface": true,

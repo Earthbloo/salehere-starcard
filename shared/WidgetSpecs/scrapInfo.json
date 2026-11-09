@@ -7,6 +7,10 @@
  "widget": {
   "title": "บัตรข้อมูลของฉัน",
   "category": "intro",
+  "requires": [
+   "categories",
+   "provinces"
+  ],
   "symbol": "list.bullet.rectangle.portrait",
   "size": {
    "w": 178,

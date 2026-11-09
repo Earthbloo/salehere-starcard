@@ -7,6 +7,10 @@
  "widget": {
   "title": "ตั๋วผลงาน",
   "category": "verified",
+  "requires": [
+   "about",
+   "work"
+  ],
   "symbol": "ticket.fill",
   "order": 10,
   "ownSurface": true,
