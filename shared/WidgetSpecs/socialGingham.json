@@ -20,9 +20,17 @@
    "top": 5,
    "trailing": 12
   },
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "chan",
+    "items": "shownSocials"
+   }
+  ]
  },
- "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสามใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) กว้าง 33.9% · 31.6% · ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 สูตร ER + ที่มา บนผ้า · ช่อง = ยอดเยอะที่สุด (socials sort followersRaw desc limit 1 — ค่าที่เลือกใน note#9 อ่านจากผังไม่ได้) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits",
+ "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสามใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) กว้าง 33.9% · 31.6% · ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 สูตร ER + ที่มา บนผ้า · ช่อง = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -98,7 +106,7 @@
       "type": "chips",
       "id": "file",
       "list": "socials",
-      "sort": "followersRaw desc",
+      "where": "opt:chan=$platform | !opt:chan & $i=first",
       "limit": 1,
       "wrap": false,
       "grow": 1,
