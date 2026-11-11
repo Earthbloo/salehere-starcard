@@ -77,8 +77,12 @@ for (const t of list) {
 
 // ── 3. widget ที่ใช้ + ค่าตรวจไฟล์ (เทียบเวอร์ชันกับ server)
 const kinds = [...new Set(templates.flatMap((x) => x.snapshot.pages.flatMap((p) => p.items.map((i) => i.kind))))].sort()
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+const specPath = Object.fromEntries(specFiles(SPECS).map((p) => [path.basename(p, '.json'), p]))
 const widgets = kinds.map((k) => {
-  const f = path.join(SPECS, k + '.json')
+  const f = specPath[k] || path.join(SPECS, k + '.json')
   if (!fs.existsSync(f)) { problems.push('ไม่มี spec ' + k); return { kind: k } }
   fs.copyFileSync(f, path.join(OUT, 'widget-specs', k + '.json'))
   return { kind: k, sha256: crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex'), bytes: fs.statSync(f).size,

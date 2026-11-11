@@ -753,7 +753,7 @@ def detail(spec, fixture, siblings, cm):
   <section class="blk"><h3>③ widget ได้ค่าอะไร · Model ของหมวด{LABEL[cat]} <small>สีเข้ม = ใบนี้ใช้ · ตัวหนา = ค่าจริงตอนวาด</small></h3>{model_cards(cat, cm, used, seen)}</section>
   <section class="blk two">
     <div><h3>ผู้ใช้ปรับอะไรได้ <small>ค่าตั้งต้นถูกเลือกไว้ · ข้อความแก้ไม่ได้</small></h3><ul class="kv tray">{can}</ul></div>
-    <div><h3>สำหรับ dev</h3><ul class="kv"><li><b>ไฟล์ผัง</b><span><code>shared/WidgetSpecs/{kind}.json</code></span></li><li><b>fixture</b><span><code>present/spec-fixtures/fixtures/{kind}.json</code></span></li><li><b>ลำดับในตู้</b><span>{w.get("order", "—")}</span></li></ul>
+    <div><h3>สำหรับ dev</h3><ul class="kv"><li><b>ไฟล์ผัง</b><span><code>shared/WidgetSpecs/&lt;หมวด&gt;/{kind}.json</code></span></li><li><b>fixture</b><span><code>present/spec-fixtures/fixtures/{kind}.json</code></span></li><li><b>ลำดับในตู้</b><span>{w.get("order", "—")}</span></li></ul>
       <details class="raw"><summary>ค่าที่ widget ได้รับจริง (JSON)</summary><pre>{J(raw)}</pre></details></div>
   </section>
   {nav}
@@ -1943,7 +1943,7 @@ RENDER_JS = r'''
     list.innerHTML = STEPS.map((s, i) => `<li class="${i === step ? 'on' : ''}${i < step ? ' done' : ''}${s.m ? ' merge' : ''}" data-i="${i}"><span class="sn">${i < step ? '✓' : i + 1}</span><div><b>${s.t}</b>${s.m ? '<span class="mg">merge</span>' : ''}<code>${s.e}</code>` +
       (i === step ? `<p>${s.d}</p><dl><dt>เข้า</dt><dd>${s.in}</dd>${s.m ? `<dt>รวม</dt><dd class="mm">${s.m}</dd>` : ''}<dt>ออก</dt><dd>${s.out}</dd></dl><div class="rdet">${detail(r)}</div>` : '') + '</div></li>').join('');
     document.getElementById('rprev').disabled = step === 0; document.getElementById('rnext').disabled = step === STEPS.length - 1;
-    document.getElementById('rmk').textContent = 'shared/WidgetSpecs/' + r.k + '.json';
+    document.getElementById('rmk').textContent = 'shared/WidgetSpecs/<หมวด>/' + r.k + '.json';
     document.getElementById('rmap').innerHTML = r.conv.map(c => `<div class="mr${c[0] ? '' : ' miss'}">
       <div class="c1">${c[0] ? `<code>${esc(c[0])}</code><b>${esc(JSON.stringify(c[1]))}</b>` : '<b class="no">❗ ยังไม่มีใน API</b><code>ตอนนี้ใช้ค่าตัวอย่าง</code>'}</div>
       <div class="hw"><span>${esc(c[5] || '')}</span><i>→</i></div>
@@ -2298,7 +2298,7 @@ TOKENS_JS = r'''
 '''
 
 def main():
-    specs = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(SPECS, '*.json')))]
+    specs = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(SPECS, '**', '*.json'), recursive=True), key=os.path.basename)]
     cm = json.load(open(os.path.join(ROOT, 'shared/category-models.json')))
     SAMPLE.update(load_sample())
     bycat = collections.defaultdict(list)

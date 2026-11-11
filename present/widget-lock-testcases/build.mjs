@@ -6,8 +6,12 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const specDir = path.join(here, '../../shared/WidgetSpecs');
-const widgets = fs.readdirSync(specDir).filter(f => f.endsWith('.json')).map(f => {
-  const j = JSON.parse(fs.readFileSync(path.join(specDir, f), 'utf8'));
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+const widgets = listSpecs(specDir).map(p => {
+  const f = path.basename(p);
+  const j = JSON.parse(fs.readFileSync(p, 'utf8'));
   const w = j.widget || {};
   return { kind: f.replace('.json', ''), title: w.title || '', category: w.category || '', requires: w.requires || [], pinned: !!w.pinned };
 });

@@ -23,8 +23,11 @@ function walk(n, parent, key) {
   }
   for (const [k, v] of Object.entries(n)) if (k !== 'widget' && typeof v === 'object') walk(v, n, k)
 }
-for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
-  const p = path.join(dir, f); const s = JSON.parse(fs.readFileSync(p, 'utf8'))
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+for (const p of listSpecs(dir)) {
+  const f = path.basename(p); const s = JSON.parse(fs.readFileSync(p, 'utf8'))
   const before = JSON.stringify(s); walk([s.root, s.variants ?? []], null, null)
   if (JSON.stringify(s) !== before) { console.log('·', f); if (!dry) fs.writeFileSync(p, JSON.stringify(s, null, 1) + '\n') }
 }

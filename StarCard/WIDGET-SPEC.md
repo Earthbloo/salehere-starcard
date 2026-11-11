@@ -3,7 +3,8 @@
 > ผังของ widget เป็น **ข้อมูล** (JSON หนึ่งไฟล์ต่อชนิด) · ตัวคำนวณกล่องเป็น **อัลกอริทึมเดียว** ที่ iOS / Android / Web
 > ต้อง port ให้ตรงด้วย fixture · ตัววาดรู้จัก primitive ไม่กี่อย่างและ **ไม่ตัดสินใจอะไรเอง** · **แอปไม่รู้จักชื่อ widget สักตัว** (§3.3c)
 >
-> ไฟล์ผัง: `shared/WidgetSpecs/<kind>.json` — **ชุดเดียว** ที่สามแพลตฟอร์มอ่านตรง ๆ ไม่มีสำเนา:
+> ไฟล์ผัง: `shared/WidgetSpecs/<NN-หมวด>/<kind>.json` — **ชุดเดียว** ที่สามแพลตฟอร์มอ่านตรง ๆ ไม่มีสำเนา (ทุกตัวอ่านกวาดโฟลเดอร์ย่อย · ชื่อไฟล์ = kind):
+> โฟลเดอร์ย่อย = หมวดถาดของ API (`starCardWidgetCategories` · ข้อมูลใน `shared/widget-categories.api.json`) · หมวดเปลี่ยน → `node shared/tools/split-widget-specs.mjs` จัดใหม่
 > iOS (folder reference ใน project.pbxproj) · Android (`assets.srcDirs("../../shared")` ใน app/build.gradle.kts) · เว็บ (`sync-server/server.mjs` อ่านสดจากโฟลเดอร์ → `GET /api/specs` · `?known=<hash>` ไม่เปลี่ยน = 204)
 > ตัวคำนวณ: `StarCard/Layout/SpecSolver.swift` · `StarCardAndroid/…/layout/SpecSolver.kt` · `sync-server/web/js/spec-solver.js` — ตัววาด: `SpecPainter.swift` · `SpecPainter.kt` · `spec-painter.js`
 > fixture: `present/spec-fixtures/fixtures/<kind>.json` (สร้างด้วย `-exportSpecs` · ดู §7) · ตรวจกติกา: `node shared/tools/check-widgets.mjs`
@@ -160,7 +161,7 @@ box   = (W / s − 2·inset, H / s − 2·inset)  กล่องรากใน
 |---|---|---|
 | เอกสารการ์ด (`CardSnapshot` v2 บนเครื่อง · `StarCardDoc` บนเซิร์ฟเวอร์) | ต่อการ์ดของผู้ใช้: หน้า → ชิ้น `{kind, x, y, w, h, surface, border, pattern, slotFaces/slotTints/slotSizes, kit, pinned, …}` | ผู้ใช้ (ผ่าน editor) |
 | ข้อมูลเจ้าของ (`Profile` / `StarProfile` / รูปใน `PhotoStore`) | ชื่อ · สายงาน · แนะนำตัว · ช่องทาง · เรต · รูป | ผู้ใช้ / ระบบ |
-| **ผัง** (`shared/WidgetSpecs/<kind>.json`) | ต่อ **ชนิด** · ฝังมากับแอป (โหมดลองทำโหลดจาก `/api/specs` ได้ — `SpecCatalog.replace`) | ดีไซเนอร์ |
+| **ผัง** (`shared/WidgetSpecs/<NN-หมวด>/<kind>.json`) | ต่อ **ชนิด** · ฝังมากับแอป (โหมดลองทำโหลดจาก `/api/specs` ได้ — `SpecCatalog.replace`) | ดีไซเนอร์ |
 
 จุดเชื่อม = **ชื่อช่อง** เท่านั้น: `slot` ในผังคือคีย์เดียวกับ `ProfileField.rawValue` / `WidgetTextStyle.slotKey` ในเอกสาร
 (`name` · `tagline` · `categories#2` · `note#1`) และ `photo` คือลำดับช่องรูปเดียวกับ `PhotoStore` / `WidgetItem.photos["N"]`
@@ -452,3 +453,4 @@ scrapFolder→scrapBadge · statWrapped→statPoster · interestTags→nicheTags
 | 15 ต.ค. | **JSON only**: บล็อก `widget` ครบทุกไฟล์ (เติมด้วยสคริปต์จากค่าที่ iOS คำนวณจริง · ภาพ 667 ไฟล์เท่าเดิมทุก byte) · `shared/category-models.json` · `check-widgets.mjs` · ลบ enum/ตารางชื่อ/view ต่อ widget ทั้ง 3 แพลตฟอร์ม · `textBlock` = ชั้นข้อความ · `proofSeal` → `pinned` · การ์ดเริ่มต้น → `shared/starter-cards.json` · แก้กระตุกตอนยืด (`SpecSolveMemo` · `metas` · cache ตัววัด · id คงที่ของพรีวิวสไตล์) |
 | 18 ต.ค. | Android (`CardLayout.kt` `CardScreen.kt` `Motion.kt`) + เว็บ (`page.js`) ตาม iOS: ตราตรึง `pinned` + หมุดมุมเดียว `resizeLive`/`resizePush` · ยังไม่ commit |
 | 20 ต.ค. | แหล่งข้อมูล Android + เว็บเท่า iOS บนข้อมูลจริง: ช่อง `website` (ProfileField/FIELDS) → `stat:site` + แถว web ของ `contacts` · `stat:phoneFmt`/`lineFlow` อ่านค่าดิบ · `body` จากค่าพร้อมหน่วยที่ sync มา · `avail` = `availSummary` (รวมกลุ่มวัน/รวมช่วง) · `works.brandLogo` = logo ?? asset · กติกาปัดเลข half-up บนทศนิยม (iOS `Fmt.fixed` แทน `String(format:)` · เว็บ `fixed` แทน `toFixed`) · ไอคอน `sh:line` ครบสามแพลตฟอร์ม · `SpecIconCoverageTest` ตรวจชื่อที่ data source สร้างด้วย · `owner.verified` ต่างความหมาย → §10 ค้างตัดสินใจ |
+| 11 พ.ย. | แบ่ง `shared/WidgetSpecs/` เป็น 13 โฟลเดอร์ชื่อไทยตามหมวดถาดของ API (`01-โปรไฟล์` … `14-แผ่นโชว์ผลงาน`) (SIT `starCardWidgetCategories` · 116/116 kind ตรง · แบรนด์ว่างจึงไม่มีโฟลเดอร์) · iOS / Android / sync-server / tools อ่านทุกชั้น |

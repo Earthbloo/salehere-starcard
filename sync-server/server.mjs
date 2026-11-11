@@ -39,11 +39,14 @@ const androidRes = path.join(repo, 'StarCardAndroid', 'app', 'src', 'main', 'res
 const iosAssets = path.join(repo, 'StarCard', 'StarCard', 'Assets.xcassets')
 const resolveIcon = iconResolver(repo)
 
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
 function readSpecs() {
   const specs = {}
   const h = crypto.createHash('sha1')
-  for (const f of fs.readdirSync(specDir).filter((f) => f.endsWith('.json')).sort()) {
-    const raw = fs.readFileSync(path.join(specDir, f), 'utf8')
+  for (const sp of listSpecs(specDir)) {
+    const f = path.basename(sp), raw = fs.readFileSync(sp, 'utf8')
     h.update(f).update(raw)
     try { specs[f.slice(0, -5)] = JSON.parse(raw) } catch (e) { log(`spec ${f} อ่านไม่ได้: ${e.message}`) }
   }

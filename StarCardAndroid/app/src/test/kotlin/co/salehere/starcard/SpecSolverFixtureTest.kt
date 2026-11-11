@@ -55,14 +55,16 @@ class SpecSolverFixtureTest {
         // ตัวเลขทุกตัวปัด 2 ทศนิยมทั้งสองฝั่ง — ต่างได้แค่เศษปัด (≤ 0.01)
         val tol = System.getProperty("spec.tol")?.toDoubleOrNull() ?: 0.0101
         val results = ArrayList<KindResult>()
-        val specs = specDir.listFiles { f -> f.extension == "json" }!!.map { it.nameWithoutExtension }.toSortedSet()
+        // ผังอยู่ในโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`)
+        val specFiles = specDir.walk().filter { it.extension == "json" }.associateBy { it.nameWithoutExtension }
+        val specs = specFiles.keys.toSortedSet()
         val fixtures = fixtureDir.listFiles { f -> f.extension == "json" }!!.associateBy { it.nameWithoutExtension }
         assertTrue("no specs found", specs.isNotEmpty())
 
         for (kind in specs) {
             val res = KindResult(kind); results += res
             // ผังต้องโหลดได้ด้วยตัวอ่านแบบเข้มงวด — คีย์ที่ Kotlin ไม่รู้จัก = Android วาดคำนั้นไม่เป็น
-            val spec = try { SpecCatalog.fromJson(File(specDir, "$kind.json").readText()) } catch (e: Exception) {
+            val spec = try { SpecCatalog.fromJson(specFiles.getValue(kind).readText()) } catch (e: Exception) {
                 res.diffs += "spec decode failed: ${e.message?.lines()?.firstOrNull()?.take(200)}"; continue
             }
             val file = fixtures[kind]
@@ -180,7 +182,7 @@ class SpecIconCoverageTest {
                 else -> Unit
             }
         }
-        for (f in File(root, "shared/WidgetSpecs").listFiles { x -> x.extension == "json" }!!) walk(json.parseToJsonElement(f.readText()), f.nameWithoutExtension)
+        for (f in File(root, "shared/WidgetSpecs").walk().filter { x -> x.extension == "json" }) walk(json.parseToJsonElement(f.readText()), f.nameWithoutExtension)
         // ไอคอนที่ **แหล่งข้อมูล** สร้างเอง (ผังรับผ่าน `$icon` จึงไม่อยู่ในไฟล์ผัง · 20 ต.ค. 2569): แถวของ `contacts`
         // (`ph:phone` `ph:envelope` `sh:line` `ph:globe`) · โลโก้ช่องทุกช่อง `sh:<platform>` (`socials` · `rates` · `works` · `stat:reachIcon`)
         val dataSource = File(app, "kotlin/co/salehere/starcard/model/SpecData.kt").readText()

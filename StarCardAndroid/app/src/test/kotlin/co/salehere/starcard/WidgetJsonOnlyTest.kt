@@ -40,7 +40,7 @@ class WidgetJsonOnlyTest {
 
     @Test
     fun jsonOnlyWidget() {
-        File(repoRoot(), "shared/WidgetSpecs").listFiles { f -> f.extension == "json" }!!.forEach { SpecCatalog.load(it.readText()) }
+        File(repoRoot(), "shared/WidgetSpecs").walk().filter { it.extension == "json" }.forEach { SpecCatalog.load(it.readText()) }
         val before = WidgetKind.entries.size
         SpecCatalog.load(probe)
         val k = WidgetKind.from("zzProbeWidget")!!
@@ -61,7 +61,7 @@ class WidgetJsonOnlyTest {
         assertEquals(k, WidgetKind.decode("zzOldProbe"))
 
         // ลบไฟล์ผัง = หายจากตู้ ไม่พัง
-        SpecCatalog.replace(File(repoRoot(), "shared/WidgetSpecs").listFiles { f -> f.extension == "json" }!!.map { it.readText() })
+        SpecCatalog.replace(File(repoRoot(), "shared/WidgetSpecs").walk().filter { it.extension == "json" }.toList().map { it.readText() })
         assertNull(WidgetKind.from("zzProbeWidget"))
         assertEquals(before, WidgetKind.entries.size)
     }

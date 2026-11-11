@@ -19,7 +19,7 @@ import CoreGraphics
 // สิ่งที่ widget *ไม่* ต้องรู้: ตัวเองกำลังถูกย่อหรือขยาย กว้างหรือแคบ — ผังประกาศล่วงหน้าแล้วว่า
 // ถ้ามีที่เหลือใครได้ (`grow`) ถ้าแคบลงใครขึ้นบรรทัดใหม่ (`wrap`) ถ้าแคบกว่า N ชื่อใช้ขนาดไหน (`sizeWhen`)
 
-/// แผนผังของ widget หนึ่งชนิด — ไฟล์ `shared/WidgetSpecs/<kind>.json`
+/// แผนผังของ widget หนึ่งชนิด — ไฟล์ `shared/WidgetSpecs/<NN-หมวด>/<kind>.json`
 struct WidgetSpec: Codable, Equatable {
     /// ชนิด (ตรงกับ `WidgetKind.rawValue`)
     var kind: String
@@ -491,7 +491,7 @@ final class SpecNodeBox: Codable, Equatable {
 
 // MARK: - แคตตาล็อก
 
-/// ผังทุกชนิดที่แอปถืออยู่ — โหลดจาก `shared/WidgetSpecs/*.json` ครั้งเดียว
+/// ผังทุกชนิดที่แอปถืออยู่ — โหลดจาก `shared/WidgetSpecs/**/*.json` ครั้งเดียว
 ///
 /// ชนิดที่ไม่มีไฟล์ = ไม่มีในแอป (ไม่ขึ้นตู้ · การ์ดที่มีชื่อนั้นอ่านไม่ออก)
 enum SpecCatalog {
@@ -500,7 +500,12 @@ enum SpecCatalog {
         let dec = JSONDecoder()
         // อ่านเฉพาะโฟลเดอร์ `WidgetSpecs/` ในบันเดิล (folder reference) — ห้ามกวาดรากบันเดิล: แอปที่ไม่ฝังผัง (salehere-ios) มี json อื่นเต็มไปหมด
         // (Lottie / apollo config / schema) จะเสียเวลา parse แล้ว decode ไม่ผ่านทุกไฟล์ · ไม่มีโฟลเดอร์ = เริ่มว่าง รอ `replace(with:)`
-        let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "WidgetSpecs") ?? []
+        // ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`WidgetSpecs/<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น
+        var urls: [URL] = []
+        if let dir = Bundle.main.url(forResource: "WidgetSpecs", withExtension: nil),
+           let walk = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: nil) {
+            for case let u as URL in walk where u.pathExtension == "json" { urls.append(u) }
+        }
         for u in urls {
             guard let data = try? Data(contentsOf: u) else { continue }
             do {

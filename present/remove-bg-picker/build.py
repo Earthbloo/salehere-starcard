@@ -31,7 +31,7 @@ def what(n):
 
 
 widgets = []
-for f in sorted(glob.glob(os.path.join(ROOT, 'shared', 'WidgetSpecs', '*.json'))):
+for f in sorted(glob.glob(os.path.join(ROOT, 'shared', 'WidgetSpecs', '**', '*.json'), recursive=True), key=os.path.basename):
     d = json.load(open(f, encoding='utf-8'))
     kind = d['kind']
     w = d.get('widget', {})

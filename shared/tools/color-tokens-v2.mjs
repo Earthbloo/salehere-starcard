@@ -92,8 +92,11 @@ function walkNodes(n, fn) {
   for (const [k, v] of Object.entries(n)) if (k !== 'widget' && typeof v === 'object') walkNodes(v, fn)
 }
 
-for (const file of fs.readdirSync(specDir).filter(f => f.endsWith('.json')).sort()) {
-  const p = path.join(specDir, file)
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+for (const p of listSpecs(specDir)) {
+  const file = path.basename(p)
   const spec = JSON.parse(fs.readFileSync(p, 'utf8'))
   const popFile = Object.keys(spec).length && JSON.stringify(spec).includes('"pop.')
   // 1) นับพื้นทั้งไฟล์ → พื้นตั้งต้นของใบ = พื้นที่ใช้มากสุด

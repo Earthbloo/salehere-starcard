@@ -5,8 +5,10 @@ const fam={};
 const SKIPF=new Set(["i","rank","rank2"]);
 const res=[];
 const rx=(s,re,cb)=>{let m;re.lastIndex=0;while((m=re.exec(s)))cb(m)};
-for(const file of fs.readdirSync(R+"shared/WidgetSpecs").sort()){if(!file.endsWith(".json"))continue;
- const s=JSON.parse(fs.readFileSync(R+"shared/WidgetSpecs/"+file,"utf8"));
+// ผังอยู่ในโฟลเดอร์ย่อยตามหมวดถาดของ API (<NN-หมวด>/<kind>.json)
+const specWalk=d=>[].concat(...fs.readdirSync(d).map(n=>fs.statSync(d+"/"+n).isDirectory()?specWalk(d+"/"+n):n.endsWith(".json")?[d+"/"+n]:[]));
+for(const sp of specWalk(R+"shared/WidgetSpecs").sort((a,b)=>require("path").basename(a)<require("path").basename(b)?-1:1)){
+ const s=JSON.parse(fs.readFileSync(sp,"utf8"));
  const u={kind:s.kind,cat:fam[s.kind]||(s.widget&&s.widget.category)||"?",slots:new Set(),lists:{},stats:new Set(),photo:new Set(),flags:new Set()};
  const addF=(list,f)=>{if(!list||SKIPF.has(f)||/^(max|sum)$/.test(f))return;(u.lists[list]=u.lists[list]||new Set()).add(f)};
  const cond=(str,list)=>{for(const t0 of str.split(/[&|]/)){const t=t0.trim().replace(/^!/,"");if(!t)continue;

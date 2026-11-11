@@ -15,8 +15,11 @@ const dry = process.argv.includes('--dry')
 const MAP = { card: 'card', plate: 'dark', paper: 'light', kit: 'light', pop: 'light', scrap: 'light', light: 'light', dark: 'dark' }
 
 const report = { files: 0, widget: {}, node: {} }
-for (const file of fs.readdirSync(specDir).filter(f => f.endsWith('.json')).sort()) {
-  const p = path.join(specDir, file)
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+for (const p of listSpecs(specDir)) {
+  const file = path.basename(p)
   const spec = JSON.parse(fs.readFileSync(p, 'utf8'))
   const night = spec.widget?.kit?.look === 'night'
   const def = night ? 'dark' : (MAP[spec.widget.on ?? 'card'] ?? 'card')

@@ -16,11 +16,12 @@ class StarCardApp : Application() {
 
     /// โหลดผังวิดเจ็ตทุกใบจาก assets/WidgetSpecs (= โฟลเดอร์กลาง shared/WidgetSpecs ชุดเดียวกับ iOS) เข้า `SpecCatalog`
     private fun loadWidgetSpecs() {
-        val names = runCatching { assets.list("WidgetSpecs")?.toList() }.getOrNull() ?: emptyList()
-        for (name in names) {
-            if (!name.endsWith(".json")) continue
+        // ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`WidgetSpecs/<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น
+        fun walk(dir: String): List<String> = (runCatching { assets.list(dir)?.toList() }.getOrNull() ?: emptyList())
+            .flatMap { if (it.endsWith(".json")) listOf("$dir/$it") else walk("$dir/$it") }
+        for (name in walk("WidgetSpecs")) {
             runCatching {
-                val text = assets.open("WidgetSpecs/$name").bufferedReader().use { it.readText() }
+                val text = assets.open(name).bufferedReader().use { it.readText() }
                 SpecCatalog.register(SpecCatalog.fromJson(text))
             }.onFailure { android.util.Log.w("StarCard", "spec $name: ${it.message}") }
         }

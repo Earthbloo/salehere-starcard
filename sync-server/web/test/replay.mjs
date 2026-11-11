@@ -15,14 +15,17 @@ const fixtureDir = path.join(repo, 'present/spec-fixtures/fixtures')
 const tol = 0.0101
 const only = process.argv.slice(2)
 
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
 let pass = 0, total = 0
-for (const f of fs.readdirSync(specDir).filter((f) => f.endsWith('.json')).sort()) {
-  const kind = f.slice(0, -5)
+for (const sp of listSpecs(specDir)) {
+  const f = path.basename(sp), kind = f.slice(0, -5)
   if (only.length && !only.includes(kind)) continue
   const fx = path.join(fixtureDir, f)
   if (!fs.existsSync(fx)) { console.log(`${kind.padEnd(18)} SKIP no iOS fixture`); continue }
   total++
-  const spec = parseSpec(JSON.parse(fs.readFileSync(path.join(specDir, f), 'utf8')))
+  const spec = parseSpec(JSON.parse(fs.readFileSync(sp, 'utf8')))
   const fixture = JSON.parse(fs.readFileSync(fx, 'utf8'))
   let cases = 0, boxes = 0, diffs = []
   for (const c of fixture.cases) {

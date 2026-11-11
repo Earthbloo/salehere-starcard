@@ -28,7 +28,7 @@ class WidgetTraitsDumpTest {
     fun dumpTraits() {
         val out = System.getenv("TRAITS_OUT") ?: return
         val dir = System.getenv("SPECS_DIR")?.let { File(it) } ?: File(repoRoot(), "shared/WidgetSpecs")
-        dir.listFiles { f -> f.extension == "json" }!!.forEach { SpecCatalog.load(it.readText()) }
+        dir.walk().filter { it.extension == "json" }.forEach { SpecCatalog.load(it.readText()) }
         val kinds = WidgetKind.entries.toMutableList()
         WidgetKind.from("textBlock")?.let { if (it !in kinds) kinds.add(it) }
         val sb = StringBuilder("{\n")

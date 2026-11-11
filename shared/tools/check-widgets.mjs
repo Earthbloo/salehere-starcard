@@ -35,8 +35,11 @@ const KIT_LOOKS = ['purple', 'cream', 'gingham', 'night', 'mac']
 const KIT_TYPES = ['checks', 'pick', 'segment', 'switch', 'stepper']
 const KIT_SOURCES = ['socials', 'shownSocials', 'rates', 'ratePlatforms', 'categories']
 
-const specs = fs.readdirSync(specDir).filter((f) => f.endsWith('.json')).sort()
-  .map((f) => ({ file: f, spec: JSON.parse(fs.readFileSync(path.join(specDir, f), 'utf8')) }))
+// ผังแบ่งโฟลเดอร์ย่อยตามหมวดถาดของ API (`<NN-หมวด>/<kind>.json`) → กวาดทุกชั้น · คืน path เต็ม เรียงตามชื่อไฟล์ (= kind)
+const specFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? specFiles(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : [])
+const listSpecs = (d) => specFiles(d).sort((a, b) => path.basename(a) < path.basename(b) ? -1 : 1)
+const specs = listSpecs(specDir)
+  .map((p) => ({ file: path.basename(p), path: p, spec: JSON.parse(fs.readFileSync(p, 'utf8')) }))
 
 // MARK: 2 · บล็อก widget
 
@@ -191,14 +194,14 @@ function requiresOf(spec) {
 
 const writeRequires = process.argv.includes('--write-requires')
 let written = 0
-for (const { file, spec } of specs) {
+for (const { file, path: specPath, spec } of specs) {
   const w = spec.widget
   if (!w) continue
   const { requires, unknown } = requiresOf(spec)
   for (const u of unknown) errors.push(`${file}: อ่าน "${u.slice(1)}" แต่ไม่รู้ว่ามาจากแถวไหน — เพิ่มใน rowOf()`)
   if (writeRequires && JSON.stringify(w.requires) !== JSON.stringify(requires)) {
     // ใส่ต่อจาก category · คงรูปแบบไฟล์เดิม (เว้น 1 ช่อง · ขึ้นบรรทัดท้ายถ้าเดิมมี)
-    const p = path.join(specDir, file), raw = fs.readFileSync(p, 'utf8')
+    const p = specPath, raw = fs.readFileSync(p, 'utf8')
     const entries = Object.entries(w).filter(([k]) => k !== 'requires')
     const at = entries.findIndex(([k]) => k === 'category') + 1
     entries.splice(at, 0, ['requires', requires])
