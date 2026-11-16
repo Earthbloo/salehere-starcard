@@ -7,12 +7,13 @@
 const S = 'http://localhost:8787/card/'
 const { parseSpec } = await import(S + 'js/spec-model.js')
 const { WebMeasurer, loadFonts } = await import(S + 'js/measure.js')
-const { Profile } = await import(S + 'js/data.js')
+const { Profile, MOCK } = await import(S + 'js/data.js')
 const { mountWidget } = await import(S + 'js/chrome.js')
 const { paintBackdrop } = await import(S + 'js/backdrop.js')
 const { themeOf, defaultChoice } = await import(S + 'js/backdrop-tray.js')
 await loadFonts(S + 'fonts/')
 const c = JSON.parse(new URLSearchParams(location.search).get('c'))
+if (c.zero) MOCK.track.works.forEach((w, i) => { if (c.zero === 'all' || (c.zero === 'first' && i === 0)) { w.views = 0; w.saves = 0; w.shares = 0 } if (c.zero === 'viewsonly') { w.saves = 0; w.shares = 0 } })
 const base = await fetch('http://localhost:8787/api/specs?' + Date.now()).then(r => r.json())
 const raw = {}
 for (const [k, v] of Object.entries(base.specs)) raw[k] = v

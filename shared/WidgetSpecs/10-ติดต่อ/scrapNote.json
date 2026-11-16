@@ -165,7 +165,7 @@
        {
         "type": "row",
         "id": "line",
-        "if": "has:lineId",
+        "if": "has:stat:lineFlow",
         "h": 27,
         "gap": 7,
         "align": "center",
@@ -197,7 +197,7 @@
        {
         "type": "row",
         "id": "phone",
-        "if": "has:phone",
+        "if": "has:stat:phoneFmt",
         "h": 27,
         "gap": 7,
         "align": "center",
@@ -229,7 +229,7 @@
        {
         "type": "row",
         "id": "web",
-        "if": "has:website",
+        "if": "has:stat:site",
         "h": 27,
         "gap": 7,
         "align": "center",

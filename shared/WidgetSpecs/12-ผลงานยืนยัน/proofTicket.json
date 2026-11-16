@@ -18,7 +18,7 @@
   "stamp": "work",
   "motion": "anchored"
  },
- "notes": "ตั๋วผลงาน · แปลงจาก ProofWorkVariants.swift (ProofTicket.stub) · ตั๋วกว้างเท่ากัน (w fill) ช่องห่าง 7 มุม 9 (clip ทั้งใบ) · จำนวนตั๋ว = floor((w+7)/132) → variants w>=389 สาม · w>=521 สี่ · w>=653 ห้า · ครึ่งบน = รูป WorkPicture (src $cover · ว่าง = photoRef $workPhoto) สูง w×0.9 (aspect 1.111 · ของเดิม max(w×0.9, rowH×0.58)) + วงดำไอคอนแพลตฟอร์มมุมบนขวา + ชิป EP มุมล่างซ้าย · รอยปรุ = แถบ #F2E8DB สูง 9 เส้น #170F21@0.28 เว้นข้าง 5 · ครึ่งล่างกระดาษไล่สี #FAF5ED→#F2E8DB (สี Paper คงที่โดยตั้งใจ — ไม่ผูก cardInk): BrandPlate 15 (src $brandLogo) + แบรนด์ 9/600 · ชื่อแคมเปญ 12.5/700 2 บรรทัด · ProofFigures: เส้น 0.6 + ยอดวิว 13.2/800 'วิว' 7.1 + บันทึก/แชร์ 7.82 (ph:bookmark-simple-fill / ph:share-fat-fill) · ทุกชิ้น shrink 0 → ส่วนที่เกินถูก clip ที่ขอบตั๋วเหมือนของเดิม (กรอบออกแบบ: แถวตัวเลขหลุดล่าง) · ยังต่าง: รูเจาะรอยปรุ (destinationOut) · EP ฟอนต์ mono → noto · สองแถวเมื่อจัตุรัสไม่มี",
+ "notes": "ตั๋วผลงาน · แปลงจาก ProofWorkVariants.swift (ProofTicket.stub) · ตั๋วกว้างเท่ากัน (w fill) ช่องห่าง 7 มุม 9 (clip ทั้งใบ) · จำนวนตั๋ว = floor((w+7)/132) → variants w>=389 สาม · w>=521 สี่ · w>=653 ห้า · ครึ่งบน = รูป WorkPicture (src $cover · ว่าง = photoRef $workPhoto) สูง w×0.9 (aspect 1.111 · ของเดิม max(w×0.9, rowH×0.58)) + วงดำไอคอนแพลตฟอร์มมุมบนขวา + ชิป EP มุมล่างซ้าย · รอยปรุ = แถบ #F2E8DB สูง 9 เส้น #170F21@0.28 เว้นข้าง 5 · ครึ่งล่างกระดาษไล่สี #FAF5ED→#F2E8DB (สี Paper คงที่โดยตั้งใจ — ไม่ผูก cardInk): BrandPlate 15 (src $brandLogo) + แบรนด์ 9/600 · ชื่อแคมเปญ 12.5/700 2 บรรทัด · ProofFigures: เส้น 0.6 + ยอดวิว 13.2/800 'วิว' 7.1 + บันทึก/แชร์ 7.82 (ph:bookmark-simple-fill / ph:share-fat-fill) · ทุกชิ้น shrink 0 → ส่วนที่เกินถูก clip ที่ขอบตั๋วเหมือนของเดิม (กรอบออกแบบ: แถวตัวเลขหลุดล่าง) · ยังต่าง: รูเจาะรอยปรุ (destinationOut) · EP ฟอนต์ mono → noto · สองแถวเมื่อจัตุรัสไม่มี · 16 พ.ย. 2569: รูปกินที่ที่เหลือ (grow) แทน aspect 1.11 ตายตัว — เดิมเนื้อหาใต้รูปล้นขอบล่าง ตัวเลขวิว/บันทึกมองไม่เห็น · ตัวเลขเหมือน proofWork แบบ B: วิว/บันทึก/แชร์ ขึ้นเฉพาะค่า > 0 · ghost \"0\" โปร่งใสจองความสูงสองบรรทัดไว้ ให้รูปทุกใบสูงเท่ากัน · เส้นคั่นหายเมื่อเป็น 0 ทั้งหมด",
  "variants": [
   {
    "when": "w>=653",
@@ -82,7 +82,6 @@
         {
          "type": "stack",
          "id": "photo",
-         "aspect": 1.1111,
          "children": [
           {
            "type": "image",
@@ -106,7 +105,9 @@
            "children": []
           }
          ],
-         "shrink": 0
+         "shrink": 0,
+         "grow": 1,
+         "minH": 50
         },
         {
          "type": "row",
@@ -131,7 +132,6 @@
         {
          "type": "col",
          "id": "stubBody",
-         "grow": 1,
          "gap": 5,
          "pad": [
           6,
@@ -211,7 +211,8 @@
              "type": "rect",
              "h": 0.6,
              "w": "fill",
-             "fill": "#170F21@0.14"
+             "fill": "#170F21@0.14",
+             "if": "$viewsRaw>0 | $savesRaw>0 | $sharesRaw>0"
             },
             {
              "type": "col",
@@ -226,103 +227,138 @@
              "w": "fill",
              "children": [
               {
-               "type": "row",
-               "gap": 4,
-               "align": "end",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
                  "type": "text",
-                 "id": "viewCount",
-                 "text": "{views}",
+                 "id": "ghost",
+                 "text": "0",
                  "face": "noto",
                  "size": 13.2,
                  "weight": 800,
-                 "color": "#170F21",
+                 "color": "#170F21@0",
                  "maxLines": 1
                 },
                 {
-                 "type": "col",
-                 "pad": [
-                  0,
-                  0,
-                  5.9,
-                  0
-                 ],
+                 "type": "row",
+                 "gap": 4,
+                 "align": "end",
                  "children": [
                   {
                    "type": "text",
-                   "text": "วิว",
+                   "id": "viewCount",
+                   "text": "{views}",
                    "face": "noto",
-                   "size": 7.1,
-                   "weight": 400,
-                   "color": "#594F6B",
+                   "size": 13.2,
+                   "weight": 800,
+                   "color": "#170F21",
                    "maxLines": 1
+                  },
+                  {
+                   "type": "col",
+                   "pad": [
+                    0,
+                    0,
+                    5.9,
+                    0
+                   ],
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "วิว",
+                     "face": "noto",
+                     "size": 7.1,
+                     "weight": 400,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ]
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1,
+                   "minW": 2
                   }
-                 ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1,
-                 "minW": 2
+                 ],
+                 "w": "fill",
+                 "if": "$viewsRaw>0"
                 }
-               ],
-               "w": "fill"
+               ]
               },
               {
-               "type": "row",
-               "id": "deepStats",
-               "gap": 10,
-               "align": "center",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
-                 "type": "row",
-                 "gap": 3.5,
-                 "align": "center",
-                 "children": [
-                  {
-                   "type": "icon",
-                   "icon": "ph:bookmark-simple-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
-                  },
-                  {
-                   "type": "text",
-                   "text": "{saves}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
-                  }
-                 ]
+                 "type": "text",
+                 "id": "ghost",
+                 "text": "0",
+                 "face": "noto",
+                 "size": 7.82,
+                 "weight": 700,
+                 "color": "#170F21@0",
+                 "maxLines": 1
                 },
                 {
                  "type": "row",
-                 "gap": 3.5,
+                 "id": "deepStats",
+                 "gap": 10,
                  "align": "center",
                  "children": [
                   {
-                   "type": "icon",
-                   "icon": "ph:share-fat-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:bookmark-simple-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{saves}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$savesRaw>0"
                   },
                   {
-                   "type": "text",
-                   "text": "{shares}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:share-fat-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{shares}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$sharesRaw>0"
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1
                   }
                  ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1
                 }
                ]
               }
@@ -403,7 +439,6 @@
         {
          "type": "stack",
          "id": "photo",
-         "aspect": 1.1111,
          "children": [
           {
            "type": "image",
@@ -427,7 +462,9 @@
            "children": []
           }
          ],
-         "shrink": 0
+         "shrink": 0,
+         "grow": 1,
+         "minH": 50
         },
         {
          "type": "row",
@@ -452,7 +489,6 @@
         {
          "type": "col",
          "id": "stubBody",
-         "grow": 1,
          "gap": 5,
          "pad": [
           6,
@@ -532,7 +568,8 @@
              "type": "rect",
              "h": 0.6,
              "w": "fill",
-             "fill": "#170F21@0.14"
+             "fill": "#170F21@0.14",
+             "if": "$viewsRaw>0 | $savesRaw>0 | $sharesRaw>0"
             },
             {
              "type": "col",
@@ -547,103 +584,138 @@
              "w": "fill",
              "children": [
               {
-               "type": "row",
-               "gap": 4,
-               "align": "end",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
                  "type": "text",
-                 "id": "viewCount",
-                 "text": "{views}",
+                 "id": "ghost",
+                 "text": "0",
                  "face": "noto",
                  "size": 13.2,
                  "weight": 800,
-                 "color": "#170F21",
+                 "color": "#170F21@0",
                  "maxLines": 1
                 },
                 {
-                 "type": "col",
-                 "pad": [
-                  0,
-                  0,
-                  5.9,
-                  0
-                 ],
+                 "type": "row",
+                 "gap": 4,
+                 "align": "end",
                  "children": [
                   {
                    "type": "text",
-                   "text": "วิว",
+                   "id": "viewCount",
+                   "text": "{views}",
                    "face": "noto",
-                   "size": 7.1,
-                   "weight": 400,
-                   "color": "#594F6B",
+                   "size": 13.2,
+                   "weight": 800,
+                   "color": "#170F21",
                    "maxLines": 1
+                  },
+                  {
+                   "type": "col",
+                   "pad": [
+                    0,
+                    0,
+                    5.9,
+                    0
+                   ],
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "วิว",
+                     "face": "noto",
+                     "size": 7.1,
+                     "weight": 400,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ]
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1,
+                   "minW": 2
                   }
-                 ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1,
-                 "minW": 2
+                 ],
+                 "w": "fill",
+                 "if": "$viewsRaw>0"
                 }
-               ],
-               "w": "fill"
+               ]
               },
               {
-               "type": "row",
-               "id": "deepStats",
-               "gap": 10,
-               "align": "center",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
-                 "type": "row",
-                 "gap": 3.5,
-                 "align": "center",
-                 "children": [
-                  {
-                   "type": "icon",
-                   "icon": "ph:bookmark-simple-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
-                  },
-                  {
-                   "type": "text",
-                   "text": "{saves}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
-                  }
-                 ]
+                 "type": "text",
+                 "id": "ghost",
+                 "text": "0",
+                 "face": "noto",
+                 "size": 7.82,
+                 "weight": 700,
+                 "color": "#170F21@0",
+                 "maxLines": 1
                 },
                 {
                  "type": "row",
-                 "gap": 3.5,
+                 "id": "deepStats",
+                 "gap": 10,
                  "align": "center",
                  "children": [
                   {
-                   "type": "icon",
-                   "icon": "ph:share-fat-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:bookmark-simple-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{saves}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$savesRaw>0"
                   },
                   {
-                   "type": "text",
-                   "text": "{shares}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:share-fat-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{shares}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$sharesRaw>0"
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1
                   }
                  ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1
                 }
                ]
               }
@@ -724,7 +796,6 @@
         {
          "type": "stack",
          "id": "photo",
-         "aspect": 1.1111,
          "children": [
           {
            "type": "image",
@@ -748,7 +819,9 @@
            "children": []
           }
          ],
-         "shrink": 0
+         "shrink": 0,
+         "grow": 1,
+         "minH": 50
         },
         {
          "type": "row",
@@ -773,7 +846,6 @@
         {
          "type": "col",
          "id": "stubBody",
-         "grow": 1,
          "gap": 5,
          "pad": [
           6,
@@ -853,7 +925,8 @@
              "type": "rect",
              "h": 0.6,
              "w": "fill",
-             "fill": "#170F21@0.14"
+             "fill": "#170F21@0.14",
+             "if": "$viewsRaw>0 | $savesRaw>0 | $sharesRaw>0"
             },
             {
              "type": "col",
@@ -868,103 +941,138 @@
              "w": "fill",
              "children": [
               {
-               "type": "row",
-               "gap": 4,
-               "align": "end",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
                  "type": "text",
-                 "id": "viewCount",
-                 "text": "{views}",
+                 "id": "ghost",
+                 "text": "0",
                  "face": "noto",
                  "size": 13.2,
                  "weight": 800,
-                 "color": "#170F21",
+                 "color": "#170F21@0",
                  "maxLines": 1
                 },
                 {
-                 "type": "col",
-                 "pad": [
-                  0,
-                  0,
-                  5.9,
-                  0
-                 ],
+                 "type": "row",
+                 "gap": 4,
+                 "align": "end",
                  "children": [
                   {
                    "type": "text",
-                   "text": "วิว",
+                   "id": "viewCount",
+                   "text": "{views}",
                    "face": "noto",
-                   "size": 7.1,
-                   "weight": 400,
-                   "color": "#594F6B",
+                   "size": 13.2,
+                   "weight": 800,
+                   "color": "#170F21",
                    "maxLines": 1
+                  },
+                  {
+                   "type": "col",
+                   "pad": [
+                    0,
+                    0,
+                    5.9,
+                    0
+                   ],
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "วิว",
+                     "face": "noto",
+                     "size": 7.1,
+                     "weight": 400,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ]
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1,
+                   "minW": 2
                   }
-                 ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1,
-                 "minW": 2
+                 ],
+                 "w": "fill",
+                 "if": "$viewsRaw>0"
                 }
-               ],
-               "w": "fill"
+               ]
               },
               {
-               "type": "row",
-               "id": "deepStats",
-               "gap": 10,
-               "align": "center",
+               "type": "stack",
+               "w": "fill",
                "children": [
                 {
-                 "type": "row",
-                 "gap": 3.5,
-                 "align": "center",
-                 "children": [
-                  {
-                   "type": "icon",
-                   "icon": "ph:bookmark-simple-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
-                  },
-                  {
-                   "type": "text",
-                   "text": "{saves}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
-                  }
-                 ]
+                 "type": "text",
+                 "id": "ghost",
+                 "text": "0",
+                 "face": "noto",
+                 "size": 7.82,
+                 "weight": 700,
+                 "color": "#170F21@0",
+                 "maxLines": 1
                 },
                 {
                  "type": "row",
-                 "gap": 3.5,
+                 "id": "deepStats",
+                 "gap": 10,
                  "align": "center",
                  "children": [
                   {
-                   "type": "icon",
-                   "icon": "ph:share-fat-fill",
-                   "w": 8.27,
-                   "h": 8.27,
-                   "tint": "#594F6B"
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:bookmark-simple-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{saves}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$savesRaw>0"
                   },
                   {
-                   "type": "text",
-                   "text": "{shares}",
-                   "face": "noto",
-                   "size": 7.82,
-                   "weight": 700,
-                   "color": "#594F6B",
-                   "maxLines": 1
+                   "type": "row",
+                   "gap": 3.5,
+                   "align": "center",
+                   "children": [
+                    {
+                     "type": "icon",
+                     "icon": "ph:share-fat-fill",
+                     "w": 8.27,
+                     "h": 8.27,
+                     "tint": "#594F6B"
+                    },
+                    {
+                     "type": "text",
+                     "text": "{shares}",
+                     "face": "noto",
+                     "size": 7.82,
+                     "weight": 700,
+                     "color": "#594F6B",
+                     "maxLines": 1
+                    }
+                   ],
+                   "if": "$sharesRaw>0"
+                  },
+                  {
+                   "type": "spacer",
+                   "grow": 1
                   }
                  ]
-                },
-                {
-                 "type": "spacer",
-                 "grow": 1
                 }
                ]
               }
@@ -1044,7 +1152,6 @@
       {
        "type": "stack",
        "id": "photo",
-       "aspect": 1.1111,
        "children": [
         {
          "type": "image",
@@ -1068,7 +1175,9 @@
          "children": []
         }
        ],
-       "shrink": 0
+       "shrink": 0,
+       "grow": 1,
+       "minH": 50
       },
       {
        "type": "row",
@@ -1093,7 +1202,6 @@
       {
        "type": "col",
        "id": "stubBody",
-       "grow": 1,
        "gap": 5,
        "pad": [
         6,
@@ -1173,7 +1281,8 @@
            "type": "rect",
            "h": 0.6,
            "w": "fill",
-           "fill": "#170F21@0.14"
+           "fill": "#170F21@0.14",
+           "if": "$viewsRaw>0 | $savesRaw>0 | $sharesRaw>0"
           },
           {
            "type": "col",
@@ -1188,103 +1297,138 @@
            "w": "fill",
            "children": [
             {
-             "type": "row",
-             "gap": 4,
-             "align": "end",
+             "type": "stack",
+             "w": "fill",
              "children": [
               {
                "type": "text",
-               "id": "viewCount",
-               "text": "{views}",
+               "id": "ghost",
+               "text": "0",
                "face": "noto",
                "size": 13.2,
                "weight": 800,
-               "color": "#170F21",
+               "color": "#170F21@0",
                "maxLines": 1
               },
               {
-               "type": "col",
-               "pad": [
-                0,
-                0,
-                5.9,
-                0
-               ],
+               "type": "row",
+               "gap": 4,
+               "align": "end",
                "children": [
                 {
                  "type": "text",
-                 "text": "วิว",
+                 "id": "viewCount",
+                 "text": "{views}",
                  "face": "noto",
-                 "size": 7.1,
-                 "weight": 400,
-                 "color": "#594F6B",
+                 "size": 13.2,
+                 "weight": 800,
+                 "color": "#170F21",
                  "maxLines": 1
+                },
+                {
+                 "type": "col",
+                 "pad": [
+                  0,
+                  0,
+                  5.9,
+                  0
+                 ],
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "วิว",
+                   "face": "noto",
+                   "size": 7.1,
+                   "weight": 400,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ]
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1,
+                 "minW": 2
                 }
-               ]
-              },
-              {
-               "type": "spacer",
-               "grow": 1,
-               "minW": 2
+               ],
+               "w": "fill",
+               "if": "$viewsRaw>0"
               }
-             ],
-             "w": "fill"
+             ]
             },
             {
-             "type": "row",
-             "id": "deepStats",
-             "gap": 10,
-             "align": "center",
+             "type": "stack",
+             "w": "fill",
              "children": [
               {
-               "type": "row",
-               "gap": 3.5,
-               "align": "center",
-               "children": [
-                {
-                 "type": "icon",
-                 "icon": "ph:bookmark-simple-fill",
-                 "w": 8.27,
-                 "h": 8.27,
-                 "tint": "#594F6B"
-                },
-                {
-                 "type": "text",
-                 "text": "{saves}",
-                 "face": "noto",
-                 "size": 7.82,
-                 "weight": 700,
-                 "color": "#594F6B",
-                 "maxLines": 1
-                }
-               ]
+               "type": "text",
+               "id": "ghost",
+               "text": "0",
+               "face": "noto",
+               "size": 7.82,
+               "weight": 700,
+               "color": "#170F21@0",
+               "maxLines": 1
               },
               {
                "type": "row",
-               "gap": 3.5,
+               "id": "deepStats",
+               "gap": 10,
                "align": "center",
                "children": [
                 {
-                 "type": "icon",
-                 "icon": "ph:share-fat-fill",
-                 "w": 8.27,
-                 "h": 8.27,
-                 "tint": "#594F6B"
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:bookmark-simple-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{saves}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ],
+                 "if": "$savesRaw>0"
                 },
                 {
-                 "type": "text",
-                 "text": "{shares}",
-                 "face": "noto",
-                 "size": 7.82,
-                 "weight": 700,
-                 "color": "#594F6B",
-                 "maxLines": 1
+                 "type": "row",
+                 "gap": 3.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 8.27,
+                   "h": 8.27,
+                   "tint": "#594F6B"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 7.82,
+                   "weight": 700,
+                   "color": "#594F6B",
+                   "maxLines": 1
+                  }
+                 ],
+                 "if": "$sharesRaw>0"
+                },
+                {
+                 "type": "spacer",
+                 "grow": 1
                 }
                ]
-              },
-              {
-               "type": "spacer",
-               "grow": 1
               }
              ]
             }

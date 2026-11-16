@@ -53,7 +53,8 @@
       "color": "ink@0.9",
       "maxLines": 1
      }
-    ]
+    ],
+    "if": "has:stat:lineFlow"
    },
    {
     "type": "row",
@@ -86,7 +87,8 @@
       "color": "ink@0.9",
       "maxLines": 1
      }
-    ]
+    ],
+    "if": "has:stat:phoneFmt"
    },
    {
     "type": "row",
@@ -119,7 +121,8 @@
       "color": "ink@0.9",
       "maxLines": 1
      }
-    ]
+    ],
+    "if": "has:stat:site"
    }
   ]
  }

@@ -2,7 +2,7 @@
  "kind": "kitNicheCream",
  "design": {
   "w": 330,
-  "h": 110
+  "h": 170
  },
  "widget": {
   "title": "สายงาน",
@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว",
+ "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว · แสดงไม่เกิน 5 สาย (limit 5) · 16 พ.ย. 2569: กรอบตั้งต้น 330×110 → 330×170 · ระยะในแถวกระชับลง ให้ 5 แถวอ่านได้ที่ขนาดตั้งต้น (เดิมถูกย่อจนอ่านไม่ออก)",
  "root": {
   "type": "stack",
   "children": [
@@ -255,7 +255,7 @@
         "list": "categories",
         "where": "!hidden:$text",
         "direction": "col",
-        "gap": 7,
+        "gap": 6,
         "grow": 1,
         "each": {
          "type": "stack",
@@ -269,8 +269,8 @@
           {
            "type": "col",
            "pad": [
-            11,
-            14
+            7,
+            12
            ],
            "justify": "center",
            "align": "stretch",
@@ -294,14 +294,16 @@
                "size": 13,
                "weight": 600,
                "color": "ink",
-               "maxLines": 1
+               "maxLines": 1,
+               "shrinkTo": 9
               }
              ]
             }
            ]
           }
          ]
-        }
+        },
+        "limit": 5
        }
       ],
       "grow": 1,

@@ -202,7 +202,8 @@
           "shrinkTo": 10.8,
           "maxW": 135.5
          }
-        ]
+        ],
+        "if": "has:stat:lineFlow"
        },
        {
         "type": "row",
@@ -233,7 +234,8 @@
           "shrinkTo": 10.8,
           "maxW": 135.5
          }
-        ]
+        ],
+        "if": "has:stat:phoneFmt"
        },
        {
         "type": "row",
@@ -264,7 +266,8 @@
           "shrinkTo": 10.8,
           "maxW": 135.5
          }
-        ]
+        ],
+        "if": "has:stat:site"
        }
       ]
      },
@@ -315,7 +318,8 @@
          "color": "line@0.26",
          "width": 0.8
         },
-        "on": "card"
+        "on": "card",
+        "if": "has:stat:lineFlow"
        },
        {
         "type": "row",
@@ -353,7 +357,8 @@
          "color": "line@0.26",
          "width": 0.8
         },
-        "on": "card"
+        "on": "card",
+        "if": "has:stat:phoneFmt"
        },
        {
         "type": "row",
@@ -391,7 +396,8 @@
          "color": "line@0.26",
          "width": 0.8
         },
-        "on": "card"
+        "on": "card",
+        "if": "has:stat:site"
        }
       ]
      }
