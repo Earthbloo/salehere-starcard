@@ -44,11 +44,28 @@
      ]
     ],
     "if": "surface=glass"
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "เหลี่ยม"
+     ],
+     [
+      "round",
+      "มน"
+     ]
+    ],
+    "if": "surface=glass",
+    "refit": false
    }
   ],
   "on": "light"
  },
- "notes": "สำรับบรรณาธิการ · หน้าแนะนำตัว — หัวเรื่องยักษ์สองบรรทัด (note#0 note#1) บนกระดาษครีมอุ่น · เส้นตั้งสองเส้น · รูปมุมขวา (ช่อง 1 · 12 Nov 2026 แถว body: คอลัมน์แนะนำตัวกว้างคงที่ 183 + รูป fill ถึงขอบขวา/ล่าง 14.6 → ขยายใบแล้วกรอบรูปกินที่ว่างทั้งหมด) · หัวข้อย่อย (note#2) + ย่อหน้าแนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutEditorial) · สีตาม Ed.skin: กระดาษ Ed.creamWarm เฉพาะ papered & !duo · คู่สี = plate + plateInk · ปิดพื้น/pane = หมึกการ์ด · หัวเรื่อง/เส้น = ed.red (กระดาษ → accentPaper · คู่สี → plateInk · ไม่มีพื้น → accent) · ขนาดหัวเรื่องต้นฉบับ = min(Ed.fitted ของสองบรรทัด กว้าง 63% เพดาน 26% สูง) = 66 ที่กรอบดีไซน์กับข้อความตั้งต้น — ผังผูกขนาดสองโหนดเข้าด้วยกันไม่ได้ จึงตรึง 66 ทั้งคู่ (ย่อได้ด้วย shrinkTo · ขยายตามคำสั้นไม่ได้) · ระยะตัวอักษร −0.05×ขนาด ใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
+ "notes": "สำรับบรรณาธิการ · หน้าแนะนำตัว — หัวเรื่องยักษ์สองบรรทัด (note#0 note#1) บนกระดาษครีมอุ่น · เส้นตั้งสองเส้น · รูปมุมขวา (ช่อง 1 · 12 Nov 2026 แถว body: คอลัมน์แนะนำตัวกว้างคงที่ 183 + รูป fill ถึงขอบขวา/ล่าง 14.6 → ขยายใบแล้วกรอบรูปกินที่ว่างทั้งหมด) · หัวข้อย่อย (note#2) + ย่อหน้าแนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutEditorial) · สีตาม Ed.skin: กระดาษ Ed.creamWarm เฉพาะ papered & !duo · คู่สี = plate + plateInk · ปิดพื้น/pane = หมึกการ์ด · หัวเรื่อง/เส้น = ed.red (กระดาษ → accentPaper · คู่สี → plateInk · ไม่มีพื้น → accent) · ขนาดหัวเรื่องต้นฉบับ = min(Ed.fitted ของสองบรรทัด กว้าง 63% เพดาน 26% สูง) = 66 ที่กรอบดีไซน์กับข้อความตั้งต้น — ผังผูกขนาดสองโหนดเข้าด้วยกันไม่ได้ จึงตรึง 66 ทั้งคู่ (ย่อได้ด้วย shrinkTo · ขยายตามคำสั้นไม่ได้) · ระยะตัวอักษร −0.05×ขนาด ใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้ · 16 พ.ย. 2569: เพิ่มตัวเลือก \"มุม\" เหลี่ยม (ตั้งต้น = หน้าตาเดิม) / มน (แผ่น + ลาย radius 22 · opt:corner=round)",
  "root": {
   "type": "stack",
   "children": [
@@ -56,13 +73,27 @@
     "type": "rect",
     "id": "sheet",
     "fill": "bg",
-    "if": "papered"
+    "if": "papered & !opt:corner=round"
+   },
+   {
+    "type": "rect",
+    "id": "sheetRound",
+    "fill": "bg",
+    "if": "papered & opt:corner=round",
+    "radius": 22
    },
    {
     "type": "rect",
     "id": "platePattern",
-    "if": "papered",
+    "if": "papered & !opt:corner=round",
     "platePattern": "bg"
+   },
+   {
+    "type": "rect",
+    "id": "platePatternRound",
+    "if": "papered & opt:corner=round",
+    "platePattern": "bg",
+    "radius": 22
    },
    {
     "type": "rect",

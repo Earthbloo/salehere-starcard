@@ -39,10 +39,6 @@
      [
       "age",
       "อายุ"
-     ],
-     [
-      "reach",
-      "การเข้าถึง"
      ]
     ],
     "opt": "hide"
@@ -86,7 +82,7 @@
   ],
   "on": "light"
  },
- "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ · 16 พ.ย. 2569: แถวที่ทุกบล็อกถูกซ่อนไม่กินที่ (if บนแถว) → เหลือติ๊กเดียวกล่องเต็มใบ · แถวเมืองกระจายเต็มความสูง (justify around) · แท่งกราฟเมืองสูงตามแถว (h 42% · 8–26) · เหลือเมืองอย่างเดียว = ตัวอักษร 15",
  "variants": [
   {
    "when": "!bordered",
@@ -219,7 +215,9 @@
                       }
                      ],
                      "grow": 1,
-                     "h": 8
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
                     },
                     {
                      "type": "text",
@@ -233,14 +231,77 @@
                    ],
                    "gap": 8,
                    "align": "center",
-                   "grow": 1,
-                   "maxH": 30
+                   "grow": 1
                   },
                   "limit": 3,
                   "direction": "col",
-                  "gap": 4,
+                  "gap": 6,
                   "grow": 1,
-                  "w": "fill"
+                  "w": "fill",
+                  "if": "!hidden:gender | !hidden:age"
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10,
+                     "minW": 84
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "bg"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 12,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 6,
+                  "grow": 1,
+                  "w": "fill",
+                  "if": "hidden:gender & hidden:age"
                  }
                 ],
                 "pad": [
@@ -367,7 +428,8 @@
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:city | !hidden:gender"
          },
          {
           "type": "row",
@@ -502,114 +564,12 @@
             "if": "!hidden:age",
             "grow": 1,
             "id": "age"
-           },
-           {
-            "type": "stack",
-            "children": [
-             {
-              "type": "stack",
-              "children": [
-               {
-                "type": "rect",
-                "fill": "white",
-                "radius": 8
-               },
-               {
-                "type": "rect",
-                "stroke": {
-                 "color": "#141417",
-                 "width": 2
-                },
-                "radius": 8
-               },
-               {
-                "type": "col",
-                "children": [
-                 {
-                  "type": "text",
-                  "text": "การเข้าถึง",
-                  "face": "noto",
-                  "size": 12,
-                  "weight": 700,
-                  "color": "#141417",
-                  "maxLines": 1,
-                  "shrinkTo": 8.4
-                 },
-                 {
-                  "type": "col",
-                  "children": [
-                   {
-                    "type": "text",
-                    "face": "noto",
-                    "size": 19,
-                    "weight": 800,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "shrinkTo": 11.4,
-                    "slot": "stat:reach"
-                   },
-                   {
-                    "type": "text",
-                    "text": "ต่อเดือน",
-                    "face": "noto",
-                    "size": 11,
-                    "weight": 600,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "if": "!has:stat:reachWindow"
-                   },
-                   {
-                    "type": "row",
-                    "gap": 3,
-                    "if": "has:stat:reachWindow",
-                    "children": [
-                     {
-                      "type": "text",
-                      "text": "ใน",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1
-                     },
-                     {
-                      "type": "text",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1,
-                      "slot": "stat:reachWindow"
-                     }
-                    ]
-                   }
-                  ],
-                  "gap": 1,
-                  "align": "center",
-                  "justify": "center",
-                  "grow": 1
-                 }
-                ],
-                "pad": [
-                 8,
-                 9
-                ],
-                "align": "start",
-                "justify": "start",
-                "gap": 5
-               }
-              ],
-              "grow": 1
-             }
-            ],
-            "if": "!hidden:reach & has:stat:reach",
-            "grow": 1,
-            "id": "reach"
            }
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:age"
          }
         ],
         "grow": 1,
@@ -857,7 +817,9 @@
                       }
                      ],
                      "grow": 1,
-                     "h": 8
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
                     },
                     {
                      "type": "text",
@@ -871,14 +833,77 @@
                    ],
                    "gap": 8,
                    "align": "center",
-                   "grow": 1,
-                   "maxH": 30
+                   "grow": 1
                   },
                   "limit": 3,
                   "direction": "col",
-                  "gap": 4,
+                  "gap": 6,
                   "grow": 1,
-                  "w": "fill"
+                  "w": "fill",
+                  "if": "!hidden:gender | !hidden:age"
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10,
+                     "minW": 84
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "bg"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 12,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 6,
+                  "grow": 1,
+                  "w": "fill",
+                  "if": "hidden:gender & hidden:age"
                  }
                 ],
                 "pad": [
@@ -1005,7 +1030,8 @@
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:city | !hidden:gender"
          },
          {
           "type": "row",
@@ -1140,114 +1166,12 @@
             "if": "!hidden:age",
             "grow": 1,
             "id": "age"
-           },
-           {
-            "type": "stack",
-            "children": [
-             {
-              "type": "stack",
-              "children": [
-               {
-                "type": "rect",
-                "fill": "white",
-                "radius": 8
-               },
-               {
-                "type": "rect",
-                "stroke": {
-                 "color": "#141417",
-                 "width": 2
-                },
-                "radius": 8
-               },
-               {
-                "type": "col",
-                "children": [
-                 {
-                  "type": "text",
-                  "text": "การเข้าถึง",
-                  "face": "noto",
-                  "size": 12,
-                  "weight": 700,
-                  "color": "#141417",
-                  "maxLines": 1,
-                  "shrinkTo": 8.4
-                 },
-                 {
-                  "type": "col",
-                  "children": [
-                   {
-                    "type": "text",
-                    "face": "noto",
-                    "size": 19,
-                    "weight": 800,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "shrinkTo": 11.4,
-                    "slot": "stat:reach"
-                   },
-                   {
-                    "type": "text",
-                    "text": "ต่อเดือน",
-                    "face": "noto",
-                    "size": 11,
-                    "weight": 600,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "if": "!has:stat:reachWindow"
-                   },
-                   {
-                    "type": "row",
-                    "gap": 3,
-                    "if": "has:stat:reachWindow",
-                    "children": [
-                     {
-                      "type": "text",
-                      "text": "ใน",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1
-                     },
-                     {
-                      "type": "text",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1,
-                      "slot": "stat:reachWindow"
-                     }
-                    ]
-                   }
-                  ],
-                  "gap": 1,
-                  "align": "center",
-                  "justify": "center",
-                  "grow": 1
-                 }
-                ],
-                "pad": [
-                 8,
-                 9
-                ],
-                "align": "start",
-                "justify": "start",
-                "gap": 5
-               }
-              ],
-              "grow": 1
-             }
-            ],
-            "if": "!hidden:reach & has:stat:reach",
-            "grow": 1,
-            "id": "reach"
            }
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:age"
          }
         ],
         "grow": 1,
@@ -1474,7 +1398,9 @@
                       }
                      ],
                      "grow": 1,
-                     "h": 8
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
                     },
                     {
                      "type": "text",
@@ -1488,14 +1414,77 @@
                    ],
                    "gap": 8,
                    "align": "center",
-                   "grow": 1,
-                   "maxH": 30
+                   "grow": 1
                   },
                   "limit": 3,
                   "direction": "col",
-                  "gap": 4,
+                  "gap": 6,
                   "grow": 1,
-                  "w": "fill"
+                  "w": "fill",
+                  "if": "!hidden:gender | !hidden:age"
+                 },
+                 {
+                  "type": "chips",
+                  "list": "places",
+                  "each": {
+                   "type": "row",
+                   "children": [
+                    {
+                     "type": "text",
+                     "slot": "$name",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 600,
+                     "color": "#141417",
+                     "maxLines": 1,
+                     "shrinkTo": 10,
+                     "minW": 84
+                    },
+                    {
+                     "type": "stack",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "circle": true,
+                       "fill": "black@0.09"
+                      },
+                      {
+                       "type": "row",
+                       "children": [
+                        {
+                         "type": "rect",
+                         "pct": "$shareRaw/max",
+                         "circle": true,
+                         "fill": "bg"
+                        }
+                       ]
+                      }
+                     ],
+                     "grow": 1,
+                     "h": "42%",
+                     "minH": 8,
+                     "maxH": 26
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$share",
+                     "face": "noto",
+                     "size": 15,
+                     "weight": 800,
+                     "color": "#141417",
+                     "maxLines": 1
+                    }
+                   ],
+                   "gap": 12,
+                   "align": "center",
+                   "grow": 1
+                  },
+                  "limit": 3,
+                  "direction": "col",
+                  "gap": 6,
+                  "grow": 1,
+                  "w": "fill",
+                  "if": "hidden:gender & hidden:age"
                  }
                 ],
                 "pad": [
@@ -1622,7 +1611,8 @@
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:city | !hidden:gender"
          },
          {
           "type": "row",
@@ -1757,114 +1747,12 @@
             "if": "!hidden:age",
             "grow": 1,
             "id": "age"
-           },
-           {
-            "type": "stack",
-            "children": [
-             {
-              "type": "stack",
-              "children": [
-               {
-                "type": "rect",
-                "fill": "white",
-                "radius": 8
-               },
-               {
-                "type": "rect",
-                "stroke": {
-                 "color": "#141417",
-                 "width": 2
-                },
-                "radius": 8
-               },
-               {
-                "type": "col",
-                "children": [
-                 {
-                  "type": "text",
-                  "text": "การเข้าถึง",
-                  "face": "noto",
-                  "size": 12,
-                  "weight": 700,
-                  "color": "#141417",
-                  "maxLines": 1,
-                  "shrinkTo": 8.4
-                 },
-                 {
-                  "type": "col",
-                  "children": [
-                   {
-                    "type": "text",
-                    "face": "noto",
-                    "size": 19,
-                    "weight": 800,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "shrinkTo": 11.4,
-                    "slot": "stat:reach"
-                   },
-                   {
-                    "type": "text",
-                    "text": "ต่อเดือน",
-                    "face": "noto",
-                    "size": 11,
-                    "weight": 600,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "if": "!has:stat:reachWindow"
-                   },
-                   {
-                    "type": "row",
-                    "gap": 3,
-                    "if": "has:stat:reachWindow",
-                    "children": [
-                     {
-                      "type": "text",
-                      "text": "ใน",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1
-                     },
-                     {
-                      "type": "text",
-                      "face": "noto",
-                      "size": 11,
-                      "weight": 600,
-                      "color": "#141417",
-                      "maxLines": 1,
-                      "slot": "stat:reachWindow"
-                     }
-                    ]
-                   }
-                  ],
-                  "gap": 1,
-                  "align": "center",
-                  "justify": "center",
-                  "grow": 1
-                 }
-                ],
-                "pad": [
-                 8,
-                 9
-                ],
-                "align": "start",
-                "justify": "start",
-                "gap": 5
-               }
-              ],
-              "grow": 1
-             }
-            ],
-            "if": "!hidden:reach & has:stat:reach",
-            "grow": 1,
-            "id": "reach"
            }
           ],
           "gap": 6,
           "grow": 1,
-          "align": "stretch"
+          "align": "stretch",
+          "if": "!hidden:age"
          }
         ],
         "grow": 1,
@@ -2090,7 +1978,9 @@
                     }
                    ],
                    "grow": 1,
-                   "h": 8
+                   "h": "42%",
+                   "minH": 8,
+                   "maxH": 26
                   },
                   {
                    "type": "text",
@@ -2104,14 +1994,77 @@
                  ],
                  "gap": 8,
                  "align": "center",
-                 "grow": 1,
-                 "maxH": 30
+                 "grow": 1
                 },
                 "limit": 3,
                 "direction": "col",
-                "gap": 4,
+                "gap": 6,
                 "grow": 1,
-                "w": "fill"
+                "w": "fill",
+                "if": "!hidden:gender | !hidden:age"
+               },
+               {
+                "type": "chips",
+                "list": "places",
+                "each": {
+                 "type": "row",
+                 "children": [
+                  {
+                   "type": "text",
+                   "slot": "$name",
+                   "face": "noto",
+                   "size": 15,
+                   "weight": 600,
+                   "color": "#141417",
+                   "maxLines": 1,
+                   "shrinkTo": 10,
+                   "minW": 84
+                  },
+                  {
+                   "type": "stack",
+                   "children": [
+                    {
+                     "type": "rect",
+                     "circle": true,
+                     "fill": "black@0.09"
+                    },
+                    {
+                     "type": "row",
+                     "children": [
+                      {
+                       "type": "rect",
+                       "pct": "$shareRaw/max",
+                       "circle": true,
+                       "fill": "bg"
+                      }
+                     ]
+                    }
+                   ],
+                   "grow": 1,
+                   "h": "42%",
+                   "minH": 8,
+                   "maxH": 26
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$share",
+                   "face": "noto",
+                   "size": 15,
+                   "weight": 800,
+                   "color": "#141417",
+                   "maxLines": 1
+                  }
+                 ],
+                 "gap": 12,
+                 "align": "center",
+                 "grow": 1
+                },
+                "limit": 3,
+                "direction": "col",
+                "gap": 6,
+                "grow": 1,
+                "w": "fill",
+                "if": "hidden:gender & hidden:age"
                }
               ],
               "pad": [
@@ -2238,7 +2191,8 @@
         ],
         "gap": 6,
         "grow": 1,
-        "align": "stretch"
+        "align": "stretch",
+        "if": "!hidden:city | !hidden:gender"
        },
        {
         "type": "row",
@@ -2373,114 +2327,12 @@
           "if": "!hidden:age",
           "grow": 1,
           "id": "age"
-         },
-         {
-          "type": "stack",
-          "children": [
-           {
-            "type": "stack",
-            "children": [
-             {
-              "type": "rect",
-              "fill": "white",
-              "radius": 8
-             },
-             {
-              "type": "rect",
-              "stroke": {
-               "color": "#141417",
-               "width": 2
-              },
-              "radius": 8
-             },
-             {
-              "type": "col",
-              "children": [
-               {
-                "type": "text",
-                "text": "การเข้าถึง",
-                "face": "noto",
-                "size": 12,
-                "weight": 700,
-                "color": "#141417",
-                "maxLines": 1,
-                "shrinkTo": 8.4
-               },
-               {
-                "type": "col",
-                "children": [
-                 {
-                  "type": "text",
-                  "face": "noto",
-                  "size": 19,
-                  "weight": 800,
-                  "color": "#141417",
-                  "maxLines": 1,
-                  "shrinkTo": 11.4,
-                  "slot": "stat:reach"
-                 },
-                 {
-                  "type": "text",
-                  "text": "ต่อเดือน",
-                  "face": "noto",
-                  "size": 11,
-                  "weight": 600,
-                  "color": "#141417",
-                  "maxLines": 1,
-                  "if": "!has:stat:reachWindow"
-                 },
-                 {
-                  "type": "row",
-                  "gap": 3,
-                  "if": "has:stat:reachWindow",
-                  "children": [
-                   {
-                    "type": "text",
-                    "text": "ใน",
-                    "face": "noto",
-                    "size": 11,
-                    "weight": 600,
-                    "color": "#141417",
-                    "maxLines": 1
-                   },
-                   {
-                    "type": "text",
-                    "face": "noto",
-                    "size": 11,
-                    "weight": 600,
-                    "color": "#141417",
-                    "maxLines": 1,
-                    "slot": "stat:reachWindow"
-                   }
-                  ]
-                 }
-                ],
-                "gap": 1,
-                "align": "center",
-                "justify": "center",
-                "grow": 1
-               }
-              ],
-              "pad": [
-               8,
-               9
-              ],
-              "align": "start",
-              "justify": "start",
-              "gap": 5
-             }
-            ],
-            "grow": 1
-           }
-          ],
-          "if": "!hidden:reach & has:stat:reach",
-          "grow": 1,
-          "id": "reach"
          }
         ],
         "gap": 6,
         "grow": 1,
-        "align": "stretch"
+        "align": "stretch",
+        "if": "!hidden:age"
        }
       ],
       "grow": 1,

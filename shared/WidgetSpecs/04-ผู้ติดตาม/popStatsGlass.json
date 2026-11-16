@@ -21,9 +21,17 @@
   "skin": "glass",
   "stamp": "followers",
   "motion": "mid",
-  "on": "light"
+  "on": "light",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   }
+  ]
  },
- "notes": "สำรับสติกเกอร์ · ผู้ติดตามสามช่อง (กระจก) — ป้ายเม็ดยา 'ผู้ติดตาม' คร่อมขอบบน · กล่องขาวสามใบ ตัวเลขยักษ์ · แถบไอคอน IG ตกแต่งใต้กล่อง · แปลงจาก PopWidgets.swift (PopStats + PopSheet) · หน่วย K/M ตัวเล็กกว่าตัวเลข (bigNumber) วาดไม่ได้ · ป้ายที่มา ProvenanceTag ใส่ขนาดกล่องตายตัว · ป้ายหัวข้อกว้างตายตัว (row ใน stack กว้างเต็มเสมอ) · ป้าย Verified by Sale Here (byline:light บนแถบขาวเหนือกล่อง ไม่ทับกล่อง · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:socials)",
+ "notes": "สำรับสติกเกอร์ · ผู้ติดตามสามช่อง (กระจก) — ป้ายเม็ดยา 'ผู้ติดตาม' คร่อมขอบบน · กล่องขาวสามใบ ตัวเลขยักษ์ · แถบไอคอน IG ตกแต่งใต้กล่อง · แปลงจาก PopWidgets.swift (PopStats + PopSheet) · หน่วย K/M ตัวเล็กกว่าตัวเลข (bigNumber) วาดไม่ได้ · ป้ายที่มา ProvenanceTag ใส่ขนาดกล่องตายตัว · ป้ายหัวข้อกว้างตายตัว (row ใน stack กว้างเต็มเสมอ) · ป้าย Verified by Sale Here (byline:light บนแถบขาวเหนือกล่อง ไม่ทับกล่อง · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:socials) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
  "root": {
   "type": "col",
   "pad": [
@@ -142,7 +150,8 @@
              "textAlign": "center"
             }
            ]
-          }
+          },
+          "where": "!hidden:$platform"
          },
          {
           "type": "icon",

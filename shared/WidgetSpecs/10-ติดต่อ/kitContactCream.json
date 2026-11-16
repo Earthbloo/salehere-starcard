@@ -2,7 +2,7 @@
  "kind": "kitContactCream",
  "design": {
   "w": 236,
-  "h": 400
+  "h": 210
  },
  "widget": {
   "title": "ช่องทางติดต่อ",
@@ -10,7 +10,7 @@
   "requires": [
    "contact"
   ],
-  "symbol": "qrcode",
+  "symbol": "phone.fill",
   "order": 97,
   "ownSurface": true,
   "ownBorder": true,
@@ -41,13 +41,6 @@
      ]
     ],
     "opt": "hide"
-   },
-   {
-    "type": "switch",
-    "label": "QR LINE",
-    "opt": "qr",
-    "default": true,
-    "if": "!hidden:line"
    },
    {
     "type": "segment",
@@ -88,7 +81,7 @@
   ],
   "on": "light"
  },
- "notes": "ช่องทางติดต่อ (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (contact) · root = ม่วงสติกเกอร์ (ขอบ+ทึบ → เงาเยื้อง 5pt) · variants ตาม cfg:style / bordered / cfg:fill=clear · ซ่อนช่องด้วย hidden:line|phone|web · QR เปิด/ปิดด้วย opt:qr (ตั้งต้นเปิด = `!opt:qr=0`) และโชว์เฉพาะเมื่อมี LINE · ทำไม่ได้: จัดรูปเบอร์ 081-234-5678 และตัด https:// (ช่องให้ค่าดิบ) · QR ของผังชี้ลิงก์การ์ด ไม่ใช่ line.me · QR ไม่โตตามความสูง (คงที่ 120/112/96/104) · สองเงื่อนไข (ไม่ซ่อน + มีค่า) ต้องซ้อนสองชั้น — ชั้นนอกที่ grow ยังกินที่แม้ค่าว่าง · โลโก้ LINE วาดจาก primitive (ไม่มี asset)",
+ "notes": "ช่องทางติดต่อ (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (contact) · root = ม่วงสติกเกอร์ (ขอบ+ทึบ → เงาเยื้อง 5pt) · variants ตาม cfg:style / bordered / cfg:fill=clear · ซ่อนช่องด้วย hidden:line|phone|web · QR เปิด/ปิดด้วย opt:qr (ตั้งต้นเปิด = `!opt:qr=0`) และโชว์เฉพาะเมื่อมี LINE · ทำไม่ได้: จัดรูปเบอร์ 081-234-5678 และตัด https:// (ช่องให้ค่าดิบ) · QR ของผังชี้ลิงก์การ์ด ไม่ใช่ line.me · QR ไม่โตตามความสูง (คงที่ 120/112/96/104) · สองเงื่อนไข (ไม่ซ่อน + มีค่า) ต้องซ้อนสองชั้น — ชั้นนอกที่ grow ยังกินที่แม้ค่าว่าง · โลโก้ LINE วาดจาก primitive (ไม่มี asset) · 16 พ.ย. 2569: ข้อความใต้ QR = \"สแกนดูการ์ด\" (QR ที่แอปวาดคือลิงก์การ์ด ไม่ใช่ LINE) · ปิด QR → กล่อง LINE ไม่ grow (โหนด lineOnly) เหลือแค่ LINE ID · 16 พ.ย. 2569 (รอบ 2): ถอด QR ออกทั้งหมด (สวิตช์ + กล่อง QR + ข้อความใต้ QR) เหลือ LINE · เบอร์โทร · เว็บไซต์ · กรอบตั้งต้น 236×400 → 236×210",
  "root": {
   "type": "stack",
   "children": [
@@ -353,57 +346,6 @@
               ],
               "gap": 10,
               "align": "center"
-             },
-             {
-              "type": "col",
-              "children": [
-               {
-                "type": "row",
-                "grow": 1,
-                "justify": "center",
-                "align": "center",
-                "children": [
-                 {
-                  "type": "stack",
-                  "id": "qrBox",
-                  "h": "fill",
-                  "minH": 124,
-                  "maxH": 188,
-                  "maxW": 188,
-                  "pad": 6,
-                  "fill": "white",
-                  "radius": 6,
-                  "children": [
-                   {
-                    "type": "icon",
-                    "icon": "qr",
-                    "tint": "#141417",
-                    "w": "fill",
-                    "h": "fill"
-                   }
-                  ],
-                  "w": "fill"
-                 }
-                ],
-                "w": "fill"
-               },
-               {
-                "type": "text",
-                "text": "สแกนเพิ่มเพื่อน LINE",
-                "face": "noto",
-                "size": 9.5,
-                "weight": 600,
-                "color": "ink2",
-                "maxLines": 1
-               }
-              ],
-              "gap": 4,
-              "align": "center",
-              "justify": "center",
-              "grow": 1,
-              "if": "!opt:qr=0",
-              "id": "qr",
-              "w": "fill"
              }
             ],
             "pad": 10,
@@ -412,12 +354,10 @@
             "gap": 8
            }
           ],
-          "grow": 1,
           "if": "has:stat:lineFlow"
          }
         ],
         "if": "!hidden:line",
-        "grow": 1,
         "id": "line"
        },
        {

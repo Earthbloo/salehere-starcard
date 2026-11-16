@@ -39,10 +39,6 @@
      [
       "age",
       "อายุ"
-     ],
-     [
-      "reach",
-      "การเข้าถึง"
      ]
     ],
     "opt": "hide"
@@ -86,7 +82,7 @@
   ],
   "on": "dark"
  },
- "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น)",
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ",
  "root": {
   "type": "stack",
   "children": [
@@ -643,89 +639,6 @@
         "if": "!hidden:age",
         "grow": 1,
         "id": "age"
-       },
-       {
-        "type": "stack",
-        "children": [
-         {
-          "type": "stack",
-          "children": [
-           {
-            "type": "rect",
-            "fill": "bg2",
-            "radius": 10
-           },
-           {
-            "type": "rect",
-            "stroke": {
-             "color": "line@0.3",
-             "width": 1
-            },
-            "radius": 10,
-            "if": "bordered"
-           },
-           {
-            "type": "rect",
-            "stroke": {
-             "color": "ink@0.1",
-             "width": 1
-            },
-            "radius": 10,
-            "if": "!bordered"
-           },
-           {
-            "type": "col",
-            "children": [
-             {
-              "type": "text",
-              "text": "การเข้าถึง:",
-              "face": "noto",
-              "size": 11,
-              "weight": 400,
-              "color": "ink2",
-              "maxLines": 1
-             },
-             {
-              "type": "row",
-              "children": [
-               {
-                "type": "text",
-                "face": "noto",
-                "size": 32,
-                "weight": 800,
-                "color": "accent",
-                "maxLines": 1,
-                "slot": "stat:reach"
-               },
-               {
-                "type": "text",
-                "text": "/ เดือน",
-                "face": "noto",
-                "size": 14,
-                "weight": 400,
-                "color": "ink",
-                "maxLines": 1
-               }
-              ],
-              "gap": 6,
-              "align": "end"
-             }
-            ],
-            "pad": [
-             9,
-             11
-            ],
-            "align": "start",
-            "justify": "center",
-            "gap": 4
-           }
-          ],
-          "grow": 1
-         }
-        ],
-        "if": "!hidden:reach & has:stat:reach",
-        "grow": 1,
-        "id": "reach"
        }
       ],
       "grow": 1,

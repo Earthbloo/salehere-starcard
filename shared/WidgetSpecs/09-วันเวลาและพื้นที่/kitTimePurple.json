@@ -81,7 +81,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา purple · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา purple · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile · 16 พ.ย. 2569: พื้นที่รับงานโชว์ 3 จังหวัดแรก (limit 3)",
  "variants": [
   {
    "when": "!bordered | cfg:fill=clear",
@@ -409,7 +409,8 @@
                    "weight": 400,
                    "color": "ink",
                    "maxLines": 1
-                  }
+                  },
+                  "limit": 3
                  }
                 ]
                }
@@ -758,7 +759,8 @@
                  "weight": 400,
                  "color": "ink",
                  "maxLines": 1
-                }
+                },
+                "limit": 3
                }
               ]
              }

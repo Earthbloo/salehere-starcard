@@ -13,9 +13,17 @@
   "symbol": "list.bullet.rectangle.fill",
   "order": 13,
   "stamp": "followers",
-  "motion": "mid"
+  "motion": "mid",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   }
+  ]
  },
- "notes": "หัวข้อ 'ผู้ติดตาม' + ป้าย Verified by Sale Here (byline 8.5 ≈ 84×19) ขึ้นเสมอ (12 พ.ย. 2569 แทนป้ายที่มาที่สลับตามแสตมป์) · ช่องละหนึ่งแถว (โลโก้ · ยอดฟอลโลว์/ชื่อช่อง · ▶ วิว · ER) · แปลงจาก SocialWidgets.swift (SocialChips) · chips direction col + แต่ละแถว grow 1 (= maxHeight infinity) · ค่ารอง: $verified & วิว > 0 → ▶ วิว + ER · $verified & วิว = 0 → ว่าง (ตัด 'รอซิงก์ข้อมูล' 12 พ.ย. 2569) · ไม่ verified → 'รอเชื่อมบัญชี' · ชื่อช่อง 9.5×0.7 = 6.65 (ต้นฉบับถูก VStack บีบตามความกว้างมิเตอร์ตัวเลขจนย่อถึง minimumScaleFactor 0.7 เสมอ) · 'tight' (กว้าง < 190) = variant w<170 ตัดค่ารอง · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · ขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว · เงาที่สอง (ink.lift) ตัดทิ้ง · ไอคอน ▶ = ph:play-fill (ชุด Phosphor ที่ฝังยังไม่มี play)",
+ "notes": "หัวข้อ 'ผู้ติดตาม' + ป้าย Verified by Sale Here (byline 8.5 ≈ 84×19) ขึ้นเสมอ (12 พ.ย. 2569 แทนป้ายที่มาที่สลับตามแสตมป์) · ช่องละหนึ่งแถว (โลโก้ · ยอดฟอลโลว์/ชื่อช่อง · ▶ วิว · ER) · แปลงจาก SocialWidgets.swift (SocialChips) · chips direction col + แต่ละแถว grow 1 (= maxHeight infinity) · ค่ารอง: $verified & วิว > 0 → ▶ วิว + ER · $verified & วิว = 0 → ว่าง (ตัด 'รอซิงก์ข้อมูล' 12 พ.ย. 2569) · ไม่ verified → 'รอเชื่อมบัญชี' · ชื่อช่อง 9.5×0.7 = 6.65 (ต้นฉบับถูก VStack บีบตามความกว้างมิเตอร์ตัวเลขจนย่อถึง minimumScaleFactor 0.7 เสมอ) · 'tight' (กว้าง < 190) = variant w<170 ตัดค่ารอง · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · ขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว · เงาที่สอง (ink.lift) ตัดทิ้ง · ไอคอน ▶ = ph:play-fill (ชุด Phosphor ที่ฝังยังไม่มี play) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
  "variants": [
   {
    "when": "w<170",
@@ -167,7 +175,8 @@
          ]
         }
        ]
-      }
+      },
+      "where": "!hidden:$platform"
      }
     ]
    }
@@ -393,7 +402,8 @@
        ]
       }
      ]
-    }
+    },
+    "where": "!hidden:$platform"
    }
   ]
  },
