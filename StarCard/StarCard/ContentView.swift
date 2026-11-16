@@ -43,6 +43,10 @@ struct ContentView: View {
                 await ShapeMatrixExport.run(photos: photos)
             }
             // ใบที่มีไฟล์ผัง → รูปทุกกรอบทดสอบ + fixture ของตัวคำนวณ (สัญญาสำหรับ Android/Web · ดู `SpecExport`)
+            // ทุกใบหมวดสายงาน × ชุดสายงานทดสอบ × ซ่อนบางสาย (ดู `NicheExport`)
+            if ProcessInfo.processInfo.arguments.contains("-exportNiche") {
+                await NicheExport.run(photos: photos)
+            }
             if ProcessInfo.processInfo.arguments.contains("-exportSpecs") {
                 await SpecExport.run(photos: photos)
             }

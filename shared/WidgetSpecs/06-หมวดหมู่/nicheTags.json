@@ -15,6 +15,15 @@
   "motion": "mid",
   "replaces": [
    "interestTags"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   }
   ]
  },
  "notes": "หัวข้อ 'สายงาน' + ชิปพื้นจาง ขอบบาง ขึ้นบรรทัดเอง · ชิปแก้ได้ทีละใบ (categories#i) · แปลงจาก ContentWidgets.swift (NicheTags)",

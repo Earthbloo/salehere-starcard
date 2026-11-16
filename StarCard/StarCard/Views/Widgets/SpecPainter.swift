@@ -523,6 +523,14 @@ struct IOSSpecData: SpecDataSource {
     /// แผ่นของชุดห้าสไตล์มืดไหม (`KitLook.dark`) — พิล/แถบที่สลับอ่อน-เข้มตามแผ่น
     var kitDark: Bool = false
 
+    /// สายงานที่ใบนี้โชว์ — ตัดชื่อที่ผู้ใช้ติ๊กออกในถาด "สายที่แสดง" (`hide`) แล้วเรียงต่อกันไม่เว้นรู
+    /// รายการ `categories` · ช่อง `categories#N` · `has:` · `list:categories>N` อ่านชุดเดียวกัน (ใบที่อ้างตำแหน่งจึงเลื่อนขึ้นมาเติม)
+    var shownCategories: [String] {
+        let all = Profile.me.categories
+        let hidden = kit.list(KitOpt.hide)
+        return hidden.isEmpty ? all : all.filter { !hidden.contains($0) }
+    }
+
     func text(slot: String, preset: String?) -> String {
         let p = Profile.me
         // ค่าที่ระบบคิดให้ (อ่านอย่างเดียว) — `stat:<name>` (WIDGET-SPEC.md §3.2)
@@ -567,6 +575,9 @@ struct IOSSpecData: SpecDataSource {
         if slot.hasPrefix("count:") { return String(list(String(slot.dropFirst(6))).count) }
         guard let ref = SlotRef(slot) else { return "" }
         if ref.field == .about, sample { return p.shownAbout }
+        if ref.field == .categories, let i = ref.index {
+            let c = shownCategories; return c.indices.contains(i) ? c[i] : ""
+        }
         // ช่องอิสระของชิ้น: ค่าที่พิมพ์ → ข้อความตั้งต้นของดีไซน์ (preset) → ป้ายชวนพิมพ์ (เหมือน `Profile.note`)
         let id = TextSlotID(field: ref.field, index: ref.index, widget: ref.field == .note ? widget : nil, preset: preset ?? "")
         return p.text(id)
@@ -614,8 +625,7 @@ struct IOSSpecData: SpecDataSource {
         let p = Profile.me
         switch name {
         case "categories":
-            let cats = p.categories
-            return cats.enumerated().map { SpecItem(id: "cat\($0.offset)", i: $0.offset, fields: ["text": $0.element]) }
+            return shownCategories.enumerated().map { SpecItem(id: "cat\($0.offset)", i: $0.offset, fields: ["text": $0.element]) }
         case "socials":
             return p.shownSocials.enumerated().map { (i, s) in
                 SpecItem(id: s.type.rawValue, i: i, fields: [

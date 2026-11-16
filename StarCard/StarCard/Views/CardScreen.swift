@@ -2867,10 +2867,13 @@ struct CardScreen: View {
                 }
                 // ตัวเลือกของใบนี้ — ทั้งหมดมาจาก `widget.controls` (ลาย · พื้นหลัง · มุม · เนื้อหา)
                 controlRows(sel)
-                DockRow(label: "ขอบ") {
-                    DockSegment(options: [.init(value: true, title: "มีขอบ"),
-                                          .init(value: false, title: "ไม่มีขอบ")],
-                                selection: sel.border) { setBorder(sel, $0) }
+                // ใบที่ล็อกขอบไว้ (`widget.borderChoice: false`) ไม่มีแถวนี้
+                if sel.kind.hasBorderChoice {
+                    DockRow(label: "ขอบ") {
+                        DockSegment(options: [.init(value: true, title: "มีขอบ"),
+                                              .init(value: false, title: "ไม่มีขอบ")],
+                                    selection: sel.border) { setBorder(sel, $0) }
+                    }
                 }
             }
             // แถวท้าย: ท่าที่ใช้กับชิ้นนี้ (เงียบ ๆ) + ลบ — ลบเป็นตัวหนังสือแดงในแคปซูลจาง
@@ -2972,7 +2975,8 @@ struct CardScreen: View {
         case .source("ratePlatforms")?:
             let rates = Profile.me.shownRates.filter { $0.price > 0 }
             return SocialType.allCases.filter { t in rates.contains { $0.platform == t } }.map { ($0.rawValue, $0.shortName) }
-        case .source("categories")?: return StarFlow.shared.categories.map { ($0, KitNiche.clean($0)) }
+        // ชื่อเดียวกับที่ใบวาด (`Profile.categories` = หมวดทางการแบบสั้น) — ค่าที่ซ่อนจึงตรงกับ `$text` ของรายการ
+        case .source("categories")?: return Profile.me.categories.map { ($0, $0) }
         default: return []
         }
     }

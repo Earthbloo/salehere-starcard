@@ -20,7 +20,16 @@
   ],
   "skin": "paper",
   "motion": "mid",
-  "on": "light"
+  "on": "light",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   }
+  ]
  },
  "notes": "สำรับสติกเกอร์ · สายงานแบบลิสต์ (กระดาษ) — ป้ายแท็บดำกว้าง 'สายงาน' บนกระดาษขาวมุมเหลี่ยม · แปลงจาก PopWidgets.swift (PopNiche + PopSheet wide fold สกิน paper) · ไอคอนประจำสายงานเลือกตามคำ (Pop.nicheIcon) ทำไม่ได้ ใช้ ph:tag ทุกบรรทัด · เส้นคั่นอยู่ใต้ทุกบรรทัดรวมบรรทัดสุดท้าย · มุมพับ PopFold วาดไม่ได้",
  "root": {

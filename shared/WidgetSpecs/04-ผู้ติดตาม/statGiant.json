@@ -17,7 +17,7 @@
   "stamp": "followers",
   "motion": "anchored"
  },
- "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้ายที่มา (ProvenanceTag onPhoto / SaleHereByline เมื่อมีตรา) ขนาดธรรมชาติ ~80×17 — กรอบไอคอน 84×18 ไม่ให้ตัดขอบแคปซูล · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ",
+ "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้าย Verified by Sale Here (byline:dark ตัวอักษร 8.5 ≈ 84×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (12 พ.ย. 2569 แทน provenance:photo ที่สลับตามสถานะ) — กรอบ 85×19 · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ",
  "root": {
   "type": "stack",
   "clip": true,
@@ -72,9 +72,9 @@
        {
         "type": "icon",
         "id": "provenance",
-        "icon": "provenance:photo",
-        "w": 84,
-        "h": 18
+        "icon": "byline:dark",
+        "w": 85,
+        "h": 19
        }
       ],
       "w": "fill"

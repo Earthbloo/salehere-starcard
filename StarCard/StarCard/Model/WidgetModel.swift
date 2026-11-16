@@ -422,6 +422,9 @@ struct WidgetKind: Hashable, Identifiable {
     /// เส้นขอบตั้งต้น (`widget.border`) — ไม่ใส่: ขอบเป็นของ "แผ่นข้อมูล" ที่ chrome ครอบให้เท่านั้น
     var defaultBorder: Bool { meta.border ?? !drawsOwnSurface }
 
+    /// ผู้ใช้เลือกมีขอบ/ไม่มีขอบได้ (`widget.borderChoice` · ไม่ใส่ = ได้) — ไม่ได้ = ขอบเป็น `defaultBorder` เสมอ
+    var hasBorderChoice: Bool { meta.borderChoice ?? true }
+
     /// ใบที่วาดเส้นขอบของตัวเอง (`widget.ownBorder`) — chrome ไม่วาดเส้นซ้ำ
     var drawsOwnBorder: Bool { meta.ownBorder ?? false }
 

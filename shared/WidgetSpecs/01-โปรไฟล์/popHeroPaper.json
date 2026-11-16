@@ -5,6 +5,7 @@
   "h": 250
  },
  "widget": {
+  "borderChoice": false,
   "title": "ป้ายชื่อ กระดาษเทป",
   "category": "hero",
   "requires": [
@@ -16,8 +17,7 @@
   "ownSurface": true,
   "ownBorder": true,
   "surfaces": [
-   "glass",
-   "dim"
+   "glass"
   ],
   "photo": true,
   "skin": "paper",

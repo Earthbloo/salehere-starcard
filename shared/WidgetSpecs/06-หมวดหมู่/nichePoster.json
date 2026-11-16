@@ -26,6 +26,13 @@
   "motion": "anchored",
   "controls": [
    {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   },
+   {
     "type": "segment",
     "label": "ลาย",
     "opt": "pattern",

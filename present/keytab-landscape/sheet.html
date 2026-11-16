@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#fff;font:11px system-ui}table{border-collapse:collapse}td{padding:3px;vertical-align:top}img{height:var(--h,90px);display:block}th{font-size:12px;text-align:left}</style>
+<div id=o></div><script>
+const p=new URLSearchParams(location.search);const vs=(p.get('v')||'current,A,B,C,D,E,F').split(',');const t=p.get('t')||'purple';const sz=(p.get('s')||'342x155').split(',');const ns=(p.get('n')||'1,3,5,6').split(',')
+document.body.style.setProperty('--h',(p.get('h')||90)+'px')
+let h='<table>';for(const v of vs){h+=`<tr><th>${v}</th>`;for(const s of sz)for(const n of ns)h+=`<td><img src="shots/${v}-n${n}-${s}-${t}.png"></td>`;h+='</tr>'}document.getElementById('o').innerHTML=h+'</table>'
+</script>

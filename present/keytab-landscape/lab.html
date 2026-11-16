@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>scrapKeyTab landscape lab</title>
+<style>
+  body { margin: 0; background: #e9e9ee; font: 12px system-ui, sans-serif; }
+  .shot { position: relative; overflow: hidden; display: inline-block; margin: 8px; }
+</style>
+</head>
+<body>
+<div id="out"></div>
+<script type="module">
+const S = 'http://localhost:8787/card/'
+const { parseSpec } = await import(S + 'js/spec-model.js')
+const { WebMeasurer, loadFonts } = await import(S + 'js/measure.js')
+const { Profile } = await import(S + 'js/data.js')
+const { mountWidget } = await import(S + 'js/chrome.js')
+const { paintBackdrop } = await import(S + 'js/backdrop.js')
+const { themeOf, defaultChoice } = await import(S + 'js/backdrop-tray.js')
+const { VARIANTS } = await import('./variants.js?' + Date.now())
+
+await loadFonts(S + 'fonts/')
+const base = await fetch('http://localhost:8787/api/specs').then((r) => r.json())
+const baseJson = base.specs.scrapKeyTab
+const measurer = new WebMeasurer()
+
+const ALL = [
+  ['instagram', 'https://instagram.com/mintmint.review', 24800],
+  ['tiktok', 'https://tiktok.com/@mintmint.review', 58300],
+  ['facebook', 'https://facebook.com/mintmint.review', 12400],
+  ['youtube', 'https://youtube.com/@mintmintreview', 8900],
+  ['lemon8', 'https://lemon8-app.com/mintmint.review', 3200],
+  ['x', 'https://x.com/mintmint', 1500],
+]
+const profileOf = (n) => new Profile({ intake: { socials: ALL.slice(0, n).map(([type, link, followers]) => ({ type, link, followers, enabled: true, source: 'connected' })) } }, {})
+
+const THEMES = {
+  dark: themeOf(defaultChoice()),
+  purple: themeOf({ backdrop: 'gradient', primary: '#5B2A86', secondary: null, tone: 'dark' }),
+  light: themeOf({ backdrop: 'solid', primary: '#F3E6EA', secondary: null, tone: 'dark' }),
+}
+
+const params = new URLSearchParams(location.search)
+const vid = params.get('v') || 'current'
+const n = Number(params.get('n') || 5)
+const W = Number(params.get('w') || 342), H = Number(params.get('h') || 155)
+const th = params.get('t') || 'dark'
+const M = 12
+
+// v=old → ผังก่อนแก้ (git HEAD) ทั้งไฟล์
+const json = vid === 'old' ? await fetch('./old.json?' + Date.now()).then((r) => r.json()) : structuredClone(baseJson)
+const V = VARIANTS.find((x) => x.id === vid)
+if (V && V.root) json.variants = [{ when: 'ratio<0.667', root: V.root }]
+const spec = parseSpec(json)
+const specs = { scrapKeyTab: spec }
+const theme = THEMES[th]
+const host = document.createElement('div'); host.className = 'shot'; host.id = 'shot'
+host.style.width = (W + M * 2) + 'px'; host.style.height = (H + M * 2) + 'px'
+document.getElementById('out').appendChild(host)
+paintBackdrop(host, theme, W + M * 2, H + M * 2)
+const item = { id: '00000000-0000-0000-0000-000000000001', kind: 'scrapKeyTab', x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile: profileOf(n), specs, measurer, base: S, imageURL: (id) => `http://localhost:8787/api/images/${id}` }
+try { mountWidget(host, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { host.insertAdjacentHTML('beforeend', `<pre style="color:red;position:absolute">${e.stack}</pre>`) }
+await new Promise((r) => setTimeout(r, 400))
+window.__ready = true
+</script>
+</body>
+</html>

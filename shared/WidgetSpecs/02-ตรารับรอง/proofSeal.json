@@ -24,28 +24,6 @@
   "keepAspect": true,
   "motion": "anchored",
   "pinned": true,
-  "controls": [
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   }
-  ],
   "on": "dark"
  },
  "notes": "ตรารับรอง Verified by Sale Here · แปลงจาก VerifiedSealWidget.swift (VS + VerifiedSealSkin · แบบ medal) · ใบวาดพื้นเอง (inset 0) มุม 20 · พื้นผิว (14 ต.ค. 2569 · VerifiedSealSkin): `surface=glass` + การ์ดสว่าง = แผ่นอ่อนของธีม (hue sat .20 bri .975 ไม่มี token → white + rawAccent@0.45 + black@0.025 · คู่สี = สีอ่อนของคู่ + plate@0.10) หมึก/สีเน้น = `plate` (soft @0.66 hair @0.22 lace @0.09) · `surface=glass` + การ์ดมืด = แผ่น `plate` หมึก `plateInk` (soft @0.64 hair @0.24 lace @0.10) สีเน้น `rawAccent` · pane/clear = ไม่มีแผ่น หมึกการ์ด `ink@0.95` soft `ink@0.58` hair `line@0.24` สีเน้น `accent` (ทั้งสามชุด = block ที่ซ้ำกันสามชุดตาม `if`) · เหรียญศูนย์กลาง x 94 กลางแนวตั้ง: กิโยเช่ r 138 → วงตัวอักษร r 68 size 7.2 → วงเส้น r 59/77 → เหรียญ r 50 · คอลัมน์ x 182 กว้าง 166 (pad 14/13): 'VERIFIED' heavy + 'by' เซริฟเอียง · ตัวเขียน sh:wordmark สูง 62 · เส้นเน้น 1.4 · สามแถว (ชื่อข้อ 10.5 · เส้นจุด · ค่า 9) · ฐาน: วงแดง Sale Here 21 · 'STAR CARD NO.' + handle · ST★R lockup 20 · ไม่มี: SealStyle note/type/sticker (ชิ้นไม่ส่ง sealStyle ให้ผัง — ไม่มีธง cfg:seal) · ค่าของแถว (วันที่ยืนยัน · เวลา sync) และเลข serial (TH …) ไม่มีใน SpecDataSource → ค่าดีไซน์/handle · ฟอนต์ mono · punch ของเหรียญ (verifiedSeal เจาะด้วยขาว/ดำตาม ink ไม่ใช่สีแผ่น) · แถวที่ยังไม่ผ่าน · หมุนวงตัวอักษร · เกล็ด/ลายแผ่น",

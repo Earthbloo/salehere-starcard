@@ -192,8 +192,12 @@ enum CardStore {
                                                    kitLook: it.kit.map { $0.style.rawValue }) else { return nil }
                 var w = WidgetInstance(kind, x: it.x, y: it.y, w: it.w, h: it.h,
                                        id: it.id.flatMap(UUID.init(uuidString:)) ?? UUID())
-                w.surface = WidgetSurface.decode(it.surface)
-                w.border = it.border
+                // ใบที่ตัดพื้นผิวบางแบบออก (`widget.surfaces`) — ค่าเก่าที่ไม่อยู่ในรายการกลับเป็นตัวแรก
+                let surface = WidgetSurface.decode(it.surface)
+                w.surface = kind.meta.surfaces != nil && !kind.surfaceOptions.contains(surface)
+                    ? kind.defaultSurface : surface
+                // ใบที่ไม่มีแถวขอบ (`widget.borderChoice: false`) — ขอบเป็นของชนิด ค่าเก่าในไฟล์ไม่มีผล
+                w.border = kind.hasBorderChoice ? it.border : kind.defaultBorder
                 var o = it.options ?? legacyOptions(it)
                 if kind.usesTextStyle {
                     if let v = o["face"].flatMap(CardFont.init(rawValue:)) { w.textStyle.face = v }
@@ -204,6 +208,8 @@ enum CardStore {
                 }
                 // หน้าตาตัวอักษรเป็นของชั้นข้อความเท่านั้น — ไฟล์เก่าเขียนคีย์พวกนี้ให้ทุกชิ้น ไม่ใช่ตัวเลือกของ widget
                 for k in Self.textKeys { o[k] = nil }
+                // ลายบนแผ่นมีได้เฉพาะใบที่ไฟล์ผังมีแถว "ลาย" — ใบที่ตัดแถวออกแล้ว ค่าเก่าในไฟล์ไม่มีผล
+                if !kind.controls.contains(where: { $0.opt == "pattern" }) { o["pattern"] = nil }
                 w.options = o
                 w.textStyle.slotFaces = (it.slotFaces ?? [:]).compactMapValues(CardFont.init(rawValue:))
                 w.textStyle.slotTints = (it.slotTints ?? [:]).compactMapValues(TextTint.init(rawValue:))

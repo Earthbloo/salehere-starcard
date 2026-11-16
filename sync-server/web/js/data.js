@@ -334,6 +334,11 @@ export class WebSpecData {
   }
 
   lacks(f) { return this.p.sampleFamilies.has(f) }
+  /** สายงานที่ใบนี้โชว์ — ตัดชื่อที่ติ๊กออกในถาด "สายที่แสดง" (`hide`) เรียงต่อกันไม่เว้นรู (= iOS `shownCategories`) */
+  get shownCategories() {
+    const hidden = new Set(String((this.kit.opts || {}).hide || '').split(',').filter(Boolean))
+    return this.p.items('categories').filter(c => !hidden.has(c))
+  }
   get socials() { return this.lacks('followers') ? MOCK.socials : this.p.creator.socials }
   get rates() { return this.lacks('rate') ? MOCK.rates : this.p.creator.rates }
   get audience() { return this.lacks('audience') ? MOCK.audience : this.p.creator.audience }
@@ -384,6 +389,7 @@ export class WebSpecData {
     if (!FIELDS.has(field)) return ''
     if (field === 'about' && this.sample) return this.lacks('intro') ? MOCK.about : this.p.text('about')
     if (field === 'note') return this.p.note(this.widget, index, preset || '')
+    if (field === 'categories' && index !== null) return this.shownCategories[index] ?? ''
     return this.p.text(field, index)
   }
 
@@ -422,7 +428,7 @@ export class WebSpecData {
   list(name) {
     const I = (id, i, f) => new SpecItem(id, i, f)
     switch (name) {
-      case 'categories': return this.p.items('categories').map((c, i) => I(`cat${i}`, i, { text: c }))
+      case 'categories': return this.shownCategories.map((c, i) => I(`cat${i}`, i, { text: c }))
       case 'socials': return this.socials.map((s, i) => {
         const t = SOCIAL[s.type]
         return I(s.type, i, {

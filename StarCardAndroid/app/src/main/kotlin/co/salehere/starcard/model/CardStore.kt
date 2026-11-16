@@ -233,9 +233,15 @@ object CardStore {
                 }
                 // หน้าตาตัวอักษรเป็นของชั้นข้อความเท่านั้น — ไฟล์เก่าเขียนคีย์พวกนี้ให้ทุกชิ้น ไม่ใช่ตัวเลือกของ widget
                 for (k in TEXT_KEYS) o.remove(k)
+                // ลายบนแผ่นมีได้เฉพาะใบที่ไฟล์ผังมีแถว "ลาย" — ใบที่ตัดแถวออกแล้ว ค่าเก่าในไฟล์ไม่มีผล
+                if (kind.controls.none { it.opt == "pattern" }) o.remove("pattern")
                 w = w.copy(
-                    surface = WidgetSurface.decode(item.surface),
-                    border = item.border,
+                    // ใบที่ตัดพื้นผิวบางแบบออก (`widget.surfaces`) — ค่าเก่าที่ไม่อยู่ในรายการกลับเป็นตัวแรก
+                    surface = WidgetSurface.decode(item.surface).let { s ->
+                        if (kind.meta.surfaces != null && s !in kind.surfaceOptions) kind.defaultSurface else s
+                    },
+                    // ใบที่ไม่มีแถวขอบ (`widget.borderChoice: false`) — ขอบเป็นของชนิด ค่าเก่าในไฟล์ไม่มีผล
+                    border = if (kind.hasBorderChoice) item.border else kind.defaultBorder,
                     options = o,
                 )
                 ts = ts.copy(

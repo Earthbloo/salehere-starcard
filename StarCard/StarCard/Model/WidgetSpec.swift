@@ -63,6 +63,8 @@ struct WidgetSpec: Codable, Equatable {
         var surfaceNames: [String: String]? = nil
         /// เส้นขอบตั้งต้น · ไม่ใส่ = มีเมื่อ chrome ครอบแผ่นให้ (`!ownSurface`)
         var border: Bool? = nil
+        /// แถว "ขอบ" (มีขอบ/ไม่มีขอบ) ในถาด · ไม่ใส่ = มี · `false` = ไม่มีแถว และขอบเป็น `border` เสมอ
+        var borderChoice: Bool? = nil
         /// อัปโหลดรูปได้
         var photo: Bool? = nil
         /// ผังตายตัว — ความสูงต่ำสุดคือสัดส่วนที่ออกแบบไว้

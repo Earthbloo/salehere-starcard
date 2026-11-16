@@ -15,7 +15,7 @@
   "stamp": "insight",
   "motion": "anchored"
  },
- "notes": "หัวข้อ 'สัดส่วนผู้ชม' + แถบสามส่วน (chips gender · pct $shareRaw · fill $tint) + คำอธิบาย · แปลงจาก InsightWidgets.swift (AudienceSplitWidget) · แถบ: กว้าง = (w − gaps) × share/100 เหมือนต้นฉบับ · สีเพศคงที่ (Aud.female/male/other = tint ของรายการ) · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (วันที่ '12 ก.ย.' ในต้นฉบับเป็นค่าตายตัว) · หมึกทุกตัวจาก ink ของพื้นที่ใบนั่ง · chrome วาดแผ่น/ขอบให้",
+ "notes": "หัวข้อ 'สัดส่วนผู้ชม' + แถบสามส่วน (chips gender · pct $shareRaw · fill $tint) + คำอธิบาย · แปลงจาก InsightWidgets.swift (AudienceSplitWidget) · แถบ: กว้าง = (w − gaps) × share/100 เหมือนต้นฉบับ · สีเพศคงที่ (Aud.female/male/other = tint ของรายการ) · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (วันที่ '12 ก.ย.' ในต้นฉบับเป็นค่าตายตัว) · หมึกทุกตัวจาก ink ของพื้นที่ใบนั่ง · chrome วาดแผ่น/ขอบให้ · ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:screenshot)",
  "root": {
   "type": "col",
   "gap": 11,
@@ -49,9 +49,10 @@
      },
      {
       "type": "icon",
-      "icon": "provenance:screenshot",
-      "w": 104,
-      "h": 18
+      "icon": "byline",
+      "w": 85,
+      "h": 19,
+      "id": "provenance"
      }
     ]
    },

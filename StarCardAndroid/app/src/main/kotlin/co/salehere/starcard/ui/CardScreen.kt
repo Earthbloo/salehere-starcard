@@ -1818,7 +1818,8 @@ private class CardEditorState(
             "shownSocials" -> me.shownSocials.map { it.type.raw to it.type.shortName }
             "rates" -> rates.map { it.id to it.label }
             "ratePlatforms" -> SocialType.entries.filter { t -> rates.any { it.platform == t } }.map { it.raw to it.shortName }
-            "categories" -> StarFlow.shared.categories.map { it to KitNiche.clean(it) }
+            // ชื่อเดียวกับที่ใบวาด (`Profile.categories`) — ค่าที่ซ่อนจึงตรงกับ `$text` ของรายการ (= iOS)
+            "categories" -> me.categories.map { it to it }
             else -> emptyList()
         }
     }
@@ -3666,12 +3667,15 @@ private fun CardEditorState.PieceTray(sel: WidgetInstance) {
                 if (!controlCondition(ctl.condition, sel)) continue
                 ControlRow(sel, ctl)
             }
-            DockRow(label = "ขอบ") {
-                DockSegment(
-                    options = listOf(segOpt(true, "มีขอบ"), segOpt(false, "ไม่มีขอบ")),
-                    selection = sel.border,
-                    onPick = { setBorder(sel, it) },
-                )
+            // ใบที่ล็อกขอบไว้ (`widget.borderChoice: false`) ไม่มีแถวนี้
+            if (sel.kind.hasBorderChoice) {
+                DockRow(label = "ขอบ") {
+                    DockSegment(
+                        options = listOf(segOpt(true, "มีขอบ"), segOpt(false, "ไม่มีขอบ")),
+                        selection = sel.border,
+                        onPick = { setBorder(sel, it) },
+                    )
+                }
             }
         }
         // แถวท้าย: ท่าที่ใช้กับชิ้นนี้ (เงียบ ๆ) + ลบ — ลบเป็นตัวหนังสือแดงในแคปซูลจาง ไม่ใช่ปุ่มแดงทึบ

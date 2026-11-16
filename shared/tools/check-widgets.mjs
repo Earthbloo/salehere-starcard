@@ -21,7 +21,7 @@ const models = JSON.parse(fs.readFileSync(path.join(root, 'shared/category-model
 const errors = []
 
 // คีย์ของบล็อก `widget` ที่ทั้งสามแพลตฟอร์มอ่าน (= `WidgetSpec.Widget` ของ iOS/Android · `kindInfo` ของเว็บ)
-const WIDGET_KEYS = new Set(['title', 'category', 'symbol', 'size', 'order', 'tier', 'ownSurface', 'ownBorder', 'surfaces',
+const WIDGET_KEYS = new Set(['title', 'category', 'symbol', 'size', 'order', 'tier', 'ownSurface', 'ownBorder', 'borderChoice', 'surfaces',
   'surfaceNames', 'border', 'photo', 'keepAspect', 'fullBleed', 'resize', 'controls', 'kit',
   'skin', 'on', 'stamp', 'stampAt', 'motion', 'pinned', 'replaces', 'requires'])
 // `widget.requires` — ใบนี้ล็อกจนกว่าทุกค่าจะผ่าน (ชื่อ = แถวติ๊กถูกใน Star Profile · ลำดับตามนี้เสมอ) · WIDGET-SPEC.md §3.3d

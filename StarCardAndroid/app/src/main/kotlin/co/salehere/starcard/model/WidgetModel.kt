@@ -382,6 +382,9 @@ class WidgetKind private constructor(
     /** เส้นขอบตั้งต้น — `widget.border` · ไม่ใส่ = มีเมื่อ chrome ครอบแผ่นให้ */
     val defaultBorder: Boolean get() = meta.border ?: !drawsOwnSurface
 
+    /** ผู้ใช้เลือกมีขอบ/ไม่มีขอบได้ (`widget.borderChoice` · ไม่ใส่ = ได้) — ไม่ได้ = ขอบเป็น `defaultBorder` เสมอ */
+    val hasBorderChoice: Boolean get() = meta.borderChoice ?: true
+
     /** วัสดุแผ่นสติกเกอร์ (`widget.skin`) */
     val popSkin: PopSkin? get() = PopSkin.from(meta.skin)
 

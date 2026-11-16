@@ -5,9 +5,11 @@
   "h": 260
  },
  "widget": {
+  "borderChoice": false,
   "title": "ฟีดของฉัน",
   "category": "followers",
   "requires": [
+   "socials",
    "categories",
    "about"
   ],
@@ -29,9 +31,17 @@
   "photo": true,
   "keepAspect": true,
   "motion": "mid",
-  "on": "light"
+  "on": "light",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "chan",
+    "items": "shownSocials"
+   }
+  ]
  },
- "notes": "สแครปบุ๊ก 04 ฟีดของฉัน — แผ่นกระดาษโทน (scrap.paper + เม็ดกระดาษสองชั้น = ScrapPaper) วาดเฉพาะ `papered` (ScrapSkin) · ขอบขาวบางเมื่อแผ่นมืด · หน้าต่างขาวมุม 9 เงาเฉดแผ่น กว้างเต็มแผ่นเว้น 18 (col ห่อ): แถบหัว blush (จุดสามสี + พิลขาว salehere.co.th/star/@handle) · แถวโปรไฟล์ (รูป 1 วงกลมขอบ paperAccent · @handle ดำหนัก · tagline · ช่องทางทุกช่องพร้อมยอด ขึ้นบรรทัดเอง · 'ผู้ติดตาม') · รูป 2–5 สี่ช่องเท่ากัน สูง 98 · 'ฟีด' ดำหนัก 46 (Scrap.ink หมึกวัตถุคงที่) + 'ของฉัน' มิตรชมพู 34 เอียงมุมล่างซ้าย · ประกายมุมขวาบน · แปลงจาก ScrapbookWidgets.swift (ScrapFeedWidget) · ใช้ไม่ได้: แถวละ 3 ช่องตายตัว (ใช้ wrap ตามกว้าง) · ขอบขาวรอบตัวอักษร (ใช้ shadow ขาว) · โลโก้เปลือย glyph-tiktok/x/youtube (รายการ socials มีแต่ icon)",
+ "notes": "สแครปบุ๊ก 04 ฟีดของฉัน — แผ่นกระดาษโทน (scrap.paper + เม็ดกระดาษสองชั้น = ScrapPaper) วาดเฉพาะ `papered` (ScrapSkin) · ขอบขาวบางเมื่อแผ่นมืด · หน้าต่างขาวมุม 9 เงาเฉดแผ่น กว้างเต็มแผ่นเว้น 18 (col ห่อ): แถบหัว blush (จุดสามสี + พิลขาว salehere.co.th/star/@handle) · แถวโปรไฟล์ (รูป 1 วงกลมขอบ paperAccent · ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 12 พ.ย. 2569): $handle ดำหนัก + ไอคอนช่อง $followers ผู้ติดตาม · tagline · ช่องทางทุกช่องพร้อมยอด ขึ้นบรรทัดเอง · 'ผู้ติดตาม') · รูป 2–5 สี่ช่องเท่ากัน สูง 98 · 'ฟีด' ดำหนัก 46 (Scrap.ink หมึกวัตถุคงที่) + 'ของฉัน' มิตรชมพู 34 เอียงมุมล่างซ้าย · ประกายมุมขวาบน · แปลงจาก ScrapbookWidgets.swift (ScrapFeedWidget) · ใช้ไม่ได้: แถวละ 3 ช่องตายตัว (ใช้ wrap ตามกว้าง) · ขอบขาวรอบตัวอักษร (ใช้ shadow ขาว) · โลโก้เปลือย glyph-tiktok/x/youtube (รายการ socials มีแต่ icon)",
  "root": {
   "type": "stack",
   "radius": 16,
@@ -209,32 +219,73 @@
           ]
          },
          {
-          "type": "col",
-          "gap": 1,
-          "align": "start",
+          "type": "chips",
+          "id": "channel",
+          "list": "socials",
+          "where": "opt:chan=$platform | !opt:chan & $i=first",
+          "limit": 1,
+          "wrap": false,
           "shrink": 1,
-          "children": [
-           {
-            "type": "text",
-            "slot": "handle",
-            "face": "noto",
-            "weight": 800,
-            "size": 12,
-            "color": "#141414",
-            "maxLines": 1,
-            "shrinkTo": 7.2
-           },
-           {
-            "type": "text",
-            "slot": "tagline",
-            "face": "noto",
-            "weight": 500,
-            "size": 7.5,
-            "color": "#7A5664",
-            "maxLines": 1,
-            "shrinkTo": 4.5
-           }
-          ]
+          "each": {
+           "type": "col",
+           "gap": 1,
+           "align": "start",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$handle",
+             "face": "noto",
+             "weight": 800,
+             "size": 12,
+             "color": "#141414",
+             "maxLines": 1,
+             "shrinkTo": 7.2
+            },
+            {
+             "type": "row",
+             "gap": 3,
+             "align": "center",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "w": 9,
+               "h": 9
+              },
+              {
+               "type": "text",
+               "slot": "$followers",
+               "face": "noto",
+               "weight": 800,
+               "size": 7.5,
+               "color": "#141414",
+               "maxLines": 1,
+               "shrink": 0
+              },
+              {
+               "type": "text",
+               "text": "ผู้ติดตาม",
+               "face": "noto",
+               "weight": 500,
+               "size": 7.5,
+               "color": "#7A5664",
+               "maxLines": 1,
+               "shrinkTo": 4.5
+              }
+             ]
+            },
+            {
+             "type": "text",
+             "slot": "tagline",
+             "face": "noto",
+             "weight": 500,
+             "size": 7.5,
+             "color": "#7A5664",
+             "maxLines": 1,
+             "shrinkTo": 4.5
+            }
+           ]
+          }
          },
          {
           "type": "spacer",

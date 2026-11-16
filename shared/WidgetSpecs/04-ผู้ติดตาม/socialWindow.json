@@ -38,7 +38,7 @@
    }
   ]
  },
- "notes": "หน้าต่าง Preview ของ macOS — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night ทุกค่า: แถบหัว #3A3A3D→#303033 พื้น #252527→#1E1E20 ขอบ #0B0B0C หมึก #F4F4F6 เลข #E4E5E8 รอง #9A9CA2 ขอบไฟ@0.5) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม (macOS ไม่เปลี่ยนสีตามวอลเปเปอร์) · แถบหัว 24 ไฟจราจรสามดวง ชื่อหน้าต่าง (note#1) กลางแถบ ไอคอนเครื่องมือ 7 ตัว · เนื้อหา = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) สามช่อง 35% · 34.5% · ที่เหลือ คั่นเส้นสูง 74% · ยอดผู้ติดตามเต็มหลัก ($followersFull = Fmt.baht) · ฐาน 17 สูตร ER + ที่มา · ขอบสองชั้น (rimOuter 0.9 · glint 1.1 · rimInner 0.6) · ป้าย Verified by Sale Here มุมขวาบน chrome วาดให้ (stampOverlay) · แปลงจาก WindowWidgets.swift (SocialWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: โลโก้เปลือย tiktok/x/youtube (46×51 — ต้องเทียบสตริง $platform จึงใช้ $icon ตราวงกลม 40) · ไอคอน Phosphor ที่ยังไม่อยู่ในชุดย่อยของแอป (magnifying-glass-plus/minus · export · copy · dots-three-circle) วาดไม่ขึ้นจนกว่าจะเพิ่ม imageset · ScrubDigits · Fmt.pct ตัด .0",
+ "notes": "หน้าต่าง Preview ของ macOS — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night ทุกค่า: แถบหัว #3A3A3D→#303033 พื้น #252527→#1E1E20 ขอบ #0B0B0C หมึก #F4F4F6 เลข #E4E5E8 รอง #9A9CA2 ขอบไฟ@0.5) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม (macOS ไม่เปลี่ยนสีตามวอลเปเปอร์) · แถบหัว 24 ไฟจราจรสามดวง ชื่อหน้าต่าง (note#1) กลางแถบ ไอคอนเครื่องมือ 7 ตัว · เนื้อหา = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) สองช่อง 44% · ที่เหลือ คั่นเส้นสูง 74% · ยอดผู้ติดตามเต็มหลัก ($followersFull = Fmt.baht) · ฐาน 17 ที่มา · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ขอบสองชั้น (rimOuter 0.9 · glint 1.1 · rimInner 0.6) · ป้าย Verified by Sale Here มุมขวาบน chrome วาดให้ (stampOverlay) · แปลงจาก WindowWidgets.swift (SocialWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: โลโก้เปลือย tiktok/x/youtube (46×51 — ต้องเทียบสตริง $platform จึงใช้ $icon ตราวงกลม 40) · ไอคอน Phosphor ที่ยังไม่อยู่ในชุดย่อยของแอป (magnifying-glass-plus/minus · export · copy · dots-three-circle) วาดไม่ขึ้นจนกว่าจะเพิ่ม imageset · ScrubDigits · Fmt.pct ตัด .0",
  "variants": [
   {
    "when": "surface=dim",
@@ -240,7 +240,7 @@
             {
              "type": "row",
              "id": "channel",
-             "w": "35%",
+             "w": "44%",
              "gap": 11,
              "align": "center",
              "pad": [
@@ -298,7 +298,6 @@
             {
              "type": "col",
              "id": "followers",
-             "w": "34.5%",
              "gap": -7,
              "justify": "center",
              "align": "center",
@@ -331,95 +330,8 @@
                "color": "#9A9CA2",
                "textAlign": "center"
               }
-             ]
-            },
-            {
-             "type": "rect",
-             "id": "divider2",
-             "w": 0.8,
-             "h": "74%",
-             "alignSelf": "center",
-             "fill": "#3C3C40"
-            },
-            {
-             "type": "col",
-             "id": "engagement",
-             "grow": 1,
-             "gap": -4,
-             "justify": "center",
-             "align": "center",
-             "pad": [
-              0,
-              11
              ],
-             "children": [
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "slot": "$engagement",
-               "if": "$engagementRaw>0",
-               "size": 30.5,
-               "weight": 800,
-               "kerning": -0.6,
-               "color": "#E4E5E8",
-               "textAlign": "center",
-               "shrinkTo": 14
-              },
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "text": "–",
-               "if": "!$engagementRaw>0",
-               "size": 30.5,
-               "weight": 800,
-               "color": "#9A9CA2",
-               "textAlign": "center"
-              },
-              {
-               "type": "col",
-               "gap": -2,
-               "align": "center",
-               "children": [
-                {
-                 "type": "text",
-                 "face": "noto",
-                 "maxLines": 1,
-                 "text": "Engagement Rate",
-                 "size": 11.4,
-                 "weight": 700,
-                 "color": "#E4E5E8",
-                 "textAlign": "center",
-                 "shrinkTo": 6.8
-                },
-                {
-                 "type": "text",
-                 "face": "noto",
-                 "maxLines": 1,
-                 "text": "เฉลี่ย 30 โพสต์ล่าสุด",
-                 "if": "$engagementRaw>0",
-                 "size": 8.6,
-                 "weight": 400,
-                 "color": "#9A9CA2",
-                 "textAlign": "center",
-                 "shrinkTo": 5.2
-                },
-                {
-                 "type": "text",
-                 "face": "noto",
-                 "maxLines": 1,
-                 "text": "รอเชื่อมบัญชี",
-                 "if": "!$engagementRaw>0",
-                 "size": 8.6,
-                 "weight": 400,
-                 "color": "#9A9CA2",
-                 "textAlign": "center",
-                 "shrinkTo": 5.2
-                }
-               ]
-              }
-             ]
+             "grow": 1
             }
            ]
           },
@@ -453,16 +365,6 @@
               12
              ],
              "children": [
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "text": "ER = (Like + Comment + Share) ÷ Views × 100",
-               "size": 6.8,
-               "weight": 400,
-               "color": "#8C8E94",
-               "shrinkTo": 4.8
-              },
               {
                "type": "spacer",
                "grow": 1,
@@ -753,7 +655,7 @@
           {
            "type": "row",
            "id": "channel",
-           "w": "35%",
+           "w": "44%",
            "gap": 11,
            "align": "center",
            "pad": [
@@ -811,7 +713,6 @@
           {
            "type": "col",
            "id": "followers",
-           "w": "34.5%",
            "gap": -7,
            "justify": "center",
            "align": "center",
@@ -844,95 +745,8 @@
              "color": "#84878C",
              "textAlign": "center"
             }
-           ]
-          },
-          {
-           "type": "rect",
-           "id": "divider2",
-           "w": 0.8,
-           "h": "74%",
-           "alignSelf": "center",
-           "fill": "#D6D6D9"
-          },
-          {
-           "type": "col",
-           "id": "engagement",
-           "grow": 1,
-           "gap": -4,
-           "justify": "center",
-           "align": "center",
-           "pad": [
-            0,
-            11
            ],
-           "children": [
-            {
-             "type": "text",
-             "face": "noto",
-             "maxLines": 1,
-             "slot": "$engagement",
-             "if": "$engagementRaw>0",
-             "size": 30.5,
-             "weight": 800,
-             "kerning": -0.6,
-             "color": "#3C3F44",
-             "textAlign": "center",
-             "shrinkTo": 14
-            },
-            {
-             "type": "text",
-             "face": "noto",
-             "maxLines": 1,
-             "text": "–",
-             "if": "!$engagementRaw>0",
-             "size": 30.5,
-             "weight": 800,
-             "color": "#84878C",
-             "textAlign": "center"
-            },
-            {
-             "type": "col",
-             "gap": -2,
-             "align": "center",
-             "children": [
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "text": "Engagement Rate",
-               "size": 11.4,
-               "weight": 700,
-               "color": "#3C3F44",
-               "textAlign": "center",
-               "shrinkTo": 6.8
-              },
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "text": "เฉลี่ย 30 โพสต์ล่าสุด",
-               "if": "$engagementRaw>0",
-               "size": 8.6,
-               "weight": 400,
-               "color": "#84878C",
-               "textAlign": "center",
-               "shrinkTo": 5.2
-              },
-              {
-               "type": "text",
-               "face": "noto",
-               "maxLines": 1,
-               "text": "รอเชื่อมบัญชี",
-               "if": "!$engagementRaw>0",
-               "size": 8.6,
-               "weight": 400,
-               "color": "#84878C",
-               "textAlign": "center",
-               "shrinkTo": 5.2
-              }
-             ]
-            }
-           ]
+           "grow": 1
           }
          ]
         },
@@ -966,16 +780,6 @@
             12
            ],
            "children": [
-            {
-             "type": "text",
-             "face": "noto",
-             "maxLines": 1,
-             "text": "ER = (Like + Comment + Share) ÷ Views × 100",
-             "size": 6.8,
-             "weight": 400,
-             "color": "#6C6F74",
-             "shrinkTo": 4.8
-            },
             {
              "type": "spacer",
              "grow": 1,

@@ -5,10 +5,10 @@
   "h": 330
  },
  "widget": {
+  "borderChoice": false,
   "title": "ชื่อหลังภาพ",
   "category": "intro",
   "requires": [
-   "categories",
    "about"
   ],
   "symbol": "person.and.background.dotted",
@@ -48,7 +48,7 @@
   ],
   "on": "light"
  },
- "notes": "สำรับบรรณาธิการ · ชื่อหลังภาพ — บรรทัดกำกับบน (note#0) · คำยักษ์พาดเต็มกว้าง (note#1) · ภาพตัดขาวดำ (ช่อง 1) ยืนทับคำ ชนก้นแผ่น · ย่อหน้าขวา: 'รู้จักฉัน —' (note#2) + ชื่อ + แนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutBehind) · สีตาม Ed.skin: กระดาษเบจ Ed.beige เฉพาะ papered & !duo · คู่สี = แผ่น plate + หมึก plateInk · ปิดพื้น/pane = หมึกการ์ด (ed.ink ed.inkSoft ed.ghost) · คำยักษ์ = ed.ghost (ขาวบนกระดาษ · เงาหมึกเมื่อไม่มีพื้น) · ขนาดคำยักษ์ต้นฉบับ Ed.fitted กว้าง 92% เพดาน 30% สูง = 99 ที่กรอบดีไซน์ (ย่อได้ด้วย shrinkTo) · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
+ "notes": "สำรับบรรณาธิการ · ชื่อหลังภาพ — ไม่มีบรรทัดสายงานด้านบน (ตัดออก 12 พ.ย. 2569) · คำยักษ์พาดเต็มกว้าง (note#1) · ภาพตัดขาวดำ (ช่อง 1) ยืนทับคำ ชนก้นแผ่น · ย่อหน้าขวา: 'รู้จักฉัน —' (note#2) + ชื่อ + แนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutBehind) · สีตาม Ed.skin: กระดาษเบจ Ed.beige เฉพาะ papered & !duo · คู่สี = แผ่น plate + หมึก plateInk · ปิดพื้น/pane = หมึกการ์ด (ed.ink ed.inkSoft ed.ghost) · คำยักษ์ = ed.ghost (ขาวบนกระดาษ · เงาหมึกเมื่อไม่มีพื้น) · ขนาดคำยักษ์ต้นฉบับ Ed.fitted กว้าง 92% เพดาน 30% สูง = 99 ที่กรอบดีไซน์ (ย่อได้ด้วย shrinkTo) · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
  "root": {
   "type": "stack",
   "children": [
@@ -66,24 +66,6 @@
    },
    {
     "type": "text",
-    "id": "kicker",
-    "slot": "tagline",
-    "face": "noto",
-    "weight": 600,
-    "size": 7,
-    "kerning": 1.8,
-    "color": "ink2",
-    "textAlign": "center",
-    "maxLines": 1,
-    "shrinkTo": 4.3,
-    "w": "84%",
-    "h": "5.5%",
-    "place": "top-left",
-    "dx": 29.3,
-    "dy": 14.9
-   },
-   {
-    "type": "text",
     "id": "word",
     "face": "noto",
     "weight": 900,
@@ -97,7 +79,7 @@
     "h": "24%",
     "place": "top-left",
     "dx": 14.6,
-    "dy": 38,
+    "dy": 14.9,
     "text": "รู้จักฉัน"
    },
    {
@@ -107,10 +89,10 @@
     "removeBg": true,
     "mono": true,
     "w": "37%",
-    "h": "81.5%",
+    "h": "88.5%",
     "place": "top-left",
     "dx": 67.7,
-    "dy": 61
+    "dy": 37.9
    },
    {
     "type": "col",
@@ -121,7 +103,7 @@
     "align": "start",
     "place": "top-left",
     "dx": 210.5,
-    "dy": 130.4,
+    "dy": 107.3,
     "children": [
      {
       "type": "row",

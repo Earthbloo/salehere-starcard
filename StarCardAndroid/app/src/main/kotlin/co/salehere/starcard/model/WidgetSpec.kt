@@ -72,6 +72,8 @@ data class WidgetSpec(
         val surfaceNames: Map<String, String>? = null,
         /** เส้นขอบตั้งต้น */
         val border: Boolean? = null,
+        /** แถว "ขอบ" ในถาด · ไม่ใส่ = มี · `false` = ไม่มีแถว และขอบเป็น `border` เสมอ */
+        val borderChoice: Boolean? = null,
         val photo: Boolean? = null,
         val keepAspect: Boolean? = null,
         val fullBleed: Boolean? = null,

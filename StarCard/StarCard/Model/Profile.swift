@@ -1048,3 +1048,10 @@ extension Profile {
         save()
     }
 }
+
+#if DEBUG
+extension Profile {
+    /// `-exportNiche` เท่านั้น — วางสายงานชุดทดสอบตรง ๆ (ไม่ผ่าน Star Profile · ไม่บันทึก)
+    func debugSetCategories(_ c: [String]?) { list[.categories] = c }
+}
+#endif

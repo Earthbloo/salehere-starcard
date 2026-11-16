@@ -13,7 +13,16 @@
   "symbol": "seal.fill",
   "order": 31,
   "ownSurface": true,
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   }
+  ]
  },
  "notes": "หัวข้อ 'สายงาน' (WidgetLabel: 13.5 bold ink@0.88 + เส้นไล่ line@0.2→0.04) + สติกเกอร์แคปซูลขอบขาวหนา เอียงคนละองศา สามสีวน (ไล่สี rawAccent→rawAccentSoft · ขาว · มาร์กเกอร์เขียว) · ดาวเฉพาะใบคู่ (i%2==0 เขียนเป็นช่วง $i) · เงาของต้นฉบับตกทุกชิ้น (พื้น ขอบ ดาว ตัวอักษร) · แปลงจาก GenZWidgets.swift (StickerTags)",
  "root": {

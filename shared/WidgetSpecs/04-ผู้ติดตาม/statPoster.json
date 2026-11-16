@@ -51,7 +51,7 @@
   ],
   "on": "dark"
  },
- "notes": "โปสเตอร์ผู้ติดตาม · แปลงจาก StatPosterWidget.swift (ค่าคงที่ SP + StatPosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 20 · พื้นผิว (14 ต.ค. 2569): `papered` (กระจก/เข้ม) = แผ่น `plate` + หมึกครีม `plateInk` (soft @0.66 · hair @0.24) + สีเน้นดิบ `rawAccent` · `pane`/`clear` = ไม่มีแผ่น หมึกของการ์ด `ink@0.95` (soft `ink@0.58` · hair `line@0.24`) + `accent` · ผัง: pad 18/18/16 (+8 บนเมื่อ stamped) · พาดหัวสองบรรทัดกลาง (note#1 'MY Social' · note#2 'MEDIA STATS' · ระยะ −0.30fs1) · เส้นเน้น 1.4 (เว้นบน 10) · ที่ว่าง ≥6 · แถวสถิติ (socials · ช่องกว้างเท่ากัน · โลโก้ 27 · ยอด heavy 22/19/16 ตามจำนวนช่อง · สลับสีช่องคู่=สีเน้น ช่องคี่=หมึก (เงื่อนไข $i เป็นช่วง) · ชื่อช่อง 9.5 semibold kerning 0.95 · เส้นคั่นตั้ง 0.8) · ที่ว่าง ≥6 · เส้นปิด 0.8 · ป้าย Verified by Sale Here (sh:verifiedPill สูง 24) ขวาบน 10/12 เมื่อ `stamped` · ขนาดพาดหัว: โค้ดเดิมตั้งเพดาน 30/42 แต่ VStack ของ SwiftUI บีบ (minimumScaleFactor) จนเหลือ ~22 ทั้งสองบรรทัดที่ขนาดออกแบบ — ผังใช้ 22 ตรง ๆ ให้เท่าภาพเดิม · ไม่มี: คำแรกหนา+ที่เหลือเซริฟเอียงในช่องเดียว (ต้องการ text run) · เกล็ด EdGrain/ลายแผ่น PlatePatternLayer · ตราปั๊มนูน (lab) · มุม 0 ตอนไม่มีแผ่น (อ่าน theme.radius ไม่ได้)",
+ "notes": "โปสเตอร์ผู้ติดตาม · แปลงจาก StatPosterWidget.swift (ค่าคงที่ SP + StatPosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 20 · พื้นผิว (14 ต.ค. 2569): `papered` (กระจก/เข้ม) = แผ่น `plate` + หมึกครีม `plateInk` (soft @0.66 · hair @0.24) + สีเน้นดิบ `rawAccent` · `pane`/`clear` = ไม่มีแผ่น หมึกของการ์ด `ink@0.95` (soft `ink@0.58` · hair `line@0.24`) + `accent` · ผัง: pad 18/18/16 (+8 บนเมื่อ stamped) · พาดหัวสองบรรทัดกลาง (note#1 'MY Social' · note#2 'MEDIA STATS' · ระยะ −0.30fs1) · เส้นเน้น 1.4 (เว้นบน 10) · ที่ว่าง ≥6 · แถวสถิติ (socials · ช่องกว้างเท่ากัน · โลโก้ 27 · ยอด heavy 22/19/16 ตามจำนวนช่อง · ยอดเป็นสีขาวทุกช่อง (13 พ.ย. 2569 · เลิกสลับสีเน้น/หมึก) · ชื่อช่อง 9.5 semibold kerning 0.95 · เส้นคั่นตั้ง 0.8) · ที่ว่าง ≥6 · เส้นปิด 0.8 · ป้าย Verified by Sale Here (sh:verifiedPill สูง 24) ขวาบน 10/12 เมื่อ `stamped` · ขนาดพาดหัว: โค้ดเดิมตั้งเพดาน 30/42 แต่ VStack ของ SwiftUI บีบ (minimumScaleFactor) จนเหลือ ~22 ทั้งสองบรรทัดที่ขนาดออกแบบ — ผังใช้ 22 ตรง ๆ ให้เท่าภาพเดิม · ไม่มี: คำแรกหนา+ที่เหลือเซริฟเอียงในช่องเดียว (ต้องการ text run) · เกล็ด EdGrain/ลายแผ่น PlatePatternLayer · ตราปั๊มนูน (lab) · มุม 0 ตอนไม่มีแผ่น (อ่าน theme.radius ไม่ได้)",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -261,23 +261,11 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 22,
-               "color": "accent",
-               "maxLines": 1,
-               "shrinkTo": 11
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 22,
-               "color": "ink",
+               "color": "white",
                "maxLines": 1,
                "shrinkTo": 11
               }
@@ -291,23 +279,11 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 19,
-               "color": "accent",
-               "maxLines": 1,
-               "shrinkTo": 9.5
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 19,
-               "color": "ink",
+               "color": "white",
                "maxLines": 1,
                "shrinkTo": 9.5
               }
@@ -321,23 +297,11 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 16,
-               "color": "accent",
-               "maxLines": 1,
-               "shrinkTo": 8
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 16,
-               "color": "ink",
+               "color": "white",
                "maxLines": 1,
                "shrinkTo": 8
               }
@@ -359,27 +323,13 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 22,
-               "color": "accent",
+               "color": "white",
                "maxLines": 1,
-               "shrinkTo": 11,
-               "on": "card"
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 22,
-               "color": "ink@0.95",
-               "maxLines": 1,
-               "shrinkTo": 11,
-               "on": "card"
+               "shrinkTo": 11
               }
              ]
             },
@@ -391,27 +341,13 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 19,
-               "color": "accent",
+               "color": "white",
                "maxLines": 1,
-               "shrinkTo": 9.5,
-               "on": "card"
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 19,
-               "color": "ink@0.95",
-               "maxLines": 1,
-               "shrinkTo": 9.5,
-               "on": "card"
+               "shrinkTo": 9.5
               }
              ]
             },
@@ -423,27 +359,13 @@
              "children": [
               {
                "type": "text",
-               "if": "$i<1 | $i>=2&$i<3 | $i>=4&$i<5",
                "slot": "$followers",
                "face": "noto",
                "weight": 800,
                "size": 16,
-               "color": "accent",
+               "color": "white",
                "maxLines": 1,
-               "shrinkTo": 8,
-               "on": "card"
-              },
-              {
-               "type": "text",
-               "if": "$i>=1&$i<2 | $i>=3&$i<4 | $i>=5&$i<6",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 16,
-               "color": "ink@0.95",
-               "maxLines": 1,
-               "shrinkTo": 8,
-               "on": "card"
+               "shrinkTo": 8
               }
              ]
             }

@@ -20,7 +20,16 @@
   ],
   "skin": "glass",
   "motion": "mid",
-  "on": "light"
+  "on": "light",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "สายที่แสดง",
+    "items": "categories",
+    "minItems": 2,
+    "opt": "hide"
+   }
+  ]
  },
  "notes": "สำรับสติกเกอร์ · สายงานแบบลิสต์ (กระจก) — ป้ายแท็บกว้าง 'สายงาน' · สายงานเรียงลงไอคอนนำหน้า คั่นเส้นบาง · แปลงจาก PopWidgets.swift (PopNiche + PopSheet wide fold) · ไอคอนประจำสายงานเลือกตามคำ (Pop.nicheIcon) ทำไม่ได้ ใช้ ph:tag ทุกบรรทัด · เส้นคั่นอยู่ใต้ทุกบรรทัดรวมบรรทัดสุดท้าย · มุมพับ PopFold วาดไม่ได้",
  "root": {

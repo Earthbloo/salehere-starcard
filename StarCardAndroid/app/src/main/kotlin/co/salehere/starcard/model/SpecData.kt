@@ -60,6 +60,13 @@ data class AndroidSpecData(
 
     private fun pct0(v: Double): String = Fmt.f(v, 0) + "%"
 
+    /** สายงานที่ใบนี้โชว์ — ตัดชื่อที่ติ๊กออกในถาด "สายที่แสดง" (`hide`) เรียงต่อกันไม่เว้นรู (= iOS `shownCategories`) */
+    val shownCategories: List<String>
+        get() {
+            val hidden = kit.list(KitOpt.hide)
+            return if (hidden.isEmpty()) p.categories else p.categories.filter { it !in hidden }
+        }
+
     override fun text(slot: String, preset: String?): String {
         // ค่าที่ระบบคิดให้ (อ่านอย่างเดียว) — `stat:<name>`
         if (slot.startsWith("stat:")) {
@@ -106,6 +113,7 @@ data class AndroidSpecData(
         val field = ProfileField.from(parts[0]) ?: return ""
         val index = if (parts.size > 1) parts[1].toIntOrNull() else null
         if (field == ProfileField.about && sample) return shownAbout
+        if (field == ProfileField.categories && index != null) return shownCategories.getOrNull(index) ?: ""
         // ช่องอิสระของชิ้น: ค่าที่พิมพ์ → ข้อความตั้งต้นของดีไซน์ (preset) → ป้ายชวนพิมพ์
         val id = TextSlotID(field = field, index = index, widget = if (field == ProfileField.note) widget else null, preset = preset ?: "")
         return p.text(id)
@@ -149,7 +157,7 @@ data class AndroidSpecData(
     }
 
     override fun list(name: String): List<SpecItem> = when (name) {
-        "categories" -> p.categories.mapIndexed { i, c -> SpecItem("cat$i", i, mapOf("text" to c)) }
+        "categories" -> shownCategories.mapIndexed { i, c -> SpecItem("cat$i", i, mapOf("text" to c)) }
         "socials" -> shownSocials.mapIndexed { i, s ->
             SpecItem(s.type.raw, i, mapOf(
                 "platform" to s.type.raw, "name" to s.type.name, "short" to s.type.shortName,

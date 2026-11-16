@@ -49,8 +49,16 @@ function flatItem(it, popSkin = 'glass') {
   // หน้าตาของชุดห้าสไตล์เป็นของชนิด — `style` ของไฟล์เก่าใช้แค่เลือกชนิดใหม่ที่ตรงกัน
   const kit = { fill: o.fill || 'solid', corner: o.corner || 'round', opts: o, style: legacyKit?.style }
   const kind = resolveKind(it.kind, legacyKit || (o.fill || o.corner ? kit : null), state.specs, popSkin)
+  // ใบที่ไม่มีแถวขอบ (`widget.borderChoice: false`) — ขอบเป็นของชนิด (= `hasBorderChoice` ของ iOS)
+  const meta = state.specs[kind]?.widget
+  const border = meta?.borderChoice === false ? (meta.border ?? !meta.ownSurface) : it.border
+  // ใบที่ตัดพื้นผิวบางแบบออก (`widget.surfaces`) — ค่าเก่าที่ไม่อยู่ในรายการกลับเป็นตัวแรก (= CardStore ของ iOS)
+  const surface = meta?.surfaces && !meta.surfaces.includes(it.surface) ? meta.surfaces[0] : it.surface
+  // ลายบนแผ่นมีได้เฉพาะใบที่ไฟล์ผังมีแถว "ลาย" — ใบที่ตัดแถวออกแล้ว ค่าเก่าในไฟล์ไม่มีผล
+  const hasPattern = (meta?.controls || []).some(c => c.opt === 'pattern')
+  if (!hasPattern) delete o.pattern
   return {
-    id: it.id, kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: it.border,
+    id: it.id, kind, x: it.x, y: it.y, w: it.w, h: it.h, surface, border,
     options: o, kit, pattern: o.pattern || 'plain',
     // ตรึงก้นหน้า = ของชนิด (`widget.pinned`) ไม่ใช่ค่าในชิ้น
     pinned: !!state.specs[kind]?.widget?.pinned,
