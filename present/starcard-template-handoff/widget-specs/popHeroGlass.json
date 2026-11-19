@@ -7,6 +7,11 @@
  "widget": {
   "title": "ป้ายชื่อ กระจกชมพู",
   "category": "hero",
+  "requires": [
+   "kind",
+   "about",
+   "provinces"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 48,
   "ownSurface": true,

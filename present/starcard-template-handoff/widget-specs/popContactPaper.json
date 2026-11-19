@@ -7,6 +7,9 @@
  "widget": {
   "title": "ช่องทางติดต่อสามแถว กระดาษเทป",
   "category": "contact",
+  "requires": [
+   "contact"
+  ],
   "symbol": "person.fill",
   "order": 56,
   "ownSurface": true,
@@ -19,7 +22,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สำรับสติกเกอร์ · ช่องทางติดต่อสามแถว (กระดาษ) — ป้ายแท็บดำกว้าง 'ช่องทางติดต่อ' · แต่ละช่องเป็นกล่องขาวขอบเทามุมเล็ก ไอคอนในวงดำ (LINE วงเขียว) · แปลงจาก PopWidgets.swift (PopContact + PopSheet wide สกิน paper) · แถวตาม ContactLine.all (lineId phone website)",
+ "notes": "สำรับสติกเกอร์ · ช่องทางติดต่อสามแถว (กระดาษ) — ป้ายแท็บดำกว้าง 'ช่องทางติดต่อ' · แต่ละช่องเป็นกล่องขาวขอบเทามุมเล็ก ไอคอนในวงดำ (LINE วงเขียว) · แปลงจาก PopWidgets.swift (PopContact + PopSheet wide สกิน paper) · แถวตาม ContactLine.all (lineId phone website) · ช่องทางที่ไม่มีค่าถูกซ่อน (has:stat:*) และมี spacer แทนที่ด้านล่าง เม็ดที่เหลือจึงสูงเท่าเดิม",
  "root": {
   "type": "col",
   "pad": [
@@ -127,7 +130,8 @@
           "shrinkTo": 7.2,
           "grow": 1
          }
-        ]
+        ],
+        "if": "has:stat:lineFlow"
        },
        {
         "type": "row",
@@ -179,7 +183,8 @@
           "shrinkTo": 7.2,
           "grow": 1
          }
-        ]
+        ],
+        "if": "has:stat:phoneFmt"
        },
        {
         "type": "row",
@@ -231,7 +236,29 @@
           "shrinkTo": 7.2,
           "grow": 1
          }
-        ]
+        ],
+        "if": "has:stat:site"
+       },
+       {
+        "type": "spacer",
+        "id": "lineGap",
+        "grow": 1,
+        "h": "fill",
+        "if": "!has:stat:lineFlow"
+       },
+       {
+        "type": "spacer",
+        "id": "phoneGap",
+        "grow": 1,
+        "h": "fill",
+        "if": "!has:stat:phoneFmt"
+       },
+       {
+        "type": "spacer",
+        "id": "webGap",
+        "grow": 1,
+        "h": "fill",
+        "if": "!has:stat:site"
        }
       ]
      },
@@ -292,7 +319,9 @@
           "color": "white",
           "maxLines": 1,
           "shrinkTo": 10.5,
-          "grow": 1
+          "grow": 1,
+          "id": "text1",
+          "editable": true
          }
         ]
        }

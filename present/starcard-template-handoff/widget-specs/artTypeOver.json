@@ -7,6 +7,10 @@
  "widget": {
   "title": "ตัวอักษรทับภาพ",
   "category": "hero",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "textformat.alt",
   "order": 0,
   "ownSurface": true,
@@ -165,9 +169,8 @@
        },
        {
         "type": "icon",
-        "icon": "verifiedSeal",
+        "icon": "sh:sealRed",
         "size": 13.6,
-        "tint": "ink@0.9",
         "if": "owner.verified"
        },
        {

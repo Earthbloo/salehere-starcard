@@ -121,14 +121,16 @@ for (const { file, spec } of specs) {
 
 // MARK: 4 · `widget.requires` = แถวที่ข้อมูลของใบนี้มาจาก (คิดจาก binding)
 //
-// เนื้อหาที่ใบอ่าน → ชื่อแถว · ข้อมูลบัญชี (ชื่อ · @handle · ชื่อเล่น) / ลิงก์การ์ด ไม่นับ
+// เนื้อหาที่ใบอ่าน → ชื่อแถว · ชื่อ / ชื่อเล่น → about · @handle / ลิงก์การ์ด ไม่นับ
 // รูป: ช่อง (เลข mod 12) 1–3 = รูปครีเอเตอร์ ไม่มีก็ avatar บัญชี → ไม่นับ · ช่องอื่น = รูปผลงาน → about
 // อ่านแค่ใน `if` / `where` / `when` (ซ่อน-โชว์บางส่วน) ไม่นับ · works/brands ที่ทุกจุดดึงแค่ `limit: 1` (ไอคอนประดับ) ไม่นับ
 // หมวด seal = kyc เสมอ
 
 function rowOf(ref) {
   const r = ref.replace(/^(list|slot):/, '')
-  if (/^(name|handle|nickname)$/.test(r) || ref === 'flag:cutout' || r === 'stat:cardURL' || r === 'stat:verifyURL') return null // stat:verifyURL = ลิงก์ตรวจสอบของตรา client ส่งมา ไม่บังคับขั้นไหน (ไม่ส่ง = ไม่มี QR)
+  // ชื่อ / ชื่อเล่น กรอกในขั้นเกี่ยวกับฉัน (ผู้ใช้ 19 พ.ย. 2569) → about · @handle = ข้อมูลบัญชี ไม่นับ
+  if (/^(name|nickname)$/.test(r)) return 'about'
+  if (r === 'handle' || ref === 'flag:cutout' || r === 'stat:cardURL' || r === 'stat:countsUpdated' || r === 'stat:verifyURL') return null // ลิงก์ตรวจสอบของตรา = client ส่งมา ไม่บังคับขั้นไหน (ไม่ส่ง = ไม่มี QR) // วันอัปเดตยอด = ข้อมูลประกอบ badge ไม่บังคับขั้นไหน (ไม่มี = ไม่โชว์ badge)
   if (/^(tagline|categories)/.test(r)) return 'categories'
   if (/^(workArea|areas)/.test(r)) return 'provinces'
   if (r === 'stat:creatorKind') return 'kind'

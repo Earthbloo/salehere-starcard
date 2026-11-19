@@ -79,6 +79,14 @@ function handleFrom(type, link) {
 
 // MARK: - ชุดตัวอย่าง (= Mock.creator)
 
+/** ISO → "18 พ.ย. 69" (เดือนย่อไทย · ปี พ.ศ. สองหลัก) — ตัวเดียวกับที่ client ต้องจัดรูปให้ `stat:countsUpdated` */
+const TH_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+function thaiShortDate(iso) {
+  const d = new Date(iso)
+  if (isNaN(d)) return ''
+  return `${d.getDate()} ${TH_MONTHS[d.getMonth()]} ${String((d.getFullYear() + 543) % 100).padStart(2, '0')}`
+}
+
 const social = (type, handle, followerCount, avgViewCount, syncedAgo, engagementRate, source = 'connected') =>
   ({ type, handle, followerCount, avgViewCount, syncedAgo, engagementRate, source })
 const work = (brand, ep, campaign, platform, format, views, engagementRate, photo, saves, shares, likes, comments, viralTag) =>
@@ -374,6 +382,12 @@ export class WebSpecData {
         // ลิงก์หน้าตรวจสอบของตรารับรอง — client ส่งมา (QR ของ proofSeal เข้ารหัสค่านี้) · ไม่ส่ง = ว่าง → ผังซ่อน QR ด้วย `has:stat:verifyURL`
         case 'verifyURL': return p.stored('verifyURL') || (this.sample ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '')
         case 'year': return '2026'
+        // วันอัปเดตยอดล่าสุด (badge "อัปเดตเมื่อ 18 พ.ย. 69" ขวาบน widget ผู้ติดตาม/ผู้ชม) — client ส่งวันที่มา
+        // (ผู้ติดตาม = วันซิงก์ยอดช่องล่าสุด · ผู้ชม = วันอัปโหลด Insight) · ไม่มีวันที่ = ว่าง → ผังซ่อน badge ด้วย `has:stat:countsUpdated`
+        case 'countsUpdated': {
+          const iso = p.stored('countsUpdatedAt') || (this.sample ? new Date().toISOString() : '')
+          return iso ? thaiShortDate(iso) : ''
+        }
         case 'placeCount': return String(a.places.length)
         // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` (= iOS)
         case 'reach': return a.reach.accounts > 0 ? Fmt.compact(a.reach.accounts) : ''

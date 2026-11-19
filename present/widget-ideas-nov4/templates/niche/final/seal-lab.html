@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seal Tone Lab</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{--bg:#0f0f12;--panel:#17171c;--line:#2a2a32;--ink:#e8e8ec;--dim:#9a9aa6;--pick:#ffd166;--sel:#5CE6AD}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,"Noto Sans Thai",system-ui,sans-serif}
+  header{padding:20px 24px 6px;max-width:1500px;margin:0 auto} h1{font-size:22px;margin:0} header p{color:var(--dim);margin:4px 0 0;font-size:13px}
+  main{max-width:1500px;margin:0 auto;padding:8px 24px 80px}
+  .tpl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin:14px 0}
+  .tpl h3{margin:0 0 2px;font-size:15px} .tpl h3 small{color:var(--dim);font-weight:500;font-size:11px;margin-left:6px}
+  .why{color:#c9c9d2;font-size:13px;margin:2px 0 10px}
+  .grid{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+  .cand{position:relative;border-radius:14px;padding:6px;border:3px solid transparent;background:rgba(255,255,255,.03);cursor:pointer;transition:border-color .15s,background .15s}
+  .cand:hover{border-color:#4a4a55}
+  .cand.sel{border-color:var(--sel);background:rgba(92,230,173,.10)}
+  .cand .tick{position:absolute;top:12px;left:12px;z-index:5;width:30px;height:30px;border-radius:50%;background:var(--sel);color:#0f0f12;font:900 17px/30px system-ui;text-align:center;display:none;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .cand.sel .tick{display:block}
+  .lab{display:flex;align-items:center;gap:6px;font-size:13px;color:#c9c9d2;margin-top:6px} .lab b{color:var(--ink)}
+  .badge{display:inline-block;font:800 10px system-ui;border-radius:5px;padding:1px 6px;background:var(--pick);color:#111}
+  .chosen{font-size:12px;color:var(--dim);margin-left:8px} .chosen b{color:var(--sel)} .chosen.diff b{color:var(--pick)}
+  #bar{position:sticky;top:0;z-index:30;background:rgba(15,15,18,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}
+  #bar .count{display:flex;gap:6px;flex-wrap:wrap} #bar .pill{border-radius:999px;padding:3px 10px;font:700 12px system-ui;background:rgba(255,255,255,.08)}
+  #bar .pill i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(255,255,255,.3)}
+  #bar button{border:0;border-radius:999px;padding:7px 14px;font:700 12px system-ui;cursor:pointer;background:rgba(255,255,255,.1);color:var(--ink)} #bar button.go{background:var(--sel);color:#0f0f12}
+  #bar .sp{flex:1} #status{color:var(--sel);font-size:12px}
+  @media (max-width: 760px){ #bar{padding:8px 12px} }
+  .page{position:relative;flex:none;border-radius:12px;overflow:hidden} .page .in{position:absolute;left:0;top:0;transform-origin:0 0} .page .it{position:absolute} .page .pg{position:absolute;top:0;overflow:hidden}
+  .err{color:#f77;font-size:10px;white-space:pre-wrap}
+  #probe{position:fixed;left:-99999px;top:0;visibility:hidden}
+  @media (max-width: 760px){ header,main{padding-left:12px;padding-right:12px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>สีตรารับรอง Sale Here ของแต่ละ template</h1>
+  <p>กดเลือกสีที่ชอบของแต่ละใบ (กรอบเขียว ✓) · ป้ายเหลือง "แนะนำ" = ที่ Claude แนะนำ · ตั้งต้นเลือกตามที่แนะนำไว้ · เลือกแล้วเก็บไว้ในเบราว์เซอร์นี้ · เสร็จแล้วกด "คัดลอกผลเลือก" ส่งในแชท</p>
+</header>
+<div id="bar">
+  <span class="count" id="count"></span>
+  <span class="sp"></span>
+  <button id="reset">กลับไปตามที่แนะนำ</button>
+  <button id="dl">ดาวน์โหลด seal-picks.json</button>
+  <button class="go" id="copy">คัดลอกผลเลือก</button>
+  <span id="status"></span>
+</div>
+<main id="main"></main>
+<div id="probe"></div>
+<script type="module">
+// ?server=8789 = ใช้ sync-server อีกพอร์ต (เช่นเมื่อ 8787 เป็นตัวเก่าที่ยังไม่มีไอคอนตราใหม่)
+const SERVER = 'http://localhost:' + (new URLSearchParams(location.search).get('server') || '8787')
+const $ = (s) => document.querySelector(s)
+const lib = {}
+for (const f of ['spec-model.js', 'measure.js', 'data.js', 'chrome.js', 'backdrop.js', 'theme.js', 'page.js']) Object.assign(lib, await import(`${SERVER}/card/js/${f}`))
+await lib.loadFonts(`${SERVER}/card/fonts/`)
+const q = new URLSearchParams(location.search)
+const PICKS = await fetch('./seal-picks.json?' + Date.now()).then((r) => r.ok ? r.json() : {}).catch(() => ({}))
+const manifest = await (await fetch(`./manifest.json?${Date.now()}`)).json()
+const SETS = await (await fetch('./photo-sets.json?' + Date.now())).json()
+const KINDS = Object.fromEntries((await (await fetch('./kinds.json')).json()).map((k) => [k.kind, k]))
+const live = (await (await fetch(`${SERVER}/api/specs`)).json()).specs
+const specs = Object.fromEntries(Object.entries(live).map(([k, v]) => [k, lib.parseSpec(v)]))
+const SEAL = Object.keys(specs).find((k) => specs[k].widget?.pinned)
+const TONES = [[null, 'ดำ'], ['red', 'แดง'], ['white', 'ขาว']]
+const measurer = new lib.WebMeasurer()
+const _track = lib.WebSpecData.prototype.track
+lib.WebSpecData.prototype.track = function () { return this.p?.creator?.track || _track.call(this) }
+const CUT_KINDS = new Set(['artPortfolio', 'nichePoster', 'contactPoster', 'audiencePoster', 'portfolioWindow', 'portfolioGingham', 'aboutBehind', 'aboutEditorial'])
+const cutOn = new Set()
+Object.defineProperty(lib.WebSpecData.prototype, 'cutout', { configurable: true, set() {}, get() { return cutOn.has(this.item?.id) } })
+const isPerson = (slot) => { const n = ((slot % 12) + 12) % 12; return n >= 1 && n <= 3 }
+function profileOf(doc) {
+  const o = doc.owner, pv = o.preview
+  const p = new lib.Profile(o, {})
+  const total = o.intake.socials.reduce((a, s) => a + s.followers, 0)
+  p.creator.audience = { female: pv.audience.female, male: pv.audience.male, other: pv.audience.other,
+    ages: pv.audience.ages.map(([label, share]) => ({ label, share })), places: pv.audience.places.map(([name, share]) => ({ name, share })),
+    reach: { platform: o.intake.socials[0].type, window: '30 วัน', accounts: Math.round(total * 0.42), delta: 9.6, newShare: 58.3 } }
+  p.creator.track = { brands: pv.brands, works: pv.works }
+  for (const sc of p.creator.socials) { const src = (pv.socials || []).find((x) => x.type === sc.type); if (src) { sc.avgViewCount = src.views; sc.engagementRate = src.er } }
+  p.creator.verified = true
+  // QR ของตรา: ขึ้นเฉพาะเมื่อ client ส่ง stat:verifyURL (ผัง `if: has:stat:verifyURL`) · หน้านี้ใส่ลิงก์ตัวอย่างให้เห็น QR
+  if (q.get('qr') !== '0') p.values.verifyURL = 'https://salehere.co.th/star/verify/STAR-2611-0482'
+  p.sampleFamilies = new Set()
+  return p
+}
+const GUTTER = 26
+/** วาดทั้งใบ (แนวนอน = ครบทุกหน้าเรียงกันแบบหน้า Final) · ตราอยู่หน้าสุดท้าย สีตาม tone */
+function paintCard(host, doc, photos, sc, tone) {
+  const portfolio = doc.format === 'portfolio'
+  const P = portfolio ? { w: 402, h: 670 } : { w: 540, h: 960 }
+  const n = doc.snapshot.pages.length
+  const W = P.w * n + GUTTER * (n - 1), H = P.h
+  host.innerHTML = ''; host.style.cssText = `width:${W * sc}px;height:${H * sc}px`
+  const inner = document.createElement('div'); inner.className = 'in'; inner.style.cssText = `width:${W}px;height:${H}px;transform:scale(${sc})`
+  host.appendChild(inner)
+  const theme = lib.makeTheme(doc.snapshot.theme)
+  const env = { doc: { photos, owner: doc.owner, notes: {} }, theme, profile: profileOf(doc), specs, measurer, base: `${SERVER}/card/`, imageURL: (id) => `${SERVER}/api/images/${id}` }
+  const SZ = portfolio ? { w: 366, h: 232 } : { w: 246, h: 156 }
+  const so = tone ? { tone } : {}
+  doc.snapshot.pages.forEach((pg, pi) => {
+    const pageEl = document.createElement('div'); pageEl.className = 'pg'; pageEl.style.cssText = `left:${pi * (P.w + GUTTER)}px;top:0;width:${P.w}px;height:${P.h}px`
+    if (portfolio) pageEl.style.borderRadius = `${pi === 0 ? 22 : 0}px ${pi === n - 1 ? 22 : 0}px ${pi === n - 1 ? 22 : 0}px ${pi === 0 ? 22 : 0}px`
+    inner.appendChild(pageEl)
+    lib.paintBackdrop(pageEl, theme, P.w, P.h, { pageW: P.w })
+    const items = pg.items.map((it) => ({ ...it, options: { ...(it.options || {}) }, kit: { fill: 'solid', corner: 'round', opts: { ...(it.options || {}) } }, pattern: it.options?.pattern || 'plain', pinned: false }))
+    if (SEAL && pi === n - 1) items.push({ id: 'SEAL', kind: SEAL, x: P.w - 18 - SZ.w, y: P.h - 18 - SZ.h, w: SZ.w, h: SZ.h, surface: 'glass', border: false, options: so, kit: { fill: 'solid', corner: 'round', opts: so }, pattern: 'plain', pinned: true })
+    for (const p of lib.solvePage(items, { width: P.w, height: P.h })) {
+      const el = document.createElement('div'); el.className = 'it'; el.style.cssText = `left:${p.frame.x}px;top:${p.frame.y}px;width:${p.frame.width}px;height:${p.frame.height}px`
+      try { lib.mountWidget(el, p.item, { x: 0, y: 0, width: p.frame.width, height: p.frame.height }, env) } catch (e) { el.innerHTML = `<pre class="err">${e.message}</pre>` }
+      pageEl.appendChild(el)
+    }
+  })
+}
+function probeAll(doc) {
+  const asked = new Map(), photos = {}
+  const set = SETS[doc.owner.preview.setPersona || doc.template.persona]
+  for (const pg of doc.snapshot.pages) for (const it of pg.items) {
+    if (CUT_KINDS.has(it.kind)) cutOn.add(it.id)
+    for (let s = -24; s <= 48; s++) Object.defineProperty(photos, `${it.id}#${s}`, { enumerable: true, get() { if (!asked.has(it.id)) asked.set(it.id, new Set()); asked.get(it.id).add(s); return { imageId: set.self[0].id } } })
+  }
+  paintCard($('#probe'), doc, photos, 1, null)
+  $('#probe').innerHTML = ''
+  return asked
+}
+function allocate(doc, asked) {
+  const set = SETS[doc.owner.preview.setPersona || doc.template.persona]
+  const items = doc.snapshot.pages.flatMap((pg, pi) => pg.items.map((it) => ({ ...it, pi }))).sort((a, b) => a.pi - b.pi || a.y - b.y || a.x - b.x)
+  const req = []
+  items.forEach((it, order) => { for (const s of [...(asked.get(it.id) || [])].sort((a, b) => a - b)) {
+    const person = isPerson(s), cut = CUT_KINDS.has(it.kind) && s === 1, cat = KINDS[it.kind]?.cat
+    req.push({ it, s, cut, phase: cut ? 0 : person && cat === 'hero' ? 1 : cat === 'verified' ? 2 : person ? 3 : 4, order })
+  } })
+  req.sort((a, b) => a.phase - b.phase || a.order - b.order || a.s - b.s)
+  const freeSelf = [0, 1, 2, 3], freeWork = [0, 1, 2, 3], photos = {}
+  cutOn.clear()
+  const take = (pool, pref) => { const i = pref ? pref.find((x) => pool.includes(x)) : pool[0]; if (i !== undefined) pool.splice(pool.indexOf(i), 1); return i }
+  for (const r of req) {
+    let type = null, i
+    if (r.phase <= 1) { i = take(freeSelf, r.cut ? set.cutPref : null); type = 'self' }
+    else if (r.phase === 2) { i = take(freeWork); type = 'work' }
+    else if (r.phase === 3) { i = take(freeSelf); type = 'self'; if (i === undefined) { i = take(freeWork); type = 'work' } }
+    else { i = take(freeWork); type = 'work'; if (i === undefined) { i = take(freeSelf); type = 'self' } }
+    if (i === undefined) continue
+    photos[`${r.it.id}#${r.s}`] = { imageId: type === 'self' ? (r.cut ? set.self[i].cut : set.self[i].id) : set.work[i] }
+    if (r.cut) cutOn.add(r.it.id)
+  }
+  return photos
+}
+const onlyId = q.get('id'), sc = Number(q.get('sc')) || 0.5
+const TONE_NAME = Object.fromEntries(TONES.map(([v, n]) => [String(v), n]))
+const DOT = { null: '#161616', red: '#DA0510', white: '#ffffff' }
+// ผลเลือก: template id → tone (null = ดำ) · ตั้งต้น = ที่แนะนำ · เก็บใน localStorage ของเบราว์เซอร์นี้
+const KEY = 'seal-lab.sel.v1'
+const sel = {}
+for (const [id, p] of Object.entries(PICKS)) sel[id] = p.tone ?? null
+try { Object.assign(sel, JSON.parse(localStorage.getItem(KEY) || '{}')) } catch {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(sel)) } catch {} }
+const names = {}
+function refresh() {
+  const n = { null: 0, red: 0, white: 0 }
+  for (const t of manifest.templates.filter((x) => !x.hidden)) n[String(sel[t.id] ?? null)]++
+  $('#count').innerHTML = TONES.map(([v, label]) => `<span class="pill"><i style="background:${DOT[v]}"></i>${label} ${n[String(v)]}</span>`).join('')
+  document.querySelectorAll('.tpl').forEach((box) => {
+    const id = box.dataset.id, cur = sel[id] ?? null, rec = PICKS[id]?.tone ?? null
+    box.querySelectorAll('.cand').forEach((c) => c.classList.toggle('sel', (c.dataset.tone === 'null' ? null : c.dataset.tone) === cur))
+    const ch = box.querySelector('.chosen'); ch.className = 'chosen' + (cur !== rec ? ' diff' : '')
+    ch.innerHTML = `เลือก: <b>${TONE_NAME[String(cur)]}</b>${cur !== rec ? ' (ไม่ตรงที่แนะนำ)' : ''}`
+  })
+}
+const result = () => manifest.templates.filter((x) => !x.hidden).map((t) => ({ id: t.id, name: t.name, tone: sel[t.id] ?? null, label: TONE_NAME[String(sel[t.id] ?? null)] }))
+window.__done = false
+for (const t of manifest.templates.filter((x) => !x.hidden && (!onlyId || x.id === onlyId))) {
+  names[t.id] = t.name
+  const doc = await (await fetch(`./out/${t.id}.json?${Date.now()}`)).json()
+  const pi = doc.snapshot.pages.length - 1
+  const photos = allocate(doc, probeAll(doc))
+  const mine = PICKS[t.id]
+  const box = document.createElement('div'); box.className = 'tpl'; box.dataset.id = t.id
+  box.innerHTML = `<h3>${t.final ? t.final + '. ' : ''}${t.name}<small>${t.id}${doc.snapshot.pages.length > 1 ? ' · ' + doc.snapshot.pages.length + ' หน้า (ตราอยู่หน้า ' + (pi + 1) + ')' : ''}</small><span class="chosen"></span></h3><div class="why">${mine ? '★ ' + mine.why : ''}</div><div class="grid"></div>`
+  $('#main').appendChild(box)
+  for (const [tone, label] of TONES) {
+    const el = document.createElement('div'); el.className = 'cand'; el.dataset.tone = String(tone)
+    el.innerHTML = '<span class="tick">✓</span>'
+    const host = document.createElement('div'); host.className = 'page'; el.appendChild(host)
+    // แนวนอน: ทั้งแผ่น 3 หน้า ให้กว้างพอดีจอ (เรียงทีละแถว) · แนวตั้ง: 3 สีเรียงในแถวเดียว
+    const scale = doc.format === 'portfolio' ? Math.min(0.75, (Math.min(window.innerWidth, 1500) - 100) / (402 * 3 + GUTTER * 2)) : sc
+    paintCard(host, doc, photos, scale, tone)
+    el.insertAdjacentHTML('beforeend', `<div class="lab"><b>${label}</b>${mine && (mine.tone ?? null) === tone ? '<span class="badge">แนะนำ</span>' : ''}</div>`)
+    el.onclick = () => { sel[t.id] = tone; save(); refresh() }
+    box.querySelector('.grid').appendChild(el)
+  }
+  refresh()
+}
+refresh()
+$('#reset').onclick = () => { for (const [id, p] of Object.entries(PICKS)) sel[id] = p.tone ?? null; save(); refresh(); $('#status').textContent = 'กลับไปตามที่แนะนำแล้ว' }
+$('#copy').onclick = async () => {
+  const txt = result().map((r) => `${r.name} = ${r.label}`).join('\n')
+  try { await navigator.clipboard.writeText(txt); $('#status').textContent = 'คัดลอก 20 ใบแล้ว — วางในแชทได้เลย' } catch { $('#status').textContent = 'คัดลอกไม่ได้ — ใช้ปุ่มดาวน์โหลดแทน' }
+}
+$('#dl').onclick = () => {
+  const out = Object.fromEntries(result().map((r) => [r.id, { tone: r.tone, why: r.tone === (PICKS[r.id]?.tone ?? null) ? PICKS[r.id]?.why : 'เลือกเอง: ' + r.label }]))
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' })); a.download = 'seal-picks.json'; document.body.appendChild(a); a.click(); a.remove()
+  $('#status').textContent = 'ดาวน์โหลดแล้ว'
+}
+window.__sel = sel
+window.__done = true
+</script>
+</body>
+</html>

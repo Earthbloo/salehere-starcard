@@ -23,29 +23,7 @@
   },
   "photo": true,
   "keepAspect": true,
-  "motion": "anchored",
-  "controls": [
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   }
-  ]
+  "motion": "anchored"
  },
  "notes": "แผ่นโชว์คลิป · แปลงจาก ShowcaseWidgets.swift (Reel + ReelSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น `plate` + เส้นขอบใน rim (`plateInk@0.16` · เว้น 5 · มุม 17) + หมึก `plateInk` · ตัวเครื่อง #121212 · เงา black@0.45 · `pane` = ไม่มีแผ่น แต่ยังมีเส้นขอบใน rim `line@0.22` · หมึก `ink@0.95` · ตัวเครื่อง #1A1A1A (การ์ดสว่าง) / #292929 (การ์ดมืด) · เงา @0.45 · `clear` = เหมือน pane แต่ไม่มี rim และเงา @0.3 · หัวเรื่อง 'Recent' (note#0 เซริฟเอียง 19 กล่อง 23) คร่อม 'VIDEOGRAPHY' (note#1 black growTo 30 กว้าง 252 กล่อง 36 ซ้อน −3 · ตัวอักษรจัดกลางกล่อง = stack place center ให้ล้นกล่องเท่ากันบนล่างแบบ SwiftUI) · เว้น 9 · เครื่องสี่เครื่อง 82×153 ร่อง 7 · ชื่อลูกค้า note#2–5 · ไม่มี: มุม min(theme.radius,22) · ลายแผ่น PlatePatternLayer · scrubLouver/scrubDolly",
  "root": {

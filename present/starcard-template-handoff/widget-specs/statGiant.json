@@ -7,14 +7,25 @@
  "widget": {
   "title": "ตัวเลขยักษ์",
   "category": "followers",
+  "requires": [
+   "socials"
+  ],
   "symbol": "number.circle.fill",
   "order": 12,
   "ownSurface": true,
   "photo": true,
   "stamp": "followers",
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   }
+  ]
  },
- "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้ายที่มา (ProvenanceTag onPhoto / SaleHereByline เมื่อมีตรา) ขนาดธรรมชาติ ~80×17 — กรอบไอคอน 84×18 ไม่ให้ตัดขอบแคปซูล · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ",
+ "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้าย Verified by Sale Here (byline:dark ตัวอักษร 8.5 ≈ 84×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (12 พ.ย. 2569 แทน provenance:photo ที่สลับตามสถานะ) — กรอบ 85×19 · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
  "root": {
   "type": "stack",
   "clip": true,
@@ -67,11 +78,56 @@
         "grow": 1
        },
        {
-        "type": "icon",
-        "id": "provenance",
-        "icon": "provenance:photo",
-        "w": 84,
-        "h": 18
+        "type": "row",
+        "id": "countBadge",
+        "if": "has:stat:countsUpdated",
+        "gap": 3.0,
+        "align": "center",
+        "pad": [
+         2.5,
+         7.5,
+         2.5,
+         3.0
+        ],
+        "circle": true,
+        "fill": "white",
+        "stroke": {
+         "color": "black@0.07",
+         "width": 0.5
+        },
+        "shadow": {
+         "sigma": 2.5,
+         "y": 1.0,
+         "color": "black@0.14"
+        },
+        "shrink": 0,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealRed",
+          "size": 13.0
+         },
+         {
+          "type": "text",
+          "text": "อัปเดตเมื่อ",
+          "face": "noto",
+          "size": 8.5,
+          "weight": 700,
+          "color": "#1F1F23",
+          "maxLines": 1,
+          "shrink": 0
+         },
+         {
+          "type": "text",
+          "slot": "stat:countsUpdated",
+          "face": "noto",
+          "size": 8.5,
+          "weight": 700,
+          "color": "#1F1F23",
+          "maxLines": 1,
+          "shrink": 0
+         }
+        ]
        }
       ],
       "w": "fill"
@@ -189,7 +245,8 @@
         }
        ]
       },
-      "w": "fill"
+      "w": "fill",
+      "where": "!hidden:$platform"
      }
     ]
    }

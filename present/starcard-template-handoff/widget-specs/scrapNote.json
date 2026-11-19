@@ -5,8 +5,12 @@
   "h": 170
  },
  "widget": {
+  "borderChoice": false,
   "title": "โน้ตติดต่อ",
   "category": "contact",
+  "requires": [
+   "contact"
+  ],
   "symbol": "note.text",
   "size": {
    "w": 366,
@@ -145,7 +149,9 @@
           "weight": 900,
           "color": "#141414",
           "maxLines": 1,
-          "text": "มาทำงาน"
+          "text": "มาทำงาน",
+          "id": "text1",
+          "editable": true
          },
          {
           "type": "text",
@@ -154,14 +160,16 @@
           "weight": 400,
           "color": "accent",
           "maxLines": 1,
-          "text": "ด้วยกันนะ"
+          "text": "ด้วยกันนะ",
+          "id": "text2",
+          "editable": true
          }
         ]
        },
        {
         "type": "row",
         "id": "line",
-        "if": "has:lineId",
+        "if": "has:stat:lineFlow",
         "h": 27,
         "gap": 7,
         "align": "center",
@@ -193,7 +201,7 @@
        {
         "type": "row",
         "id": "phone",
-        "if": "has:phone",
+        "if": "has:stat:phoneFmt",
         "h": 27,
         "gap": 7,
         "align": "center",
@@ -225,7 +233,7 @@
        {
         "type": "row",
         "id": "web",
-        "if": "has:website",
+        "if": "has:stat:site",
         "h": 27,
         "gap": 7,
         "align": "center",

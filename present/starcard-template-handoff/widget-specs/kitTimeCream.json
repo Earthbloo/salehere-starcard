@@ -7,6 +7,10 @@
  "widget": {
   "title": "วันเวลาและพื้นที่รับงาน",
   "category": "availability",
+  "requires": [
+   "provinces",
+   "availability"
+  ],
   "symbol": "calendar",
   "order": 92,
   "ownSurface": true,
@@ -77,7 +81,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 05 วันเวลาและพื้นที่รับงาน — แปลงจาก KitWidgets.swift (KitContent.time) · แยกจาก kitTime (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · ข้อมูลจริง (StarFlow.availSummary · provinces) ไม่อยู่ใน SpecDataSource: วันเวลา = note#2 (preset 'ส–อา 17.00 เป็นต้นไป') · พื้นที่ = ช่อง workArea · ไม่ซ่อนเมื่อว่าง (Swift ซ่อน) · opt:noTime / opt:noArea ซ่อนบล็อก · ครีม: จังหวัดเป็นชิปแคปซูล — ไม่มีรายการจังหวัด จึงเป็นแคปซูลเดียวทั้งข้อความ · ไอคอน: ph:calendar-blank(-fill) / ph:map-pin(-fill) แทน SF calendar + KitPin · ม่วง/ครีม/กลางคืน = กล่องละข้อ · ตาราง = เส้นคั่น · Mac = แถวป้าย+ค่า · เปลือกดูหมายเหตุที่ kitProfile · 16 พ.ย. 2569: พื้นที่รับงานโชว์ 3 จังหวัดแรก (limit 3) · กล่องพื้นที่ minH 92 (ตัวคำนวณคิดความสูง hug ของชิป wrap เป็นแถวเดียว) + ระยะในกล่องกระชับลง ให้ชิป 3 จังหวัด (2 แถว) อยู่ในกล่องที่ขนาดตั้งต้น ไม่ทับหัวข้อ",
  "root": {
   "type": "stack",
   "id": "shell",
@@ -222,7 +226,8 @@
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
-      "text": "วันเวลาและพื้นที่รับงาน"
+      "text": "วันเวลาและพื้นที่รับงาน",
+      "editable": true
      },
      {
       "type": "col",
@@ -241,7 +246,10 @@
          },
          {
           "type": "col",
-          "pad": 12,
+          "pad": [
+           8,
+           12
+          ],
           "align": "stretch",
           "justify": "center",
           "children": [
@@ -316,7 +324,10 @@
          },
          {
           "type": "col",
-          "pad": 12,
+          "pad": [
+           8,
+           12
+          ],
           "align": "stretch",
           "justify": "center",
           "children": [
@@ -358,10 +369,10 @@
                 "type": "chips",
                 "id": "areaValue",
                 "list": "areas",
-                "gap": 6,
+                "gap": 5,
                 "align": "start",
                 "pad": [
-                 4,
+                 5,
                  0,
                  0,
                  0
@@ -377,7 +388,7 @@
                   {
                    "type": "col",
                    "pad": [
-                    4,
+                    3,
                     12
                    ],
                    "children": [
@@ -393,7 +404,8 @@
                    ]
                   }
                  ]
-                }
+                },
+                "limit": 3
                }
               ]
              }
@@ -402,7 +414,8 @@
           ]
          }
         ],
-        "grow": 1
+        "grow": 1,
+        "minH": 98
        }
       ]
      }

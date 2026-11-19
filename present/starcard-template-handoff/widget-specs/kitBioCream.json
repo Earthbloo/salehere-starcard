@@ -7,6 +7,9 @@
  "widget": {
   "title": "About Me",
   "category": "intro",
+  "requires": [
+   "about"
+  ],
   "symbol": "text.alignleft",
   "order": 107,
   "ownSurface": true,
@@ -235,7 +238,8 @@
       "shrinkTo": 13.3,
       "w": "fill",
       "id": "title",
-      "text": "About Me"
+      "text": "About Me",
+      "editable": true
      },
      {
       "type": "col",

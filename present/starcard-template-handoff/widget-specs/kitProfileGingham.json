@@ -7,11 +7,16 @@
  "widget": {
   "title": "รูปโปรไฟล์",
   "category": "hero",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 73,
   "ownSurface": true,
   "ownBorder": true,
   "border": true,
+  "borderChoice": false,
   "photo": true,
   "kit": {
    "look": "gingham"
@@ -270,10 +275,12 @@
         "size": 19,
         "weight": 800,
         "color": "ink",
+        "on": "light",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 13.3,
-        "text": "รูปโปรไฟล์"
+        "text": "รูปโปรไฟล์",
+        "editable": true
        },
        {
         "type": "col",

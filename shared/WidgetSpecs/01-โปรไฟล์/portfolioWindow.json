@@ -7,7 +7,9 @@
  "widget": {
   "title": "หน้าต่างพอร์ต",
   "category": "hero",
-  "requires": [],
+  "requires": [
+   "about"
+  ],
   "symbol": "macwindow.on.rectangle",
   "order": 3,
   "ownSurface": true,
@@ -297,9 +299,8 @@
              },
              {
               "type": "icon",
-              "icon": "starSeal",
-              "size": 10.3,
-              "tint": "ink@0.9",
+              "icon": "sh:sealRed",
+              "size": 19,
               "if": "owner.verified",
               "on": "dark"
              }
@@ -665,9 +666,8 @@
            },
            {
             "type": "icon",
-            "icon": "starSeal",
-            "size": 10.3,
-            "tint": "ink@0.9",
+            "icon": "sh:sealRed",
+            "size": 19,
             "if": "owner.verified",
             "on": "light"
            }

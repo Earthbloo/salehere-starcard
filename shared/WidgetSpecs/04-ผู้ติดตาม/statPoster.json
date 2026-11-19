@@ -33,26 +33,6 @@
     "label": "ช่องที่แสดง",
     "items": "shownSocials",
     "opt": "hide"
-   },
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
    }
   ],
   "on": "dark"
@@ -377,28 +357,54 @@
            ]
           },
           {
-           "type": "text",
-           "if": "papered",
-           "slot": "$name",
-           "face": "noto",
-           "weight": 600,
-           "size": 9.5,
-           "kerning": 0.95,
-           "color": "ink@0.66",
-           "maxLines": 1,
-           "shrinkTo": 5.7
+           "type": "row",
+           "gap": 2.4,
+           "align": "center",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$name",
+             "face": "noto",
+             "weight": 600,
+             "size": 9.5,
+             "kerning": 0.95,
+             "color": "ink@0.66",
+             "maxLines": 1,
+             "shrinkTo": 5.7
+            },
+            {
+             "type": "icon",
+             "icon": "sh:sealRed",
+             "size": 8.6,
+             "if": "$verified"
+            }
+           ],
+           "if": "papered"
           },
           {
-           "type": "text",
+           "type": "row",
+           "gap": 2.4,
+           "align": "center",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$name",
+             "face": "noto",
+             "weight": 600,
+             "size": 9.5,
+             "kerning": 0.95,
+             "color": "ink@0.58",
+             "maxLines": 1,
+             "shrinkTo": 5.7
+            },
+            {
+             "type": "icon",
+             "icon": "sh:sealRed",
+             "size": 8.6,
+             "if": "$verified"
+            }
+           ],
            "if": "!papered",
-           "slot": "$name",
-           "face": "noto",
-           "weight": 600,
-           "size": 9.5,
-           "kerning": 0.95,
-           "color": "ink@0.58",
-           "maxLines": 1,
-           "shrinkTo": 5.7,
            "on": "card"
           }
          ]
@@ -426,6 +432,68 @@
       "h": 0.8,
       "fill": "line@0.24",
       "on": "card"
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "countBadgeSlot",
+    "if": "has:stat:countsUpdated",
+    "justify": "end",
+    "align": "start",
+    "dx": -12,
+    "dy": 10,
+    "children": [
+     {
+      "type": "row",
+      "id": "countBadge",
+      "gap": 3.6,
+      "align": "center",
+      "pad": [
+       3.0,
+       9.0,
+       3.0,
+       3.6
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 3.0,
+       "y": 1.2,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 15.6
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 10.2,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 10.2,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       }
+      ]
      }
     ]
    }

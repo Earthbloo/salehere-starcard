@@ -7,6 +7,10 @@
  "widget": {
   "title": "เรทรับงาน",
   "category": "rate",
+  "requires": [
+   "socials",
+   "rate"
+  ],
   "symbol": "tag.fill",
   "order": 83,
   "ownSurface": true,
@@ -275,10 +279,12 @@
         "size": 25,
         "weight": 800,
         "color": "ink",
+        "on": "light",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 17.5,
-        "text": "เรทรับงาน"
+        "text": "เรทรับงาน",
+        "editable": true
        },
        {
         "type": "col",

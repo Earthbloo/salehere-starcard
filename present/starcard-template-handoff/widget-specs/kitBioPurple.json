@@ -7,6 +7,9 @@
  "widget": {
   "title": "About Me",
   "category": "intro",
+  "requires": [
+   "about"
+  ],
   "symbol": "text.alignleft",
   "order": 106,
   "ownSurface": true,
@@ -114,7 +117,8 @@
         "shrinkTo": 15.4,
         "w": "fill",
         "id": "title",
-        "text": "About Me"
+        "text": "About Me",
+        "editable": true
        },
        {
         "type": "col",
@@ -319,7 +323,8 @@
         "shrinkTo": 15.4,
         "w": "fill",
         "id": "title",
-        "text": "About Me"
+        "text": "About Me",
+        "editable": true
        },
        {
         "type": "col",
@@ -503,7 +508,8 @@
         "shrinkTo": 15.4,
         "w": "fill",
         "id": "title",
-        "text": "About Me"
+        "text": "About Me",
+        "editable": true
        },
        {
         "type": "col",
@@ -686,7 +692,8 @@
       "shrinkTo": 15.4,
       "w": "fill",
       "id": "title",
-      "text": "About Me"
+      "text": "About Me",
+      "editable": true
      },
      {
       "type": "col",

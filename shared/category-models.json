@@ -65,7 +65,8 @@
         "list:socials.verified",
         "list:socials.synced",
         "stat:totalFollowers",
-        "count:socials"
+        "count:socials",
+        "stat:countsUpdated"
       ],
       "borrow": [
         "slot:tagline"
@@ -90,7 +91,8 @@
         "stat:reach",
         "stat:reachDelta",
         "stat:reachNew",
-        "stat:reachWindow"
+        "stat:reachWindow",
+        "stat:countsUpdated"
       ],
       "borrow": [
         "list:socials",

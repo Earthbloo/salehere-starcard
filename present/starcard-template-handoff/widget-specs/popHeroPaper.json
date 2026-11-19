@@ -5,15 +5,20 @@
   "h": 250
  },
  "widget": {
+  "borderChoice": false,
   "title": "ป้ายชื่อ กระดาษเทป",
   "category": "hero",
+  "requires": [
+   "kind",
+   "about",
+   "provinces"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 47,
   "ownSurface": true,
   "ownBorder": true,
   "surfaces": [
-   "glass",
-   "dim"
+   "glass"
   ],
   "photo": true,
   "skin": "paper",

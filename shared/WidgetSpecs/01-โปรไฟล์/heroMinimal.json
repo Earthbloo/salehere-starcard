@@ -8,7 +8,8 @@
   "title": "ชื่อมินิมอล",
   "category": "hero",
   "requires": [
-   "categories"
+   "categories",
+   "about"
   ],
   "symbol": "textformat",
   "order": 1,
@@ -42,29 +43,10 @@
       "tint": "accent@0.95"
      },
      {
-      "type": "stack",
-      "w": 15,
-      "h": 15,
-      "if": "owner.verified",
-      "children": [
-       {
-        "type": "rect",
-        "shape": "scallop:8",
-        "fill": "accent@0.95"
-       },
-       {
-        "type": "icon",
-        "icon": "ph:check",
-        "size": 6.9,
-        "tint": "#1A1A1A",
-        "place": "center"
-       }
-      ],
-      "shadow": {
-       "sigma": 0.66,
-       "y": 0.55,
-       "color": "black@0.35"
-      }
+      "type": "icon",
+      "icon": "sh:sealRed",
+      "size": 15,
+      "if": "owner.verified"
      }
     ]
    },

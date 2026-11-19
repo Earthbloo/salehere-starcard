@@ -7,7 +7,9 @@
  "widget": {
   "title": "พอร์ตผ้าปิกนิก",
   "category": "hero",
-  "requires": [],
+  "requires": [
+   "about"
+  ],
   "symbol": "person.crop.artframe",
   "order": 4,
   "ownSurface": true,
@@ -132,9 +134,8 @@
      },
      {
       "type": "icon",
-      "icon": "starSeal",
-      "size": 9,
-      "tint": "#9C1E1A",
+      "icon": "sh:sealRed",
+      "size": 18,
       "if": "owner.verified"
      }
     ]

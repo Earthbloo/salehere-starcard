@@ -117,24 +117,10 @@
           "align": "center",
           "children": [
            {
-            "type": "stack",
-            "w": 10,
-            "h": 10,
-            "if": "owner.verified",
-            "children": [
-             {
-              "type": "rect",
-              "shape": "scallop:8",
-              "fill": "#615470"
-             },
-             {
-              "type": "icon",
-              "icon": "ph:check",
-              "size": 4.6,
-              "tint": "#FAFAF7",
-              "place": "center"
-             }
-            ]
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 10,
+            "if": "owner.verified"
            },
            {
             "type": "text",

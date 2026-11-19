@@ -24,28 +24,6 @@
   },
   "photo": true,
   "motion": "anchored",
-  "controls": [
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   }
-  ],
   "on": "light"
  },
  "notes": "สำรับบรรณาธิการ · ชื่อหลังภาพ — ไม่มีบรรทัดสายงานด้านบน (ตัดออก 12 พ.ย. 2569) · คำยักษ์พาดเต็มกว้าง (note#1) · ภาพตัดขาวดำ (ช่อง 1) ยืนทับคำ ชนก้นแผ่น · ย่อหน้าขวา: 'รู้จักฉัน —' (note#2) + ชื่อ + แนะนำตัว (about) · แปลงจาก EditorialWidgets.swift (AboutBehind) · สีตาม Ed.skin: กระดาษเบจ Ed.beige เฉพาะ papered & !duo · คู่สี = แผ่น plate + หมึก plateInk · ปิดพื้น/pane = หมึกการ์ด (ed.ink ed.inkSoft ed.ghost) · คำยักษ์ = ed.ghost (ขาวบนกระดาษ · เงาหมึกเมื่อไม่มีพื้น) · ขนาดคำยักษ์ต้นฉบับ Ed.fitted กว้าง 92% เพดาน 30% สูง = 99 ที่กรอบดีไซน์ (ย่อได้ด้วย shrinkTo) · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",

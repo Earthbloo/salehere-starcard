@@ -155,15 +155,28 @@
              "shrink": 1,
              "children": [
               {
-               "type": "text",
-               "slot": "$name",
-               "face": "noto",
-               "size": 25,
-               "weight": 800,
-               "kerning": -0.6,
-               "color": "#24211E",
-               "maxLines": 1,
-               "shrinkTo": 12.5
+               "type": "row",
+               "gap": 6.2,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$name",
+                 "face": "noto",
+                 "size": 25,
+                 "weight": 800,
+                 "kerning": -0.6,
+                 "color": "#24211E",
+                 "maxLines": 1,
+                 "shrinkTo": 12.5
+                },
+                {
+                 "type": "icon",
+                 "icon": "sh:sealRed",
+                 "size": 22.5,
+                 "if": "$verified"
+                }
+               ]
               },
               {
                "type": "text",
@@ -304,6 +317,68 @@
         "color": "#3B3733",
         "textAlign": "center",
         "maxLines": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "countBadgeSlot",
+    "if": "has:stat:countsUpdated",
+    "justify": "end",
+    "align": "start",
+    "dx": -12,
+    "dy": 5,
+    "children": [
+     {
+      "type": "row",
+      "id": "countBadge",
+      "gap": 3.0,
+      "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 13.0
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
        }
       ]
      }

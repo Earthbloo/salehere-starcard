@@ -5,8 +5,13 @@
   "h": 280
  },
  "widget": {
+  "borderChoice": false,
   "title": "สถิติผู้ชม",
   "category": "audience",
+  "requires": [
+   "socials",
+   "insight"
+  ],
   "symbol": "chart.bar.xaxis",
   "size": {
    "w": 366,
@@ -24,11 +29,6 @@
   },
   "keepAspect": true,
   "stamp": "insight",
-  "stampAt": {
-   "tone": "light",
-   "top": 6,
-   "trailing": 14
-  },
   "motion": "mid",
   "on": "light"
  },
@@ -117,7 +117,9 @@
         "weight": 900,
         "color": "white",
         "maxLines": 1,
-        "text": "สถิติ"
+        "text": "สถิติ",
+        "id": "text1",
+        "editable": true
        }
       ]
      },
@@ -148,7 +150,9 @@
           "weight": 400,
           "color": "#141414",
           "maxLines": 1,
-          "text": "ผู้ชม"
+          "text": "ผู้ชม",
+          "id": "text2",
+          "editable": true
          }
         ]
        }
@@ -726,6 +730,68 @@
      "color": "white@0.1",
      "width": 0.8
     }
+   },
+   {
+    "type": "row",
+    "id": "countBadgeSlot",
+    "if": "has:stat:countsUpdated",
+    "justify": "end",
+    "align": "start",
+    "dx": -14,
+    "dy": 6,
+    "children": [
+     {
+      "type": "row",
+      "id": "countBadge",
+      "gap": 3.0,
+      "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 13.0
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       }
+      ]
+     }
+    ]
    }
   ]
  }

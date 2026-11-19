@@ -7,6 +7,9 @@
  "widget": {
   "title": "โปสเตอร์อินไซต์",
   "category": "audience",
+  "requires": [
+   "insight"
+  ],
   "symbol": "chart.pie.fill",
   "order": 46,
   "ownSurface": true,
@@ -21,34 +24,7 @@
   "photo": true,
   "keepAspect": true,
   "stamp": "insight",
-  "stampAt": {
-   "tone": "dark",
-   "top": 12,
-   "trailing": 12
-  },
   "motion": "anchored",
-  "controls": [
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   }
-  ],
   "on": "light"
  },
  "notes": "โปสเตอร์อินไซต์ · แปลงจาก InsightPosterWidget.swift (ค่าคงที่ IP · Sheet) · ใบวาดพื้นเอง (inset 0) · พื้นผิว (14 ต.ค. 2569 · StatPosterSkin): ตั้งต้น clear = ไม่มีแผ่น คำตัวเขียน `ink@0.95` · `papered` = แผ่น `plate` มุม 20 คำตัวเขียน `plateInk` · pane = ไม่มีแผ่น หมึกการ์ด · ของบนแผ่นกว้าง 366 เสมอแล้วจัดกลาง · สามชั้น: คำตัวเขียน (note#1 'Audience' 76 · SnellRoundhand ไม่มี face → serif italic · กว้าง 0.86w ชิดซ้าย pad 10/4) → คน (ช่อง 1 lift · สูง 88% กลางล่าง ล้นล่าง 10.4) → แผ่นข้อมูลขาว 4 แผ่น (มุม 10 · เส้น black@0.08 · pad 10/11 · หมึก #121212 · soft #6B6B6B · ราง #E8E8E8): เมืองหลัก (0,148 w142) · ช่วงอายุ (224,176 w142) · เพศ (0,312 w152) · การเข้าถึง (214,340 w152) · แท่ง: สามอันดับแรก sort shareRaw desc · ชื่อ 12.5 semibold / ตัวเลข 15.5 heavy · ราง 6 · แท่ง pct $shareRaw สีเน้น (ชิ้นสูงสุด rawAccent · ที่เหลือ @0.55) · เพศ: โดนัท 52 วาดไม่ได้ → แถบสามส่วน pct $shareRaw สี $tint + ตัวเลขเรียงมากไปน้อย (ชิ้นแรก 19 ที่เหลือ 15.5) · การเข้าถึง: stat:reachWindow ต่อท้ายหัวข้อ · stat:reach 34 heavy · stat:reachDelta ในแคปซูลเขียว · 'ใหม่' + stat:reachNew · ไอคอนแพลตฟอร์ม = sh:instagram ตายตัว (stat:reachIcon เป็นข้อความ ใช้เป็น icon ไม่ได้) · variants ratio<0.8 = ผังแนวนอน (ต้นฉบับ 560×272 · กล่องใน spec = ~1070×520 เพราะสเกลคิดจาก design เดียว → ทุกค่า ×1.91: คนซ้าย 42% · แผ่น 2×2 ขวา) · ไม่มี: พื้น glass/pane ของถาด · เกล็ด/ลายแผ่น · ป้ายสถานะ · โหมดกรอบ · ไอคอนแพลตฟอร์มของ reach ตามข้อมูลจริง · แก้ 14 ต.ค.: แท่ง/ส่วนใหญ่สุด = `accentPaper` (rawAccent.onLightSurface — แผ่นข้อมูลขาวเสมอ) · เพศ: สีตามลำดับ accentPaper / #2E2E2E / #B8B8B8 (fillCycle) ตัวเลขที่สามเทา #6B6B6B · โดนัทยังเป็นแถบสามส่วน · รูป = ผังโหมดกรอบ (กว้าง 0.54w สูง 80% มุม 18 ยกขึ้น 12) · ยังไม่มี: เลข +14.4% / 93.4% (stat:reachDelta/reachNew ปัด %.0f ใน SpecDataSource ส่วนเดิมใช้ Fmt.pct ทศนิยม 1) · ฟอนต์ตัวเขียน SnellRoundhand (ไม่มี face) · ไอคอนแพลตฟอร์มของ reach · 4 พ.ย. 2569: ตัดผังแนวนอน (รูปซ้าย แผ่นขวา) ทิ้ง ใช้ผังรูปคนกลางแบบเดียว · กล่องเตี้ย (ratio<1.15) ชั้นวางกว้างเต็มกล่อง (เดิม 366 อยู่กลาง ทำให้แผ่นกองทับหน้า) แผ่นซ้าย (เมืองหลัก · เพศ) ชิดขอบซ้าย แผ่นขวา (ช่วงอายุ · การเข้าถึง) ชิดขอบขวา ระยะบนเท่าผังหลัก ให้เห็นหน้าคนตรงกลาง",
@@ -96,7 +72,8 @@
         "w": 315,
         "if": "papered",
         "text": "Audience",
-        "on": "dark"
+        "on": "dark",
+        "editable": true
        },
        {
         "type": "text",
@@ -113,7 +90,8 @@
         "w": 315,
         "if": "!papered",
         "text": "Audience",
-        "on": "card"
+        "on": "card",
+        "editable": true
        },
        {
         "type": "image",
@@ -703,7 +681,8 @@
       "w": 315,
       "if": "papered",
       "text": "Audience",
-      "on": "dark"
+      "on": "dark",
+      "editable": true
      },
      {
       "type": "text",
@@ -720,7 +699,8 @@
       "w": 315,
       "if": "!papered",
       "text": "Audience",
-      "on": "card"
+      "on": "card",
+      "editable": true
      },
      {
       "type": "image",
@@ -1259,6 +1239,68 @@
          }
         ],
         "if": "has:stat:reach"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "countBadgeSlot",
+    "if": "has:stat:countsUpdated",
+    "justify": "end",
+    "align": "start",
+    "dx": -8,
+    "dy": 3,
+    "children": [
+     {
+      "type": "row",
+      "id": "countBadge",
+      "gap": 3.0,
+      "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 13.0
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
        }
       ]
      }

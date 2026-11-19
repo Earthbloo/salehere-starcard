@@ -7,12 +7,15 @@
  "widget": {
   "title": "สัดส่วนผู้ชม",
   "category": "audience",
+  "requires": [
+   "insight"
+  ],
   "symbol": "person.2.fill",
   "order": 43,
   "stamp": "insight",
   "motion": "anchored"
  },
- "notes": "หัวข้อ 'สัดส่วนผู้ชม' + แถบสามส่วน (chips gender · pct $shareRaw · fill $tint) + คำอธิบาย · แปลงจาก InsightWidgets.swift (AudienceSplitWidget) · แถบ: กว้าง = (w − gaps) × share/100 เหมือนต้นฉบับ · สีเพศคงที่ (Aud.female/male/other = tint ของรายการ) · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (วันที่ '12 ก.ย.' ในต้นฉบับเป็นค่าตายตัว) · หมึกทุกตัวจาก ink ของพื้นที่ใบนั่ง · chrome วาดแผ่น/ขอบให้",
+ "notes": "หัวข้อ 'สัดส่วนผู้ชม' + แถบสามส่วน (chips gender · pct $shareRaw · fill $tint) + คำอธิบาย · แปลงจาก InsightWidgets.swift (AudienceSplitWidget) · แถบ: กว้าง = (w − gaps) × share/100 เหมือนต้นฉบับ · สีเพศคงที่ (Aud.female/male/other = tint ของรายการ) · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (วันที่ '12 ก.ย.' ในต้นฉบับเป็นค่าตายตัว) · หมึกทุกตัวจาก ink ของพื้นที่ใบนั่ง · chrome วาดแผ่น/ขอบให้ · ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:screenshot)",
  "root": {
   "type": "col",
   "gap": 11,
@@ -45,10 +48,56 @@
       }
      },
      {
-      "type": "icon",
-      "icon": "provenance:screenshot",
-      "w": 104,
-      "h": 18
+      "type": "row",
+      "id": "countBadge",
+      "if": "has:stat:countsUpdated",
+      "gap": 3.0,
+      "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 13.0
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       }
+      ]
      }
     ]
    },

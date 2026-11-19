@@ -7,19 +7,25 @@
  "widget": {
   "title": "ช่องทางผ้าปิกนิก",
   "category": "followers",
+  "requires": [
+   "socials"
+  ],
   "symbol": "square.grid.3x3.square",
   "order": 17,
   "ownSurface": true,
   "keepAspect": true,
   "stamp": "followers",
-  "stampAt": {
-   "tone": "light",
-   "top": 5,
-   "trailing": 12
-  },
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "chan",
+    "items": "shownSocials"
+   }
+  ]
  },
- "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสามใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) กว้าง 33.9% · 31.6% · ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 สูตร ER + ที่มา บนผ้า · ช่อง = ยอดเยอะที่สุด (socials sort followersRaw desc limit 1 — ค่าที่เลือกใน note#9 อ่านจากผังไม่ได้) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits",
+ "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสองใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) ช่อง 44% · ผู้ติดตาม ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 ที่มา บนผ้า · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ช่อง = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -81,7 +87,8 @@
         "maxLines": 1,
         "shrinkTo": 11,
         "maxW": 252,
-        "text": "SOCIAL CHANNEL"
+        "text": "SOCIAL CHANNEL",
+        "editable": true
        },
        {
         "type": "rect",
@@ -95,7 +102,7 @@
       "type": "chips",
       "id": "file",
       "list": "socials",
-      "sort": "followersRaw desc",
+      "where": "opt:chan=$platform | !opt:chan & $i=first",
       "limit": 1,
       "wrap": false,
       "grow": 1,
@@ -121,7 +128,7 @@
           {
            "type": "row",
            "id": "channelCard",
-           "w": "33.9%",
+           "w": "44%",
            "gap": 6,
            "align": "center",
            "pad": [
@@ -148,15 +155,28 @@
              "shrink": 1,
              "children": [
               {
-               "type": "text",
-               "slot": "$name",
-               "face": "noto",
-               "size": 25,
-               "weight": 800,
-               "kerning": -0.6,
-               "color": "#24211E",
-               "maxLines": 1,
-               "shrinkTo": 12.5
+               "type": "row",
+               "gap": 6.2,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$name",
+                 "face": "noto",
+                 "size": 25,
+                 "weight": 800,
+                 "kerning": -0.6,
+                 "color": "#24211E",
+                 "maxLines": 1,
+                 "shrinkTo": 12.5
+                },
+                {
+                 "type": "icon",
+                 "icon": "sh:sealRed",
+                 "size": 22.5,
+                 "if": "$verified"
+                }
+               ]
               },
               {
                "type": "text",
@@ -194,7 +214,6 @@
           {
            "type": "col",
            "id": "followersCard",
-           "w": "31.6%",
            "gap": -3,
            "justify": "center",
            "align": "center",
@@ -213,7 +232,7 @@
              "type": "text",
              "slot": "$followersFull",
              "face": "noto",
-             "size": 50,
+             "size": 36,
              "weight": 900,
              "color": "#9C1E1A",
              "textAlign": "center",
@@ -230,115 +249,8 @@
              "textAlign": "center",
              "maxLines": 1
             }
-           ]
-          },
-          {
-           "type": "col",
-           "id": "rule2",
-           "w": 11.4,
-           "pad": [
-            2,
-            0
            ],
-           "align": "center",
-           "children": [
-            {
-             "type": "rect",
-             "w": 0.8,
-             "h": "fill",
-             "fill": "#9C1E1A@0.85"
-            }
-           ]
-          },
-          {
-           "type": "col",
-           "id": "engagementCard",
-           "grow": 1,
-           "gap": -3,
-           "justify": "center",
-           "align": "center",
-           "pad": [
-            0,
-            10
-           ],
-           "fill": "#F9F1E6",
-           "radius": 7.2,
-           "stroke": {
-            "color": "#962A1E@0.9",
-            "width": 0.85
-           },
-           "children": [
-            {
-             "type": "text",
-             "slot": "$engagement",
-             "if": "$engagementRaw>0",
-             "face": "noto",
-             "size": 43,
-             "weight": 900,
-             "color": "#9C1E1A",
-             "textAlign": "center",
-             "maxLines": 1,
-             "shrinkTo": 18
-            },
-            {
-             "type": "text",
-             "text": "–",
-             "if": "!$engagementRaw>0",
-             "face": "noto",
-             "size": 43,
-             "weight": 900,
-             "color": "#9C1E1A",
-             "textAlign": "center",
-             "maxLines": 1
-            },
-            {
-             "type": "col",
-             "gap": -3,
-             "align": "center",
-             "pad": [
-              0,
-              6
-             ],
-             "children": [
-              {
-               "type": "text",
-               "text": "Engagement Rate",
-               "face": "noto",
-               "size": 14,
-               "weight": 700,
-               "kerning": -0.3,
-               "color": "#24211E",
-               "textAlign": "center",
-               "maxLines": 1,
-               "shrinkTo": 8.4
-              },
-              {
-               "type": "text",
-               "text": "เฉลี่ย 30 โพสต์ล่าสุด",
-               "if": "$engagementRaw>0",
-               "face": "noto",
-               "size": 9.6,
-               "weight": 400,
-               "color": "#3B3733",
-               "textAlign": "center",
-               "maxLines": 1,
-               "shrinkTo": 5.8
-              },
-              {
-               "type": "text",
-               "text": "รอเชื่อมบัญชี",
-               "if": "!$engagementRaw>0",
-               "face": "noto",
-               "size": 9.6,
-               "weight": 400,
-               "color": "#3B3733",
-               "textAlign": "center",
-               "maxLines": 1,
-               "shrinkTo": 5.8
-              }
-             ]
-            }
-           ]
+           "grow": 1
           }
          ]
         },
@@ -354,16 +266,6 @@
           13
          ],
          "children": [
-          {
-           "type": "text",
-           "text": "ER = (Like + Comment + Share) ÷ Views × 100",
-           "face": "noto",
-           "size": 6.9,
-           "weight": 500,
-           "color": "#3E4953",
-           "maxLines": 1,
-           "shrinkTo": 4.8
-          },
           {
            "type": "spacer",
            "grow": 1,
@@ -415,6 +317,68 @@
         "color": "#3B3733",
         "textAlign": "center",
         "maxLines": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "row",
+    "id": "countBadgeSlot",
+    "if": "has:stat:countsUpdated",
+    "justify": "end",
+    "align": "start",
+    "dx": -12,
+    "dy": 5,
+    "children": [
+     {
+      "type": "row",
+      "id": "countBadge",
+      "gap": 3.0,
+      "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 13.0
+       },
+       {
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
        }
       ]
      }

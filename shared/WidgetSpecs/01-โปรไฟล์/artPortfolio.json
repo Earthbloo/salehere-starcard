@@ -7,7 +7,9 @@
  "widget": {
   "title": "โปสเตอร์พอร์ต",
   "category": "hero",
-  "requires": [],
+  "requires": [
+   "about"
+  ],
   "symbol": "person.and.background.striped.horizontal",
   "order": 2,
   "ownSurface": true,
@@ -24,28 +26,6 @@
   "replaces": [
    "artNameBehind",
    "artBreakout"
-  ],
-  "controls": [
-   {
-    "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   }
   ],
   "on": "dark"
  },
@@ -146,9 +126,8 @@
          },
          {
           "type": "icon",
-          "icon": "starSeal",
-          "size": 11.4,
-          "tint": "accent",
+          "icon": "sh:sealRed",
+          "size": 16,
           "if": "owner.verified"
          }
         ]
@@ -216,9 +195,8 @@
          },
          {
           "type": "icon",
-          "icon": "starSeal",
-          "size": 11.4,
-          "tint": "accent",
+          "icon": "sh:sealRed",
+          "size": 16,
           "if": "owner.verified",
           "on": "card"
          }

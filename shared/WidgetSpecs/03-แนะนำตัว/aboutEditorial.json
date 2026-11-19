@@ -27,26 +27,6 @@
   "controls": [
    {
     "type": "segment",
-    "label": "ลาย",
-    "opt": "pattern",
-    "options": [
-     [
-      null,
-      "เรียบ"
-     ],
-     [
-      "stripe",
-      "ลายทาง"
-     ],
-     [
-      "diamond",
-      "ข้าวหลามตัด"
-     ]
-    ],
-    "if": "surface=glass"
-   },
-   {
-    "type": "segment",
     "label": "มุม",
     "opt": "corner",
     "options": [

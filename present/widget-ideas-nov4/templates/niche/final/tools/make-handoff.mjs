@@ -36,7 +36,8 @@ const templates = list.map((t) => {
   const doc = docs[t.id], format = FORMAT[t.orient], last = doc.snapshot.pages.length - 1, th = doc.snapshot.theme
   return { name: t.name, format, snapshot: { theme: { colors: th.colors, ink: th.ink, backdrop: th.backdrop }, pages: doc.snapshot.pages.map((pg, pi) => ({ items: [
     ...pg.items.map((it) => ({ kind: it.kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: !!it.border, ...(it.options && Object.keys(it.options).length ? { options: it.options } : {}) })),
-    ...(pi === last ? [{ kind: 'proofSeal', ...SEAL_AT[format], surface: 'glass', border: false }] : []),
+    // สีตรา = template.seal.tone (null = ดำ ไม่ใส่ options · 'white' · 'red') — เลือก 19 พ.ย. 2569
+    ...(pi === last ? [{ kind: 'proofSeal', ...SEAL_AT[format], surface: 'glass', border: false, ...(doc.template?.seal?.tone ? { options: { tone: doc.template.seal.tone } } : {}) }] : []),
   ] })) } }
 })
 fs.writeFileSync(path.join(OUT, 'templates.json'), JSON.stringify(templates, null, 1))
@@ -53,7 +54,8 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: true,
 const page = await browser.newPage()
 await page.setViewport({ width: 3000, height: 1400, deviceScaleFactor: DPR })
 page.on('pageerror', (e) => problems.push('หน้า Final error: ' + e.message))
-await page.goto('http://localhost:8802/templates/niche/final/index.html?scale=1&sheet', { waitUntil: 'networkidle0', timeout: 300000 })
+// SERVER_PORT=8789 node tools/make-handoff.mjs = วาดด้วย sync-server พอร์ตอื่น (ค่าตั้งต้น 8787)
+await page.goto(`http://localhost:8802/templates/niche/final/index.html?scale=1&sheet&server=${process.env.SERVER_PORT || 8787}`, { waitUntil: 'networkidle0', timeout: 300000 })
 await page.waitForFunction('window.__done === true', { timeout: 300000 })
 await page.addStyleTag({ content: '.page,.page .pg{border-radius:0 !important} #bar{display:none}' })
 await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map((i) => (i.complete ? i.decode() : new Promise((ok) => { i.onload = i.onerror = ok })).catch(() => {}))) })

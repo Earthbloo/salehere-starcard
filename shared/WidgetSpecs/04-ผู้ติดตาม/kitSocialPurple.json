@@ -558,7 +558,69 @@
         "w": 46,
         "place": "top-right",
         "dy": 7,
-        "textAlign": "right"
+        "textAlign": "right",
+        "if": "!has:stat:countsUpdated"
+       },
+       {
+        "type": "row",
+        "id": "countBadgeSlot",
+        "if": "has:stat:countsUpdated",
+        "justify": "end",
+        "align": "start",
+        "dy": 5,
+        "children": [
+         {
+          "type": "row",
+          "id": "countBadge",
+          "gap": 3.0,
+          "align": "center",
+          "pad": [
+           2.5,
+           7.5,
+           2.5,
+           3.0
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1.0,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13.0
+           },
+           {
+            "type": "text",
+            "text": "อัปเดตเมื่อ",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "slot": "stat:countsUpdated",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
        }
       ]
      },

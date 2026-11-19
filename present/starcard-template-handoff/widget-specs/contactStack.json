@@ -7,6 +7,9 @@
  "widget": {
   "title": "สามบรรทัด",
   "category": "contact",
+  "requires": [
+   "contact"
+  ],
   "symbol": "list.bullet",
   "order": 38,
   "motion": "anchored"
@@ -47,12 +50,14 @@
       "type": "spacer",
       "grow": 1
      }
-    ]
+    ],
+    "if": "has:stat:lineFlow"
    },
    {
     "type": "line",
     "h": 0.7,
-    "fill": "line@0.1"
+    "fill": "line@0.1",
+    "if": "has:stat:lineFlow & has:stat:phoneFmt | has:stat:lineFlow & has:stat:site"
    },
    {
     "type": "row",
@@ -84,12 +89,14 @@
       "type": "spacer",
       "grow": 1
      }
-    ]
+    ],
+    "if": "has:stat:phoneFmt"
    },
    {
     "type": "line",
     "h": 0.7,
-    "fill": "line@0.1"
+    "fill": "line@0.1",
+    "if": "has:stat:phoneFmt & has:stat:site"
    },
    {
     "type": "row",
@@ -121,7 +128,8 @@
       "type": "spacer",
       "grow": 1
      }
-    ]
+    ],
+    "if": "has:stat:site"
    }
   ]
  }

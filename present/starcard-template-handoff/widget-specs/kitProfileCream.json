@@ -7,6 +7,10 @@
  "widget": {
   "title": "รูปโปรไฟล์",
   "category": "hero",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 72,
   "ownSurface": true,
@@ -205,7 +209,8 @@
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 13.3,
-      "text": "รูปโปรไฟล์"
+      "text": "รูปโปรไฟล์",
+      "editable": true
      },
      {
       "type": "col",

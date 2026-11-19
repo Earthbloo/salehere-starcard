@@ -7,6 +7,10 @@
  "widget": {
   "title": "รูปโปรไฟล์",
   "category": "hero",
+  "requires": [
+   "categories",
+   "about"
+  ],
   "symbol": "person.crop.square.fill",
   "order": 71,
   "ownSurface": true,
@@ -233,7 +237,8 @@
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 15.4,
-        "text": "รูปโปรไฟล์"
+        "text": "รูปโปรไฟล์",
+        "editable": true
        },
        {
         "type": "stack",
@@ -300,7 +305,7 @@
               "face": "noto",
               "size": 19,
               "weight": 800,
-              "color": "#141417",
+              "color": "ink",
               "maxLines": 2,
               "id": "name",
               "textAlign": "center",
@@ -324,7 +329,7 @@
                  "face": "noto",
                  "size": 12.5,
                  "weight": 600,
-                 "color": "#141417",
+                 "color": "ink",
                  "maxLines": 1
                 },
                 {
@@ -333,7 +338,7 @@
                  "face": "noto",
                  "size": 12.5,
                  "weight": 600,
-                 "color": "#141417",
+                 "color": "ink",
                  "maxLines": 1
                 }
                ]
@@ -351,7 +356,7 @@
                 "face": "noto",
                 "size": 12.5,
                 "weight": 600,
-                "color": "#141417",
+                "color": "ink",
                 "maxLines": 1,
                 "textAlign": "center",
                 "w": "fill"
@@ -546,7 +551,8 @@
       "maxLines": 2,
       "id": "title",
       "shrinkTo": 15.4,
-      "text": "รูปโปรไฟล์"
+      "text": "รูปโปรไฟล์",
+      "editable": true
      },
      {
       "type": "stack",
@@ -613,7 +619,7 @@
             "face": "noto",
             "size": 19,
             "weight": 800,
-            "color": "#141417",
+            "color": "ink",
             "maxLines": 2,
             "id": "name",
             "textAlign": "center",
@@ -637,7 +643,7 @@
                "face": "noto",
                "size": 12.5,
                "weight": 600,
-               "color": "#141417",
+               "color": "ink",
                "maxLines": 1
               },
               {
@@ -646,7 +652,7 @@
                "face": "noto",
                "size": 12.5,
                "weight": 600,
-               "color": "#141417",
+               "color": "ink",
                "maxLines": 1
               }
              ]
@@ -664,7 +670,7 @@
               "face": "noto",
               "size": 12.5,
               "weight": 600,
-              "color": "#141417",
+              "color": "ink",
               "maxLines": 1,
               "textAlign": "center",
               "w": "fill"

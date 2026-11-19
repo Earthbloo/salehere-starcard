@@ -43,7 +43,8 @@
 <script type="module">
 // Final: แต่ละใบใช้รูปตัวอย่างไม่ซ้ำกันเลย — รูปบุคคล 4 รูป (+ PNG ตัดพื้นของรูปเดียวกัน) · รูปผลงาน 4 รูปลงแกลเลอรี/ผลงาน
 // วิธี: วาดรอบแรกเพื่อดูว่าแต่ละชิ้นขอรูปช่องไหน (getter ใน doc.photos) → แจกรูปไม่ซ้ำ → วาดจริงด้วย doc.photos ที่ระบุชิ้นต่อชิ้น · ไม่แตะตัววาด/JSON
-const SERVER = 'http://localhost:8787'
+// ?server=8789 = ใช้ sync-server อีกพอร์ต (ตัวที่รันจากโค้ดล่าสุด)
+const SERVER = 'http://localhost:' + (new URLSearchParams(location.search).get('server') || '8787')
 const $ = (s) => document.querySelector(s)
 const lib = {}
 try { for (const f of ['spec-model.js', 'measure.js', 'data.js', 'chrome.js', 'backdrop.js', 'theme.js', 'page.js']) Object.assign(lib, await import(`${SERVER}/card/js/${f}`)); await lib.loadFonts(`${SERVER}/card/fonts/`) }
@@ -78,6 +79,8 @@ function profileOf(doc) {
   p.creator.track = { brands: pv.brands, works: pv.works }
   for (const sc of p.creator.socials) { const src = (pv.socials || []).find((x) => x.type === sc.type); if (src) { sc.avgViewCount = src.views; sc.engagementRate = src.er } }
   p.creator.verified = true
+  // QR ของตรา: ขึ้นเฉพาะเมื่อ client ส่ง stat:verifyURL · ภาพตัวอย่างใส่ลิงก์ตัวอย่างให้เห็น QR (?qr=0 = ไม่ใส่)
+  if (q.get('qr') !== '0') p.values.verifyURL = 'https://salehere.co.th/star/verify/STAR-2611-0482'
   p.sampleFamilies = new Set()
   return p
 }
@@ -102,7 +105,9 @@ function paint(host, doc, photos, sc) {
     inner.appendChild(pageEl)
     lib.paintBackdrop(pageEl, theme, P.w, P.h, { pageW: P.w })
     const items = pg.items.map((it) => ({ ...it, options: { ...(it.options || {}) }, kit: { fill: 'solid', corner: 'round', opts: { ...(it.options || {}) } }, pattern: it.options?.pattern || 'plain', pinned: false }))
-    if (sealKind && pi === n - 1) items.push({ id: 'SEAL', kind: sealKind, x: P.w - 18 - SZ.w, y: P.h - 18 - SZ.h, w: SZ.w, h: SZ.h, surface: 'glass', border: false, options: {}, kit: { fill: 'solid', corner: 'round', opts: {} }, pattern: 'plain', pinned: true })
+    // สีตรา: template.seal.tone (null = ดำ · 'red' · 'white') — เลือกจาก seal-lab.html 19 พ.ย. 2569
+    const so = doc.template?.seal?.tone ? { tone: doc.template.seal.tone } : {}
+    if (sealKind && pi === n - 1) items.push({ id: 'SEAL', kind: sealKind, x: P.w - 18 - SZ.w, y: P.h - 18 - SZ.h, w: SZ.w, h: SZ.h, surface: 'glass', border: false, options: so, kit: { fill: 'solid', corner: 'round', opts: so }, pattern: 'plain', pinned: true })
     for (const p of lib.solvePage(items, { width: P.w, height: P.h })) {
       const el = document.createElement('div'); el.className = 'it'; el.dataset.wid = p.item.id; el.style.cssText = `left:${p.frame.x}px;top:${p.frame.y}px;width:${p.frame.width}px;height:${p.frame.height}px`
       try { lib.mountWidget(el, p.item, { x: 0, y: 0, width: p.frame.width, height: p.frame.height }, env) } catch (e) { el.innerHTML = `<pre class="err">${e.message}</pre>` }
@@ -220,7 +225,7 @@ $('#dl').onclick = async () => {
     const last = doc.snapshot.pages.length - 1
     out.push({ name: doc.name, format: doc.format, snapshot: { theme: { colors: doc.snapshot.theme.colors, ink: doc.snapshot.theme.ink, backdrop: doc.snapshot.theme.backdrop }, pages: doc.snapshot.pages.map((pg, i) => ({ items: [
       ...pg.items.map((it) => ({ id: it.id, kind: it.kind, x: it.x, y: it.y, w: it.w, h: it.h, surface: it.surface, border: !!it.border, ...(it.options && Object.keys(it.options).length ? { options: it.options } : {}) })),
-      ...(i === last ? [{ id: crypto.randomUUID().toUpperCase(), kind: 'proofSeal', ...SEAL_AT[doc.format], surface: 'glass', border: false }] : []) ] })) } })
+      ...(i === last ? [{ id: crypto.randomUUID().toUpperCase(), kind: 'proofSeal', ...SEAL_AT[doc.format], surface: 'glass', border: false, ...(doc.template?.seal?.tone ? { options: { tone: doc.template.seal.tone } } : {}) }] : []) ] })) } })
   }
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' })); a.download = 'starcard-final-templates.json'; document.body.appendChild(a); a.click(); a.remove()
   $('#status').textContent = `ดาวน์โหลด ${out.length} ใบ`
