@@ -149,7 +149,9 @@
           "weight": 900,
           "color": "#141414",
           "maxLines": 1,
-          "text": "มาทำงาน"
+          "text": "มาทำงาน",
+          "id": "text1",
+          "editable": true
          },
          {
           "type": "text",
@@ -158,7 +160,9 @@
           "weight": 400,
           "color": "accent",
           "maxLines": 1,
-          "text": "ด้วยกันนะ"
+          "text": "ด้วยกันนะ",
+          "id": "text2",
+          "editable": true
          }
         ]
        },

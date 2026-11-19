@@ -24,11 +24,6 @@
   "photo": true,
   "keepAspect": true,
   "stamp": "insight",
-  "stampAt": {
-   "tone": "dark",
-   "top": 12,
-   "trailing": 12
-  },
   "motion": "anchored",
   "controls": [
    {
@@ -99,7 +94,8 @@
         "w": 315,
         "if": "papered",
         "text": "Audience",
-        "on": "dark"
+        "on": "dark",
+        "editable": true
        },
        {
         "type": "text",
@@ -116,7 +112,8 @@
         "w": 315,
         "if": "!papered",
         "text": "Audience",
-        "on": "card"
+        "on": "card",
+        "editable": true
        },
        {
         "type": "image",
@@ -706,7 +703,8 @@
       "w": 315,
       "if": "papered",
       "text": "Audience",
-      "on": "dark"
+      "on": "dark",
+      "editable": true
      },
      {
       "type": "text",
@@ -723,7 +721,8 @@
       "w": 315,
       "if": "!papered",
       "text": "Audience",
-      "on": "card"
+      "on": "card",
+      "editable": true
      },
      {
       "type": "image",

@@ -23,11 +23,6 @@
   },
   "keepAspect": true,
   "stamp": "followers",
-  "stampAt": {
-   "tone": "light",
-   "top": 1.5,
-   "trailing": 10
-  },
   "motion": "anchored",
   "controls": [
    {
@@ -87,7 +82,8 @@
           "shrinkTo": 4.7,
           "w": "36%",
           "place": "center",
-          "text": "SOCIAL CHANNEL"
+          "text": "SOCIAL CHANNEL",
+          "editable": true
          },
          {
           "type": "row",
@@ -502,7 +498,8 @@
         "shrinkTo": 4.7,
         "w": "36%",
         "place": "center",
-        "text": "SOCIAL CHANNEL"
+        "text": "SOCIAL CHANNEL",
+        "editable": true
        },
        {
         "type": "row",

@@ -172,7 +172,8 @@
           "shrinkTo": 13.3,
           "w": "fill",
           "id": "title",
-          "text": "Insight"
+          "text": "Insight",
+          "editable": true
          },
          {
           "type": "col",
@@ -378,7 +379,7 @@
                        "type": "text",
                        "slot": "$label",
                        "face": "noto",
-                       "size": 17.0,
+                       "size": 17,
                        "weight": 400,
                        "color": "#141417",
                        "maxLines": 1
@@ -828,7 +829,8 @@
         "shrinkTo": 13.3,
         "w": "fill",
         "id": "title",
-        "text": "Insight"
+        "text": "Insight",
+        "editable": true
        },
        {
         "type": "col",
@@ -1034,7 +1036,7 @@
                      "type": "text",
                      "slot": "$label",
                      "face": "noto",
-                     "size": 17.0,
+                     "size": 17,
                      "weight": 400,
                      "color": "#141417",
                      "maxLines": 1

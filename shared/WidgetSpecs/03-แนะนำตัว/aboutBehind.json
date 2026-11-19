@@ -80,7 +80,8 @@
     "place": "top-left",
     "dx": 14.6,
     "dy": 14.9,
-    "text": "รู้จักฉัน"
+    "text": "รู้จักฉัน",
+    "editable": true
    },
    {
     "type": "image",
@@ -119,7 +120,9 @@
         "maxLines": 1,
         "shrinkTo": 5.6,
         "shrink": 0,
-        "text": "รู้จักฉัน —"
+        "text": "รู้จักฉัน —",
+        "id": "text1",
+        "editable": true
        },
        {
         "type": "text",

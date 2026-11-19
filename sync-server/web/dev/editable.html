@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>คำที่แก้ได้</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root { --bg: #F9FAFB; --card: #fff; --line: #E5E7EB; --ink: #111827; --ink2: #6B7280; --edit: #F97316; --lock: #64748B; }
+  * { box-sizing: border-box }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 "Noto Sans Thai", system-ui, sans-serif; }
+  header { padding: 20px 20px 14px; border-bottom: 1px solid var(--line); background: #fff; }
+  h1 { font-size: 20px; margin: 0 0 4px }
+  .lead { color: var(--ink2); margin: 0 0 14px }
+  .lead b { color: var(--ink) }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px }
+  .stat { border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; min-width: 120px; }
+  .stat b { display: block; font-size: 24px; line-height: 1.2; font-variant-numeric: tabular-nums }
+  .stat span { color: var(--ink2); font-size: 12px }
+  .stat.edit b { color: var(--edit) }
+  table.an { border-collapse: collapse; width: 100%; font-size: 13px; margin-top: 4px }
+  table.an td { padding: 7px 8px; border-top: 1px solid var(--line); vertical-align: top }
+  table.an td.g { white-space: nowrap; font-weight: 700 }
+  table.an tr.ok td.g { color: #C2410C }
+  table.an td.n { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink2); white-space: nowrap }
+  table.an td.ex span { display: inline-block; margin: 0 4px 3px 0; padding: 1px 8px; border-radius: 999px; background: #F3F4F6 }
+  table.an tr.ok td.ex span { background: #FFEDD5; color: #9A3412 }
+  table.an td.w { color: var(--ink2); font-size: 12px }
+  .ov div.lk { border: 1.5px dashed #94A3B8; background: none }
+  .locked { font-size: 11px; color: var(--ink2) }
+  .locked span { white-space: nowrap }
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+  .rules div { border-radius: 10px; padding: 8px 12px; font-size: 13px; background: #F3F4F6 }
+  .rules div.ok { background: #FFF7ED; color: #9A3412 }
+  .rules b { display: block; font-size: 12px; margin-bottom: 2px }
+  main { padding: 6px 20px 60px }
+  section h2 { font-size: 16px; margin: 26px 0 10px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap }
+  section h2 small { color: var(--ink2); font-weight: 400; font-size: 12px }
+  section h2 .tag { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: #FFEDD5; color: #C2410C }
+  section h2 .tag.lock { background: #E2E8F0; color: #334155 }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .stage { position: relative; align-self: center; border-radius: 10px; overflow: hidden; background: #1d1d22; }
+  .stage .scaler { position: relative; transform-origin: 0 0 }
+  .meta { display: flex; justify-content: space-between; gap: 6px; align-items: baseline }
+  .meta b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+  .meta code { color: var(--ink2); font-size: 11px }
+  .words { display: flex; flex-direction: column; gap: 4px }
+  .word { display: flex; align-items: center; gap: 8px; font-size: 13px }
+  .word i { flex: none; width: 18px; height: 18px; border-radius: 9px; background: var(--edit); color: #fff; font: 700 10px/18px system-ui; text-align: center; font-style: normal }
+  .word span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600 }
+  .word code { font-size: 10px; color: var(--ink2) }
+  .word code.miss { color: #B45309 }
+  .ov { position: absolute; inset: 0; pointer-events: none }
+  .ov div { position: absolute; border: 2px solid var(--edit); background: rgba(249,115,22,.2); border-radius: 3px }
+  .ov div b { position: absolute; top: -9px; left: -9px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--edit); color: #fff; font: 700 10px/18px system-ui; text-align: center }
+  .none { margin-top: 10px; font-size: 12px; color: var(--ink2); display: flex; gap: 6px; flex-wrap: wrap; align-items: center }
+  .none span { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; color: var(--ink) }
+  .lockrow { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px }
+  .lockrow .stage { flex: none; opacity: .5; filter: grayscale(.4) }
+  @media (max-width: 720px) {
+    header, main { padding-left: 16px; padding-right: 16px }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>คำที่แก้ได้ใน Widget</h1>
+  <p class="lead" style="margin-bottom:6px">อ่านจาก <code>"editable": true</code> ในไฟล์ผัง (shared/WidgetSpecs) โดยตรง</p>
+  <p class="lead">คิดจากมุม <b>ครีเอเตอร์ที่เข้ามาแต่งการ์ด</b>: แก้ได้เฉพาะคำที่เป็น <b>เสียงของตัวเอง</b> (หัวข้อ · คำโปรย) · คำที่บอกว่าข้อมูลคืออะไรต้องคงไว้ ไม่งั้นตัวเลขข้าง ๆ สื่อผิด · ข้อมูลจาก Star Profile ล็อกทุกช่อง</p>
+  <div class="stats" id="stats"></div>
+  <table class="an" id="analysis"></table>
+</header>
+<main id="main"></main>
+
+<script type="module">
+import { GROUP, CAT, loadStage } from './text-rules.js'
+const { specs, render, collect, fit } = await loadStage()
+
+const main = document.getElementById('main')
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+let words = 0, withWords = 0, missingId = 0
+const result = []
+const groups = {}   // กลุ่ม → Map(คำ → จำนวนครั้ง)
+
+/** วาดใบลงกรอบย่อ — `numbers` = กรอบส้มพร้อมเลขบนคำที่แก้ได้ */
+function draw(stage, kind, maxW, maxH, numbers) {
+  const host = document.createElement('div')
+  document.body.appendChild(host)
+  render(host, kind)
+  const all = collect(host)
+  const fixed = all.filter((s) => s.p?.g)
+  fixed.forEach((s) => { (groups[s.p.g] ||= new Map()).set(s.value.trim(), ((groups[s.p.g].get(s.value.trim())) || 0) + 1) })
+  const slots = fixed.filter((s) => s.p.v === 'edit')
+  slots.forEach((s, i) => (s.e = i + 1))
+  if (numbers) {
+    const ov = document.createElement('div'); ov.className = 'ov'
+    for (const s of fixed) {
+      const b = document.createElement('div')
+      b.style.cssText = `left:${s.rect.x - 2}px;top:${s.rect.y - 2}px;width:${s.rect.w + 4}px;height:${s.rect.h + 4}px`
+      if (s.e) b.innerHTML = `<b>${s.e}</b>`; else b.className = 'lk'
+      ov.appendChild(b)
+    }
+    host.appendChild(ov)
+  }
+  fit(stage, host, maxW, maxH)
+  slots.locked = fixed.filter((s) => !s.e)
+  return slots
+}
+
+for (const [cat, label] of CAT) {
+  const kinds = Object.keys(specs).filter((k) => (specs[k].widget?.category || 'intro') === cat)
+    .sort((a, b) => (specs[a].widget?.order ?? 99) - (specs[b].widget?.order ?? 99) || a.localeCompare(b))
+  if (!kinds.length) continue
+  const sec = document.createElement('section')
+  const h = document.createElement('h2')
+  sec.appendChild(h); main.appendChild(sec)
+
+  // หมวดที่ล็อกทั้งหมด — แถวภาพเล็กสีจาง
+  if (cat === 'seal') {
+    h.innerHTML = `${label} <span class="tag lock">🔒 ตรารับรอง Sale Here</span><small>${kinds.length} ใบ</small>`
+    const row = document.createElement('div'); row.className = 'lockrow'
+    sec.appendChild(row)
+    for (const kind of kinds) {
+      const st = document.createElement('div'); st.className = 'stage'; st.title = kind
+      row.appendChild(st)
+      draw(st, kind, 120, 110, false)
+      result.push({ kind, cat, words: [] })
+    }
+    continue
+  }
+
+  const grid = document.createElement('div'); grid.className = 'grid'
+  sec.appendChild(grid)
+  const none = []
+  let n = 0
+  for (const kind of kinds) {
+    const tile = document.createElement('div'); tile.className = 'tile'
+    const stage = document.createElement('div'); stage.className = 'stage'
+    tile.appendChild(stage); grid.appendChild(tile)
+    const slots = draw(stage, kind, Math.max(160, tile.clientWidth - 20), 240, true)
+    result.push({ kind, cat, words: slots.map((s) => ({ text: s.value, id: s.nodeId })) })
+    if (!slots.length) { tile.remove(); none.push(kind); continue }
+    n++; withWords++; words += slots.length
+    const meta = document.createElement('div'); meta.className = 'meta'
+    meta.innerHTML = `<b>${esc(specs[kind].widget?.title || kind)}</b><code>${kind}</code>`
+    const list = document.createElement('div'); list.className = 'words'
+    list.innerHTML = slots.map((s) => {
+      if (!s.nodeId) missingId++
+      return `<div class="word"><i>${s.e}</i><span>${esc(s.value)}${s.inItem ? ' <small style="font-weight:400;color:var(--ink2)">ทุกแถว</small>' : ''}</span>${s.nodeId ? `<code>${esc(s.nodeId)}</code>` : '<code class="miss">ยังไม่มี id</code>'}</div>`
+    }).join('')
+    const lk = [...new Map(slots.locked.map((s) => [s.value.trim(), s])).values()]
+    const locked = document.createElement('div'); locked.className = 'locked'
+    if (lk.length) locked.innerHTML = '🔒 ' + lk.map((s) => `<span title="${esc(s.p.why)}">${esc(s.value.trim())}</span>`).join(' · ')
+    tile.append(meta, list, locked)
+  }
+  h.innerHTML = n ? `${label} <span class="tag">✏️ ${n} ใบแก้ได้</span><small>จาก ${kinds.length} ใบ</small>`
+    : `${label} <small>ไม่มีคำให้แก้ · ${kinds.length} ใบ</small>`
+  if (none.length) sec.insertAdjacentHTML('beforeend', `<div class="none">ไม่มีคำให้แก้: ${none.map((k) => `<span title="${k}">${esc(specs[k].widget?.title || k)}</span>`).join('')}</div>`)
+}
+
+document.getElementById('stats').innerHTML = `
+  <div class="stat edit"><b>${words}</b><span>คำที่แก้ได้</span></div>
+  <div class="stat edit"><b>${withWords}</b><span>ใบที่มีคำให้แก้</span></div>
+  <div class="stat"><b>${result.length - withWords}</b><span>ใบที่ไม่มีอะไรให้แก้</span></div>
+  <div class="stat"><b>${missingId}</b><span>คำที่ต้องตั้ง id ก่อน</span></div>`
+const WHY = {
+  title: 'ครีเอเตอร์อยากใช้ภาษา/โทนของตัวเอง — ไทย/อังกฤษ · ชื่อสายตัวเอง (VIDEOGRAPHY → PHOTOGRAPHY) · ไม่ทำให้ข้อมูลผิด',
+  voice: 'เป็นคำพูดของครีเอเตอร์ถึงแบรนด์ — แต่ละคนพูดไม่เหมือนกัน คุณค่าสูงสุดของการแก้คำ',
+  label: 'บอกว่าตัวเลข/ข้อมูลข้าง ๆ คืออะไร — แก้แล้วแบรนด์อ่านผิด (เช่น "ผู้ติดตาม" → "ยอดขาย") · LINE/โทร/Short Video ไม่มีเหตุให้เปลี่ยน',
+  logo: 'เป็นส่วนของโลโก้/ไอคอน ไม่ใช่ข้อความ',
+  brand: 'ตัวตนและการรับรองของ Sale Here — แก้ได้ = ปลอมการรับรองได้',
+  system: 'โผล่เฉพาะตอนยังไม่มีข้อมูล (ฝั่งเจ้าของ) — ไม่ใช่คำที่ออกไปบนการ์ด',
+  todo: 'คำที่ยังไม่ได้ตัดสิน — ล็อกไว้ก่อน (ใส่ editable ในผังถ้าจะให้แก้)',
+}
+const order = ['title', 'voice', 'label', 'logo', 'brand', 'system', 'todo']
+document.getElementById('analysis').innerHTML = order.filter((g) => groups[g]?.size).map((g) => {
+  const m = groups[g], total = [...m.values()].reduce((a, b) => a + b, 0)
+  return `<tr class="${GROUP[g].edit ? 'ok' : ''}"><td class="g">${GROUP[g].edit ? '✏️' : '🔒'} ${GROUP[g].name}</td><td class="n">${total} ช่อง</td>
+    <td class="ex">${[...m.keys()].slice(0, 14).map((w) => `<span>${esc(w)}</span>`).join('')}${m.size > 14 ? `<span>+${m.size - 14}</span>` : ''}<div class="w">${WHY[g]}</div></td></tr>`
+}).join('')
+window.__groups = Object.fromEntries(Object.entries(groups).map(([g, m]) => [g, [...m.keys()]]))
+window.__editable = result
+</script>
+</body>
+</html>

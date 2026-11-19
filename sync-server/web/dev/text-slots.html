@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ข้อความใน Widget</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root {
+    --bg: #F9FAFB; --card: #fff; --line: #E5E7EB; --ink: #111827; --ink2: #6B7280;
+    --typed: #16A34A; --pick: #2563EB; --sys: #9333EA; --fixed: #9CA3AF; --onCard: #F97316;
+    --edit: #F97316; --lock: #64748B; --brand: #DC2626; --data: #A78BFA;
+  }
+  * { box-sizing: border-box }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 "Noto Sans Thai", system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 30; background: rgba(249,250,251,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 14px 20px 12px; }
+  h1 { font-size: 18px; margin: 0 0 8px; }
+  .answer { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; font-size: 13px; }
+  .answer b { font-weight: 700 }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px 5px 8px; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; font: inherit; font-size: 13px; color: var(--ink); user-select: none; }
+  .pill i { width: 14px; height: 10px; border-radius: 3px; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 18%, transparent); }
+  .pill.off { opacity: .35 }
+  .pill .n { color: var(--ink2); font-variant-numeric: tabular-nums }
+  .legend { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+  .legend .sep { width: 1px; height: 22px; background: var(--line); margin: 0 4px }
+  .legend .hint { color: var(--ink2); font-size: 12px }
+  .edit-c { --c: var(--edit) } .lock-c { --c: var(--lock) } .brand-c { --c: var(--brand) } .data-c { --c: var(--data) }
+  .fixed-c { --c: var(--fixed) } .typed-c { --c: var(--typed) } .pick-c { --c: var(--pick) } .sys-c { --c: var(--sys) } .oncard-c { --c: var(--onCard) }
+  main { padding: 8px 20px 60px; }
+  section h2 { font-size: 15px; margin: 22px 0 10px; display: flex; gap: 8px; align-items: baseline }
+  section h2 small { color: var(--ink2); font-weight: 400; font-size: 12px }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+  .tile:hover { border-color: #C7CBD1 }
+  .stage { position: relative; align-self: center; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #1d1d22; }
+  .stage .scaler { position: relative; transform-origin: 0 0 }
+  .meta { display: flex; justify-content: space-between; gap: 6px; align-items: center }
+  .meta b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+  .meta code { color: var(--ink2); font-size: 11px }
+  .counts { display: flex; gap: 4px; flex-wrap: wrap }
+  .counts span { font-size: 11px; padding: 1px 7px; border-radius: 999px; color: #fff; background: var(--c); font-variant-numeric: tabular-nums }
+  .counts span.zero { display: none }
+  /* กรอบทับข้อความ */
+  .ov { position: absolute; inset: 0; pointer-events: none; }
+  .ov div { position: absolute; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); border-radius: 3px; }
+  .ov div.fixed { border-style: dashed; background: none }
+  .ov div b { position: absolute; top: -9px; left: -9px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; background: var(--c); color: #fff; font: 700 10px/18px system-ui; text-align: center; }
+  .ov div.lock, .ov div.brand { border-style: dashed; background: none }
+  .ov div.data { border-width: 1px; background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--c) 30%, transparent) 0 3px, transparent 3px 7px) }
+  .ov div.edit { background: color-mix(in srgb, var(--c) 22%, transparent) }
+  body:not([data-mode=now]) .now, body:not([data-mode=new]) .new, body:not([data-mode=step]) .step { display: none !important }
+  .ov.step div { border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 16%, transparent) }
+  .ov.step div.s-account { border-style: dotted; background: none }
+  .req { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; font-size: 11px }
+  .req > em { color: var(--ink2); font-style: normal; margin-right: 2px }
+  .req span { padding: 1px 7px; border-radius: 999px; color: #fff; background: var(--c) }
+  .req span.extra { background: none; color: var(--c); box-shadow: inset 0 0 0 1px var(--c) }
+  .req .free { color: var(--typed); font-weight: 600 }
+  .seg { display: inline-flex; background: #EEF0F3; border-radius: 10px; padding: 3px; gap: 2px }
+  .seg button { border: 0; background: none; font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 8px; cursor: pointer; color: var(--ink2) }
+  .seg button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08) }
+  .rule { display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--ink2); margin-top: 8px }
+  .rule span { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 3px 8px }
+  .rule b { color: var(--ink) }
+  .tile.locked .stage { opacity: .55 }
+  .lockTag { font-size: 11px; color: var(--lock); }
+  body.hide-edit .ov .edit, body.hide-lock .ov .lock, body.hide-brand .ov .brand, body.hide-data .ov .data { display: none }
+  body.hide-edit tr.edit, body.hide-lock tr.lock, body.hide-brand tr.brand, body.hide-data tr.data { display: none }
+  body.hide-fixed .ov .fixed, body.hide-typed .ov .typed, body.hide-pick .ov .pick, body.hide-sys .ov .sys { display: none }
+  body.hide-fixed tr.fixed, body.hide-typed tr.typed, body.hide-pick tr.pick, body.hide-sys tr.sys { display: none }
+  /* รายละเอียด */
+  dialog { border: 0; border-radius: 18px; padding: 0; width: min(980px, calc(100vw - 32px)); max-height: calc(100vh - 40px); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+  dialog::backdrop { background: rgba(17,24,39,.45) }
+  .dlg { display: grid; grid-template-columns: auto 1fr; gap: 20px; padding: 20px; }
+  .dlg .stage { align-self: start; padding: 0 }
+  .dlg h3 { margin: 0 0 2px; font-size: 17px }
+  .dlg .sub { color: var(--ink2); font-size: 12px; margin-bottom: 12px }
+  .close { position: absolute; top: 10px; right: 12px; border: 0; background: #F3F4F6; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer }
+  table { border-collapse: collapse; width: 100%; font-size: 13px }
+  td { padding: 7px 6px; border-top: 1px solid var(--line); vertical-align: top }
+  td.num b { display: inline-block; min-width: 20px; height: 20px; border-radius: 10px; background: var(--c); color: #fff; font: 700 11px/20px system-ui; text-align: center; }
+  td.val { max-width: 260px; word-break: break-word }
+  td.src span { color: var(--c); font-weight: 600; white-space: nowrap }
+  td code { font-size: 11px; color: var(--ink2) }
+  .empty { color: var(--ink2); font-size: 12px }
+  @media (max-width: 720px) {
+    header, main { padding-left: 16px; padding-right: 16px }
+    header { position: static }
+    .dlg { grid-template-columns: 1fr }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+</style>
+</head>
+<body data-mode="step">
+<header>
+  <h1>ข้อความใน Widget</h1>
+  <div class="answer">
+    <div class="seg" id="mode"><button data-m="step" class="on">ผูกกับขั้น</button><button data-m="now">ที่มาของข้อความ</button><button data-m="new">โจทย์ใหม่ (แก้คำ)</button></div>
+    <span class="step">สีกรอบ = ขั้นใน <b>Star Profile</b> ที่ข้อความนั้นดึงมา · ใต้ใบ = ขั้นที่ใบนี้ <b>ล็อกรอ</b> (<code>requires</code>)</span>
+    <span class="now"><span class="pill oncard-c" style="cursor:default"><i></i>พิมพ์บนการ์ดได้ = <b>ชิ้น "ข้อความ" เท่านั้น</b></span> · ที่เหลือแก้ผ่าน <b>Star Profile</b></span>
+    <span class="new"><b>คำตายตัวแก้ได้ทุกคำ</b> · ข้อมูลจาก Star Profile ล็อกทุกช่อง</span>
+  </div>
+  <div class="legend step" id="legendStep"></div>
+  <div class="legend now" id="legend"></div>
+  <div class="legend new" id="legendNew"></div>
+  <div class="rule new">
+    <span>✏️ คำตายตัวแก้ได้ทุกคำ ทุกหมวด</span>
+    <span>🔒 ตรารับรอง + ชื่อ Sale Here</span>
+    <span>🔒 ข้อความตอนไม่มีข้อมูล (0 · ข้อมูลตัวอย่าง)</span>
+  </div>
+</header>
+<main id="main"></main>
+<dialog id="dlg"></dialog>
+
+<script type="module">
+import { KIND, ORDER, VERDICT, VORDER, LOCKED_CAT, STEP, SORDER, CAT, loadStage } from './text-rules.js'
+const { specs, render, collect, fit } = await loadStage()
+
+function overlay(host, slots, numbers) {
+  for (const mode of ['now', 'new', 'step']) {
+    const ov = document.createElement('div'); ov.className = `ov ${mode}`
+    for (const s of slots) {
+      const k = mode === 'now' ? s.k : mode === 'new' ? s.p?.v : s.step
+      if (!k) continue
+      const b = document.createElement('div')
+      if (mode === 'step') { b.className = `s-${k}`; b.style.setProperty('--c', STEP[k].c) }
+      else b.className = `${k} ${(KIND[k] || VERDICT[k]).cls}`
+      b.style.cssText += `left:${s.rect.x - 2}px;top:${s.rect.y - 2}px;width:${s.rect.w + 4}px;height:${s.rect.h + 4}px`
+      if (numbers) b.innerHTML = `<b>${s.n}</b>`
+      ov.appendChild(b)
+    }
+    host.appendChild(ov)
+  }
+}
+
+const main = document.getElementById('main')
+const all = []   // [{kind, slots}]
+const totals = { typed: 0, pick: 0, sys: 0, fixed: 0 }
+const vtotals = { edit: 0, lock: 0, brand: 0, data: 0 }
+let editWidgets = 0
+const stotals = Object.fromEntries(SORDER.map((k) => [k, 0]))
+
+// ชิ้น "ข้อความ" — ตัวเดียวที่พิมพ์บนการ์ดได้
+{
+  const sec = document.createElement('section')
+  sec.innerHTML = '<h2>ข้อความ <small>พิมพ์บนการ์ดได้ตรง ๆ · เปลี่ยนฟอนต์ / สี / ขนาดได้</small></h2>'
+  const grid = document.createElement('div'); grid.className = 'grid'
+  const tile = document.createElement('div'); tile.className = 'tile'; tile.style.cursor = 'default'
+  tile.innerHTML = `<div class="stage" style="height:120px;justify-content:center;align-items:center">
+    <div style="position:relative;padding:8px 14px;border:2px solid var(--onCard);background:color-mix(in srgb,var(--onCard) 18%,transparent);border-radius:4px;color:#fff;font:600 22px 'Noto Sans Thai',system-ui">แตะเพื่อพิมพ์ข้อความ</div></div>
+    <div class="meta"><b>ข้อความ</b><code>textBlock</code></div>`
+  grid.appendChild(tile); sec.appendChild(grid); main.appendChild(sec)
+}
+
+for (const [cat, label] of CAT) {
+  const kinds = Object.keys(specs).filter((k) => (specs[k].widget?.category || 'intro') === cat)
+    .sort((a, b) => (specs[a].widget?.order ?? 99) - (specs[b].widget?.order ?? 99) || a.localeCompare(b))
+  if (!kinds.length) continue
+  const sec = document.createElement('section')
+  const h = document.createElement('h2'); h.innerHTML = `${label} <small>${kinds.length} ใบ</small>`
+  const grid = document.createElement('div'); grid.className = 'grid'
+  sec.append(h, grid); main.appendChild(sec)
+  for (const kind of kinds) {
+    const tile = document.createElement('div'); tile.className = 'tile'
+    const stage = document.createElement('div'); stage.className = 'stage'
+    const meta = document.createElement('div'); meta.className = 'meta'
+    meta.innerHTML = `<b>${specs[kind].widget?.title || kind}</b><code>${kind}</code>`
+    const counts = document.createElement('div'); counts.className = 'counts now'
+    const vcounts = document.createElement('div'); vcounts.className = 'counts new'
+    const req = document.createElement('div'); req.className = 'req step'
+    tile.append(stage, meta, req, counts, vcounts); grid.appendChild(tile)
+    const host = document.createElement('div')
+    document.body.appendChild(host)          // วัดขนาดจริงก่อนย่อ
+    render(host, kind)
+    const slots = collect(host)
+    overlay(host, slots, false)
+    const avail = Math.max(160, tile.clientWidth - 20)
+    fit(stage, host, avail, 260)
+    const c = { typed: 0, pick: 0, sys: 0, fixed: 0 }
+    slots.forEach((s) => { c[s.k]++; totals[s.k]++ })
+    counts.innerHTML = ORDER.map((k) => `<span class="${KIND[k].cls} ${c[k] ? '' : 'zero'}" title="${KIND[k].name}">${KIND[k].name} ${c[k]}</span>`).join('')
+    const v = { edit: 0, lock: 0, brand: 0, data: 0 }
+    slots.forEach((s) => { if (s.p) { v[s.p.v]++; vtotals[s.p.v]++ } })
+    if (v.edit) editWidgets++
+    vcounts.innerHTML = v.edit ? `<span class="edit-c">✏️ แก้ได้ ${v.edit}</span>`
+      : `<span class="lock-c">🔒 ${LOCKED_CAT[cat] ? 'ล็อกทั้งใบ' : 'ไม่มีคำให้แก้'}</span>`
+    slots.forEach((s) => { if (s.step) stotals[s.step]++ })
+    req.innerHTML = reqChips(kind, slots)
+    all.push({ kind, cat, slots })
+    tile.onclick = () => openDetail(kind)
+  }
+}
+
+/** ป้ายขั้นที่ใบนี้ล็อกรอ · ขั้นที่ไม่มีข้อความไหนดึง = กรอบเส้น + เหตุผล */
+function reqChips(kind, slots) {
+  const req = specs[kind].widget?.requires || []
+  if (!req.length) return '<em>ล็อกรอ</em><span class="free">ไม่ล็อก</span>'
+  const fromText = new Set(slots.map((s) => s.step))
+  const why = (r) => (r === 'about' ? 'รูป' : r === 'kyc' ? 'ตรา' : r === 'socials' && req.includes('rate') ? 'คู่กับเรท' : 'รูป/เงื่อนไข')
+  return '<em>ล็อกรอ</em>' + req.map((r) => fromText.has(r)
+    ? `<span style="--c:${STEP[r].c}">${STEP[r].name}</span>`
+    : `<span class="extra" style="--c:${STEP[r].c}" title="ไม่มีข้อความดึงจากขั้นนี้">${STEP[r].name} · ${why(r)}</span>`).join('')
+}
+
+// ── ตัวกรอง ────────────────────────────────────────────────────────
+const legend = document.getElementById('legend')
+for (const k of ORDER) {
+  const p = document.createElement('button'); p.className = `pill ${KIND[k].cls}`
+  p.innerHTML = `<i${k === 'fixed' ? ' style="border-style:dashed;background:none"' : ''}></i>${KIND[k].name} <span class="n">${totals[k]}</span>`
+  p.onclick = () => { document.body.classList.toggle(`hide-${k}`); p.classList.toggle('off') }
+  legend.appendChild(p)
+}
+legend.insertAdjacentHTML('beforeend', `<span class="sep"></span><span class="hint">${all.length} widget · แตะใบเพื่อดูทีละช่อง</span>`)
+const legendNew = document.getElementById('legendNew')
+for (const k of VORDER) {
+  const p = document.createElement('button'); p.className = `pill ${VERDICT[k].cls}`
+  const look = k === 'lock' || k === 'brand' ? ' style="border-style:dashed;background:none"' : ''
+  p.innerHTML = `<i${look}></i>${VERDICT[k].name} <span class="n">${vtotals[k]}</span>`
+  p.onclick = () => { document.body.classList.toggle(`hide-${k}`); p.classList.toggle('off') }
+  legendNew.appendChild(p)
+}
+legendNew.insertAdjacentHTML('beforeend', `<span class="sep"></span><span class="hint">มีคำให้แก้ ${editWidgets} จาก ${all.length} widget</span>`)
+const legendStep = document.getElementById('legendStep')
+const stepCSS = document.createElement('style'); document.head.appendChild(stepCSS)
+const hidden = new Set()
+for (const k of SORDER) {
+  if (!stotals[k] && k !== 'kyc') continue
+  const p = document.createElement('button'); p.className = 'pill'; p.style.setProperty('--c', STEP[k].c)
+  p.innerHTML = `<i${k === 'account' ? ' style="border-style:dotted;background:none"' : ''}></i>${STEP[k].name} <span class="n">${stotals[k]}</span>`
+  p.onclick = () => {
+    hidden.has(k) ? hidden.delete(k) : hidden.add(k); p.classList.toggle('off')
+    stepCSS.textContent = [...hidden].map((x) => `.ov.step .s-${x}, tr.step.s-${x} { display: none }`).join('\n')
+  }
+  legendStep.appendChild(p)
+}
+legendStep.insertAdjacentHTML('beforeend', `<span class="sep"></span><span class="hint">ไม่มีกรอบ = คำตายตัว · แตะใบเพื่อดูทีละช่อง</span>`)
+// สลับโหมด
+for (const b of document.querySelectorAll('#mode button')) b.onclick = () => {
+  document.body.dataset.mode = b.dataset.m
+  document.querySelectorAll('#mode button').forEach((x) => x.classList.toggle('on', x === b))
+}
+// ?mode=now|new|step — เปิดมาที่โหมดนั้น
+{ const m = new URLSearchParams(location.search).get('mode'); document.querySelector(`#mode button[data-m="${m}"]`)?.click() }
+
+// ── รายละเอียดของใบ ────────────────────────────────────────────────
+const dlg = document.getElementById('dlg')
+function openDetail(kind) {
+  dlg.innerHTML = ''
+  const box = document.createElement('div'); box.className = 'dlg'
+  const stage = document.createElement('div'); stage.className = 'stage'
+  const right = document.createElement('div')
+  const host = document.createElement('div')
+  document.body.appendChild(host)
+  render(host, kind)
+  const slots = collect(host)
+  overlay(host, slots, true)
+  const narrow = innerWidth < 720
+  fit(stage, host, narrow ? innerWidth - 72 : 420, narrow ? 360 : innerHeight - 120)
+  right.innerHTML = `<h3>${specs[kind].widget?.title || kind}</h3><div class="sub"><code>${kind}</code> · ข้อความ ${slots.length} ช่อง</div>
+    <div class="req step" style="margin-bottom:10px">${reqChips(kind, slots)}</div>`
+  if (!slots.length) right.insertAdjacentHTML('beforeend', '<div class="empty">ใบนี้ไม่มีข้อความ</div>')
+  else {
+    const rows = slots.map((s) => `<tr class="now ${s.k} ${KIND[s.k].cls}"><td class="num"><b>${s.n}</b></td>
+      <td class="val">${esc(s.value)}</td>
+      <td class="src"><span>${KIND[s.k].name}</span><br>${esc(s.where)}<br><code>${esc(s.ref)}</code></td></tr>`
+      + (s.p ? `<tr class="new ${s.p.v} ${VERDICT[s.p.v].cls}"><td class="num"><b>${s.n}</b></td>
+      <td class="val">${esc(s.value)}</td>
+      <td class="src"><span>${VERDICT[s.p.v].name}</span><br>${esc(s.p.why)}<br><code>${esc(s.k === 'fixed' ? (s.nodeId ? 'id: ' + s.nodeId : 'ยังไม่มี id') : s.ref)}</code></td></tr>` : '')
+      + `<tr class="step s-${s.step || 'none'}" style="--c:${s.step ? STEP[s.step].c : 'var(--fixed)'}"><td class="num"><b>${s.n}</b></td>
+      <td class="val">${esc(s.value)}</td>
+      <td class="src"><span>${s.step ? STEP[s.step].name : 'คำตายตัว'}</span>${s.sub ? '<br>' + esc(s.sub) : ''}<br><code>${esc(s.ref)}</code></td></tr>`).join('')
+    right.insertAdjacentHTML('beforeend', `<table>${rows}</table>`)
+  }
+  const x = document.createElement('button'); x.className = 'close'; x.textContent = '✕'; x.onclick = () => dlg.close()
+  box.append(stage, right)
+  dlg.append(x, box)
+  dlg.showModal()
+}
+dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close() })
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+window.__textSlots = all
+</script>
+</body>
+</html>

@@ -15,11 +15,6 @@
   "ownSurface": true,
   "keepAspect": true,
   "stamp": "followers",
-  "stampAt": {
-   "tone": "light",
-   "top": 5,
-   "trailing": 12
-  },
   "motion": "anchored",
   "controls": [
    {
@@ -92,7 +87,8 @@
         "maxLines": 1,
         "shrinkTo": 11,
         "maxW": 252,
-        "text": "SOCIAL CHANNEL"
+        "text": "SOCIAL CHANNEL",
+        "editable": true
        },
        {
         "type": "rect",

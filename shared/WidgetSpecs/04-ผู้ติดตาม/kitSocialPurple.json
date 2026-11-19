@@ -245,7 +245,6 @@
            0,
            0
           ],
-          "if": "!stamped",
           "children": [
            {
             "type": "text",
@@ -256,31 +255,8 @@
             "maxLines": 2,
             "id": "title",
             "shrinkTo": 15.4,
-            "text": "Social Media"
-           }
-          ]
-         },
-         {
-          "type": "col",
-          "pad": [
-           0,
-           0,
-           0,
-           0
-          ],
-          "if": "stamped",
-          "children": [
-           {
-            "type": "text",
-            "face": "noto",
-            "size": 22,
-            "weight": 800,
-            "color": "ink",
-            "maxLines": 2,
-            "id": "title",
-            "shrinkTo": 15.4,
-            "maxW": 105,
-            "text": "Social Media"
+            "text": "Social Media",
+            "editable": true
            }
           ]
          },
@@ -295,178 +271,7 @@
           "w": 46,
           "place": "top-right",
           "dy": 7,
-          "textAlign": "right",
-          "if": "!stamped"
-         },
-         {
-          "type": "text",
-          "text": "ผู้ติดตาม",
-          "face": "noto",
-          "size": 12,
-          "weight": 700,
-          "color": "ink",
-          "maxLines": 1,
-          "w": 48,
-          "place": "top-left",
-          "dx": 114,
-          "dy": 7,
-          "if": "stamped"
-         },
-         {
-          "type": "stack",
-          "id": "pill",
-          "if": "stamped",
-          "shrink": 0,
-          "children": [
-           {
-            "type": "row",
-            "if": "!kit.dark",
-            "gap": 3.23,
-            "align": "center",
-            "circle": true,
-            "fill": "white@0.92",
-            "stroke": {
-             "color": "black@0.08",
-             "width": 0.5
-            },
-            "pad": [
-             2.21,
-             2.55,
-             2.21,
-             3.57
-            ],
-            "children": [
-             {
-              "type": "stack",
-              "w": 12.32,
-              "h": 12.32,
-              "children": [
-               {
-                "type": "rect",
-                "shape": "scallop:10",
-                "fill": "#DA3832"
-               },
-               {
-                "type": "icon",
-                "icon": "ph:check",
-                "size": 6.63,
-                "tint": "white",
-                "place": "center"
-               }
-              ]
-             },
-             {
-              "type": "text",
-              "text": "Verified by",
-              "face": "noto",
-              "size": 8.5,
-              "weight": 600,
-              "color": "#1A1A1A@0.85",
-              "maxLines": 1,
-              "shrink": 0
-             },
-             {
-              "type": "stack",
-              "w": 14.45,
-              "h": 14.45,
-              "children": [
-               {
-                "type": "rect",
-                "circle": true,
-                "fill": "#DA3832"
-               },
-               {
-                "type": "icon",
-                "icon": "sh:wordmark",
-                "w": 8.38,
-                "h": 8.38,
-                "tint": "white",
-                "place": "center"
-               }
-              ]
-             }
-            ],
-            "w": 85,
-            "h": 18.9,
-            "justify": "center"
-           },
-           {
-            "type": "row",
-            "if": "kit.dark",
-            "gap": 3.23,
-            "align": "center",
-            "circle": true,
-            "fill": "black@0.38",
-            "stroke": {
-             "color": "white@0.22",
-             "width": 0.5
-            },
-            "pad": [
-             2.21,
-             2.55,
-             2.21,
-             3.57
-            ],
-            "children": [
-             {
-              "type": "stack",
-              "w": 12.32,
-              "h": 12.32,
-              "children": [
-               {
-                "type": "rect",
-                "shape": "scallop:10",
-                "fill": "#DA3832"
-               },
-               {
-                "type": "icon",
-                "icon": "ph:check",
-                "size": 6.63,
-                "tint": "white",
-                "place": "center"
-               }
-              ]
-             },
-             {
-              "type": "text",
-              "text": "Verified by",
-              "face": "noto",
-              "size": 8.5,
-              "weight": 600,
-              "color": "white@0.92",
-              "maxLines": 1,
-              "shrink": 0
-             },
-             {
-              "type": "stack",
-              "w": 14.45,
-              "h": 14.45,
-              "children": [
-               {
-                "type": "rect",
-                "circle": true,
-                "fill": "#DA3832"
-               },
-               {
-                "type": "icon",
-                "icon": "sh:wordmark",
-                "w": 8.38,
-                "h": 8.38,
-                "tint": "white",
-                "place": "center"
-               }
-              ]
-             }
-            ],
-            "w": 85,
-            "h": 18.9,
-            "justify": "center"
-           }
-          ],
-          "place": "top-right",
-          "dy": 5,
-          "w": 85,
-          "h": 18.9
+          "textAlign": "right"
          }
         ]
        },
@@ -727,7 +532,6 @@
          0,
          0
         ],
-        "if": "!stamped",
         "children": [
          {
           "type": "text",
@@ -738,31 +542,8 @@
           "maxLines": 2,
           "id": "title",
           "shrinkTo": 15.4,
-          "text": "Social Media"
-         }
-        ]
-       },
-       {
-        "type": "col",
-        "pad": [
-         0,
-         0,
-         0,
-         0
-        ],
-        "if": "stamped",
-        "children": [
-         {
-          "type": "text",
-          "face": "noto",
-          "size": 22,
-          "weight": 800,
-          "color": "ink",
-          "maxLines": 2,
-          "id": "title",
-          "shrinkTo": 15.4,
-          "maxW": 105,
-          "text": "Social Media"
+          "text": "Social Media",
+          "editable": true
          }
         ]
        },
@@ -777,178 +558,7 @@
         "w": 46,
         "place": "top-right",
         "dy": 7,
-        "textAlign": "right",
-        "if": "!stamped"
-       },
-       {
-        "type": "text",
-        "text": "ผู้ติดตาม",
-        "face": "noto",
-        "size": 12,
-        "weight": 700,
-        "color": "ink",
-        "maxLines": 1,
-        "w": 48,
-        "place": "top-left",
-        "dx": 114,
-        "dy": 7,
-        "if": "stamped"
-       },
-       {
-        "type": "stack",
-        "id": "pill",
-        "if": "stamped",
-        "shrink": 0,
-        "children": [
-         {
-          "type": "row",
-          "if": "!kit.dark",
-          "gap": 3.23,
-          "align": "center",
-          "circle": true,
-          "fill": "white@0.92",
-          "stroke": {
-           "color": "black@0.08",
-           "width": 0.5
-          },
-          "pad": [
-           2.21,
-           2.55,
-           2.21,
-           3.57
-          ],
-          "children": [
-           {
-            "type": "stack",
-            "w": 12.32,
-            "h": 12.32,
-            "children": [
-             {
-              "type": "rect",
-              "shape": "scallop:10",
-              "fill": "#DA3832"
-             },
-             {
-              "type": "icon",
-              "icon": "ph:check",
-              "size": 6.63,
-              "tint": "white",
-              "place": "center"
-             }
-            ]
-           },
-           {
-            "type": "text",
-            "text": "Verified by",
-            "face": "noto",
-            "size": 8.5,
-            "weight": 600,
-            "color": "#1A1A1A@0.85",
-            "maxLines": 1,
-            "shrink": 0
-           },
-           {
-            "type": "stack",
-            "w": 14.45,
-            "h": 14.45,
-            "children": [
-             {
-              "type": "rect",
-              "circle": true,
-              "fill": "#DA3832"
-             },
-             {
-              "type": "icon",
-              "icon": "sh:wordmark",
-              "w": 8.38,
-              "h": 8.38,
-              "tint": "white",
-              "place": "center"
-             }
-            ]
-           }
-          ],
-          "w": 85,
-          "h": 18.9,
-          "justify": "center"
-         },
-         {
-          "type": "row",
-          "if": "kit.dark",
-          "gap": 3.23,
-          "align": "center",
-          "circle": true,
-          "fill": "black@0.38",
-          "stroke": {
-           "color": "white@0.22",
-           "width": 0.5
-          },
-          "pad": [
-           2.21,
-           2.55,
-           2.21,
-           3.57
-          ],
-          "children": [
-           {
-            "type": "stack",
-            "w": 12.32,
-            "h": 12.32,
-            "children": [
-             {
-              "type": "rect",
-              "shape": "scallop:10",
-              "fill": "#DA3832"
-             },
-             {
-              "type": "icon",
-              "icon": "ph:check",
-              "size": 6.63,
-              "tint": "white",
-              "place": "center"
-             }
-            ]
-           },
-           {
-            "type": "text",
-            "text": "Verified by",
-            "face": "noto",
-            "size": 8.5,
-            "weight": 600,
-            "color": "white@0.92",
-            "maxLines": 1,
-            "shrink": 0
-           },
-           {
-            "type": "stack",
-            "w": 14.45,
-            "h": 14.45,
-            "children": [
-             {
-              "type": "rect",
-              "circle": true,
-              "fill": "#DA3832"
-             },
-             {
-              "type": "icon",
-              "icon": "sh:wordmark",
-              "w": 8.38,
-              "h": 8.38,
-              "tint": "white",
-              "place": "center"
-             }
-            ]
-           }
-          ],
-          "w": 85,
-          "h": 18.9,
-          "justify": "center"
-         }
-        ],
-        "place": "top-right",
-        "dy": 5,
-        "w": 85,
-        "h": 18.9
+        "textAlign": "right"
        }
       ]
      },

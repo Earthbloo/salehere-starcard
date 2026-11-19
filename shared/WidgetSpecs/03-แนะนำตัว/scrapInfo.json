@@ -117,7 +117,9 @@
             "weight": 900,
             "size": 18,
             "color": "#141414",
-            "maxLines": 1
+            "maxLines": 1,
+            "id": "text1",
+            "editable": true
            },
            {
             "type": "text",
@@ -126,7 +128,9 @@
             "weight": 400,
             "size": 18,
             "color": "accent",
-            "maxLines": 1
+            "maxLines": 1,
+            "id": "text2",
+            "editable": true
            }
           ]
          }

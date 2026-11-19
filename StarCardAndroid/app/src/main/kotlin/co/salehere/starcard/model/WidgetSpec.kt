@@ -310,6 +310,8 @@ data class SpecNode(
     val italic: Boolean? = null,
     /** พาดหัวสองเสียง — คำแรกตามฟอนต์ของโหนด ที่เหลือเซริฟเอียง (กติกาโปสเตอร์ "MY *Social*") */
     val mixHead: Boolean? = null,
+    /** คำตายตัวที่ผู้ใช้แก้บนการ์ดได้ (หัวข้อ · คำโปรย) — ค่าที่แก้เก็บที่ `options["text.<id>"]` ของชิ้น · ต้องมี `id` · WIDGET-SPEC.md §3.1 */
+    val editable: Boolean? = null,
     val sizeWhen: List<SpecSizeRule>? = null,
 
     // รูป

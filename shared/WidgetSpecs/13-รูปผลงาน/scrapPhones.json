@@ -126,7 +126,9 @@
         "weight": 900,
         "color": "#141414",
         "maxLines": 1,
-        "text": "ผลงาน"
+        "text": "ผลงาน",
+        "id": "text1",
+        "editable": true
        }
       ]
      },
@@ -157,7 +159,9 @@
           "weight": 400,
           "color": "#141414",
           "maxLines": 1,
-          "text": "ล่าสุด"
+          "text": "ล่าสุด",
+          "id": "text2",
+          "editable": true
          }
         ]
        }
@@ -402,7 +406,9 @@
         "size": 10,
         "weight": 400,
         "color": "white",
-        "maxLines": 1
+        "maxLines": 1,
+        "id": "text3",
+        "editable": true
        }
       ]
      }

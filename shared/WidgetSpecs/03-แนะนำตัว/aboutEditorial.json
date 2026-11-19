@@ -136,7 +136,9 @@
       "maxLines": 1,
       "shrinkTo": 10,
       "w": "fill",
-      "text": "เกี่ยวกับ"
+      "text": "เกี่ยวกับ",
+      "id": "text1",
+      "editable": true
      },
      {
       "type": "text",
@@ -148,7 +150,9 @@
       "maxLines": 1,
       "shrinkTo": 10,
       "w": "fill",
-      "text": "ฉัน."
+      "text": "ฉัน.",
+      "id": "text2",
+      "editable": true
      }
     ]
    },
@@ -181,7 +185,9 @@
         "maxLines": 1,
         "shrinkTo": 10.5,
         "w": "fill",
-        "text": "ยินดีที่ได้รู้จัก!"
+        "text": "ยินดีที่ได้รู้จัก!",
+        "id": "text3",
+        "editable": true
        },
        {
         "type": "text",

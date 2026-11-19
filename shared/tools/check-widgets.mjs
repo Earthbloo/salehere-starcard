@@ -10,6 +10,8 @@
 // 3. widget อ่านได้เฉพาะ field ใน Model ของหมวดตัวเอง (`shared/category-models.json`) — เกิน = error
 // 4. `widget.requires` (ล็อกต่อวิดเจ็ต) อยู่ใน enum 12 ค่า และตรงกับที่คิดจาก binding — ไม่ตรง = error
 // 5. `removeBg` อยู่ได้แค่บนโหนด image ที่ดึงช่องรูปครีเอเตอร์ (photo 1–3) และต้องเป็น true
+// 6. `editable` (คำตายตัวที่ผู้ใช้แก้บนการ์ดได้) — true เท่านั้น · โหนด text ที่มี `text` ตายตัว (ไม่มี slot / $field / {field})
+//    ไม่อยู่ในแม่แบบรายการ (`each`) · ไม่ใช่ตัวอักษรในโลโก้ (`role: deco`) · ไม่อยู่ในหมวด seal · ต้องมี `id` (id ซ้ำได้เฉพาะคำเดียวกันที่อยู่คนละกิ่ง)
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -234,6 +236,34 @@ for (const { file, spec } of specs) {
   for (const [i, v] of (spec.variants || []).entries()) walk(v.root, `.variants[${i}].root`)
 }
 
+// MARK: 6 · `editable` — ข้อมูลจาก Star Profile ห้ามแก้บนการ์ด · แก้ได้เฉพาะคำตายตัวของดีไซน์ (ค่าเก็บที่ options["text.<id>"])
+
+for (const { file, spec } of specs) {
+  const check = (root, at) => {
+    const ids = new Map() // id → ข้อความ (ใน variant เดียวกันห้ามซ้ำ)
+    const walk = (n, where, inEach) => {
+      if (!n || typeof n !== 'object') return
+      if ('editable' in n) {
+        const lit = typeof n.text === 'string' && !n.slot && !n.text.startsWith('$') && !n.text.includes('{')
+        if (n.editable !== true) errors.push(`${file}${where}: editable ต้องเป็น true (แก้ไม่ได้ = ไม่ใส่ field)`)
+        if (n.type !== 'text' || !lit) errors.push(`${file}${where}: editable ใช้ได้กับโหนด text ที่เป็นคำตายตัวเท่านั้น (ข้อมูลจาก Star Profile แก้บนการ์ดไม่ได้)`)
+        if (inEach) errors.push(`${file}${where}: editable ห้ามอยู่ในแม่แบบรายการ (each) — เป็นป้ายของข้อมูล`)
+        if (n.role === 'deco') errors.push(`${file}${where}: editable ห้ามอยู่บนตัวอักษรในโลโก้ (role: deco)`)
+        if (spec.widget?.category === 'seal') errors.push(`${file}${where}: ตรารับรองแก้คำไม่ได้`)
+        if (!n.id) errors.push(`${file}${where}: editable ต้องมี id (คีย์ที่เก็บคำที่แก้)`)
+        // id เดียวกัน + คำเดียวกัน = คำเดียวที่ผังวาดคนละกิ่ง (`if: papered` / `!papered`) แก้ครั้งเดียวได้ทั้งคู่ — คนละคำห้ามใช้ id ซ้ำ
+        else if (ids.has(n.id) && ids.get(n.id) !== n.text) errors.push(`${file}${where}: id "${n.id}" ใช้กับคำต่างกัน ("${ids.get(n.id)}" · "${n.text}")`)
+        else ids.set(n.id, n.text)
+      }
+      ;(n.children || []).forEach((c, i) => walk(c, `${where}.children[${i}]`, inEach))
+      if (n.each) walk(n.each, `${where}.each`, true)
+    }
+    walk(root, at, false)
+  }
+  check(spec.root, '.root')
+  for (const [i, v] of (spec.variants || []).entries()) check(v.root, `.variants[${i}].root`)
+}
+
 // MARK: 1 · ไม่มีชื่อ widget ในโค้ด
 
 const names = new Set()
@@ -282,4 +312,4 @@ if (errors.length) {
   console.error(`\n${errors.length} error(s)`)
   process.exit(1)
 }
-console.log(`✓ ${specs.length} widget · ไม่มีชื่อ widget ในโค้ด 3 แพลตฟอร์ม · ทุกใบอ่านเฉพาะ field ใน Model ของหมวด · requires ตรง binding · removeBg ถูกที่`)
+console.log(`✓ ${specs.length} widget · ไม่มีชื่อ widget ในโค้ด 3 แพลตฟอร์ม · ทุกใบอ่านเฉพาะ field ใน Model ของหมวด · requires ตรง binding · removeBg ถูกที่ · editable ถูกที่`)

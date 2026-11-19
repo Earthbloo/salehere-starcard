@@ -136,7 +136,9 @@
           "size": 22,
           "color": "#141414",
           "maxLines": 1,
-          "text": "สายที่"
+          "text": "สายที่",
+          "id": "text1",
+          "editable": true
          }
         ]
        },
@@ -166,7 +168,9 @@
             "size": 19,
             "color": "#141414",
             "maxLines": 1,
-            "text": "ใช่"
+            "text": "ใช่",
+            "id": "text2",
+            "editable": true
            }
           ]
          }
@@ -652,7 +656,9 @@
             "size": 22,
             "color": "#141414",
             "maxLines": 1,
-            "text": "สายที่"
+            "text": "สายที่",
+            "id": "text1",
+            "editable": true
            }
           ]
          },
@@ -682,7 +688,9 @@
               "size": 19,
               "color": "#141414",
               "maxLines": 1,
-              "text": "ใช่"
+              "text": "ใช่",
+              "id": "text2",
+              "editable": true
              }
             ]
            }

@@ -127,7 +127,9 @@
                 "size": 29,
                 "color": "accent",
                 "rotate": -4,
-                "maxLines": 1
+                "maxLines": 1,
+                "id": "text1",
+                "editable": true
                }
               ]
              },
@@ -219,7 +221,9 @@
                   "weight": 400,
                   "size": 17,
                   "color": "#141414",
-                  "maxLines": 1
+                  "maxLines": 1,
+                  "id": "text2",
+                  "editable": true
                  },
                  {
                   "type": "text",
@@ -379,7 +383,9 @@
             "textAlign": "right",
             "rotate": -4,
             "maxLines": 1,
-            "dy": 15
+            "dy": 15,
+            "id": "text1",
+            "editable": true
            }
           ]
          },
@@ -493,7 +499,9 @@
               "weight": 400,
               "size": 10,
               "color": "#141414",
-              "maxLines": 1
+              "maxLines": 1,
+              "id": "text2",
+              "editable": true
              },
              {
               "type": "text",

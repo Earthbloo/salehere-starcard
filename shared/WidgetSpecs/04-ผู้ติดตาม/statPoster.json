@@ -89,11 +89,6 @@
     "align": "stretch",
     "children": [
      {
-      "type": "spacer",
-      "h": 8,
-      "if": "stamped"
-     },
-     {
       "type": "col",
       "id": "headline",
       "gap": -6.6,
@@ -113,7 +108,8 @@
         "shrinkTo": 12,
         "color": "ink",
         "w": "66%",
-        "text": "MY Social"
+        "text": "MY Social",
+        "editable": true
        },
        {
         "type": "text",
@@ -130,7 +126,8 @@
         "color": "ink@0.95",
         "w": "66%",
         "text": "MY Social",
-        "on": "card"
+        "on": "card",
+        "editable": true
        },
        {
         "type": "text",
@@ -146,7 +143,8 @@
         "shrinkTo": 13,
         "color": "ink",
         "w": "fill",
-        "text": "MEDIA STATS"
+        "text": "MEDIA STATS",
+        "editable": true
        },
        {
         "type": "text",
@@ -163,7 +161,8 @@
         "color": "ink@0.95",
         "w": "fill",
         "text": "MEDIA STATS",
-        "on": "card"
+        "on": "card",
+        "editable": true
        }
       ]
      },
@@ -429,31 +428,6 @@
       "on": "card"
      }
     ]
-   },
-   {
-    "type": "icon",
-    "id": "stamp",
-    "if": "stamped & papered",
-    "icon": "byline",
-    "tint": "ink@0.9",
-    "w": 104,
-    "h": 23.3,
-    "place": "top-right",
-    "dx": -12,
-    "dy": 10
-   },
-   {
-    "type": "icon",
-    "id": "stamp",
-    "if": "stamped & !papered",
-    "icon": "byline",
-    "tint": "ink@0.9",
-    "w": 104,
-    "h": 23.3,
-    "place": "top-right",
-    "dx": -12,
-    "dy": 10,
-    "on": "card"
    }
   ]
  }

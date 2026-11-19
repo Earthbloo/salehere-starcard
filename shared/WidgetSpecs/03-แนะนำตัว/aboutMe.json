@@ -69,7 +69,9 @@
         "maxLines": 1,
         "shrinkTo": 30,
         "w": "fill",
-        "text": "about"
+        "text": "about",
+        "id": "text1",
+        "editable": true
        },
        {
         "type": "row",
@@ -87,7 +89,9 @@
           "color": "ink",
           "maxLines": 1,
           "shrinkTo": 30,
-          "text": "me."
+          "text": "me.",
+          "id": "text2",
+          "editable": true
          },
          {
           "type": "image",
@@ -124,7 +128,9 @@
           "maxLines": 1,
           "shrinkTo": 12,
           "w": "fill",
-          "text": "nice to meet you!"
+          "text": "nice to meet you!",
+          "id": "text3",
+          "editable": true
          },
          {
           "type": "text",
@@ -194,7 +200,9 @@
       "shrinkTo": 30,
       "w": "fill",
       "text": "about",
-      "on": "card"
+      "on": "card",
+      "id": "text1",
+      "editable": true
      },
      {
       "type": "row",
@@ -213,7 +221,9 @@
         "maxLines": 1,
         "shrinkTo": 30,
         "text": "me.",
-        "on": "card"
+        "on": "card",
+        "id": "text2",
+        "editable": true
        },
        {
         "type": "image",
@@ -251,7 +261,9 @@
         "shrinkTo": 12,
         "w": "fill",
         "text": "nice to meet you!",
-        "on": "card"
+        "on": "card",
+        "id": "text3",
+        "editable": true
        },
        {
         "type": "text",
