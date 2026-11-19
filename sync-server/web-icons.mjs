@@ -29,7 +29,8 @@ export function iconResolver(repo) {
     facebook: 'about-social-facebook', x: 'about-social-x', lemon8: 'about-social-lemon8',
     // LINE (แถว LINE ของรายการ `contacts`) — iOS เก็บเป็น PDF เบราว์เซอร์เปิดไม่ได้ จึงตกไปใช้ PNG ของ Android ตามลำดับหาปกติ
     line: 'about-social-line',
-    sealCheck: 'ic-seal-check', verifiedPill: 'ic-verified-sale-here', star: 'ic-salehere-star-outline',
+    sealCheck: 'ic-seal-check', verifiedPill: 'ic-verified-sale-here', sealRed: 'ic-verified-seal-red', sealWhite: 'ic-verified-seal-white',
+    stampLine: 'ic-verified-stamp-line', verifiedWaves: 'ic-verified-waves', star: 'ic-salehere-star-outline',
     wordmark: 'ic-salehere-text', watermark: 'ic-salehere-watermark', qr: 'ic-salehere-qr',
   }
 

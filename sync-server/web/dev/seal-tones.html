@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตรา Verified สามสี · render จริง</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  body { margin: 0; background: #111; color: #ddd; font: 13px system-ui, sans-serif; }
+  header { padding: 12px 16px; border-bottom: 1px solid #2a2a30; }
+  h1 { font-size: 16px; margin: 0 0 4px; }
+  p.note { color: #999; margin: 0 0 10px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .seg2 { display: inline-flex; background: #232328; border-radius: 8px; padding: 2px; }
+  .seg2 button { background: none; border: 0; color: #aaa; font: 12px system-ui; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+  .seg2 button.on { background: #fff; color: #111; }
+  h2 { font-size: 14px; margin: 22px 16px 0; color: #fff; }
+  h2 small { color: #888; font-weight: 400; margin-left: 6px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 18px; padding: 12px 16px; align-items: flex-start; }
+  .cell { background: #1b1b1f; border-radius: 10px; padding: 8px; }
+  .cell b { display: block; margin-bottom: 6px; font-size: 12px; }
+  /* เทียบกับรูป: รูปของทีม Design 756×496 · ใบอยู่ที่ x 8 y 18 กว้าง 746 (= 366 × 2.038) */
+  .cmp { position: relative; width: 756px; height: 496px; background: #E9E2F3; overflow: hidden; }
+  .cmp img { position: absolute; left: 0; top: 0; width: 756px; height: 496px; }
+  .cmp .live { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ตรา Verified สามสี · วาดจาก proofSeal.json ด้วยตัว render ของเว็บ</h1>
+  <p class="note">ช่องเทียบ: รูปของทีม Design กับ render จริงวางทับกันที่สเกลเดียวกัน · สลับ "ซ้อน" ดูความต่างแบบ difference (ดำ = ตรงกัน)</p>
+  <div class="bar">
+    <span>เทียบ</span><div class="seg2" id="mseg"></div>
+    <span>ยอดผู้ติดตาม</span><div class="seg2" id="fseg"></div>
+    <span>Insight</span><div class="seg2" id="iseg"></div>
+    <span>ลิงก์ QR จาก client</span><div class="seg2" id="qseg"></div>
+  </div>
+</header>
+<h2>เทียบกับรูป <small>สีดำ · 366×232 × 2.038</small></h2>
+<div class="grid" id="g0"></div>
+<h2>Portfolio <small>366×232</small></h2>
+<div class="grid" id="g1"></div>
+<h2>Story <small>246×156 · ครึ่งการ์ด (variant w&lt;300)</small></h2>
+<div class="grid" id="g2"></div>
+<script type="module">
+import { parseSpec } from '../js/spec-model.js'
+import { WebMeasurer, loadFonts } from '../js/measure.js'
+import { Profile, WebSpecData } from '../js/data.js'
+import { mountWidget } from '../js/chrome.js'
+import { paintBackdrop } from '../js/backdrop.js'
+import { defaultChoice, themeOf } from '../js/backdrop-tray.js'
+
+await loadFonts('../fonts/')
+const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
+const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
+const measurer = new WebMeasurer()
+const Q = new URLSearchParams(location.search)
+const state = { mode: Q.get('mode') || 'side', fol: Q.get('fol') !== '0', ins: Q.get('ins') !== '0', qr: Q.get('qr') !== '0' }
+// ?shot = ถ่ายรูปเทียบ (ซ่อนหัวหน้า · ช่องเทียบชิดมุมซ้ายบน)
+if (Q.get('only') === 'story') document.head.insertAdjacentHTML('beforeend', '<style>#g0,#g1{display:none}.grid{gap:12px!important}</style>')
+if (Q.get('only') === 'tones') document.head.insertAdjacentHTML('beforeend', '<style>#g0{display:none}.grid{gap:12px!important}</style>')
+if (Q.has('shot')) document.head.insertAdjacentHTML('beforeend', '<style>header,h2{display:none}.grid{padding:0;gap:0}.cell{padding:0;border-radius:0;background:none}.cell b{display:none}</style>')
+const theme = themeOf({ ...defaultChoice() })
+const TONES = [[null, 'ดำ'], ['red', 'แดง'], ['white', 'ขาว']]
+
+function paint(host, tone, W, H, M, bg) {
+  host.innerHTML = ''
+  host.style.cssText += `;width:${W + M * 2}px;height:${H + M * 2}px;position:relative;overflow:hidden`
+  if (bg) host.style.background = bg; else paintBackdrop(host, theme, W + M * 2, H + M * 2)
+  const profile = new Profile({}, {})
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: 'proofSeal', x: M, y: M, w: W, h: H, surface: 'glass', border: false,
+    kit: { opts: tone ? { tone } : {} } }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`, mock: null,
+    makeData: (it) => {
+      const d = new WebSpecData({ profile, item: it, sample: false, inkLight: false, surface: 'glass' })
+      const f = d.flag.bind(d)
+      d.flag = (n) => n === 'done:insight' ? state.ins : n === 'done:socials' ? state.fol : n === 'done:kyc' ? true : f(n)
+      // ลิงก์ตรวจสอบ = ค่าที่ client ส่ง (หน้านี้จำลองการส่ง)
+      const t = d.text.bind(d)
+      d.text = (slot, preset) => slot === 'stat:verifyURL' ? (state.qr ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '') : t(slot, preset)
+      return d
+    } }
+  try { mountWidget(host, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { host.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+}
+
+function render() {
+  // เทียบ
+  const g0 = document.getElementById('g0'); g0.innerHTML = ''
+  const K = 746 / 366   // รูป: ใบที่ x 8 y 18 กว้าง 746 สูง 472
+  const mk = (title, withImg, withLive, blend) => {
+    const c = document.createElement('div'); c.className = 'cell'; c.innerHTML = `<b>${title}</b>`
+    const box = document.createElement('div'); box.className = 'cmp'; c.appendChild(box)
+    if (withImg) box.insertAdjacentHTML('beforeend', '<img src="seal-tones-ref.png">')
+    if (withLive) {
+      const live = document.createElement('div'); live.className = 'live'
+      live.style.cssText = `left:8px;top:18px;transform:scale(${K});transform-origin:0 0;${blend ? 'mix-blend-mode:difference;' : ''}`
+      box.appendChild(live); paint(live, null, 366, 232, 0, 'transparent')
+    }
+    g0.appendChild(c)
+  }
+  if (state.mode === 'side') { mk('รูปของทีม Design', true, false); mk('render จริง', false, true) }
+  else if (state.mode === 'diff') mk('ซ้อน (difference)', true, true, true)
+  else mk('render ทับรูป', true, true)
+  // portfolio + story
+  for (const [id, W, H] of [['g1', 366, 232], ['g2', 246, 156]]) {
+    const g = document.getElementById(id); g.innerHTML = ''
+    for (const [tone, name] of TONES) {
+      const c = document.createElement('div'); c.className = 'cell'; c.innerHTML = `<b>${name}</b>`
+      const host = document.createElement('div'); c.appendChild(host); g.appendChild(c)
+      paint(host, tone, W, H, 12)
+    }
+  }
+}
+const seg = (host, opts, get, set) => {
+  host.innerHTML = ''
+  for (const [label, v] of opts) {
+    const b = document.createElement('button'); b.textContent = label; b.className = get() === v ? 'on' : ''
+    b.onclick = () => { set(v); seg(host, opts, get, set); render() }
+    host.appendChild(b)
+  }
+}
+seg(document.getElementById('mseg'), [['ข้างกัน', 'side'], ['ทับ', 'over'], ['ซ้อน', 'diff']], () => state.mode, (v) => { state.mode = v })
+seg(document.getElementById('fseg'), [['ผ่าน', true], ['ยัง', false]], () => state.fol, (v) => { state.fol = v })
+seg(document.getElementById('qseg'), [['ส่งมา', true], ['ไม่ส่ง', false]], () => state.qr, (v) => { state.qr = v })
+seg(document.getElementById('iseg'), [['กรอกแล้ว', true], ['ยังไม่กรอก', false]], () => state.ins, (v) => { state.ins = v })
+render()
+</script>
+</body>
+</html>

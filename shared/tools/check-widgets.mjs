@@ -128,7 +128,7 @@ for (const { file, spec } of specs) {
 
 function rowOf(ref) {
   const r = ref.replace(/^(list|slot):/, '')
-  if (/^(name|handle|nickname)$/.test(r) || ref === 'flag:cutout' || r === 'stat:cardURL') return null
+  if (/^(name|handle|nickname)$/.test(r) || ref === 'flag:cutout' || r === 'stat:cardURL' || r === 'stat:verifyURL') return null // stat:verifyURL = ลิงก์ตรวจสอบของตรา client ส่งมา ไม่บังคับขั้นไหน (ไม่ส่ง = ไม่มี QR)
   if (/^(tagline|categories)/.test(r)) return 'categories'
   if (/^(workArea|areas)/.test(r)) return 'provinces'
   if (r === 'stat:creatorKind') return 'kind'

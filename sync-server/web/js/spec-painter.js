@@ -235,6 +235,6 @@ function icon(d, b, ctx) {
   const tint = n.tint ? ctx.color(n.tint, n.on, b.item) : null
   const r = corner(n, f.width, f.height)
   const holder = el('div', `position:absolute;inset:0;border-radius:${r}px;${r ? 'overflow:hidden' : ''}`)
-  holder.appendChild(ctx.icon({ name, w: f.width, h: f.height, tint, text: n.text, size: n.size }))
+  holder.appendChild(ctx.icon({ name, w: f.width, h: f.height, tint, text: n.text, size: n.size, slot: n.slot }))
   d.appendChild(holder)
 }

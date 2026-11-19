@@ -412,6 +412,10 @@ extension SHIcon {
         case "line": return line
         case "sealCheck": return sealCheck
         case "verifiedPill": return verifiedPill
+        case "sealRed": return sealRed
+        case "sealWhite": return sealWhite
+        case "stampLine": return stampLine
+        case "verifiedWaves": return verifiedWaves
         case "star": return star
         case "wordmark": return wordmark
         case "watermark": return watermark
@@ -598,6 +602,15 @@ struct IOSSpecData: SpecDataSource {
         default: break
         }
         if name.hasPrefix("surface=") { return surface.rawValue == String(name.dropFirst(8)) }
+        // แถวใน Star Profile ผ่านแล้ว (`done:insight` · `done:socials` · `done:kyc`) — แถวของตรารับรองขึ้นเฉพาะข้อที่ผ่าน
+        if name.hasPrefix("done:") {
+            switch name.dropFirst(5) {
+            case "insight": return !StarFlow.shared.insightSlots.isEmpty
+            case "socials": return !Profile.me.creator.socials.isEmpty
+            case "kyc": return VerifiedFacts.sealed
+            default: return false
+            }
+        }
         // ค่าของชิ้นในชุดห้าสไตล์: `cfg:fill=clear` · `cfg:corner=square` · `opt:qr` · `opt:mode=fmt` · `hidden:instagram`
         if name.hasPrefix("cfg:") {
             let body = name.dropFirst(4)

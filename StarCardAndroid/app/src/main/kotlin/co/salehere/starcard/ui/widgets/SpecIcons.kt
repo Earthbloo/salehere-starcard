@@ -161,6 +161,10 @@ internal fun shIconNamed(short: String): Int = when (short) {
     "line" -> SHIcon.line
     "sealCheck" -> SHIcon.sealCheck
     "verifiedPill" -> SHIcon.verifiedPill
+    "sealRed" -> SHIcon.sealRed
+    "sealWhite" -> SHIcon.sealWhite
+    "stampLine" -> SHIcon.stampLine
+    "verifiedWaves" -> SHIcon.verifiedWaves
     "star" -> SHIcon.star
     "wordmark" -> SHIcon.wordmark
     "watermark" -> SHIcon.watermark

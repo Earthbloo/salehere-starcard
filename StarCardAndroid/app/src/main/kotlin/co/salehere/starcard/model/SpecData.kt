@@ -133,6 +133,15 @@ data class AndroidSpecData(
             "kit.dark" -> return kitDark
         }
         if (name.startsWith("surface=")) return surface.raw == name.drop(8)
+        // แถวใน Star Profile ผ่านแล้ว (`done:insight` · `done:socials` · `done:kyc`) — แถวของตรารับรองขึ้นเฉพาะข้อที่ผ่าน
+        if (name.startsWith("done:")) {
+            return when (name.drop(5)) {
+                "insight" -> StarFlow.shared.insightSlots.isNotEmpty()
+                "socials" -> p.creator.socials.isNotEmpty()
+                "kyc" -> sealed
+                else -> false
+            }
+        }
         // ค่าของชิ้นในชุดห้าสไตล์: `cfg:style=mac` · `opt:qr` · `opt:mode=fmt` · `hidden:instagram`
         if (name.startsWith("cfg:")) {
             val body = name.drop(4)

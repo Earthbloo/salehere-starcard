@@ -50,6 +50,14 @@ enum SHIcon {
     static let sealCheck = "ic-seal-check"
     /// ป้าย "VERIFIED BY SALE HERE" ตัวจริงของแอปหลัก (StarCardView เดิม · หน้าโปรไฟล์ครีเอเตอร์) — คงสีต้นฉบับ ไม่ย้อม
     static let verifiedPill = "ic-verified-sale-here"
+    /// ตรา Verified สีแดง (กลีบหยัก + ติ๊กขาว + ดาว 3 ดวง) — ติ๊กข้างชื่อ/ยอดฟอลโลว์ (`sh:sealRed`) · คงสีต้นฉบับ ไม่ย้อม
+    static let sealRed   = "ic-verified-seal-red"
+    /// ตรา Verified ขาวบนพื้นแดง — ใช้บนพื้นแดง Sale Here เท่านั้น (`sh:sealWhite`) · คงสีต้นฉบับ
+    static let sealWhite = "ic-verified-seal-white"
+    /// ตราเส้น "STAR CARD" มุมขวาบนของตรารับรอง (`sh:stampLine`) · ย้อมสีตาม tint
+    static let stampLine = "ic-verified-stamp-line"
+    /// ลายเส้นคลื่นหลังแถวของตรารับรอง (`sh:verifiedWaves`) · ย้อมสีตาม tint
+    static let verifiedWaves = "ic-verified-waves"
     static let star      = "ic-salehere-star-outline"
     static let wordmark  = "ic-salehere-text"
     static let watermark = "ic-salehere-watermark"

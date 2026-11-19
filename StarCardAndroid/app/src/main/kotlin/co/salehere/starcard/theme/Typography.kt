@@ -108,6 +108,14 @@ object SHIcon {
     val sealCheck = R.drawable.ic_seal_check
     /** ป้าย "VERIFIED BY SALE HERE" ตัวจริงของแอปหลัก — คงสีต้นฉบับ ไม่ย้อม */
     val verifiedPill = R.drawable.ic_verified_sale_here
+    /** ตรา Verified สีแดง (กลีบหยัก + ติ๊กขาว + ดาว 3 ดวง) — ติ๊กข้างชื่อ/ยอดฟอลโลว์ (`sh:sealRed`) · คงสีต้นฉบับ ไม่ย้อม */
+    val sealRed = R.drawable.ic_verified_seal_red
+    /** ตรา Verified ขาวบนพื้นแดง — ใช้บนพื้นแดง Sale Here เท่านั้น (`sh:sealWhite`) · คงสีต้นฉบับ */
+    val sealWhite = R.drawable.ic_verified_seal_white
+    /** ตราเส้น "STAR CARD" มุมขวาบนของตรารับรอง (`sh:stampLine`) · ย้อมสีตาม tint */
+    val stampLine = R.drawable.ic_verified_stamp_line
+    /** ลายเส้นคลื่นหลังแถวของตรารับรอง (`sh:verifiedWaves`) · ย้อมสีตาม tint */
+    val verifiedWaves = R.drawable.ic_verified_waves
     val star = R.drawable.ic_salehere_star_outline
     val starActive = R.drawable.ic_salehere_star_outline_active
     val wordmark = R.drawable.ic_salehere_text

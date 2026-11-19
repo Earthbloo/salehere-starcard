@@ -137,7 +137,7 @@ function paintSpec(host, item, spec, info, box, s, ink, theme, stamped, env) {
     mixDark: (c) => mixed(c, BLACK, 0.5),
     platePattern: item.pattern || 'plain',
     photo: (slot) => photoFor(env.doc, slot, item.id, env.imageURL, env.mock),
-    icon: (o) => specIcon({ ...o, ink, accent: css(accent), color: (t) => css(colorObj(t, null, null)), stamped, handle: data.text('handle', null), provenance: prov, scrap: theme.scrap, base: env.base }),
+    icon: (o) => specIcon({ ...o, ink, accent: css(accent), color: (t) => css(colorObj(t, null, null)), stamped, handle: data.text('handle', null), slotText: (s) => data.text(s, null), provenance: prov, scrap: theme.scrap, base: env.base }),
   }
   paintWidget(host, boxes, solver.scale, ctx)
 }

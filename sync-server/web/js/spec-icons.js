@@ -194,7 +194,11 @@ export function specIcon(o) {
   const box = el('div', `position:absolute;left:0;top:0;width:${w}px;height:${h}px;display:flex;align-items:center;justify-content:center`)
   const put = (c) => { box.appendChild(c); return box }
   switch (name) {
-    case 'qr': return put(qr(`https://salehere.co.th/star/${o.handle || ''}`, tint ?? inkC, w, h))
+    // `slot` = ค่าที่ client ส่งมาให้เข้ารหัส (เช่น `stat:verifyURL`) · ว่าง = ไม่วาด · ไม่มี slot = ลิงก์การ์ดตามเดิม
+    case 'qr': {
+      const text = o.slot ? (o.slotText?.(o.slot) || '') : `https://salehere.co.th/star/${o.handle || ''}`
+      return text ? put(qr(text, tint ?? inkC, w, h)) : box
+    }
     case 'provenance': case 'provenance:profile': return put(provenance({ type: 'profile', label: 'จากโปรไฟล์ STAR' }, ink, false, o.base))
     case 'provenance:socials': case 'provenance:photo': return put(provenance(o.provenance, ink, name === 'provenance:photo', o.base))
     case 'provenance:screenshot': return put(provenance({ type: 'screenshot', label: 'จากสกรีนช็อต · 12 ก.ย.' }, ink, false, o.base))

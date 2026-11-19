@@ -371,6 +371,8 @@ export class WebSpecData {
         case 'creatorKind': { const k = p.intake?.kind; return k === 'creator' ? 'บุคคล' : k === 'page' ? 'เพจ' : (this.sample ? 'บุคคล' : '') }
         case 'rateCount': return String(this.rates.filter((r) => r.price > 0).length)
         case 'cardURL': return 'https://salehere.co.th/star/' + p.text('handle')
+        // ลิงก์หน้าตรวจสอบของตรารับรอง — client ส่งมา (QR ของ proofSeal เข้ารหัสค่านี้) · ไม่ส่ง = ว่าง → ผังซ่อน QR ด้วย `has:stat:verifyURL`
+        case 'verifyURL': return p.stored('verifyURL') || (this.sample ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '')
         case 'year': return '2026'
         case 'placeCount': return String(a.places.length)
         // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` (= iOS)
@@ -406,6 +408,15 @@ export class WebSpecData {
       case 'kit.dark': return !!this.kitDark
     }
     if (name.startsWith('surface=')) return this.surface === name.slice(8)
+    // แถวใน Star Profile ผ่านแล้ว (`done:insight` · `done:socials` · `done:kyc`) — แถวของตรารับรองขึ้นเฉพาะข้อที่ผ่าน
+    if (name.startsWith('done:')) {
+      switch (name.slice(5)) {
+        case 'insight': return !this.lacks('audience')
+        case 'socials': return !this.lacks('followers') && this.p.creator.socials.length > 0
+        case 'kyc': return this.flag('owner.verified')
+      }
+      return false
+    }
     if (name.startsWith('cfg:')) {
       const body = name.slice(4), eq = body.indexOf('=')
       if (eq < 0) return false
