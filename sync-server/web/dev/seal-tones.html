@@ -34,6 +34,7 @@
     <span>ยอดผู้ติดตาม</span><div class="seg2" id="fseg"></div>
     <span>Insight</span><div class="seg2" id="iseg"></div>
     <span>ลิงก์ QR จาก client</span><div class="seg2" id="qseg"></div>
+    <span>เลข STAR จาก client</span><div class="seg2" id="nseg"></div>
   </div>
 </header>
 <h2>เทียบกับรูป <small>สีดำ · 366×232 × 2.038</small></h2>
@@ -55,7 +56,7 @@ const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': '
 const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
 const measurer = new WebMeasurer()
 const Q = new URLSearchParams(location.search)
-const state = { mode: Q.get('mode') || 'side', fol: Q.get('fol') !== '0', ins: Q.get('ins') !== '0', qr: Q.get('qr') !== '0' }
+const state = { mode: Q.get('mode') || 'side', fol: Q.get('fol') !== '0', ins: Q.get('ins') !== '0', qr: Q.get('qr') !== '0', num: Q.get('num') !== '0' }
 // ?shot = ถ่ายรูปเทียบ (ซ่อนหัวหน้า · ช่องเทียบชิดมุมซ้ายบน)
 if (Q.get('only') === 'story') document.head.insertAdjacentHTML('beforeend', '<style>#g0,#g1{display:none}.grid{gap:12px!important}</style>')
 if (Q.get('only') === 'tones') document.head.insertAdjacentHTML('beforeend', '<style>#g0{display:none}.grid{gap:12px!important}</style>')
@@ -77,7 +78,14 @@ function paint(host, tone, W, H, M, bg) {
       d.flag = (n) => n === 'done:insight' ? state.ins : n === 'done:socials' ? state.fol : n === 'done:kyc' ? true : f(n)
       // ลิงก์ตรวจสอบ = ค่าที่ client ส่ง (หน้านี้จำลองการส่ง)
       const t = d.text.bind(d)
-      d.text = (slot, preset) => slot === 'stat:verifyURL' ? (state.qr ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '') : t(slot, preset)
+      // ค่าที่ client ส่ง (หน้านี้จำลอง): ลิงก์ QR · วันที่ตรวจยอดผู้ติดตาม / Insight (ไม่มี = แถว "ยังไม่ยืนยัน") · เลข STAR
+      const CLIENT = {
+        'stat:verifyURL': () => state.qr ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '',
+        'stat:followersVerifiedOn': () => state.fol ? '18 พ.ย. 69' : '',
+        'stat:insightVerifiedOn': () => state.ins ? '18 พ.ย. 69' : '',
+        'stat:starNumber': () => state.num ? 'STAR-2611-0482' : '',
+      }
+      d.text = (slot, preset) => CLIENT[slot] ? CLIENT[slot]() : t(slot, preset)
       return d
     } }
   try { mountWidget(host, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { host.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
@@ -120,9 +128,10 @@ const seg = (host, opts, get, set) => {
   }
 }
 seg(document.getElementById('mseg'), [['ข้างกัน', 'side'], ['ทับ', 'over'], ['ซ้อน', 'diff']], () => state.mode, (v) => { state.mode = v })
-seg(document.getElementById('fseg'), [['ผ่าน', true], ['ยัง', false]], () => state.fol, (v) => { state.fol = v })
+seg(document.getElementById('fseg'), [['มีวันที่ตรวจ', true], ['ไม่มีวันที่', false]], () => state.fol, (v) => { state.fol = v })
+seg(document.getElementById('nseg'), [['ส่งมา', true], ['ไม่ส่ง', false]], () => state.num, (v) => { state.num = v })
 seg(document.getElementById('qseg'), [['ส่งมา', true], ['ไม่ส่ง', false]], () => state.qr, (v) => { state.qr = v })
-seg(document.getElementById('iseg'), [['กรอกแล้ว', true], ['ยังไม่กรอก', false]], () => state.ins, (v) => { state.ins = v })
+seg(document.getElementById('iseg'), [['มีวันที่ตรวจ', true], ['ไม่มีวันที่', false]], () => state.ins, (v) => { state.ins = v })
 render()
 </script>
 </body>

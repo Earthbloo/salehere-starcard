@@ -40,7 +40,7 @@
    }
   ]
  },
- "notes": "ตรารับรอง Verified by Sale Here · แบบทีม Design 19 พ.ย. 2569 (logo-export: 01-seal · 02-stamp-line) · สามสีแบรนด์ตายตัว ไม่ตามธีมการ์ด: ดำ #161616 (ตั้งต้น) · แดง #DA0510 (ตรา sh:sealWhite) · ขาว (เส้นขอบ black@0.08) — ตัวเลือก `opt:tone` · แถว: ตัวตนจริง (เสมอ — ตราปลดล็อกเมื่อ KYC ผ่าน) · ยอดผู้ติดตาม `done:socials` · Insight `done:insight` (ยังไม่กรอก = ไม่มีแถว) · story = ใบเดียวกันย่อ 67% ทั้งก้อน (ทุกคำ role deco — ถ้ายกตัวอักษรตามขั้นต่ำ แถวล้นใน 246×156) · ค่าตัวอย่าง: วันที่ตรวจ 18 พ.ย. 69 และ STAR-2611-0482 (ยังไม่มีใน SpecDataSource) · QR = `stat:verifyURL` ที่ client ส่งมา (ไม่ส่ง = ไม่มี QR และคำใต้ QR) · ฟอนต์ดีไซน์ Prompt → ใช้ noto ของแอป · สร้างจาก shared/tools/gen-proof-seal.py",
+ "notes": "ตรารับรอง Verified by Sale Here · แบบทีม Design 19 พ.ย. 2569 (logo-export: 01-seal · 02-stamp-line) · สามสีแบรนด์ตายตัว ไม่ตามธีมการ์ด: ดำ #161616 (ตั้งต้น) · แดง #DA0510 (ตรา sh:sealWhite) · ขาว (เส้นขอบ black@0.08) — ตัวเลือก `opt:tone` · แถว (แบบ A · 20 พ.ย. 2569): ขึ้นครบเสมอ · ตัวตนจริง = ยืนยันเสมอ (ตราปลดล็อกเมื่อ KYC ผ่าน) · ยอดผู้ติดตาม `stat:followersVerifiedOn` · Insight `stat:insightVerifiedOn` = วันที่ตรวจที่ client ส่งมา (\"18 พ.ย. 69\") — มี = ตราทึบ + \"ตรวจสอบเมื่อ <วันที่>\" · ไม่มี = ตราโปร่ง (scallop:12 เส้น `off`) + \"ยังไม่ยืนยัน\" · story = ใบเดียวกันย่อ 67% ทั้งก้อน (ทุกคำ role deco — ถ้ายกตัวอักษรตามขั้นต่ำ แถวล้นใน 246×156) · เลข STAR = `stat:starNumber` ที่ client ส่งมา (ไม่ส่ง = ไม่มีบรรทัด STAR NUMBER) · QR = `stat:verifyURL` ที่ client ส่งมา (ไม่ส่ง = ไม่มี QR และคำใต้ QR) · ฟอนต์ดีไซน์ Prompt → ใช้ noto ของแอป · สร้างจาก shared/tools/gen-proof-seal.py",
  "variants": [
   {
    "when": "opt:tone=red",
@@ -185,6 +185,7 @@
       "children": [
        {
         "type": "row",
+        "id": "identity",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -224,6 +225,7 @@
        },
        {
         "type": "row",
+        "id": "followers",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -250,8 +252,78 @@
           "minW": 6
          },
          {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:followersVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "followersOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "white@0.55",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
           "type": "text",
-          "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
           "face": "noto",
           "size": 11.2,
           "weight": 400,
@@ -260,10 +332,11 @@
           "role": "deco"
          }
         ],
-        "if": "done:socials"
+        "if": "!has:stat:followersVerifiedOn"
        },
        {
         "type": "row",
+        "id": "insight",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -290,8 +363,78 @@
           "minW": 6
          },
          {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:insightVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:insightVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insightOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "white@0.55",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
           "type": "text",
-          "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
           "face": "noto",
           "size": 11.2,
           "weight": 400,
@@ -300,7 +443,7 @@
           "role": "deco"
          }
         ],
-        "if": "done:insight"
+        "if": "!has:stat:insightVerifiedOn"
        }
       ],
       "place": "top-left",
@@ -372,16 +515,17 @@
        },
        {
         "type": "text",
-        "text": "STAR-2611-0482",
+        "slot": "stat:starNumber",
         "face": "noto",
         "size": 10.4,
         "weight": 500,
         "color": "white",
         "maxLines": 1,
-        "role": "deco",
-        "tracking": 0.2
+        "tracking": 0.2,
+        "role": "deco"
        }
-      ]
+      ],
+      "if": "has:stat:starNumber"
      }
     ]
    }
@@ -533,6 +677,7 @@
       "children": [
        {
         "type": "row",
+        "id": "identity",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -572,6 +717,7 @@
        },
        {
         "type": "row",
+        "id": "followers",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -598,8 +744,78 @@
           "minW": 6
          },
          {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:followersVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "followersOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "black@0.38",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
           "type": "text",
-          "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
           "face": "noto",
           "size": 11.2,
           "weight": 400,
@@ -608,10 +824,11 @@
           "role": "deco"
          }
         ],
-        "if": "done:socials"
+        "if": "!has:stat:followersVerifiedOn"
        },
        {
         "type": "row",
+        "id": "insight",
         "gap": 8.0,
         "align": "center",
         "h": 24.5,
@@ -638,8 +855,78 @@
           "minW": 6
          },
          {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:insightVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:insightVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insightOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "black@0.38",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
           "type": "text",
-          "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
           "face": "noto",
           "size": 11.2,
           "weight": 400,
@@ -648,7 +935,7 @@
           "role": "deco"
          }
         ],
-        "if": "done:insight"
+        "if": "!has:stat:insightVerifiedOn"
        }
       ],
       "place": "top-left",
@@ -724,16 +1011,17 @@
        },
        {
         "type": "text",
-        "text": "STAR-2611-0482",
+        "slot": "stat:starNumber",
         "face": "noto",
         "size": 10.4,
         "weight": 500,
         "color": "#161616",
         "maxLines": 1,
-        "role": "deco",
-        "tracking": 0.2
+        "tracking": 0.2,
+        "role": "deco"
        }
-      ]
+      ],
+      "if": "has:stat:starNumber"
      }
     ]
    }
@@ -880,6 +1168,7 @@
     "children": [
      {
       "type": "row",
+      "id": "identity",
       "gap": 8.0,
       "align": "center",
       "h": 24.5,
@@ -919,6 +1208,7 @@
      },
      {
       "type": "row",
+      "id": "followers",
       "gap": 8.0,
       "align": "center",
       "h": 24.5,
@@ -945,8 +1235,78 @@
         "minW": 6
        },
        {
+        "type": "row",
+        "gap": 3,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "ตรวจสอบเมื่อ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "text",
+          "slot": "stat:followersVerifiedOn",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       }
+      ],
+      "if": "has:stat:followersVerifiedOn"
+     },
+     {
+      "type": "row",
+      "id": "followersOff",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "stack",
+        "w": 13.0,
+        "h": 13.0,
+        "children": [
+         {
+          "type": "rect",
+          "w": 11.44,
+          "h": 11.44,
+          "shape": "scallop:12",
+          "stroke": {
+           "color": "white@0.42",
+           "width": 1.1
+          },
+          "place": "center"
+         }
+        ]
+       },
+       {
         "type": "text",
-        "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+        "text": "ยอดผู้ติดตาม",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "text",
+        "text": "ยังไม่ยืนยัน",
         "face": "noto",
         "size": 11.2,
         "weight": 400,
@@ -955,10 +1315,11 @@
         "role": "deco"
        }
       ],
-      "if": "done:socials"
+      "if": "!has:stat:followersVerifiedOn"
      },
      {
       "type": "row",
+      "id": "insight",
       "gap": 8.0,
       "align": "center",
       "h": 24.5,
@@ -985,8 +1346,78 @@
         "minW": 6
        },
        {
+        "type": "row",
+        "gap": 3,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "ตรวจสอบเมื่อ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "text",
+          "slot": "stat:insightVerifiedOn",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       }
+      ],
+      "if": "has:stat:insightVerifiedOn"
+     },
+     {
+      "type": "row",
+      "id": "insightOff",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "stack",
+        "w": 13.0,
+        "h": 13.0,
+        "children": [
+         {
+          "type": "rect",
+          "w": 11.44,
+          "h": 11.44,
+          "shape": "scallop:12",
+          "stroke": {
+           "color": "white@0.42",
+           "width": 1.1
+          },
+          "place": "center"
+         }
+        ]
+       },
+       {
         "type": "text",
-        "text": "ตรวจสอบเมื่อ 18 พ.ย. 69",
+        "text": "Insight",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "text",
+        "text": "ยังไม่ยืนยัน",
         "face": "noto",
         "size": 11.2,
         "weight": 400,
@@ -995,7 +1426,7 @@
         "role": "deco"
        }
       ],
-      "if": "done:insight"
+      "if": "!has:stat:insightVerifiedOn"
      }
     ],
     "place": "top-left",
@@ -1067,16 +1498,17 @@
      },
      {
       "type": "text",
-      "text": "STAR-2611-0482",
+      "slot": "stat:starNumber",
       "face": "noto",
       "size": 10.4,
       "weight": 500,
       "color": "white",
       "maxLines": 1,
-      "role": "deco",
-      "tracking": 0.2
+      "tracking": 0.2,
+      "role": "deco"
      }
-    ]
+    ],
+    "if": "has:stat:starNumber"
    }
   ]
  }

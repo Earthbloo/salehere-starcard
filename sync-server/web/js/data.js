@@ -381,6 +381,11 @@ export class WebSpecData {
         case 'cardURL': return 'https://salehere.co.th/star/' + p.text('handle')
         // ลิงก์หน้าตรวจสอบของตรารับรอง — client ส่งมา (QR ของ proofSeal เข้ารหัสค่านี้) · ไม่ส่ง = ว่าง → ผังซ่อน QR ด้วย `has:stat:verifyURL`
         case 'verifyURL': return p.stored('verifyURL') || (this.sample ? 'https://salehere.co.th/star/verify/STAR-2611-0482' : '')
+        // ตรารับรอง (แบบ A) — วันที่ Sale Here ตรวจยอดผู้ติดตาม / Insight และเลข STAR: client ส่งมา · ไม่มี = ว่าง
+        // → แถวขึ้นเป็นตราโปร่ง "ยังไม่ยืนยัน" (`!has:`) · ไม่มีเลข = ไม่มีบรรทัด STAR NUMBER
+        case 'followersVerifiedOn': { const iso = p.stored('followersVerifiedAt') || (this.sample ? new Date().toISOString() : ''); return iso ? thaiShortDate(iso) : '' }
+        case 'insightVerifiedOn': { const iso = p.stored('insightVerifiedAt') || (this.sample ? new Date().toISOString() : ''); return iso ? thaiShortDate(iso) : '' }
+        case 'starNumber': return p.stored('starNumber') || (this.sample ? 'STAR-2611-0482' : '')
         case 'year': return '2026'
         // วันอัปเดตยอดล่าสุด (badge "อัปเดตเมื่อ 18 พ.ย. 69" ขวาบน widget ผู้ติดตาม/ผู้ชม) — client ส่งวันที่มา
         // (ผู้ติดตาม = วันซิงก์ยอดช่องล่าสุด · ผู้ชม = วันอัปโหลด Insight) · ไม่มีวันที่ = ว่าง → ผังซ่อน badge ด้วย `has:stat:countsUpdated`

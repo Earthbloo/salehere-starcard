@@ -130,7 +130,7 @@ function rowOf(ref) {
   const r = ref.replace(/^(list|slot):/, '')
   // ชื่อ / ชื่อเล่น กรอกในขั้นเกี่ยวกับฉัน (ผู้ใช้ 19 พ.ย. 2569) → about · @handle = ข้อมูลบัญชี ไม่นับ
   if (/^(name|nickname)$/.test(r)) return 'about'
-  if (r === 'handle' || ref === 'flag:cutout' || r === 'stat:cardURL' || r === 'stat:countsUpdated' || r === 'stat:verifyURL') return null // ลิงก์ตรวจสอบของตรา = client ส่งมา ไม่บังคับขั้นไหน (ไม่ส่ง = ไม่มี QR) // วันอัปเดตยอด = ข้อมูลประกอบ badge ไม่บังคับขั้นไหน (ไม่มี = ไม่โชว์ badge)
+  if (r === 'handle' || ref === 'flag:cutout' || r === 'stat:cardURL' || r === 'stat:countsUpdated' || r === 'stat:verifyURL' || r === 'stat:followersVerifiedOn' || r === 'stat:insightVerifiedOn' || r === 'stat:starNumber') return null // ลิงก์ตรวจสอบของตรา = client ส่งมา ไม่บังคับขั้นไหน (ไม่ส่ง = ไม่มี QR) // วันอัปเดตยอด = ข้อมูลประกอบ badge ไม่บังคับขั้นไหน (ไม่มี = ไม่โชว์ badge)
   if (/^(tagline|categories)/.test(r)) return 'categories'
   if (/^(workArea|areas)/.test(r)) return 'provinces'
   if (r === 'stat:creatorKind') return 'kind'

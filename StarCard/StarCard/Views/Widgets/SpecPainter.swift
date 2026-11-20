@@ -562,6 +562,10 @@ struct IOSSpecData: SpecDataSource {
                 switch p.intake?.kind { case .creator: return "บุคคล"; case .page: return "เพจ"; case nil: return sample ? "บุคคล" : "" }
             case "rateCount": return String(p.shownRates.filter { $0.price > 0 }.count)
             case "cardURL": return "https://salehere.co.th/star/" + p.handle
+            // ตรารับรอง (แบบ A) — ของจริง client ส่งวันที่ตรวจ/เลข STAR มา · ต้นแบบไม่มีแหล่ง: จำลองจากข้อมูลที่มี (ว่าง = แถว "ยังไม่ยืนยัน")
+            case "followersVerifiedOn": return sample || !p.creator.socials.isEmpty ? "18 พ.ย. 69" : ""
+            case "insightVerifiedOn": return sample || !StarFlow.shared.insightSlots.isEmpty ? "18 พ.ย. 69" : ""
+            case "starNumber": return sample || VerifiedFacts.sealed ? "STAR-2611-0482" : ""
             case "year": return "2026"
             case "placeCount": return String(p.shownAudience.places.count)
             // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` แทนการโชว์ "0"

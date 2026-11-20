@@ -212,7 +212,10 @@
     },
     "seal": {
       "fields": [
-        "stat:verifyURL"
+        "stat:verifyURL",
+        "stat:followersVerifiedOn",
+        "stat:insightVerifiedOn",
+        "stat:starNumber"
       ],
       "borrow": [
         "count:socials"

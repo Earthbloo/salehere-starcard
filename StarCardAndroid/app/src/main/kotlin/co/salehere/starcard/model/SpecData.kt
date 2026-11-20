@@ -94,6 +94,10 @@ data class AndroidSpecData(
                 "creatorKind" -> when (p.intake?.kind) { CreatorKind.creator -> "บุคคล"; CreatorKind.page -> "เพจ"; null -> if (sample) "บุคคล" else "" }
                 "rateCount" -> shownRates.count { it.price > 0 }.toString()
                 "cardURL" -> "https://salehere.co.th/star/" + p.handle
+                // ตรารับรอง (แบบ A) — ของจริง client ส่งวันที่ตรวจ/เลข STAR มา · ต้นแบบจำลองจากข้อมูลที่มี (ว่าง = แถว "ยังไม่ยืนยัน")
+                "followersVerifiedOn" -> if (sample || p.creator.socials.isNotEmpty()) "18 พ.ย. 69" else ""
+                "insightVerifiedOn" -> if (sample || StarFlow.shared.insightSlots.isNotEmpty()) "18 พ.ย. 69" else ""
+                "starNumber" -> if (sample || sealed) "STAR-2611-0482" else ""
                 "year" -> "2026"
                 "placeCount" -> a.places.size.toString()
                 // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` (= iOS)
