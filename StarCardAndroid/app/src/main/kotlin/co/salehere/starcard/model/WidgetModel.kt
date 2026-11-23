@@ -365,6 +365,9 @@ class WidgetKind private constructor(
     val canResize: Boolean get() = meta.resize ?: true
     val keepsDesignAspect: Boolean get() = meta.keepAspect ?: false
 
+    /** ล็อกสัดส่วนกรอบ = ขนาดออกแบบ (`widget.lockAspect`) — ย่อขยายแล้วสเกลทั้งใบ ห้ามยืดแกนเดียว */
+    val locksAspect: Boolean get() = meta.lockAspect ?: false
+
     /** พื้นผิวที่ใบนี้ให้เลือก (`widget.surfaces`) — ไม่ใส่: วาดพื้นเอง = ไม่มี · ไม่วาดเอง = กระจก/เข้ม/ไม่มีพื้น */
     val surfaceOptions: List<WidgetSurface>
         get() = meta.surfaces?.mapNotNull { r -> WidgetSurface.entries.firstOrNull { it.name == r } }

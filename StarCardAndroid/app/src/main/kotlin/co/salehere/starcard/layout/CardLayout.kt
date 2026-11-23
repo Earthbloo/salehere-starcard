@@ -96,7 +96,22 @@ object PageLayout {
     /** รูดกรอบของ *ชิ้น* เข้าหน้า — กรอบยืดอิสระแล้ว จึงรูดทีละแกนตามกติกาของหน้า */
     fun clamp(item: WidgetInstance, page: Size): Rect {
         if (item.pinned) return pinnedFrame(item, page)
+        if (item.kind.locksAspect) return clamp(item.rect, page, minSize(item.kind), item.kind.aspect)
         return clamp(item.rect, page, minSize(item.kind))
+    }
+
+    /** รูดกรอบที่ **ล็อกสัดส่วน** (`widget.lockAspect`) — สูง = กว้าง × `a` เสมอ (= iOS) */
+    fun clamp(r: Rect, page: Size, min: Size, a: Float): Rect {
+        val box = bounds(page)
+        val w = minOf(maxOf(r.width, min.width, min.height / a), box.width, box.height / a)
+        return clamp(rect(r.left, r.top, w, kotlin.math.round(w * a)), page, min)
+    }
+
+    /** ช่วงความกว้างของชิ้นที่ล็อกสัดส่วนเมื่อยืดจากมุมบนซ้าย (เล็กสุด, ใหญ่สุดที่หน้าให้ทั้งสองแกน) */
+    fun lockedWidthRange(min: Size, a: Float, left: Float, top: Float, page: Size): Pair<Float, Float> {
+        val lo = maxOf(min.width, min.height / a)
+        val hi = maxOf(lo, minOf(roomWidth(left, page), roomHeight(top, page) / a))
+        return lo to hi
     }
 
     /**

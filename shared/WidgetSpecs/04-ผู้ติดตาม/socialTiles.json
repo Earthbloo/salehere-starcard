@@ -23,7 +23,7 @@
    }
   ]
  },
- "notes": "หัวข้อ 'ผู้ติดตาม' + ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:socials ที่สลับตามสถานะ) · ช่องเรียงข้างกัน (โลโก้ในกล่องสีช่อง + ยอดฟอลโลว์ + ชื่อช่อง) · แปลงจาก SocialWidgets.swift (SocialTiles) · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · เส้นขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว tint@0.3 · เงาที่สองของ ink.lift (ดำ 0.09 r 8.4 บนหมึกสว่าง) ตัดทิ้ง (เงาได้ใบเดียวต่อโหนด) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
+ "notes": "หัวข้อ 'ผู้ติดตาม' + ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:socials ที่สลับตามสถานะ) · ช่องเรียงข้างกัน (โลโก้ในกล่องสีช่อง + ยอดฟอลโลว์ + ชื่อช่อง) · แปลงจาก SocialWidgets.swift (SocialTiles) · พื้นแผ่นสลับตามหมึกด้วย rect สองใบ if ink.light / !ink.light · เส้นขอบไล่สี tint@0.4→line@0.06 ใช้สีเดียว tint@0.3 · เงาที่สองของ ink.lift (ดำ 0.09 r 8.4 บนหมึกสว่าง) ตัดทิ้ง (เงาได้ใบเดียวต่อโหนด) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media) · 20 พ.ย. 2569: ≤4 ช่อง = แถว wrap (โลโก้ + ยอด) — ยอดไม่พอที่ข้างโลโก้ → ลงบรรทัดใต้โลโก้ (เดิมตัด …) · ยอดกว้างขั้นต่ำ 44 ให้ทุกช่องตัดสินใจเหมือนกัน · ช่องกว้างเท่ากัน (w fill) · maxH 80 ให้พอสองบรรทัด",
  "root": {
   "type": "col",
   "gap": 10,
@@ -121,7 +121,7 @@
      "type": "stack",
      "grow": 1,
      "h": "fill",
-     "maxH": 64,
+     "maxH": 80,
      "children": [
       {
        "type": "rect",
@@ -163,10 +163,12 @@
       },
       {
        "type": "row",
-       "gap": 9,
+       "wrap": true,
+       "gap": 6,
+       "justify": "center",
        "align": "center",
        "pad": [
-        8,
+        7,
         10
        ],
        "children": [
@@ -193,21 +195,16 @@
          ]
         },
         {
-         "type": "col",
-         "gap": 1,
-         "align": "start",
-         "grow": 1,
-         "children": [
-          {
-           "type": "text",
-           "slot": "$followers",
-           "face": "noto",
-           "size": 16,
-           "weight": 700,
-           "color": "ink@0.98",
-           "maxLines": 1
-          }
-         ]
+         "type": "text",
+         "slot": "$followers",
+         "face": "noto",
+         "size": 16,
+         "weight": 700,
+         "color": "ink@0.98",
+         "maxLines": 1,
+         "minW": 44,
+         "textAlign": "center",
+         "shrinkTo": 12
         }
        ],
        "if": "!list:socials>4"
@@ -264,7 +261,8 @@
        ],
        "if": "list:socials>4"
       }
-     ]
+     ],
+     "w": "fill"
     },
     "where": "!hidden:$platform"
    }

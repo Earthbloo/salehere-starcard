@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตัวหนังสือหายเมื่อเลือกสีวิดเจ็ต</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#F4F4F6; --card:#fff; --ink:#1C1A21; --ink2:#62606A; --line:#E3E2E7; --bad:#C62828; --ok:#1B7F3B; --code:#F0EFF3; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 'Noto Sans Thai', system-ui, sans-serif; }
+  main { max-width: 1120px; margin: 0 auto; padding: 40px 16px 80px; }
+  h1 { font-size: 28px; font-weight: 800; margin: 0 0 6px; }
+  .sub { color: var(--ink2); margin: 0 0 28px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; }
+  .box h2 { font-size: 17px; margin: 0 0 8px; }
+  .box p { margin: 6px 0; }
+  code { background: var(--code); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink2); font-weight: 600; font-size: 13px; }
+  td.n { white-space: nowrap; font-weight: 600; }
+  td.n small { display: block; color: var(--ink2); font-weight: 400; }
+  .w { margin-top: 26px; }
+  .w h3 { font-size: 18px; margin: 0; }
+  .w .k { color: var(--ink2); font-size: 13px; margin-bottom: 8px; }
+  .w ul { margin: 6px 0 12px; padding-left: 20px; }
+  .w img { display: block; max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); }
+  .scroll { overflow-x: auto; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 99px; padding: 1px 9px; }
+  .tag.bad { background: #FDECEC; color: var(--bad); }
+  .tag.ok { background: #E7F5EC; color: var(--ok); }
+  .muted { color: var(--ink2); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ตัวหนังสือหายเมื่อเลือกสีวิดเจ็ต</h1>
+  <p class="sub">20 พ.ย. 2569 · แก้เฉพาะ 6 widget ชุดสติกเกอร์ (pop) ที่เห็นในรูป · แก้ที่ JSON ใน <code>shared/WidgetSpecs</code> อย่างเดียว</p>
+
+  <div class="box">
+    <h2>เกิดอะไรขึ้น</h2>
+    <p>ในแอป (salehere-ios) พอเลือก <b>สีวิดเจ็ต</b> แผ่นของ widget จะกลายเป็นสีที่เลือก แล้วหมึก <code>ink</code> จะเปลี่ยนให้อ่านออกบนสีนั้น พอเลือกสีเข้ม (เช่น <code>#3533E2</code> หรือดำ) หมึกเลยกลายเป็น<b>สีขาว</b></p>
+    <p>แต่ 6 widget นี้มี<b>กล่องขาวตายตัว</b> (กล่องตัวเลข, กล่องข้อมูล, แถวช่องทางติดต่อ) และ<b>ป้ายหัวข้อ/วงกลมไอคอนที่ใช้พื้น <code>ink</code></b> → ตัวหนังสือขาวบนกล่องขาว และป้ายกลายเป็นแถบขาวเปล่า</p>
+    <h2 style="margin-top:14px">แก้ยังไง</h2>
+    <p>ส่วนที่วางบนกล่องขาวตายตัว เปลี่ยนจาก <code>ink</code> เป็นสีเข้มตายตัว <code>#1C1A21</code> (หมึกเดิมของชุด Pop) แบบเดียวกับป้าย "อัปเดตเมื่อ" ที่ใช้ <code>#1F1F23</code> อยู่แล้ว · ส่วนพื้นป้าย/วงกลมไอคอนที่เคยเป็น <code>ink</code> ก็เปลี่ยนเป็น <code>#1C1A21</code> เหมือนกัน</p>
+    <p class="muted">ไม่เลือกสีวิดเจ็ต = หน้าตาแทบเท่าเดิม (หมึกเดิมก็เกือบดำอยู่แล้ว) · ข้อแลก: การ์ดคู่สี (duo) ตัวหนังสือในกล่องขาวจะไม่อมสีของคู่สีแล้ว</p>
+  </div>
+
+  <div class="box scroll">
+    <h2>สรุปทุกจุดที่แก้</h2>
+    <table>
+      <tr><th>Widget</th><th>ส่วนที่แก้</th><th>จาก → เป็น</th></tr>
+      <tr><td class="n">ผู้ติดตามสามช่อง<small>04-ผู้ติดตาม/popStatsGlass.json</small></td><td>ชื่อช่อง (Instagram/TikTok/YouTube), ยอดผู้ติดตาม, ไอคอน 7 ตัวในแถบล่าง</td><td><code>ink</code> → <code>#1C1A21</code></td></tr>
+      <tr><td class="n">โปรไฟล์ (กระดาษ)<small>01-โปรไฟล์/popHeroPaper.json</small></td><td>กล่องข้อมูลขาว: @, handle, ไอคอนคน, สายงาน, "พื้นที่รับงาน :", พื้นที่</td><td><code>ink</code> → <code>#1C1A21</code></td></tr>
+      <tr><td class="n">ติดต่อ (กระจก)<small>10-ติดต่อ/popContactGlass.json</small></td><td>LINE id, เบอร์, เว็บ<br>วงกลมไอคอนโทร/ลิงก์</td><td><code>ink</code> → <code>#1C1A21</code><br>พื้น <code>ink</code> → <code>#1C1A21</code></td></tr>
+      <tr><td class="n">ติดต่อ (กระดาษ)<small>10-ติดต่อ/popContactPaper.json</small></td><td>LINE id, เบอร์, เว็บ, ไอคอนคนในป้าย<br>วงกลมไอคอนโทร/ลิงก์, พื้นป้าย "ช่องทางติดต่อ"</td><td><code>ink</code> → <code>#1C1A21</code><br>พื้น <code>ink</code> → <code>#1C1A21</code></td></tr>
+      <tr><td class="n">หมวดหมู่ (กระดาษ)<small>06-หมวดหมู่/popNichePaper.json</small></td><td>ไอคอนในป้าย<br>พื้นป้าย "สายงาน"</td><td><code>ink</code> → <code>#1C1A21</code><br>พื้น <code>ink</code> → <code>#1C1A21</code></td></tr>
+      <tr><td class="n">ผลงาน (กระดาษ)<small>13-รูปผลงาน/popWorkPaper.json</small></td><td>"รอข้อมูลโพสต์", ไอคอนเหรียญในป้าย<br>พื้นป้าย "ผลงานที่ผ่านมา"</td><td><code>ink</code> → <code>#1C1A21</code><br>พื้น <code>ink</code> → <code>#1C1A21</code></td></tr>
+    </table>
+    <p class="muted" style="margin-top:10px">ไม่ได้แตะ: layout, ขนาด, ตัวเลือก, widget อื่นทั้งหมด · ไม่ได้แก้โค้ด iOS/Android/เว็บ</p>
+  </div>
+
+  <h2 style="font-size:20px;margin:34px 0 0">ก่อน / หลัง</h2>
+  <p class="muted">ภาพจากตัววาดบนเว็บ (sync-server) ที่จำลองการทำงานของสีวิดเจ็ตแบบ salehere-ios · <span class="tag bad">ก่อนแก้</span> เลือกสี #3533E2 · <span class="tag ok">หลังแก้</span> #3533E2 / ดำ #141414 / ไม่เลือกสี</p>
+
+  <section class="w"><h3>ผู้ติดตามสามช่อง</h3><div class="k">popStatsGlass</div>
+    <ul><li>ตัวเลขผู้ติดตาม + ชื่อช่อง กลับมา</li><li>ไอคอนแถบล่างกลับมา</li></ul>
+    <div class="scroll"><img src="popStatsGlass.png" alt="popStatsGlass ก่อนและหลังแก้"></div></section>
+
+  <section class="w"><h3>โปรไฟล์ (กระดาษ)</h3><div class="k">popHeroPaper</div>
+    <ul><li>กล่องข้อมูลขาวข้างรูป กลับมามีตัวหนังสือ</li></ul>
+    <div class="scroll"><img src="popHeroPaper.png" alt="popHeroPaper ก่อนและหลังแก้"></div></section>
+
+  <section class="w"><h3>ติดต่อ (กระจก)</h3><div class="k">popContactGlass</div>
+    <ul><li>LINE / เบอร์ / เว็บ กลับมา</li><li>วงกลมไอคอนโทร/ลิงก์ กลับมาเป็นวงกลมดำ</li></ul>
+    <div class="scroll"><img src="popContactGlass.png" alt="popContactGlass ก่อนและหลังแก้"></div></section>
+
+  <section class="w"><h3>ติดต่อ (กระดาษ)</h3><div class="k">popContactPaper</div>
+    <ul><li>ป้าย "ช่องทางติดต่อ" กลับมาเป็นเทปดำ</li><li>LINE / เบอร์ / เว็บ + วงกลมไอคอน กลับมา</li></ul>
+    <div class="scroll"><img src="popContactPaper.png" alt="popContactPaper ก่อนและหลังแก้"></div></section>
+
+  <section class="w"><h3>หมวดหมู่ (กระดาษ)</h3><div class="k">popNichePaper</div>
+    <ul><li>ป้าย "สายงาน" กลับมาเป็นเทปดำ</li></ul>
+    <div class="scroll"><img src="popNichePaper.png" alt="popNichePaper ก่อนและหลังแก้"></div></section>
+
+  <section class="w"><h3>ผลงาน (กระดาษ)</h3><div class="k">popWorkPaper</div>
+    <ul><li>ป้าย "ผลงานที่ผ่านมา" กลับมาเป็นเทปดำ</li><li>"รอข้อมูลโพสต์" ใต้รูปกลับมา</li></ul>
+    <div class="scroll"><img src="popWorkPaper.png" alt="popWorkPaper ก่อนและหลังแก้"></div></section>
+</main>
+</body>
+</html>

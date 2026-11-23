@@ -1,0 +1,82 @@
+<title>หัวข้อล้นทับรูป · ก่อน/หลังแก้</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one section per widget — what changed, then the before|after strip (two cases side by side) */
+:root {
+  --bg: #F4F5F8; --panel: #FFFFFF; --ink: #16171C; --ink2: #5D6070; --line: #DADCE4;
+  --before: #C8362E; --after: #1E8E5A; --shot: #111216;
+  --body: "IBM Plex Sans Thai", "Noto Sans Thai", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1014; --panel: #181A20; --ink: #ECEDF2; --ink2: #9A9DAB; --line: #2B2E38;
+  --before: #FF6A60; --after: #49C98C; --shot: #0A0B0E; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1014; --panel: #181A20; --ink: #ECEDF2; --ink2: #9A9DAB; --line: #2B2E38;
+  --before: #FF6A60; --after: #49C98C; --shot: #0A0B0E; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 60px; display: grid; gap: 26px; }
+h1 { font-size: 26px; line-height: 1.25; margin: 0 0 6px; text-wrap: balance; }
+.lead { color: var(--ink2); margin: 0; max-width: 78ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 14px; color: var(--ink2); }
+.legend b.b { color: var(--before); } .legend b.a { color: var(--after); }
+nav { display: flex; flex-wrap: wrap; gap: 6px; }
+nav a { font-size: 13px; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 3px 10px; }
+nav a:hover, nav a:focus-visible { border-color: var(--ink2); outline: none; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; scroll-margin-top: 12px; }
+.head { padding: 12px 16px 10px; display: grid; gap: 4px; }
+.head h2 { margin: 0; font-size: 18px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.num { font-family: var(--mono); font-size: 13px; color: var(--ink2); }
+.kind { font-family: var(--mono); font-size: 12px; color: var(--ink2); font-weight: 500; }
+.fix { margin: 0; color: var(--ink2); font-size: 14px; max-width: 90ch; }
+.fix strong { color: var(--ink); font-weight: 600; }
+.strip { background: var(--shot); overflow-x: auto; }
+.strip img { display: block; width: 100%; min-width: 760px; height: auto; }
+.note { margin: 0; padding: 10px 16px 12px; font-size: 13px; color: var(--ink2); border-top: 1px solid var(--line); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>หัวข้อล้นทับรูป · ก่อน/หลังแก้ 12 ใบ</h1>
+    <p class="lead">แต่ละใบมีสองเคส เรียงซ้ายไปขวา: <b>ก่อน</b> | <b>หลัง</b> ของเคสแรก แล้ว <b>ก่อน</b> | <b>หลัง</b> ของเคสที่สอง ชื่อเคสบอกคำที่ใส่ (ไทยสั้น "เทส" · ไทยยาว · สระซ้อน "ปั้นยิ้มที่นี่ญี่ปุ่น" · อังกฤษยาว) กับขนาดหัวข้อที่ผู้ใช้ตั้ง (M L XL XXL) วาดด้วยตัววาดเว็บตัวเดียวกับการ์ด</p>
+    <div class="legend"><span>ขอบล่างคำบรรยายเหนือภาพ: <b class="b">"ก่อน"</b> = JSON เดิม · <b class="a">"หลัง"</b> = JSON ที่แก้แล้ว</span></div>
+  </header>
+  <nav id="nav"></nav>
+  <div id="list" style="display:grid;gap:22px"></div>
+</div>
+
+<script>
+const ITEMS = [
+  ['08', 'reelShowcase', 'คลิปล่าสุด (เคสของ QA)', 'หัวเรื่องสองบรรทัดสูงตามตัวอักษร (เดิมกล่องตายตัว) · บรรทัดล่างเว้นให้สระไม่ชน · มือถือย่อลงเมื่อหัวข้อโต', 'เคสแรก = ภาพของ QA: ขยายหัวข้อ XL แล้วหัวข้อมุดหลังมือถือ → หลังแก้มือถือย่อลง หัวข้อเห็นครบ'],
+  ['07', 'reelBrand', 'Brand Campaign', 'เหมือนคลิปล่าสุด + คำบรรทัดบนกว้างไม่เกินป้าย Verified · แถวแบรนด์/มือถือ/ยอดย่อตามที่เหลือ', ''],
+  ['01', 'portfolioWindow', 'หน้าต่างพอร์ต', 'หัวข้อไม่ชนชื่อ (ชื่อขึ้น 4 หัวข้อลง 4) · ขอบรูปขยับตามขนาดหัวข้อ หัวข้อคร่อมขอบรูปเหมือนดีไซน์ทุกขนาด', ''],
+  ['02', 'portfolioGingham', 'พอร์ตผ้าปิกนิก', 'หัวข้อไม่เกินแถบของมัน · ขยายหัวข้อแล้วผ้า/รูปเตี้ยลงแทนการถูกทับ', ''],
+  ['10', 'artPortfolio', 'โปสเตอร์พอร์ต', 'สระบนไม่ชนชื่อ · รูปคนเลื่อนลงตามขนาดหัวข้อ', 'รูปคนบังขอบล่างหัวข้อเป็นดีไซน์เดิม (ในแอปเป็นคนตัดพื้น)'],
+  ['04', 'scrapAbout', 'รู้จักตัวฉัน', 'คำยาวย่อได้ถึง 70% แล้วตัด … ไม่ลอดใต้รูป · ขยายป้ายแล้วคำแนะนำตัวเลื่อนลงตาม', ''],
+  ['24', 'scrapStats', 'สถิติผู้ชม', 'ป้ายไม่ลอดใต้มือถือ ตัด … · แถวสถิติกระจายในที่ที่เหลือ', 'แก้ปัญหาเดิมด้วย: "เมืองหลักของผู้ชม" เคยชนแถว ER แม้ไม่ได้แก้คำ'],
+  ['36', 'scrapInfo', 'บัตรข้อมูลของฉัน', 'หัวข้อใหญ่ได้ · สองคำไม่พอบรรทัดขึ้นบรรทัดใหม่ · แถวข้อมูลกับเส้นสมุดเลื่อนลงตาม', ''],
+  ['21', 'kitSocialNight', 'Social Media (Night)', 'หัวข้อบรรทัดเดียว ตัด … ไม่ลอดใต้ป้าย "อัปเดตเมื่อ"', ''],
+  ['31', 'kitSocialMac', 'Social Media (Mac)', 'หัวข้อบรรทัดเดียว ตัด … · แถบหน้าต่างสูงตามตัวอักษร', ''],
+  ['23', 'audiencePoster', 'โปสเตอร์อินไซต์', 'ก้อนบน/ล่างเว้น 12 เสมอ ทุกขนาด · ก้อนซ้าย/ขวาไม่บานเข้าหากัน · หัวข้อไม่ชนป้าย "อัปเดตเมื่อ"', 'เคสแรก = ย่อกรอบเหลือ 0.55 (คำเดิม) ที่ก้อนเมืองหลักเคยทับก้อนเพศ'],
+  ['26', 'wallMemory', 'บอร์ดรูปติดหมุด', 'เอาข้อความบนและล่างออกทั้งคู่', 'เรื่อง "star item" ยังรอคำยืนยัน'],
+]
+const nav = document.getElementById('nav'), list = document.getElementById('list')
+for (const [n, kind, name, fix, note] of ITEMS) {
+  const a = document.createElement('a'); a.href = '#w-' + kind; a.textContent = `${+n}. ${name}`; nav.append(a)
+  const s = document.createElement('section'); s.id = 'w-' + kind
+  const head = document.createElement('div'); head.className = 'head'
+  const h = document.createElement('h2')
+  const num = document.createElement('span'); num.className = 'num'; num.textContent = String(+n)
+  const k = document.createElement('span'); k.className = 'kind'; k.textContent = kind
+  h.append(num, document.createTextNode(name), k)
+  const p = document.createElement('p'); p.className = 'fix'; p.innerHTML = '<strong>แก้:</strong> '; p.append(fix)
+  head.append(h, p)
+  const strip = document.createElement('div'); strip.className = 'strip'
+  const img = document.createElement('img'); img.src = `img/${n}-${kind}.jpg`; img.alt = `${name} ก่อนและหลังแก้`; img.loading = 'lazy'
+  strip.append(img)
+  s.append(head, strip)
+  if (note) { const q = document.createElement('p'); q.className = 'note'; q.textContent = note; s.append(q) }
+  list.append(s)
+}
+</script>

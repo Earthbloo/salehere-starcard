@@ -5,10 +5,19 @@ import { TEXT_LAYER } from './kinds.js'
 const STEP = 6, MARGIN = 18, MIN = { width: 100, height: 40 }
 const minSize = (kind) => (kind === TEXT_LAYER ? { width: 8, height: 8 } : MIN)
 
+// สัดส่วนที่ล็อก (`widget.lockAspect` → สูง/กว้างของขนาดออกแบบ) ของชนิดนั้น · null = ยืดอิสระ — ตั้งจาก solvePage
+let aspectOf = () => null
+
 function clampRect(it, page) {
   const min = minSize(it.kind)
   const bw = Math.max(page.width, MIN.width), bh = Math.max(page.height, MIN.height)
-  const w = Math.min(Math.max(it.w, min.width), bw), h = Math.min(Math.max(it.h, min.height), bh)
+  let w = Math.min(Math.max(it.w, min.width), bw), h = Math.min(Math.max(it.h, min.height), bh)
+  // ล็อกสัดส่วน: สูง = กว้าง × a เสมอ · ชิ้นเก่าที่สัดส่วนผิดถูกรูดความสูงตาม (= `PageLayout.clamp(_:page:min:aspect:)`)
+  const a = aspectOf(it.kind)
+  if (a) {
+    w = Math.min(Math.max(it.w, min.width, min.height / a), bw, bh / a)
+    h = Math.min(Math.max(Math.round(w * a), min.height), bh)
+  }
   return { x: Math.min(Math.max(it.x, 0), bw - w), y: Math.min(Math.max(it.y, 0), bh - h), width: w, height: h }
 }
 // ชิ้นที่ตรึงกับก้นหน้า (`pinned` = ตรารับรอง Sale Here) — x · กว้าง · สูง ตามที่ถือไว้ ส่วน y นั่งบนขอบกระดาษล่างเสมอ
@@ -23,7 +32,9 @@ const clamp = (it, page) => (it.pinned ? pinnedFrame(it, page) : clampRect(it, p
 const overlaps = (a, b) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height
 const stride = function* (from, through, by) { for (let i = 0; ; i++) { const v = from + i * by; if (v > through) return; yield v } }
 
-export function solvePage(items, page) {
+/** `lockedAspect(kind)` → สูง/กว้าง ของชนิดที่ล็อกสัดส่วน หรือ null (ไม่ใส่ = ไม่มีชนิดไหนล็อก) */
+export function solvePage(items, page, lockedAspect = null) {
+  aspectOf = lockedAspect || (() => null)
   const box = { x: 0, y: 0, width: Math.max(page.width, MIN.width), height: Math.max(page.height, MIN.height) }
   const polite = { x: MARGIN, y: MARGIN, width: Math.max(page.width - MARGIN * 2, MIN.width), height: Math.max(page.height - MARGIN * 2, MIN.height) }
   // ชิ้นที่ตรึงได้ที่ก่อนทุกคน — ของที่วางมาทับจึงเป็นฝ่ายหลบเสมอ

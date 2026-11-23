@@ -1465,7 +1465,14 @@ struct CardScreen: View {
                         func band(_ v: CGFloat, _ lo: CGFloat, _ hi: CGFloat) -> CGFloat {
                             v < lo ? lo - rubber(lo - v) : (v > hi ? hi + rubber(v - hi) : v)
                         }
-                        let live = CGSize(width: band(wantW, lo.width, roomW), height: band(wantH, lo.height, roomH))
+                        var live = CGSize(width: band(wantW, lo.width, roomW), height: band(wantH, lo.height, roomH))
+                        // ล็อกสัดส่วน (`widget.lockAspect`): นิ้วไปทางไหนไกลกว่า (เทียบตามสัดส่วน) ใช้แกนนั้น แล้วสเกลทั้งใบ
+                        if p.item.kind.locksAspect {
+                            let a = p.item.kind.aspect
+                            let r = PageLayout.lockedWidthRange(min: lo, aspect: a, from: f.origin, page: pageSize)
+                            let w = band(max(wantW, wantH / a), r.lo, r.hi)
+                            live = CGSize(width: w, height: w * a)
+                        }
                         // ชนขอบ/ชนพื้น = สะกิดหนึ่งที บอกว่า "สุดแล้ว" โดยไม่ต้องมีข้อความ
                         if let old = resizeLive {
                             let hitW = (wantW >= roomW) != (old.width >= roomW), hitH = (wantH >= roomH) != (old.height >= roomH)
@@ -2063,8 +2070,14 @@ struct CardScreen: View {
         if let live = resizeLive, let i = pages[index].items.firstIndex(where: { $0.id == id }) {
             let f = placed.first { $0.id == id }?.frame ?? pages[index].items[i].rect
             let lo = PageLayout.minSize(for: pages[index].items[i].kind)
-            let w = min(max(live.width, lo.width), PageLayout.roomWidth(from: f.minX, page: pageSize)).rounded()
-            let h = min(max(live.height, lo.height), PageLayout.roomHeight(from: f.minY, page: pageSize)).rounded()
+            var w = min(max(live.width, lo.width), PageLayout.roomWidth(from: f.minX, page: pageSize)).rounded()
+            var h = min(max(live.height, lo.height), PageLayout.roomHeight(from: f.minY, page: pageSize)).rounded()
+            let kind = pages[index].items[i].kind
+            if kind.locksAspect {
+                let r = PageLayout.lockedWidthRange(min: lo, aspect: kind.aspect, from: f.origin, page: pageSize)
+                w = min(max(live.width, r.lo), r.hi).rounded()
+                h = (w * kind.aspect).rounded()
+            }
             withAnimation(Motion.homeDrop) {
                 pages[index].items[i].w = w
                 pages[index].items[i].h = h

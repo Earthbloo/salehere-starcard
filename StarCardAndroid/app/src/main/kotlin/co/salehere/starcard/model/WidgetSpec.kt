@@ -76,6 +76,8 @@ data class WidgetSpec(
         val borderChoice: Boolean? = null,
         val photo: Boolean? = null,
         val keepAspect: Boolean? = null,
+        /** **ล็อกสัดส่วน** — ย่อขยายได้แต่สัดส่วนกรอบ = ขนาดออกแบบเสมอ (= iOS `lockAspect`) */
+        val lockAspect: Boolean? = null,
         val fullBleed: Boolean? = null,
         val resize: Boolean? = null,
         /** **ตัวเลือกทั้งหมดที่ผู้ใช้ปรับได้ในถาด** — ค่าที่เลือกเก็บที่ `WidgetInstance.options[opt]` (19 ต.ค. 2569) */

@@ -1,0 +1,222 @@
+<title>หัวข้อล้นทับรูป</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: sticky selection bar → cause groups → one card per widget (shot full width, tick + note beside the name) */
+:root {
+  --bg: #F4F5F8; --panel: #FFFFFF; --ink: #16171C; --ink2: #5D6070; --line: #DADCE4;
+  --accent: #E0322B; --accent-soft: #FDECEB; --ok: #1E8E5A; --shot: #111216;
+  --display: "IBM Plex Sans Thai", "Noto Sans Thai", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1014; --panel: #181A20; --ink: #ECEDF2; --ink2: #9A9DAB; --line: #2B2E38;
+  --accent: #FF5A50; --accent-soft: #2E1715; --ok: #49C98C; --shot: #0A0B0E; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1014; --panel: #181A20; --ink: #ECEDF2; --ink2: #9A9DAB; --line: #2B2E38;
+  --accent: #FF5A50; --accent-soft: #2E1715; --ok: #49C98C; --shot: #0A0B0E; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--display); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--panel); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { padding-block: 28px 8px; }
+h1 { font-size: 26px; line-height: 1.25; margin: 0 0 6px; text-wrap: balance; font-weight: 700; }
+.lead { color: var(--ink2); margin: 0; max-width: 70ch; }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding-block: 10px; }
+.count { font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+.count b { color: var(--accent); }
+.status { color: var(--ink2); font-size: 13px; }
+.status.saved { color: var(--ok); }
+.status.warn { color: var(--accent); }
+.spacer { flex: 1; }
+button { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+button:hover { border-color: var(--ink2); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+main { display: grid; gap: 34px; padding-block: 22px 60px; }
+section.group > .ghead { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; margin-bottom: 4px; }
+section.group h2 { font-size: 19px; margin: 0; }
+.gtag { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; }
+.gfix { color: var(--ink2); margin: 0 0 12px; max-width: 80ch; font-size: 14px; }
+.gfix strong { color: var(--ink); font-weight: 600; }
+.cards { display: grid; gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: grid; }
+.card.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.chead { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 10px 14px; }
+.chead label { display: flex; gap: 10px; align-items: center; cursor: pointer; min-width: 0; }
+.chead input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; flex: none; }
+.num { font-family: var(--mono); font-size: 13px; color: var(--ink2); min-width: 2ch; }
+.name { font-weight: 600; }
+.kind { font-family: var(--mono); font-size: 12px; color: var(--ink2); }
+.why { color: var(--ink2); font-size: 14px; padding: 0 14px 8px; margin: 0; }
+.case { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.shots { background: var(--shot); display: grid; gap: 2px; }
+.shots img { display: block; width: 100%; height: auto; }
+.note { padding: 8px 14px 12px; }
+.note input { width: 100%; box-sizing: border-box; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+.note input::placeholder { color: var(--ink2); }
+details.muted > summary { cursor: pointer; color: var(--ink2); font-weight: 600; }
+@media (max-width: 560px) { h1 { font-size: 22px; } .kind { display: none; } }
+</style>
+
+<header class="top wrap">
+  <h1>หัวข้อล้นทับรูป · เลือก widget ที่จะแก้</h1>
+  <p class="lead">จาก bug QA "ขยายหัวข้อแล้วย่อขยาย widget แล้วรูปทับข้อความ" ตรวจทั้ง 117 ใบด้วยคำทดสอบ (ไทยสั้น · ไทยยาว · สระซ้อน · อังกฤษยาว) × ขนาดหัวข้อ M–XXL × ขนาดกรอบ เจอปัญหาจริง 33 ใบ แต่ละใบ: ซ้าย = ดีไซน์ · ขวา = เคสแรกที่พัง ติ๊กใบที่จะให้แก้ เขียนโน้ตเพิ่มได้ ระบบบันทึกให้เอง</p>
+</header>
+
+<div class="bar"><div class="wrap">
+  <span class="count">เลือกแล้ว <b id="n">0</b> / <span id="total">0</span></span>
+  <span class="status" id="status">กำลังโหลดรายการที่เลือกไว้…</span>
+  <span class="spacer"></span>
+  <button type="button" id="allReal">เลือกทุกใบที่มีปัญหา</button>
+  <button type="button" id="none">ล้างทั้งหมด</button>
+  <button type="button" class="primary" id="copy">คัดลอกรายการ</button>
+</div></div>
+
+<main class="wrap" id="list"></main>
+
+<script>
+const GROUPS = [
+  { id: 'A', title: 'หัวข้อตัวยักษ์ทับรูป', fix: '<strong>แก้ที่ engine:</strong> หัวข้อที่ยืดเต็มความกว้างหยุดโตเมื่อสูงเกินกล่อง และกล่องหัวข้อขยายตามขนาดที่ผู้ใช้ตั้ง (L–XXL) แทนการล้นลงไปบนรูป',
+    items: [
+      [8, 'reelShowcase', 'คลิปล่าสุด', 'เคสของ QA: หัวข้อขยาย XL/XXL แล้วมุดไปอยู่หลังรูปมือถือ · คำว่า Recent กับหัวข้อชนกันเมื่อใส่สระบน', 'XL · "เทส"', ['08-qa', '08-reelShowcase']],
+      [7, 'reelBrand', 'Brand Campaign', 'โครงเดียวกับคลิปล่าสุด: บรรทัดบนกับหัวข้อชนกัน และหัวข้อขยายแล้วทับโลโก้แบรนด์', 'M · สระซ้อน', ['07-reelBrand']],
+      [2, 'portfolioGingham', 'พอร์ตผ้าปิกนิก', 'คำไทยสั้นถูกยืดเต็มความกว้าง ตัวโตจนลงไปทับรูป', 'M · "เทส"', ['02-portfolioGingham']],
+      [1, 'portfolioWindow', 'หน้าต่างพอร์ต', 'คำไทยสั้นถูกยืดเต็มความกว้าง ลงไปกลางรูปมากกว่าดีไซน์', 'M · "เทส"', ['01-portfolioWindow']],
+      [10, 'artPortfolio', 'โปสเตอร์พอร์ต', 'หัวข้อไทยมีสระบน ชนชื่อด้านบนและลงไปบนรูป', 'M · สระซ้อน', ['10-artPortfolio']],
+      [3, 'aboutEditorial', 'หน้าแนะนำตัว', 'หัวข้อสองบรรทัดซ้อนกันและวิ่งเข้าไปใต้รูปคน', 'M · สระซ้อน', ['03-aboutEditorial']],
+    ] },
+  { id: 'B', title: 'สองบรรทัดชนกัน · หัวข้อล้นแถบที่ล็อกความสูง', fix: '<strong>แก้ที่ engine + JSON:</strong> กล่องที่ล็อกความสูงขยายตามตัวอักษร และหัวข้อสองบรรทัดที่ดีไซน์ให้ซ้อนชิด เว้นระยะเพิ่มเมื่อเป็นคำไทยที่มีสระบน/ล่าง',
+    items: [
+      [5, 'aboutMe', 'about me.', 'สองบรรทัดยักษ์ซ้อนกัน สระบนของบรรทัดล่างชนบรรทัดบน', 'M · สระซ้อน', ['05-aboutMe']],
+      [6, 'nichePoster', 'โปสเตอร์สายงาน', 'คำยาวทำให้สองบรรทัดหัวข้อทับกันจนอ่านไม่ออก', 'M · ไทยยาว', ['06-nichePoster']],
+      [11, 'statPoster', 'โปสเตอร์ผู้ติดตาม', 'สองบรรทัดหัวข้อทับกัน และบรรทัดบนวิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · ไทยยาว', ['11-statPoster']],
+      [16, 'contactPoster', 'โปสเตอร์ติดต่อ', 'สระบนของบรรทัดล่างแตะบรรทัดบน (เล็กน้อย)', 'M · สระซ้อน', ['16-contactPoster']],
+      [34, 'proofWork', 'ผลงานที่ยืนยันแล้ว', 'ขยายหัวข้อเป็น XL แล้วบรรทัดเล็กด้านบนชนหัวข้อ', 'XL · สระซ้อน', ['34-proofWork']],
+      [29, 'kitRateMac', 'เรทรับงาน (Mac)', 'หัวข้อขึ้นบรรทัดสองในแถบหน้าต่างที่สูงแค่ 34 แล้วทับแถว Instagram', 'M · ไทยยาว · หด 0.55', ['29-kitRateMac']],
+      [31, 'kitSocialMac', 'Social Media (Mac)', 'หัวข้อสองบรรทัดล้นแถบหน้าต่าง ทับป้าย "อัปเดตเมื่อ"', 'M · อังกฤษยาว · แคบ', ['31-kitSocialMac']],
+      [33, 'kitTimeMac', 'วันเวลาและพื้นที่รับงาน (Mac)', 'หัวข้อสองบรรทัดล้นแถบหน้าต่าง ทับ "วันที่สะดวกรับงาน"', 'L · ไทยยาว · หด 0.55', ['33-kitTimeMac']],
+    ] },
+  { id: 'C', title: 'หัวข้อยาววิ่งเข้าใต้ป้ายมุมขวาบน', fix: '<strong>แก้ที่ JSON:</strong> หัวข้อเว้นที่ให้ป้าย "อัปเดตเมื่อ…" / "Verified by" (ขึ้นบรรทัดใหม่หรือตัด … ก่อนถึงป้าย) แทนการวางซ้อนกันในกล่องเดียว',
+    items: [
+      [9, 'kitInsightNight', 'Insight (Night)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · ไทยยาว', ['09-kitInsightNight']],
+      [12, 'kitInsightGingham', 'Insight (Gingham)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · อังกฤษยาว', ['12-kitInsightGingham']],
+      [19, 'kitInsightPurple', 'Insight (Purple)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · ไทยยาว', ['19-kitInsightPurple']],
+      [20, 'kitInsightCream', 'Insight (Cream)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · อังกฤษยาว', ['20-kitInsightCream']],
+      [18, 'kitSocialCream', 'Social Media (Cream)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · ไทยยาว', ['18-kitSocialCream']],
+      [21, 'kitSocialNight', 'Social Media (Night)', 'หัวข้อยาววิ่งเข้าใต้ป้าย "อัปเดตเมื่อ"', 'M · อังกฤษยาว', ['21-kitSocialNight']],
+      [23, 'audiencePoster', 'โปสเตอร์อินไซต์', 'หัวข้อยักษ์ชนป้าย "อัปเดตเมื่อ"', 'M · สระซ้อน', ['23-audiencePoster']],
+      [22, 'proofTicket', 'ตั๋วผลงาน', 'บรรทัดเล็กด้านบนยาวไปชนป้าย "Verified by"', 'M · ไทยยาว', ['22-proofTicket']],
+      [30, 'socialGingham', 'ช่องทางผ้าปิกนิก', 'ย่อกรอบแล้วหัวข้อชนป้าย "อัปเดตเมื่อ"', 'M · ไทยยาว · หด 0.75', ['30-socialGingham']],
+      [35, 'socialWindow', 'หน้าต่างช่องทาง', 'ย่อกรอบ + ขยายหัวข้อ แล้วหัวข้อชนป้าย "อัปเดตเมื่อ"', 'XL · หด 0.55', ['35-socialWindow']],
+    ] },
+  { id: 'D', title: 'ป้ายสติกเกอร์ชุด scrap', fix: '<strong>แก้ที่ JSON:</strong> จำกัดความกว้างคำแรก/คำที่สอง ให้ย่อลงก่อนตัด และไม่ให้คำที่สองลอดใต้รูป/มือถือ',
+    items: [
+      [4, 'scrapAbout', 'รู้จักตัวฉัน', 'คำยาวลอดเข้าใต้รูปโพลารอยด์', 'M · ไทยยาว', ['04-scrapAbout']],
+      [24, 'scrapStats', 'สถิติผู้ชม', 'คำที่สองซ่อนอยู่ใต้รูปมือถือ', 'M · สระซ้อน', ['24-scrapStats']],
+      [15, 'scrapPhones', 'กำแพงมือถือ', 'ป้ายคำแรกทับสติกเกอร์ "ใหม่!" และคำถูกตัดสั้นมาก', 'M · ไทยยาว', ['15-scrapPhones']],
+      [25, 'scrapTags', 'ป้ายห้อยสายงาน', 'ป้ายสองคำทับกันเมื่อคำยาว', 'M · สระซ้อน', ['25-scrapTags']],
+      [13, 'scrapBadge', 'บัตรครีเอเตอร์', 'คำที่สองชนคำ STAR (เล็กน้อย)', 'M · สระซ้อน', ['13-scrapBadge']],
+      [14, 'scrapFeed', 'ฟีดของฉัน', 'คำถูกตัดเหลือ "ปั้..ปั้นยิ้ม..." อ่านไม่ออก', 'M · สระซ้อน', ['14-scrapFeed']],
+      [32, 'scrapNote', 'โน้ตติดต่อ', 'ขยายหัวข้อ L แล้วถูกตัดเหลือ "ปั้นยิ้ม… ปั้นยิ้ม…"', 'L · สระซ้อน', ['32-scrapNote']],
+      [36, 'scrapInfo', 'บัตรข้อมูลของฉัน', 'ขยาย XXL แล้วหัวข้อทับแถว "ชื่อเล่น"', 'XXL · ไทยกลาง', ['36-scrapInfo']],
+    ] },
+  { id: 'E', title: 'ย่อกรอบแล้วคำบรรยายทับรูป', fix: '<strong>แก้ที่ JSON:</strong> คำบรรยายล่างขยับตามกองรูป หรือจำกัดความยาวเมื่อกรอบแคบ',
+    items: [
+      [26, 'wallMemory', 'บอร์ดรูปติดหมุด', 'กรอบแคบ + คำบรรยายยาว แล้วคำบรรยายไปอยู่บนรูป', 'M · ไทยยาว · แคบ', ['26-wallMemory']],
+    ] },
+]
+const OK = { id: 'X', title: 'ตรวจแล้วไม่ใช่ปัญหา', items: [
+  [17, 'kitSocialGingham', 'Social Media (Gingham)', 'หัวข้อยาวขึ้นบรรทัดใหม่ก่อนถึงป้ายได้เอง ดูเรียบร้อย', 'M · อังกฤษยาว', ['17-kitSocialGingham']],
+  [27, 'statGiant', 'ตัวเลขยักษ์', 'รูปเป็นพื้นหลังทั้งใบอยู่แล้ว ข้อความบนรูปคือดีไซน์', 'เตี้ย', ['27-statGiant']],
+  [28, 'aboutBehind', 'ชื่อหลังภาพ', 'ดีไซน์ตั้งใจให้ตัวหนังสืออยู่หลังภาพคน', 'หด 0.55', ['28-aboutBehind']],
+] }
+const REAL = GROUPS.flatMap((g) => g.items.map((i) => i[1]))
+const ALL = [...GROUPS, OK]
+const meta = Object.fromEntries(ALL.flatMap((g) => g.items.map((i) => [i[1], { n: i[0], name: i[2], group: g.id }])))
+
+let picked = new Set(), notes = {}, ref = null, dirty = false, saving = Promise.resolve(), timer = null
+
+const el = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); Object.assign(e, attrs); if (html) e.innerHTML = html; return e }
+function card([n, kind, name, why, cs, imgs]) {
+  const c = el('article', { className: 'card', id: 'w-' + kind })
+  const h = el('div', { className: 'chead' })
+  const lab = el('label')
+  const cb = el('input', { type: 'checkbox', id: 'cb-' + kind })
+  cb.addEventListener('change', () => { cb.checked ? picked.add(kind) : picked.delete(kind); changed() })
+  lab.append(cb, el('span', { className: 'num', textContent: n }), el('span', { className: 'name', textContent: name }), el('span', { className: 'kind', textContent: kind }))
+  h.append(lab, el('span', { className: 'case', textContent: 'พังที่ ' + cs }))
+  const shots = el('div', { className: 'shots' })
+  for (const f of imgs) shots.append(el('img', { src: 'img/' + f + '.jpg', alt: `${name}: ดีไซน์เทียบกับเคสที่พัง`, loading: 'lazy' }))
+  const note = el('div', { className: 'note' })
+  const inp = el('input', { type: 'text', id: 'nt-' + kind, placeholder: 'โน้ตถึงคนแก้ (ไม่บังคับ) เช่น แก้แค่ให้ไม่ทับรูป ยอมตัด … ได้' })
+  inp.addEventListener('input', () => { notes[kind] = inp.value; changed(600) })
+  note.append(inp)
+  c.append(h, el('p', { className: 'why', textContent: why }), shots, note)
+  return c
+}
+const list = document.getElementById('list')
+for (const g of GROUPS) {
+  const s = el('section', { className: 'group' })
+  const head = el('div', { className: 'ghead' })
+  const btn = el('button', { type: 'button', textContent: 'เลือกทั้งกลุ่ม' })
+  btn.addEventListener('click', () => { const on = !g.items.every((i) => picked.has(i[1])); g.items.forEach((i) => on ? picked.add(i[1]) : picked.delete(i[1])); changed() })
+  head.append(el('span', { className: 'gtag', textContent: 'กลุ่ม ' + g.id + ' · ' + g.items.length + ' ใบ' }), el('h2', { textContent: g.title }), btn)
+  const cards = el('div', { className: 'cards' })
+  g.items.forEach((i) => cards.append(card(i)))
+  s.append(head, el('p', { className: 'gfix', innerHTML: g.fix }), cards)
+  list.append(s)
+}
+const d = el('details', { className: 'muted' })
+d.append(el('summary', { textContent: `${OK.title} (${OK.items.length} ใบ) · ติ๊กได้ถ้าอยากให้แก้ด้วย` }))
+const okCards = el('div', { className: 'cards' }); okCards.style.marginTop = '12px'
+OK.items.forEach((i) => okCards.append(card(i)))
+d.append(okCards); list.append(d)
+document.getElementById('total').textContent = REAL.length
+
+function paint() {
+  for (const k of Object.keys(meta)) {
+    const cb = document.getElementById('cb-' + k); if (cb) cb.checked = picked.has(k)
+    document.getElementById('w-' + k)?.classList.toggle('on', picked.has(k))
+    const nt = document.getElementById('nt-' + k); if (nt && document.activeElement !== nt) nt.value = notes[k] || ''
+  }
+  document.getElementById('n').textContent = picked.size
+}
+const status = (t, cls = '') => { const s = document.getElementById('status'); s.textContent = t; s.className = 'status ' + cls }
+function changed(delay = 0) {
+  paint(); dirty = true
+  if (!ref) { status('บันทึกไม่ได้ในมุมมองนี้ · กด "คัดลอกรายการ" แล้ววางในแชต', 'warn'); return }
+  status('กำลังบันทึก…'); clearTimeout(timer)
+  timer = setTimeout(save, delay)
+}
+function save() {
+  const body = { picked: [...picked].sort((a, b) => meta[a].n - meta[b].n), notes: Object.fromEntries(Object.entries(notes).filter(([, v]) => v && v.trim())), savedAt: new Date().toISOString() }
+  saving = saving.then(() => ref.set(body)).then(() => { dirty = false; status('บันทึกแล้ว · Claude อ่านรายการนี้ได้', 'saved') })
+    .catch((e) => status(e && e.code === 'not_granted' ? 'คุณไม่มีสิทธิ์บันทึก · กด "คัดลอกรายการ" แล้ววางในแชต' : 'บันทึกไม่สำเร็จ ลองติ๊กอีกครั้ง', 'warn'))
+}
+document.getElementById('allReal').addEventListener('click', () => { REAL.forEach((k) => picked.add(k)); changed() })
+document.getElementById('none').addEventListener('click', () => { picked.clear(); changed() })
+document.getElementById('copy').addEventListener('click', async () => {
+  const lines = [...picked].sort((a, b) => meta[a].n - meta[b].n).map((k) => `${meta[k].n}. ${k} (${meta[k].name})${notes[k] ? ' — ' + notes[k] : ''}`)
+  const txt = `แก้ ${lines.length} ใบ:\n` + lines.join('\n')
+  try { await navigator.clipboard.writeText(txt); status('คัดลอกแล้ว', 'saved') } catch { status('คัดลอกไม่ได้ในมุมมองนี้', 'warn') }
+})
+paint()
+
+;(async () => {
+  const db = window.claude ? await window.claude.use('db') : null
+  if (!db) { status('ติ๊กได้ แต่ระบบบันทึกไม่พร้อม · กด "คัดลอกรายการ" แล้ววางในแชต', 'warn'); return }
+  ref = db.doc('picks/main')
+  const slow = setTimeout(() => status('ยังโหลดรายการที่บันทึกไว้ไม่ได้ ติ๊กต่อได้', 'warn'), 10000)
+  ref.onSnapshot((snap) => {
+    if (!snap.fromCache) clearTimeout(slow)
+    if (dirty) return
+    const v = snap.exists ? snap.data() : {}
+    picked = new Set((v.picked || []).filter((k) => meta[k]))
+    notes = { ...(v.notes || {}) }
+    paint()
+    status(snap.exists ? 'โหลดรายการที่เลือกไว้แล้ว' : 'ยังไม่ได้เลือก · ติ๊กใบที่จะให้แก้', snap.exists ? 'saved' : '')
+  }, () => { clearTimeout(slow); status('เชื่อมระบบบันทึกไม่ได้ · กด "คัดลอกรายการ" แล้ววางในแชต', 'warn') })
+})()
+</script>

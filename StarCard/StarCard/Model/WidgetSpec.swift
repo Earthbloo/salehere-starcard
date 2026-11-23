@@ -69,6 +69,8 @@ struct WidgetSpec: Codable, Equatable {
         var photo: Bool? = nil
         /// ผังตายตัว — ความสูงต่ำสุดคือสัดส่วนที่ออกแบบไว้
         var keepAspect: Bool? = nil
+        /// **ล็อกสัดส่วน** — ย่อขยายได้แต่สัดส่วนกรอบ = ขนาดออกแบบเสมอ (หมุดมุมสเกลทั้งใบ · ชิ้นเก่าที่สัดส่วนผิดถูกรูดความสูงตาม)
+        var lockAspect: Bool? = nil
         /// รูปชนขอบ ไม่เว้นระยะขอบใน
         var fullBleed: Bool? = nil
         /// ย่อขยายได้ · ไม่ใส่ = ได้

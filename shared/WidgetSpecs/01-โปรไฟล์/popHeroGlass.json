@@ -25,7 +25,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระจก) — ชื่อยักษ์ + รูป 42% + คอลัมน์ @handle/พื้นที่รับงาน/VERIFIED ในกล่องกระจกใบเดียว · แปลงจาก PopWidgets.swift (PopHero + PopSheet ไม่มีป้าย) · ใบวาดแผ่นเอง (drawsOwnSurface) เว้นขอบ 4 ให้เงา · กระจกจริงใช้ไล่สีขอบขาว ที่นี่เป็น stroke ขาวจาง · สี: ถ่านคงที่ pop.ink · ชมพู rawAccent/rawAccentSoft · แผ่น pop.sheet ตาม surface + ประกายขอบเฉพาะ glass + ขอบชมพูเมื่อ bordered · @ กับ handle เป็นสองข้อความ (ต้นฉบับข้อความเดียว ย่อพร้อมกัน)",
+ "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระจก) — ชื่อยักษ์ + รูป 42% + คอลัมน์ ประเภทครีเอเตอร์/พื้นที่รับงาน/VERIFIED ในกล่องกระจกใบเดียว · แปลงจาก PopWidgets.swift (PopHero + PopSheet ไม่มีป้าย) · ใบวาดแผ่นเอง (drawsOwnSurface) เว้นขอบ 4 ให้เงา · กระจกจริงใช้ไล่สีขอบขาว ที่นี่เป็น stroke ขาวจาง · สี: ถ่านคงที่ pop.ink · ชมพู rawAccent/rawAccentSoft · แผ่น pop.sheet ตาม surface + ประกายขอบเฉพาะ glass + ขอบชมพูเมื่อ bordered · 23 พ.ย. 2569: เอา @handle ออก (QA: ไม่มีตัวเลือกช่องทาง social) แถวบนเหลือไอคอน+ประเภทครีเอเตอร์",
  "root": {
   "type": "col",
   "pad": 4,
@@ -133,42 +133,6 @@
              0
             ],
             "children": [
-             {
-              "type": "row",
-              "gap": 0,
-              "align": "end",
-              "shrink": 1,
-              "children": [
-               {
-                "type": "text",
-                "text": "@",
-                "face": "noto",
-                "weight": 500,
-                "size": 11.5,
-                "color": "ink",
-                "maxLines": 1,
-                "shrink": 0
-               },
-               {
-                "type": "text",
-                "id": "handle",
-                "slot": "handle",
-                "face": "noto",
-                "weight": 500,
-                "size": 11.5,
-                "color": "ink",
-                "maxLines": 1,
-                "shrinkTo": 6.5
-               }
-              ]
-             },
-             {
-              "type": "rect",
-              "w": 0.8,
-              "h": 15,
-              "fill": "ink@0.5",
-              "if": "has:stat:creatorKind"
-             },
              {
               "type": "icon",
               "icon": "ph:user-fill",

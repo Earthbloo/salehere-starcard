@@ -1,0 +1,241 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>text overlap audit</title>
+<style>body{margin:0;background:#111} #stage{position:relative;display:inline-flex;gap:16px;padding:12px;background:#111;color:#ddd;font:12px system-ui} .cell{position:relative} .cap{position:absolute;left:0;top:-2px;transform:translateY(-100%);white-space:nowrap}</style>
+<div id="stage"></div>
+<script type="module">
+import { parseSpec } from '/js/spec-model.js'
+import { WebMeasurer, loadFonts, fontCSS } from '/js/measure.js'
+import { Profile, WebSpecData } from '/js/data.js'
+import { SpecSolver } from '/js/spec-solver.js'
+import { kindInfo, contentInset } from '/js/kinds.js'
+import { mountWidget } from '/js/chrome.js'
+import { paintBackdrop } from '/js/backdrop.js'
+import { defaultChoice, themeOf } from '/js/backdrop-tray.js'
+
+await loadFonts('/fonts/')
+const measurer = new WebMeasurer()
+const profile = new Profile({}, {})
+const cv = document.createElement('canvas').getContext('2d')
+
+/** กรอบหมึกจริงของข้อความ — วางบรรทัดแบบเดียวกับ spec-painter `text()` (บนชิดกล่อง · line-height = one + spacing)
+ *  แล้ววัดกลิฟด้วย canvas (actualBoundingBox) · ฟอนต์ไทยเผื่อที่สระไว้ในบรรทัด กรอบบรรทัดจึงใหญ่กว่าที่ตาเห็น */
+function inkRect(node, r, f) {
+  const font = { face: node.face ?? 'noto', size: r.size, weight: node.weight ?? 400, tracking: node.tracking ?? 0, kerning: node.kerning ?? 0, italic: node.italic ?? false, lineHeight: node.lineHeight ?? 1 }
+  const one = measurer.lineHeight({ ...font, lineHeight: 1 })
+  const spacing = node.lineHeight != null && node.lineHeight !== 1 ? measurer.lineHeight({ face: node.face ?? 'body', size: r.size, weight: node.weight ?? 400 }) * (node.lineHeight - 1) : 0
+  const fc = fontCSS(font.face, font.weight, font.italic)
+  cv.font = `${fc.style} ${fc.weight} ${r.size}px ${fc.family}`
+  cv.letterSpacing = `${font.tracking + font.kerning}px`
+  const shown = node.textCase === 'upper' ? r.string.toUpperCase() : r.string
+  const lines = measurer.displayLines(shown, font, f.width, Math.max(1, r.lines))
+  const lh = one + spacing
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+  lines.forEach((ln, i) => {
+    if (!ln.trim()) return
+    const m = cv.measureText(ln)
+    const top = f.y - spacing / 2 + i * lh
+    const base = top + (lh - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2 + m.fontBoundingBoxAscent
+    const lx = node.textAlign === 'center' ? f.x + (f.width - m.width) / 2 : node.textAlign === 'right' ? f.x + f.width - m.width : f.x
+    x0 = Math.min(x0, lx - m.actualBoundingBoxLeft); x1 = Math.max(x1, lx + m.actualBoundingBoxRight)
+    y0 = Math.min(y0, base - m.actualBoundingBoxAscent); y1 = Math.max(y1, base + m.actualBoundingBoxDescent)
+  })
+  if (x0 === Infinity) return null
+  return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }
+}
+
+// เก็บราก N ของรอบสุดท้าย — ต้องการ `overflow` (ความสูงที่วัดได้ − กล่อง) ที่ solve() ไม่ส่งออก
+const origRun = SpecSolver.prototype.run
+SpecSolver.prototype.run = function (root) { this._root = root; return origRun.call(this, root) }
+
+const TEXTS = [
+  ['คำเดิม', null],
+  ['ไทยสั้น', 'เทส'],
+  ['ไทยกลาง', 'ผลงานของฉัน'],
+  ['ไทยยาว', 'รีวิวสินค้าความงามและไลฟ์สไตล์ทุกวัน'],
+  ['สระซ้อน', 'ปั้นยิ้มที่นี่ญี่ปุ่น'],
+  ['อังกฤษยาว', 'MY LATEST COLLABORATIONS 2026'],
+]
+// ขนาดรายช่องของ salehere-ios (`StarCardTextStyle.slotSizes` · ss:<key>) — m = ตามผัง
+const FACTORS = [['M', 1], ['L', 1.3], ['XL', 1.7], ['XXL', 2.2]]
+const VARIANTS = []
+for (const [fl, k] of FACTORS) for (const [tl, t] of TEXTS) VARIANTS.push([k === 1 && t == null ? 'design' : `${tl}·${fl}`, t, k])
+
+function sizes(spec) {
+  const { w, h } = spec.design, wd = spec.widget || {}
+  const out = [['ออกแบบ', w, h]]
+  if (wd.resize === false) return out
+  const fit = (W, H) => [Math.max(100, Math.min(W, 540)), Math.max(40, H)]
+  const uni = [['หด 0.55', 0.55], ['หด 0.75', 0.75], ['ขยาย 1.4', 1.4]]
+  for (const [l, k] of uni) out.push([l, ...fit(w * k, h * k)])
+  const locked = wd.keepAspect || wd.lockAspect
+  if (!locked) {
+    out.push(['กว้าง', ...fit(w * 1.45, h)], ['สูง', ...fit(w, h * 1.5)], ['แคบ', ...fit(w * 0.65, h)], ['เตี้ย', ...fit(w, h * 0.7)])
+  } else {
+    // keepAspect: สูงต่ำสุด = สัดส่วนออกแบบ แต่ยืดสูงได้
+    out.push(['สูง', ...fit(w, h * 1.5)], ['แคบ-สูง', ...fit(w * 0.7, h * 1.2)])
+  }
+  return out
+}
+
+function withText(json, txt, k = 1) {
+  const j = structuredClone(json)
+  const ids = []
+  const visit = (n) => {
+    if (!n || typeof n !== 'object') return
+    if (n.type === 'text' && n.editable) {
+      ids.push(n.id)
+      if (txt != null) n.text = txt
+      if (k !== 1) {
+        // = StarCardSlotStyle.spec: คูณ size · sizeWhen · shrinkTo · growTo แล้วคุม 6…160 · กล่องของโหนด (w/h) ไม่ถูกแตะ
+        const sc = (v) => Math.min(Math.max(v * k, 6), 160)
+        n.size = sc(n.size ?? 14)
+        if (n.sizeWhen) n.sizeWhen = n.sizeWhen.map((r) => ({ ...r, size: sc(r.size) }))
+        if (n.shrinkTo != null) n.shrinkTo = sc(n.shrinkTo)
+        if (n.growTo != null) n.growTo = sc(n.growTo)
+      }
+    }
+    for (const k of ['root', 'children', 'each', 'alt']) {
+      const v = n[k]
+      if (Array.isArray(v)) v.forEach(visit); else if (v && typeof v === 'object') visit(v)
+    }
+  }
+  visit(j.root); for (const v of j.variants || []) visit(v.root)
+  return [j, ids]
+}
+
+function solveCase(json, W, H) {
+  const spec = parseSpec(json)
+  const info = kindInfo(json.kind, spec)
+  const surface = (json.widget?.surfaces || [])[0] || 'glass'
+  const inset = contentInset(info, surface, false)
+  const s = Math.min(W / spec.design.w, H / spec.design.h)
+  const box = { width: Math.max(1, W / s - inset * 2), height: Math.max(1, H / s - inset * 2) }
+  const data = new WebSpecData({ profile, item: { id: '00000000-0000-0000-0000-000000000000', kit: {}, surface }, sample: true, inkLight: false, surface, duo: false, stamped: true, cutout: false, kitDark: false })
+  const solver = new SpecSolver(spec, box, data, measurer, s)
+  solver.solve()
+  // กล่องทุกโหนดของรอบสุดท้าย + กรอบหมึกของข้อความ
+  const nodes = []
+  const rec = (n, anc) => {
+    const f = n.frame
+    const e = { id: n.id, nid: n.node.id || n.node.type, type: n.node.type, x: f.x, y: f.y, w: f.width, h: f.height, anc, clip: !!n.node.clip }
+    if (n.text && n.text.string.length) {
+      const over = Math.max(0, n.overflow || 0)
+      e.text = n.text.string; e.size = n.text.size; e.over = over
+      e.ink = inkRect(n.node, n.text, f)
+      if (!e.ink) { nodes.push(e); delete e.text; n.children.forEach((c) => rec(c, [...anc, n.id])); return }
+      e.editable = !!n.node.editable
+    }
+    nodes.push(e)
+    n.children.forEach((c) => rec(c, [...anc, n.id]))
+  }
+  if (solver._root) rec(solver._root, [])
+  const rf = solver._root ? solver._root.frame : { x: 0, y: 0, width: box.width, height: box.height }
+  const pad = inset + 2
+  return { nodes, box, s, bounds: { x: rf.x - pad, y: rf.y - pad, w: rf.width + pad * 2, h: rf.height + pad * 2 } }
+}
+
+const inter = (a, b) => {
+  const w = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)
+  const h = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y)
+  return w > 0 && h > 0 ? { w, h, area: w * h } : null
+}
+const rectOf = (n) => n.ink || n
+const related = (a, b) => a.anc.includes(b.id) || b.anc.includes(a.id)
+
+/** คู่ข้อความ×(รูป · ไอคอน · ข้อความ) ที่ทับกัน → Map key → พื้นที่ · ข้อความหลุดขอบ · ข้อความสูงเกินกล่อง */
+function hits(c) {
+  const out = new Map()
+  const texts = c.nodes.filter((n) => n.text)
+  const targets = c.nodes.filter((n) => n.text || n.type === 'image' || n.type === 'icon')
+  for (const t of texts) {
+    for (const v of targets) {
+      if (v === t || related(t, v)) continue
+      if (v.text && v.id < t.id) continue
+      const i = inter(t.ink, rectOf(v))
+      if (i && i.w > 1.5 && i.h > 1.5) out.set(`hit|${t.nid}|${v.nid}|${v.type}`, { area: i.area, t, v })
+    }
+    const b = c.bounds, k = t.ink
+    const esc = Math.max(0, b.y - k.y, k.y + k.h - (b.y + b.h), b.x - k.x, k.x + k.w - (b.x + b.w))
+    if (esc > 1.5) out.set(`out|${t.nid}`, { area: esc, t })
+    // ถูกตัดโดยแม่ที่ clip
+    for (const a of c.nodes.filter((n) => n.clip && t.anc.includes(n.id))) {
+      const cut = Math.max(0, a.y - k.y, k.y + k.h - (a.y + a.h))
+      if (cut > 1.5) out.set(`clip|${t.nid}|${a.nid}`, { area: cut, t })
+    }
+  }
+  return out
+}
+
+window.audit = (json) => {
+  const [, editable] = withText(json, null)
+  const issues = []
+  let worst = null
+  window._designRef = hits(solveCase(json, json.design.w, json.design.h))
+  for (const [sl, W, H] of sizes(json)) {
+    let baseHits
+    try { baseHits = hits(solveCase(json, W, H)) } catch (e) { issues.push({ type: 'error', msg: String(e) }); continue }
+    for (const [vl, txt, k] of VARIANTS) {
+      if (vl !== 'design' && !editable.length) continue
+      const [j] = withText(json, txt, k)
+      const now = vl === 'design' ? baseHits : hits(solveCase(j, W, H))
+      // รอบคำของดีไซน์ที่ขนาดออกแบบ = เกณฑ์ของดีไซน์ (ทับโดยตั้งใจ) · ที่ขนาดอื่นเทียบกับเกณฑ์นี้
+      const ref = window._designRef
+      for (const [key, v] of now) {
+        const [type] = key.split('|')
+        const b = (vl === 'design' ? ref : baseHits).get(key)
+        const grow = v.area - (b ? b.area : 0)
+        const thr = type === 'hit' ? 30 : 2
+        if (grow <= thr) continue
+        const it = { type, key, size: sl, W: Math.round(W), H: Math.round(H), variant: vl, text: v.t.text, textId: v.t.nid, editable: v.t.editable,
+          other: v.v ? `${v.v.nid}(${v.v.type})` : null, amount: Math.round(grow) }
+        issues.push(it)
+        const score = (type === 'hit' ? 3 : type === 'clip' ? 2 : 1) * grow
+        if (!worst || score > worst.score) worst = { score, W, H, text: txt, k, label: `${sl} ${Math.round(W)}×${Math.round(H)} · ${vl} · ${type} ${v.t.nid}${v.v ? '×' + v.v.nid : ''} +${Math.round(grow)}` }
+      }
+    }
+  }
+  return { kind: json.kind, title: json.widget?.title, category: json.widget?.category, editable, issues, worst }
+}
+
+/** วาดเคสที่แย่สุด: ซ้าย = คำของดีไซน์ ขนาดออกแบบ · กลาง = คำของดีไซน์ ขนาดที่พัง · ขวา = เคสที่พัง */
+window.show = (json, w) => window.showCases(json, [['ดีไซน์', json.design.w, json.design.h, null, 1], ['คำเดิม ขนาดนี้', w.W, w.H, null, 1], ['เคสที่พัง', w.W, w.H, w.text, w.k]])
+window.showMulti = async (list) => {
+  const stage = document.getElementById('stage'); stage.innerHTML = ''
+  for (const [json, cap, W, H, txt, k] of list) { await window.showCases(json, [[cap, W, H, txt, k]], true) }
+  await Promise.race([Promise.all([...stage.querySelectorAll('img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r }))), new Promise((r) => setTimeout(r, 4000))])
+}
+window.showCases = async (json, cases, keep = false) => {
+  const stage = document.getElementById('stage')
+  if (!keep) stage.innerHTML = ''
+  const theme = themeOf(defaultChoice())
+  for (const [cap, W, H, txt, k] of cases) {
+    const [j] = withText(json, txt, k)
+    const spec = parseSpec(j)
+    const M = 10
+    const cell = document.createElement('div'); cell.className = 'cell'
+    cell.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;margin-top:18px`
+    stage.appendChild(cell)
+    paintBackdrop(cell, theme, W + M * 2, H + M * 2)
+    const item = { id: '00000000-0000-0000-0000-000000000000', kind: j.kind, x: M, y: M, w: W, h: H, surface: (j.widget?.surfaces || [])[0] || 'glass', border: false }
+    const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: { [j.kind]: spec }, measurer, base: '/', imageURL: (id) => id, mock: null,
+      makeData: (it) => new WebSpecData({ profile, item: it, sample: true, inkLight: false, surface: it.surface, duo: false, stamped: true, cutout: false, kitDark: false }) }
+    try { mountWidget(cell, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { cell.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+    if (window.showFrames) {
+      // กรอบแก้ข้อความแบบ salehere-ios (slotRects): กล่องของโหนด text ที่ editable · ขยายออก 3 · เส้นประ
+      const c = solveCase(j, W, H)
+      const info = kindInfo(j.kind, spec), surface = item.surface
+      const inset = contentInset(info, surface, false)
+      for (const n of c.nodes) {
+        if (!n.text || !n.editable) continue
+        const d = document.createElement('div')
+        d.style.cssText = `position:absolute;left:${M + (n.x + inset) * c.s - 3}px;top:${M + (n.y + inset) * c.s - 3}px;width:${n.w * c.s + 6}px;height:${n.h * c.s + 6}px;border:1.2px dashed #FF2D78;border-radius:5px;pointer-events:none;z-index:9`
+        cell.appendChild(d)
+      }
+    }
+    cell.insertAdjacentHTML('beforeend', `<div class="cap">${cap} · ${Math.round(W)}×${Math.round(H)}</div>`)
+  }
+  await Promise.race([Promise.all([...stage.querySelectorAll('img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r }))), new Promise((r) => setTimeout(r, 2500))])
+}
+window.M = measurer; window.solveCase = solveCase; window.withText = withText; window.ready = true
+</script>

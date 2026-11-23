@@ -25,7 +25,7 @@
   "keepAspect": true,
   "motion": "anchored"
  },
- "notes": "แผ่นโชว์คลิป · แปลงจาก ShowcaseWidgets.swift (Reel + ReelSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น `plate` + เส้นขอบใน rim (`plateInk@0.16` · เว้น 5 · มุม 17) + หมึก `plateInk` · ตัวเครื่อง #121212 · เงา black@0.45 · `pane` = ไม่มีแผ่น แต่ยังมีเส้นขอบใน rim `line@0.22` · หมึก `ink@0.95` · ตัวเครื่อง #1A1A1A (การ์ดสว่าง) / #292929 (การ์ดมืด) · เงา @0.45 · `clear` = เหมือน pane แต่ไม่มี rim และเงา @0.3 · หัวเรื่อง 'Recent' (note#0 เซริฟเอียง 19 กล่อง 23) คร่อม 'VIDEOGRAPHY' (note#1 black growTo 30 กว้าง 252 กล่อง 36 ซ้อน −3 · ตัวอักษรจัดกลางกล่อง = stack place center ให้ล้นกล่องเท่ากันบนล่างแบบ SwiftUI) · เว้น 9 · เครื่องสี่เครื่อง 82×153 ร่อง 7 · ชื่อลูกค้า note#2–5 · ไม่มี: มุม min(theme.radius,22) · ลายแผ่น PlatePatternLayer · scrubLouver/scrubDolly",
+ "notes": "แผ่นโชว์คลิป · แปลงจาก ShowcaseWidgets.swift (Reel + ReelSkin) · ใบวาดพื้นเอง (inset 0) มุม 22 · พื้นผิว (14 ต.ค. 2569): `papered` = แผ่น `plate` + เส้นขอบใน rim (`plateInk@0.16` · เว้น 5 · มุม 17) + หมึก `plateInk` · ตัวเครื่อง #121212 · เงา black@0.45 · `pane` = ไม่มีแผ่น แต่ยังมีเส้นขอบใน rim `line@0.22` · หมึก `ink@0.95` · ตัวเครื่อง #1A1A1A (การ์ดสว่าง) / #292929 (การ์ดมืด) · เงา @0.45 · `clear` = เหมือน pane แต่ไม่มี rim และเงา @0.3 · หัวเรื่อง 'Recent' (note#0 เซริฟเอียง 19 กล่อง 23) คร่อม 'VIDEOGRAPHY' (note#1 black growTo 30 กว้าง 252 กล่อง 36 ซ้อน −3 · ตัวอักษรจัดกลางกล่อง = stack place center ให้ล้นกล่องเท่ากันบนล่างแบบ SwiftUI) · เว้น 9 · เครื่องสี่เครื่อง 82×153 ร่อง 7 · ชื่อลูกค้า note#2–5 · ไม่มี: มุม min(theme.radius,22) · ลายแผ่น PlatePatternLayer · scrubLouver/scrubDolly · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): หัวเรื่องสองบรรทัดเป็นข้อความในคอลัมน์ (เดิมกล่อง 23/36) สองบรรทัด lineHeight 0.70 (ช่องไฟย่อ/ขยายตามขนาดตัวอักษร · ขนาด M มือถืออยู่ที่เดิม) · มือถือสูงตามที่เหลือ สูงสุด 159 (คอลัมน์ aspect) · คำบน/ล่างกว้างเท่าคำ (maxW) ให้กรอบแก้ข้อความตรงตัวอักษร",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -102,81 +102,69 @@
      {
       "type": "col",
       "id": "header",
-      "gap": -3,
+      "gap": 0,
       "align": "stretch",
       "children": [
        {
-        "type": "stack",
-        "h": 23,
-        "children": [
-         {
-          "type": "text",
-          "id": "recent",
-          "face": "noto",
-          "weight": 400,
-          "size": 19,
-          "textAlign": "center",
-          "color": "ink",
-          "maxLines": 1,
-          "shrinkTo": 11.8,
-          "place": "center",
-          "text": "Recent",
-          "on": "dark",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "recent",
+        "face": "noto",
+        "weight": 400,
+        "size": 19,
+        "textAlign": "center",
+        "color": "ink",
+        "maxLines": 1,
+        "shrinkTo": 11.8,
+        "text": "Recent",
+        "on": "dark",
+        "editable": true,
+        "lineHeight": 0.7,
+        "maxW": 350,
+        "alignSelf": "center"
        },
        {
-        "type": "stack",
-        "h": 36,
-        "children": [
-         {
-          "type": "text",
-          "id": "title",
-          "face": "noto",
-          "weight": 900,
-          "size": 26,
-          "growTo": 30,
-          "tracking": 0.4,
-          "textCase": "upper",
-          "textAlign": "center",
-          "color": "ink",
-          "maxLines": 1,
-          "shrinkTo": 11,
-          "w": 252,
-          "place": "center",
-          "dy": -5.5,
-          "text": "VIDEOGRAPHY",
-          "on": "dark",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "title",
+        "face": "noto",
+        "weight": 900,
+        "size": 26,
+        "growTo": 30,
+        "tracking": 0.4,
+        "textCase": "upper",
+        "textAlign": "center",
+        "color": "ink",
+        "maxLines": 1,
+        "shrinkTo": 11,
+        "text": "VIDEOGRAPHY",
+        "on": "dark",
+        "editable": true,
+        "alignSelf": "center",
+        "lineHeight": 0.7,
+        "maxW": 252
        }
       ]
      },
      {
       "type": "spacer",
-      "h": 9
+      "h": 22.7
      },
      {
       "type": "row",
       "id": "columns",
       "gap": 7,
-      "align": "start",
+      "align": "stretch",
       "justify": "center",
       "children": [
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone0",
           "if": "papered",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#121212",
@@ -218,20 +206,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone1",
           "if": "papered",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#121212",
@@ -273,20 +261,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone2",
           "if": "papered",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#121212",
@@ -328,20 +316,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone3",
           "if": "papered",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#121212",
@@ -383,14 +371,13 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        }
-      ]
-     },
-     {
-      "type": "spacer",
-      "grow": 1,
-      "minH": 0
+      ],
+      "h": "fill",
+      "maxH": 159
      }
     ]
    },
@@ -413,79 +400,67 @@
      {
       "type": "col",
       "id": "header",
-      "gap": -3,
+      "gap": 0,
       "align": "stretch",
       "children": [
        {
-        "type": "stack",
-        "h": 23,
-        "children": [
-         {
-          "type": "text",
-          "id": "recent",
-          "face": "noto",
-          "weight": 400,
-          "size": 19,
-          "textAlign": "center",
-          "color": "ink@0.95",
-          "maxLines": 1,
-          "shrinkTo": 11.8,
-          "place": "center",
-          "text": "Recent",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "recent",
+        "face": "noto",
+        "weight": 400,
+        "size": 19,
+        "textAlign": "center",
+        "color": "ink@0.95",
+        "maxLines": 1,
+        "shrinkTo": 11.8,
+        "text": "Recent",
+        "editable": true,
+        "lineHeight": 0.7,
+        "maxW": 350,
+        "alignSelf": "center"
        },
        {
-        "type": "stack",
-        "h": 36,
-        "children": [
-         {
-          "type": "text",
-          "id": "title",
-          "face": "noto",
-          "weight": 900,
-          "size": 26,
-          "growTo": 30,
-          "tracking": 0.4,
-          "textCase": "upper",
-          "textAlign": "center",
-          "color": "ink@0.95",
-          "maxLines": 1,
-          "shrinkTo": 11,
-          "w": 252,
-          "place": "center",
-          "dy": -5.5,
-          "text": "VIDEOGRAPHY",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "title",
+        "face": "noto",
+        "weight": 900,
+        "size": 26,
+        "growTo": 30,
+        "tracking": 0.4,
+        "textCase": "upper",
+        "textAlign": "center",
+        "color": "ink@0.95",
+        "maxLines": 1,
+        "shrinkTo": 11,
+        "text": "VIDEOGRAPHY",
+        "editable": true,
+        "alignSelf": "center",
+        "lineHeight": 0.7,
+        "maxW": 252
        }
       ]
      },
      {
       "type": "spacer",
-      "h": 9
+      "h": 22.7
      },
      {
       "type": "row",
       "id": "columns",
       "gap": 7,
-      "align": "start",
+      "align": "stretch",
       "justify": "center",
       "children": [
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone0",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -526,8 +501,7 @@
           "type": "stack",
           "id": "phone0",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -568,20 +542,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone1",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -622,8 +596,7 @@
           "type": "stack",
           "id": "phone1",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -664,20 +637,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone2",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -718,8 +691,7 @@
           "type": "stack",
           "id": "phone2",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -760,20 +732,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone3",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -814,8 +786,7 @@
           "type": "stack",
           "id": "phone3",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -856,14 +827,13 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        }
-      ]
-     },
-     {
-      "type": "spacer",
-      "grow": 1,
-      "minH": 0
+      ],
+      "h": "fill",
+      "maxH": 159
      }
     ]
    },
@@ -886,79 +856,67 @@
      {
       "type": "col",
       "id": "header",
-      "gap": -3,
+      "gap": 0,
       "align": "stretch",
       "children": [
        {
-        "type": "stack",
-        "h": 23,
-        "children": [
-         {
-          "type": "text",
-          "id": "recent",
-          "face": "noto",
-          "weight": 400,
-          "size": 19,
-          "textAlign": "center",
-          "color": "ink@0.95",
-          "maxLines": 1,
-          "shrinkTo": 11.8,
-          "place": "center",
-          "text": "Recent",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "recent",
+        "face": "noto",
+        "weight": 400,
+        "size": 19,
+        "textAlign": "center",
+        "color": "ink@0.95",
+        "maxLines": 1,
+        "shrinkTo": 11.8,
+        "text": "Recent",
+        "editable": true,
+        "lineHeight": 0.7,
+        "maxW": 350,
+        "alignSelf": "center"
        },
        {
-        "type": "stack",
-        "h": 36,
-        "children": [
-         {
-          "type": "text",
-          "id": "title",
-          "face": "noto",
-          "weight": 900,
-          "size": 26,
-          "growTo": 30,
-          "tracking": 0.4,
-          "textCase": "upper",
-          "textAlign": "center",
-          "color": "ink@0.95",
-          "maxLines": 1,
-          "shrinkTo": 11,
-          "w": 252,
-          "place": "center",
-          "dy": -5.5,
-          "text": "VIDEOGRAPHY",
-          "editable": true
-         }
-        ]
+        "type": "text",
+        "id": "title",
+        "face": "noto",
+        "weight": 900,
+        "size": 26,
+        "growTo": 30,
+        "tracking": 0.4,
+        "textCase": "upper",
+        "textAlign": "center",
+        "color": "ink@0.95",
+        "maxLines": 1,
+        "shrinkTo": 11,
+        "text": "VIDEOGRAPHY",
+        "editable": true,
+        "alignSelf": "center",
+        "lineHeight": 0.7,
+        "maxW": 252
        }
       ]
      },
      {
       "type": "spacer",
-      "h": 9
+      "h": 22.7
      },
      {
       "type": "row",
       "id": "columns",
       "gap": 7,
-      "align": "start",
+      "align": "stretch",
       "justify": "center",
       "children": [
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone0",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -999,8 +957,7 @@
           "type": "stack",
           "id": "phone0",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -1041,20 +998,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone1",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -1095,8 +1052,7 @@
           "type": "stack",
           "id": "phone1",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -1137,20 +1093,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone2",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -1191,8 +1147,7 @@
           "type": "stack",
           "id": "phone2",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -1233,20 +1188,20 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        },
        {
         "type": "col",
-        "w": 82,
         "gap": 0,
-        "align": "center",
+        "align": "stretch",
         "children": [
          {
           "type": "stack",
           "id": "phone3",
           "if": "ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#1A1A1A",
@@ -1287,8 +1242,7 @@
           "type": "stack",
           "id": "phone3",
           "if": "!ink.light",
-          "w": 82,
-          "h": 153,
+          "h": "fill",
           "radius": 12,
           "clip": true,
           "fill": "#292929",
@@ -1329,14 +1283,13 @@
           "type": "spacer",
           "h": 6
          }
-        ]
+        ],
+        "aspect": 0.5157,
+        "h": "fill"
        }
-      ]
-     },
-     {
-      "type": "spacer",
-      "grow": 1,
-      "minH": 0
+      ],
+      "h": "fill",
+      "maxH": 159
      }
     ]
    }

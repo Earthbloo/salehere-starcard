@@ -69,7 +69,7 @@
   ],
   "on": "dark"
  },
- "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา night · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา night · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): หัวข้อบรรทัดเดียวในแถวเดียวกับป้ายอัปเดต ยาวเกินตัด … (ไม่ลอดใต้ป้าย)",
  "root": {
   "type": "stack",
   "id": "shell",
@@ -248,7 +248,7 @@
     "gap": 8,
     "children": [
      {
-      "type": "stack",
+      "type": "row",
       "id": "header",
       "children": [
        {
@@ -260,19 +260,20 @@
           "size": 19,
           "weight": 700,
           "color": "ink",
-          "maxLines": 2,
+          "maxLines": 1,
           "id": "title",
           "shrinkTo": 13.3,
           "text": "Social Media",
           "editable": true
          }
-        ]
+        ],
+        "w": "fill",
+        "align": "start"
        },
        {
         "type": "row",
         "id": "countBadgeSlot",
         "if": "has:stat:countsUpdated",
-        "justify": "end",
         "align": "start",
         "dy": 4,
         "children": [
@@ -329,7 +330,9 @@
          }
         ]
        }
-      ]
+      ],
+      "gap": 8,
+      "align": "start"
      },
      {
       "type": "chips",

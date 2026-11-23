@@ -15,7 +15,7 @@
   "stamp": "insight",
   "motion": "anchored"
  },
- "notes": "หัวข้อ 'ผู้ชมอยู่ที่ไหน' + หมุด + 'อันดับ 1–N' (N = count:places) · แถวต่อเมือง (แถบสัดส่วน pct $shareRaw/max หลังตัวหนังสือ · rank2 · ชื่อ · %) · แปลงจาก InsightWidgets.swift (AudienceMapWidget) · แถวเรียงตามรายการ (อันดับจริง) grow 1 เท่ากัน · แถบ = share/max เหมือนต้นฉบับ · อันดับ 1 เข้มกว่า (accent@0.2 vs accent@0.09) ด้วย `$i=first` · หมึกจาก ink ของพื้นที่ใบนั่ง · สีเน้น = accent ของพื้น (ของเดิมใช้ theme.accent ระดับการ์ด ซึ่งบนแผ่นเข้มทึบบนการ์ดกระดาษจะได้สีเข้มที่จมแผ่น — ผังใช้ accent ที่ปรับตามพื้นตามกติกา WidgetBody) · chrome วาดแผ่น/ขอบให้",
+ "notes": "หัวข้อ 'ผู้ชมอยู่ที่ไหน' · แถวต่อเมือง (แถบสัดส่วน pct $shareRaw/max หลังตัวหนังสือ · rank2 · ชื่อ · %) · แปลงจาก InsightWidgets.swift (AudienceMapWidget) · แถวเรียงตามรายการ (อันดับจริง) grow 1 เท่ากัน · แถบ = share/max เหมือนต้นฉบับ · อันดับ 1 เข้มกว่า (accent@0.2 vs accent@0.09) ด้วย `$i=first` · หมึกจาก ink ของพื้นที่ใบนั่ง · สีเน้น = accent ของพื้น (ของเดิมใช้ theme.accent ระดับการ์ด ซึ่งบนแผ่นเข้มทึบบนการ์ดกระดาษจะได้สีเข้มที่จมแผ่น — ผังใช้ accent ที่ปรับตามพื้นตามกติกา WidgetBody) · chrome วาดแผ่น/ขอบให้ · 20 พ.ย. 2569: ถอดหมุด + 'อันดับ 1–N' ขวาบน → pill 'อัปเดตเมื่อ' (stat:countsUpdated) แบบเดียวกับ audienceAge",
  "root": {
   "type": "col",
   "gap": 9,
@@ -49,39 +49,53 @@
      },
      {
       "type": "row",
-      "gap": 4,
+      "id": "countBadge",
+      "if": "has:stat:countsUpdated",
+      "gap": 3.0,
       "align": "center",
+      "pad": [
+       2.5,
+       7.5,
+       2.5,
+       3.0
+      ],
+      "circle": true,
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.07",
+       "width": 0.5
+      },
+      "shadow": {
+       "sigma": 2.5,
+       "y": 1.0,
+       "color": "black@0.14"
+      },
+      "shrink": 0,
       "children": [
        {
         "type": "icon",
-        "icon": "ph:map-pin",
-        "size": 10,
-        "tint": "accent"
+        "icon": "sh:sealRed",
+        "size": 13.0
        },
        {
-        "type": "row",
-        "gap": 0,
-        "align": "center",
-        "children": [
-         {
-          "type": "text",
-          "text": "อันดับ 1–",
-          "face": "noto",
-          "size": 9.5,
-          "weight": 700,
-          "color": "accent",
-          "maxLines": 1
-         },
-         {
-          "type": "text",
-          "slot": "count:places",
-          "face": "noto",
-          "size": 9.5,
-          "weight": 700,
-          "color": "accent",
-          "maxLines": 1
-         }
-        ]
+        "type": "text",
+        "text": "อัปเดตเมื่อ",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
+       },
+       {
+        "type": "text",
+        "slot": "stat:countsUpdated",
+        "face": "noto",
+        "size": 8.5,
+        "weight": 700,
+        "color": "#1F1F23",
+        "maxLines": 1,
+        "shrink": 0
        }
       ]
      }

@@ -101,7 +101,23 @@ enum PageLayout {
     /// รูดกรอบของ *ชิ้น* เข้าหน้า — กรอบยืดอิสระแล้ว จึงรูดทีละแกนตามกติกาของหน้า
     static func clamp(_ item: WidgetInstance, page: CGSize) -> CGRect {
         if item.pinned { return pinnedFrame(item, page: page) }
+        if item.kind.locksAspect { return clamp(item.rect, page: page, min: minSize(for: item.kind), aspect: item.kind.aspect) }
         return clamp(item.rect, page: page, min: minSize(for: item.kind))
+    }
+
+    /// รูดกรอบที่ **ล็อกสัดส่วน** (`widget.lockAspect`) — ความสูง = กว้าง × `aspect` เสมอ
+    /// (ชิ้นเก่าที่สัดส่วนผิดถูกรูดความสูงตามความกว้าง) · กว้างไม่เกินที่หน้าให้ทั้งสองแกน
+    static func clamp(_ r: CGRect, page: CGSize, min floor: CGSize, aspect a: CGFloat) -> CGRect {
+        let box = bounds(page)
+        let w = min(max(r.width, floor.width, floor.height / a), box.width, box.height / a)
+        return clamp(CGRect(x: r.minX, y: r.minY, width: w, height: (w * a).rounded()), page: page, min: floor)
+    }
+
+    /// ช่วงความกว้างของชิ้นที่ล็อกสัดส่วนเมื่อยืดจากมุมบนซ้าย `origin` — (เล็กสุด, ใหญ่สุดที่หน้าให้ทั้งสองแกน)
+    static func lockedWidthRange(min floor: CGSize, aspect a: CGFloat, from origin: CGPoint, page: CGSize) -> (lo: CGFloat, hi: CGFloat) {
+        let lo = max(floor.width, floor.height / a)
+        let hi = max(lo, min(roomWidth(from: origin.x, page: page), roomHeight(from: origin.y, page: page) / a))
+        return (lo, hi)
     }
 
     /// กรอบของชิ้นที่ **ตรึงกับก้นหน้า** (ดู `WidgetInstance.pinned`) — x · กว้าง · สูง ตามที่ถือไว้

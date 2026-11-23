@@ -32,7 +32,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สแครปบุ๊ก · สถิติผู้ชม — แผ่นกระดาษโทน · พาดหัว 'สถิติ/ผู้ชม' แบบแถบดำตัวขาว (note#1/2) · สามแถวซ้าย (เพศหลัก · อายุหลัก · เมืองหลัก = รายการ gender/ages/places เรียง shareRaw desc เอาชิ้นแรก) · กล่อง ER ต่อช่องสูงสุด 3 (socials ที่ engagementRaw>0) · จอมือถือขวาเอียง 4° (อายุ = แท่ง $shareRaw/max · เพศ = แถบ $shareRaw/sum · เมือง 3 อันดับ) · แปลงจาก ScrapbookWidgets.swift (ScrapStatsWidget) · ไอคอนแถวใช้ Phosphor แทน SF Symbols · เพศหลักเทียบเฉพาะหญิง/ชาย ($i<2) ข้อความ 'ผู้ชมเป็นผู้{label}' · ยังไม่มีข้อมูล: ต้นฉบับโชว์ '–' และแท่งว่าง (ghostData) — ผังโชว์ 0% · ตัวหนาของชิ้นสูงสุดในแท่งไม่ทำ (ฟอนต์ตามเงื่อนไขไม่มี) · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว)",
+ "notes": "สแครปบุ๊ก · สถิติผู้ชม — แผ่นกระดาษโทน · พาดหัว 'สถิติ/ผู้ชม' แบบแถบดำตัวขาว (note#1/2) · สามแถวซ้าย (เพศหลัก · อายุหลัก · เมืองหลัก = รายการ gender/ages/places เรียง shareRaw desc เอาชิ้นแรก) · กล่อง ER ต่อช่องสูงสุด 3 (socials ที่ engagementRaw>0) · จอมือถือขวาเอียง 4° (อายุ = แท่ง $shareRaw/max · เพศ = แถบ $shareRaw/sum · เมือง 3 อันดับ) · แปลงจาก ScrapbookWidgets.swift (ScrapStatsWidget) · ไอคอนแถวใช้ Phosphor แทน SF Symbols · เพศหลักเทียบเฉพาะหญิง/ชาย ($i<2) ข้อความ 'ผู้ชมเป็นผู้{label}' · ยังไม่มีข้อมูล: ต้นฉบับโชว์ '–' และแท่งว่าง (ghostData) — ผังโชว์ 0% · ตัวหนาของชิ้นสูงสุดในแท่งไม่ทำ (ฟอนต์ตามเงื่อนไขไม่มี) · แผ่นวาดเสมอ (ไม่มีธงพื้นผิว) · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): ป้ายกว้าง ≤190 คำแรกได้ที่ก่อน (≤110) ย่อได้ 70% แล้วตัด … · แถวสถิติต่อจากป้าย (col#left) · แถวสถิติกระจายเต็มที่ระหว่างป้ายกับแถว ER (justify between)",
  "root": {
   "type": "stack",
   "radius": 16,
@@ -89,295 +89,324 @@
     }
    },
    {
-    "type": "row",
-    "id": "label",
-    "place": "top-left",
-    "dx": 15,
-    "dy": 15,
-    "gap": -2,
+    "type": "col",
+    "id": "left",
+    "gap": 4.6,
     "align": "start",
-    "justify": "start",
     "children": [
      {
       "type": "row",
-      "id": "first",
-      "pad": [
-       0,
-       8.1,
-       2.2,
-       8.1
-      ],
-      "fill": "#141414",
-      "rotate": -2,
-      "children": [
-       {
-        "type": "text",
-        "face": "noto",
-        "size": 27,
-        "weight": 900,
-        "color": "white",
-        "maxLines": 1,
-        "text": "สถิติ",
-        "id": "text1",
-        "editable": true
-       }
-      ]
-     },
-     {
-      "type": "col",
-      "pad": [
-       13,
-       0,
-       0,
-       0
-      ],
+      "id": "label",
+      "gap": -2,
       "align": "start",
+      "justify": "start",
       "children": [
        {
         "type": "row",
-        "id": "second",
+        "id": "first",
         "pad": [
-         0.5,
-         9.2
+         0,
+         8.1,
+         2.2,
+         8.1
         ],
-        "fill": "bg2",
-        "rotate": 1.5,
+        "fill": "#141414",
+        "rotate": -2,
         "children": [
          {
           "type": "text",
-          "face": "mitr",
-          "size": 23.2,
-          "weight": 400,
-          "color": "#141414",
+          "face": "noto",
+          "size": 27,
+          "weight": 900,
+          "color": "white",
           "maxLines": 1,
-          "text": "ผู้ชม",
-          "id": "text2",
-          "editable": true
+          "text": "สถิติ",
+          "id": "text1",
+          "editable": true,
+          "shrinkTo": 19,
+          "maxW": 110
+         }
+        ],
+        "shrink": 0
+       },
+       {
+        "type": "col",
+        "pad": [
+         13,
+         0,
+         0,
+         0
+        ],
+        "align": "start",
+        "children": [
+         {
+          "type": "row",
+          "id": "second",
+          "pad": [
+           0.5,
+           9.2
+          ],
+          "fill": "bg2",
+          "rotate": 1.5,
+          "children": [
+           {
+            "type": "text",
+            "face": "mitr",
+            "size": 23.2,
+            "weight": 400,
+            "color": "#141414",
+            "maxLines": 1,
+            "text": "ผู้ชม",
+            "id": "text2",
+            "editable": true,
+            "shrinkTo": 16.2
+           }
+          ]
          }
         ]
        }
-      ]
-     }
-    ]
-   },
-   {
-    "type": "col",
-    "id": "rows",
-    "place": "top-left",
-    "dx": 18,
-    "dy": 70,
-    "w": 195,
-    "gap": 6,
-    "children": [
-     {
-      "type": "chips",
-      "list": "gender",
-      "where": "$i<2",
-      "sort": "shareRaw desc",
-      "limit": 1,
-      "direction": "col",
-      "each": {
-       "type": "row",
-       "gap": 9,
-       "align": "center",
-       "children": [
-        {
-         "type": "icon",
-         "icon": "ph:users-three-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink",
-         "if": "papered"
-        },
-        {
-         "type": "icon",
-         "icon": "ph:users-three-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink@0.95",
-         "if": "!papered",
-         "on": "card"
-        },
-        {
-         "type": "col",
-         "gap": 0,
-         "align": "start",
-         "children": [
-          {
-           "type": "text",
-           "text": "$share",
-           "face": "noto",
-           "size": 22,
-           "weight": 800,
-           "color": "accent",
-           "maxLines": 1,
-           "shrinkTo": 11
-          },
-          {
-           "type": "text",
-           "text": "ผู้ชมเป็นผู้{label}",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink",
-           "maxLines": 1,
-           "if": "papered"
-          },
-          {
-           "type": "text",
-           "text": "ผู้ชมเป็นผู้{label}",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink@0.95",
-           "maxLines": 1,
-           "if": "!papered",
-           "on": "card"
-          }
-         ]
-        }
-       ]
-      }
+      ],
+      "w": 190
      },
      {
-      "type": "chips",
-      "list": "ages",
-      "sort": "shareRaw desc",
-      "limit": 1,
-      "direction": "col",
-      "each": {
-       "type": "row",
-       "gap": 9,
-       "align": "center",
-       "children": [
-        {
-         "type": "icon",
-         "icon": "ph:cake-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink",
-         "if": "papered"
-        },
-        {
-         "type": "icon",
-         "icon": "ph:cake-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink@0.95",
-         "if": "!papered",
-         "on": "card"
-        },
-        {
-         "type": "col",
-         "gap": 0,
-         "align": "start",
-         "children": [
-          {
-           "type": "text",
-           "text": "$label",
-           "face": "noto",
-           "size": 22,
-           "weight": 800,
-           "color": "accent",
-           "maxLines": 1,
-           "shrinkTo": 11
-          },
-          {
-           "type": "text",
-           "text": "อายุหลักของผู้ชม",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink",
-           "maxLines": 1,
-           "if": "papered"
-          },
-          {
-           "type": "text",
-           "text": "อายุหลักของผู้ชม",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink@0.95",
-           "maxLines": 1,
-           "if": "!papered",
-           "on": "card"
+      "type": "row",
+      "pad": [
+       0,
+       0,
+       0,
+       3
+      ],
+      "align": "stretch",
+      "children": [
+       {
+        "type": "col",
+        "id": "rows",
+        "w": 195,
+        "gap": 0,
+        "children": [
+         {
+          "type": "chips",
+          "list": "gender",
+          "where": "$i<2",
+          "sort": "shareRaw desc",
+          "limit": 1,
+          "direction": "col",
+          "each": {
+           "type": "row",
+           "gap": 9,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:users-three-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink",
+             "if": "papered"
+            },
+            {
+             "type": "icon",
+             "icon": "ph:users-three-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink@0.95",
+             "if": "!papered",
+             "on": "card"
+            },
+            {
+             "type": "col",
+             "gap": 0,
+             "align": "start",
+             "children": [
+              {
+               "type": "text",
+               "text": "$share",
+               "face": "noto",
+               "size": 22,
+               "weight": 800,
+               "color": "accent",
+               "maxLines": 1,
+               "shrinkTo": 11
+              },
+              {
+               "type": "text",
+               "text": "ผู้ชมเป็นผู้{label}",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink",
+               "maxLines": 1,
+               "if": "papered"
+              },
+              {
+               "type": "text",
+               "text": "ผู้ชมเป็นผู้{label}",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink@0.95",
+               "maxLines": 1,
+               "if": "!papered",
+               "on": "card"
+              }
+             ]
+            }
+           ]
           }
-         ]
-        }
-       ]
-      }
-     },
-     {
-      "type": "chips",
-      "list": "places",
-      "sort": "shareRaw desc",
-      "limit": 1,
-      "direction": "col",
-      "each": {
-       "type": "row",
-       "gap": 9,
-       "align": "center",
-       "children": [
-        {
-         "type": "icon",
-         "icon": "ph:map-pin-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink",
-         "if": "papered"
-        },
-        {
-         "type": "icon",
-         "icon": "ph:map-pin-fill",
-         "w": 24,
-         "h": 17,
-         "tint": "ink@0.95",
-         "if": "!papered",
-         "on": "card"
-        },
-        {
-         "type": "col",
-         "gap": 0,
-         "align": "start",
-         "children": [
-          {
-           "type": "text",
-           "text": "$name",
-           "face": "noto",
-           "size": 22,
-           "weight": 800,
-           "color": "accent",
-           "maxLines": 1,
-           "shrinkTo": 11
-          },
-          {
-           "type": "text",
-           "text": "เมืองหลักของผู้ชม",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink",
-           "maxLines": 1,
-           "if": "papered"
-          },
-          {
-           "type": "text",
-           "text": "เมืองหลักของผู้ชม",
-           "face": "mitr",
-           "size": 10,
-           "weight": 400,
-           "color": "ink@0.95",
-           "maxLines": 1,
-           "if": "!papered",
-           "on": "card"
+         },
+         {
+          "type": "chips",
+          "list": "ages",
+          "sort": "shareRaw desc",
+          "limit": 1,
+          "direction": "col",
+          "each": {
+           "type": "row",
+           "gap": 9,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:cake-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink",
+             "if": "papered"
+            },
+            {
+             "type": "icon",
+             "icon": "ph:cake-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink@0.95",
+             "if": "!papered",
+             "on": "card"
+            },
+            {
+             "type": "col",
+             "gap": 0,
+             "align": "start",
+             "children": [
+              {
+               "type": "text",
+               "text": "$label",
+               "face": "noto",
+               "size": 22,
+               "weight": 800,
+               "color": "accent",
+               "maxLines": 1,
+               "shrinkTo": 11
+              },
+              {
+               "type": "text",
+               "text": "อายุหลักของผู้ชม",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink",
+               "maxLines": 1,
+               "if": "papered"
+              },
+              {
+               "type": "text",
+               "text": "อายุหลักของผู้ชม",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink@0.95",
+               "maxLines": 1,
+               "if": "!papered",
+               "on": "card"
+              }
+             ]
+            }
+           ]
           }
-         ]
-        }
-       ]
-      }
+         },
+         {
+          "type": "chips",
+          "list": "places",
+          "sort": "shareRaw desc",
+          "limit": 1,
+          "direction": "col",
+          "each": {
+           "type": "row",
+           "gap": 9,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "ph:map-pin-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink",
+             "if": "papered"
+            },
+            {
+             "type": "icon",
+             "icon": "ph:map-pin-fill",
+             "w": 24,
+             "h": 17,
+             "tint": "ink@0.95",
+             "if": "!papered",
+             "on": "card"
+            },
+            {
+             "type": "col",
+             "gap": 0,
+             "align": "start",
+             "children": [
+              {
+               "type": "text",
+               "text": "$name",
+               "face": "noto",
+               "size": 22,
+               "weight": 800,
+               "color": "accent",
+               "maxLines": 1,
+               "shrinkTo": 11
+              },
+              {
+               "type": "text",
+               "text": "เมืองหลักของผู้ชม",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink",
+               "maxLines": 1,
+               "if": "papered"
+              },
+              {
+               "type": "text",
+               "text": "เมืองหลักของผู้ชม",
+               "face": "mitr",
+               "size": 10,
+               "weight": 400,
+               "color": "ink@0.95",
+               "maxLines": 1,
+               "if": "!papered",
+               "on": "card"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        ],
+        "justify": "between",
+        "h": "fill"
+       }
+      ],
+      "h": "fill"
      }
-    ]
+    ],
+    "pad": [
+     15,
+     0,
+     54,
+     15
+    ],
+    "h": "fill"
    },
    {
     "type": "chips",

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work widgets sizes</title>
+<style>
+  body { margin: 0; background: #0f0f12; color: #ddd; font: 13px system-ui, sans-serif; }
+  h1 { font-size: 16px; padding: 14px 16px 0; margin: 0; }
+  p.note { color: #8a8a92; padding: 0 16px; margin: 6px 0 0; max-width: 900px; line-height: 1.5; }
+  #panel {background: rgba(20,20,24,.96); backdrop-filter: blur(8px); border-bottom: 1px solid #2a2a30; padding: 10px 16px; }
+  section { padding: 18px 16px 8px; border-bottom: 1px solid #222; }
+  section h2 { font-size: 15px; margin: 0 0 12px; }
+  section h2 small { color: #888; font-weight: 400; margin-left: 6px; }
+  .rows { display: grid; grid-template-columns: 110px repeat(2, max-content); gap: 14px 22px; align-items: start; }
+  .rows .lab { color: #aaa; font-weight: 600; padding-top: 6px; }
+  .rows .colhead { color: #fff; font-weight: 700; font-size: 13px; }
+  .rows .colhead.after { color: #7fd6a0; }
+  .cell { position: relative; overflow: hidden; border-radius: 10px; }
+</style>
+</head>
+<body>
+<h1>ผลงานที่ยืนยันแล้ว 3 แบบ — หลายขนาด (JSON ปัจจุบัน)</h1>
+<p class="note">?w=&amp;h= = ขนาดกรอบ (เช่น ?kind=wallPolaroid&amp;w=620&amp;h=200 แนวนอน) · วาดด้วยตัววาดเว็บตัวเดียวกับการ์ด ขนาดจริง 1 pt = 1 px (ใกล้เคียงขนาดบนจอมือถือ) · "ก่อน" = JSON ใน git HEAD · "หลัง" = JSON ปัจจุบันใน shared/WidgetSpecs · "ไม่มี engagement" = ยอดวิว/บันทึก/แชร์เป็น 0 ทุกใบ (ยังไม่ได้ดึงยอด)</p>
+<div id="panel"></div>
+<div id="out"></div>
+<script type="module">
+import { parseSpec } from '../js/spec-model.js'
+import { WebMeasurer, loadFonts } from '../js/measure.js'
+import { ReplayData } from '../js/replay.js'
+import { Profile, WebSpecData } from '../js/data.js'
+import { mountWidget } from '../js/chrome.js'
+import { paintBackdrop } from '../js/backdrop.js'
+import { TRAY_CSS, buildTray, defaultChoice, themeOf } from '../js/backdrop-tray.js'
+
+document.head.appendChild(Object.assign(document.createElement('style'), { textContent: TRAY_CSS }))
+await loadFonts('../fonts/')
+const KINDS = [['proofTicket', 'ตั๋วผลงาน'], ['proofWork', 'ผลงานที่ยืนยันแล้ว'], ['wallPolaroid', 'กำแพงโพลารอยด์']]
+const params = new URLSearchParams(location.search)
+const only = params.get('kind')
+const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
+const all = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
+const before = {}
+for (const [k] of KINDS) before[k] = parseSpec(await fetch(`work-text-before/${k}.json`).then((x) => x.json()))
+const measurer = new WebMeasurer()
+const M = 12
+
+// ไม่มี engagement = ยอดทุกตัวเป็น 0 (ยังไม่ได้ดึงยอดจากแพลตฟอร์ม)
+const ZERO = { views: '0', viewsRaw: '0', saves: '0', savesRaw: '0', shares: '0', sharesRaw: '0', likes: '0', likesRaw: '0', comments: '0', commentsRaw: '0', engageRaw: '0', engagement: '', viralTag: '' }
+// fixture ของ iOS บันทึกก่อนมี likesRaw/commentsRaw → คิดจากตัวย่อ (84.2K → 84200)
+const raw = (s) => { const m = /^([\d.]+)([KM]?)$/.exec(s || ''); return m ? String(Math.round(Number(m[1]) * ({ K: 1e3, M: 1e6 }[m[2]] || 1))) : '0' }
+function caseData(fx, zero) {
+  const d = structuredClone(fx.data)
+  for (const it of d.lists.works || []) { it.fields.likesRaw ??= raw(it.fields.likes); it.fields.commentsRaw ??= raw(it.fields.comments) }
+  if (zero) for (const it of d.lists.works || []) Object.assign(it.fields, ZERO)
+  return d
+}
+// ขนาดตัวอักษรเปลี่ยน → ไม่ใช้ฟอนต์ที่ iOS บันทึก (ส่งค่าเดิมกลับ)
+class Data extends ReplayData { font(slot, face, size, weight) { return { face, size, weight } } }
+
+const pageChoice = { ...defaultChoice() }
+const cells = []
+function render(c) {
+  const theme = themeOf(pageChoice)
+  const specs = { ...all, [c.kind]: c.spec }
+  const W = c.w, H = c.h
+  c.el.innerHTML = ''
+  c.el.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px`
+  paintBackdrop(c.el, theme, W + M * 2, H + M * 2)
+  const profile = new Profile({}, {})
+  const fallback = new WebSpecData({ profile, item: {}, sample: true, surface: 'glass' })
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`, mock: null,
+    makeData: () => new Data(c.data, fallback) }
+  try { mountWidget(c.el, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { c.el.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+}
+
+const out = document.getElementById('out')
+const SIZES = (params.get('sizes') || '174x174,174x260,260x174,250x400,366x150,366x222,366x260,366x470,520x300,620x200').split(',').map((x) => x.split('x').map(Number))
+for (const [kind, title] of KINDS) {
+  if (only && !only.split(',').includes(kind)) continue
+  const fx = await fetch(`../fixtures/fixtures/${kind}.json`).then((x) => x.json())
+  const design = fx.cases.find((x) => x.probe === 'design')
+  const n = Number(params.get('n') || 0)
+  const sec = document.createElement('section')
+  sec.innerHTML = `<h2>${title}<small>${kind}</small></h2><div class="rows"><div></div><div class="colhead">มี engagement</div><div class="colhead">ไม่มี engagement</div></div>`
+  const rows = sec.querySelector('.rows')
+  for (const [w, h] of SIZES) {
+    rows.insertAdjacentHTML('beforeend', `<div class="lab">${w}×${h}</div>`)
+    for (const zero of [false, true]) {
+      const el = document.createElement('div'); el.className = 'cell'
+      rows.appendChild(el)
+      const data = caseData(design, zero)
+      if (n) data.lists.works = data.lists.works.slice(0, n)
+      cells.push({ kind, spec: all[kind], el, data, w, h })
+    }
+  }
+  out.appendChild(sec)
+}
+cells.forEach(render)
+const panel = document.getElementById('panel')
+function rebuild() { buildTray(panel, pageChoice, rebuild); cells.forEach(render) }
+rebuild()
+</script>
+</body>
+</html>

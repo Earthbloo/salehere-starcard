@@ -82,7 +82,7 @@
   ],
   "on": "dark"
  },
- "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ",
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ · 20 พ.ย. 2569: เพิ่ม pill 'อัปเดตเมื่อ' (stat:countsUpdated) ขวาบน แบบเดียวกับ kitSocial",
  "root": {
   "type": "stack",
   "children": [
@@ -279,17 +279,89 @@
     "type": "col",
     "children": [
      {
-      "type": "text",
-      "face": "noto",
-      "size": 22,
-      "weight": 700,
-      "color": "ink",
-      "maxLines": 2,
-      "shrinkTo": 15.4,
-      "w": "fill",
-      "id": "title",
-      "text": "Insight",
-      "editable": true
+      "type": "stack",
+      "id": "header",
+      "children": [
+       {
+        "type": "col",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 22,
+          "weight": 700,
+          "color": "ink",
+          "maxLines": 2,
+          "shrinkTo": 15.4,
+          "w": "fill",
+          "id": "title",
+          "text": "Insight",
+          "editable": true
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "countBadgeSlot",
+        "if": "has:stat:countsUpdated",
+        "justify": "end",
+        "align": "start",
+        "dy": 4,
+        "children": [
+         {
+          "type": "row",
+          "id": "countBadge",
+          "gap": 3.0,
+          "align": "center",
+          "pad": [
+           2.5,
+           7.5,
+           2.5,
+           3.0
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1.0,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13.0
+           },
+           {
+            "type": "text",
+            "text": "อัปเดตเมื่อ",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "slot": "stat:countsUpdated",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
+       }
+      ]
      },
      {
       "type": "col",

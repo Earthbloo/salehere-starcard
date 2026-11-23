@@ -29,7 +29,7 @@
   ],
   "on": "dark"
  },
- "notes": "โปสเตอร์พอร์ต · (21 ต.ค. 2569: ชื่อ/PORTFOLIO/ตรา ใช้พื้นตั้งต้น `dark` ของใบ — เดิมติด `on: light` ค้างจากตัวแปลง ทำให้ตัวหนังสือเข้มบนแผ่นเข้มบนการ์ดคู่สี) · แปลงจาก PosterWidgets.swift (ArtPortfolioPoster + PosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 18 · พื้นผิว (14 ต.ค. 2569): `papered & !duo` = กระดาษสว่างอมเฉด (hue sat .045 bri .965 ไม่มี token → white + rawAccent@0.07 + black@0.03) หัวเรื่อง `accentPaper` · `papered & duo` = แผ่น `plate` หัวเรื่องครีม `plateInk` · `pane` = ไม่มีแผ่น หัวเรื่อง `accent` · `clear` = ไม่มีแผ่น `accent` · ผัง (สัดส่วนกรอบเดิม ที่ 366×488): pad 20.1 · top 26.8 · ชื่อเซริฟเอียง 0.42fs · ระยะ −0.26fs · พาดหัว heavy kerning −0.045fs · Ed.fitted วัดหมึกไม่หักระยะ kerning → ได้ ~54 ที่กว้าง 0.94 ของเส้น · รูป: ผังโหมดกรอบ (ซิมไม่มี Vision) กว้าง 70% เริ่ม y 99 ลงชนขอบล่าง เงา σ5 y4 black@0.13 · ตราปั๊มนูน (embossedLockup) มุมขวาล่างใต้รูป · ไม่มี: ผังคัตเอาต์ (สูง h+bleed−subjectTop ล้นล่าง 5%) สลับตามมีรูปตัดพื้น · ธง emboss=off/blind ของชิ้น (ตราขึ้นเสมอ) · เกล็ด EdGrain · ลายแผ่น · ขนาดเป็นสัดส่วนของกรอบ (ผังสเกลทั้งก้อน)",
+ "notes": "โปสเตอร์พอร์ต · (21 ต.ค. 2569: ชื่อ/PORTFOLIO/ตรา ใช้พื้นตั้งต้น `dark` ของใบ — เดิมติด `on: light` ค้างจากตัวแปลง ทำให้ตัวหนังสือเข้มบนแผ่นเข้มบนการ์ดคู่สี) · แปลงจาก PosterWidgets.swift (ArtPortfolioPoster + PosterSkin) · ใบวาดพื้นเอง (inset 0) มุม 18 · พื้นผิว (14 ต.ค. 2569): `papered & !duo` = กระดาษสว่างอมเฉด (hue sat .045 bri .965 ไม่มี token → white + rawAccent@0.07 + black@0.03) หัวเรื่อง `accentPaper` · `papered & duo` = แผ่น `plate` หัวเรื่องครีม `plateInk` · `pane` = ไม่มีแผ่น หัวเรื่อง `accent` · `clear` = ไม่มีแผ่น `accent` · ผัง (สัดส่วนกรอบเดิม ที่ 366×488): pad 20.1 · top 26.8 · ชื่อเซริฟเอียง 0.42fs · ระยะ −0.26fs · พาดหัว heavy kerning −0.045fs · Ed.fitted วัดหมึกไม่หักระยะ kerning → ได้ ~54 ที่กว้าง 0.94 ของเส้น · รูป: ผังโหมดกรอบ (ซิมไม่มี Vision) กว้าง 70% เริ่ม y 99 ลงชนขอบล่าง เงา σ5 y4 black@0.13 · ตราปั๊มนูน (embossedLockup) มุมขวาล่างใต้รูป · ไม่มี: ผังคัตเอาต์ (สูง h+bleed−subjectTop ล้นล่าง 5%) สลับตามมีรูปตัดพื้น · ธง emboss=off/blind ของชิ้น (ตราขึ้นเสมอ) · เกล็ด EdGrain · ลายแผ่น · ขนาดเป็นสัดส่วนของกรอบ (ผังสเกลทั้งก้อน) · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): ชื่อ–หัวข้อ gap −2 (เดิม −14 สระบนชนชื่อ) · รูปคนอยู่ใน col#type ต่อจากหัวข้อ หัวข้อ lineHeight 0.70 (กรอบแก้ข้อความจบที่เส้นฐาน) → คนเกยขอบล่างหัวข้อเป็นสัดส่วนเท่าดีไซน์ทุกขนาด",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -91,10 +91,10 @@
     "if": "papered",
     "place": "top-left",
     "w": "fill",
-    "gap": 0,
+    "gap": -7.3,
     "align": "center",
     "pad": [
-     26.8,
+     14.8,
      20.1,
      0,
      20.1
@@ -103,7 +103,7 @@
      {
       "type": "col",
       "id": "titleBlock",
-      "gap": -14,
+      "gap": -2.0,
       "align": "center",
       "w": "fill",
       "children": [
@@ -145,13 +145,28 @@
         "maxLines": 1,
         "shrinkTo": 16,
         "color": "accent",
-        "w": "94%",
         "text": "PORTFOLIO",
-        "editable": true
+        "editable": true,
+        "lineHeight": 0.7,
+        "maxW": 306.3
        }
       ]
+     },
+     {
+      "type": "image",
+      "id": "subject",
+      "photo": 1,
+      "removeBg": true,
+      "w": "78.6%",
+      "grow": 1,
+      "shadow": {
+       "sigma": 5,
+       "y": 4,
+       "color": "black@0.13"
+      }
      }
-    ]
+    ],
+    "justify": "start"
    },
    {
     "type": "col",
@@ -159,10 +174,10 @@
     "if": "!papered",
     "place": "top-left",
     "w": "fill",
-    "gap": 0,
+    "gap": -7.3,
     "align": "center",
     "pad": [
-     26.8,
+     14.8,
      20.1,
      0,
      20.1
@@ -171,7 +186,7 @@
      {
       "type": "col",
       "id": "titleBlock",
-      "gap": -14,
+      "gap": -2.0,
       "align": "center",
       "w": "fill",
       "children": [
@@ -215,32 +230,20 @@
         "maxLines": 1,
         "shrinkTo": 16,
         "color": "accent",
-        "w": "94%",
         "text": "PORTFOLIO",
         "on": "card",
-        "editable": true
+        "editable": true,
+        "lineHeight": 0.7,
+        "maxW": 306.3
        }
       ]
-     }
-    ]
-   },
-   {
-    "type": "col",
-    "id": "subjectZone",
-    "pad": [
-     99,
-     0,
-     0,
-     0
-    ],
-    "align": "center",
-    "children": [
+     },
      {
       "type": "image",
       "id": "subject",
       "photo": 1,
       "removeBg": true,
-      "w": "70%",
+      "w": "78.6%",
       "grow": 1,
       "shadow": {
        "sigma": 5,
@@ -248,7 +251,8 @@
        "color": "black@0.13"
       }
      }
-    ]
+    ],
+    "justify": "start"
    }
   ]
  }

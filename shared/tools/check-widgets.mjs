@@ -24,7 +24,7 @@ const errors = []
 
 // คีย์ของบล็อก `widget` ที่ทั้งสามแพลตฟอร์มอ่าน (= `WidgetSpec.Widget` ของ iOS/Android · `kindInfo` ของเว็บ)
 const WIDGET_KEYS = new Set(['title', 'category', 'symbol', 'size', 'order', 'tier', 'ownSurface', 'ownBorder', 'borderChoice', 'surfaces',
-  'surfaceNames', 'border', 'photo', 'keepAspect', 'fullBleed', 'resize', 'controls', 'kit',
+  'surfaceNames', 'border', 'photo', 'keepAspect', 'lockAspect', 'fullBleed', 'resize', 'controls', 'kit',
   'skin', 'on', 'stamp', 'stampAt', 'motion', 'pinned', 'replaces', 'requires'])
 // `widget.requires` — ใบนี้ล็อกจนกว่าทุกค่าจะผ่าน (ชื่อ = แถวติ๊กถูกใน Star Profile · ลำดับตามนี้เสมอ) · WIDGET-SPEC.md §3.3d
 const REQUIRES = ['kind', 'socials', 'categories', 'about', 'provinces', 'availability', 'contact', 'kyc', 'insight', 'body', 'rate', 'work']
@@ -72,7 +72,8 @@ for (const { file, spec } of specs) {
 const SKIP = new Set(['i', 'rank', 'rank2', 'max', 'sum'])
 function usage(spec) {
   const used = new Set()
-  const field = (list, f) => { if (list && f && !SKIP.has(f)) { used.add('list:' + list); used.add(`list:${list}.${f}`) } }
+  // `$likesRaw.max` / `.sum` = ค่าสรุปของรายการที่ตัวคำนวณเติมให้ (spec-solver) → ฟิลด์จริงคือ likesRaw
+  const field = (list, f) => { if (f) f = f.replace(/\.(max|sum)$/, ''); if (list && f && !SKIP.has(f)) { used.add('list:' + list); used.add(`list:${list}.${f}`) } }
   const slot = (v) => {
     if (/^(stat|count):/.test(v)) used.add(v)
     else used.add('slot:' + v.replace(/#(\$i|\d+)$/, '#N'))
@@ -177,8 +178,9 @@ function requiresOf(spec) {
     if (typeof n.slot === 'string') n.slot.startsWith('$') ? field(list, n.slot.slice(1)) : slot(n.slot)
     if (typeof n.photo === 'number') { const c = ((n.photo % 12) + 12) % 12; if (c < 1 || c > 3) into.add('about') }
     else if (typeof n.photo === 'string' && n.photo.startsWith('$')) field(list, n.photo.slice(1))
-    // photoRef → ช่องรูปจากฟิลด์ของรายการ: works.workPhoto = ช่อง 0 = รูปผลงาน (ตอนไม่มีปก `cover`) → about
-    if (typeof n.photoRef === 'string') { field(list, n.photoRef.replace('$', '')); into.add('about') }
+    // photoRef → ช่องรูปจากฟิลด์ของรายการ: works.workPhoto = รูปสำรองตอนงานไม่มีปก `cover` → ไม่นับ about
+    // (กลุ่มผลงานยืนยัน requires แค่ work — ผู้ใช้ 23 พ.ย. 2569 · ไม่งั้นแอปขึ้นปุ่ม "แก้ไขข้อมูล" ที่พาไปขั้นรูปผลงาน)
+    if (typeof n.photoRef === 'string') { field(list, n.photoRef.replace('$', '')); if (list !== 'works') into.add('about') }
     if (typeof n.text === 'string') for (const m of n.text.matchAll(/\{(\w+)\}/g)) field(list, m[1])
     for (const k of ['icon', 'pct', 'src', 'fill', 'color', 'tint']) if (typeof n[k] === 'string') for (const m of n[k].matchAll(/\$(\w+)/g)) field(list, m[1])
     for (const k of ['sort', 'group']) if (typeof n[k] === 'string') for (const part of n[k].split(',')) field(inner, part.trim().split(' ')[0])

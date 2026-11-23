@@ -1,0 +1,345 @@
+[
+ {
+  "kind": "artPortfolio",
+  "title": "โปสเตอร์พอร์ต",
+  "file": "01-โปรไฟล์/artPortfolio.json",
+  "editable": [
+   "headline"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|headline|subject|image",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 488,
+    "variant": "ไทยยาว·M",
+    "text": "รีวิวสินค้าความงามและไลฟ์สไตล์ทุกวัน",
+    "textId": "headline",
+    "editable": true,
+    "other": "subject(image)",
+    "amount": 4662
+   }
+  ]
+ },
+ {
+  "kind": "portfolioGingham",
+  "title": "พอร์ตผ้าปิกนิก",
+  "file": "01-โปรไฟล์/portfolioGingham.json",
+  "editable": [
+   "headline"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "ย่อขยายอย่างเดียว",
+    "minFactor": "M",
+    "key": "hit|text|icon|icon",
+    "size": "หด 0.55",
+    "W": 201,
+    "H": 344,
+    "variant": "design",
+    "text": "ชื่อของคุณ",
+    "textId": "text",
+    "editable": false,
+    "other": "icon(icon)",
+    "amount": 92
+   }
+  ]
+ },
+ {
+  "kind": "portfolioWindow",
+  "title": "หน้าต่างพอร์ต",
+  "file": "01-โปรไฟล์/portfolioWindow.json",
+  "editable": [
+   "headline"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|headline|photo|image",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 565,
+    "variant": "ไทยยาว·M",
+    "text": "รีวิวสินค้าความงามและไลฟ์สไตล์ทุกวัน",
+    "textId": "headline",
+    "editable": true,
+    "other": "photo(image)",
+    "amount": 6254
+   },
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|headline|headline|text",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 565,
+    "variant": "สระซ้อน·M",
+    "text": "ปั้นยิ้มที่นี่ญี่ปุ่น",
+    "textId": "headline",
+    "editable": true,
+    "other": "headline(text)",
+    "amount": 10231
+   }
+  ]
+ },
+ {
+  "kind": "scrapAbout",
+  "title": "รู้จักตัวฉัน",
+  "file": "03-แนะนำตัว/scrapAbout.json",
+  "editable": [
+   "text1",
+   "text2"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "XXL",
+    "key": "hit|about|text|text",
+    "size": "ออกแบบ",
+    "W": 370,
+    "H": 230,
+    "variant": "คำเดิม·XXL",
+    "text": "แนะนำตัวสั้น ๆ ให้แบรนด์รู้จัก",
+    "textId": "about",
+    "editable": false,
+    "other": "text(text)",
+    "amount": 178
+   }
+  ]
+ },
+ {
+  "kind": "scrapInfo",
+  "title": "บัตรข้อมูลของฉัน",
+  "file": "03-แนะนำตัว/scrapInfo.json",
+  "editable": [
+   "text1",
+   "text2"
+  ],
+  "agg": []
+ },
+ {
+  "kind": "kitSocialMac",
+  "title": "Social Media",
+  "file": "04-ผู้ติดตาม/kitSocialMac.json",
+  "editable": [
+   "title"
+  ],
+  "agg": []
+ },
+ {
+  "kind": "kitSocialNight",
+  "title": "Social Media",
+  "file": "04-ผู้ติดตาม/kitSocialNight.json",
+  "editable": [
+   "title"
+  ],
+  "agg": []
+ },
+ {
+  "kind": "audiencePoster",
+  "title": "โปสเตอร์อินไซต์",
+  "file": "05-ผู้ชม/audiencePoster.json",
+  "editable": [
+   "script"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|script|icon|icon",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 520,
+    "variant": "สระซ้อน·M",
+    "text": "ปั้นยิ้มที่นี่ญี่ปุ่น",
+    "textId": "script",
+    "editable": true,
+    "other": "icon(icon)",
+    "amount": 154
+   },
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|script|text|text",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 520,
+    "variant": "สระซ้อน·M",
+    "text": "ปั้นยิ้มที่นี่ญี่ปุ่น",
+    "textId": "script",
+    "editable": true,
+    "other": "text(text)",
+    "amount": 58
+   },
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "L",
+    "key": "hit|script|subject|image",
+    "size": "ออกแบบ",
+    "W": 366,
+    "H": 520,
+    "variant": "ไทยสั้น·L",
+    "text": "เทส",
+    "textId": "script",
+    "editable": true,
+    "other": "subject(image)",
+    "amount": 1231
+   },
+   {
+    "type": "hit",
+    "cause": "ย่อขยายอย่างเดียว",
+    "minFactor": "M",
+    "key": "hit|reachHero|subject|image",
+    "size": "หด 0.55",
+    "W": 201,
+    "H": 286,
+    "variant": "design",
+    "text": "184K",
+    "textId": "reachHero",
+    "editable": false,
+    "other": "subject(image)",
+    "amount": 573
+   }
+  ]
+ },
+ {
+  "kind": "scrapStats",
+  "title": "สถิติผู้ชม",
+  "file": "05-ผู้ชม/scrapStats.json",
+  "editable": [
+   "text1",
+   "text2"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "L",
+    "key": "hit|text|text|text",
+    "size": "ออกแบบ",
+    "W": 370,
+    "H": 280,
+    "variant": "คำเดิม·L",
+    "text": "เมืองหลักของผู้ชม",
+    "textId": "text",
+    "editable": false,
+    "other": "text(text)",
+    "amount": 73
+   },
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "XL",
+    "key": "hit|text|icon|icon",
+    "size": "ออกแบบ",
+    "W": 370,
+    "H": 280,
+    "variant": "คำเดิม·XL",
+    "text": "4.7%",
+    "textId": "text",
+    "editable": false,
+    "other": "icon(icon)",
+    "amount": 32
+   },
+   {
+    "type": "out",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "XXL",
+    "key": "out|text",
+    "size": "หด 0.75",
+    "W": 278,
+    "H": 210,
+    "variant": "คำเดิม·XXL",
+    "text": "เมืองหลักของผู้ชม",
+    "textId": "text",
+    "editable": false,
+    "other": null,
+    "amount": 5
+   },
+   {
+    "type": "clip",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "XXL",
+    "key": "clip|text|stack",
+    "size": "หด 0.75",
+    "W": 278,
+    "H": 210,
+    "variant": "คำเดิม·XXL",
+    "text": "เมืองหลักของผู้ชม",
+    "textId": "text",
+    "editable": false,
+    "other": null,
+    "amount": 7
+   }
+  ]
+ },
+ {
+  "kind": "reelBrand",
+  "title": "Brand Campaign",
+  "file": "12-ผลงานยืนยัน/reelBrand.json",
+  "editable": [
+   "recent",
+   "title"
+  ],
+  "agg": [
+   {
+    "type": "hit",
+    "cause": "แก้คำ/ขนาด",
+    "minFactor": "M",
+    "key": "hit|recent|icon|icon",
+    "size": "แคบ-สูง",
+    "W": 256,
+    "H": 365,
+    "variant": "สระซ้อน·M",
+    "text": "ปั้นยิ้มที่นี่ญี่ปุ่น",
+    "textId": "recent",
+    "editable": true,
+    "other": "icon(icon)",
+    "amount": 108
+   },
+   {
+    "type": "hit",
+    "cause": "ย่อขยายอย่างเดียว",
+    "minFactor": "M",
+    "key": "hit|text|cover|image",
+    "size": "แคบ-สูง",
+    "W": 256,
+    "H": 365,
+    "variant": "design",
+    "text": "486K",
+    "textId": "text",
+    "editable": false,
+    "other": "cover(image)",
+    "amount": 58
+   }
+  ]
+ },
+ {
+  "kind": "wallMemory",
+  "title": "บอร์ดรูปติดหมุด",
+  "file": "13-รูปผลงาน/wallMemory.json",
+  "editable": [],
+  "agg": []
+ },
+ {
+  "kind": "reelShowcase",
+  "title": "คลิปล่าสุด",
+  "file": "14-แผ่นโชว์ผลงาน/reelShowcase.json",
+  "editable": [
+   "recent",
+   "title"
+  ],
+  "agg": []
+ }
+]

@@ -493,7 +493,7 @@ export class WebSpecData {
           brand: w.brand, ep: w.ep, campaign: w.campaign, platform: w.platform, icon: 'sh:' + w.platform, tint: SOCIAL[w.platform]?.tint ?? '',
           format: w.format, views: Fmt.compact(w.views), viewsRaw: String(w.views), photo: String(4 + i), workPhoto: String(w.photo),
           cover: w.cover || '', saves: Fmt.compact(w.saves), savesRaw: String(w.saves), shares: Fmt.compact(w.shares), sharesRaw: String(w.shares),
-          likes: Fmt.compact(w.likes), comments: Fmt.compact(w.comments), engageRaw: String(w.likes + w.comments + w.shares + w.saves),
+          likes: Fmt.compact(w.likes), likesRaw: String(w.likes), comments: Fmt.compact(w.comments), commentsRaw: String(w.comments), engageRaw: String(w.likes + w.comments + w.shares + w.saves),
           engagement: Fmt.f(w.engagementRate, 1) + '%', viralTag: w.viralTag || '',
           // โลโก้แบรนด์ของผลงาน: URL ก่อน · ไม่มีก็ asset ในแอป (= iOS `logo ?? asset`)
           brandLogo: (({ logo, asset } = {}) => logo || asset || '')(tr.brands.find((b) => b.name === w.brand)),

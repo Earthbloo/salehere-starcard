@@ -100,6 +100,7 @@
 | proofWork | ✓ | fixtures/proofWork.json |
 | rateTags | ✓ | fixtures/rateTags.json |
 | reelShowcase | ✓ | fixtures/reelShowcase.json |
+| reelBrand | ✓ | fixtures/reelBrand.json |
 | scrapAbout | ✓ | fixtures/scrapAbout.json |
 | scrapBadge | ✓ | fixtures/scrapBadge.json |
 | scrapFeed | ✓ | fixtures/scrapFeed.json |

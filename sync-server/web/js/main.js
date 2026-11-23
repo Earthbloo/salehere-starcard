@@ -91,7 +91,9 @@ function render() {
     const page = document.createElement('div')
     page.className = 'page'
     page.style.cssText = `left:${i * pw}px;width:${pw}px;height:${ph}px`
-    for (const p of solvePage(items, { width: pw, height: ph })) mountWidget(page, p.item, p.frame, env)
+    // ชนิดที่ล็อกสัดส่วน (`widget.lockAspect`) → สูง/กว้างของขนาดออกแบบ
+    const lockedAspect = (kind) => { const sp = state.specs[kind]; return sp?.widget?.lockAspect ? sp.design.h / Math.max(sp.design.w, 1) : null }
+    for (const p of solvePage(items, { width: pw, height: ph }, lockedAspect)) mountWidget(page, p.item, p.frame, env)
     strip.appendChild(page)
   })
   const fit = Math.min(1, (window.innerWidth - 32) / (pw * pages.length), 1)

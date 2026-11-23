@@ -404,6 +404,9 @@ struct WidgetKind: Hashable, Identifiable {
     /// ผังตายตัวที่สเกลตามความกว้าง — ความสูงต่ำสุดคือสัดส่วนที่ออกแบบไว้ (`widget.keepAspect`)
     var keepsDesignAspect: Bool { meta.keepAspect ?? false }
 
+    /// ล็อกสัดส่วนกรอบ = ขนาดออกแบบ (`widget.lockAspect`) — ย่อขยายแล้วสเกลทั้งใบ ห้ามยืดแกนเดียว
+    var locksAspect: Bool { meta.lockAspect ?? false }
+
     /// พื้นผิวตั้งต้นตอนหยิบออกจากตู้/สลับแบบ = ตัวเลือกแรกของถาด (ไม่มีตัวเลือก = กระจก)
     var defaultSurface: WidgetSurface { surfaceOptions.first ?? .glass }
 

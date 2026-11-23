@@ -684,7 +684,7 @@ struct IOSSpecData: SpecDataSource {
                     // ผลงานตัวจริงของชิ้น (`WorkPicture`): ปก asset ก่อน · ไม่มีก็ช่องรูปของผลงาน — `image` ใช้ `"src": "$cover"` + `"photo": "$workPhoto"`
                     "workPhoto": String(w.photo), "cover": w.cover ?? "",
                     "saves": Fmt.compact(w.saves), "savesRaw": String(w.saves), "shares": Fmt.compact(w.shares), "sharesRaw": String(w.shares),
-                    "likes": Fmt.compact(w.likes), "comments": Fmt.compact(w.comments),
+                    "likes": Fmt.compact(w.likes), "likesRaw": String(w.likes), "comments": Fmt.compact(w.comments), "commentsRaw": String(w.comments),
                     "engageRaw": String(w.likes + w.comments + w.shares + w.saves),
                     "engagement": Fmt.fixed(w.engagementRate, 1) + "%", "viralTag": w.viralTag ?? "",
                     "brandLogo": p.shownTrack(.verified).brands.first { $0.name == w.brand }.flatMap { $0.logo ?? $0.asset } ?? ""])

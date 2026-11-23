@@ -216,7 +216,7 @@ data class AndroidSpecData(
                     // ผลงานตัวจริงของชิ้น: ปก asset ก่อน · ไม่มีก็ช่องรูปของผลงาน
                     "workPhoto" to w.photo.toString(), "cover" to (w.cover ?: ""),
                     "saves" to Fmt.compact(w.saves), "savesRaw" to w.saves.toString(), "shares" to Fmt.compact(w.shares), "sharesRaw" to w.shares.toString(),
-                    "likes" to Fmt.compact(w.likes), "comments" to Fmt.compact(w.comments),
+                    "likes" to Fmt.compact(w.likes), "likesRaw" to w.likes.toString(), "comments" to Fmt.compact(w.comments), "commentsRaw" to w.comments.toString(),
                     "engageRaw" to (w.likes + w.comments + w.shares + w.saves).toString(),
                     "engagement" to Fmt.f(w.engagementRate, 1) + "%", "viralTag" to (w.viralTag ?: ""),
                     // โลโก้แบรนด์ของผลงาน: URL ก่อน · ไม่มีก็ asset ในแอป (= iOS `logo ?? asset`)

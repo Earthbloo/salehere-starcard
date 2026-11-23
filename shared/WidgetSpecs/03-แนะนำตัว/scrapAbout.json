@@ -32,7 +32,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สแครปบุ๊ก 06 รู้จักตัวฉัน — แผ่นกระดาษโทน (scrap.paper + speckle) · ป้ายกล่องคำซ้อนสองแถว 'รู้จัก' (แถบดำตัวขาว 27 · note#1) / 'ตัวฉัน' (แถบ band มิตร · note#2 เยื้องขวา 35) · แนะนำตัว (about) 5 บรรทัด หมึกของแผ่น กว้าง 52.4% ไม่เกิน 200 · พิลขาว พื้นที่รับงาน (workArea) · ขวา: แผ่น scrap.mid เอียง -8 + โพลารอยด์รูป 1 เอียง 4 + ชื่อเล่น (nickname) มิตรชมพู 37 เอียง -4 + คลิปหนีบเงิน · ประกาย/หัวใจ · ของฝั่งขวาเกาะขอบขวา (place top-right) · แปลงจาก ScrapbookWidgets.swift (ScrapAboutWidget) · ใช้ไม่ได้: พิล 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · ขอบขาวรอบชื่อเล่น (ใช้ shadow ขาว) · surface pane/clear = ไม่วาดแผ่นและหมึกพลิกตามการ์ด",
+ "notes": "สแครปบุ๊ก 06 รู้จักตัวฉัน — แผ่นกระดาษโทน (scrap.paper + speckle) · ป้ายกล่องคำซ้อนสองแถว 'รู้จัก' (แถบดำตัวขาว 27 · note#1) / 'ตัวฉัน' (แถบ band มิตร · note#2 เยื้องขวา 35) · แนะนำตัว (about) 5 บรรทัด หมึกของแผ่น กว้าง 52.4% ไม่เกิน 200 · พิลขาว พื้นที่รับงาน (workArea) · ขวา: แผ่น scrap.mid เอียง -8 + โพลารอยด์รูป 1 เอียง 4 + ชื่อเล่น (nickname) มิตรชมพู 37 เอียง -4 + คลิปหนีบเงิน · ประกาย/หัวใจ · ของฝั่งขวาเกาะขอบขวา (place top-right) · แปลงจาก ScrapbookWidgets.swift (ScrapAboutWidget) · ใช้ไม่ได้: พิล 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · ขอบขาวรอบชื่อเล่น (ใช้ shadow ขาว) · surface pane/clear = ไม่วาดแผ่นและหมึกพลิกตามการ์ด · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): ป้ายคำแรก ≤134 คำที่สอง ≤140 ย่อได้ 70% แล้วตัด … · คำแนะนำตัวต่อจากป้าย (col#left)",
  "root": {
   "type": "stack",
   "radius": 16,
@@ -89,117 +89,157 @@
     }
    },
    {
-    "type": "row",
-    "id": "labelWrap",
+    "type": "col",
+    "id": "left",
     "pad": [
      22,
      0,
      0,
-     18
+     0
     ],
+    "gap": 4.8,
     "align": "start",
     "children": [
      {
-      "type": "col",
-      "id": "label",
-      "gap": -3.24,
+      "type": "row",
+      "id": "labelWrap",
+      "pad": [
+       0,
+       0,
+       0,
+       18
+      ],
       "align": "start",
       "children": [
        {
-        "type": "row",
-        "id": "first",
-        "pad": [
-         0,
-         8.1,
-         2.2,
-         8.1
-        ],
-        "fill": "#141414",
-        "rotate": -2,
-        "children": [
-         {
-          "type": "text",
-          "face": "noto",
-          "weight": 900,
-          "size": 27,
-          "color": "white",
-          "maxLines": 1,
-          "text": "รู้จัก",
-          "id": "text1",
-          "editable": true
-         }
-        ]
-       },
-       {
-        "type": "row",
-        "pad": [
-         0,
-         0,
-         0,
-         35
-        ],
+        "type": "col",
+        "id": "label",
+        "gap": -3.24,
+        "align": "start",
         "children": [
          {
           "type": "row",
-          "id": "second",
+          "id": "first",
           "pad": [
-           0.5,
-           9.2
+           0,
+           8.1,
+           2.2,
+           8.1
           ],
-          "fill": "bg2",
-          "rotate": 1.5,
+          "fill": "#141414",
+          "rotate": -2,
           "children": [
            {
             "type": "text",
-            "face": "mitr",
-            "weight": 400,
-            "size": 23.2,
-            "color": "#141414",
+            "face": "noto",
+            "weight": 900,
+            "size": 27,
+            "color": "white",
             "maxLines": 1,
-            "text": "ตัวฉัน",
-            "id": "text2",
-            "editable": true
+            "text": "รู้จัก",
+            "id": "text1",
+            "editable": true,
+            "maxW": 134,
+            "shrinkTo": 19
+           }
+          ]
+         },
+         {
+          "type": "row",
+          "pad": [
+           0,
+           0,
+           0,
+           35
+          ],
+          "children": [
+           {
+            "type": "row",
+            "id": "second",
+            "pad": [
+             0.5,
+             9.2
+            ],
+            "fill": "bg2",
+            "rotate": 1.5,
+            "children": [
+             {
+              "type": "text",
+              "face": "mitr",
+              "weight": 400,
+              "size": 23.2,
+              "color": "#141414",
+              "maxLines": 1,
+              "text": "ตัวฉัน",
+              "id": "text2",
+              "editable": true,
+              "maxW": 140,
+              "shrinkTo": 16.2
+             }
+            ]
            }
           ]
          }
         ]
        }
       ]
+     },
+     {
+      "type": "row",
+      "if": "papered",
+      "pad": [
+       0,
+       0,
+       0,
+       20
+      ],
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "about",
+        "slot": "about",
+        "face": "noto",
+        "weight": 500,
+        "size": 11.5,
+        "lineHeight": 1.25,
+        "color": "ink",
+        "maxLines": 5,
+        "w": 193.9,
+        "maxW": 200,
+        "shrink": 0
+       }
+      ]
+     },
+     {
+      "type": "row",
+      "if": "!papered",
+      "pad": [
+       0,
+       0,
+       0,
+       20
+      ],
+      "align": "start",
+      "children": [
+       {
+        "type": "text",
+        "id": "aboutBare",
+        "slot": "about",
+        "face": "noto",
+        "weight": 500,
+        "size": 11.5,
+        "lineHeight": 1.25,
+        "color": "ink@0.95",
+        "maxLines": 5,
+        "w": 193.9,
+        "maxW": 200,
+        "on": "card",
+        "shrink": 0
+       }
+      ]
      }
     ]
-   },
-   {
-    "type": "text",
-    "id": "about",
-    "if": "papered",
-    "slot": "about",
-    "face": "noto",
-    "weight": 500,
-    "size": 11.5,
-    "lineHeight": 1.25,
-    "color": "ink",
-    "maxLines": 5,
-    "w": "52.4%",
-    "maxW": 200,
-    "dx": 20,
-    "dy": 104
-   },
-   {
-    "type": "text",
-    "id": "aboutBare",
-    "if": "!papered",
-    "slot": "about",
-    "face": "noto",
-    "weight": 500,
-    "size": 11.5,
-    "lineHeight": 1.25,
-    "color": "ink@0.95",
-    "maxLines": 5,
-    "w": "52.4%",
-    "maxW": 200,
-    "dx": 20,
-    "dy": 104,
-    "on": "card"
    },
    {
     "type": "row",

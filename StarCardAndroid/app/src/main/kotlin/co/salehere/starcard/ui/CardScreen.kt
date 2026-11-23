@@ -1551,7 +1551,14 @@ private class CardEditorState(
         val roomH = PageLayout.roomHeight(f.top, pageSize)
         fun band(v: Float, lo: Float, hi: Float): Float =
             if (v < lo) lo - rubber(lo - v) else if (v > hi) hi + rubber(v - hi) else v
-        val live = Size(band(wantW, lo.width, roomW), band(wantH, lo.height, roomH))
+        var live = Size(band(wantW, lo.width, roomW), band(wantH, lo.height, roomH))
+        // ล็อกสัดส่วน (`widget.lockAspect`): นิ้วไปทางไหนไกลกว่า (เทียบตามสัดส่วน) ใช้แกนนั้น แล้วสเกลทั้งใบ
+        if (p.item.kind.locksAspect) {
+            val a = p.item.kind.aspect
+            val (rLo, rHi) = PageLayout.lockedWidthRange(lo, a, f.left, f.top, pageSize)
+            val w = band(max(wantW, wantH / a), rLo, rHi)
+            live = Size(w, w * a)
+        }
         // ชนขอบ/ชนพื้น = สะกิดหนึ่งที บอกว่า "สุดแล้ว" โดยไม่ต้องมีข้อความ
         val old = resizeLive
         if (old != null) {
@@ -1607,8 +1614,14 @@ private class CardEditorState(
         if (live != null && item != null) {
             val f = placed.firstOrNull { it.id == id }?.frame ?: item.rect
             val lo = PageLayout.minSize(item.kind)
-            val w = swiftRound(min(max(live.width, lo.width), PageLayout.roomWidth(f.left, pageSize)))
-            val h = swiftRound(min(max(live.height, lo.height), PageLayout.roomHeight(f.top, pageSize)))
+            var w = swiftRound(min(max(live.width, lo.width), PageLayout.roomWidth(f.left, pageSize)))
+            var h = swiftRound(min(max(live.height, lo.height), PageLayout.roomHeight(f.top, pageSize)))
+            if (item.kind.locksAspect) {
+                val a = item.kind.aspect
+                val (rLo, rHi) = PageLayout.lockedWidthRange(lo, a, f.left, f.top, pageSize)
+                w = swiftRound(min(max(live.width, rLo), rHi))
+                h = swiftRound(w * a)
+            }
             // เขียนตอน `resizeID` ยังอยู่ — `setPages` จึงเลือกสปริง `homeDrop` ให้การเข้าที่ (ดู `resolve`)
             updateItem(id) { it.copy(w = w, h = h) }
         }
