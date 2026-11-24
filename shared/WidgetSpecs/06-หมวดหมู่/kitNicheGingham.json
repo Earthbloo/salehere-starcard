@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว · แสดงไม่เกิน 5 สาย (limit 5)",
+ "notes": "สายงาน (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (niche) · รายการ categories ช่อง categories#$i · ซ่อนด้วย where !hidden:$text · ม่วง/กรอบตาราง/กลางคืน = แถวเดียวแบ่งกว้างเท่ากัน (ต้นฉบับ grid ≤3 คอลัมน์แล้วขึ้นแถวใหม่ — >3 สายที่นี่จะบีบในแถวเดียว) · ทำไม่ได้: ตัดอีโมจิหน้าชื่อ (KitNiche.clean) · ไอคอนต่อสายงาน (KitNiche.symbol) ใช้ ph:sparkle ตัวเดียว · แสดงไม่เกิน 5 สาย (limit 5) · 23 พ.ย. 2569 (QA reject): หัวข้อบนการ์ดขาว = #141417 ตายตัว (เดิม ink on light → เลือกสีวิดเจ็ตเข้ม หมึกแผ่น light กลายเป็นสีอ่อน หัวข้อหายบนการ์ดขาว)",
  "variants": [
   {
    "when": "cfg:fill=clear",
@@ -153,8 +153,7 @@
           "face": "noto",
           "size": 19,
           "weight": 800,
-          "color": "ink",
-          "on": "light",
+          "color": "#141417",
           "maxLines": 2,
           "shrinkTo": 13.3,
           "w": "fill",
@@ -447,8 +446,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "ink",
-        "on": "light",
+        "color": "#141417",
         "maxLines": 2,
         "shrinkTo": 13.3,
         "w": "fill",

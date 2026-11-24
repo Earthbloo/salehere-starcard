@@ -25,7 +25,7 @@
    }
   ]
  },
- "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้าย Verified by Sale Here (byline:dark ตัวอักษร 8.5 ≈ 84×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (12 พ.ย. 2569 แทน provenance:photo ที่สลับตามสถานะ) — กรอบ 85×19 · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
+ "notes": "รูปช่อง 3 เต็มกรอบ + ม่านไล่ดำ + หัวเรื่อง · ตัวเลขยักษ์ (stat:totalFollowers) · ชิปกระจกต่อช่อง · แปลงจาก ArtWidgets.swift (StatGiant) · ใบวาดพื้นเอง (inset 0) ไม่มีตัวเลือกพื้น · ฟอนต์ไล่สี white→rawAccentSoft ของตัวเลขใช้สีขาวแทน · glassEffect(.clear) ของชิป (ม่านดำ @0.2 + rim ของระบบ) ประมาณด้วย white@0.12 + เส้นขอบ white@0.3 · ป้าย Verified by Sale Here (byline:dark ตัวอักษร 8.5 ≈ 84×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (12 พ.ย. 2569 แทน provenance:photo ที่สลับตามสถานะ) — กรอบ 85×19 · แถวหัว/แถวชิปกว้างเต็ม (w fill) ให้ป้ายชิดขวาเหมือนต้นฉบับ · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media) · 24 พ.ย. 2569: ติ๊กแดง sh:sealRed (if $verified, ≈0.8× ตัวเลข) หลังยอดผู้ติดตามรายช่องทาง — ผู้ใช้สั่ง \"ใส่ tick ถูกหลังเลข\"",
  "root": {
   "type": "stack",
   "clip": true,
@@ -194,13 +194,28 @@
            "size": 17
           },
           {
-           "type": "text",
-           "slot": "$followers",
-           "face": "noto",
-           "size": 14,
-           "weight": 800,
-           "color": "white",
-           "maxLines": 1
+           "type": "row",
+           "gap": 2,
+           "align": "center",
+           "justify": "center",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$followers",
+             "face": "noto",
+             "size": 14,
+             "weight": 800,
+             "color": "white",
+             "maxLines": 1
+            },
+            {
+             "type": "icon",
+             "icon": "sh:sealRed",
+             "size": 11.0,
+             "if": "$verified",
+             "shrink": 0
+            }
+           ]
           }
          ],
          "stroke": {
@@ -232,14 +247,29 @@
            "size": 15
           },
           {
-           "type": "text",
-           "slot": "$followers",
-           "face": "noto",
-           "size": 13,
-           "weight": 800,
-           "color": "white",
-           "maxLines": 1,
-           "shrinkTo": 8
+           "type": "row",
+           "gap": 2,
+           "align": "center",
+           "justify": "center",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$followers",
+             "face": "noto",
+             "size": 13,
+             "weight": 800,
+             "color": "white",
+             "maxLines": 1,
+             "shrinkTo": 8
+            },
+            {
+             "type": "icon",
+             "icon": "sh:sealRed",
+             "size": 10.5,
+             "if": "$verified",
+             "shrink": 0
+            }
+           ]
           }
          ]
         }

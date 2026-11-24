@@ -510,9 +510,11 @@ extension SocialType {
             PlatFormat(key: "dedicated", label: "คลิปรีวิวเต็ม (Dedicated)", m: 1.8, generic: .longVideo)]
         case .lemon8: return [
             PlatFormat(key: "photo", label: "โพสต์ภาพ (Photo Set)", m: 1, isDefault: true, generic: .photo),
+            PlatFormat(key: "video", label: "คลิปสั้น", m: 1.3, generic: .shortVideo),
             PlatFormat(key: "review", label: "รีวิวยาว + แท็กสินค้า", m: 1.5, generic: .seeding)]
         case .x: return [
             PlatFormat(key: "post", label: "โพสต์ + ภาพ", m: 1, isDefault: true, generic: .photo),
+            PlatFormat(key: "video", label: "โพสต์วิดีโอ", m: 1.3, generic: .shortVideo),
             PlatFormat(key: "thread", label: "เธรดรีวิว (3 โพสต์ขึ้นไป)", m: 1.7, generic: .seeding)]
         }
     }

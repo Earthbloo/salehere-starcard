@@ -429,16 +429,31 @@
             "w": "fill"
            },
            {
-            "type": "text",
-            "slot": "name",
-            "face": "noto",
-            "size": 17,
-            "weight": 700,
-            "color": "ink",
-            "maxLines": 2,
-            "id": "name",
-            "textAlign": "center",
-            "w": "fill"
+            "type": "row",
+            "id": "nameRow",
+            "gap": 4.2,
+            "align": "center",
+            "justify": "center",
+            "w": "fill",
+            "children": [
+             {
+              "type": "text",
+              "slot": "name",
+              "face": "noto",
+              "size": 17,
+              "weight": 700,
+              "color": "ink",
+              "maxLines": 2,
+              "id": "name",
+              "textAlign": "center"
+             },
+             {
+              "type": "icon",
+              "icon": "sh:sealRed",
+              "size": 12.2,
+              "if": "owner.verified"
+             }
+            ]
            },
            {
             "type": "chips",

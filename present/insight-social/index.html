@@ -1,0 +1,292 @@
+<title>Insight เลือก Social</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* layout: คอลัมน์เดียวอ่านลงล่าง — ส่วน "แก้ตรงไหน" เป็นท่อ 4 ช่อง แล้วตามด้วยแผงลองเล่น (ข้อมูลซ้าย · วิดเจ็ตขวา) */
+:root {
+  --bg: #F9FAFB; --card: #FFFFFF; --line: #E5E7EB; --ink: #111827; --ink2: #6B7280;
+  --accent: #E11D2E; --accent-soft: #FDECEE; --ok: #15803D; --ok-soft: #E8F5EC;
+  --warn: #B45309; --warn-soft: #FEF3E2; --chip: #F3F4F6; --btn: #1F2937; --btn-ink: #FFFFFF;
+  --f-body: "Noto Sans Thai", system-ui, sans-serif; --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1115; --card: #171A21; --line: #2A2F3A; --ink: #F3F4F6; --ink2: #9CA3AF;
+  --accent: #FF5A66; --accent-soft: #3A1A1E; --ok: #4ADE80; --ok-soft: #14291C;
+  --warn: #FBBF24; --warn-soft: #33270F; --chip: #222733; --btn: #F3F4F6; --btn-ink: #111827; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1115; --card: #171A21; --line: #2A2F3A; --ink: #F3F4F6; --ink2: #9CA3AF;
+  --accent: #FF5A66; --accent-soft: #3A1A1E; --ok: #4ADE80; --ok-soft: #14291C;
+  --warn: #FBBF24; --warn-soft: #33270F; --chip: #222733; --btn: #F3F4F6; --btn-ink: #111827; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 40px }
+h1 { font-size: 28px; line-height: 1.3; margin: 0; text-wrap: balance }
+h2 { font-size: 20px; margin: 0 0 4px; text-wrap: balance }
+p { margin: 0 }
+.lead { color: var(--ink2); max-width: 65ch; margin-top: 6px }
+code, .mono { font-family: var(--f-mono); font-size: 12.5px }
+.sec-head { display: grid; gap: 4px; margin-bottom: 16px }
+
+/* ท่อ: ข้อมูลไหลจาก API → การ์ด */
+.pipe { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-items: stretch }
+.stage { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 8px; align-content: start; position: relative; min-width: 0 }
+.stage .no { font-size: 12px; color: var(--ink2); letter-spacing: .04em }
+.stage h3 { margin: 0; font-size: 16px }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; padding: 2px 10px; border-radius: 999px; width: fit-content }
+.tag.ok { background: var(--ok-soft); color: var(--ok) }
+.tag.fix { background: var(--accent-soft); color: var(--accent) }
+.now, .after { font-size: 13.5px }
+.now b, .after b { font-weight: 600 }
+.after { border-top: 1px dashed var(--line); padding-top: 8px }
+.files { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 8px }
+.files div { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 6px; font-size: 12px; color: var(--ink2) }
+.files code { color: var(--ink); overflow-wrap: anywhere }
+.stage.fix { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)) }
+.who { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px }
+.who > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 13.5px }
+.who b { display: block; font-size: 14px; margin-bottom: 2px }
+
+/* แผงลองเล่น */
+.play { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 12px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px) }
+.presets { display: flex; flex-wrap: wrap; gap: 6px }
+.presets button { font: 500 13px var(--f-body); border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer }
+.presets button[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); border-color: var(--btn) }
+.srow { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px; align-items: center; padding-top: 10px; border-top: 1px solid var(--line) }
+.srow .nm { font-weight: 600; font-size: 14px; line-height: 1.25 }
+.srow .nm small { display: block; font-weight: 400; color: var(--ink2); font-size: 12px; font-variant-numeric: tabular-nums }
+.topics { display: flex; gap: 6px; flex-wrap: wrap }
+.topics label { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 3px 8px; cursor: pointer; user-select: none }
+.topics input { accent-color: var(--btn); margin: 0 }
+.topics label:has(input:checked) { background: var(--chip); border-color: var(--ink2) }
+.topics label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px }
+.nosupport { font-size: 12.5px; color: var(--ink2) }
+
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start }
+.w { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 10px; min-width: 0 }
+.w .top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.w .top b { font-size: 15px }
+.w .top code { color: var(--ink2) }
+.needs { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--ink2) }
+.needs span.t { background: var(--chip); color: var(--ink); border-radius: 6px; padding: 0 7px }
+.shot { position: relative; border-radius: 10px; overflow: hidden; background: #1C2133 }
+.shot img { display: block; width: 100%; height: auto }
+.shot.off img { filter: grayscale(1) brightness(.55) }
+.shot .ov { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #fff; font-weight: 600; font-size: 14px; padding: 12px; gap: 2px }
+.shot .ov small { font-weight: 400; opacity: .85 }
+.dock { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; font-size: 13px }
+.dock .lab { color: var(--ink2) }
+.seg { display: flex; background: var(--chip); border-radius: 9px; padding: 2px; gap: 2px; min-width: 0 }
+.seg button { flex: 1; font: 500 13px var(--f-body); border: 0; background: transparent; color: var(--ink); border-radius: 7px; padding: 4px 6px; cursor: pointer; min-width: 0 }
+.seg button[aria-pressed="true"] { background: var(--card); box-shadow: 0 1px 2px rgba(0,0,0,.12); font-weight: 600 }
+.seg button:focus-visible, .presets button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px }
+.state { font-size: 13px; border-radius: 8px; padding: 6px 10px }
+.state.ok { background: var(--ok-soft); color: var(--ok) }
+.state.bad { background: var(--accent-soft); color: var(--accent) }
+.state.mid { background: var(--warn-soft); color: var(--warn) }
+.foot { font-size: 12.5px; color: var(--ink2) }
+
+.decide { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 10px }
+.opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px }
+.opts > div { border: 1px solid var(--line); border-radius: 12px; padding: 12px; font-size: 13.5px; display: grid; gap: 4px; align-content: start }
+.opts b { font-size: 14.5px }
+.opts .rec { border-color: var(--ink) }
+.opts .rec b::after { content: "แนะนำ"; margin-left: 8px; font-size: 11px; font-weight: 600; background: var(--btn); color: var(--btn-ink); padding: 1px 7px; border-radius: 999px; vertical-align: 2px }
+
+@media (max-width: 960px) { .pipe { grid-template-columns: repeat(2, minmax(0, 1fr)) } .play { grid-template-columns: minmax(0, 1fr) } .panel { position: static } }
+@media (max-width: 640px) { .pipe, .who, .opts, .grid { grid-template-columns: minmax(0, 1fr) } h1 { font-size: 24px } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Insight เลือก Social</h1>
+    <p class="lead">ผู้ใช้ผูก Insight ไว้หลาย Social แต่วิดเจ็ตผู้ชมเลือกเองไม่ได้ว่าจะโชว์ของช่องไหน หน้านี้บอกว่าต้องแก้ตรงไหน และให้ลองติ๊กดูว่าแต่ละวิดเจ็ตจะเป็นยังไง</p>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>ต้องแก้ที่ไหน</h2>
+      <p class="lead">ข้อมูล Insight ไหลจาก API ไปถึงการ์ดผ่าน 4 จุด จุดที่ 1 ถูกอยู่แล้ว ส่วนจุด 2–4 ต้องแก้ ทั้ง iOS และ Android แก้ตรงเดียวกัน</p>
+    </div>
+    <div class="pipe">
+      <div class="stage">
+        <span class="no">จุดที่ 1</span>
+        <h3>ข้อมูลจาก API</h3>
+        <span class="tag ok">ไม่ต้องแก้</span>
+        <p class="now">API ส่ง Insight มา<b>แยกราย Social อยู่แล้ว</b> แต่ละช่องมี เพศ · อายุ · เมือง</p>
+        <div class="files"><div><span>API</span><code>SocialProfileInsights</code></div></div>
+      </div>
+      <div class="stage fix">
+        <span class="no">จุดที่ 2</span>
+        <h3>ข้อมูลโปรไฟล์ในแอป</h3>
+        <span class="tag fix">ต้องแก้ · dev</span>
+        <p class="now"><b>ตอนนี้:</b> รวมทุกช่องเป็นก้อนเดียว แต่ละหัวข้อหยิบจากช่องแรกที่เจอ ข้อมูลจึงปนกันได้</p>
+        <p class="after"><b>แก้เป็น:</b> เก็บแยกราย Social <code>audiences[ช่อง]</code></p>
+        <div class="files">
+          <div><span>iOS</span><code>Profile.swift · StarFlow.audience()</code></div>
+          <div><span>Android</span><code>Profile.kt</code></div>
+        </div>
+      </div>
+      <div class="stage fix">
+        <span class="no">จุดที่ 3</span>
+        <h3>ถาดของวิดเจ็ต</h3>
+        <span class="tag fix">ต้องแก้ · dev</span>
+        <p class="now"><b>ตอนนี้:</b> ไม่มีแถว "ช่องทาง" ให้เลือก</p>
+        <p class="after"><b>แก้เป็น:</b> เพิ่มรายการ <code>insightSocials</code> ขึ้นเฉพาะช่องที่มีหัวข้อที่วิดเจ็ตใช้ เรียงตามผู้ติดตาม</p>
+        <div class="files">
+          <div><span>iOS</span><code>CardScreen.swift · controlItems</code></div>
+          <div><span>Android</span><code>CardScreen.kt · controlItems</code></div>
+        </div>
+      </div>
+      <div class="stage fix">
+        <span class="no">จุดที่ 4</span>
+        <h3>ตัววาดวิดเจ็ต</h3>
+        <span class="tag fix">ต้องแก้ · dev</span>
+        <p class="now"><b>ตอนนี้:</b> ทุกวิดเจ็ตอ่านข้อมูลก้อนรวมเหมือนกันหมด</p>
+        <p class="after"><b>แก้เป็น:</b> อ่านของช่องที่วิดเจ็ตนั้นเลือก ถ้ายังไม่เลือก ใช้ช่องที่ผู้ติดตามเยอะสุด</p>
+        <div class="files">
+          <div><span>iOS</span><code>SpecPainter.swift · shownAudience</code></div>
+          <div><span>Android</span><code>SpecData.kt · shownAudience</code></div>
+        </div>
+      </div>
+    </div>
+    <div class="who">
+      <div><b>dev iOS</b>จุด 2 · 3 · 4 ในแอป iOS</div>
+      <div><b>dev Android</b>จุด 2 · 3 · 4 ในแอป Android</div>
+      <div><b>JSON วิดเจ็ต (11 ไฟล์)</b>เพิ่มแถว "ช่องทาง" ใน <code>05-ผู้ชม/*.json</code> โดยไม่ต้องแก้หน้าตาวิดเจ็ต</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>ลองดู: ผูกแบบนี้แล้ววิดเจ็ตจะเป็นยังไง</h2>
+      <p class="lead">ติ๊กว่าแต่ละ Social มีหัวข้อไหนบ้าง แล้วดูว่าวิดเจ็ตไหนใช้ได้ และแถว "ช่องทาง" ในถาดจะขึ้นอะไร ตัวเลขในรูปเป็นตัวอย่าง</p>
+    </div>
+    <div class="play">
+      <aside class="panel" aria-label="ข้อมูล Insight ที่ผูกไว้">
+        <div class="presets" id="presets"></div>
+        <div id="socials"></div>
+      </aside>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="decide" id="decide">
+    <h2>ต้องตัดสินใจ: วิดเจ็ตที่ต้องใช้ครบ 3 หัวข้อ</h2>
+    <p class="lead">"คนที่ตามฉัน", "Audience" (โปสเตอร์) และ "สถิติแปะ" ออกแบบให้โชว์ เพศ · อายุ · เมือง พร้อมกัน ซ่อนบางบล็อกไม่ได้ ถ้าไม่มีช่องไหนมีครบ 3 หัวข้อ (เช่น ช่องละหัวข้อเดียว) สามตัวนี้จะใช้ไม่ได้เลย</p>
+    <div class="opts">
+      <div class="rec"><b>A. ล็อกในตู้วิดเจ็ต</b>ขึ้นเป็นใบล็อก บอกว่า "แนบ เพศ · อายุ · เมือง ของช่องเดียวกันให้ครบ" กดแล้วพาไปหน้าแนบ Insight ไม่มีวิดเจ็ตค้าง "รอข้อมูล" บนการ์ด</div>
+      <div><b>B. วาดเท่าที่มี</b>ซ่อนบล็อกที่ไม่มี แต่ต้องออกแบบ layout ใหม่ให้บล็อกที่เหลือขยายเต็ม ไม่งั้นจะมีรูในดีไซน์</div>
+      <div><b>C. ปนข้ามช่อง</b>เพศมาจาก IG อายุมาจาก TikTok คนดูการ์ดไม่รู้ว่าตัวเลขมาจากคนละช่อง ไม่แนะนำ</div>
+    </div>
+  </section>
+</div>
+
+<script>
+const T = { gender: 'เพศ', age: 'อายุ', city: 'เมือง' }
+const ORDER = ['instagram', 'tiktok', 'facebook', 'youtube']
+const SOC = [
+  { id: 'instagram', short: 'IG', name: 'Instagram', f: 50000, ok: true },
+  { id: 'tiktok', short: 'TikTok', name: 'TikTok', f: 120000, ok: true },
+  { id: 'facebook', short: 'FB', name: 'Facebook', f: 30000, ok: true },
+  { id: 'youtube', short: 'YT', name: 'YouTube', f: 8000, ok: true },
+  { id: 'x', short: 'X', name: 'X', f: 20000, ok: false },
+  { id: 'lemon8', short: 'Lemon8', name: 'Lemon8', f: 5000, ok: false },
+]
+const PRESETS = [
+  { name: 'ช่องละ 1 หัวข้อ', has: { instagram: ['gender'], tiktok: ['age'], facebook: ['city'], youtube: [] } },
+  { name: 'IG ครบ + TikTok ครบ', has: { instagram: ['gender', 'age', 'city'], tiktok: ['gender', 'age', 'city'], facebook: [], youtube: [] } },
+  { name: 'IG ครบ + TikTok แค่อายุ', has: { instagram: ['gender', 'age', 'city'], tiktok: ['age'], facebook: [], youtube: [] } },
+  { name: 'IG แค่เพศ+อายุ', has: { instagram: ['gender', 'age'], tiktok: [], facebook: [], youtube: [] } },
+  { name: 'ยังไม่มีเลย', has: { instagram: [], tiktok: [], facebook: [], youtube: [] } },
+]
+const W = [
+  { k: 'audienceSplit', name: 'สัดส่วนผู้ชม', needs: ['gender'], match: 'all' },
+  { k: 'audienceAge', name: 'ช่วงอายุผู้ชม', needs: ['age'], match: 'all' },
+  { k: 'audienceMap', name: 'เมืองหลัก', needs: ['city'], match: 'all' },
+  { k: 'kitInsightCream', name: 'Insight (ชุด 5 สี)', needs: ['city', 'gender', 'age'], match: 'any' },
+  { k: 'audienceLine', name: 'คนที่ตามฉัน', needs: ['city', 'gender', 'age'], match: 'all' },
+  { k: 'scrapStats', name: 'สถิติแปะ', needs: ['city', 'gender', 'age'], match: 'all' },
+  { k: 'audiencePoster', name: 'Audience (โปสเตอร์)', needs: ['city', 'gender', 'age'], match: 'all' },
+]
+const fmt = (n) => n >= 1000 ? (n / 1000).toLocaleString('th-TH', { maximumFractionDigits: 1 }) + 'K' : String(n)
+let has = {}, preset = 0
+const pick = {}
+
+function candidates(w) {
+  return SOC.filter((s) => s.ok && (w.match === 'all'
+      ? w.needs.every((t) => has[s.id].includes(t))
+      : w.needs.some((t) => has[s.id].includes(t))))
+    .sort((a, b) => b.f - a.f || ORDER.indexOf(a.id) - ORDER.indexOf(b.id))
+}
+const topicList = (a) => a.map((t) => T[t]).join(' · ')
+
+function setPreset(i) {
+  preset = i
+  has = Object.fromEntries(SOC.map((s) => [s.id, [...(PRESETS[i].has[s.id] || [])]]))
+  for (const k in pick) delete pick[k]
+  renderPanel(); renderGrid()
+}
+
+function renderPanel() {
+  document.getElementById('presets').innerHTML = PRESETS.map((p, i) =>
+    `<button type="button" data-p="${i}" aria-pressed="${i === preset}">${p.name}</button>`).join('')
+  document.getElementById('socials').innerHTML = SOC.map((s) => `
+    <div class="srow">
+      <div class="nm">${s.name}<small>${fmt(s.f)} ผู้ติดตาม</small></div>
+      ${s.ok ? `<div class="topics">${['gender', 'age', 'city'].map((t) => `
+        <label><input type="checkbox" id="c-${s.id}-${t}" data-s="${s.id}" data-t="${t}" ${has[s.id].includes(t) ? 'checked' : ''}>${T[t]}</label>`).join('')}</div>`
+      : `<div class="nosupport">ไม่มี Insight · ไม่ขึ้นในตัวเลือก</div>`}
+    </div>`).join('')
+}
+
+function renderGrid() {
+  document.getElementById('grid').innerHTML = W.map((w) => {
+    const list = candidates(w)
+    const chosen = list.find((s) => s.id === pick[w.k]) || list[0]
+    const kit = w.match === 'any'
+    let img = w.k, overlay = '', state, dock = ''
+    if (!chosen) {
+      const why = w.match === 'all' && w.needs.length > 1
+        ? `ไม่มีช่องไหนมีครบ ${topicList(w.needs)}`
+        : `ไม่มีช่องไหนมี${topicList(w.needs)}`
+      overlay = `<div class="ov">ใช้ไม่ได้<small>${why}</small></div>`
+      state = `<div class="state bad">${why} บนการ์ดขึ้น "รอข้อมูล"</div>`
+    } else {
+      if (kit) {
+        const got = w.needs.filter((t) => has[chosen.id].includes(t))
+        if (got.length < 3) img = `${w.k}--${got.join('-')}`
+      }
+      const own = kit ? has[chosen.id].filter((t) => w.needs.includes(t)) : w.needs
+      const miss = kit ? w.needs.filter((t) => !has[chosen.id].includes(t)) : []
+      state = `<div class="state ok">โชว์ ${topicList(own)} ของ <b>${chosen.name}</b>${miss.length ? ` · ไม่วาด${topicList(miss)} (${chosen.short} ไม่มี)` : ''}</div>`
+      dock = list.length >= 2
+        ? `<div class="dock"><span class="lab">ช่องทาง</span><div class="seg" role="group" aria-label="ช่องทางของ ${w.name}">${list.map((s) =>
+            `<button type="button" data-w="${w.k}" data-s="${s.id}" aria-pressed="${s === chosen}">${s.short}</button>`).join('')}</div></div>`
+        : `<div class="foot">มีช่องเดียวที่ใช้ได้ (${chosen.short}) จึงไม่โชว์แถว "ช่องทาง" ในถาด</div>`
+    }
+    return `<article class="w">
+      <div class="top"><b>${w.name}</b><code>${w.k}${kit ? ' ×5' : ''}</code></div>
+      <div class="needs">ใช้: ${w.needs.map((t) => `<span class="t">${T[t]}</span>`).join('')}<span>${w.needs.length > 1 ? (w.match === 'all' ? 'ต้องครบทุกหัวข้อ' : 'มีหัวข้อไหนก็ได้') : ''}</span></div>
+      <div class="shot${chosen ? '' : ' off'}"><img src="img/${img}.png" alt="${w.name}" loading="lazy">${overlay}</div>
+      ${dock}${state}
+    </article>`
+  }).join('')
+}
+
+document.addEventListener('click', (e) => {
+  const p = e.target.closest('[data-p]'); if (p) return setPreset(+p.dataset.p)
+  const b = e.target.closest('.seg button'); if (b) { pick[b.dataset.w] = b.dataset.s; renderGrid() }
+})
+document.addEventListener('change', (e) => {
+  const c = e.target.closest('input[data-s]'); if (!c) return
+  const a = has[c.dataset.s], t = c.dataset.t
+  has[c.dataset.s] = c.checked ? [...new Set([...a, t])] : a.filter((x) => x !== t)
+  preset = -1
+  document.querySelectorAll('#presets button').forEach((x) => x.setAttribute('aria-pressed', 'false'))
+  renderGrid()
+})
+setPreset(0)
+</script>

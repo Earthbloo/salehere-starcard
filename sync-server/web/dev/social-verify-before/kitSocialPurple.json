@@ -1,0 +1,713 @@
+{
+ "kind": "kitSocialPurple",
+ "design": {
+  "w": 330,
+  "h": 330
+ },
+ "widget": {
+  "title": "Social Media",
+  "category": "followers",
+  "requires": [
+   "socials"
+  ],
+  "symbol": "person.2.fill",
+  "order": 76,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "purple"
+  },
+  "stamp": "followers",
+  "motion": "mid",
+  "replaces": [
+   "kitSocial"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ],
+  "on": "light"
+ },
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา purple · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile · 24 พ.ย. 2569: variant ไม่มีขอบ/พื้นโปร่ง ใส่ป้าย countBadge มุมขวาบน + ซ่อน \"ผู้ติดตาม\" ตอนมีป้าย เหมือน root",
+ "variants": [
+  {
+   "when": "!bordered | cfg:fill=clear",
+   "root": {
+    "type": "stack",
+    "id": "shell",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!cfg:corner=square",
+      "children": [
+       {
+        "type": "stack",
+        "if": "bordered",
+        "dx": 5,
+        "dy": 5,
+        "children": [
+         {
+          "type": "rect",
+          "if": "!cfg:fill=clear",
+          "fill": "line",
+          "radius": 14
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "cfg:corner=square",
+      "children": [
+       {
+        "type": "stack",
+        "if": "bordered",
+        "dx": 5,
+        "dy": 5,
+        "children": [
+         {
+          "type": "rect",
+          "if": "!cfg:fill=clear",
+          "fill": "line",
+          "radius": 3
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "!cfg:corner=square",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 14,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 14,
+        "stroke": {
+         "color": "line",
+         "width": 2.5
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "cfg:corner=square",
+      "children": [
+       {
+        "type": "stack",
+        "if": "!bordered",
+        "children": [
+         {
+          "type": "rect",
+          "if": "!cfg:fill=clear",
+          "id": "fill",
+          "fill": "bg",
+          "radius": 14
+         },
+         {
+          "type": "rect",
+          "if": "cfg:fill=gradient",
+          "radius": 14,
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          }
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 14,
+          "stroke": {
+           "color": "line",
+           "width": 2.5
+          }
+         }
+        ]
+       },
+       {
+        "type": "stack",
+        "if": "bordered",
+        "children": [
+         {
+          "type": "rect",
+          "if": "!cfg:fill=clear",
+          "id": "fill",
+          "fill": "bg",
+          "radius": 3
+         },
+         {
+          "type": "rect",
+          "if": "cfg:fill=gradient",
+          "radius": 3,
+          "gradient": {
+           "from": "white@0.25",
+           "to": "black@0.22",
+           "angle": 45
+          }
+         },
+         {
+          "type": "rect",
+          "if": "bordered",
+          "id": "border",
+          "radius": 3,
+          "stroke": {
+           "color": "line",
+           "width": 2.5
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "content",
+      "pad": [
+       12,
+       12,
+       14,
+       12
+      ],
+      "gap": 8,
+      "children": [
+       {
+        "type": "stack",
+        "id": "header",
+        "children": [
+         {
+          "type": "col",
+          "pad": [
+           0,
+           62,
+           0,
+           0
+          ],
+          "children": [
+           {
+            "type": "text",
+            "face": "noto",
+            "size": 22,
+            "weight": 800,
+            "color": "ink",
+            "maxLines": 2,
+            "id": "title",
+            "shrinkTo": 15.4,
+            "text": "Social Media",
+            "editable": true
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "text": "ผู้ติดตาม",
+          "face": "noto",
+          "size": 12,
+          "weight": 700,
+          "color": "ink",
+          "maxLines": 1,
+          "w": 46,
+          "place": "top-right",
+          "dy": 7,
+          "textAlign": "right"
+         }
+        ]
+       },
+       {
+        "type": "chips",
+        "id": "rows",
+        "direction": "col",
+        "gap": 6,
+        "grow": 1,
+        "each": {
+         "type": "stack",
+         "children": [
+          {
+           "type": "rect",
+           "id": "block",
+           "fill": "bg2",
+           "radius": 8,
+           "stroke": {
+            "color": "#141417",
+            "width": 2
+           }
+          },
+          {
+           "type": "col",
+           "pad": [
+            7,
+            10
+           ],
+           "align": "stretch",
+           "justify": "center",
+           "children": [
+            {
+             "type": "row",
+             "gap": 10,
+             "align": "center",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "size": 28
+              },
+              {
+               "type": "text",
+               "slot": "$handle",
+               "face": "noto",
+               "size": 14.5,
+               "weight": 700,
+               "color": "ink",
+               "maxLines": 1
+              },
+              {
+               "type": "spacer",
+               "grow": 1,
+               "minW": 6
+              },
+              {
+               "type": "text",
+               "slot": "$followersFull",
+               "face": "noto",
+               "size": 16.5,
+               "weight": 800,
+               "color": "ink",
+               "maxLines": 1,
+               "id": "followers",
+               "shrink": 0
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "grow": 1
+        },
+        "list": "socials",
+        "where": "!hidden:$platform"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "pad": [
+   0,
+   5,
+   5,
+   0
+  ],
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "bordered",
+      "dx": 5,
+      "dy": 5,
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "fill": "line",
+        "radius": 14
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "bordered",
+      "dx": 5,
+      "dy": 5,
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "fill": "line",
+        "radius": 3
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "bg",
+      "radius": 14
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 14,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     },
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 14,
+      "stroke": {
+       "color": "line",
+       "width": 2.5
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 14
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 14,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 14,
+        "stroke": {
+         "color": "line",
+         "width": 2.5
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 3
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       },
+       {
+        "type": "rect",
+        "if": "bordered",
+        "id": "border",
+        "radius": 3,
+        "stroke": {
+         "color": "line",
+         "width": 2.5
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "pad": [
+     12,
+     12,
+     14,
+     12
+    ],
+    "gap": 8,
+    "children": [
+     {
+      "type": "stack",
+      "id": "header",
+      "children": [
+       {
+        "type": "col",
+        "pad": [
+         0,
+         62,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 22,
+          "weight": 800,
+          "color": "ink",
+          "maxLines": 2,
+          "id": "title",
+          "shrinkTo": 15.4,
+          "text": "Social Media",
+          "editable": true
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "noto",
+        "size": 12,
+        "weight": 700,
+        "color": "ink",
+        "maxLines": 1,
+        "w": 46,
+        "place": "top-right",
+        "dy": 7,
+        "textAlign": "right",
+        "if": "!has:stat:countsUpdated"
+       },
+       {
+        "type": "row",
+        "id": "countBadgeSlot",
+        "if": "has:stat:countsUpdated",
+        "justify": "end",
+        "align": "start",
+        "dy": 5,
+        "children": [
+         {
+          "type": "row",
+          "id": "countBadge",
+          "gap": 3.0,
+          "align": "center",
+          "pad": [
+           2.5,
+           7.5,
+           2.5,
+           3.0
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1.0,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13.0
+           },
+           {
+            "type": "text",
+            "text": "อัปเดตเมื่อ",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "slot": "stat:countsUpdated",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "chips",
+      "id": "rows",
+      "direction": "col",
+      "gap": 6,
+      "grow": 1,
+      "each": {
+       "type": "stack",
+       "children": [
+        {
+         "type": "rect",
+         "id": "block",
+         "fill": "bg2",
+         "radius": 8,
+         "stroke": {
+          "color": "#141417",
+          "width": 2
+         }
+        },
+        {
+         "type": "col",
+         "pad": [
+          7,
+          10
+         ],
+         "align": "stretch",
+         "justify": "center",
+         "children": [
+          {
+           "type": "row",
+           "gap": 10,
+           "align": "center",
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "size": 28
+            },
+            {
+             "type": "text",
+             "slot": "$handle",
+             "face": "noto",
+             "size": 14.5,
+             "weight": 700,
+             "color": "ink",
+             "maxLines": 1
+            },
+            {
+             "type": "spacer",
+             "grow": 1,
+             "minW": 6
+            },
+            {
+             "type": "text",
+             "slot": "$followersFull",
+             "face": "noto",
+             "size": 16.5,
+             "weight": 800,
+             "color": "ink",
+             "maxLines": 1,
+             "id": "followers",
+             "shrink": 0
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "grow": 1
+      },
+      "list": "socials",
+      "where": "!hidden:$platform"
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

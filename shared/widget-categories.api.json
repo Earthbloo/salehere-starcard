@@ -721,7 +721,15 @@
     "name": "แบรนด์",
     "description": "ต้องผ่าน Sale Here ก่อน · ล็อกจนกรอกงานผ่าน Sale Here ≥ 1",
     "sequence": 11,
-    "widgets": []
+    "widgets": [
+      {
+        "id": "6ad8a3f52d045f007e6d861b",
+        "kind": "popWorkPaper",
+        "categoryId": "6ad89a20dfffd04b827840e3",
+        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/popWorkPaper-20261109092102.json",
+        "sequence": 91
+      }
+    ]
   },
   {
     "id": "6ad89a20dfffd04b827840e4",
@@ -864,27 +872,6 @@
         "sequence": 89
       },
       {
-        "id": "6ad8a3f42d045f007e6d8617",
-        "kind": "popWorkGlass",
-        "categoryId": "6ad89a20dfffd04b827840e5",
-        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/popWorkGlass-20261109092101.json",
-        "sequence": 90
-      },
-      {
-        "id": "6ad8a3f52d045f007e6d861b",
-        "kind": "popWorkPaper",
-        "categoryId": "6ad89a20dfffd04b827840e5",
-        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/popWorkPaper-20261109092102.json",
-        "sequence": 91
-      },
-      {
-        "id": "6ad8a4072d045f007e6d865f",
-        "kind": "scrapPhones",
-        "categoryId": "6ad89a20dfffd04b827840e5",
-        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/scrapPhones-20261109092112.json",
-        "sequence": 108
-      },
-      {
         "id": "6ad8a4132d045f007e6d868b",
         "kind": "wallMemory",
         "categoryId": "6ad89a20dfffd04b827840e5",
@@ -914,11 +901,25 @@
     "sequence": 14,
     "widgets": [
       {
+        "id": "6ad8a3f42d045f007e6d8617",
+        "kind": "popWorkGlass",
+        "categoryId": "6ad89a20dfffd04b827840e6",
+        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/popWorkGlass-20261109092101.json",
+        "sequence": 90
+      },
+      {
         "id": "6ad8a4002d045f007e6d8643",
         "kind": "reelShowcase",
         "categoryId": "6ad89a20dfffd04b827840e6",
         "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/reelShowcase-20261109092107.json",
         "sequence": 101
+      },
+      {
+        "id": "6ad8a4072d045f007e6d865f",
+        "kind": "scrapPhones",
+        "categoryId": "6ad89a20dfffd04b827840e6",
+        "schemaUrl": "https://media.salehere.co.th/uat-widget-schemas/scrapPhones-20261109092112.json",
+        "sequence": 108
       }
     ]
   }

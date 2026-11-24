@@ -13,6 +13,7 @@
   "symbol": "square.grid.3x3.square",
   "order": 17,
   "ownSurface": true,
+  "borderChoice": false,
   "keepAspect": true,
   "stamp": "followers",
   "motion": "anchored",
@@ -25,7 +26,7 @@
    }
   ]
  },
- "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสองใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) ช่อง 44% · ผู้ติดตาม ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 ที่มา บนผ้า · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ช่อง = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits",
+ "notes": "ป้ายช่องทางผ้าปิกนิก · พื้นฟ้า #C7DBEF ขอบ #AFC8E3 มุม 13.5 · ฐานผ้าตาราง 22.5 (pattern gingham ช่อง 8.4 → size 16.8 สี #93B5DA บนครีม #F7F1E7) · หัว 31: เส้นแดง 28 · SOCIAL CHANNEL (note#1) เซริฟแดง · เส้นแดง · การ์ดครีมสองใบ (#F9F1E6 ขอบ #962A1E มุม 7.2) ช่อง 44% · ผู้ติดตาม ที่เหลือ คั่นด้วยช่อง 11.4 มีเส้นแดงตั้ง · ฐาน 21.5 ที่มา บนผ้า · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ช่อง = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) · แปลงจาก GinghamWidgets.swift (SocialGinghamWidget) · ใบวาดพื้นเอง (inset 0) · ทำไม่ได้: เซริฟบีบแนวนอน (Condensed squeeze 0.72/0.8 — ใช้ขนาดเต็ม + shrinkTo แทน) · ยอดเต็มหลัก 125,000 (มีแค่ followers ย่อ) · เส้นทอเฉียง/blur/grain ของผ้า · โลโก้เปลือย tiktok/x/youtube · ScrubDigits · 23 พ.ย. 2569 (QA reject): ขยายหัวข้อ (L…XXL) แล้วมุดใต้การ์ด → แถบหัวข้อ minH 31 + pad ล่าง −5.24 (ขนาด M อยู่ที่เดิมเป๊ะ) ไม่หด · เส้นสองข้างอยู่ในคอลัมน์ stretch (ระดับเดิม) · แถบท้ายใบหดก่อน (shrink 4) ให้การ์ดเหลือที่ · 23 พ.ย. 2569: หัวข้อพิมพ์ยาวไม่ย่อแล้ว (ถอด shrinkTo) — ขนาดเดิมเต็มช่อง maxW 252 แล้วตัด …",
  "root": {
   "type": "stack",
   "id": "sheet",
@@ -58,22 +59,34 @@
      {
       "type": "row",
       "id": "head",
-      "h": 31,
       "gap": 8,
       "justify": "center",
       "align": "center",
       "pad": [
        3,
        0,
-       0,
+       -5.24,
        0
       ],
       "children": [
        {
-        "type": "rect",
-        "w": 28,
-        "h": 0.9,
-        "fill": "#9C1E1A"
+        "type": "col",
+        "alignSelf": "stretch",
+        "justify": "center",
+        "pad": [
+         0,
+         0,
+         5.24,
+         0
+        ],
+        "children": [
+         {
+          "type": "rect",
+          "w": 28,
+          "h": 0.9,
+          "fill": "#9C1E1A"
+         }
+        ]
        },
        {
         "type": "text",
@@ -85,18 +98,32 @@
         "textAlign": "center",
         "color": "#9C1E1A",
         "maxLines": 1,
-        "shrinkTo": 11,
         "maxW": 252,
         "text": "SOCIAL CHANNEL",
         "editable": true
        },
        {
-        "type": "rect",
-        "w": 28,
-        "h": 0.9,
-        "fill": "#9C1E1A"
+        "type": "col",
+        "alignSelf": "stretch",
+        "justify": "center",
+        "pad": [
+         0,
+         0,
+         5.24,
+         0
+        ],
+        "children": [
+         {
+          "type": "rect",
+          "w": 28,
+          "h": 0.9,
+          "fill": "#9C1E1A"
+         }
+        ]
        }
-      ]
+      ],
+      "minH": 31,
+      "shrink": 0
      },
      {
       "type": "chips",
@@ -295,7 +322,8 @@
            "maxLines": 1,
            "shrinkTo": 4.8
           }
-         ]
+         ],
+         "shrink": 4
         }
        ]
       }

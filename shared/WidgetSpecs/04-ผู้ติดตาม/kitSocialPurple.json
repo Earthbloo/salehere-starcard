@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา purple · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา purple · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile · 24 พ.ย. 2569: variant ไม่มีขอบ/พื้นโปร่ง ใส่ป้าย countBadge มุมขวาบน + ซ่อน \"ผู้ติดตาม\" ตอนมีป้าย เหมือน root · 24 พ.ย. 2569: ติ๊กแดง sh:sealRed (if $verified, 13 ≈ 0.9× ตัวหนังสือ) หลัง @handle ทุกแถว — ผู้ใช้สั่ง \"ใส่ tick ถูกหลังชื่อ\"",
  "variants": [
   {
    "when": "!bordered | cfg:fill=clear",
@@ -271,7 +271,69 @@
           "w": 46,
           "place": "top-right",
           "dy": 7,
-          "textAlign": "right"
+          "textAlign": "right",
+          "if": "!has:stat:countsUpdated"
+         },
+         {
+          "type": "row",
+          "id": "countBadgeSlot",
+          "if": "has:stat:countsUpdated",
+          "justify": "end",
+          "align": "start",
+          "dy": 5,
+          "children": [
+           {
+            "type": "row",
+            "id": "countBadge",
+            "gap": 3.0,
+            "align": "center",
+            "pad": [
+             2.5,
+             7.5,
+             2.5,
+             3.0
+            ],
+            "circle": true,
+            "fill": "white",
+            "stroke": {
+             "color": "black@0.07",
+             "width": 0.5
+            },
+            "shadow": {
+             "sigma": 2.5,
+             "y": 1.0,
+             "color": "black@0.14"
+            },
+            "shrink": 0,
+            "children": [
+             {
+              "type": "icon",
+              "icon": "sh:sealRed",
+              "size": 13.0
+             },
+             {
+              "type": "text",
+              "text": "อัปเดตเมื่อ",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             },
+             {
+              "type": "text",
+              "slot": "stat:countsUpdated",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             }
+            ]
+           }
+          ]
          }
         ]
        },
@@ -314,13 +376,26 @@
                "size": 28
               },
               {
-               "type": "text",
-               "slot": "$handle",
-               "face": "noto",
-               "size": 14.5,
-               "weight": 700,
-               "color": "ink",
-               "maxLines": 1
+               "type": "row",
+               "gap": 3,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$handle",
+                 "face": "noto",
+                 "size": 14.5,
+                 "weight": 700,
+                 "color": "ink",
+                 "maxLines": 1
+                },
+                {
+                 "type": "icon",
+                 "icon": "sh:sealRed",
+                 "size": 13,
+                 "if": "$verified"
+                }
+               ]
               },
               {
                "type": "spacer",
@@ -663,13 +738,26 @@
              "size": 28
             },
             {
-             "type": "text",
-             "slot": "$handle",
-             "face": "noto",
-             "size": 14.5,
-             "weight": 700,
-             "color": "ink",
-             "maxLines": 1
+             "type": "row",
+             "gap": 3,
+             "align": "center",
+             "children": [
+              {
+               "type": "text",
+               "slot": "$handle",
+               "face": "noto",
+               "size": 14.5,
+               "weight": 700,
+               "color": "ink",
+               "maxLines": 1
+              },
+              {
+               "type": "icon",
+               "icon": "sh:sealRed",
+               "size": 13,
+               "if": "$verified"
+              }
+             ]
             },
             {
              "type": "spacer",

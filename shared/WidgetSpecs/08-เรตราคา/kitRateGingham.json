@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile · 3 พ.ย. 2569: กล่องละโซเชียลจาก rateSocials (ราคาต่อประเภทตาม salehere-ios) แทนสองโหมดเดิม",
+ "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile · 3 พ.ย. 2569: กล่องละโซเชียลจาก rateSocials (ราคาต่อประเภทตาม salehere-ios) แทนสองโหมดเดิม · 23 พ.ย. 2569 (QA reject): หัวข้อบนการ์ดขาว = #141417 ตายตัว (เดิม ink on light → เลือกสีวิดเจ็ตเข้ม หมึกแผ่น light กลายเป็นสีอ่อน หัวข้อหายบนการ์ดขาว)",
  "root": {
   "type": "stack",
   "id": "shell",
@@ -278,8 +278,7 @@
         "face": "noto",
         "size": 25,
         "weight": 800,
-        "color": "ink",
-        "on": "light",
+        "color": "#141417",
         "maxLines": 2,
         "id": "title",
         "shrinkTo": 17.5,

@@ -13,6 +13,7 @@
   "symbol": "macwindow.on.rectangle",
   "order": 3,
   "ownSurface": true,
+  "borderChoice": false,
   "surfaces": [
    "glass",
    "dim"
@@ -38,10 +39,6 @@
      "from": "#252527",
      "to": "#1E1E20",
      "angle": 90
-    },
-    "stroke": {
-     "color": "#0B0B0C",
-     "width": 0.9
     },
     "children": [
      {
@@ -369,36 +366,6 @@
         ]
        }
       ]
-     },
-     {
-      "type": "stack",
-      "id": "rimGlint",
-      "pad": 0.9,
-      "children": [
-       {
-        "type": "rect",
-        "radius": 14.1,
-        "stroke": {
-         "color": "white@0.06",
-         "width": 1.1
-        }
-       }
-      ]
-     },
-     {
-      "type": "stack",
-      "id": "rimInner",
-      "pad": 2,
-      "children": [
-       {
-        "type": "rect",
-        "radius": 13,
-        "stroke": {
-         "color": "white@0.10",
-         "width": 0.6
-        }
-       }
-      ]
      }
     ]
    }
@@ -413,10 +380,6 @@
    "from": "#F7F7F7",
    "to": "#F2F2F3",
    "angle": 90
-  },
-  "stroke": {
-   "color": "#A6A7AB",
-   "width": 0.9
   },
   "children": [
    {
@@ -742,36 +705,6 @@
         "dy": 22
        }
       ]
-     }
-    ]
-   },
-   {
-    "type": "stack",
-    "id": "rimGlint",
-    "pad": 0.9,
-    "children": [
-     {
-      "type": "rect",
-      "radius": 14.1,
-      "stroke": {
-       "color": "white@0.85",
-       "width": 1.1
-      }
-     }
-    ]
-   },
-   {
-    "type": "stack",
-    "id": "rimInner",
-    "pad": 2,
-    "children": [
-     {
-      "type": "rect",
-      "radius": 13,
-      "stroke": {
-       "color": "#C6C7CA",
-       "width": 0.6
-      }
      }
     ]
    }

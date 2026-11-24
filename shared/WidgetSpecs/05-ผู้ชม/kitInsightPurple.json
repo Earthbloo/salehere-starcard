@@ -25,6 +25,19 @@
   ],
   "controls": [
    {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "social",
+    "items": "insightSocials",
+    "needs": [
+     "city",
+     "gender",
+     "age"
+    ],
+    "match": "any",
+    "minItems": 2
+   },
+   {
     "type": "checks",
     "label": "ข้อมูล",
     "items": [
@@ -82,7 +95,7 @@
   ],
   "on": "light"
  },
- "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ · 16 พ.ย. 2569: แถวที่ทุกบล็อกถูกซ่อนไม่กินที่ (if บนแถว) → เหลือติ๊กเดียวกล่องเต็มใบ · แถวเมืองกระจายเต็มความสูง (justify around) · แท่งกราฟเมืองสูงตามแถว (h 42% · 8–26) · เหลือเมืองอย่างเดียว = ตัวอักษร 15 · 20 พ.ย. 2569: เพิ่ม pill 'อัปเดตเมื่อ' (stat:countsUpdated) ขวาบน แบบเดียวกับ kitSocial",
+ "notes": "Insight (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (insight) · บล็อก places (แท่ง pct $shareRaw/max) · gender (limit 2 · $tint) · ages · reach = stat:reach (19 ต.ค. 2569 — เดิมเป็นเลข '184,200' ตายตัว) · ซ่อนด้วย hidden:city|gender|age|reach · ทำไม่ได้: รวมช่วงอายุที่ 3+ เป็น '35+' (โชว์ทุกช่วง) · ซ่อน reach เมื่อค่าเป็น 0 · ไอคอนเพศแยกชาย/หญิง (ใช้ ph:person-fill + $tint · ครีมใช้จุดสี) · ม่วง: แท่งเมืองเทียบ max (ต้นฉบับ /60) · ตาราง 2 คอลัมน์ตายตัว (เมือง|เพศ · อายุ|การเข้าถึง) ไม่ยุบเมื่อซ่อนทั้งแถว · เส้นคั่นอยู่หัวบล็อกที่ 2–4 (ไม่ใช่ 'ระหว่าง' เท่านั้น) · 16 พ.ย. 2569: ถอดบล็อก/ตัวเลือก \"การเข้าถึง\" เหลือ เมือง · เพศ · อายุ · 16 พ.ย. 2569: แถวที่ทุกบล็อกถูกซ่อนไม่กินที่ (if บนแถว) → เหลือติ๊กเดียวกล่องเต็มใบ · แถวเมืองกระจายเต็มความสูง (justify around) · แท่งกราฟเมืองสูงตามแถว (h 42% · 8–26) · เหลือเมืองอย่างเดียว = ตัวอักษร 15 · 20 พ.ย. 2569: เพิ่ม pill 'อัปเดตเมื่อ' (stat:countsUpdated) ขวาบน แบบเดียวกับ kitSocial · 23 พ.ย. 2569 (QA reject): กล่องเพศไม่หด + ชื่อเมืองแถวเล็ก maxW 110 (ชื่อยาวเคยดันกล่องเพศจน % เป็น \"…\") · ตัวเลข % ในแถว \"ชื่อ ··· %\" shrink 0 — ชื่อยาวหด/ตัด … แทน (เดิมเหลือ \"2…\")",
  "variants": [
   {
    "when": "!bordered",
@@ -265,7 +278,8 @@
                      "color": "#141417",
                      "maxLines": 1,
                      "shrinkTo": 8,
-                     "minW": 60
+                     "minW": 60,
+                     "maxW": 110
                     },
                     {
                      "type": "stack",
@@ -299,7 +313,8 @@
                      "size": 11.5,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 8,
@@ -362,7 +377,8 @@
                      "size": 15,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 12,
@@ -496,7 +512,8 @@
             ],
             "if": "!hidden:gender",
             "grow": 1,
-            "id": "gender"
+            "id": "gender",
+            "shrink": 0
            }
           ],
           "gap": 6,
@@ -940,7 +957,8 @@
                      "color": "#141417",
                      "maxLines": 1,
                      "shrinkTo": 8,
-                     "minW": 60
+                     "minW": 60,
+                     "maxW": 110
                     },
                     {
                      "type": "stack",
@@ -974,7 +992,8 @@
                      "size": 11.5,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 8,
@@ -1037,7 +1056,8 @@
                      "size": 15,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 12,
@@ -1171,7 +1191,8 @@
             ],
             "if": "!hidden:gender",
             "grow": 1,
-            "id": "gender"
+            "id": "gender",
+            "shrink": 0
            }
           ],
           "gap": 6,
@@ -1594,7 +1615,8 @@
                      "color": "#141417",
                      "maxLines": 1,
                      "shrinkTo": 8,
-                     "minW": 60
+                     "minW": 60,
+                     "maxW": 110
                     },
                     {
                      "type": "stack",
@@ -1628,7 +1650,8 @@
                      "size": 11.5,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 8,
@@ -1691,7 +1714,8 @@
                      "size": 15,
                      "weight": 800,
                      "color": "#141417",
-                     "maxLines": 1
+                     "maxLines": 1,
+                     "shrink": 0
                     }
                    ],
                    "gap": 12,
@@ -1825,7 +1849,8 @@
             ],
             "if": "!hidden:gender",
             "grow": 1,
-            "id": "gender"
+            "id": "gender",
+            "shrink": 0
            }
           ],
           "gap": 6,
@@ -2247,7 +2272,8 @@
                    "color": "#141417",
                    "maxLines": 1,
                    "shrinkTo": 8,
-                   "minW": 60
+                   "minW": 60,
+                   "maxW": 110
                   },
                   {
                    "type": "stack",
@@ -2281,7 +2307,8 @@
                    "size": 11.5,
                    "weight": 800,
                    "color": "#141417",
-                   "maxLines": 1
+                   "maxLines": 1,
+                   "shrink": 0
                   }
                  ],
                  "gap": 8,
@@ -2344,7 +2371,8 @@
                    "size": 15,
                    "weight": 800,
                    "color": "#141417",
-                   "maxLines": 1
+                   "maxLines": 1,
+                   "shrink": 0
                   }
                  ],
                  "gap": 12,
@@ -2478,7 +2506,8 @@
           ],
           "if": "!hidden:gender",
           "grow": 1,
-          "id": "gender"
+          "id": "gender",
+          "shrink": 0
          }
         ],
         "gap": 6,

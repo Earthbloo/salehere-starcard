@@ -1,0 +1,643 @@
+{
+ "kind": "kitRateMac",
+ "design": {
+  "w": 300,
+  "h": 290
+ },
+ "widget": {
+  "title": "เรทรับงาน",
+  "category": "rate",
+  "requires": [
+   "socials",
+   "rate"
+  ],
+  "symbol": "tag.fill",
+  "order": 85,
+  "ownSurface": true,
+  "ownBorder": true,
+  "border": true,
+  "kit": {
+   "look": "mac"
+  },
+  "motion": "mid",
+  "replaces": [
+   "kitRate"
+  ],
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "ratePlatforms",
+    "opt": "hide"
+   },
+   {
+    "type": "segment",
+    "label": "พื้นหลัง",
+    "opt": "fill",
+    "options": [
+     [
+      null,
+      "ทึบ"
+     ],
+     [
+      "gradient",
+      "ไล่สี"
+     ],
+     [
+      "clear",
+      "โปร่ง"
+     ]
+    ]
+   },
+   {
+    "type": "segment",
+    "label": "มุม",
+    "opt": "corner",
+    "options": [
+     [
+      null,
+      "มน"
+     ],
+     [
+      "square",
+      "เหลี่ยม"
+     ]
+    ],
+    "if": "bordered",
+    "refit": false
+   }
+  ],
+  "on": "light"
+ },
+ "notes": "ชุดห้าสไตล์ 03 เรทรับงาน — แปลงจาก KitWidgets.swift (KitContent.rate + rows) · แยกจาก kitRate (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา mac · opt:mode=fmt = ต่อรูปแบบงาน (rates ทุกแถว) · ไม่ใช่ fmt = ต่อช่อง: Swift แสดงชื่อช่อง + ราคาต่ำสุดของช่อง — ผังไม่มี group-by จึงแสดงทุกเรทเรียง priceRaw asc นำหน้า 'เริ่ม' กรอง !hidden:$platform · ซ่อนแถวในโหมด fmt (hide เก็บ rate.id) ไม่มีฟิลด์ id ในรายการ จึงยังกรองไม่ได้ · จัด firstTextBaseline ใช้ center แทน · ตาราง: หัวข้อ 25 · เปลือกดูหมายเหตุที่ kitProfile · 3 พ.ย. 2569: กล่องละโซเชียลจาก rateSocials (ราคาต่อประเภทตาม salehere-ios) แทนสองโหมดเดิม",
+ "root": {
+  "type": "stack",
+  "id": "shell",
+  "children": [
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "!cfg:fill=clear",
+      "id": "fill",
+      "fill": "bg",
+      "radius": 12,
+      "shadow": {
+       "sigma": 6,
+       "y": 6,
+       "color": "black@0.12"
+      }
+     },
+     {
+      "type": "rect",
+      "if": "cfg:fill=gradient",
+      "radius": 12,
+      "gradient": {
+       "from": "white@0.25",
+       "to": "black@0.22",
+       "angle": 45
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 12,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 12,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "rect",
+        "if": "!cfg:fill=clear",
+        "id": "fill",
+        "fill": "bg",
+        "radius": 3,
+        "shadow": {
+         "sigma": 6,
+         "y": 6,
+         "color": "black@0.12"
+        }
+       },
+       {
+        "type": "rect",
+        "if": "cfg:fill=gradient",
+        "radius": 3,
+        "gradient": {
+         "from": "white@0.25",
+         "to": "black@0.22",
+         "angle": 45
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "h": 46,
+      "place": "top",
+      "clip": true,
+      "radius": 12,
+      "children": [
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "#FAFAFA",
+        "if": "cfg:fill=clear & !kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "#222222",
+        "if": "cfg:fill=clear & kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "black@0.055",
+        "if": "!kit.dark"
+       },
+       {
+        "type": "rect",
+        "id": "barFill",
+        "h": 34,
+        "place": "top",
+        "fill": "white@0.1",
+        "if": "kit.dark"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "stack",
+      "if": "!bordered",
+      "children": [
+       {
+        "type": "stack",
+        "h": 46,
+        "place": "top",
+        "clip": true,
+        "radius": 12,
+        "children": [
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#FAFAFA",
+          "if": "cfg:fill=clear & !kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#222222",
+          "if": "cfg:fill=clear & kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "black@0.055",
+          "if": "!kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "white@0.1",
+          "if": "kit.dark"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "if": "bordered",
+      "children": [
+       {
+        "type": "stack",
+        "h": 46,
+        "place": "top",
+        "clip": true,
+        "radius": 3,
+        "children": [
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#FAFAFA",
+          "if": "cfg:fill=clear & !kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "#222222",
+          "if": "cfg:fill=clear & kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "black@0.055",
+          "if": "!kit.dark"
+         },
+         {
+          "type": "rect",
+          "id": "barFill",
+          "h": 34,
+          "place": "top",
+          "fill": "white@0.1",
+          "if": "kit.dark"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "window",
+    "children": [
+     {
+      "type": "stack",
+      "id": "bar",
+      "h": 34,
+      "children": [
+       {
+        "type": "row",
+        "id": "dots",
+        "pad": [
+         0,
+         12
+        ],
+        "gap": 6,
+        "align": "center",
+        "children": [
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FF5F57"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#FEBC2E"
+         },
+         {
+          "type": "rect",
+          "w": 11,
+          "h": 11,
+          "circle": true,
+          "fill": "#28C840"
+         },
+         {
+          "type": "spacer",
+          "grow": 1
+         }
+        ]
+       },
+       {
+        "type": "col",
+        "pad": [
+         0,
+         64
+        ],
+        "align": "center",
+        "justify": "center",
+        "children": [
+         {
+          "type": "text",
+          "face": "noto",
+          "size": 13,
+          "weight": 600,
+          "color": "ink",
+          "on": "light",
+          "maxLines": 2,
+          "id": "title",
+          "textAlign": "center",
+          "shrinkTo": 9.1,
+          "text": "เรทรับงาน",
+          "editable": true
+         }
+        ]
+       },
+       {
+        "type": "rect",
+        "h": 1,
+        "place": "bottom",
+        "fill": "black@0.07"
+       }
+      ]
+     },
+     {
+      "type": "col",
+      "id": "content",
+      "pad": [
+       6,
+       16,
+       12,
+       16
+      ],
+      "gap": 8,
+      "children": [
+       {
+        "type": "col",
+        "grow": 1,
+        "children": [
+         {
+          "type": "chips",
+          "id": "socials",
+          "list": "rateSocials",
+          "direction": "col",
+          "gap": 0,
+          "where": "!hidden:$platform",
+          "each": {
+           "type": "col",
+           "grow": 1,
+           "children": [
+            {
+             "type": "rect",
+             "if": "!$i=first",
+             "h": 1,
+             "fill": "ink2@0.17"
+            },
+            {
+             "type": "col",
+             "grow": 1,
+             "pad": [
+              9,
+              0
+             ],
+             "justify": "center",
+             "children": [
+              {
+               "type": "col",
+               "gap": 5,
+               "align": "stretch",
+               "children": [
+                {
+                 "type": "row",
+                 "gap": 6,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "$icon",
+                   "size": 13.7
+                  },
+                  {
+                   "type": "text",
+                   "slot": "$platformName",
+                   "face": "noto",
+                   "size": 13,
+                   "weight": 600,
+                   "color": "ink",
+                   "maxLines": 1,
+                   "shrinkTo": 9.1
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "gap": 10,
+                 "align": "start",
+                 "children": [
+                  {
+                   "type": "col",
+                   "if": "$shortVideo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Short Video",
+                     "face": "noto",
+                     "size": 8.8,
+                     "weight": 400,
+                     "color": "ink2",
+                     "maxLines": 1,
+                     "shrinkTo": 6.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$shortVideo",
+                     "face": "noto",
+                     "size": 13,
+                     "weight": 600,
+                     "color": "accent",
+                     "maxLines": 1,
+                     "shrinkTo": 7.8
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$photo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Photo",
+                     "face": "noto",
+                     "size": 8.8,
+                     "weight": 400,
+                     "color": "ink2",
+                     "maxLines": 1,
+                     "shrinkTo": 6.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$photo",
+                     "face": "noto",
+                     "size": 13,
+                     "weight": 600,
+                     "color": "accent",
+                     "maxLines": 1,
+                     "shrinkTo": 7.8
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$longVideo",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Long Video",
+                     "face": "noto",
+                     "size": 8.8,
+                     "weight": 400,
+                     "color": "ink2",
+                     "maxLines": 1,
+                     "shrinkTo": 6.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$longVideo",
+                     "face": "noto",
+                     "size": 13,
+                     "weight": 600,
+                     "color": "accent",
+                     "maxLines": 1,
+                     "shrinkTo": 7.8
+                    }
+                   ]
+                  },
+                  {
+                   "type": "col",
+                   "if": "$seeding",
+                   "grow": 1,
+                   "gap": 0,
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "text",
+                     "text": "Seeding",
+                     "face": "noto",
+                     "size": 8.8,
+                     "weight": 400,
+                     "color": "ink2",
+                     "maxLines": 1,
+                     "shrinkTo": 6.5
+                    },
+                    {
+                     "type": "text",
+                     "slot": "$seeding",
+                     "face": "noto",
+                     "size": 13,
+                     "weight": 600,
+                     "color": "accent",
+                     "maxLines": 1,
+                     "shrinkTo": 7.8
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          "grow": 1
+         }
+        ],
+        "gap": 8
+       }
+      ],
+      "grow": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "!cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 12,
+      "stroke": {
+       "color": "line",
+       "width": 1
+      }
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "if": "cfg:corner=square",
+    "children": [
+     {
+      "type": "rect",
+      "if": "bordered",
+      "id": "border",
+      "radius": 3,
+      "stroke": {
+       "color": "line",
+       "width": 1
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

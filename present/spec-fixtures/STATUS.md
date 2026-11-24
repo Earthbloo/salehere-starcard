@@ -92,7 +92,6 @@
 | popVideoGlass | ✓ | fixtures/popVideoGlass.json |
 | popVideoPaper | ✓ | fixtures/popVideoPaper.json |
 | popWorkGlass | ✓ | fixtures/popWorkGlass.json |
-| popWorkPaper | ✓ | fixtures/popWorkPaper.json |
 | portfolioGingham | ✓ | fixtures/portfolioGingham.json |
 | portfolioWindow | ✓ | fixtures/portfolioWindow.json |
 | proofSeal | ✓ | fixtures/proofSeal.json |

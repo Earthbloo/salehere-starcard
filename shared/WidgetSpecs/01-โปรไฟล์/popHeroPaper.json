@@ -33,28 +33,42 @@
   "align": "start",
   "children": [
    {
-    "type": "text",
-    "id": "name",
-    "slot": "name",
-    "face": "noto",
-    "weight": 900,
-    "size": 59,
-    "sizeWhen": [
+    "type": "row",
+    "id": "nameRow",
+    "gap": 8,
+    "align": "center",
+    "w": "fill",
+    "children": [
      {
-      "when": "w<200",
-      "size": 42
+      "type": "text",
+      "id": "name",
+      "slot": "name",
+      "face": "noto",
+      "weight": 900,
+      "size": 59,
+      "sizeWhen": [
+       {
+        "when": "w<200",
+        "size": 42
+       },
+       {
+        "when": "w<240",
+        "size": 50
+       }
+      ],
+      "kerning": -0.5,
+      "maxLines": 1,
+      "shrinkTo": 29.5,
+      "color": "ink",
+      "on": "card"
      },
      {
-      "when": "w<240",
-      "size": 50
+      "type": "icon",
+      "icon": "sh:sealRed",
+      "size": 26,
+      "if": "owner.verified"
      }
-    ],
-    "kerning": -0.5,
-    "maxLines": 1,
-    "shrinkTo": 29.5,
-    "color": "ink",
-    "w": "fill",
-    "on": "card"
+    ]
    },
    {
     "type": "row",

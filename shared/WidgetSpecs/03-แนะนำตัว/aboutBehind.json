@@ -111,7 +111,16 @@
         "size": 9,
         "color": "ink",
         "maxLines": 1,
-        "shrinkTo": 6.3,
+        "shrinkTo": 6.3
+       },
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "size": 7,
+        "if": "owner.verified"
+       },
+       {
+        "type": "spacer",
         "grow": 1
        }
       ]

@@ -62,7 +62,7 @@
   ],
   "on": "light"
  },
- "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if)",
+ "notes": "About Me (ชุดห้าสไตล์) · แปลงจาก KitWidgets.swift (bio) · ช่อง about หลายบรรทัด + เส้นสั้นปิดท้ายเกาะก้นใบ (spacer grow) · lineSpacing 3/4/5pt แปลงเป็น lineHeight 1.16/1.2/1.26 (ประมาณ) · ม่วง: สีเส้น = สีขอบเมื่อเปิดขอบ (สอง rect มี if) · 23 พ.ย. 2569 (QA reject): หัวข้อบนการ์ดขาว = #141417 ตายตัว (เดิม ink on light → เลือกสีวิดเจ็ตเข้ม หมึกแผ่น light กลายเป็นสีอ่อน หัวข้อหายบนการ์ดขาว)",
  "variants": [
   {
    "when": "cfg:fill=clear",
@@ -146,8 +146,7 @@
           "face": "noto",
           "size": 19,
           "weight": 800,
-          "color": "ink",
-          "on": "light",
+          "color": "#141417",
           "maxLines": 2,
           "shrinkTo": 13.3,
           "w": "fill",
@@ -419,8 +418,7 @@
         "face": "noto",
         "size": 19,
         "weight": 800,
-        "color": "ink",
-        "on": "light",
+        "color": "#141417",
         "maxLines": 2,
         "shrinkTo": 13.3,
         "w": "fill",

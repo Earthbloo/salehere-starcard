@@ -300,16 +300,31 @@
               "w": "fill"
              },
              {
-              "type": "text",
-              "slot": "name",
-              "face": "noto",
-              "size": 19,
-              "weight": 800,
-              "color": "ink",
-              "maxLines": 2,
-              "id": "name",
-              "textAlign": "center",
-              "w": "fill"
+              "type": "row",
+              "id": "nameRow",
+              "gap": 4.8,
+              "align": "center",
+              "justify": "center",
+              "w": "fill",
+              "children": [
+               {
+                "type": "text",
+                "slot": "name",
+                "face": "noto",
+                "size": 19,
+                "weight": 800,
+                "color": "ink",
+                "maxLines": 2,
+                "id": "name",
+                "textAlign": "center"
+               },
+               {
+                "type": "icon",
+                "icon": "sh:sealRed",
+                "size": 13.7,
+                "if": "owner.verified"
+               }
+              ]
              },
              {
               "type": "chips",
@@ -614,16 +629,31 @@
             "w": "fill"
            },
            {
-            "type": "text",
-            "slot": "name",
-            "face": "noto",
-            "size": 19,
-            "weight": 800,
-            "color": "ink",
-            "maxLines": 2,
-            "id": "name",
-            "textAlign": "center",
-            "w": "fill"
+            "type": "row",
+            "id": "nameRow",
+            "gap": 4.8,
+            "align": "center",
+            "justify": "center",
+            "w": "fill",
+            "children": [
+             {
+              "type": "text",
+              "slot": "name",
+              "face": "noto",
+              "size": 19,
+              "weight": 800,
+              "color": "ink",
+              "maxLines": 2,
+              "id": "name",
+              "textAlign": "center"
+             },
+             {
+              "type": "icon",
+              "icon": "sh:sealRed",
+              "size": 13.7,
+              "if": "owner.verified"
+             }
+            ]
            },
            {
             "type": "chips",

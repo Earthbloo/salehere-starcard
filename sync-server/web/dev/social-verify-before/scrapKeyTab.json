@@ -1,0 +1,322 @@
+{
+ "kind": "scrapKeyTab",
+ "design": {
+  "w": 110,
+  "h": 310
+ },
+ "widget": {
+  "title": "พวงกุญแจโซเชียล",
+  "category": "followers",
+  "requires": [
+   "socials"
+  ],
+  "symbol": "key.fill",
+  "size": {
+   "w": 109,
+   "h": 307
+  },
+  "order": 63,
+  "ownSurface": true,
+  "keepAspect": true,
+  "motion": "mid",
+  "on": "light",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   }
+  ]
+ },
+ "notes": "สแครปบุ๊ก 03 พวงกุญแจโซเชียล — วัตถุลอย (ไม่มีแผ่น) · ห่วงกุญแจเงิน (วงแหวน + ก้าน) · ป้ายห้อย scrap.mid มุม 17 เงาเฉดแผ่น มีรูเจาะ (วงกลม black@0.14 ทับ = mid ผสมดำ) · ช่องทาง 3 อันดับยอดผู้ติดตาม (sort followersRaw desc · limit 3): โลโก้ในกล่องขาว 42 เงาแข็ง y 2 + ยอดดำหนัก · 'ผู้ติดตาม' มิตรขาว · กรอบแนวนอน (ratio<0.667) = variant ป้ายวางนอน ห่วงซ้าย (แถว: ห่วง 66 + ป้ายกินที่ที่เหลือ สูง 78%) · แต่ละช่องทาง = แป้นปุ่มขาวเงาแข็ง (โลโก้บน ยอดล่าง) กว้างเท่ากัน grow สูงสุด 150 จัดกลาง · ไม่มีป้าย 'ผู้ติดตาม' (ผู้ใช้ให้ถอด 13 พ.ย. 2569 — ตอนกรอบแคบถูกย่อจนอ่านไม่ออก) — รับ 1–6 ช่องทางโดยตัวเลขไม่หาย (13 พ.ย. 2569 แทนแถวเดียวไอคอน+ตัวเลขข้างกันที่ตัวเลขถูกบีบเป็น … เมื่อ 5 ช่องทาง) · แปลงจาก ScrapbookWidgets.swift (ScrapKeyTabWidget) · ใช้ไม่ได้: ขนาดโลโก้ต่างตามชนิด badge/ไม่ badge (ใช้ 26 เดียว) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media) · 23 พ.ย. 2569 (QA reject): ตัวหนังสือบนกล่อง bg/bg2 = ink (เดิม #141414 → สีวิดเจ็ตเข้ม กล่องเข้มตาม ตัวหนังสือจม)",
+ "variants": [
+  {
+   "when": "ratio<0.667",
+   "root": {
+    "type": "row",
+    "align": "center",
+    "pad": [
+     0,
+     22,
+     14,
+     19
+    ],
+    "children": [
+     {
+      "type": "stack",
+      "id": "keyring",
+      "w": 66,
+      "h": 44,
+      "children": [
+       {
+        "type": "rect",
+        "id": "ring",
+        "w": 41,
+        "h": 41,
+        "circle": true,
+        "stroke": {
+         "color": "#C3C7CF",
+         "width": 2.6
+        },
+        "place": "center-left"
+       },
+       {
+        "type": "rect",
+        "id": "stem",
+        "w": 26,
+        "h": 10,
+        "radius": 5,
+        "stroke": {
+         "color": "#AEB3BC",
+         "width": 2.2
+        },
+        "place": "center-left",
+        "dx": 39.5
+       }
+      ]
+     },
+     {
+      "type": "stack",
+      "id": "tab",
+      "grow": 1,
+      "h": "78%",
+      "fill": "bg2",
+      "radius": 24,
+      "shadow": {
+       "sigma": 7,
+       "y": 14,
+       "color": "black@0.24"
+      },
+      "children": [
+       {
+        "type": "rect",
+        "id": "hole",
+        "w": 22,
+        "h": 22,
+        "circle": true,
+        "fill": "black@0.14",
+        "shadow": {
+         "sigma": 0.5,
+         "y": 1.7,
+         "color": "black@0.3"
+        },
+        "place": "center-left",
+        "dx": 14
+       },
+       {
+        "type": "col",
+        "pad": [
+         30,
+         34,
+         30,
+         56
+        ],
+        "justify": "center",
+        "children": [
+         {
+          "type": "chips",
+          "id": "socials",
+          "list": "socials",
+          "wrap": false,
+          "gap": 20,
+          "align": "center",
+          "justify": "center",
+          "each": {
+           "type": "stack",
+           "grow": 1,
+           "maxW": 150,
+           "h": 150,
+           "fill": "white",
+           "radius": 20,
+           "shadow": {
+            "sigma": 0,
+            "y": 6,
+            "color": "black@0.22"
+           },
+           "children": [
+            {
+             "type": "col",
+             "pad": [
+              16,
+              4,
+              14,
+              4
+             ],
+             "gap": 10,
+             "align": "center",
+             "justify": "center",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "size": 52
+              },
+              {
+               "type": "text",
+               "slot": "$followers",
+               "face": "noto",
+               "weight": 800,
+               "size": 28,
+               "color": "#141414",
+               "maxLines": 1,
+               "shrinkTo": 13,
+               "textAlign": "center"
+              }
+             ]
+            }
+           ]
+          },
+          "where": "!hidden:$platform"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "ring",
+    "w": 24,
+    "h": 24,
+    "circle": true,
+    "stroke": {
+     "color": "#C3C7CF",
+     "width": 1.5
+    },
+    "place": "top-center",
+    "dy": 3
+   },
+   {
+    "type": "rect",
+    "id": "stem",
+    "w": 6,
+    "h": 15,
+    "radius": 3,
+    "stroke": {
+     "color": "#AEB3BC",
+     "width": 1.25
+    },
+    "place": "top-center",
+    "dy": 26
+   },
+   {
+    "type": "stack",
+    "id": "tab",
+    "w": 75,
+    "h": "85.5%",
+    "fill": "bg2",
+    "radius": 17,
+    "place": "top-center",
+    "dy": 39,
+    "shadow": {
+     "sigma": 4,
+     "y": 8,
+     "color": "black@0.24"
+    },
+    "children": [
+     {
+      "type": "col",
+      "pad": [
+       27,
+       5,
+       16,
+       5
+      ],
+      "gap": 5,
+      "align": "center",
+      "children": [
+       {
+        "type": "chips",
+        "id": "socials",
+        "list": "socials",
+        "direction": "col",
+        "gap": 5,
+        "align": "center",
+        "each": {
+         "type": "col",
+         "gap": 3,
+         "align": "center",
+         "children": [
+          {
+           "type": "stack",
+           "w": 42,
+           "h": 42,
+           "fill": "white",
+           "radius": 12,
+           "shadow": {
+            "sigma": 0,
+            "y": 2,
+            "color": "black@0.18"
+           },
+           "children": [
+            {
+             "type": "icon",
+             "icon": "$icon",
+             "size": 26,
+             "place": "center"
+            }
+           ]
+          },
+          {
+           "type": "text",
+           "slot": "$followers",
+           "face": "noto",
+           "weight": 800,
+           "size": 15,
+           "color": "ink",
+           "textAlign": "center",
+           "maxLines": 1,
+           "shrinkTo": 10
+          }
+         ]
+        },
+        "where": "!hidden:$platform"
+       },
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "mitr",
+        "weight": 400,
+        "size": 9,
+        "color": "white",
+        "textAlign": "center",
+        "maxLines": 1
+       }
+      ]
+     },
+     {
+      "type": "rect",
+      "id": "hole",
+      "w": 13,
+      "h": 13,
+      "circle": true,
+      "fill": "black@0.14",
+      "shadow": {
+       "sigma": 0.5,
+       "y": 1,
+       "color": "black@0.3"
+      },
+      "place": "top-center",
+      "dy": 8
+     }
+    ]
+   }
+  ]
+ },
+ "fitScale": [
+  1,
+  0.9,
+  0.8,
+  0.7,
+  0.6,
+  0.5,
+  0.42
+ ]
+}

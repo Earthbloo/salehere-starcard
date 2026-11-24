@@ -57,8 +57,8 @@ const FORMATS = {
   tiktok: { short: ['คลิปสั้น (ไม่เกิน 60 วิ)', 'shortVideo'], long: ['คลิปยาว (1–3 นาที)', 'longVideo'], series: ['ซีรีส์ 3 คลิปต่อเนื่อง', 'longVideo'], live: ['TikTok LIVE (1 ชม.)', 'longVideo'] },
   facebook: { post: ['โพสต์ภาพ + แคปชัน', 'photo'], album: ['อัลบั้มรีวิว', 'photo'], reels: ['Facebook Reels', 'shortVideo'], video: ['วิดีโอยาว (3 นาทีขึ้นไป)', 'longVideo'], live: ['Facebook Live', 'longVideo'] },
   youtube: { shorts: ['YouTube Shorts', 'shortVideo'], integrated: ['แทรกในคลิป (60–90 วิ)', 'longVideo'], dedicated: ['คลิปรีวิวเต็ม (Dedicated)', 'longVideo'] },
-  lemon8: { photo: ['โพสต์ภาพ (Photo Set)', 'photo'], review: ['รีวิวยาว + แท็กสินค้า', 'seeding'] },
-  x: { post: ['โพสต์ + ภาพ', 'photo'], thread: ['เธรดรีวิว (3 โพสต์ขึ้นไป)', 'seeding'] },
+  lemon8: { photo: ['โพสต์ภาพ (Photo Set)', 'photo'], video: ['คลิปสั้น', 'shortVideo'], review: ['รีวิวยาว + แท็กสินค้า', 'seeding'] },
+  x: { post: ['โพสต์ + ภาพ', 'photo'], video: ['โพสต์วิดีโอ', 'shortVideo'], thread: ['เธรดรีวิว (3 โพสต์ขึ้นไป)', 'seeding'] },
 }
 const UNIT = { photo: 'ชิ้น', shortVideo: 'คลิป', longVideo: 'คลิป', seeding: 'ชุด' }
 

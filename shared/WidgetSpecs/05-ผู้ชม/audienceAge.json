@@ -13,9 +13,22 @@
   "symbol": "chart.bar.fill",
   "order": 44,
   "stamp": "insight",
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "social",
+    "items": "insightSocials",
+    "needs": [
+     "age"
+    ],
+    "match": "all",
+    "minItems": 2
+   }
+  ]
  },
- "notes": "หัวข้อ 'ช่วงอายุผู้ชม' + แถวต่อช่วงอายุ (ป้าย 42pt · แท่งแคปซูล pct $shareRaw/max · %) · แปลงจาก InsightWidgets.swift (AudienceAgeWidget) · แถวเรียงตามอายุ (ไม่ sort) และ grow 1 เท่ากัน · แท่ง = share/max เหมือนต้นฉบับ (`/max` ติดมากับชิ้น ใช้ได้ทุกชั้น) · กลุ่มใหญ่สุด (peak = `$shareRaw=max`) เน้นด้วยไล่สี accentSoft→accent + ป้าย ink@0.9 + ตัวเลข ink@0.98 · กลุ่มรอง accent@0.34 + ink@0.5 / 0.55 · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (ของเดิม fixedSize) · ทุกสีมาจากหมึก/สีเน้นของพื้นที่ใบนั่ง (ไม่มีค่าตายตัว) · chrome วาดแผ่น/ขอบให้ · ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:screenshot)",
+ "notes": "หัวข้อ 'ช่วงอายุผู้ชม' + แถวต่อช่วงอายุ (ป้าย 42pt · แท่งแคปซูล pct $shareRaw/max · %) · แปลงจาก InsightWidgets.swift (AudienceAgeWidget) · แถวเรียงตามอายุ (ไม่ sort) และ grow 1 เท่ากัน · แท่ง = share/max เหมือนต้นฉบับ (`/max` ติดมากับชิ้น ใช้ได้ทุกชั้น) · กลุ่มใหญ่สุด (peak = `$shareRaw=max`) เน้นด้วยไล่สี accentSoft→accent + ป้าย ink@0.9 + ตัวเลข ink@0.98 · กลุ่มรอง accent@0.34 + ink@0.5 / 0.55 · ป้ายที่มา = ProvenanceTag ขนาดจริง 104×18 (ของเดิม fixedSize) · ทุกสีมาจากหมึก/สีเน้นของพื้นที่ใบนั่ง (ไม่มีค่าตายตัว) · chrome วาดแผ่น/ขอบให้ · ป้าย Verified by Sale Here (byline หมึกของใบ · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:screenshot) · 23 พ.ย. 2569 (QA reject): ตัวเลข % ในแถว \"ชื่อ ··· %\" shrink 0 — ชื่อยาวหด/ตัด … แทน (เดิมเหลือ \"2…\")",
  "root": {
   "type": "col",
   "gap": 10,
@@ -181,7 +194,8 @@
        "weight": 800,
        "color": "ink@0.98",
        "maxLines": 1,
-       "if": "$shareRaw=max"
+       "if": "$shareRaw=max",
+       "shrink": 0
       },
       {
        "type": "text",
@@ -193,7 +207,8 @@
        "weight": 800,
        "color": "ink@0.55",
        "maxLines": 1,
-       "if": "!$shareRaw=max"
+       "if": "!$shareRaw=max",
+       "shrink": 0
       }
      ]
     }

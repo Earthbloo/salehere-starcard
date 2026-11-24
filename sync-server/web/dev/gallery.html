@@ -44,6 +44,7 @@ const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s
 const measurer = new WebMeasurer()
 const params = new URLSearchParams(location.search)
 const only = params.get('kind')
+// ?border=1 — ทุกใบเปิด "มีขอบ" (ไว้ตรวจว่าเส้นขอบของ chrome ตรงกับรูปทรงของใบไหม)
 // ?mock=<base64 JSON {creators:[imageId…], works:[imageId…]}> — รูปของช่องที่ไม่ได้ใส่เอง (= GraphQL mockPhotos) · present/web-parity ส่งรูปชุดเดียวกับซิม iOS มาทางนี้
 const mock = params.get('mock') ? JSON.parse(atob(params.get('mock'))) : null
 // ?theme=<base64 JSON choice ของถาด {backdrop, primary, secondary, tone}> — ธีมของทั้งหน้าตั้งแต่โหลด (ไว้ถ่ายเทียบธีมอื่นนอกจากตั้งต้น)
@@ -59,17 +60,30 @@ const cells = []
 function renderCell(c) {
   const choice = c.override || pageChoice
   const theme = themeOf(choice)
+  // ?corner=18|28|38 — มุมการ์ด (ถาด "มุม": soft/round/pill) ไว้ตรวจว่าขอบชิ้นตามมุมได้ทุกแบบ
+  if (params.get('corner')) theme.radius = Number(params.get('corner'))
   const spec = specs[c.kind]
-  const W = spec.design.w, H = spec.design.h
+  // ?fw=1.2&fh=1 — ยืดกรอบออกจากสัดส่วนที่ออกแบบ (เหมือนผู้ใช้ลากมุม) ไว้ตรวจว่าพื้น/ขอบยังตรงกรอบไหม
+  const W = Math.round(spec.design.w * Number(params.get('fw') || 1)), H = Math.round(spec.design.h * Number(params.get('fh') || 1))
   c.web.innerHTML = ''
   c.web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative`
   paintBackdrop(c.web, theme, W + M * 2, H + M * 2)
   c.web.insertAdjacentHTML('beforeend', '<span class="tag">web</span>')
   const profile = new Profile({}, {})
   const fallback = new WebSpecData({ profile, item: {}, sample: true, surface: 'glass' })
-  const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface: params.get('surface') || 'glass', border: params.get('border') === '1' }
   const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`, mock,
-    makeData: c.fixtureCase ? () => new ReplayData(c.fixtureCase.data, fallback) : null }
+    makeData: c.fixtureCase ? () => {
+      const rd = new ReplayData(c.fixtureCase.data, fallback)
+      // ?border= ต้องชนะค่า "bordered" ที่ iOS จดไว้ตอนส่งออก — ไม่งั้นใบที่ผังสลับหน้าตาตามขอบ (ชุด kit · pop) ไม่เปลี่ยนเลย
+      if (params.has('border')) rd.flags.set('bordered', item.border)
+      // ?surface= เช่นกัน — ค่าที่จดมาเป็นของ "glass" (ตั้งต้นของตัวส่งออก)
+      if (params.has('surface')) {
+        for (const k of [...rd.flags.keys()]) if (k.startsWith('surface=')) rd.flags.set(k, k.slice(8) === item.surface)
+        rd.flags.set('papered', item.surface === 'glass' || item.surface === 'dim')
+      }
+      return rd
+    } : null }
   try { mountWidget(c.web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { c.web.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
   // ภาพ iOS มีความหมายเฉพาะธีมตั้งต้นของตัวส่งออก
   c.ios.style.display = isDefault(choice) ? '' : 'none'

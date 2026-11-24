@@ -19,6 +19,7 @@
   },
   "order": 67,
   "ownSurface": true,
+  "borderChoice": false,
   "keepAspect": true,
   "motion": "mid",
   "on": "light"
@@ -233,6 +234,12 @@
                 "color": "#141414",
                 "maxLines": 1,
                 "shrinkTo": 7.2
+               },
+               {
+                "type": "icon",
+                "icon": "sh:sealRed",
+                "size": 9,
+                "if": "owner.verified"
                }
               ]
              },

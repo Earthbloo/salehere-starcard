@@ -13,9 +13,22 @@
   "symbol": "mappin.and.ellipse",
   "order": 45,
   "stamp": "insight",
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "social",
+    "items": "insightSocials",
+    "needs": [
+     "city"
+    ],
+    "match": "all",
+    "minItems": 2
+   }
+  ]
  },
- "notes": "หัวข้อ 'ผู้ชมอยู่ที่ไหน' · แถวต่อเมือง (แถบสัดส่วน pct $shareRaw/max หลังตัวหนังสือ · rank2 · ชื่อ · %) · แปลงจาก InsightWidgets.swift (AudienceMapWidget) · แถวเรียงตามรายการ (อันดับจริง) grow 1 เท่ากัน · แถบ = share/max เหมือนต้นฉบับ · อันดับ 1 เข้มกว่า (accent@0.2 vs accent@0.09) ด้วย `$i=first` · หมึกจาก ink ของพื้นที่ใบนั่ง · สีเน้น = accent ของพื้น (ของเดิมใช้ theme.accent ระดับการ์ด ซึ่งบนแผ่นเข้มทึบบนการ์ดกระดาษจะได้สีเข้มที่จมแผ่น — ผังใช้ accent ที่ปรับตามพื้นตามกติกา WidgetBody) · chrome วาดแผ่น/ขอบให้ · 20 พ.ย. 2569: ถอดหมุด + 'อันดับ 1–N' ขวาบน → pill 'อัปเดตเมื่อ' (stat:countsUpdated) แบบเดียวกับ audienceAge",
+ "notes": "หัวข้อ 'ผู้ชมอยู่ที่ไหน' · แถวต่อเมือง (แถบสัดส่วน pct $shareRaw/max หลังตัวหนังสือ · rank2 · ชื่อ · %) · แปลงจาก InsightWidgets.swift (AudienceMapWidget) · แถวเรียงตามรายการ (อันดับจริง) grow 1 เท่ากัน · แถบ = share/max เหมือนต้นฉบับ · อันดับ 1 เข้มกว่า (accent@0.2 vs accent@0.09) ด้วย `$i=first` · หมึกจาก ink ของพื้นที่ใบนั่ง · สีเน้น = accent ของพื้น (ของเดิมใช้ theme.accent ระดับการ์ด ซึ่งบนแผ่นเข้มทึบบนการ์ดกระดาษจะได้สีเข้มที่จมแผ่น — ผังใช้ accent ที่ปรับตามพื้นตามกติกา WidgetBody) · chrome วาดแผ่น/ขอบให้ · 20 พ.ย. 2569: ถอดหมุด + 'อันดับ 1–N' ขวาบน → pill 'อัปเดตเมื่อ' (stat:countsUpdated) แบบเดียวกับ audienceAge · 23 พ.ย. 2569 (QA reject): ตัวเลข % ในแถว \"ชื่อ ··· %\" shrink 0 — ชื่อยาวหด/ตัด … แทน (เดิมเหลือ \"2…\")",
  "root": {
   "type": "col",
   "gap": 9,
@@ -171,7 +184,8 @@
          "size": 13,
          "weight": 800,
          "color": "ink@0.94",
-         "maxLines": 1
+         "maxLines": 1,
+         "shrink": 0
         }
        ]
       }

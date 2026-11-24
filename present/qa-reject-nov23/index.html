@@ -1,0 +1,245 @@
+<title>QA Reject 23 พ.ย.</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* layout: เอกสารคอลัมน์เดียว · การ์ดต่อบั๊ก (หัว → สาเหตุ/วิธีแก้ → ภาพก่อน|หลัง) · ส่วนท้าย = ใบอื่นที่แก้ด้วย + ข้อจำกัด */
+:root {
+  --bg: #F6F5F3; --paper: #FFFFFF; --ink: #1B1A1F; --ink2: #5D5A63; --line: #E4E1DC;
+  --red: #D62F2F; --red-soft: #FBE9E8; --green: #1E7A4A; --green-soft: #E3F2E9; --code: #F1EFEB;
+  --display: 'Anuphan', 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --body: 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141316; --paper: #1D1C20; --ink: #EDEBE8; --ink2: #A6A2AB; --line: #2F2D33;
+  --red: #FF6B63; --red-soft: #3A1E1E; --green: #5FD39A; --green-soft: #17301F; --code: #26242A; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141316; --paper: #1D1C20; --ink: #EDEBE8; --ink2: #A6A2AB; --line: #2F2D33;
+  --red: #FF6B63; --red-soft: #3A1E1E; --green: #5FD39A; --green-soft: #17301F; --code: #26242A; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 15px/1.65 var(--body); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.25; margin: 0; text-wrap: balance; }
+h1 { font-size: 30px; font-weight: 700; }
+h2 { font-size: 21px; font-weight: 700; }
+h3 { font-size: 17px; font-weight: 600; }
+p { margin: 0; }
+.lede { color: var(--ink2); max-width: 70ch; }
+.eyebrow { font: 600 12px var(--body); letter-spacing: .06em; color: var(--ink2); }
+code, .mono { font-family: var(--mono); font-size: 12.5px; }
+code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.stat b { font: 700 22px var(--display); display: block; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--ink2); font-size: 13px; }
+
+.causes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.cause { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.cause .k { font: 700 13px var(--mono); color: var(--red); }
+.cause p { font-size: 14px; color: var(--ink2); }
+
+.bug { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.bug-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.num { font: 700 13px var(--mono); color: var(--ink2); }
+.pill { font: 600 12px var(--body); padding: 2px 10px; border-radius: 999px; background: var(--green-soft); color: var(--green); white-space: nowrap; }
+.pill.warn { background: var(--red-soft); color: var(--red); }
+.kind { color: var(--ink2); font-size: 13px; }
+.rows { display: grid; grid-template-columns: 92px 1fr; gap: 6px 14px; font-size: 14.5px; }
+.rows dt { color: var(--ink2); font-weight: 500; }
+.rows dd { margin: 0; min-width: 0; }
+pre { margin: 0; background: var(--code); border-radius: 8px; padding: 10px 12px; overflow-x: auto; font: 12.5px/1.6 var(--mono); }
+pre .del { color: var(--red); } pre .add { color: var(--green); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.pair.three { grid-template-columns: repeat(3, 1fr); }
+figure { margin: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+figure img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); display: block; background: var(--code); }
+figcaption { font-size: 13px; color: var(--ink2); display: flex; gap: 8px; align-items: center; }
+figcaption b { font-weight: 600; color: var(--ink); }
+.tag-b, .tag-a { font: 700 11px var(--body); padding: 1px 8px; border-radius: 999px; }
+.tag-b { background: var(--red-soft); color: var(--red); } .tag-a { background: var(--green-soft); color: var(--green); }
+.note { font-size: 13.5px; color: var(--ink2); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.mini { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.mini .pair { gap: 8px; }
+.mini h3 { font-size: 15px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tbl { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--ink2); font-size: 12.5px; }
+tr:last-child td { border-bottom: 0; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+@media (max-width: 640px) { .pair.three { grid-template-columns: 1fr 1fr; } .rows { grid-template-columns: 1fr; gap: 2px; } .rows dd { margin-bottom: 8px; } h1 { font-size: 25px; } }
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <span class="eyebrow">STAR CARD · SIT · QA REJECT 8 ใบ · 23 พ.ย. 2569</span>
+    <h1>แก้บั๊ก QA ครบ 8 ใบ + ใบอื่นที่เป็นบั๊กแบบเดียวกัน</h1>
+    <p class="lede">แก้ที่ JSON ของ widget อย่างเดียว (<code>shared/WidgetSpecs</code>) ไม่ต้องแก้โค้ดแอป ภาพทุกภาพมาจาก web renderer ที่จำลอง "สีวิดเจ็ต" ของ salehere-iOS ด้วยสูตรเดียวกับ <code>StarCardPalette.sheet</code> ใช้ข้อมูลผู้ชมตามภาพ QA (กรุงเทพมหานคร 41% · เทศบาลนครพิษณุโลก 25% …) และวางคู่กัน: ซ้าย = JSON ก่อนแก้ ขวา = หลังแก้</p>
+    <div class="stats">
+      <div class="stat"><b>8 / 8</b><span>บั๊ก QA ที่แก้แล้ว</span></div>
+      <div class="stat"><b>24</b><span>ไฟล์ JSON ที่แก้</span></div>
+      <div class="stat"><b>0 px</b><span>ภาพต่างจากเดิมตอนไม่ได้เลือกสี (ยกเว้น 2 ใบที่ตั้งใจแก้ตัวเลข)</span></div>
+      <div class="stat"><b>56 / 117</b><span>layout replay ผ่านเท่าเดิมทั้งก่อนและหลัง</span></div>
+    </div>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>สาเหตุมี 3 แบบ</h2>
+    <div class="causes">
+      <div class="cause"><span class="k">A · สีหมึกผูกกับแผ่น แต่วางบนการ์ดขาว</span><p>ชุดลายผ้าใช้หัวข้อสี <code>ink</code> + <code>on: light</code> เมื่อเลือกสีวิดเจ็ตเข้ม แผ่น light จะกลายเป็นสีนั้น หมึกจึงกลายเป็นสีอ่อน แต่หัวข้อวางบนการ์ดขาวที่สีไม่เปลี่ยน หัวข้อเลยหายไป (บั๊ก 3, 4, 5, 7, 8)</p></div>
+      <div class="cause"><span class="k">B · กล่องเปลี่ยนสี แต่ตัวหนังสือเป็น hex</span><p>ป้ายสแครปบุ๊กเป็นกล่อง <code>bg2</code> ซึ่งเปลี่ยนสีตามสีวิดเจ็ต แต่ตัวหนังสือในกล่องเป็น <code>#141414</code> พอเลือกสีเข้ม กล่องก็เข้ม ตัวหนังสือที่เข้มอยู่แล้วเลยกลืนไปกับกล่อง (บั๊ก 6)</p></div>
+      <div class="cause"><span class="k">C · ตัวเลขหดก่อนชื่อ</span><p>แถว "ชื่อ ··· %" แบ่งพื้นที่ที่ขาดตามความยาวของแต่ละช่อง ชื่อเมืองยาวจึงดึงพื้นที่จากตัวเลขไปด้วย จน % เหลือแค่ "2…" (บั๊ก 1)</p></div>
+      <div class="cause"><span class="k">D · แถบหัวข้อสูงตายตัว</span><p>แถบหัวข้อของช่องทางผ้าปิกนิกสูง 31 ตายตัว พอขยายตัวอักษร (L = ×1.3) ตัวอักษรเลยล้นลงไปอยู่ใต้การ์ดที่วาดทีหลัง (บั๊ก 2)</p></div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:16px">
+    <h2>8 บั๊กจาก QA</h2>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#1</span><h3>โปสเตอร์อินไซต์: ตัวเลขของเมืองแสดงไม่ครบ</h3><span class="pill">แก้แล้ว</span><span class="kind">audiencePoster</span></div>
+      <dl class="rows">
+        <dt>สาเหตุ</dt><dd>C: ตัวเลข <code>$share</code> ยอมหดตามชื่อเมือง ชื่อ "เทศบาลนครพิษณุโลก" ยาว เลยเหลือ "2…" และแถวแรกก็เหลือ "4…"</dd>
+        <dt>วิธีแก้</dt><dd>ตัวเลข % ห้ามหด ให้ชื่อเมืองหดหรือตัดเป็น … แทน (แก้ทั้งเมืองหลัก ช่วงอายุ และเพศ)</dd>
+      </dl>
+<pre>{ "slot": "$share", "size": 15.5, "weight": 800, "maxLines": 1<span class="add">, "shrink": 0</span> }</pre>
+      <div class="pair">
+        <figure><img src="web/01-normal-before.jpg" alt="ก่อนแก้: 4… และ 2…" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>ตัวเลขเหลือ "4…" "2…" "…"</figcaption></figure>
+        <figure><img src="web/01-normal-after.jpg" alt="หลังแก้: 41% 25% 16%" loading="lazy"><figcaption><span class="tag-a">หลัง</span>41% · 25% · 16% ครบทุกแถว</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#2</span><h3>ช่องทางผ้าปิกนิก: ขยายหัวข้อแล้วตัวอักษรมุดใต้การ์ด</h3><span class="pill">แก้แล้ว</span><span class="kind">socialGingham</span></div>
+      <dl class="rows">
+        <dt>สาเหตุ</dt><dd>D: แถบ <code>head</code> สูง <code>h: 31</code> ตายตัว ตัวอักษรที่ขยายแล้วสูงเกินแถบ เลยล้นลงไปอยู่ใต้การ์ด Facebook/ผู้ติดตาม</dd>
+        <dt>วิธีแก้</dt><dd>ให้แถบหัวข้อสูงตามตัวอักษรและห้ามหด การ์ดจึงถูกดันลงแทน ที่ขนาด M แถบยังสูง 31 เท่าเดิม (ภาพตรงกับของเดิม 0 px) เส้นสองข้างหัวข้ออยู่ระดับเดิม ถ้าที่ไม่พอ ให้แถบ "ข้อมูลจาก…" ท้ายใบหดก่อน</dd>
+      </dl>
+<pre>"id": "head", <span class="del">"h": 31,</span> <span class="add">"minH": 31, "shrink": 0, "pad": [3, 0, -5.24, 0],</span>
+  children: <span class="add">{ "type": "col", "alignSelf": "stretch", "justify": "center", "pad": [0,0,5.24,0], children: [</span>เส้น<span class="add">] }</span>, หัวข้อ, …
+"id": "footer", "h": 21.5, <span class="add">"shrink": 4</span></pre>
+      <div class="pair">
+        <figure><img src="web/02-L-before.jpg" alt="ก่อนแก้ L" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"SOCIAL" ขนาด L มุดใต้การ์ด</figcaption></figure>
+        <figure><img src="web/02-L-after.jpg" alt="หลังแก้ L" loading="lazy"><figcaption><span class="tag-a">หลัง</span>ขนาด L เห็นครบ การ์ดเลื่อนลง</figcaption></figure>
+      </div>
+      <div class="pair three">
+        <figure><img src="web/02-normal-after.jpg" alt="ขนาด M" loading="lazy"><figcaption><b>M</b> ตรงกับของเดิม 0 px</figcaption></figure>
+        <figure><img src="web/02-XL-after.jpg" alt="ขนาด XL" loading="lazy"><figcaption><b>XL</b> หัวข้อชัด การ์ดเตี้ยลง</figcaption></figure>
+        <figure><img src="web/02-XXL-after.jpg" alt="ขนาด XXL" loading="lazy"><figcaption><b>XXL</b> หัวข้อชัด แต่การ์ดแน่น (ดูข้อจำกัด)</figcaption></figure>
+      </div>
+      <h3 style="margin-top:6px">เพิ่ม: พิมพ์หัวข้อยาวแล้วตัวอักษรไม่ย่อ</h3>
+      <dl class="rows">
+        <dt>เดิม</dt><dd>ถ้าข้อความยาวเกินช่อง ตัวอักษรจะย่อลงได้ถึง 11 (<code>shrinkTo</code>)</dd>
+        <dt>ตอนนี้</dt><dd>ตัวอักษรคงขนาดที่เลือก ข้อความกินช่องจนเต็ม (กว้าง 252 ช่องเดิมของดีไซน์ ไม่ชนป้าย "อัปเดตเมื่อ") แล้วตัดท้ายเป็น …</dd>
+      </dl>
+<pre>"id": "title", "size": 22, "maxLines": 1, <span class="del">"shrinkTo": 11,</span> "maxW": 252</pre>
+      <div class="pair">
+        <figure><img src="web/02b-M-before.jpg" alt="ก่อน: ข้อความยาวตัวเล็กลง" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>M · พิมพ์ยาวแล้วตัวเล็กลง</figcaption></figure>
+        <figure><img src="web/02b-M-after.jpg" alt="หลัง: ขนาดเดิม ตัด …" loading="lazy"><figcaption><span class="tag-a">หลัง</span>M · ขนาดเดิม เต็มช่องแล้ว …</figcaption></figure>
+        <figure><img src="web/02b-L-before.jpg" alt="ก่อน L" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>L · ย่อจนดูเหมือน M</figcaption></figure>
+        <figure><img src="web/02b-L-after.jpg" alt="หลัง L" loading="lazy"><figcaption><span class="tag-a">หลัง</span>L · ใหญ่ตามที่เลือก แล้ว …</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#3</span><h3>เรทรับงาน ชุดลายผ้า: เลือกสีเข้มแล้ว title กลืนพื้น</h3><span class="pill">แก้แล้ว</span><span class="kind">kitRateGingham · สี #1C2A6B</span></div>
+      <dl class="rows"><dt>สาเหตุ</dt><dd>A: title <code>ink</code> + <code>on: light</code> อยู่บนการ์ดขาว <code>rect#card fill: white</code></dd><dt>วิธีแก้</dt><dd>ให้ title ใช้หมึกเข้มสีเดียวกับเนื้อหาในการ์ดขาว ภาพตอนไม่ได้เลือกสียังตรงกับของเดิม 0 px</dd></dl>
+<pre>"id": "title", <span class="del">"color": "ink", "on": "light"</span>  →  <span class="add">"color": "#141417"</span></pre>
+      <div class="pair">
+        <figure><img src="web/03-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"เรทรับงาน" หาย</figcaption></figure>
+        <figure><img src="web/03-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออก</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#4</span><h3>สายงาน ชุดลายผ้า: เลือกสีเข้มแล้ว title กลืนพื้น</h3><span class="pill">แก้แล้ว</span><span class="kind">kitNicheGingham · สี #5A1020</span></div>
+      <dl class="rows"><dt>สาเหตุ</dt><dd>A: แบบเดียวกับ #3 (มีทั้งแบบทึบและแบบโปร่ง)</dd><dt>วิธีแก้</dt><dd>title เป็น <code>#141417</code> ทั้ง 2 แบบ</dd></dl>
+      <div class="pair">
+        <figure><img src="web/04-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"สายงาน" หาย</figcaption></figure>
+        <figure><img src="web/04-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออก</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#5</span><h3>Insight ชุดลายผ้า: เลือกสีเข้มแล้ว title กลืนพื้น</h3><span class="pill">แก้แล้ว</span><span class="kind">kitInsightGingham · สี #4F2D21 (ตามภาพ QA)</span></div>
+      <dl class="rows"><dt>สาเหตุ</dt><dd>A: แบบเดียวกับ #3</dd><dt>วิธีแก้</dt><dd>title เป็น <code>#141417</code> และตัวเลข % ห้ามหด (C)</dd></dl>
+      <div class="pair">
+        <figure><img src="web/05-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"Insight" หาย</figcaption></figure>
+        <figure><img src="web/05-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออก</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#6</span><h3>สถิติผู้ชม: เลือกสีเข้มแล้วคำว่า "ผู้ชม" กลืนพื้น</h3><span class="pill">แก้แล้ว</span><span class="kind">scrapStats · สี #2A1A14</span></div>
+      <dl class="rows"><dt>สาเหตุ</dt><dd>B: ป้าย "ผู้ชม" เป็นกล่อง <code>bg2</code> (เปลี่ยนสีตามสีวิดเจ็ต) แต่ตัวหนังสือเป็น <code>#141414</code> ตายตัว ป้าย ER 3 ช่องข้างล่างก็เป็นแบบเดียวกัน</dd><dt>วิธีแก้</dt><dd>ตัวหนังสือบนกล่อง <code>bg2</code> เปลี่ยนเป็น <code>ink</code> ให้เปลี่ยนสีตามกล่อง ตอนไม่ได้เลือกสี <code>ink</code> ของแผ่นสว่างแทบเท่ากับ #141414 (0 px)</dd></dl>
+<pre>"id": "text2", "text": "ผู้ชม", <span class="del">"color": "#141414"</span>  →  <span class="add">"color": "ink"</span>   (+ "$engagement", "{name} · ER")</pre>
+      <div class="pair">
+        <figure><img src="web/06-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"ผู้ชม" และ ER จมกล่อง</figcaption></figure>
+        <figure><img src="web/06-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออกทั้งหมด</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#7</span><h3>Social Media ชุดลายผ้า: เลือกสีเข้มแล้ว title หาย</h3><span class="pill">แก้แล้ว</span><span class="kind">kitSocialGingham · สี #532C34 (ตามภาพ QA)</span></div>
+      <dl class="rows"><dt>สาเหตุ</dt><dd>A: แบบเดียวกับ #3</dd><dt>วิธีแก้</dt><dd>title เป็น <code>#141417</code></dd></dl>
+      <div class="pair">
+        <figure><img src="web/07-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"Social Media" หาย</figcaption></figure>
+        <figure><img src="web/07-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออก</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="bug">
+      <div class="bug-head"><span class="num">#8</span><h3>About Me: เลือกสีเข้มแล้ว title หาย</h3><span class="pill">แก้แล้ว</span><span class="kind">kitBioGingham · สี #191411 (ตามภาพ QA)</span></div>
+      <dl class="rows"><dt>หมายเหตุ</dt><dd>ใน QA เขียนว่า "ชุดม่วง" แต่ภาพที่แนบมาเป็น<b>ชุดลายผ้า</b> (มีการ์ดขาวอยู่ในกรอบลายตาราง เนื้อหาเป็น #141417) ชุดม่วงจริงไม่มีบั๊กนี้ เพราะหัวข้อกับเนื้อหาวางบนแผ่น <code>bg</code> เดียวกันและเปลี่ยนสีไปพร้อมกัน</dd><dt>สาเหตุ</dt><dd>A: แบบเดียวกับ #3</dd><dt>วิธีแก้</dt><dd>title เป็น <code>#141417</code></dd></dl>
+      <div class="pair">
+        <figure><img src="web/08-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"About Me" หาย</figcaption></figure>
+        <figure><img src="web/08-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>อ่านออก</figcaption></figure>
+      </div>
+    </article>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>ใบอื่นที่เป็นบั๊กแบบเดียวกัน ซึ่ง QA ยังไม่ได้เจอ</h2>
+    <p class="note">ไล่ตรวจทุกสเปกด้วยสคริปต์ (<code>audit.py</code>) หาตัวหนังสือที่ใช้หมึกที่เปลี่ยนตามสีวิดเจ็ต แต่วางบนกล่องสีตายตัว และกลับกัน แล้วแก้ด้วยวิธีเดียวกับข้างบน ทุกใบตรวจซ้ำแล้วว่าตอนไม่ได้เลือกสี ภาพตรงกับของเดิม 0 px</p>
+    <div class="grid">
+      <div class="mini"><h3>รูปโปรไฟล์ ชุดลายผ้า <span class="kind">kitProfileGingham · A</span></h3><div class="pair"><figure><img src="web/x1-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/x1-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>สัดส่วน ชุดลายผ้า <span class="kind">kitBodyGingham · A</span></h3><div class="pair"><figure><img src="web/x2-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/x2-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>วันเวลาและพื้นที่รับงาน ชุดลายผ้า <span class="kind">kitTimeGingham · A</span></h3><div class="pair"><figure><img src="web/x3-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/x3-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>ช่องทางติดต่อ ชุดลายผ้า <span class="kind">kitContactGingham · A</span></h3><div class="pair"><figure><img src="web/x4-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/x4-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>รูปผลงาน ชุดลายผ้า <span class="kind">kitWorksGingham · A</span></h3><div class="pair"><figure><img src="web/x5-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/x5-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>รู้จักตัวฉัน <span class="kind">scrapAbout · B</span></h3><div class="pair"><figure><img src="web/y1-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/y1-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>ป้ายห้อยสายงาน <span class="kind">scrapTags · B (ป้าย "ใช่" + แท็กใบที่ 4 + ดาว)</span></h3><div class="pair"><figure><img src="web/y2-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/y2-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>กำแพงมือถือ <span class="kind">scrapPhones · B</span></h3><div class="pair"><figure><img src="web/y3-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/y3-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>พวงกุญแจโซเชียล <span class="kind">scrapKeyTab · B (แบบตั้ง)</span></h3><div class="pair"><figure><img src="web/y4-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/y4-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>ฟีดของฉัน <span class="kind">scrapFeed · B (คำว่า "ฟีด")</span></h3><div class="pair"><figure><img src="web/w4-dark-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span></figcaption></figure><figure><img src="web/w4-dark-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span></figcaption></figure></div></div>
+      <div class="mini"><h3>Insight ชุดม่วง <span class="kind">kitInsightPurple · C + กล่องเพศ</span></h3><div class="pair"><figure><img src="web/z1-normal-before.jpg" alt="ก่อน" loading="lazy"><figcaption><span class="tag-b">ก่อน</span>"1…" และเพศ "…"</figcaption></figure><figure><img src="web/z1-normal-after.jpg" alt="หลัง" loading="lazy"><figcaption><span class="tag-a">หลัง</span>ครบ ชื่อเมืองยาวตัด …</figcaption></figure></div><p class="note">กล่องเพศห้ามหด และชื่อเมืองในแถวเล็กกว้างได้ไม่เกิน 110 ถ้าชื่อเมืองสั้น (ขนาดออกแบบ) ภาพยังตรงกับของเดิม 0 px</p></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>กันไว้ก่อน (ตัวเลข % ห้ามหด)</th><th>สถานะด้วยข้อมูล QA</th></tr></thead>
+      <tbody>
+        <tr><td>kitInsightCream · kitInsightNight · audienceAge · audienceMap · audienceSplit</td><td>ยังไม่เห็นตัวเลขถูกตัด (ภาพเท่าเดิม 0 px) แต่เป็นแถวแบบเดียวกัน ถ้าชื่อยาวกว่านี้ก็จะโดนตัด เลยแก้กันไว้ก่อน</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>ตรวจแล้ว ไม่ต้องแก้</h2>
+    <ul>
+      <li><b>ป้ายชื่อ STAR · บัตรข้อมูล · โน้ต "มาทำงานด้วยกันนะ"</b> (scrapBadge · scrapInfo · scrapNote): คำสีเน้นบนกระดาษครีม ตอนเลือกสีเข้มก็ยังอ่านออก เป็นสีส้มบนครีม</li>
+      <li><b>ไอคอนสีเน้นบนป้ายขาวของชุดสติกเกอร์</b> (pop*Glass) และ<b>ตั๋วหนัง</b> (proofTicket) อ่านออก หรือวางบนกระดาษสีตายตัวของตัวเอง</li>
+      <li><b>About Me ชุดม่วงตัวจริง</b> (kitBioPurple): หัวข้อกับเนื้อหาอยู่บนแผ่นเดียวกันที่เปลี่ยนสีพร้อมกัน</li>
+    </ul>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>ข้อจำกัด และสิ่งที่ต้องทำต่อ</h2>
+    <ul>
+      <li><b>ช่องทางผ้าปิกนิกขนาด XXL:</b> ใบสูงแค่ 128 แต่หัวข้อ XXL สูงราว 71 การ์ดข้างล่างเลยแน่น ตัวเลขผู้ติดตามชิดคำว่า "ผู้ติดตาม" และแถบ "ข้อมูลจาก…" หายไป หัวข้อไม่มุดแล้ว และขนาด L กับ XL ดูดี ถ้าต้องการให้ XXL สวยด้วย ต้องให้ใบสูงขึ้นเองตามหัวข้อ ซึ่งต้องแก้ในแอป</li>
+      <li><b>ต้องอัป JSON ขึ้น SIT:</b> salehere-ios อ่านสเปกจาก API (ไม่ได้ฝังในแอป) QA จะเห็นผลหลังอัป 24 ไฟล์นี้ขึ้นเซิร์ฟเวอร์ ยังไม่ได้ commit</li>
+      <li><b>ภาพในหน้านี้มาจาก web renderer:</b> ส่วน "สีวิดเจ็ต" พอร์ตสูตรจาก <code>StarCardTheme.withWidgetColor</code> + <code>StarCardPalette.sheet</code> ของ salehere-ios มาจำลอง ยังไม่ได้ลองบนเครื่อง iOS จริง</li>
+    </ul>
+    <p class="note mono">เครื่องมือ: present/qa-reject-nov23/ · fixes.py (แก้ JSON, รันซ้ำได้) · audit.py (หาบั๊กสี) · shot.mjs + render.html + theme-wc.js (ภาพก่อน/หลัง) · diff.mjs (นับพิกเซลที่ต่าง)</p>
+  </section>
+</div>

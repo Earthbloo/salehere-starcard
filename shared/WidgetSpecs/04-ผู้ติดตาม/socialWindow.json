@@ -13,6 +13,7 @@
   "symbol": "macwindow",
   "order": 16,
   "ownSurface": true,
+  "borderChoice": false,
   "surfaces": [
    "glass",
    "dim"
@@ -33,7 +34,7 @@
    }
   ]
  },
- "notes": "หน้าต่าง Preview ของ macOS — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night ทุกค่า: แถบหัว #3A3A3D→#303033 พื้น #252527→#1E1E20 ขอบ #0B0B0C หมึก #F4F4F6 เลข #E4E5E8 รอง #9A9CA2 ขอบไฟ@0.5) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม (macOS ไม่เปลี่ยนสีตามวอลเปเปอร์) · แถบหัว 24 ไฟจราจรสามดวง ชื่อหน้าต่าง (note#1) กลางแถบ ไอคอนเครื่องมือ 7 ตัว · เนื้อหา = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) สองช่อง 44% · ที่เหลือ คั่นเส้นสูง 74% · ยอดผู้ติดตามเต็มหลัก ($followersFull = Fmt.baht) · ฐาน 17 ที่มา · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ขอบสองชั้น (rimOuter 0.9 · glint 1.1 · rimInner 0.6) · ป้าย Verified by Sale Here มุมขวาบน chrome วาดให้ (stampOverlay) · แปลงจาก WindowWidgets.swift (SocialWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: โลโก้เปลือย tiktok/x/youtube (46×51 — ต้องเทียบสตริง $platform จึงใช้ $icon ตราวงกลม 40) · ไอคอน Phosphor ที่ยังไม่อยู่ในชุดย่อยของแอป (magnifying-glass-plus/minus · export · copy · dots-three-circle) วาดไม่ขึ้นจนกว่าจะเพิ่ม imageset · ScrubDigits · Fmt.pct ตัด .0",
+ "notes": "หน้าต่าง Preview ของ macOS — สกิน day = root · สกิน night = variants[0] (when surface=dim · MacWindowSkin.night ทุกค่า: แถบหัว #3A3A3D→#303033 พื้น #252527→#1E1E20 ขอบ #0B0B0C หมึก #F4F4F6 เลข #E4E5E8 รอง #9A9CA2 ขอบไฟ@0.5) · สีทั้งหมดเป็นของสกินหน้าต่าง ไม่ใช่ของธีม (macOS ไม่เปลี่ยนสีตามวอลเปเปอร์) · แถบหัว 24 ไฟจราจรสามดวง ชื่อหน้าต่าง (note#1) กลางแถบ ไอคอนเครื่องมือ 7 ตัว · เนื้อหา = ช่องที่เลือก (pick opt chan จาก shownSocials · ยังไม่เลือก = ช่องแรก · 9 พ.ย. 2569) สองช่อง 44% · ที่เหลือ คั่นเส้นสูง 74% · ยอดผู้ติดตามเต็มหลัก ($followersFull = Fmt.baht) · ฐาน 17 ที่มา · เอา Engagement Rate + สูตร ER ออก 12 พ.ย. 2569 · ขอบสองชั้น (rimOuter 0.9 · glint 1.1 · rimInner 0.6) · ป้าย Verified by Sale Here มุมขวาบน chrome วาดให้ (stampOverlay) · แปลงจาก WindowWidgets.swift (SocialWindowWidget) · ใบวาดพื้นเอง (inset 0) · ไฟล์นี้สร้างจาก scratchpad/gen_window.py · ทำไม่ได้: โลโก้เปลือย tiktok/x/youtube (46×51 — ต้องเทียบสตริง $platform จึงใช้ $icon ตราวงกลม 40) · ไอคอน Phosphor ที่ยังไม่อยู่ในชุดย่อยของแอป (magnifying-glass-plus/minus · export · copy · dots-three-circle) วาดไม่ขึ้นจนกว่าจะเพิ่ม imageset · ScrubDigits · Fmt.pct ตัด .0 · 24 พ.ย. 2569: variant พื้นเข้ม (dim) ใส่ป้าย countBadge มุมขวาบนเหมือน root (เดิมหายตอนพื้นเข้ม)",
  "variants": [
   {
    "when": "surface=dim",
@@ -460,6 +461,68 @@
          "color": "white@0.10",
          "width": 0.6
         }
+       }
+      ]
+     },
+     {
+      "type": "row",
+      "id": "countBadgeSlot",
+      "if": "has:stat:countsUpdated",
+      "justify": "end",
+      "align": "start",
+      "dx": -8,
+      "dy": 3,
+      "children": [
+       {
+        "type": "row",
+        "id": "countBadge",
+        "gap": 3.0,
+        "align": "center",
+        "pad": [
+         2.5,
+         7.5,
+         2.5,
+         3.0
+        ],
+        "circle": true,
+        "fill": "white",
+        "stroke": {
+         "color": "black@0.07",
+         "width": 0.5
+        },
+        "shadow": {
+         "sigma": 2.5,
+         "y": 1.0,
+         "color": "black@0.14"
+        },
+        "shrink": 0,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealRed",
+          "size": 13.0
+         },
+         {
+          "type": "text",
+          "text": "อัปเดตเมื่อ",
+          "face": "noto",
+          "size": 8.5,
+          "weight": 700,
+          "color": "#1F1F23",
+          "maxLines": 1,
+          "shrink": 0
+         },
+         {
+          "type": "text",
+          "slot": "stat:countsUpdated",
+          "face": "noto",
+          "size": 8.5,
+          "weight": 700,
+          "color": "#1F1F23",
+          "maxLines": 1,
+          "shrink": 0
+         }
+        ]
        }
       ]
      }

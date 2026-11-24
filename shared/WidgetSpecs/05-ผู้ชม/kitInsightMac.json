@@ -25,6 +25,19 @@
   ],
   "controls": [
    {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "social",
+    "items": "insightSocials",
+    "needs": [
+     "city",
+     "gender",
+     "age"
+    ],
+    "match": "any",
+    "minItems": 2
+   },
+   {
     "type": "checks",
     "label": "ข้อมูล",
     "items": [

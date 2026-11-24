@@ -17,6 +17,7 @@
   },
   "order": 63,
   "ownSurface": true,
+  "borderChoice": false,
   "keepAspect": true,
   "motion": "mid",
   "on": "light",
@@ -29,7 +30,7 @@
    }
   ]
  },
- "notes": "สแครปบุ๊ก 03 พวงกุญแจโซเชียล — วัตถุลอย (ไม่มีแผ่น) · ห่วงกุญแจเงิน (วงแหวน + ก้าน) · ป้ายห้อย scrap.mid มุม 17 เงาเฉดแผ่น มีรูเจาะ (วงกลม black@0.14 ทับ = mid ผสมดำ) · ช่องทาง 3 อันดับยอดผู้ติดตาม (sort followersRaw desc · limit 3): โลโก้ในกล่องขาว 42 เงาแข็ง y 2 + ยอดดำหนัก · 'ผู้ติดตาม' มิตรขาว · กรอบแนวนอน (ratio<0.667) = variant ป้ายวางนอน ห่วงซ้าย (แถว: ห่วง 66 + ป้ายกินที่ที่เหลือ สูง 78%) · แต่ละช่องทาง = แป้นปุ่มขาวเงาแข็ง (โลโก้บน ยอดล่าง) กว้างเท่ากัน grow สูงสุด 150 จัดกลาง · ไม่มีป้าย 'ผู้ติดตาม' (ผู้ใช้ให้ถอด 13 พ.ย. 2569 — ตอนกรอบแคบถูกย่อจนอ่านไม่ออก) — รับ 1–6 ช่องทางโดยตัวเลขไม่หาย (13 พ.ย. 2569 แทนแถวเดียวไอคอน+ตัวเลขข้างกันที่ตัวเลขถูกบีบเป็น … เมื่อ 5 ช่องทาง) · แปลงจาก ScrapbookWidgets.swift (ScrapKeyTabWidget) · ใช้ไม่ได้: ขนาดโลโก้ต่างตามชนิด badge/ไม่ badge (ใช้ 26 เดียว) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
+ "notes": "สแครปบุ๊ก 03 พวงกุญแจโซเชียล — วัตถุลอย (ไม่มีแผ่น) · ห่วงกุญแจเงิน (วงแหวน + ก้าน) · ป้ายห้อย scrap.mid มุม 17 เงาเฉดแผ่น มีรูเจาะ (วงกลม black@0.14 ทับ = mid ผสมดำ) · ช่องทาง 3 อันดับยอดผู้ติดตาม (sort followersRaw desc · limit 3): โลโก้ในกล่องขาว 42 เงาแข็ง y 2 + ยอดดำหนัก · 'ผู้ติดตาม' มิตรขาว · กรอบแนวนอน (ratio<0.667) = variant ป้ายวางนอน ห่วงซ้าย (แถว: ห่วง 66 + ป้ายกินที่ที่เหลือ สูง 78%) · แต่ละช่องทาง = แป้นปุ่มขาวเงาแข็ง (โลโก้บน ยอดล่าง) กว้างเท่ากัน grow สูงสุด 150 จัดกลาง · ไม่มีป้าย 'ผู้ติดตาม' (ผู้ใช้ให้ถอด 13 พ.ย. 2569 — ตอนกรอบแคบถูกย่อจนอ่านไม่ออก) — รับ 1–6 ช่องทางโดยตัวเลขไม่หาย (13 พ.ย. 2569 แทนแถวเดียวไอคอน+ตัวเลขข้างกันที่ตัวเลขถูกบีบเป็น … เมื่อ 5 ช่องทาง) · แปลงจาก ScrapbookWidgets.swift (ScrapKeyTabWidget) · ใช้ไม่ได้: ขนาดโลโก้ต่างตามชนิด badge/ไม่ badge (ใช้ 26 เดียว) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media) · 23 พ.ย. 2569 (QA reject): ตัวหนังสือบนกล่อง bg/bg2 = ink (เดิม #141414 → สีวิดเจ็ตเข้ม กล่องเข้มตาม ตัวหนังสือจม) · 24 พ.ย. 2569: ป้าย countBadge อยู่ในตัวป้ายห้อย — แนวตั้ง: ป้ายย่อ 2 บรรทัด (อัปเดตเมื่อ / วันที่) บนสุดของป้ายห้อยใต้รูเจาะ + ซ่อน \"ผู้ติดตาม\" ตอนมีป้าย · แนวนอน: มุมขวาบนของป้ายห้อย · 24 พ.ย. 2569: ติ๊กแดง sh:sealRed (if $verified) หลังยอดผู้ติดตามทุกช่อง (แนวตั้ง 12 · แนวนอน 22) — ผู้ใช้สั่ง \"ใส่ tick ถูกหลังเลข\"",
  "variants": [
   {
    "when": "ratio<0.667",
@@ -153,21 +154,98 @@
                "size": 52
               },
               {
-               "type": "text",
-               "slot": "$followers",
-               "face": "noto",
-               "weight": 800,
-               "size": 28,
-               "color": "#141414",
-               "maxLines": 1,
-               "shrinkTo": 13,
-               "textAlign": "center"
+               "type": "row",
+               "gap": 3,
+               "align": "center",
+               "justify": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$followers",
+                 "face": "noto",
+                 "weight": 800,
+                 "size": 28,
+                 "color": "#141414",
+                 "maxLines": 1,
+                 "shrinkTo": 13,
+                 "textAlign": "center"
+                },
+                {
+                 "type": "icon",
+                 "icon": "sh:sealRed",
+                 "size": 22,
+                 "if": "$verified",
+                 "shrink": 0
+                }
+               ]
               }
              ]
             }
            ]
           },
           "where": "!hidden:$platform"
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "countBadgeSlot",
+        "if": "has:stat:countsUpdated",
+        "justify": "end",
+        "align": "start",
+        "dx": -14,
+        "dy": 9,
+        "children": [
+         {
+          "type": "row",
+          "id": "countBadge",
+          "gap": 3.0,
+          "align": "center",
+          "pad": [
+           2.5,
+           7.5,
+           2.5,
+           3.0
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1.0,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13.0
+           },
+           {
+            "type": "text",
+            "text": "อัปเดตเมื่อ",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           },
+           {
+            "type": "text",
+            "slot": "stat:countsUpdated",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
          }
         ]
        }
@@ -233,6 +311,73 @@
       "align": "center",
       "children": [
        {
+        "type": "row",
+        "id": "countBadgeSlot",
+        "if": "has:stat:countsUpdated",
+        "justify": "center",
+        "align": "start",
+        "children": [
+         {
+          "type": "row",
+          "id": "countBadge",
+          "gap": 3.0,
+          "align": "center",
+          "pad": [
+           3,
+           7,
+           3,
+           3
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1.0,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 12
+           },
+           {
+            "type": "col",
+            "gap": 0,
+            "align": "start",
+            "children": [
+             {
+              "type": "text",
+              "text": "อัปเดตเมื่อ",
+              "face": "noto",
+              "size": 7.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             },
+             {
+              "type": "text",
+              "slot": "stat:countsUpdated",
+              "face": "noto",
+              "size": 7.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
         "type": "chips",
         "id": "socials",
         "list": "socials",
@@ -265,15 +410,30 @@
            ]
           },
           {
-           "type": "text",
-           "slot": "$followers",
-           "face": "noto",
-           "weight": 800,
-           "size": 15,
-           "color": "#141414",
-           "textAlign": "center",
-           "maxLines": 1,
-           "shrinkTo": 10
+           "type": "row",
+           "gap": 2,
+           "align": "center",
+           "justify": "center",
+           "children": [
+            {
+             "type": "text",
+             "slot": "$followers",
+             "face": "noto",
+             "weight": 800,
+             "size": 15,
+             "color": "ink",
+             "textAlign": "center",
+             "maxLines": 1,
+             "shrinkTo": 10
+            },
+            {
+             "type": "icon",
+             "icon": "sh:sealRed",
+             "size": 12,
+             "if": "$verified",
+             "shrink": 0
+            }
+           ]
           }
          ]
         },
@@ -287,7 +447,8 @@
         "size": 9,
         "color": "white",
         "textAlign": "center",
-        "maxLines": 1
+        "maxLines": 1,
+        "if": "!has:stat:countsUpdated"
        }
       ]
      },

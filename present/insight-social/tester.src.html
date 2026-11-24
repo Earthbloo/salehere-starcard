@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ทดสอบ Insight เลือก Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ไฟล์เดียวสำหรับ tester: เคสทดสอบด้านบน (กด "ดูในหน้านี้" แล้วแผงลองเล่นตั้งค่าตามเคส) · แผงลองเล่นด้านล่าง */
+:root {
+  --bg: #F9FAFB; --card: #FFFFFF; --line: #E5E7EB; --ink: #111827; --ink2: #6B7280;
+  --accent: #E11D2E; --accent-soft: #FDECEE; --ok: #15803D; --ok-soft: #E8F5EC;
+  --warn: #B45309; --warn-soft: #FEF3E2; --chip: #F3F4F6; --btn: #1F2937; --btn-ink: #FFFFFF; --hl: #2563EB;
+  --f-body: "Noto Sans Thai", system-ui, sans-serif; --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1115; --card: #171A21; --line: #2A2F3A; --ink: #F3F4F6; --ink2: #9CA3AF;
+  --accent: #FF5A66; --accent-soft: #3A1A1E; --ok: #4ADE80; --ok-soft: #14291C;
+  --warn: #FBBF24; --warn-soft: #33270F; --chip: #222733; --btn: #F3F4F6; --btn-ink: #111827; --hl: #60A5FA; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1115; --card: #171A21; --line: #2A2F3A; --ink: #F3F4F6; --ink2: #9CA3AF;
+  --accent: #FF5A66; --accent-soft: #3A1A1E; --ok: #4ADE80; --ok-soft: #14291C;
+  --warn: #FBBF24; --warn-soft: #33270F; --chip: #222733; --btn: #F3F4F6; --btn-ink: #111827; --hl: #60A5FA; color-scheme: dark }
+* { box-sizing: border-box }
+html { scroll-behavior: smooth }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 var(--f-body);
+  padding: 24px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)) }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 36px }
+h1 { font-size: 26px; line-height: 1.3; margin: 0; text-wrap: balance }
+h2 { font-size: 19px; margin: 0; text-wrap: balance }
+p { margin: 0 }
+.lead { color: var(--ink2); max-width: 68ch }
+code { font-family: var(--f-mono); font-size: 12.5px }
+button { font-family: var(--f-body) }
+:focus-visible { outline: 2px solid var(--hl); outline-offset: 2px }
+
+/* หัว + กติกา */
+header { display: grid; gap: 14px }
+.rules { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px }
+.rules > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13.5px; display: grid; gap: 2px; align-content: start }
+.rules b { font-size: 14px }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; margin-bottom: 14px }
+.sec-head > div:first-child { display: grid; gap: 4px }
+
+/* เคสทดสอบ */
+.bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+.prog { font-size: 13.5px; color: var(--ink2); font-variant-numeric: tabular-nums }
+.prog b { color: var(--ink) }
+.btn { font: 600 13.5px var(--f-body); border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 9px; padding: 6px 12px; cursor: pointer }
+.btn.dark { background: var(--btn); color: var(--btn-ink); border-color: var(--btn) }
+.who { font: 13.5px var(--f-body); border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 9px; padding: 6px 10px; width: 200px; max-width: 100% }
+.cases { display: grid; gap: 10px }
+.case { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start }
+.case[data-r="pass"] { border-color: color-mix(in srgb, var(--ok) 55%, var(--line)) }
+.case[data-r="fail"] { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)) }
+.case .id { font: 600 15px var(--f-mono); padding-top: 1px }
+.case .body { display: grid; gap: 6px; min-width: 0 }
+.case .set { font-size: 13.5px; color: var(--ink2) }
+.case .set b { color: var(--ink); font-weight: 600 }
+.case ol { margin: 0; padding-left: 20px; font-size: 13.5px }
+.case .exp { font-size: 14px; background: var(--chip); border-radius: 8px; padding: 6px 10px }
+.case .exp::before { content: "ต้องเห็น: "; font-weight: 600 }
+.case .note { font: 13px var(--f-body); border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 5px 9px; width: 100%; display: none }
+.case[data-r="fail"] .note { display: block }
+.case .act { display: grid; gap: 6px; justify-items: end }
+.res { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden }
+.res button { font: 600 13px var(--f-body); border: 0; background: var(--card); color: var(--ink2); padding: 5px 11px; cursor: pointer }
+.res button + button { border-left: 1px solid var(--line) }
+.res button[data-v="pass"][aria-pressed="true"] { background: var(--ok); color: #fff }
+.res button[data-v="fail"][aria-pressed="true"] { background: var(--accent); color: #fff }
+.go { font: 500 13px var(--f-body); border: 0; background: none; color: var(--hl); cursor: pointer; padding: 2px 0; text-decoration: underline; text-underline-offset: 3px }
+
+/* แผงลองเล่น */
+.play { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 20px; align-items: start }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; position: sticky; top: 12px }
+.panel h3 { margin: 0; font-size: 15px }
+.panel .hint { font-size: 12.5px; color: var(--ink2) }
+.srow { display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 8px; align-items: center; padding-top: 10px; border-top: 1px solid var(--line) }
+.srow .nm { font-weight: 600; font-size: 14px; line-height: 1.25; display: grid; gap: 3px }
+.srow .nm label { display: flex; align-items: center; gap: 4px; white-space: nowrap; font-weight: 400; color: var(--ink2); font-size: 12px }
+.srow .nm input { width: 70px; min-width: 0; font: 12px var(--f-mono); border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; background: transparent; color: var(--ink) }
+.topics { display: flex; gap: 6px; flex-wrap: wrap }
+.topics label { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 3px 8px; cursor: pointer; user-select: none }
+.topics input { accent-color: var(--btn); margin: 0 }
+.topics label:has(input:checked) { background: var(--chip); border-color: var(--ink2) }
+.nosupport { font-size: 12.5px; color: var(--ink2) }
+
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start }
+.w { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 10px; min-width: 0; scroll-margin-top: 16px; transition: box-shadow .3s }
+.w.flash { box-shadow: 0 0 0 3px var(--hl) }
+.w .top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.w .top b { font-size: 15px }
+.w .top code { color: var(--ink2) }
+.needs { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--ink2) }
+.needs span.t { background: var(--chip); color: var(--ink); border-radius: 6px; padding: 0 7px }
+.shot { position: relative; border-radius: 10px; overflow: hidden; background: #1C2133 }
+.shot img { display: block; width: 100%; height: auto }
+.shot.off img { filter: grayscale(1) brightness(.3) blur(2px) }
+.shot .ov { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #fff; font-weight: 600; font-size: 14px; padding: 12px; gap: 2px }
+.shot .ov small { font-weight: 400; opacity: .85 }
+.src { justify-self: start; background: var(--btn); color: var(--btn-ink); font-size: 12.5px; font-weight: 600; padding: 1px 10px; border-radius: 999px }
+.tray { display: grid; gap: 8px; border: 1px dashed var(--line); border-radius: 10px; padding: 8px 10px }
+.tray .cap { font-size: 11.5px; color: var(--ink2); letter-spacing: .03em }
+.row { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; align-items: center; font-size: 13px }
+.row .lab { color: var(--ink2) }
+.seg { display: flex; background: var(--chip); border-radius: 9px; padding: 2px; gap: 2px; min-width: 0; flex-wrap: wrap }
+.seg button { flex: 1 0 auto; white-space: nowrap; font: 500 13px var(--f-body); border: 0; background: transparent; color: var(--ink); border-radius: 7px; padding: 4px 6px; cursor: pointer; min-width: 0 }
+.seg button[aria-pressed="true"] { background: var(--card); box-shadow: 0 1px 2px rgba(0,0,0,.14); font-weight: 600 }
+.checks { display: flex; gap: 6px; flex-wrap: wrap }
+.checks label { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 8px; padding: 2px 8px; cursor: pointer }
+.checks input { accent-color: var(--btn); margin: 0 }
+.none { font-size: 12.5px; color: var(--ink2) }
+.state { font-size: 13px; border-radius: 8px; padding: 6px 10px }
+.state.ok { background: var(--ok-soft); color: var(--ok) }
+.state.bad { background: var(--accent-soft); color: var(--accent) }
+
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--btn); color: var(--btn-ink); font-size: 14px; padding: 8px 16px; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .2s }
+.toast.on { opacity: 1 }
+
+@media (max-width: 960px) { .play { grid-template-columns: minmax(0, 1fr) } .panel { position: static } .rules { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 640px) { .grid, .rules { grid-template-columns: minmax(0, 1fr) } h1 { font-size: 23px }
+  .case { grid-template-columns: minmax(0, 1fr) } .case .act { justify-items: start } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="display:grid;gap:6px">
+      <h1>ทดสอบ: Insight เลือก Social</h1>
+      <p class="lead">วิดเจ็ตผู้ชมแต่ละตัวเลือกได้ว่าจะโชว์ Insight ของ Social ไหน ทำตามเคสด้านล่างในแอป แล้วกด ผ่าน / ไม่ผ่าน ถ้าไม่แน่ใจว่าควรเห็นอะไร กด "ดูในหน้านี้" แผงลองเล่นจะตั้งค่าให้ตรงกับเคสนั้น</p>
+    </div>
+    <div class="rules">
+      <div><b>ค่าเริ่มต้น</b>Social ที่มีผู้ติดตามมากสุด ถ้าเท่ากันเรียง IG → TikTok → FB → YT</div>
+      <div><b>ขึ้นเฉพาะช่องที่ใช้ได้</b>X, Lemon8 และช่องที่ไม่มีหัวข้อที่วิดเจ็ตใช้ จะไม่ขึ้น</div>
+      <div><b>มีช่องเดียว = ไม่มีแถว</b>แถว "ช่องทาง" โผล่เมื่อมีอย่างน้อย 2 ช่องให้เลือก</div>
+      <div><b>ช่องที่เลือกหายไป</b>กลับไปใช้ค่าเริ่มต้น พอช่องนั้นกลับมา ก็กลับไปใช้ช่องที่เลือกไว้</div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-cases">
+    <div class="sec-head">
+      <div>
+        <h2 id="h-cases">เคสทดสอบ</h2>
+        <p class="prog" id="prog"></p>
+      </div>
+      <div class="bar">
+        <input class="who" id="who" placeholder="ชื่อ tester · เครื่อง · เวอร์ชันแอป" aria-label="ชื่อ tester เครื่อง และเวอร์ชันแอป">
+        <button class="btn dark" id="copy" type="button">คัดลอกผลทดสอบ</button>
+        <button class="btn" id="reset" type="button">ล้างผล</button>
+      </div>
+    </div>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <section aria-labelledby="h-play" id="play">
+    <div class="sec-head">
+      <div>
+        <h2 id="h-play">ลองเล่น</h2>
+        <p class="lead">ติ๊กว่าแต่ละ Social มีหัวข้อไหน แก้จำนวนผู้ติดตามได้ แล้วดูว่าแต่ละวิดเจ็ตเลือกช่องไหน และถาดจะขึ้นอะไร ตัวเลขในรูปเป็นตัวอย่าง ไม่ได้เปลี่ยนตามช่อง</p>
+      </div>
+      <button class="btn" id="clear" type="button">ล้างการเลือกช่องทาง</button>
+    </div>
+    <div class="play">
+      <aside class="panel" aria-label="Insight ที่ผูกไว้">
+        <h3>Insight ที่ผูกไว้</h3>
+        <p class="hint" id="caseHint">ยังไม่ได้เลือกเคส</p>
+        <div id="socials"></div>
+      </aside>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const IMG = __IMGS__
+const T = { city: 'เมือง', gender: 'เพศ', age: 'อายุ' }
+const TOPICS = ['city', 'gender', 'age']
+const ORDER = ['instagram', 'tiktok', 'facebook', 'youtube']
+const SOC = [
+  { id: 'instagram', short: 'IG', name: 'Instagram', ok: true },
+  { id: 'tiktok', short: 'TikTok', name: 'TikTok', ok: true },
+  { id: 'facebook', short: 'FB', name: 'Facebook', ok: true },
+  { id: 'youtube', short: 'YT', name: 'YouTube', ok: true },
+  { id: 'x', short: 'X', name: 'X', ok: false },
+  { id: 'lemon8', short: 'Lemon8', name: 'Lemon8', ok: false },
+]
+const KITS = [['Cream', 'ครีม'], ['Gingham', 'ลายตาราง'], ['Mac', 'Mac'], ['Night', 'กลางคืน'], ['Purple', 'ม่วง']]
+const W = [
+  { k: 'audienceSplit', name: 'สัดส่วนผู้ชม', needs: ['gender'], match: 'all' },
+  { k: 'audienceAge', name: 'ช่วงอายุผู้ชม', needs: ['age'], match: 'all' },
+  { k: 'audienceMap', name: 'เมืองหลัก', needs: ['city'], match: 'all' },
+  { k: 'kitInsight', name: 'Insight (ชุด 5 แบบ)', needs: ['city', 'gender', 'age'], match: 'any', kit: true },
+  { k: 'audienceLine', name: 'คนที่ตามฉัน', needs: ['city', 'gender', 'age'], match: 'all' },
+  { k: 'scrapStats', name: 'สถิติแปะ', needs: ['city', 'gender', 'age'], match: 'all' },
+  { k: 'audiencePoster', name: 'Audience (โปสเตอร์)', needs: ['city', 'gender', 'age'], match: 'all' },
+]
+const ALL3 = ['city', 'gender', 'age']
+const D_F = { instagram: 50000, tiktok: 120000, facebook: 30000, youtube: 8000, x: 20000, lemon8: 5000 }
+const CASES = [
+  { id: 'T1', set: 'IG 50K มีครบ 3 หัวข้อ · TikTok 120K มีครบ 3 หัวข้อ', w: 'ทุกตัว', go: 'audienceSplit',
+    has: { instagram: ALL3, tiktok: ALL3 },
+    exp: 'แถว "ช่องทาง" ขึ้น TikTok | IG และค่าเริ่มต้นเป็น TikTok (ผู้ติดตามเยอะกว่า)' },
+  { id: 'T2', set: 'เหมือน T1', w: 'Insight ชุด 5 แบบ', go: 'kitInsight', pick: { kitInsight: 'instagram' },
+    has: { instagram: ALL3, tiktok: ALL3 },
+    steps: ['วางวิดเจ็ต Insight แล้วกด IG ในแถว "ช่องทาง"', 'ปิดแอปแล้วเปิดใหม่'],
+    exp: 'ทุกบล็อกเป็นของ IG และหลังเปิดแอปใหม่ยังเลือก IG อยู่' },
+  { id: 'T3', set: 'IG มีครบ 3 หัวข้อ · TikTok มีแค่อายุ', w: 'ช่วงอายุผู้ชม', go: 'audienceAge',
+    has: { instagram: ALL3, tiktok: ['age'] },
+    exp: 'แถว "ช่องทาง" ขึ้น TikTok | IG' },
+  { id: 'T4', set: 'เหมือน T3', w: 'คนที่ตามฉัน', go: 'audienceLine',
+    has: { instagram: ALL3, tiktok: ['age'] },
+    exp: 'ไม่มีแถว "ช่องทาง" (มีแค่ IG ที่ครบ 3 หัวข้อ) และวาดข้อมูลของ IG' },
+  { id: 'T5', set: 'เหมือน T3', w: 'สัดส่วนผู้ชม (เพศ)', go: 'audienceSplit',
+    has: { instagram: ALL3, tiktok: ['age'] },
+    exp: 'ไม่มีแถว "ช่องทาง" ใช้เพศของ IG เท่านั้น ไม่เอาข้อมูล TikTok มาปน' },
+  { id: 'T6', set: 'IG มีครบ 3 หัวข้อ · TikTok มีครบ 3 หัวข้อ · ผูก X กับ Lemon8 ไว้ด้วย', w: 'ทุกตัว', go: 'audienceSplit',
+    has: { instagram: ALL3, tiktok: ALL3 },
+    exp: 'X และ Lemon8 ไม่ขึ้นในแถว "ช่องทาง" ของวิดเจ็ตไหนเลย' },
+  { id: 'T7', set: 'มีแค่ YouTube และมีแค่เพศ', w: 'ช่วงอายุผู้ชม', go: 'audienceAge',
+    has: { youtube: ['gender'] },
+    exp: 'วิดเจ็ตขึ้น "ข้อมูลผู้ชม — รอ…" และไม่มีแถว "ช่องทาง"' },
+  { id: 'T8', set: 'มีแค่ IG และมีแค่เพศกับอายุ', w: 'Insight แบบกลางคืน', go: 'kitInsight', kit: 'Night',
+    has: { instagram: ['gender', 'age'] },
+    exp: 'ไม่มีแถว "ช่องทาง" ช่องติ๊ก "ซ่อน" มีแค่ เพศ · อายุ และไม่มีบล็อกเมือง' },
+  { id: 'T9', set: 'เหมือน T1', w: 'ทุกตัว', go: 'audienceSplit', pick: { audienceSplit: 'tiktok' },
+    has: { instagram: ALL3, tiktok: ALL3 },
+    steps: ['กด TikTok ในแถว "ช่องทาง"', 'ไปลบ Insight ของ TikTok', 'กลับมาดูการ์ด', 'แนบ Insight ของ TikTok กลับมา'],
+    exp: 'ตอนลบ วิดเจ็ตเปลี่ยนไปใช้ IG พอแนบ TikTok กลับมา ก็กลับไปใช้ TikTok เอง' },
+  { id: 'T10', set: 'ยังไม่มี Insight เลย', w: 'ตู้วิดเจ็ต / ใบที่ล็อก', go: 'audienceSplit',
+    has: {},
+    exp: 'ใบในตู้ขึ้นตัวอย่างเหมือนเดิม และไม่มีแถว "ช่องทาง"' },
+]
+
+// ---- เก็บผลไว้ในเครื่อง (ถ้าใช้ไม่ได้ก็ยังเล่นได้ แค่ปิดแล้วผลหาย) ----
+const KEY = 'insight-social-tester-v1'
+let saved = { r: {}, n: {}, who: '' }
+try { saved = { ...saved, ...JSON.parse(localStorage.getItem(KEY) || '{}') } } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(saved)) } catch (e) {} }
+
+// ---- สถานะแผงลองเล่น ----
+let has = {}, fol = { ...D_F }, kit = 'Cream', caseId = null
+const pick = {}, hide = {}
+const fmt = (n) => n >= 1000 ? (n / 1000).toLocaleString('th-TH', { maximumFractionDigits: 1 }) + 'K' : String(n)
+const topicList = (a) => a.map((t) => T[t]).join(' · ')
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+
+function candidates(w) {
+  return SOC.filter((s) => s.ok && (w.match === 'all'
+      ? w.needs.every((t) => has[s.id].includes(t))
+      : w.needs.some((t) => has[s.id].includes(t))))
+    .sort((a, b) => fol[b.id] - fol[a.id] || ORDER.indexOf(a.id) - ORDER.indexOf(b.id))
+}
+
+function load(c) {
+  caseId = c ? c.id : null
+  has = Object.fromEntries(SOC.map((s) => [s.id, [...((c && c.has[s.id]) || [])]]))
+  fol = { ...D_F }
+  for (const k in pick) delete pick[k]
+  for (const k in hide) delete hide[k]
+  if (c && c.pick) Object.assign(pick, c.pick)
+  if (c && c.kit) kit = c.kit
+  renderPanel(); renderGrid()
+}
+
+function renderPanel() {
+  const c = CASES.find((x) => x.id === caseId)
+  document.getElementById('caseHint').textContent = c ? `ตั้งค่าตามเคส ${c.id}: ${c.set}` : 'ตั้งค่าเองอยู่'
+  document.getElementById('socials').innerHTML = SOC.map((s) => `
+    <div class="srow">
+      <div class="nm">${s.name}<label>ผู้ติดตาม <input type="number" min="0" step="1000" data-f="${s.id}" value="${fol[s.id]}" aria-label="ผู้ติดตาม ${s.name}"></label></div>
+      ${s.ok ? `<div class="topics">${TOPICS.map((t) => `
+        <label><input type="checkbox" data-s="${s.id}" data-t="${t}" ${has[s.id].includes(t) ? 'checked' : ''}>${T[t]}</label>`).join('')}</div>`
+      : `<div class="nosupport">ไม่มี Insight จึงไม่ขึ้นในตัวเลือก</div>`}
+    </div>`).join('')
+}
+
+function renderGrid() {
+  document.getElementById('grid').innerHTML = W.map((w) => {
+    const list = candidates(w)
+    const stored = pick[w.k]
+    const chosen = list.find((s) => s.id === stored) || list[0]
+    let img = w.kit ? `kitInsight${kit}` : w.k, overlay = '', src = '', state, rows = ''
+    if (!chosen) {
+      const why = w.match === 'all' && w.needs.length > 1
+        ? `ไม่มีช่องไหนมีครบ ${topicList(w.needs)}` : `ไม่มีช่องไหนมี${topicList(w.needs)}`
+      overlay = `<div class="ov">ข้อมูลผู้ชม — รอ…<small>${why}</small></div>`
+      state = `<div class="state bad">${why} วิดเจ็ตบนการ์ดขึ้น "รอข้อมูล"</div>`
+      rows = `<div class="none">ไม่มีแถว "ช่องทาง"</div>`
+    } else {
+      const own = w.kit ? TOPICS.filter((t) => has[chosen.id].includes(t)) : w.needs
+      const hid = (hide[w.k] || []).filter((t) => own.includes(t))
+      const shown = own.filter((t) => !hid.includes(t))
+      if (w.kit && shown.length < 3) img += `--${shown.join('-')}`
+      const miss = w.kit ? TOPICS.filter((t) => !own.includes(t)) : []
+      const fell = stored && stored !== chosen.id
+      rows = list.length >= 2
+        ? `<div class="row"><span class="lab">ช่องทาง</span><div class="seg" role="group" aria-label="ช่องทางของ ${w.name}">${list.map((s) =>
+            `<button type="button" data-w="${w.k}" data-s="${s.id}" aria-pressed="${s === chosen}">${s.short}</button>`).join('')}</div></div>`
+        : `<div class="none">มีช่องเดียวที่ใช้ได้ (${chosen.short}) จึงไม่มีแถว "ช่องทาง"</div>`
+      if (w.kit) rows += `<div class="row"><span class="lab">ซ่อน</span><div class="checks">${own.map((t) =>
+          `<label><input type="checkbox" data-hide="${w.k}" data-t="${t}" ${hid.includes(t) ? 'checked' : ''} ${!hid.includes(t) && shown.length === 1 ? 'disabled' : ''}>${T[t]}</label>`).join('')}</div></div>`
+      state = `<div class="state ok">โชว์ ${topicList(shown)} ของ <b>${chosen.name}</b>${!stored || fell ? ' (ค่าเริ่มต้น)' : ''}${
+        miss.length ? ` · ไม่วาด${topicList(miss)} เพราะ ${chosen.short} ไม่มี` : ''}${
+        fell ? `<br>เคยเลือก ${SOC.find((s) => s.id === stored).short} ไว้ แต่ตอนนี้ใช้ไม่ได้ ถ้ากลับมาจะกลับไปใช้เอง` : ''}</div>`
+      src = `<span class="src">ข้อมูลจาก ${chosen.short}</span>`
+    }
+    const kitSeg = w.kit ? `<div class="row"><span class="lab">แบบ</span><div class="seg" role="group" aria-label="แบบของ Insight">${KITS.map(([k, n]) =>
+        `<button type="button" data-kit="${k}" aria-pressed="${k === kit}">${n}</button>`).join('')}</div></div>` : ''
+    return `<article class="w" id="w-${w.k}">
+      <div class="top"><b>${w.name}</b><code>${w.kit ? `kitInsight${kit}` : w.k}</code></div>
+      <div class="needs">ใช้: ${w.needs.map((t) => `<span class="t">${T[t]}</span>`).join('')}<span>${w.needs.length > 1 ? (w.match === 'all' ? 'ต้องครบทุกหัวข้อ' : 'มีหัวข้อไหนก็ได้') : ''}</span></div>
+      ${kitSeg}${src}
+      <div class="shot${chosen ? '' : ' off'}"><img src="${IMG[img]}" alt="${w.name}">${overlay}</div>
+      <div class="tray"><span class="cap">ถาดของวิดเจ็ต</span>${rows}</div>
+      ${state}
+    </article>`
+  }).join('')
+}
+
+// ---- เคสทดสอบ ----
+function renderCases() {
+  document.getElementById('cases').innerHTML = CASES.map((c) => {
+    const r = saved.r[c.id] || ''
+    return `<article class="case" data-r="${r}" data-c="${c.id}">
+      <span class="id">${c.id}</span>
+      <div class="body">
+        <p class="set"><b>ผูกไว้:</b> ${c.set} · <b>วิดเจ็ต:</b> ${c.w}</p>
+        ${c.steps ? `<ol>${c.steps.map((s) => `<li>${s}</li>`).join('')}</ol>` : ''}
+        <p class="exp">${c.exp}</p>
+        <input class="note" data-note="${c.id}" placeholder="เห็นอะไรแทน" value="${esc(saved.n[c.id] || '')}" aria-label="หมายเหตุ ${c.id}">
+      </div>
+      <div class="act">
+        <div class="res" role="group" aria-label="ผล ${c.id}">
+          <button type="button" data-v="pass" aria-pressed="${r === 'pass'}">ผ่าน</button>
+          <button type="button" data-v="fail" aria-pressed="${r === 'fail'}">ไม่ผ่าน</button>
+        </div>
+        <button class="go" type="button" data-go="${c.id}">ดูในหน้านี้</button>
+      </div>
+    </article>`
+  }).join('')
+  renderProg()
+}
+function renderProg() {
+  const v = Object.values(saved.r), p = v.filter((x) => x === 'pass').length, f = v.filter((x) => x === 'fail').length
+  document.getElementById('prog').innerHTML = `ผ่าน <b>${p}</b> · ไม่ผ่าน <b>${f}</b> · ยังไม่ทำ <b>${CASES.length - p - f}</b> จาก ${CASES.length} เคส`
+}
+function toast(t) {
+  const el = document.getElementById('toast'); el.textContent = t; el.classList.add('on')
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 1800)
+}
+
+document.addEventListener('click', async (e) => {
+  const res = e.target.closest('.res button')
+  if (res) {
+    const card = res.closest('.case'), id = card.dataset.c, v = res.dataset.v
+    saved.r[id] = saved.r[id] === v ? '' : v
+    if (!saved.r[id]) delete saved.r[id]
+    card.dataset.r = saved.r[id] || ''
+    card.querySelectorAll('.res button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === saved.r[id])))
+    if (saved.r[id] === 'fail') card.querySelector('.note').focus()
+    save(); renderProg(); return
+  }
+  const go = e.target.closest('[data-go]')
+  if (go) {
+    const c = CASES.find((x) => x.id === go.dataset.go); load(c)
+    const el = document.getElementById('w-' + c.go)
+    el.scrollIntoView({ block: 'start' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600)
+    return
+  }
+  const seg = e.target.closest('[data-w]')
+  if (seg) { pick[seg.dataset.w] = seg.dataset.s; renderGrid(); return }
+  const k = e.target.closest('[data-kit]')
+  if (k) { kit = k.dataset.kit; renderGrid(); return }
+  if (e.target.id === 'clear') { for (const x in pick) delete pick[x]; renderGrid(); toast('ทุกวิดเจ็ตกลับไปใช้ค่าเริ่มต้น'); return }
+  if (e.target.id === 'reset') {
+    if (!confirm('ล้างผล ผ่าน/ไม่ผ่าน และหมายเหตุทั้งหมด?')) return
+    saved.r = {}; saved.n = {}; save(); renderCases(); return
+  }
+  if (e.target.id === 'copy') {
+    const lines = [`ผลทดสอบ Insight เลือก Social${saved.who ? ' · ' + saved.who : ''}`, new Date().toLocaleString('th-TH'), '']
+    for (const c of CASES) {
+      const r = saved.r[c.id], mark = r === 'pass' ? 'ผ่าน' : r === 'fail' ? 'ไม่ผ่าน' : 'ยังไม่ทำ'
+      lines.push(`${c.id} ${mark} · ${c.w}${r === 'fail' && saved.n[c.id] ? ' → ' + saved.n[c.id] : ''}`)
+    }
+    const txt = lines.join('\n')
+    try { await navigator.clipboard.writeText(txt); toast('คัดลอกแล้ว วางในแชทได้เลย') }
+    catch (err) { prompt('คัดลอกข้อความนี้', txt) }
+  }
+})
+document.addEventListener('change', (e) => {
+  const c = e.target.closest('input[data-s]')
+  if (c) {
+    const a = has[c.dataset.s], t = c.dataset.t
+    has[c.dataset.s] = c.checked ? [...new Set([...a, t])] : a.filter((x) => x !== t)
+    caseId = null; document.getElementById('caseHint').textContent = 'ตั้งค่าเองอยู่'; renderGrid(); return
+  }
+  const h = e.target.closest('input[data-hide]')
+  if (h) {
+    const a = hide[h.dataset.hide] || []
+    hide[h.dataset.hide] = h.checked ? [...a, h.dataset.t] : a.filter((x) => x !== h.dataset.t)
+    renderGrid()
+  }
+})
+document.addEventListener('input', (e) => {
+  const f = e.target.closest('input[data-f]')
+  if (f) { fol[f.dataset.f] = Math.max(0, +f.value || 0); caseId = null; document.getElementById('caseHint').textContent = 'ตั้งค่าเองอยู่'; renderGrid(); return }
+  const n = e.target.closest('input[data-note]')
+  if (n) { saved.n[n.dataset.note] = n.value; save(); return }
+  if (e.target.id === 'who') { saved.who = e.target.value; save() }
+})
+
+document.getElementById('who').value = saved.who || ''
+renderCases()
+load(CASES[0])
+</script>
+</body>
+</html>

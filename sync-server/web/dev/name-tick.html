@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Name Tick Check</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root { --bg:#111; --card:#1b1b1f; --ink:#e6e6ea; --mute:#8a8a94; --new:#3ecf8e; --old:#7aa7ff; --skip:#f0b94a; --line:#2a2a30; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:13px system-ui, sans-serif; }
+  header { position:sticky; top:0; z-index:20; background:rgba(17,17,20,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 16px; display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  h1 { font-size:15px; margin:0; flex:1; min-width:220px; }
+  label { display:flex; gap:6px; align-items:center; cursor:pointer; }
+  table { border-collapse:collapse; margin:16px; width:calc(100% - 32px); max-width:900px; }
+  th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--mute); font-weight:500; font-size:12px; }
+  td code { color:#cfd3ff; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:99px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .new { background:rgba(62,207,142,.15); color:var(--new); }
+  .old { background:rgba(122,167,255,.15); color:var(--old); }
+  .skip { background:rgba(240,185,74,.15); color:var(--skip); }
+  h2 { font-size:13px; color:var(--mute); margin:24px 16px 0; font-weight:600; }
+  .grid { display:flex; flex-wrap:wrap; gap:16px; padding:12px 16px 24px; }
+  .cell { background:var(--card); border-radius:10px; padding:8px; }
+  .cell .head { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+  .cell .head b { flex:1; }
+  a { color:#9ab; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Tick แดงหลังชื่อ — widget ที่มีชื่อเจ้าของ</h1>
+  <label><input type="checkbox" id="ver" checked> ยืนยันตัวตนแล้ว (owner.verified)</label>
+  <label>ซูม <input type="range" id="z" min="0.4" max="1.5" step="0.1" value="0.8"></label>
+</header>
+<table id="list"><thead><tr><th>#</th><th>widget</th><th>หมวด</th><th>สถานะ</th><th>หมายเหตุ</th></tr></thead><tbody></tbody></table>
+<div id="groups"></div>
+<script type="module">
+import { parseSpec } from '../js/spec-model.js'
+import { WebMeasurer, loadFonts } from '../js/measure.js'
+import { Profile, WebSpecData } from '../js/data.js'
+import { mountWidget } from '../js/chrome.js'
+import { paintBackdrop } from '../js/backdrop.js'
+import { defaultChoice, themeOf } from '../js/backdrop-tray.js'
+
+// สถานะ: new = เพิ่ม 24 พ.ย. · old = มีอยู่แล้ว · skip = ไม่ใส่ (เหตุผลในหมายเหตุ)
+const ROWS = [
+  ['kitProfileCream', '01-โปรไฟล์', 'new', ''],
+  ['kitProfileGingham', '01-โปรไฟล์', 'new', ''],
+  ['kitProfileMac', '01-โปรไฟล์', 'new', ''],
+  ['kitProfileNight', '01-โปรไฟล์', 'new', ''],
+  ['kitProfilePurple', '01-โปรไฟล์', 'new', 'ชื่อมี 2 จุดในผัง — ใส่ทั้งคู่'],
+  ['scrapBadge', '01-โปรไฟล์', 'new', 'ชื่อมี 2 จุด (บัตรใหญ่ + บัตรเล็ก) — ใส่ทั้งคู่'],
+  ['aboutBehind', '03-แนะนำตัว', 'new', 'ต่อท้าย "รู้จักฉัน — ชื่อ"'],
+  ['heroMinimal', '01-โปรไฟล์', 'old', 'tick อยู่แถว ST★R เหนือชื่อ ไม่ได้อยู่หลังชื่อ'],
+  ['artTypeOver', '01-โปรไฟล์', 'old', ''],
+  ['artPortfolio', '01-โปรไฟล์', 'old', ''],
+  ['portfolioWindow', '01-โปรไฟล์', 'old', ''],
+  ['portfolioGingham', '01-โปรไฟล์', 'old', ''],
+  ['contactQR', '10-ติดต่อ', 'old', ''],
+  ['popHeroGlass', '01-โปรไฟล์', 'new', 'หลังชื่อใหญ่ · badge ฟ้า VERIFIED BY SALE HERE ยังอยู่'],
+  ['popHeroPaper', '01-โปรไฟล์', 'new', 'หลังชื่อใหญ่ · badge ฟ้า VERIFIED BY SALE HERE ยังอยู่'],
+  ['scrapAbout', '03-แนะนำตัว', 'new', 'หลังชื่อเล่น (ใต้รูปโพลารอยด์)'],
+  ['scrapInfo', '03-แนะนำตัว', 'new', 'หลังชื่อเล่น'],
+]
+const LABEL = { new: 'เพิ่มวันนี้', old: 'มีอยู่แล้ว', skip: 'ไม่ใส่' }
+const tbody = document.querySelector('#list tbody')
+ROWS.forEach(([k, cat, st, note], i) => tbody.insertAdjacentHTML('beforeend',
+  `<tr><td>${i + 1}</td><td><a href="#w-${k}"><code>${k}</code></a></td><td>${cat}</td><td><span class="pill ${st}">${LABEL[st]}</span></td><td>${note}</td></tr>`))
+
+await loadFonts('../fonts/')
+const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
+const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
+const measurer = new WebMeasurer()
+const M = 12
+const theme = themeOf(defaultChoice())
+const groups = document.getElementById('groups')
+const cells = []
+for (const st of ['new', 'old', 'skip'].filter((s) => ROWS.some((r) => r[2] === s))) {
+  groups.insertAdjacentHTML('beforeend', `<h2><span class="pill ${st}">${LABEL[st]}</span></h2>`)
+  const grid = document.createElement('div'); grid.className = 'grid'; groups.appendChild(grid)
+  for (const [kind] of ROWS.filter((x) => x[2] === st)) {
+    const cell = document.createElement('div'); cell.className = 'cell'; cell.id = `w-${kind}`
+    cell.innerHTML = `<div class="head"><b>${kind}</b></div>`
+    const web = document.createElement('div'); cell.appendChild(web); grid.appendChild(cell)
+    cells.push({ kind, web })
+  }
+}
+function render() {
+  const verified = document.getElementById('ver').checked
+  const z = Number(document.getElementById('z').value)
+  for (const c of cells) {
+    const spec = specs[c.kind]
+    if (!spec) { c.web.innerHTML = '<i style="color:#f77">ไม่พบ spec</i>'; continue }
+    const W = spec.design.w, H = spec.design.h
+    c.web.innerHTML = ''
+    c.web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative;zoom:${z}`
+    paintBackdrop(c.web, theme, W + M * 2, H + M * 2)
+    const profile = new Profile({}, {})
+    const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface: 'glass', border: false }
+    const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs, measurer, base: '../', imageURL: (id) => `/api/images/${id}`,
+      makeData: (it) => {
+        const d = new WebSpecData({ profile, item: it, sample: true, surface: 'glass', verified })
+        const flag = d.flag.bind(d)
+        d.flag = (n) => (n === 'owner.verified' ? verified : flag(n))
+        return d
+      } }
+    try { mountWidget(c.web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { c.web.insertAdjacentHTML('beforeend', `<pre style="color:#f77">${e.message}</pre>`) }
+  }
+}
+document.getElementById('ver').onchange = render
+document.getElementById('z').oninput = render
+render()
+</script>
+</body>
+</html>

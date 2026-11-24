@@ -18,6 +18,7 @@
   },
   "order": 62,
   "ownSurface": true,
+  "borderChoice": false,
   "photo": true,
   "keepAspect": true,
   "motion": "mid",
@@ -135,14 +136,28 @@
               ]
              },
              {
-              "type": "text",
-              "slot": "name",
-              "face": "noto",
-              "weight": 800,
-              "size": 27.5,
-              "color": "#141414",
-              "maxLines": 1,
-              "shrinkTo": 13.8
+              "type": "row",
+              "id": "nameRow",
+              "gap": 6.9,
+              "align": "center",
+              "children": [
+               {
+                "type": "text",
+                "slot": "name",
+                "face": "noto",
+                "weight": 800,
+                "size": 27.5,
+                "color": "#141414",
+                "maxLines": 1,
+                "shrinkTo": 13.8
+               },
+               {
+                "type": "icon",
+                "icon": "sh:sealRed",
+                "size": 19.8,
+                "if": "owner.verified"
+               }
+              ]
              },
              {
               "type": "row",
@@ -404,16 +419,31 @@
           ]
          },
          {
-          "type": "text",
-          "slot": "name",
-          "face": "noto",
-          "weight": 800,
-          "size": 8,
-          "color": "#141414",
-          "textAlign": "center",
-          "maxLines": 1,
-          "shrinkTo": 4,
-          "w": "fill"
+          "type": "row",
+          "id": "nameRow",
+          "gap": 2.0,
+          "align": "center",
+          "justify": "center",
+          "w": "fill",
+          "children": [
+           {
+            "type": "text",
+            "slot": "name",
+            "face": "noto",
+            "weight": 800,
+            "size": 8,
+            "color": "#141414",
+            "textAlign": "center",
+            "maxLines": 1,
+            "shrinkTo": 4
+           },
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 7,
+            "if": "owner.verified"
+           }
+          ]
          },
          {
           "type": "row",

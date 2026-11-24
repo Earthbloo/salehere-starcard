@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>insight render</title>
+<style>body{margin:0;background:transparent} #stage{display:inline-block}</style>
+<div id="stage"></div>
+<script type="module">
+import { parseSpec } from '/js/spec-model.js'
+import { WebMeasurer, loadFonts } from '/js/measure.js'
+import { Profile, WebSpecData } from '/js/data.js'
+import { mountWidget } from '/js/chrome.js'
+import { paintBackdrop } from '/js/backdrop.js'
+import { defaultChoice, themeOf } from '/js/backdrop-tray.js'
+
+await loadFonts('/fonts/')
+const measurer = new WebMeasurer()
+const profile = new Profile({}, {})
+
+// วาดหนึ่งใบตามขนาดออกแบบ · hide = หัวข้อที่ซ่อน (city,gender,age)
+window.render = async (json, hide) => {
+  const stage = document.getElementById('stage'); stage.innerHTML = ''
+  const theme = themeOf(defaultChoice())
+  const spec = parseSpec(json)
+  const W = json.design.w, H = json.design.h, M = 10
+  const cell = document.createElement('div')
+  cell.id = 'cell'
+  cell.style.cssText = `position:relative;width:${W + M * 2}px;height:${H + M * 2}px`
+  stage.appendChild(cell)
+  paintBackdrop(cell, theme, W + M * 2, H + M * 2)
+  const kit = hide ? { opts: { hide } } : {}
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: json.kind, x: M, y: M, w: W, h: H,
+                 surface: (json.widget?.surfaces || [])[0] || 'glass', border: false, kit }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: { [json.kind]: spec }, measurer, base: '/',
+    imageURL: (id) => id, mock: null,
+    makeData: (it) => new WebSpecData({ profile, item: it, sample: true, inkLight: false, surface: it.surface, duo: false, stamped: false, cutout: false, kitDark: false }) }
+  mountWidget(cell, item, { x: M, y: M, width: W, height: H }, env)
+  await Promise.race([Promise.all([...stage.querySelectorAll('img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r }))), new Promise((r) => setTimeout(r, 2500))])
+}
+window.ready = true
+</script>

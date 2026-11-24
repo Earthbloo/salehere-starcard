@@ -1,0 +1,273 @@
+{
+ "kind": "wallMemory",
+ "design": {
+  "w": 366,
+  "h": 366
+ },
+ "widget": {
+  "title": "บอร์ดรูปติดหมุด",
+  "category": "photo",
+  "requires": [
+   "about"
+  ],
+  "symbol": "pin.fill",
+  "order": 59,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "motion": "anchored",
+  "replaces": [
+   "zineCover"
+  ],
+  "on": "dark"
+ },
+ "notes": "สำรับบรรณาธิการ · บอร์ดรูปติดหมุด — รูปใหญ่กลางบอร์ดขอบขาวหนา · รูปเล็กห้าใบขอบขาวหมุดแดง (ช่อง 4–8) · ไม่มีข้อความ (ลายมือบน/ล่างเอาออก 23 พ.ย. 2569 — ย่อกรอบแล้วทับรูป) · แปลงจาก EditorialWidgets.swift (WallMemory) · สีตาม Ed.skin: กระดาษ Ed.paper เฉพาะ papered & !duo · คู่สี = plate · ปิดพื้น/pane = ไม่มีแผ่น · ลายมือ = ed.ink (ถ่านบนกระดาษ · ครีมบนแผ่นคู่สี · หมึกการ์ดเมื่อไม่มีพื้น) · กระดาษอัดรูปขาวกับหมุดแดงคงที่ทุกพื้น · ระยะตัวอักษรใช้ kerning (ต้นฉบับ EdText .kerning) · กล่อง EdPlace กว้าง/สูงเป็น % ของแผ่น (dx/dy ยังเป็นหน่วยออกแบบ) · ทุกใบเอียงตามต้นฉบับ · เกล็ดกระดาษ/ลายแผ่น วาดไม่ได้",
+ "root": {
+  "type": "stack",
+  "children": [
+   {
+    "type": "rect",
+    "id": "sheet",
+    "fill": "bg",
+    "if": "papered"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered",
+    "platePattern": "bg"
+   },
+   {
+    "type": "stack",
+    "id": "hero",
+    "w": "57.5%",
+    "h": "60%",
+    "pad": 7,
+    "rotate": -0.8,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 4.5,
+     "y": 5,
+     "color": "black@0.12"
+    },
+    "place": "top-left",
+    "dx": 78.7,
+    "dy": 56.7,
+    "children": [
+     {
+      "type": "image",
+      "photo": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "pin0",
+    "w": "21.5%",
+    "h": "20.5%",
+    "pad": 4,
+    "rotate": -6,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 2.5,
+     "y": 3,
+     "color": "black@0.14"
+    },
+    "place": "top-left",
+    "dx": 14.6,
+    "dy": 82.4,
+    "children": [
+     {
+      "type": "image",
+      "photo": 4
+     },
+     {
+      "type": "rect",
+      "w": 8,
+      "h": 8,
+      "circle": true,
+      "fill": "#E03127",
+      "shadow": {
+       "x": 0,
+       "sigma": 0.75,
+       "y": 1,
+       "color": "black@0.28"
+      },
+      "place": "top-left",
+      "dx": 1,
+      "dy": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "pin1",
+    "w": "22.5%",
+    "h": "21.5%",
+    "pad": 4,
+    "rotate": 5,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 2.5,
+     "y": 3,
+     "color": "black@0.14"
+    },
+    "place": "top-left",
+    "dx": 7.3,
+    "dy": 183,
+    "children": [
+     {
+      "type": "image",
+      "photo": 5
+     },
+     {
+      "type": "rect",
+      "w": 8,
+      "h": 8,
+      "circle": true,
+      "fill": "#E03127",
+      "shadow": {
+       "x": 0,
+       "sigma": 0.75,
+       "y": 1,
+       "color": "black@0.28"
+      },
+      "place": "top-left",
+      "dx": 1,
+      "dy": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "pin2",
+    "w": "21.5%",
+    "h": "21%",
+    "pad": 4,
+    "rotate": 6,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 2.5,
+     "y": 3,
+     "color": "black@0.14"
+    },
+    "place": "top-left",
+    "dx": 276.3,
+    "dy": 78.7,
+    "children": [
+     {
+      "type": "image",
+      "photo": 6
+     },
+     {
+      "type": "rect",
+      "w": 8,
+      "h": 8,
+      "circle": true,
+      "fill": "#E03127",
+      "shadow": {
+       "x": 0,
+       "sigma": 0.75,
+       "y": 1,
+       "color": "black@0.28"
+      },
+      "place": "top-left",
+      "dx": 1,
+      "dy": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "pin3",
+    "w": "23%",
+    "h": "22%",
+    "pad": 4,
+    "rotate": -5,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 2.5,
+     "y": 3,
+     "color": "black@0.14"
+    },
+    "place": "top-left",
+    "dx": 272.7,
+    "dy": 175.7,
+    "children": [
+     {
+      "type": "image",
+      "photo": 7
+     },
+     {
+      "type": "rect",
+      "w": 8,
+      "h": 8,
+      "circle": true,
+      "fill": "#E03127",
+      "shadow": {
+       "x": 0,
+       "sigma": 0.75,
+       "y": 1,
+       "color": "black@0.28"
+      },
+      "place": "top-left",
+      "dx": 1,
+      "dy": 1
+     }
+    ]
+   },
+   {
+    "type": "stack",
+    "id": "pin4",
+    "w": "22.5%",
+    "h": "20.5%",
+    "pad": 4,
+    "rotate": 4,
+    "fill": "white",
+    "shadow": {
+     "x": 0,
+     "sigma": 2.5,
+     "y": 3,
+     "color": "black@0.14"
+    },
+    "place": "top-left",
+    "dx": 225.1,
+    "dy": 248.9,
+    "children": [
+     {
+      "type": "image",
+      "photo": 8
+     },
+     {
+      "type": "rect",
+      "w": 8,
+      "h": 8,
+      "circle": true,
+      "fill": "#E03127",
+      "shadow": {
+       "x": 0,
+       "sigma": 0.75,
+       "y": 1,
+       "color": "black@0.28"
+      },
+      "place": "top-left",
+      "dx": 1,
+      "dy": 1
+     }
+    ]
+   }
+  ]
+ }
+}

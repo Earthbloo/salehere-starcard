@@ -1,0 +1,1515 @@
+{
+ "kind": "proofSeal",
+ "design": {
+  "w": 366,
+  "h": 232
+ },
+ "widget": {
+  "title": "ตรารับรอง Sale Here",
+  "category": "seal",
+  "requires": [
+   "kyc"
+  ],
+  "symbol": "checkmark.seal.fill",
+  "order": 11,
+  "ownSurface": true,
+  "keepAspect": true,
+  "motion": "anchored",
+  "pinned": true,
+  "on": "dark",
+  "ownBorder": true,
+  "controls": [
+   {
+    "type": "segment",
+    "label": "สี",
+    "opt": "tone",
+    "options": [
+     [
+      null,
+      "ดำ"
+     ],
+     [
+      "red",
+      "แดง"
+     ],
+     [
+      "white",
+      "ขาว"
+     ]
+    ]
+   }
+  ]
+ },
+ "notes": "ตรารับรอง Verified by Sale Here · แบบทีม Design 19 พ.ย. 2569 (logo-export: 01-seal · 02-stamp-line) · สามสีแบรนด์ตายตัว ไม่ตามธีมการ์ด: ดำ #161616 (ตั้งต้น) · แดง #DA0510 (ตรา sh:sealWhite) · ขาว (เส้นขอบ black@0.08) — ตัวเลือก `opt:tone` · แถว (แบบ A · 20 พ.ย. 2569): ขึ้นครบเสมอ · ตัวตนจริง = ยืนยันเสมอ (ตราปลดล็อกเมื่อ KYC ผ่าน) · ยอดผู้ติดตาม `stat:followersVerifiedOn` · Insight `stat:insightVerifiedOn` = วันที่ตรวจที่ client ส่งมา (\"18 พ.ย. 69\") — มี = ตราทึบ + \"ตรวจสอบเมื่อ <วันที่>\" · ไม่มี = ตราโปร่ง (scallop:12 เส้น `off`) + \"ยังไม่ยืนยัน\" · story = ใบเดียวกันย่อ 67% ทั้งก้อน (ทุกคำ role deco — ถ้ายกตัวอักษรตามขั้นต่ำ แถวล้นใน 246×156) · เลข STAR = `stat:starNumber` ที่ client ส่งมา (ไม่ส่ง = ไม่มีบรรทัด STAR NUMBER) · QR = `stat:verifyURL` ที่ client ส่งมา (ไม่ส่ง = ไม่มี QR และคำใต้ QR) · ฟอนต์ดีไซน์ Prompt → ใช้ noto ของแอป · สร้างจาก shared/tools/gen-proof-seal.py",
+ "variants": [
+  {
+   "when": "opt:tone=red",
+   "root": {
+    "type": "stack",
+    "id": "sheet",
+    "clip": true,
+    "radius": 20,
+    "w": "fill",
+    "h": "fill",
+    "children": [
+     {
+      "type": "rect",
+      "id": "plate",
+      "fill": "#DA0510"
+     },
+     {
+      "type": "icon",
+      "id": "waves",
+      "icon": "sh:verifiedWaves",
+      "w": 366,
+      "h": 232,
+      "tint": "white@0.10",
+      "place": "top-left",
+      "dx": 0,
+      "dy": 0
+     },
+     {
+      "type": "icon",
+      "id": "stamp",
+      "icon": "sh:stampLine",
+      "w": 161.6,
+      "h": 161.6,
+      "tint": "white@0.35",
+      "place": "top-left",
+      "dx": 249.5,
+      "dy": -60.2
+     },
+     {
+      "type": "icon",
+      "id": "seal",
+      "icon": "sh:sealWhite",
+      "w": 58,
+      "h": 58,
+      "place": "top-left",
+      "dx": 18.6,
+      "dy": 18.6
+     },
+     {
+      "type": "text",
+      "text": "Verified",
+      "face": "noto",
+      "size": 27.2,
+      "weight": 800,
+      "color": "white",
+      "maxLines": 1,
+      "role": "deco",
+      "id": "verified",
+      "kerning": -0.4,
+      "place": "top-left",
+      "dx": 89.5,
+      "dy": 16.9
+     },
+     {
+      "type": "row",
+      "id": "by",
+      "h": 18.5,
+      "gap": 5,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "by",
+        "face": "noto",
+        "size": 12,
+        "weight": 500,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "stack",
+        "id": "logo",
+        "w": 18.5,
+        "h": 18.5,
+        "children": [
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "white"
+         },
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "#DA0510",
+          "w": 16.1,
+          "h": 16.1,
+          "place": "center"
+         },
+         {
+          "type": "icon",
+          "icon": "sh:wordmark",
+          "w": 10.729999999999999,
+          "h": 10.729999999999999,
+          "tint": "white",
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "SALE HERE",
+        "face": "noto",
+        "size": 11.5,
+        "weight": 700,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco",
+        "tracking": 1.6
+       }
+      ],
+      "place": "top-left",
+      "dx": 89.8,
+      "dy": 54.6
+     },
+     {
+      "type": "rect",
+      "id": "rule",
+      "w": 266,
+      "h": 0.8,
+      "fill": "white@0.30",
+      "place": "top-left",
+      "dx": 19,
+      "dy": 90
+     },
+     {
+      "type": "col",
+      "id": "rows",
+      "w": 252,
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "row",
+        "id": "identity",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealWhite",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "ตัวตนจริง",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ผ่านการตรวจสอบ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "white@0.80",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "followers",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealWhite",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:followersVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "followersOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "white@0.55",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "white@0.80",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ],
+        "if": "!has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insight",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealWhite",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:insightVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "white@0.80",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:insightVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insightOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "white@0.55",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "white",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "white@0.80",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ],
+        "if": "!has:stat:insightVerifiedOn"
+       }
+      ],
+      "place": "top-left",
+      "dx": 19,
+      "dy": 97
+     },
+     {
+      "type": "col",
+      "id": "scan",
+      "w": 65,
+      "gap": 3,
+      "align": "center",
+      "children": [
+       {
+        "type": "stack",
+        "w": 65,
+        "h": 71,
+        "radius": 9,
+        "fill": "white",
+        "children": [
+         {
+          "type": "icon",
+          "id": "qr",
+          "icon": "qr",
+          "slot": "stat:verifyURL",
+          "w": 56,
+          "h": 56,
+          "tint": "#161616",
+          "place": "top-center",
+          "dy": 4.5
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "สแกนตรวจสอบ",
+        "face": "noto",
+        "size": 9.2,
+        "weight": 400,
+        "color": "white@0.80",
+        "maxLines": 1,
+        "role": "deco"
+       }
+      ],
+      "if": "has:stat:verifyURL",
+      "place": "top-left",
+      "dx": 285.5,
+      "dy": 131.5
+     },
+     {
+      "type": "row",
+      "id": "number",
+      "gap": 4,
+      "align": "end",
+      "place": "bottom-left",
+      "dx": 19,
+      "dy": -11,
+      "children": [
+       {
+        "type": "text",
+        "text": "STAR NUMBER",
+        "face": "noto",
+        "size": 9.2,
+        "weight": 400,
+        "color": "white@0.80",
+        "maxLines": 1,
+        "role": "deco",
+        "tracking": 0.4
+       },
+       {
+        "type": "text",
+        "slot": "stat:starNumber",
+        "face": "noto",
+        "size": 10.4,
+        "weight": 500,
+        "color": "white",
+        "maxLines": 1,
+        "tracking": 0.2,
+        "role": "deco"
+       }
+      ],
+      "if": "has:stat:starNumber"
+     }
+    ]
+   }
+  },
+  {
+   "when": "opt:tone=white",
+   "root": {
+    "type": "stack",
+    "id": "sheet",
+    "clip": true,
+    "radius": 20,
+    "w": "fill",
+    "h": "fill",
+    "children": [
+     {
+      "type": "rect",
+      "id": "plate",
+      "fill": "white",
+      "stroke": {
+       "color": "black@0.08",
+       "width": 1
+      }
+     },
+     {
+      "type": "icon",
+      "id": "waves",
+      "icon": "sh:verifiedWaves",
+      "w": 366,
+      "h": 232,
+      "tint": "black@0.06",
+      "place": "top-left",
+      "dx": 0,
+      "dy": 0
+     },
+     {
+      "type": "icon",
+      "id": "stamp",
+      "icon": "sh:stampLine",
+      "w": 161.6,
+      "h": 161.6,
+      "tint": "black@0.09",
+      "place": "top-left",
+      "dx": 249.5,
+      "dy": -60.2
+     },
+     {
+      "type": "icon",
+      "id": "seal",
+      "icon": "sh:sealRed",
+      "w": 58,
+      "h": 58,
+      "place": "top-left",
+      "dx": 18.6,
+      "dy": 18.6
+     },
+     {
+      "type": "text",
+      "text": "Verified",
+      "face": "noto",
+      "size": 27.2,
+      "weight": 800,
+      "color": "#161616",
+      "maxLines": 1,
+      "role": "deco",
+      "id": "verified",
+      "kerning": -0.4,
+      "place": "top-left",
+      "dx": 89.5,
+      "dy": 16.9
+     },
+     {
+      "type": "row",
+      "id": "by",
+      "h": 18.5,
+      "gap": 5,
+      "align": "center",
+      "children": [
+       {
+        "type": "text",
+        "text": "by",
+        "face": "noto",
+        "size": 12,
+        "weight": 500,
+        "color": "#161616",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "stack",
+        "id": "logo",
+        "w": 18.5,
+        "h": 18.5,
+        "children": [
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "white"
+         },
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "#DA0510",
+          "w": 16.1,
+          "h": 16.1,
+          "place": "center"
+         },
+         {
+          "type": "icon",
+          "icon": "sh:wordmark",
+          "w": 10.729999999999999,
+          "h": 10.729999999999999,
+          "tint": "white",
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "SALE HERE",
+        "face": "noto",
+        "size": 11.5,
+        "weight": 700,
+        "color": "#161616",
+        "maxLines": 1,
+        "role": "deco",
+        "tracking": 1.6
+       }
+      ],
+      "place": "top-left",
+      "dx": 89.8,
+      "dy": 54.6
+     },
+     {
+      "type": "rect",
+      "id": "rule",
+      "w": 266,
+      "h": 0.8,
+      "fill": "black@0.12",
+      "place": "top-left",
+      "dx": 19,
+      "dy": 90
+     },
+     {
+      "type": "col",
+      "id": "rows",
+      "w": 252,
+      "gap": 0,
+      "align": "stretch",
+      "children": [
+       {
+        "type": "row",
+        "id": "identity",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealRed",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "ตัวตนจริง",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ผ่านการตรวจสอบ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#6F6B78",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "followers",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealRed",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:followersVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "followersOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "black@0.38",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "text": "ยอดผู้ติดตาม",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#6F6B78",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ],
+        "if": "!has:stat:followersVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insight",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "icon",
+          "icon": "sh:sealRed",
+          "w": 13.0,
+          "h": 13.0
+         },
+         {
+          "type": "text",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "row",
+          "gap": 3,
+          "align": "center",
+          "children": [
+           {
+            "type": "text",
+            "text": "ตรวจสอบเมื่อ",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           },
+           {
+            "type": "text",
+            "slot": "stat:insightVerifiedOn",
+            "face": "noto",
+            "size": 11.2,
+            "weight": 400,
+            "color": "#6F6B78",
+            "maxLines": 1,
+            "role": "deco"
+           }
+          ]
+         }
+        ],
+        "if": "has:stat:insightVerifiedOn"
+       },
+       {
+        "type": "row",
+        "id": "insightOff",
+        "gap": 8.0,
+        "align": "center",
+        "h": 24.5,
+        "children": [
+         {
+          "type": "stack",
+          "w": 13.0,
+          "h": 13.0,
+          "children": [
+           {
+            "type": "rect",
+            "w": 11.44,
+            "h": 11.44,
+            "shape": "scallop:12",
+            "stroke": {
+             "color": "black@0.38",
+             "width": 1.1
+            },
+            "place": "center"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "text": "Insight",
+          "face": "noto",
+          "size": 12.5,
+          "weight": 400,
+          "color": "#161616",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "spacer",
+          "grow": 1,
+          "minW": 6
+         },
+         {
+          "type": "text",
+          "text": "ยังไม่ยืนยัน",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#6F6B78",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ],
+        "if": "!has:stat:insightVerifiedOn"
+       }
+      ],
+      "place": "top-left",
+      "dx": 19,
+      "dy": 97
+     },
+     {
+      "type": "col",
+      "id": "scan",
+      "w": 65,
+      "gap": 3,
+      "align": "center",
+      "children": [
+       {
+        "type": "stack",
+        "w": 65,
+        "h": 71,
+        "radius": 9,
+        "fill": "white",
+        "stroke": {
+         "color": "black@0.08",
+         "width": 1
+        },
+        "children": [
+         {
+          "type": "icon",
+          "id": "qr",
+          "icon": "qr",
+          "slot": "stat:verifyURL",
+          "w": 56,
+          "h": 56,
+          "tint": "#161616",
+          "place": "top-center",
+          "dy": 4.5
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "สแกนตรวจสอบ",
+        "face": "noto",
+        "size": 9.2,
+        "weight": 400,
+        "color": "#6F6B78",
+        "maxLines": 1,
+        "role": "deco"
+       }
+      ],
+      "if": "has:stat:verifyURL",
+      "place": "top-left",
+      "dx": 285.5,
+      "dy": 131.5
+     },
+     {
+      "type": "row",
+      "id": "number",
+      "gap": 4,
+      "align": "end",
+      "place": "bottom-left",
+      "dx": 19,
+      "dy": -11,
+      "children": [
+       {
+        "type": "text",
+        "text": "STAR NUMBER",
+        "face": "noto",
+        "size": 9.2,
+        "weight": 400,
+        "color": "#6F6B78",
+        "maxLines": 1,
+        "role": "deco",
+        "tracking": 0.4
+       },
+       {
+        "type": "text",
+        "slot": "stat:starNumber",
+        "face": "noto",
+        "size": 10.4,
+        "weight": 500,
+        "color": "#161616",
+        "maxLines": 1,
+        "tracking": 0.2,
+        "role": "deco"
+       }
+      ],
+      "if": "has:stat:starNumber"
+     }
+    ]
+   }
+  }
+ ],
+ "root": {
+  "type": "stack",
+  "id": "sheet",
+  "clip": true,
+  "radius": 20,
+  "w": "fill",
+  "h": "fill",
+  "children": [
+   {
+    "type": "rect",
+    "id": "plate",
+    "fill": "#161616"
+   },
+   {
+    "type": "icon",
+    "id": "waves",
+    "icon": "sh:verifiedWaves",
+    "w": 366,
+    "h": 232,
+    "tint": "white@0.07",
+    "place": "top-left",
+    "dx": 0,
+    "dy": 0
+   },
+   {
+    "type": "icon",
+    "id": "stamp",
+    "icon": "sh:stampLine",
+    "w": 161.6,
+    "h": 161.6,
+    "tint": "white@0.30",
+    "place": "top-left",
+    "dx": 249.5,
+    "dy": -60.2
+   },
+   {
+    "type": "icon",
+    "id": "seal",
+    "icon": "sh:sealRed",
+    "w": 58,
+    "h": 58,
+    "place": "top-left",
+    "dx": 18.6,
+    "dy": 18.6
+   },
+   {
+    "type": "text",
+    "text": "Verified",
+    "face": "noto",
+    "size": 27.2,
+    "weight": 800,
+    "color": "white",
+    "maxLines": 1,
+    "role": "deco",
+    "id": "verified",
+    "kerning": -0.4,
+    "place": "top-left",
+    "dx": 89.5,
+    "dy": 16.9
+   },
+   {
+    "type": "row",
+    "id": "by",
+    "h": 18.5,
+    "gap": 5,
+    "align": "center",
+    "children": [
+     {
+      "type": "text",
+      "text": "by",
+      "face": "noto",
+      "size": 12,
+      "weight": 500,
+      "color": "white",
+      "maxLines": 1,
+      "role": "deco"
+     },
+     {
+      "type": "stack",
+      "id": "logo",
+      "w": 18.5,
+      "h": 18.5,
+      "children": [
+       {
+        "type": "rect",
+        "circle": true,
+        "fill": "white"
+       },
+       {
+        "type": "rect",
+        "circle": true,
+        "fill": "#DA0510",
+        "w": 16.1,
+        "h": 16.1,
+        "place": "center"
+       },
+       {
+        "type": "icon",
+        "icon": "sh:wordmark",
+        "w": 10.729999999999999,
+        "h": 10.729999999999999,
+        "tint": "white",
+        "place": "center"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "SALE HERE",
+      "face": "noto",
+      "size": 11.5,
+      "weight": 700,
+      "color": "white",
+      "maxLines": 1,
+      "role": "deco",
+      "tracking": 1.6
+     }
+    ],
+    "place": "top-left",
+    "dx": 89.8,
+    "dy": 54.6
+   },
+   {
+    "type": "rect",
+    "id": "rule",
+    "w": 266,
+    "h": 0.8,
+    "fill": "white@0.16",
+    "place": "top-left",
+    "dx": 19,
+    "dy": 90
+   },
+   {
+    "type": "col",
+    "id": "rows",
+    "w": 252,
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "row",
+      "id": "identity",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "w": 13.0,
+        "h": 13.0
+       },
+       {
+        "type": "text",
+        "text": "ตัวตนจริง",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "text",
+        "text": "ผ่านการตรวจสอบ",
+        "face": "noto",
+        "size": 11.2,
+        "weight": 400,
+        "color": "#B9B4C4",
+        "maxLines": 1,
+        "role": "deco"
+       }
+      ]
+     },
+     {
+      "type": "row",
+      "id": "followers",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "w": 13.0,
+        "h": 13.0
+       },
+       {
+        "type": "text",
+        "text": "ยอดผู้ติดตาม",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "row",
+        "gap": 3,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "ตรวจสอบเมื่อ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "text",
+          "slot": "stat:followersVerifiedOn",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       }
+      ],
+      "if": "has:stat:followersVerifiedOn"
+     },
+     {
+      "type": "row",
+      "id": "followersOff",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "stack",
+        "w": 13.0,
+        "h": 13.0,
+        "children": [
+         {
+          "type": "rect",
+          "w": 11.44,
+          "h": 11.44,
+          "shape": "scallop:12",
+          "stroke": {
+           "color": "white@0.42",
+           "width": 1.1
+          },
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "ยอดผู้ติดตาม",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "text",
+        "text": "ยังไม่ยืนยัน",
+        "face": "noto",
+        "size": 11.2,
+        "weight": 400,
+        "color": "#B9B4C4",
+        "maxLines": 1,
+        "role": "deco"
+       }
+      ],
+      "if": "!has:stat:followersVerifiedOn"
+     },
+     {
+      "type": "row",
+      "id": "insight",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "icon",
+        "icon": "sh:sealRed",
+        "w": 13.0,
+        "h": 13.0
+       },
+       {
+        "type": "text",
+        "text": "Insight",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "row",
+        "gap": 3,
+        "align": "center",
+        "children": [
+         {
+          "type": "text",
+          "text": "ตรวจสอบเมื่อ",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         },
+         {
+          "type": "text",
+          "slot": "stat:insightVerifiedOn",
+          "face": "noto",
+          "size": 11.2,
+          "weight": 400,
+          "color": "#B9B4C4",
+          "maxLines": 1,
+          "role": "deco"
+         }
+        ]
+       }
+      ],
+      "if": "has:stat:insightVerifiedOn"
+     },
+     {
+      "type": "row",
+      "id": "insightOff",
+      "gap": 8.0,
+      "align": "center",
+      "h": 24.5,
+      "children": [
+       {
+        "type": "stack",
+        "w": 13.0,
+        "h": 13.0,
+        "children": [
+         {
+          "type": "rect",
+          "w": 11.44,
+          "h": 11.44,
+          "shape": "scallop:12",
+          "stroke": {
+           "color": "white@0.42",
+           "width": 1.1
+          },
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Insight",
+        "face": "noto",
+        "size": 12.5,
+        "weight": 400,
+        "color": "white",
+        "maxLines": 1,
+        "role": "deco"
+       },
+       {
+        "type": "spacer",
+        "grow": 1,
+        "minW": 6
+       },
+       {
+        "type": "text",
+        "text": "ยังไม่ยืนยัน",
+        "face": "noto",
+        "size": 11.2,
+        "weight": 400,
+        "color": "#B9B4C4",
+        "maxLines": 1,
+        "role": "deco"
+       }
+      ],
+      "if": "!has:stat:insightVerifiedOn"
+     }
+    ],
+    "place": "top-left",
+    "dx": 19,
+    "dy": 97
+   },
+   {
+    "type": "col",
+    "id": "scan",
+    "w": 65,
+    "gap": 3,
+    "align": "center",
+    "children": [
+     {
+      "type": "stack",
+      "w": 65,
+      "h": 71,
+      "radius": 9,
+      "fill": "white",
+      "children": [
+       {
+        "type": "icon",
+        "id": "qr",
+        "icon": "qr",
+        "slot": "stat:verifyURL",
+        "w": 56,
+        "h": 56,
+        "tint": "#161616",
+        "place": "top-center",
+        "dy": 4.5
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "สแกนตรวจสอบ",
+      "face": "noto",
+      "size": 9.2,
+      "weight": 400,
+      "color": "#B9B4C4",
+      "maxLines": 1,
+      "role": "deco"
+     }
+    ],
+    "if": "has:stat:verifyURL",
+    "place": "top-left",
+    "dx": 285.5,
+    "dy": 131.5
+   },
+   {
+    "type": "row",
+    "id": "number",
+    "gap": 4,
+    "align": "end",
+    "place": "bottom-left",
+    "dx": 19,
+    "dy": -11,
+    "children": [
+     {
+      "type": "text",
+      "text": "STAR NUMBER",
+      "face": "noto",
+      "size": 9.2,
+      "weight": 400,
+      "color": "#B9B4C4",
+      "maxLines": 1,
+      "role": "deco",
+      "tracking": 0.4
+     },
+     {
+      "type": "text",
+      "slot": "stat:starNumber",
+      "face": "noto",
+      "size": 10.4,
+      "weight": 500,
+      "color": "white",
+      "maxLines": 1,
+      "tracking": 0.2,
+      "role": "deco"
+     }
+    ],
+    "if": "has:stat:starNumber"
+   }
+  ]
+ }
+}

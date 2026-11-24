@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา gingham · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile · 23 พ.ย. 2569 (QA reject): หัวข้อบนการ์ดขาว = #141417 ตายตัว (เดิม ink on light → เลือกสีวิดเจ็ตเข้ม หมึกแผ่น light กลายเป็นสีอ่อน หัวข้อหายบนการ์ดขาว)",
  "root": {
   "type": "stack",
   "id": "shell",
@@ -285,8 +285,7 @@
             "face": "noto",
             "size": 19,
             "weight": 800,
-            "color": "ink",
-            "on": "light",
+            "color": "#141417",
             "maxLines": 2,
             "id": "title",
             "shrinkTo": 13.3,

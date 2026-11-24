@@ -32,7 +32,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สแครปบุ๊ก 06 รู้จักตัวฉัน — แผ่นกระดาษโทน (scrap.paper + speckle) · ป้ายกล่องคำซ้อนสองแถว 'รู้จัก' (แถบดำตัวขาว 27 · note#1) / 'ตัวฉัน' (แถบ band มิตร · note#2 เยื้องขวา 35) · แนะนำตัว (about) 5 บรรทัด หมึกของแผ่น กว้าง 52.4% ไม่เกิน 200 · พิลขาว พื้นที่รับงาน (workArea) · ขวา: แผ่น scrap.mid เอียง -8 + โพลารอยด์รูป 1 เอียง 4 + ชื่อเล่น (nickname) มิตรชมพู 37 เอียง -4 + คลิปหนีบเงิน · ประกาย/หัวใจ · ของฝั่งขวาเกาะขอบขวา (place top-right) · แปลงจาก ScrapbookWidgets.swift (ScrapAboutWidget) · ใช้ไม่ได้: พิล 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · ขอบขาวรอบชื่อเล่น (ใช้ shadow ขาว) · surface pane/clear = ไม่วาดแผ่นและหมึกพลิกตามการ์ด · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): ป้ายคำแรก ≤134 คำที่สอง ≤140 ย่อได้ 70% แล้วตัด … · คำแนะนำตัวต่อจากป้าย (col#left)",
+ "notes": "สแครปบุ๊ก 06 รู้จักตัวฉัน — แผ่นกระดาษโทน (scrap.paper + speckle) · ป้ายกล่องคำซ้อนสองแถว 'รู้จัก' (แถบดำตัวขาว 27 · note#1) / 'ตัวฉัน' (แถบ band มิตร · note#2 เยื้องขวา 35) · แนะนำตัว (about) 5 บรรทัด หมึกของแผ่น กว้าง 52.4% ไม่เกิน 200 · พิลขาว พื้นที่รับงาน (workArea) · ขวา: แผ่น scrap.mid เอียง -8 + โพลารอยด์รูป 1 เอียง 4 + ชื่อเล่น (nickname) มิตรชมพู 37 เอียง -4 + คลิปหนีบเงิน · ประกาย/หัวใจ · ของฝั่งขวาเกาะขอบขวา (place top-right) · แปลงจาก ScrapbookWidgets.swift (ScrapAboutWidget) · ใช้ไม่ได้: พิล 'รับงาน <วัน>' (daySummary ไม่มีช่อง) · ขอบขาวรอบชื่อเล่น (ใช้ shadow ขาว) · surface pane/clear = ไม่วาดแผ่นและหมึกพลิกตามการ์ด · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): ป้ายคำแรก ≤134 คำที่สอง ≤140 ย่อได้ 70% แล้วตัด … · คำแนะนำตัวต่อจากป้าย (col#left) · 23 พ.ย. 2569 (QA reject): ตัวหนังสือบนกล่อง bg/bg2 = ink (เดิม #141414 → สีวิดเจ็ตเข้ม กล่องเข้มตาม ตัวหนังสือจม)",
  "root": {
   "type": "stack",
   "radius": 16,
@@ -168,7 +168,7 @@
               "face": "mitr",
               "weight": 400,
               "size": 23.2,
-              "color": "#141414",
+              "color": "ink",
               "maxLines": 1,
               "text": "ตัวฉัน",
               "id": "text2",
@@ -312,24 +312,39 @@
     ]
    },
    {
-    "type": "text",
-    "id": "nickname",
-    "slot": "nickname",
-    "face": "mitr",
-    "weight": 400,
-    "size": 37,
-    "color": "accent",
-    "maxLines": 1,
-    "shrinkTo": 18.5,
+    "type": "row",
+    "id": "nicknameRow",
+    "gap": 5,
+    "align": "center",
     "w": 120,
+    "h": 58,
     "rotate": -4,
     "place": "top-right",
     "dx": 4,
     "dy": 164,
-    "shadow": {
-     "sigma": 0.8,
-     "color": "white"
-    }
+    "children": [
+     {
+      "type": "text",
+      "id": "nickname",
+      "slot": "nickname",
+      "face": "mitr",
+      "weight": 400,
+      "size": 37,
+      "color": "accent",
+      "maxLines": 1,
+      "shrinkTo": 18.5,
+      "shadow": {
+       "sigma": 0.8,
+       "color": "white"
+      }
+     },
+     {
+      "type": "icon",
+      "icon": "sh:sealRed",
+      "size": 22,
+      "if": "owner.verified"
+     }
+    ]
    },
    {
     "type": "icon",

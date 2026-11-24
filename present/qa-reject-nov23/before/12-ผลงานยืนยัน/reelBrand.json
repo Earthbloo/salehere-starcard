@@ -1,0 +1,1484 @@
+{
+ "kind": "reelBrand",
+ "design": {
+  "w": 366,
+  "h": 304
+ },
+ "widget": {
+  "title": "Brand Campaign",
+  "category": "verified",
+  "requires": [
+   "about",
+   "work"
+  ],
+  "symbol": "iphone",
+  "order": 29,
+  "ownSurface": true,
+  "surfaces": [
+   "glass",
+   "pane",
+   "clear"
+  ],
+  "surfaceNames": {
+   "glass": "มีพื้น"
+  },
+  "photo": true,
+  "keepAspect": true,
+  "motion": "anchored",
+  "stamp": "work"
+ },
+ "notes": "Brand Campaign (20 พ.ย. 2569) · ต่อจาก reelShowcase (หัว Brand/CAMPAIGN แก้ได้ · ป้ายขาว sh:sealRed + Verified by Sale Here 8.5/700 ขวาบน pad 11/12 · เนื้อหาเว้นบน 14 · พื้นผิว papered/pane/clear · เครื่อง 82×153 เหมือนเดิม) แต่เครื่องมาจากรายการ works (chips limit 4 · src $cover → photoRef $workPhoto) · บนเครื่อง = วงโลโก้แบรนด์ 30 พื้นขาว ($brandLogo เต็มวง fit cover · ไม่มีโลโก้ = เว้นที่ว่าง 30) · ยอดวิว = ป้ายดำโปร่ง ph:eye-fill 10.5/700 ขาว กลางล่างในจอ (เว้นล่าง 9) · ใต้เครื่อง = ไลก์ ph:heart-fill ชิดซ้าย + แชร์ ph:share-fat-fill ชิดขวา (justify between) 11.5/500 ink@0.9 · ไอคอนห่อ col เว้นล่าง 0.36×ขนาด ให้กึ่งกลางตรงตัวเลข Noto shrinkTo 8 · 0 ซ่อน · ตัว \"0\" ghost จองความสูงให้ทุกเครื่องเท่ากัน · แถวจองที่ไว้เสมอแม้ทุกใบเป็น 0 (ไม่งั้นผังเตี้ยลงแล้วถูกขยาย ป้ายชนหัวเรื่อง) · ระยะ: โลโก้-เครื่อง-ตัวเลข gap 6 · กรอบออกแบบ 366×304 keepAspect · 20 พ.ย. 2569: ไลก์เช็ค \"$likes & !$likes=0\" (ฟิลด์ที่ทุกแอปส่งอยู่แล้ว) แทน likesRaw ที่แอปจริงยังไม่ส่ง · แถวตัวเลขจองที่เมื่อมีผลงานใบไหนมีวิว/แชร์ ($viewsRaw.max | $sharesRaw.max) · 23 พ.ย. 2569 (QA หัวข้อขยายแล้วทับ): เหมือน reelShowcase (สองบรรทัด lineHeight 0.70) · คำบนกว้าง 105 ไม่ล้นถึงป้าย Verified · คอลัมน์แบรนด์/มือถือ/ยอด ย่อตามที่เหลือ สูงสุด 212.4 · คำบน/ล่างกว้างเท่าคำ (maxW) ให้กรอบแก้ข้อความตรงตัวอักษร",
+ "root": {
+  "type": "stack",
+  "id": "sheet",
+  "clip": true,
+  "radius": 22,
+  "children": [
+   {
+    "type": "rect",
+    "id": "plate",
+    "fill": "bg",
+    "if": "papered",
+    "on": "dark"
+   },
+   {
+    "type": "rect",
+    "id": "platePattern",
+    "if": "papered",
+    "platePattern": "bg",
+    "on": "dark"
+   },
+   {
+    "type": "col",
+    "id": "rimPad",
+    "if": "papered",
+    "pad": 5,
+    "children": [
+     {
+      "type": "rect",
+      "id": "rim",
+      "grow": 1,
+      "radius": 17,
+      "stroke": {
+       "color": "ink@0.16",
+       "width": 0.8
+      },
+      "on": "dark"
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "rimPadPane",
+    "if": "surface=pane",
+    "pad": 5,
+    "children": [
+     {
+      "type": "rect",
+      "id": "rim",
+      "grow": 1,
+      "radius": 17,
+      "stroke": {
+       "color": "line@0.22",
+       "width": 0.8
+      }
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "papered",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     14,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "headerStack",
+      "children": [
+       {
+        "type": "col",
+        "id": "header",
+        "gap": 0,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "ink",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "text": "Brand",
+          "on": "dark",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 105
+         },
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "ink",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "text": "CAMPAIGN",
+          "on": "dark",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 252
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "verifiedSlot",
+        "justify": "end",
+        "align": "start",
+        "dy": -4,
+        "pad": [
+         0,
+         4,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "verifiedBadge",
+          "gap": 3,
+          "align": "center",
+          "pad": [
+           2.5,
+           8,
+           2.5,
+           3
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13
+           },
+           {
+            "type": "text",
+            "text": "Verified by Sale Here",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 22.7
+     },
+     {
+      "type": "chips",
+      "id": "columns",
+      "list": "works",
+      "limit": 4,
+      "wrap": false,
+      "gap": 7,
+      "align": "stretch",
+      "justify": "center",
+      "each": {
+       "type": "col",
+       "id": "reel",
+       "gap": 6,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "id": "brandSlot",
+         "w": 30,
+         "h": 30,
+         "children": [
+          {
+           "type": "stack",
+           "id": "brandBadge",
+           "if": "$brandLogo",
+           "w": 30,
+           "h": 30,
+           "circle": true,
+           "clip": true,
+           "fill": "white",
+           "stroke": {
+            "color": "black@0.1",
+            "width": 0.8
+           },
+           "shadow": {
+            "sigma": 2,
+            "y": 1,
+            "color": "black@0.25"
+           },
+           "children": [
+            {
+             "type": "image",
+             "id": "brandLogo",
+             "src": "$brandLogo",
+             "w": 30,
+             "h": 30,
+             "circle": true,
+             "fit": "cover"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "stack",
+         "id": "phone",
+         "if": "papered",
+         "h": "fill",
+         "radius": 12,
+         "clip": true,
+         "fill": "#121212",
+         "stroke": {
+          "color": "ink@0.16",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 3,
+          "y": 3,
+          "color": "black@0.45"
+         },
+         "children": [
+          {
+           "type": "col",
+           "pad": 2.5,
+           "children": [
+            {
+             "type": "image",
+             "grow": 1,
+             "radius": 9.5,
+             "id": "cover",
+             "src": "$cover",
+             "photoRef": "$workPhoto",
+             "fit": "cover"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "w": 20,
+           "h": 5.5,
+           "circle": true,
+           "fill": "black@0.92",
+           "place": "top-center",
+           "dy": 6
+          },
+          {
+           "type": "row",
+           "id": "viewsBottom",
+           "justify": "center",
+           "align": "end",
+           "pad": [
+            0,
+            0,
+            9,
+            0
+           ],
+           "children": [
+            {
+             "type": "row",
+             "id": "viewsPill",
+             "if": "$viewsRaw>0",
+             "pad": [
+              3,
+              7,
+              3,
+              6
+             ],
+             "gap": 3,
+             "align": "center",
+             "circle": true,
+             "fill": "black@0.55",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                3.8,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:eye-fill",
+                 "w": 11.0,
+                 "h": 11.0,
+                 "tint": "white"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{views}",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 700,
+               "color": "white",
+               "maxLines": 1,
+               "shrinkTo": 7
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "on": "dark",
+         "w": "fill"
+        },
+        {
+         "type": "stack",
+         "id": "engage",
+         "w": "fill",
+         "children": [
+          {
+           "type": "text",
+           "id": "ghost",
+           "text": "0",
+           "face": "noto",
+           "size": 11.5,
+           "weight": 500,
+           "color": "ink@0",
+           "maxLines": 1
+          },
+          {
+           "type": "row",
+           "gap": 4,
+           "align": "center",
+           "justify": "between",
+           "w": "fill",
+           "pad": [
+            0,
+            2
+           ],
+           "children": [
+            {
+             "type": "row",
+             "if": "$likes & !$likes=0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:heart-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9",
+                 "on": "dark"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{likes}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8,
+               "on": "dark"
+              }
+             ]
+            },
+            {
+             "type": "row",
+             "if": "$sharesRaw>0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:share-fat-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9",
+                 "on": "dark"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{shares}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8,
+               "on": "dark"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "h": "fill",
+       "aspect": 0.3861
+      },
+      "h": "fill",
+      "maxH": 212.4
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "surface=pane",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     14,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "headerStack",
+      "children": [
+       {
+        "type": "col",
+        "id": "header",
+        "gap": 0,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "text": "Brand",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 105
+         },
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "text": "CAMPAIGN",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 252
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "verifiedSlot",
+        "justify": "end",
+        "align": "start",
+        "dy": -4,
+        "pad": [
+         0,
+         4,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "verifiedBadge",
+          "gap": 3,
+          "align": "center",
+          "pad": [
+           2.5,
+           8,
+           2.5,
+           3
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13
+           },
+           {
+            "type": "text",
+            "text": "Verified by Sale Here",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 22.7
+     },
+     {
+      "type": "chips",
+      "id": "columns",
+      "list": "works",
+      "limit": 4,
+      "wrap": false,
+      "gap": 7,
+      "align": "stretch",
+      "justify": "center",
+      "each": {
+       "type": "col",
+       "id": "reel",
+       "gap": 6,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "id": "brandSlot",
+         "w": 30,
+         "h": 30,
+         "children": [
+          {
+           "type": "stack",
+           "id": "brandBadge",
+           "if": "$brandLogo",
+           "w": 30,
+           "h": 30,
+           "circle": true,
+           "clip": true,
+           "fill": "white",
+           "stroke": {
+            "color": "black@0.1",
+            "width": 0.8
+           },
+           "shadow": {
+            "sigma": 2,
+            "y": 1,
+            "color": "black@0.25"
+           },
+           "children": [
+            {
+             "type": "image",
+             "id": "brandLogo",
+             "src": "$brandLogo",
+             "w": 30,
+             "h": 30,
+             "circle": true,
+             "fit": "cover"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "stack",
+         "id": "phone",
+         "if": "ink.light",
+         "h": "fill",
+         "radius": 12,
+         "clip": true,
+         "fill": "#1A1A1A",
+         "stroke": {
+          "color": "line@0.22",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 3,
+          "y": 3,
+          "color": "black@0.45"
+         },
+         "children": [
+          {
+           "type": "col",
+           "pad": 2.5,
+           "children": [
+            {
+             "type": "image",
+             "grow": 1,
+             "radius": 9.5,
+             "id": "cover",
+             "src": "$cover",
+             "photoRef": "$workPhoto",
+             "fit": "cover"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "w": 20,
+           "h": 5.5,
+           "circle": true,
+           "fill": "black@0.92",
+           "place": "top-center",
+           "dy": 6
+          },
+          {
+           "type": "row",
+           "id": "viewsBottom",
+           "justify": "center",
+           "align": "end",
+           "pad": [
+            0,
+            0,
+            9,
+            0
+           ],
+           "children": [
+            {
+             "type": "row",
+             "id": "viewsPill",
+             "if": "$viewsRaw>0",
+             "pad": [
+              3,
+              7,
+              3,
+              6
+             ],
+             "gap": 3,
+             "align": "center",
+             "circle": true,
+             "fill": "black@0.55",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                3.8,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:eye-fill",
+                 "w": 11.0,
+                 "h": 11.0,
+                 "tint": "white"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{views}",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 700,
+               "color": "white",
+               "maxLines": 1,
+               "shrinkTo": 7
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "w": "fill"
+        },
+        {
+         "type": "stack",
+         "id": "phone",
+         "if": "!ink.light",
+         "h": "fill",
+         "radius": 12,
+         "clip": true,
+         "fill": "#292929",
+         "stroke": {
+          "color": "line@0.22",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 3,
+          "y": 3,
+          "color": "black@0.45"
+         },
+         "children": [
+          {
+           "type": "col",
+           "pad": 2.5,
+           "children": [
+            {
+             "type": "image",
+             "grow": 1,
+             "radius": 9.5,
+             "id": "cover",
+             "src": "$cover",
+             "photoRef": "$workPhoto",
+             "fit": "cover"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "w": 20,
+           "h": 5.5,
+           "circle": true,
+           "fill": "black@0.92",
+           "place": "top-center",
+           "dy": 6
+          },
+          {
+           "type": "row",
+           "id": "viewsBottom",
+           "justify": "center",
+           "align": "end",
+           "pad": [
+            0,
+            0,
+            9,
+            0
+           ],
+           "children": [
+            {
+             "type": "row",
+             "id": "viewsPill",
+             "if": "$viewsRaw>0",
+             "pad": [
+              3,
+              7,
+              3,
+              6
+             ],
+             "gap": 3,
+             "align": "center",
+             "circle": true,
+             "fill": "black@0.55",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                3.8,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:eye-fill",
+                 "w": 11.0,
+                 "h": 11.0,
+                 "tint": "white"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{views}",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 700,
+               "color": "white",
+               "maxLines": 1,
+               "shrinkTo": 7
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "w": "fill"
+        },
+        {
+         "type": "stack",
+         "id": "engage",
+         "w": "fill",
+         "children": [
+          {
+           "type": "text",
+           "id": "ghost",
+           "text": "0",
+           "face": "noto",
+           "size": 11.5,
+           "weight": 500,
+           "color": "ink@0",
+           "maxLines": 1
+          },
+          {
+           "type": "row",
+           "gap": 4,
+           "align": "center",
+           "justify": "between",
+           "w": "fill",
+           "pad": [
+            0,
+            2
+           ],
+           "children": [
+            {
+             "type": "row",
+             "if": "$likes & !$likes=0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:heart-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{likes}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8
+              }
+             ]
+            },
+            {
+             "type": "row",
+             "if": "$sharesRaw>0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:share-fat-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{shares}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "h": "fill",
+       "aspect": 0.3861
+      },
+      "h": "fill",
+      "maxH": 212.4
+     }
+    ]
+   },
+   {
+    "type": "col",
+    "id": "content",
+    "if": "surface=clear",
+    "place": "top-center",
+    "w": 366,
+    "h": "fill",
+    "pad": [
+     14,
+     8,
+     9,
+     8
+    ],
+    "gap": 0,
+    "align": "stretch",
+    "children": [
+     {
+      "type": "stack",
+      "id": "headerStack",
+      "children": [
+       {
+        "type": "col",
+        "id": "header",
+        "gap": 0,
+        "align": "stretch",
+        "children": [
+         {
+          "type": "text",
+          "id": "recent",
+          "face": "noto",
+          "weight": 400,
+          "size": 19,
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11.8,
+          "text": "Brand",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 105
+         },
+         {
+          "type": "text",
+          "id": "title",
+          "face": "noto",
+          "weight": 900,
+          "size": 26,
+          "growTo": 30,
+          "tracking": 0.4,
+          "textCase": "upper",
+          "textAlign": "center",
+          "color": "ink@0.95",
+          "maxLines": 1,
+          "shrinkTo": 11,
+          "text": "CAMPAIGN",
+          "editable": true,
+          "alignSelf": "center",
+          "lineHeight": 0.7,
+          "maxW": 252
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "verifiedSlot",
+        "justify": "end",
+        "align": "start",
+        "dy": -4,
+        "pad": [
+         0,
+         4,
+         0,
+         0
+        ],
+        "children": [
+         {
+          "type": "row",
+          "id": "verifiedBadge",
+          "gap": 3,
+          "align": "center",
+          "pad": [
+           2.5,
+           8,
+           2.5,
+           3
+          ],
+          "circle": true,
+          "fill": "white",
+          "stroke": {
+           "color": "black@0.07",
+           "width": 0.5
+          },
+          "shadow": {
+           "sigma": 2.5,
+           "y": 1,
+           "color": "black@0.14"
+          },
+          "shrink": 0,
+          "children": [
+           {
+            "type": "icon",
+            "icon": "sh:sealRed",
+            "size": 13
+           },
+           {
+            "type": "text",
+            "text": "Verified by Sale Here",
+            "face": "noto",
+            "size": 8.5,
+            "weight": 700,
+            "color": "#1F1F23",
+            "maxLines": 1,
+            "shrink": 0
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "spacer",
+      "h": 22.7
+     },
+     {
+      "type": "chips",
+      "id": "columns",
+      "list": "works",
+      "limit": 4,
+      "wrap": false,
+      "gap": 7,
+      "align": "stretch",
+      "justify": "center",
+      "each": {
+       "type": "col",
+       "id": "reel",
+       "gap": 6,
+       "align": "center",
+       "children": [
+        {
+         "type": "stack",
+         "id": "brandSlot",
+         "w": 30,
+         "h": 30,
+         "children": [
+          {
+           "type": "stack",
+           "id": "brandBadge",
+           "if": "$brandLogo",
+           "w": 30,
+           "h": 30,
+           "circle": true,
+           "clip": true,
+           "fill": "white",
+           "stroke": {
+            "color": "black@0.1",
+            "width": 0.8
+           },
+           "shadow": {
+            "sigma": 2,
+            "y": 1,
+            "color": "black@0.25"
+           },
+           "children": [
+            {
+             "type": "image",
+             "id": "brandLogo",
+             "src": "$brandLogo",
+             "w": 30,
+             "h": 30,
+             "circle": true,
+             "fit": "cover"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "stack",
+         "id": "phone",
+         "if": "ink.light",
+         "h": "fill",
+         "radius": 12,
+         "clip": true,
+         "fill": "#1A1A1A",
+         "stroke": {
+          "color": "line@0.22",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 3,
+          "y": 3,
+          "color": "black@0.3"
+         },
+         "children": [
+          {
+           "type": "col",
+           "pad": 2.5,
+           "children": [
+            {
+             "type": "image",
+             "grow": 1,
+             "radius": 9.5,
+             "id": "cover",
+             "src": "$cover",
+             "photoRef": "$workPhoto",
+             "fit": "cover"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "w": 20,
+           "h": 5.5,
+           "circle": true,
+           "fill": "black@0.92",
+           "place": "top-center",
+           "dy": 6
+          },
+          {
+           "type": "row",
+           "id": "viewsBottom",
+           "justify": "center",
+           "align": "end",
+           "pad": [
+            0,
+            0,
+            9,
+            0
+           ],
+           "children": [
+            {
+             "type": "row",
+             "id": "viewsPill",
+             "if": "$viewsRaw>0",
+             "pad": [
+              3,
+              7,
+              3,
+              6
+             ],
+             "gap": 3,
+             "align": "center",
+             "circle": true,
+             "fill": "black@0.55",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                3.8,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:eye-fill",
+                 "w": 11.0,
+                 "h": 11.0,
+                 "tint": "white"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{views}",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 700,
+               "color": "white",
+               "maxLines": 1,
+               "shrinkTo": 7
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "w": "fill"
+        },
+        {
+         "type": "stack",
+         "id": "phone",
+         "if": "!ink.light",
+         "h": "fill",
+         "radius": 12,
+         "clip": true,
+         "fill": "#292929",
+         "stroke": {
+          "color": "line@0.22",
+          "width": 0.8
+         },
+         "shadow": {
+          "sigma": 3,
+          "y": 3,
+          "color": "black@0.3"
+         },
+         "children": [
+          {
+           "type": "col",
+           "pad": 2.5,
+           "children": [
+            {
+             "type": "image",
+             "grow": 1,
+             "radius": 9.5,
+             "id": "cover",
+             "src": "$cover",
+             "photoRef": "$workPhoto",
+             "fit": "cover"
+            }
+           ]
+          },
+          {
+           "type": "rect",
+           "w": 20,
+           "h": 5.5,
+           "circle": true,
+           "fill": "black@0.92",
+           "place": "top-center",
+           "dy": 6
+          },
+          {
+           "type": "row",
+           "id": "viewsBottom",
+           "justify": "center",
+           "align": "end",
+           "pad": [
+            0,
+            0,
+            9,
+            0
+           ],
+           "children": [
+            {
+             "type": "row",
+             "id": "viewsPill",
+             "if": "$viewsRaw>0",
+             "pad": [
+              3,
+              7,
+              3,
+              6
+             ],
+             "gap": 3,
+             "align": "center",
+             "circle": true,
+             "fill": "black@0.55",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                3.8,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:eye-fill",
+                 "w": 11.0,
+                 "h": 11.0,
+                 "tint": "white"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{views}",
+               "face": "noto",
+               "size": 10.5,
+               "weight": 700,
+               "color": "white",
+               "maxLines": 1,
+               "shrinkTo": 7
+              }
+             ]
+            }
+           ]
+          }
+         ],
+         "w": "fill"
+        },
+        {
+         "type": "stack",
+         "id": "engage",
+         "w": "fill",
+         "children": [
+          {
+           "type": "text",
+           "id": "ghost",
+           "text": "0",
+           "face": "noto",
+           "size": 11.5,
+           "weight": 500,
+           "color": "ink@0",
+           "maxLines": 1
+          },
+          {
+           "type": "row",
+           "gap": 4,
+           "align": "center",
+           "justify": "between",
+           "w": "fill",
+           "pad": [
+            0,
+            2
+           ],
+           "children": [
+            {
+             "type": "row",
+             "if": "$likes & !$likes=0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:heart-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{likes}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8
+              }
+             ]
+            },
+            {
+             "type": "row",
+             "if": "$sharesRaw>0",
+             "gap": 2.5,
+             "align": "center",
+             "children": [
+              {
+               "type": "col",
+               "pad": [
+                0,
+                0,
+                4.1,
+                0
+               ],
+               "children": [
+                {
+                 "type": "icon",
+                 "icon": "ph:share-fat-fill",
+                 "w": 11.5,
+                 "h": 11.5,
+                 "tint": "ink@0.9"
+                }
+               ]
+              },
+              {
+               "type": "text",
+               "text": "{shares}",
+               "face": "noto",
+               "size": 11.5,
+               "weight": 500,
+               "color": "ink@0.9",
+               "maxLines": 1,
+               "shrinkTo": 8
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "h": "fill",
+       "aspect": 0.3861
+      },
+      "h": "fill",
+      "maxH": 212.4
+     }
+    ]
+   }
+  ]
+ }
+}

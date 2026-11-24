@@ -69,7 +69,7 @@
   ],
   "on": "light"
  },
- "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile",
+ "notes": "ชุดห้าสไตล์ 02 Social Media — แปลงจาก KitWidgets.swift (KitContent.social + rows) · แยกจาก kitSocial (ชุดห้าสไตล์) 19 ต.ค. 2569 · หน้าตา cream · แถว = chips socials direction col (ม่วง/ครีม/กลางคืน = กล่องต่อแถว · ตาราง/Mac = เส้นคั่นด้วย !$i=first) ทุกแถว grow 1 · ซ่อนช่อง = where !hidden:$platform · ยอดฟอลโลว์ใช้ $followers (1.2K) — Swift ใช้ Fmt.baht (1,234) · ชื่อช่อง X แสดงตามรายการ (Swift ย่อเป็น 'X') · ม่วง: หัวข้อ + 'ผู้ติดตาม' ขวา · Mac: หัวข้อในแถบหน้าต่าง · เปลือก/ไล่สี/มุม/เงา ดูหมายเหตุที่ kitProfile · 24 พ.ย. 2569: ติ๊กแดง sh:sealRed (if $verified, 13 ≈ 0.9× ตัวหนังสือ) หลัง @handle ทุกแถว — ผู้ใช้สั่ง \"ใส่ tick ถูกหลังชื่อ\"",
  "root": {
   "type": "stack",
   "id": "shell",
@@ -324,13 +324,26 @@
              "size": 28
             },
             {
-             "type": "text",
-             "slot": "$handle",
-             "face": "noto",
-             "size": 14.5,
-             "weight": 400,
-             "color": "ink",
-             "maxLines": 1
+             "type": "row",
+             "gap": 3,
+             "align": "center",
+             "children": [
+              {
+               "type": "text",
+               "slot": "$handle",
+               "face": "noto",
+               "size": 14.5,
+               "weight": 400,
+               "color": "ink",
+               "maxLines": 1
+              },
+              {
+               "type": "icon",
+               "icon": "sh:sealRed",
+               "size": 13,
+               "if": "$verified"
+              }
+             ]
             },
             {
              "type": "spacer",

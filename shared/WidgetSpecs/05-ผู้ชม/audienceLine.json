@@ -13,7 +13,22 @@
   "symbol": "text.alignleft",
   "order": 42,
   "stamp": "insight",
-  "motion": "anchored"
+  "motion": "anchored",
+  "controls": [
+   {
+    "type": "pick",
+    "label": "ช่องทาง",
+    "opt": "social",
+    "items": "insightSocials",
+    "needs": [
+     "city",
+     "gender",
+     "age"
+    ],
+    "match": "all",
+    "minItems": 2
+   }
+  ]
  },
  "notes": "ประโยคเดียวพิมพ์ใหญ่สามบรรทัด (เพศ · อายุ · เมือง) + บรรทัดเปอร์เซ็นต์จิ๋ว · แปลงจาก InsightWidgets.swift (AudienceLineWidget) · คำเพศของต้นฉบับ 'ผู้หญิง/ผู้ชาย/เพศอื่น' = chips gender (ไม่ sort) แต่ละชิ้นมีข้อความสามแบบเลือกด้วย `$shareRaw=max & $i<1 / $i>=1&$i<2 / $i>=2` (ชิ้นที่ไม่ใช่ค่าสูงสุดว่าง กว้าง 0) · อายุ/เมือง = sort shareRaw desc + limit 1 · ขนาดใหญ่: โค้ดเดิมตั้ง min(30, W×0.093) แต่ VStack ล้นความสูงแล้ว .minimumScaleFactor(0.55) ย่อทั้งสามบรรทัดให้พอดีความสูง → ขนาดที่วาดจริง ≈ (h − 47) / 4.98 (กล่องกรอบออกแบบ h 129 = 16.5 · ไม่มีขอบใน h 153 ≈ 21) — ผังใช้ sizeWhen ตาม h ทีละ 1pt ถึง 30 (ความกว้างไม่เคยคุมเพราะ box กว้าง ≥ 342 เสมอ) · padding.bottom 7 ของหัวเรื่องใช้ spacer h 6 + gap 1 · ตรา Verified (stamped) chrome วางมุมขวาบนให้ (stampOverlay) · หมึก ink / accent ของพื้นที่ใบนั่ง",
  "root": {

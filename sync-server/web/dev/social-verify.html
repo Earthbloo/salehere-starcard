@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Verify Summary</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root { --bg:#f4f4f6; --card:#fff; --ink:#18181b; --mute:#71717a; --line:#e4e4e7; --ok:#16a34a; --bad:#dc2626; --na:#a1a1aa; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px system-ui, sans-serif; }
+  header { position:sticky; top:0; z-index:20; background:rgba(255,255,255,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 20px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  h1 { font-size:17px; margin:0; flex:1; min-width:240px; }
+  label { display:flex; gap:6px; align-items:center; cursor:pointer; color:var(--mute); }
+  .legend { margin:16px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 16px; display:flex; gap:28px; flex-wrap:wrap; line-height:1.6; }
+  .legend b { display:block; }
+  .legend img { width:14px; height:14px; vertical-align:-2px; }
+  .sum { margin:12px 20px 0; font-weight:600; }
+  .sum .bad { color:var(--bad); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:16px; padding:16px 20px 40px; }
+  .cell { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:10px; }
+  .cell.miss { border:2px solid var(--bad); }
+  .head { display:flex; gap:8px; align-items:baseline; }
+  .head .n { color:var(--mute); font-variant-numeric:tabular-nums; }
+  .head b { font-size:15px; }
+  .head code { color:var(--mute); font-size:12px; }
+  .chips { display:flex; gap:6px; flex-wrap:wrap; }
+  .chip { padding:3px 10px; border-radius:99px; font-size:12px; font-weight:600; }
+  .chip.ok { background:#dcfce7; color:var(--ok); }
+  .chip.bad { background:#fee2e2; color:var(--bad); }
+  .chip.na { background:#f4f4f5; color:var(--na); }
+  .sec { margin:24px 20px 0; font-size:16px; }
+  .fix { margin:12px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; }
+  .fix .what { color:var(--mute); margin:4px 0 10px; line-height:1.5; }
+  .pair { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; }
+  .pair > div { flex:1; min-width:280px; }
+  .tag { display:inline-block; font-size:12px; font-weight:700; padding:2px 10px; border-radius:99px; margin-bottom:6px; }
+  .tag.b { background:#fee2e2; color:var(--bad); } .tag.a { background:#dcfce7; color:var(--ok); }
+  .tbl { margin:12px 20px 0; border-collapse:separate; border-spacing:0; width:calc(100% - 40px); background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .tbl th, .tbl td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .tbl tr:last-child td { border-bottom:0; }
+  .tbl th { font-size:12px; color:var(--mute); font-weight:600; background:#fafafa; }
+  .tbl td.no { color:var(--bad); font-weight:600; }
+  .tbl td.new { color:var(--ok); }
+  .tbl a { color:inherit; }
+  .tbl code { color:var(--mute); font-size:12px; }
+  @media (max-width:700px) { .tbl { font-size:12px; } .tbl th, .tbl td { padding:6px; } }
+  .stage { display:flex; justify-content:center; background:#fafafa; border-radius:10px; overflow:hidden; }
+</style>
+</head>
+<body>
+<header>
+  <h1>สรุป Verify · widget หมวด social (04-ผู้ติดตาม)</h1>
+  <label><input type="checkbox" id="miss"> โชว์เฉพาะตัวที่ขาด</label>
+  <label>ซูม <input type="range" id="z" min="0.4" max="1.4" step="0.1" value="0.8"></label>
+</header>
+<h2 class="sec">สรุปตอนนี้ — ทุก widget</h2>
+<div class="sum" id="sum"></div>
+<table class="tbl" id="tbl"><thead><tr><th>#</th><th>Widget</th><th>ติ๊กแดง อยู่ตรงไหน</th><th>ป้าย "อัปเดตเมื่อ" อยู่ตรงไหน</th><th>แก้วันนี้ (24 พ.ย.)</th></tr></thead><tbody></tbody></table>
+<h2 class="sec">ภาพตอนนี้</h2>
+<div class="grid" id="grid"></div>
+<h2 class="sec">ก่อน → หลัง (เฉพาะที่แก้วันนี้)</h2>
+<div id="fixes"></div>
+<div style="height:40px"></div>
+<script type="module">
+import { parseSpec } from '../js/spec-model.js'
+import { WebMeasurer, loadFonts } from '../js/measure.js'
+import { Profile, WebSpecData } from '../js/data.js'
+import { mountWidget } from '../js/chrome.js'
+import { paintBackdrop } from '../js/backdrop.js'
+import { defaultChoice, themeOf } from '../js/backdrop-tray.js'
+
+// [kind, ชื่อในแอป, ติ๊กอยู่ตรงไหน (null = ไม่มี), ป้ายอยู่ตรงไหน (null = ไม่มี), แก้วันนี้, override item {w,h,border,surface}]
+const ROWS = [
+  ['kitSocialCream', 'Social Media · cream', 'หลัง @ชื่อ ทุกแถว', 'มุมขวาบน', 'ใส่ติ๊กหลัง @ชื่อ'],
+  ['kitSocialGingham', 'Social Media · gingham', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+  ['kitSocialMac', 'Social Media · mac', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน ใต้แถบหน้าต่าง', ''],
+  ['kitSocialNight', 'Social Media · night', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+  ['kitSocialPurple', 'Social Media · purple (มีขอบ)', 'หลัง @ชื่อ ทุกแถว', 'มุมขวาบน', 'ใส่ติ๊กหลัง @ชื่อ', { border: true }],
+  ['kitSocialPurple', 'Social Media · purple — ไม่มีขอบ / พื้นโปร่ง', 'หลัง @ชื่อ ทุกแถว', 'มุมขวาบน', 'ใส่ป้าย + ติ๊กหลัง @ชื่อ', { border: false }],
+  ['popStatsGlass', 'ผู้ติดตามสามช่อง กระจกชมพู', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+  ['scrapFeed', 'ฟีดของฉัน', null, null, 'ไม่แก้ (ตามที่สั่ง)'],
+  ['scrapKeyTab', 'พวงกุญแจโซเชียล (แนวตั้ง)', 'หลังตัวเลขทุกช่อง', 'บนสุดในตัวป้ายห้อย (2 บรรทัด)', 'ใส่ป้าย + ติ๊กหลังตัวเลข'],
+  ['scrapKeyTab', 'พวงกุญแจโซเชียล (แนวนอน)', 'หลังตัวเลขทุกช่อง', 'มุมขวาบนในตัวป้ายห้อย', 'ใส่ป้าย + ติ๊กหลังตัวเลข', { w: 330, h: 150 }],
+  ['socialChips', 'ผู้ติดตามแบบแถว', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+  ['socialGingham', 'ช่องทางผ้าปิกนิก', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+  ['socialTiles', 'ผู้ติดตามแบบชิป', 'หลังตัวเลขทุกช่อง', 'มุมขวาบน', 'ใส่ติ๊กหลังตัวเลข'],
+  ['socialWindow', 'หน้าต่างช่องทาง', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน ในแถบหน้าต่าง', ''],
+  ['socialWindow', 'หน้าต่างช่องทาง — พื้นเข้ม (dim)', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน ในแถบหน้าต่าง', 'ใส่ป้าย', { surface: 'dim' }],
+  ['statGiant', 'ตัวเลขยักษ์', 'หลังตัวเลขรายช่องทาง (ตัวเลขรวมไม่มี)', 'มุมขวาบน', 'ใส่ติ๊กหลังตัวเลข'],
+  ['statPoster', 'โปสเตอร์ผู้ติดตาม', 'หลังชื่อช่องทาง (Instagram…)', 'มุมขวาบน', ''],
+]
+const missing = ROWS.filter((r) => !r[2] || !r[3])
+const changed = ROWS.filter((r) => r[4] && r[2] && r[3])
+document.getElementById('sum').innerHTML =
+  `${ROWS.length} แบบ (14 widget + แบบย่อย) · ครบทั้งติ๊กและป้าย ${ROWS.length - missing.length} แบบ (แก้วันนี้ ${changed.length}) · <span class="bad">ยังไม่มี ${missing.length}: ${missing.map((r) => r[1]).join(', ')} — ไม่แก้ตามที่สั่ง</span>`
+const tbody = document.querySelector('#tbl tbody')
+ROWS.forEach(([kind, title, tick, badge, today], i) => tbody.insertAdjacentHTML('beforeend',
+  `<tr><td>${i + 1}</td><td><a href="#w-${i}"><b>${title}</b></a><br><code>${kind}</code></td>
+   <td class="${tick ? '' : 'no'}">${tick || '✗ ไม่มี'}</td><td class="${badge ? '' : 'no'}">${badge || '✗ ไม่มี'}</td>
+   <td class="${today ? 'new' : ''}">${today || '–'}</td></tr>`))
+
+const grid = document.getElementById('grid')
+const cells = ROWS.map(([kind, title, tick, badge, today, over], i) => {
+  const miss = !tick || !badge
+  const cell = document.createElement('div')
+  cell.className = 'cell' + (miss ? ' miss' : ''); cell.id = `w-${i}`
+  cell.innerHTML = `<div class="head"><span class="n">${i + 1}.</span><b>${title}</b><code>${kind}</code></div>
+    <div class="chips"><span class="chip ${tick ? 'ok' : 'bad'}">ติ๊ก: ${tick || 'ไม่มี'}</span><span class="chip ${badge ? 'ok' : 'bad'}">ป้าย: ${badge || 'ไม่มี'}</span></div>`
+  const stage = document.createElement('div'); stage.className = 'stage'
+  const web = document.createElement('div'); stage.appendChild(web); cell.appendChild(stage); grid.appendChild(cell)
+  return { kind, web, cell, miss, over: over || {} }
+})
+
+// [kind, ชื่อ, override, แก้อะไร]
+const FIXES = [
+  ['socialTiles', 'ผู้ติดตามแบบชิป', {}, 'ใส่ติ๊กแดงหลังตัวเลขทุกช่อง (โลโก้กับตัวเลขยังอยู่บรรทัดเดียวกัน)'],
+  ['statGiant', 'ตัวเลขยักษ์', {}, 'ใส่ติ๊กแดงหลังตัวเลขรายช่องทาง (ตัวเลขยักษ์รวมทุกช่องทางไม่ใส่)'],
+  ['kitSocialCream', 'Social Media · cream', {}, 'ใส่ติ๊กแดงหลัง @ชื่อ ทุกแถว'],
+  ['kitSocialPurple', 'Social Media · purple (มีขอบ)', { border: true }, 'ใส่ติ๊กแดงหลัง @ชื่อ ทุกแถว'],
+  ['kitSocialPurple', 'Social Media · purple — แบบไม่มีขอบ / พื้นโปร่ง', { border: false }, 'มุมขวาเปลี่ยนจากคำว่า "ผู้ติดตาม" เป็นป้าย "อัปเดตเมื่อ" เหมือนแบบมีขอบ + ติ๊กแดงหลัง @ชื่อ'],
+  ['socialWindow', 'หน้าต่างช่องทาง — พื้นเข้ม (dim)', { surface: 'dim' }, 'แบบพื้นเข้มไม่มีป้าย → ใส่ป้ายมุมขวาบนในแถบหน้าต่าง ตำแหน่งเดียวกับแบบพื้นสว่าง'],
+  ['scrapKeyTab', 'พวงกุญแจโซเชียล (แนวตั้ง)', {}, 'ป้ายอยู่ในตัวป้ายห้อย บนสุดใต้รูเจาะ — ชิ้นแคบ 75 เลยย่อป้ายเป็น 2 บรรทัด (อัปเดตเมื่อ / วันที่) · ซ่อนคำว่า "ผู้ติดตาม" ตอนมีป้าย ไม่ให้ล้นชิ้น · ติ๊กแดงหลังตัวเลขทุกช่อง'],
+  ['scrapKeyTab', 'พวงกุญแจโซเชียล (แนวนอน)', { w: 330, h: 150 }, 'ป้ายอยู่มุมขวาบนของตัวป้ายห้อย · ติ๊กแดงหลังตัวเลขทุกช่อง'],
+]
+const fixBox = document.getElementById('fixes')
+const fixCells = FIXES.map(([kind, title, over, what]) => {
+  const box = document.createElement('div'); box.className = 'fix'
+  box.innerHTML = `<b>${title}</b> <code style="color:var(--mute)">${kind}</code><div class="what">${what}</div>
+    <div class="pair"><div><span class="tag b">ก่อน</span><div class="stage"><div class="w0"></div></div></div>
+    <div><span class="tag a">หลัง</span><div class="stage"><div class="w1"></div></div></div></div>`
+  fixBox.appendChild(box)
+  return [{ kind, web: box.querySelector('.w0'), over, before: true }, { kind, web: box.querySelector('.w1'), over }]
+}).flat()
+
+await loadFonts('../fonts/')
+const r = await fetch('/graphql', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: '{ widgetSpecs { kind json } }' }) })
+const specs = Object.fromEntries((await r.json()).data.widgetSpecs.map((s) => [s.kind, parseSpec(s.json)]))
+const before = {}
+for (const k of ['socialTiles', 'statGiant', 'kitSocialCream', 'kitSocialPurple', 'socialWindow', 'scrapKeyTab']) before[k] = parseSpec(await (await fetch(`social-verify-before/${k}.json`)).json())
+const measurer = new WebMeasurer()
+const M = 12
+const theme = themeOf(defaultChoice())
+function render() {
+  const z = Number(document.getElementById('z').value)
+  const onlyMiss = document.getElementById('miss').checked
+  for (const c of [...fixCells, ...cells]) {
+    if (c.cell) c.cell.style.display = onlyMiss && !c.miss ? 'none' : ''
+    const all = c.before ? { ...specs, [c.kind]: before[c.kind] } : specs
+    const spec = all[c.kind]
+    if (!spec) { c.web.innerHTML = '<i style="color:#dc2626">ไม่พบ spec</i>'; continue }
+    const W = c.over.w || spec.design.w, H = c.over.h || spec.design.h
+    const surface = c.over.surface || 'glass'
+    c.web.innerHTML = ''
+    c.web.style.cssText = `width:${W + M * 2}px;height:${H + M * 2}px;overflow:hidden;position:relative;zoom:${z}`
+    paintBackdrop(c.web, theme, W + M * 2, H + M * 2)
+    const profile = new Profile({}, {})
+    const item = { id: '00000000-0000-0000-0000-000000000000', kind: c.kind, x: M, y: M, w: W, h: H, surface, border: !!c.over.border }
+    const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: all, measurer, base: '../', imageURL: (id) => `/api/images/${id}`,
+      makeData: (it) => new WebSpecData({ profile, item: it, sample: true, surface, verified: true }) }
+    try { mountWidget(c.web, item, { x: M, y: M, width: W, height: H }, env) } catch (e) { c.web.insertAdjacentHTML('beforeend', `<pre style="color:#dc2626">${e.message}</pre>`) }
+  }
+}
+document.getElementById('miss').onchange = render
+document.getElementById('z').oninput = render
+render()
+</script>
+</body>
+</html>
