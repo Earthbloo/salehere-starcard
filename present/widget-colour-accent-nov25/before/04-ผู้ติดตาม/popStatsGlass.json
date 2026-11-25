@@ -1,0 +1,346 @@
+{
+ "kind": "popStatsGlass",
+ "design": {
+  "w": 504,
+  "h": 172
+ },
+ "widget": {
+  "title": "ผู้ติดตามสามช่อง กระจกชมพู",
+  "category": "followers",
+  "requires": [
+   "socials"
+  ],
+  "symbol": "flag.fill",
+  "order": 51,
+  "ownSurface": true,
+  "ownBorder": true,
+  "surfaces": [
+   "glass",
+   "dim"
+  ],
+  "skin": "glass",
+  "stamp": "followers",
+  "motion": "mid",
+  "on": "light",
+  "controls": [
+   {
+    "type": "checks",
+    "label": "ช่องที่แสดง",
+    "items": "shownSocials",
+    "opt": "hide"
+   }
+  ]
+ },
+ "notes": "สำรับสติกเกอร์ · ผู้ติดตามสามช่อง (กระจก) — ป้ายเม็ดยา 'ผู้ติดตาม' คร่อมขอบบน · กล่องขาวสามใบ ตัวเลขยักษ์ · แถบไอคอน IG ตกแต่งใต้กล่อง · แปลงจาก PopWidgets.swift (PopStats + PopSheet) · หน่วย K/M ตัวเล็กกว่าตัวเลข (bigNumber) วาดไม่ได้ · ป้ายที่มา ProvenanceTag ใส่ขนาดกล่องตายตัว · ป้ายหัวข้อกว้างตายตัว (row ใน stack กว้างเต็มเสมอ) · ป้าย Verified by Sale Here (byline:light บนแถบขาวเหนือกล่อง ไม่ทับกล่อง · ติ๊กแดง + โลโก้แดง · ตัวอักษร 8.5 ≈ 85×19) ขึ้นเสมอ ทั้ง 3 แพลตฟอร์มวาดเหมือนกัน (13 พ.ย. 2569 แทน provenance:socials) · 16 พ.ย. 2569: เลือกช่องที่แสดงได้ (checks ช่องที่แสดง → hide · where !hidden:$platform เหมือนชุด Social Media)",
+ "root": {
+  "type": "col",
+  "pad": [
+   17,
+   4,
+   4,
+   4
+  ],
+  "children": [
+   {
+    "type": "stack",
+    "id": "sheet",
+    "grow": 1,
+    "h": "fill",
+    "fill": "bg",
+    "radius": 20,
+    "shadow": {
+     "x": 0,
+     "sigma": 4.5,
+     "y": 5,
+     "color": "accent@0.35"
+    },
+    "children": [
+     {
+      "type": "rect",
+      "id": "glassEdge",
+      "if": "surface=glass",
+      "radius": 20,
+      "stroke": {
+       "color": "white@0.6",
+       "width": 1.2
+      }
+     },
+     {
+      "type": "rect",
+      "id": "border",
+      "if": "bordered",
+      "radius": 20,
+      "stroke": {
+       "color": "accent",
+       "width": 1.6
+      }
+     },
+     {
+      "type": "col",
+      "pad": [
+       22,
+       7,
+       7,
+       7
+      ],
+      "gap": 4,
+      "children": [
+       {
+        "type": "stack",
+        "grow": 1,
+        "h": "fill",
+        "children": [
+         {
+          "type": "chips",
+          "id": "tiles",
+          "list": "socials",
+          "wrap": false,
+          "gap": 7,
+          "h": "fill",
+          "each": {
+           "type": "col",
+           "w": "fill",
+           "grow": 1,
+           "justify": "center",
+           "align": "center",
+           "gap": -2,
+           "pad": [
+            0,
+            6
+           ],
+           "fill": "white",
+           "radius": 11,
+           "stroke": {
+            "color": "accent@0.6",
+            "width": 2
+           },
+           "children": [
+            {
+             "type": "row",
+             "gap": 5,
+             "align": "center",
+             "children": [
+              {
+               "type": "icon",
+               "icon": "$icon",
+               "size": 15
+              },
+              {
+               "type": "row",
+               "gap": 2.9,
+               "align": "center",
+               "children": [
+                {
+                 "type": "text",
+                 "slot": "$name",
+                 "face": "noto",
+                 "weight": 500,
+                 "size": 11.5,
+                 "color": "#1C1A21",
+                 "maxLines": 1,
+                 "shrinkTo": 8
+                },
+                {
+                 "type": "icon",
+                 "icon": "sh:sealRed",
+                 "size": 10.3,
+                 "if": "$verified"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "type": "text",
+             "slot": "$followers",
+             "face": "noto",
+             "weight": 900,
+             "size": 42,
+             "kerning": -1.5,
+             "color": "#1C1A21",
+             "maxLines": 1,
+             "shrinkTo": 14,
+             "textAlign": "center"
+            }
+           ]
+          },
+          "where": "!hidden:$platform"
+         },
+         {
+          "type": "row",
+          "id": "countBadgeSlot",
+          "if": "has:stat:countsUpdated",
+          "justify": "end",
+          "align": "start",
+          "dx": 0,
+          "dy": -20.5,
+          "children": [
+           {
+            "type": "row",
+            "id": "countBadge",
+            "gap": 3.0,
+            "align": "center",
+            "pad": [
+             2.5,
+             7.5,
+             2.5,
+             3.0
+            ],
+            "circle": true,
+            "fill": "white",
+            "stroke": {
+             "color": "black@0.07",
+             "width": 0.5
+            },
+            "shadow": {
+             "sigma": 2.5,
+             "y": 1.0,
+             "color": "black@0.14"
+            },
+            "shrink": 0,
+            "children": [
+             {
+              "type": "icon",
+              "icon": "sh:sealRed",
+              "size": 13.0
+             },
+             {
+              "type": "text",
+              "text": "อัปเดตเมื่อ",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             },
+             {
+              "type": "text",
+              "slot": "stat:countsUpdated",
+              "face": "noto",
+              "size": 8.5,
+              "weight": 700,
+              "color": "#1F1F23",
+              "maxLines": 1,
+              "shrink": 0
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "row",
+        "id": "igBar",
+        "pad": [
+         6,
+         0
+        ],
+        "fill": "white@0.92",
+        "radius": 12,
+        "justify": "around",
+        "align": "center",
+        "children": [
+         {
+          "type": "icon",
+          "icon": "ph:house",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:magnifying-glass",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:camera",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:user",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:heart",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:paper-plane-tilt",
+          "size": 19,
+          "tint": "#1C1A21"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:bookmark-simple",
+          "size": 19,
+          "tint": "#1C1A21"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "row",
+      "id": "label",
+      "w": 87,
+      "h": 26,
+      "gap": 6,
+      "pad": [
+       0,
+       12,
+       0,
+       5
+      ],
+      "align": "center",
+      "fill": "accent",
+      "circle": true,
+      "place": "top-left",
+      "dx": 10,
+      "dy": -13,
+      "children": [
+       {
+        "type": "stack",
+        "w": 17,
+        "h": 17,
+        "children": [
+         {
+          "type": "rect",
+          "circle": true,
+          "fill": "white"
+         },
+         {
+          "type": "icon",
+          "icon": "ph:flag",
+          "size": 9.5,
+          "tint": "accent",
+          "place": "center"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "ผู้ติดตาม",
+        "face": "noto",
+        "weight": 700,
+        "size": 12.5,
+        "color": "white",
+        "maxLines": 1,
+        "shrinkTo": 8.75,
+        "grow": 1
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

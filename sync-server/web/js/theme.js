@@ -429,7 +429,8 @@ export function specPalette({ t, ink, accent, surface, skin, kit, border, base }
     let name = token, alpha = null
     const at = token.lastIndexOf('@')
     if (at >= 0) { name = token.slice(0, at); const v = Number(token.slice(at + 1)); alpha = Number.isNaN(v) ? null : v }
-    const explicit = SURFACES.has(on) ? on : null
+    // `paper` = กระดาษสีคงที่ที่ผังวาดเอง — ไม่มีสีวิดเจ็ตบนเว็บ จึงเท่ากับ `light` (WIDGET-SPEC §4)
+    const explicit = on === 'paper' ? 'light' : SURFACES.has(on) ? on : null
     const s = explicit ?? baseSurface
     let c
     switch (name) {

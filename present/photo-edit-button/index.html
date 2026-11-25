@@ -1,0 +1,169 @@
+<title>ปุ่มแก้ไขข้อมูล รูปผลงาน</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* layout: สรุปสั้นบนสุด → หัว BottomSheet ก่อน/หลัง → กริดรูป widget แยกกลุ่มตามสถานะ */
+:root {
+  --bg: #F6F5F7; --panel: #FFFFFF; --ink: #17151A; --ink2: #6A6470; --line: #E4E1E7;
+  --done: #1F8A5B; --done-bg: #E3F4EC; --todo: #B5402F; --todo-bg: #FBE7E3; --same: #6A6470; --same-bg: #EEECF0;
+  --sheet: #2A262E; --sheet-ink: rgba(255,255,255,.94);
+  --f-body: "Anuphan", "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141216; --panel: #1E1B21; --ink: #F1EEF3; --ink2: #A59FAB; --line: #34303A;
+  --done: #5ED39C; --done-bg: #173226; --todo: #FF8E7A; --todo-bg: #3A1D18; --same: #A59FAB; --same-bg: #2A2630;
+  --sheet: #2A262E; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141216; --panel: #1E1B21; --ink: #F1EEF3; --ink2: #A59FAB; --line: #34303A;
+  --done: #5ED39C; --done-bg: #173226; --todo: #FF8E7A; --todo-bg: #3A1D18; --same: #A59FAB; --same-bg: #2A2630;
+  --sheet: #2A262E; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; display: grid; gap: 40px; }
+h1 { font-size: 28px; line-height: 1.25; margin: 0; text-wrap: balance; font-weight: 700; }
+h2 { font-size: 19px; margin: 0; font-weight: 700; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+p { margin: 0; max-width: 68ch; }
+.lead { color: var(--ink2); }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--same-bg); padding: 1px 5px; border-radius: 4px; }
+.tally { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 11px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.pill.done { background: var(--done-bg); color: var(--done); }
+.pill.todo { background: var(--todo-bg); color: var(--todo); }
+.pill.same { background: var(--same-bg); color: var(--same); }
+header { display: grid; gap: 12px; }
+
+/* หัว BottomSheet ก่อน/หลัง — วาดตาม StarCardEditorView (ขาวบนกระจก + ดินสอ, ถังขยะแดงอ่อน) */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.compare figure { margin: 0; display: grid; gap: 8px; }
+.compare figcaption { font-size: 13px; color: var(--ink2); font-weight: 600; }
+.sheet { background: var(--sheet); border-radius: 22px 22px 0 0; padding: 10px 16px 18px; display: grid; gap: 12px; }
+.grab { width: 36px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.28); justify-self: center; }
+.row { display: flex; align-items: center; gap: 8px; min-height: 36px; }
+.row .name { color: var(--sheet-ink); font-weight: 600; font-size: 16px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.edit { display: inline-flex; align-items: center; gap: 5px; height: 36px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.14); color: var(--sheet-ink); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.edit.gone { outline: 2px dashed #FF8E7A; outline-offset: 2px; }
+.trash { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,89,79,.16); display: grid; place-items: center; flex: none; }
+.ghost { height: 52px; border-radius: 12px; background: rgba(255,255,255,.06); }
+.strike { position: relative; }
+.strike::after { content: ""; position: absolute; left: -4px; right: -4px; top: 50%; height: 2px; background: #FF8E7A; transform: rotate(-8deg); }
+
+/* กริดรูป widget */
+.group { display: grid; gap: 14px; }
+.group > p { color: var(--ink2); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; grid-template-rows: 190px auto; }
+.card .shot { background: #5A1F2B; display: grid; place-items: center; padding: 6px; }
+.card img { max-height: 178px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+.card .meta { padding: 10px 12px 12px; display: grid; gap: 4px; min-width: 0; }
+.card .t { font-weight: 600; font-size: 14px; line-height: 1.35; }
+.card .k { font-family: var(--f-mono); font-size: 11.5px; color: var(--ink2); overflow-wrap: anywhere; }
+.card .r { font-family: var(--f-mono); font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
+.card .r s { color: var(--todo); }
+.card .r b { color: var(--done); font-weight: 500; }
+.card .r i { font-style: normal; color: var(--todo); }
+.card.todo { border-color: color-mix(in srgb, var(--todo) 45%, var(--line)); }
+
+.notes { display: grid; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.notes ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.notes li { max-width: 72ch; }
+</style>
+
+<main class="wrap">
+  <header>
+    <h1>ปุ่ม "แก้ไขข้อมูล" บน BottomSheet ของ widget รูปผลงาน</h1>
+    <p class="lead">salehere-ios แสดงปุ่มนี้ เมื่อ <code>widget.requires</code> มีขั้นที่ผู้ใช้กรอกเองได้ widget รูปผลงานมี <code>"about"</code> (ขั้นรูป/วิดีโอ) เลยมีปุ่มทุกตัว รอบนี้ลบ <code>about</code> ออกจาก JSON อย่างเดียว ไม่ได้แก้โค้ดแอป</p>
+    <div class="tally">
+      <span class="pill done">แก้แล้ว 20 ตัว</span>
+      <span class="pill same">ว่างอยู่แล้ว 2 ตัว</span>
+      <span class="pill todo">ยังไม่แก้ 0 ตัว</span>
+    </div>
+  </header>
+
+  <section class="group">
+    <h2>หัว BottomSheet ตอนเลือก widget รูปผลงาน</h2>
+    <div class="compare">
+      <figure>
+        <figcaption>ก่อน: requires ["about"]</figcaption>
+        <div class="sheet" aria-hidden="true">
+          <div class="grab"></div>
+          <div class="row">
+            <span class="name">เบนโตะ</span>
+            <span class="edit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>แก้ไขข้อมูล</span>
+            <span class="trash"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8A7D" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span>
+          </div>
+          <div class="ghost"></div>
+        </div>
+      </figure>
+      <figure>
+        <figcaption>หลัง: requires []</figcaption>
+        <div class="sheet" aria-hidden="true">
+          <div class="grab"></div>
+          <div class="row">
+            <span class="name">เบนโตะ</span>
+            <span class="trash"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8A7D" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span>
+          </div>
+          <div class="ghost"></div>
+        </div>
+      </figure>
+    </div>
+    <p class="lead">ภาพนี้วาดตามโค้ด <code>StarCardEditorView.swift</code> ยังไม่ได้ถ่ายจากแอปจริง</p>
+  </section>
+
+  <section class="group">
+    <h2><span class="pill done">แก้แล้ว</span> 13-รูปผลงาน · 16 ตัว</h2>
+    <p><code>"requires": ["about"]</code> → <code>"requires": []</code> ไม่มีปุ่ม "แก้ไขข้อมูล" แล้ว และไม่ล็อก (ยังไม่มีรูปก็วางได้ ช่องรูปว่าง)</p>
+    <div class="grid" id="g-done"></div>
+  </section>
+
+  <section class="group">
+    <h2><span class="pill same">ว่างอยู่แล้ว</span> 13-รูปผลงาน · 2 ตัว</h2>
+    <p>หน้าต่างวิดีโอเป็น <code>[]</code> มาก่อนแล้ว ไม่มีปุ่มอยู่แล้ว ไม่ได้แตะ</p>
+    <div class="grid" id="g-same"></div>
+  </section>
+
+  <section class="group">
+    <h2><span class="pill done">แก้แล้ว</span> 14-แผ่นโชว์ผลงาน · 3 ตัว</h2>
+    <p><code>"requires": ["about"]</code> → <code>"requires": []</code> ไม่มีปุ่มและไม่ล็อก เหมือนกลุ่มรูปผลงาน</p>
+    <div class="grid" id="g-show"></div>
+  </section>
+
+  <section class="group">
+    <h2><span class="pill done">แก้แล้ว</span> 12-ผลงานยืนยัน · Brand Campaign</h2>
+    <p>ลบแค่ <code>about</code> เหลือ <code>["work"]</code> ยังล็อกรองานยืนยันเหมือนเดิม แต่ไม่มีปุ่ม "แก้ไขข้อมูล" เพราะ <code>work</code> ผู้ใช้กรอกเองไม่ได้</p>
+    <div class="grid" id="g-brand"></div>
+  </section>
+
+  <section class="notes">
+    <h2>ไฟล์ที่เปลี่ยน</h2>
+    <ul>
+      <li>20 ไฟล์: 16 ใน <code>13-รูปผลงาน/</code> · 3 ใน <code>14-แผ่นโชว์ผลงาน/</code> · <code>12-ผลงานยืนยัน/reelBrand.json</code> เปลี่ยนแค่บรรทัด <code>requires</code></li>
+      <li><code>shared/tools/check-widgets.mjs</code> widget ที่ <code>category</code> เป็น <code>photo</code> หรือ <code>showcase</code> จะไม่คำนวณ <code>about</code> ใส่ requires (กัน <code>--write-requires</code> ใส่กลับ) · checker error ลดจาก 12 เหลือ 11 (reelBrand ที่เคยไม่ตรงหายไป ที่เหลือเป็นของเดิม)</li>
+      <li>ยังไม่ได้อัป JSON ขึ้น SIT · ยังไม่ commit · ไม่ได้แก้หรือ build salehere-ios</li>
+      <li>รูปทุกใบเรนเดอร์จาก JSON ปัจจุบันด้วย web renderer (<code>present/photo-edit-button/shot.mjs</code>) ข้อมูลตัวอย่าง ไม่ใช่ภาพจากแอป</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+const W = [
+  ['done','artDuo','เบนโตะ'],['done','artFilmstrip','แถบภาพ'],['done','artPair','คู่แนวตั้ง'],['done','galleryCarousel','สไลด์การ์ด'],
+  ['done','galleryFilm','ฟิล์ม 35 มม.'],['done','galleryMasonry','บอร์ดพิน'],['done','galleryPost','โพสต์โซเชียล'],['done','galleryStack','กองรูปซ้อน'],
+  ['done','kitWorksCream','รูปผลงาน · Cream'],['done','kitWorksGingham','รูปผลงาน · Gingham'],['done','kitWorksMac','รูปผลงาน · Mac'],['done','kitWorksNight','รูปผลงาน · Night'],
+  ['done','kitWorksPurple','รูปผลงาน · Purple'],['done','wallMemory','บอร์ดรูปติดหมุด'],['done','workFeatured','ผลงานชิ้นเด่น'],['done','workReel','คลิปแนวตั้ง'],
+  ['same','popVideoGlass','หน้าต่างวิดีโอ กระจกชมพู'],['same','popVideoPaper','หน้าต่างวิดีโอ กระดาษเทป'],
+  ['show','popWorkGlass','ผลงานสามใบ กระจกชมพู'],
+  ['show','reelShowcase','คลิปล่าสุด'],
+  ['show','scrapPhones','กำแพงมือถือ'],
+  ['brand','reelBrand','Brand Campaign'],
+];
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+for (const [st, kind, title, folder] of W) {
+  const r = st === 'same' ? '<span>[]</span>' : st === 'brand' ? '<s>["about","work"]</s> → <b>["work"]</b>' : '<s>["about"]</s> → <b>[]</b>';
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.innerHTML = `<div class="shot"><img src="web/${kind}.jpg" alt="${esc(title)}" loading="lazy"></div>
+    <div class="meta"><div class="t">${esc(title)}</div><div class="k">${kind}${folder ? ' · ' + esc(folder) : ''}</div><div class="r">${r}</div></div>`;
+  document.getElementById('g-' + st).appendChild(el);
+}
+</script>

@@ -224,11 +224,12 @@
         "id": "webChip",
         "gap": 7,
         "align": "center",
+        "wrap": true,
         "pad": [
          7.5,
          12
         ],
-        "circle": true,
+        "radius": 17,
         "fill": "ink@0.94",
         "children": [
          {
@@ -244,9 +245,9 @@
           "weight": 600,
           "size": 13.5,
           "color": "bg",
-          "maxLines": 1,
+          "maxLines": 2,
           "shrinkTo": 10.8,
-          "maxW": 135.5
+          "maxW": 126
          }
         ],
         "if": "has:stat:site"
@@ -347,11 +348,12 @@
         "id": "webChip",
         "gap": 7,
         "align": "center",
+        "wrap": true,
         "pad": [
          7.5,
          12
         ],
-        "circle": true,
+        "radius": 17,
         "fill": "bg2@0.12",
         "children": [
          {
@@ -368,9 +370,9 @@
           "weight": 600,
           "size": 13.5,
           "color": "ink@0.95",
-          "maxLines": 1,
+          "maxLines": 2,
           "shrinkTo": 10.8,
-          "maxW": 135.5,
+          "maxW": 126,
           "on": "card"
          }
         ],

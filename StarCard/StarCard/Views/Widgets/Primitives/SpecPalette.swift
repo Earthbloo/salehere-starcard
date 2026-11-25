@@ -48,7 +48,8 @@ struct SpecPalette {
         }
         // โหนดที่ระบุ `on` เอง = วัตถุที่วาดพื้นของมันแน่ ๆ (โพลารอยด์ ป้าย) → ใช้พื้นนั้นเสมอ
         // โหนดที่ไม่ระบุ = ตามใบ → ถ้าใบไม่ได้วาดแผ่นอยู่ ตกไปใช้หมึกการ์ด
-        let explicit = on.flatMap(SpecSurface.init(rawValue:))
+        // `paper` = กระดาษสีคงที่ที่ผังวาดเอง (โน้ตครีม ป้าย) — ต้นแบบไม่มีสีวิดเจ็ต จึงเท่ากับ `light` (WIDGET-SPEC §4)
+        let explicit = (on == "paper" ? "light" : on).flatMap(SpecSurface.init(rawValue:))
         let surface = explicit ?? base
         let c: Color
         switch name {

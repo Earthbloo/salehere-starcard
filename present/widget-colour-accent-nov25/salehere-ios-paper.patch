@@ -1,0 +1,17 @@
+--- a/SaleHere/Scene/StarCard/StarCardPalette.swift
++++ b/SaleHere/Scene/StarCard/StarCardPalette.swift
+@@ func rgba(_ token: String, on: String?) -> StarCardRGBA
+-        let explicit = ["card", "light", "dark"].contains(on ?? "") ? on : nil
++        // `paper` = กระดาษสีคงที่ที่ผังวาดเอง (โน้ตครีม ซอง ป้าย) — คิดแบบ `light` จากธีมการ์ด ไม่รับสีวิดเจ็ต
++        // (25 พ.ย. 2569: สีวิดเจ็ตดำ → `accent` ของแผ่น = ขาว → "ด้วยกันนะ" บนโน้ตครีมหาย) · WIDGET-SPEC §4
++        let explicit = ["card", "light", "dark", "paper"].contains(on ?? "") ? on : nil
+@@
+             case "light": c = sheet(name, light: true)
++            case "paper": c = sheet(name, light: true, paper: true)
+@@ private func sheet
+-    private func sheet(_ role: String, light: Bool) -> StarCardRGBA {
++    /// `paper: true` = กระดาษคงที่ของผัง → ข้ามสีวิดเจ็ต ใช้สูตรจากเฉดการ์ด
++    private func sheet(_ role: String, light: Bool, paper fixedPaper: Bool = false) -> StarCardRGBA {
+         let paper: StarCardRGBA, ink: StarCardRGBA, accent: StarCardRGBA
+-        if let c = theme.widgetColor, light == customSheetIsLight(c) {
++        if !fixedPaper, let c = theme.widgetColor, light == customSheetIsLight(c) {

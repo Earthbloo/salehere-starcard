@@ -99,6 +99,13 @@ data class AndroidSpecData(
                 "insightVerifiedOn" -> if (sample || StarFlow.shared.insightSlots.isNotEmpty()) "18 พ.ย. 69" else ""
                 "starNumber" -> if (sample || sealed) "STAR-2611-0482" else ""
                 "year" -> "2026"
+                // วันอัปเดตยอดล่าสุด (badge "อัปเดตเมื่อ" ขวาบน widget ผู้ติดตาม/ผู้ชม) — ของจริง client ส่งวันที่มา
+                // ต้นแบบ: วันนี้เมื่อมีช่องโซเชียล/Insight (= iOS/เว็บ) · ว่าง = ผังซ่อน badge ด้วย `has:stat:countsUpdated`
+                "countsUpdated" -> if (sample || p.creator.socials.isNotEmpty() || StarFlow.shared.insightSlots.isNotEmpty()) {
+                    val d = java.time.LocalDate.now()
+                    val months = listOf("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.")
+                    "${d.dayOfMonth} ${months[d.monthValue - 1]} ${"%02d".format((d.year + 543) % 100)}"
+                } else ""
                 "placeCount" -> a.places.size.toString()
                 // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` (= iOS)
                 "reach" -> if (a.reach.accounts > 0) Fmt.compact(a.reach.accounts) else ""

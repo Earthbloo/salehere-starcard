@@ -65,7 +65,8 @@ class SpecPalette(
         var alpha: Double? = null
         val at = token.lastIndexOf('@')
         if (at >= 0) { name = token.substring(0, at); alpha = token.substring(at + 1).toDoubleOrNull() }
-        val explicit = SpecSurface.from(on)
+        // `paper` = กระดาษสีคงที่ที่ผังวาดเอง — ต้นแบบไม่มีสีวิดเจ็ต จึงเท่ากับ `light` (WIDGET-SPEC §4)
+        val explicit = SpecSurface.from(if (on == "paper") "light" else on)
         val s = explicit ?: base
         val c: Color = when (name) {
             "white" -> Color.White

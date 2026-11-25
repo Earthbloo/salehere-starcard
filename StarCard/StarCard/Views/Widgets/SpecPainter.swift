@@ -567,6 +567,13 @@ struct IOSSpecData: SpecDataSource {
             case "insightVerifiedOn": return sample || !StarFlow.shared.insightSlots.isEmpty ? "18 พ.ย. 69" : ""
             case "starNumber": return sample || VerifiedFacts.sealed ? "STAR-2611-0482" : ""
             case "year": return "2026"
+            // วันอัปเดตยอดล่าสุด (badge "อัปเดตเมื่อ 18 พ.ย. 69" ขวาบน widget ผู้ติดตาม/ผู้ชม) — ของจริง client ส่งวันที่มา
+            // ต้นแบบไม่มีแหล่ง: วันนี้เมื่อมีช่องโซเชียล/Insight (= เว็บ) · ว่าง = ผังซ่อน badge ด้วย `has:stat:countsUpdated`
+            case "countsUpdated":
+                guard sample || !p.creator.socials.isEmpty || !StarFlow.shared.insightSlots.isEmpty else { return "" }
+                let c = Calendar(identifier: .gregorian).dateComponents([.day, .month, .year], from: Date())
+                let months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
+                return "\(c.day ?? 1) \(months[(c.month ?? 1) - 1]) \(String(format: "%02d", ((c.year ?? 2026) + 543) % 100))"
             case "placeCount": return String(p.shownAudience.places.count)
             // ยังไม่มีการเข้าถึง (0) = ว่าง — ผังซ่อนบล็อกด้วย `has:stat:reach` แทนการโชว์ "0"
             case "reach": let r = p.shownAudience.reach; return r.accounts > 0 ? Fmt.compact(r.accounts) : ""

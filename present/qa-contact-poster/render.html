@@ -1,0 +1,62 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>contact poster render</title>
+<script type="importmap">{ "imports": { "/js/theme.js": "/qa/theme-wc.js" } }</script>
+<style>body{margin:0;background:transparent} #stage{display:inline-block}</style>
+<div id="stage"></div>
+<script type="module">
+import { parseSpec } from '/js/spec-model.js'
+import { WebMeasurer, loadFonts } from '/js/measure.js'
+import { Profile, WebSpecData, MOCK } from '/js/data.js'
+import { mountWidget } from '/js/chrome.js'
+import { paintBackdrop } from '/js/backdrop.js'
+import { themeOf, docTheme } from '/js/backdrop-tray.js'
+import { makeTheme, parseHex, toHSB } from '/js/theme.js'
+
+await loadFonts('/fonts/')
+const measurer = new WebMeasurer()
+let profile = new Profile({ values: { lineId: '@sit1599', phone: '0811111159', website: 'https://sit-star-059.example.com' } }, {})
+// ข้อมูลผู้ชมตามภาพ QA (บัญชี 0811111159)
+MOCK.audience.female = 77; MOCK.audience.male = 23; MOCK.audience.other = 0
+MOCK.audience.ages = [['25-34', 61], ['35-44', 22], ['18-24', 9], ['other', 8]].map(([label, share]) => ({ label, share }))
+const QA_PLACES = [['กรุงเทพมหานคร', 41], ['เทศบาลนครพิษณุโลก', 25], ['อำเภอเมืองพิษณุโลก, เทศบาลนครพิษณุโลก', 16]]
+
+// opts: card (hex การ์ด) · wc (สีวิดเจ็ต) · scale {id: factor} (ขนาดหัวข้อ ss:) · w/h · fill (ทึบ/โปร่ง)
+window.render = async (json0, opts = {}) => {
+  profile = new Profile({ values: { lineId: opts.line ?? '@sit1599', phone: opts.phone ?? '0811111159', website: opts.web ?? 'https://sit-star-059.example.com' } }, {})
+  MOCK.audience.places = (opts.places || QA_PLACES).map(([name, share]) => ({ name, share }))
+  const json = structuredClone(json0)
+  if (opts.scale || opts.text) {
+    const walk = (n) => { if (n.id && opts.scale?.[n.id] && n.type === 'text') { for (const k of ['size', 'shrinkTo', 'growTo']) if (n[k]) n[k] *= opts.scale[n.id] } if (n.id && opts.text?.[n.id] && n.type === 'text') n.text = opts.text[n.id]; (n.children || []).forEach(walk); if (n.each) walk(n.each) }
+    if (json.root) walk(json.root); (json.variants || []).forEach((v) => walk(v.root))
+  }
+  const stage = document.getElementById('stage'); stage.innerHTML = ''
+  const cardChoice = { backdrop: 'solid', primary: opts.card || '#5A1F2B', secondary: null, tone: 'dark' }
+  const cardTheme = themeOf(cardChoice)
+  let theme = cardTheme
+  globalThis.__wc = null
+  if (opts.wc) {
+    const c = parseHex(opts.wc)
+    const primary = toHSB(c).s < 0.02 ? cardChoice.primary : opts.wc
+    theme = makeTheme({ ...docTheme(cardChoice), colors: { primary } })
+    globalThis.__wc = opts.wc
+  }
+  const spec = parseSpec(json)
+  const W = opts.w || json.widget?.size?.w || json.design.w, H = opts.h || json.widget?.size?.h || json.design.h, M = 14
+  const cell = document.createElement('div')
+  cell.id = 'cell'
+  cell.style.cssText = `position:relative;width:${W + M * 2}px;height:${H + M * 2}px`
+  stage.appendChild(cell)
+  paintBackdrop(cell, cardTheme, W + M * 2, H + M * 2)
+  const kit = opts.fill ? { fill: opts.fill } : {}
+  const item = { id: '00000000-0000-0000-0000-000000000000', kind: json.kind, x: M, y: M, w: W, h: H,
+                 surface: (json.widget?.surfaces || [])[0] || 'glass', border: false, kit, options: opts.wc ? { color: opts.wc } : {} }
+  const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: { [json.kind]: spec }, measurer, base: '/',
+    imageURL: (id) => id, mock: null,
+    makeData: (it) => new WebSpecData({ profile, item: it, sample: true, inkLight: theme.inkStyle.isLight, surface: it.surface, duo: false, stamped: false, cutout: false, kitDark: json.widget?.on === 'dark' }) }
+  mountWidget(cell, item, { x: M, y: M, width: W, height: H }, env)
+  await Promise.race([Promise.all([...stage.querySelectorAll('img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r }))), new Promise((r) => setTimeout(r, 2500))])
+}
+window.lh = (face, size, weight) => measurer.lineHeight({ face, size, weight, tracking: 0, kerning: 0, italic: false, lineHeight: 1 })
+window.ready = true
+</script>

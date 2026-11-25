@@ -194,6 +194,9 @@ function requiresOf(spec) {
   // เรทอยู่บนช่องทางที่ผูก — มีเรทต้องมีช่องทางก่อนเสมอ
   if (hard.has('rate')) hard.add('socials')
   if ([...accent.values()].length && [...accent.values()].every(Boolean)) hard.delete('work')
+  // กลุ่มรูปผลงาน + แผ่นโชว์ผลงาน (category photo/showcase) ไม่ล็อกรอขั้นรูป/วิดีโอ — ผู้ใช้ 24 พ.ย. 2569: BottomSheet ต้องไม่มีปุ่ม "แก้ไขข้อมูล"
+  // (แอปโชว์ปุ่มตามชื่อใน requires ที่กรอกเองได้ · about = ขั้นรูป/วิดีโอ) → ยังไม่มีรูปก็วางได้ ช่องรูปว่าง
+  if (['photo', 'showcase'].includes(spec.widget?.category)) hard.delete('about')
   const unknown = [...hard, ...soft].filter((x) => x.startsWith('?'))
   return { requires: REQUIRES.filter((x) => hard.has(x)), unknown }
 }

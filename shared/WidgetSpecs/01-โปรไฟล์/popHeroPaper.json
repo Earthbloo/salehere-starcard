@@ -11,7 +11,8 @@
   "requires": [
    "kind",
    "about",
-   "provinces"
+   "provinces",
+   "socials"
   ],
   "symbol": "person.crop.square.fill",
   "order": 47,
@@ -25,7 +26,7 @@
   "motion": "mid",
   "on": "light"
  },
- "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระดาษ) — ตามต้นฉบับใบนี้ **ไม่มีแผ่น**: ชื่อลอยบนการ์ด · รูปอัดขอบขาวแปะเทปเอียง · ข้อมูลอยู่บนกระดาษโน้ตขาว (มุมพับ PopFold วาดไม่ได้) · แปลงจาก PopWidgets.swift (PopHero สกิน paper, inner.padding(6)) · สี: ถ่านคงที่ pop.ink (ชื่อเป็นถ่านแม้บนการ์ดมืด ตามต้นฉบับ) · เทป rawAccent@0.62 · ต้นฉบับใบนี้ไม่อ่าน surface/border · 23 พ.ย. 2569: เอา @handle ออก (QA: ไม่มีตัวเลือกช่องทาง social) แถวบนเหลือไอคอน+ประเภทครีเอเตอร์",
+ "notes": "สำรับสติกเกอร์ · ป้ายชื่อ (กระดาษ) — ตามต้นฉบับใบนี้ **ไม่มีแผ่น**: ชื่อลอยบนการ์ด · รูปอัดขอบขาวแปะเทปเอียง · ข้อมูลอยู่บนกระดาษโน้ตขาว (มุมพับ PopFold วาดไม่ได้) · แปลงจาก PopWidgets.swift (PopHero สกิน paper, inner.padding(6)) · สี: ถ่านคงที่ pop.ink (ชื่อเป็นถ่านแม้บนการ์ดมืด ตามต้นฉบับ) · เทป rawAccent@0.62 · ต้นฉบับใบนี้ไม่อ่าน surface/border · 23 พ.ย. 2569: เอา @handle ออก (QA: ไม่มีตัวเลือกช่องทาง social) แถวบนเหลือไอคอน+ประเภทครีเอเตอร์ · 25 พ.ย. 2569: เอาแถว VERIFIED BY SALE HERE สีฟ้าออก (ติ๊กแดงข้างชื่อยังอยู่) → ยอดผู้ติดตามรวม stat:totalFollowers ตัวใหญ่ + \"ผู้ติดตาม / รวมทุกช่อง\" · แถวรูป+ข้อมูล w fill (เดิมแถวฟ้าดันความกว้าง) · requires + socials",
  "root": {
   "type": "col",
   "pad": 6,
@@ -218,79 +219,49 @@
        },
        {
         "type": "row",
-        "id": "verified",
-        "if": "owner.verified",
+        "id": "total",
         "gap": 5,
-        "align": "center",
-        "pad": [
-         3,
-         8,
-         3,
-         3
-        ],
-        "radius": 9,
-        "gradient": {
-         "from": "#4DA8F5",
-         "to": "#2166D6",
-         "angle": 0
-        },
+        "align": "end",
         "children": [
          {
-          "type": "stack",
-          "w": 36,
-          "h": 36,
-          "children": [
-           {
-            "type": "icon",
-            "icon": "ph:seal-check-fill",
-            "size": 36,
-            "tint": "#6BCCFA",
-            "place": "center"
-           },
-           {
-            "type": "rect",
-            "w": 23,
-            "h": 23,
-            "circle": true,
-            "fill": "white",
-            "place": "center"
-           },
-           {
-            "type": "icon",
-            "icon": "ph:check",
-            "size": 13,
-            "tint": "#2980E6",
-            "place": "center"
-           }
-          ]
+          "type": "text",
+          "face": "noto",
+          "maxLines": 1,
+          "slot": "stat:totalFollowers",
+          "weight": 900,
+          "size": 30,
+          "kerning": -0.6,
+          "color": "#1C1A21",
+          "shrink": 0
          },
          {
           "type": "col",
-          "gap": -4,
+          "gap": -3,
           "align": "start",
-          "grow": 1,
+          "pad": [
+           0,
+           0,
+           5,
+           0
+          ],
           "children": [
            {
             "type": "text",
-            "text": "VERIFIED",
             "face": "noto",
-            "weight": 900,
-            "size": 19,
-            "kerning": 0.2,
-            "color": "white",
             "maxLines": 1,
-            "shrinkTo": 11.4
+            "text": "ผู้ติดตาม",
+            "weight": 700,
+            "size": 10,
+            "color": "#1C1A21"
            },
            {
             "type": "text",
-            "text": "BY SALE HERE",
             "face": "noto",
-            "weight": 900,
-            "size": 10,
-            "kerning": 0.3,
-            "color": "white",
             "maxLines": 1,
-            "shrinkTo": 6
+            "text": "รวมทุกช่อง",
+            "weight": 400,
+            "size": 8.5,
+            "color": "#1C1A21@0.6"
            }
           ]
          }
@@ -298,7 +269,8 @@
        }
       ]
      }
-    ]
+    ],
+    "w": "fill"
    }
   ]
  }

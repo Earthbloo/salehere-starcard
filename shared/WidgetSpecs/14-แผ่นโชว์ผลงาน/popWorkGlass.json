@@ -7,9 +7,7 @@
  "widget": {
   "title": "ผลงานสามใบ กระจกชมพู",
   "category": "showcase",
-  "requires": [
-   "about"
-  ],
+  "requires": [],
   "symbol": "rosette",
   "order": 53,
   "ownSurface": true,
@@ -144,7 +142,7 @@
          {
           "type": "rect",
           "circle": true,
-          "fill": "white"
+          "fill": "bg"
          },
          {
           "type": "icon",
@@ -161,7 +159,7 @@
         "face": "noto",
         "weight": 700,
         "size": 12.5,
-        "color": "white",
+        "color": "bg",
         "maxLines": 1,
         "shrinkTo": 8.75,
         "grow": 1,

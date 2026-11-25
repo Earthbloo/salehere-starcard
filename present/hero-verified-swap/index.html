@@ -1,0 +1,158 @@
+<title>ป้ายชื่อ แทน VERIFIED</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;800;900&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* ผังแบบแผ่นเทียบ: แต่ละแบบ = 1 แผ่น มีภาพเรนเดอร์จริง 2 สกินคู่กัน · พื้นหลังสลับได้ */
+:root {
+  --bg: #F3F2F6; --panel: #FFFFFF; --ink: #1C1A21; --ink2: #6A6672; --line: #E3E1E8; --accent: #E0262E; --pickbg: #FFF1F1;
+  --display: "Noto Sans Thai", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141317; --panel: #1E1C22; --ink: #F2F0F5; --ink2: #A29DAB; --line: #312E37; --accent: #FF5A5F; --pickbg: #3A1D20; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #141317; --panel: #1E1C22; --ink: #F2F0F5; --ink2: #A29DAB; --line: #312E37; --accent: #FF5A5F; --pickbg: #3A1D20; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--display); font-size: 15px; line-height: 1.55 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 32px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 24px }
+.top { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: end; justify-content: space-between }
+.top h1 { margin: 0; font-size: clamp(26px, 4vw, 36px); font-weight: 900; line-height: 1.15; text-wrap: balance }
+.top p { margin: 6px 0 0; color: var(--ink2); max-width: 60ch }
+.ctl { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+.ctl span { font-family: var(--mono); font-size: 12px; color: var(--ink2); letter-spacing: .04em }
+.sw { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 6px 14px 6px 8px; font: 600 13px var(--display); display: inline-flex; gap: 8px; align-items: center; cursor: pointer }
+.sw i { width: 18px; height: 18px; border-radius: 50%; display: block }
+.sw[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink) }
+.sw:focus-visible, .pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 16px }
+.v { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0 }
+.v.now { opacity: .82 }
+.v.picked { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.v header { display: flex; align-items: center; gap: 10px }
+.v h2 { margin: 0; font-size: 18px; font-weight: 800; flex: 1; min-width: 0 }
+.tag { font-family: var(--mono); font-size: 13px; min-width: 28px; height: 28px; padding: 0 6px; border-radius: 8px; display: grid; place-items: center; background: var(--ink); color: var(--panel) }
+.now .tag { background: var(--line); color: var(--ink2); font-family: var(--display); font-weight: 700 }
+.pick { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px; padding: 5px 14px; font: 600 13px var(--display); cursor: pointer }
+.pick[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+figure { margin: 0; display: grid; gap: 4px; min-width: 0 }
+figure img { width: 100%; height: auto; border-radius: 10px; display: block }
+figcaption { font-size: 12px; color: var(--ink2) }
+.note { margin: 0 }
+.data { margin: 0; font-size: 13px; color: var(--ink2); display: flex; gap: 8px; flex-wrap: wrap }
+.data span { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px }
+.foot { color: var(--ink2); font-size: 13px }
+.foot b { color: var(--ink) }
+@media (max-width: 420px) { .pair { grid-template-columns: 1fr } }
+</style>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>ป้ายชื่อ: อะไรมาแทนปุ่ม VERIFIED สีฟ้า</h1>
+      <p>ติ๊กแดงข้างชื่อยังบอกว่ายืนยันแล้วอยู่ ช่องล่างจึงว่างให้ใส่ข้อมูลที่แบรนด์อยากรู้ ทุกภาพเรนเดอร์จาก JSON จริงด้วย web renderer ตัวเดียวกับแอป ไม่ใช่ภาพวาด</p>
+    </div>
+    <div class="ctl" role="group" aria-label="สีการ์ด">
+      <span>สีการ์ด</span>
+      <button class="sw" type="button" data-bg="grey" aria-pressed="true"><i style="background:#3B3B3D"></i>เทาเข้ม</button>
+      <button class="sw" type="button" data-bg="lilac" aria-pressed="false"><i style="background:#B9A6F0"></i>ม่วงอ่อน</button>
+    </div>
+  </div>
+  <div class="grid">
+  <article class="v now" data-id="now">
+    <header><span class="tag">เดิม</span><h2>ปัจจุบัน</h2>
+      </header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/now-paper-" src="img/now-paper-grey.png" alt="ปัจจุบัน · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/now-glass-" src="img/now-glass-grey.png" alt="ปัจจุบัน · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">ปุ่ม VERIFIED BY SALE HERE สีฟ้า (ที่ต้องเอาออก)</p>
+    <p class="data"><span>ข้อมูล</span>—</p>
+  </article>
+  <article class="v" data-id="A">
+    <header><span class="tag">A</span><h2>โล่ง ไม่ใส่อะไร</h2>
+      <button class="pick" type="button" data-id="A" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/A-paper-" src="img/A-paper-grey.png" alt="โล่ง ไม่ใส่อะไร · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/A-glass-" src="img/A-glass-grey.png" alt="โล่ง ไม่ใส่อะไร · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">ตัดแถวทิ้ง พื้นที่รับงานลงไปชิดล่างให้เส้นตรงกับขอบรูป · เรียบสุด ไม่มีอะไรแย่งชื่อ</p>
+    <p class="data"><span>ข้อมูล</span>ไม่ใช้ข้อมูลเพิ่ม</p>
+  </article>
+  <article class="v" data-id="B">
+    <header><span class="tag">B</span><h2>สายงาน 2 ป้าย</h2>
+      <button class="pick" type="button" data-id="B" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/B-paper-" src="img/B-paper-grey.png" alt="สายงาน 2 ป้าย · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/B-glass-" src="img/B-glass-grey.png" alt="สายงาน 2 ป้าย · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">ป้ายเม็ดยาสีตามการ์ด 2 อัน · บอกว่ารับงานสายไหนในแวบเดียว</p>
+    <p class="data"><span>ข้อมูล</span>categories (ถามตอนเปิด Star Card อยู่แล้ว)</p>
+  </article>
+  <article class="v" data-id="C">
+    <header><span class="tag">C</span><h2>ผู้ติดตามรวม ตัวใหญ่</h2>
+      <button class="pick" type="button" data-id="C" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/C-paper-" src="img/C-paper-grey.png" alt="ผู้ติดตามรวม ตัวใหญ่ · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/C-glass-" src="img/C-glass-grey.png" alt="ผู้ติดตามรวม ตัวใหญ่ · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">ตัวเลขหนาเป็นจุดเด่นที่สอง ต่อจากชื่อ · แบรนด์อยากรู้ข้อนี้ก่อนเสมอ</p>
+    <p class="data"><span>ข้อมูล</span>stat:totalFollowers (social ผูกตอนเปิด Star Card)</p>
+  </article>
+  <article class="v" data-id="D">
+    <header><span class="tag">D</span><h2>โลโก้ช่อง + ยอด</h2>
+      <button class="pick" type="button" data-id="D" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/D-paper-" src="img/D-paper-grey.png" alt="โลโก้ช่อง + ยอด · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/D-glass-" src="img/D-glass-grey.png" alt="โลโก้ช่อง + ยอด · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">แถวโลโก้ช่องที่ผูกไว้ ตามด้วยยอดรวม · บอกทั้ง &quot;อยู่ที่ไหน&quot; และ &quot;ใหญ่แค่ไหน&quot;</p>
+    <p class="data"><span>ข้อมูล</span>socials + stat:totalFollowers</p>
+  </article>
+  <article class="v" data-id="E">
+    <header><span class="tag">E</span><h2>คำโปรยจากเกี่ยวกับฉัน</h2>
+      <button class="pick" type="button" data-id="E" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/E-paper-" src="img/E-paper-grey.png" alt="คำโปรยจากเกี่ยวกับฉัน · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/E-glass-" src="img/E-glass-grey.png" alt="คำโปรยจากเกี่ยวกับฉัน · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">เส้นสีการ์ด + 2 บรรทัดแรกของเกี่ยวกับฉัน · ให้ป้ายชื่อมีเสียงของเจ้าของ</p>
+    <p class="data"><span>ข้อมูล</span>about (วิดเจ็ตนี้ขออยู่แล้ว)</p>
+  </article>
+  <article class="v" data-id="F">
+    <header><span class="tag">F</span><h2>เทปสายงาน</h2>
+      <button class="pick" type="button" data-id="F" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/F-paper-" src="img/F-paper-grey.png" alt="เทปสายงาน · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/F-glass-" src="img/F-glass-grey.png" alt="เทปสายงาน · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">สายงานหลักเขียนบนเทปกาวเฉียง สีเดียวกับเทปที่แปะรูป · เข้าชุดกระดาษ/สติกเกอร์</p>
+    <p class="data"><span>ข้อมูล</span>categories ตัวแรก</p>
+  </article>
+  <article class="v" data-id="G">
+    <header><span class="tag">G</span><h2>แสตมป์ ST★R</h2>
+      <button class="pick" type="button" data-id="G" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/G-paper-" src="img/G-paper-grey.png" alt="แสตมป์ ST★R · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/G-glass-" src="img/G-glass-grey.png" alt="แสตมป์ ST★R · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">กรอบตรายางเอียงสีการ์ด &quot;ST★R&quot; + เลขสมาชิก · ภูมิใจแบบบัตรสมาชิก ไม่ใช่ปุ่ม</p>
+    <p class="data"><span>ข้อมูล</span>stat:starNumber (มีเมื่อเป็น STAR · ไม่มี = ซ่อน)</p>
+  </article>
+  <article class="v" data-id="H">
+    <header><span class="tag">H</span><h2>บาร์โค้ดตั๋ว</h2>
+      <button class="pick" type="button" data-id="H" aria-pressed="false">เลือกแบบนี้</button></header>
+    <div class="pair">
+      <figure><img loading="lazy" data-src="img/H-paper-" src="img/H-paper-grey.png" alt="บาร์โค้ดตั๋ว · กระดาษเทป"><figcaption>ป้ายชื่อ กระดาษเทป</figcaption></figure><figure><img loading="lazy" data-src="img/H-glass-" src="img/H-glass-grey.png" alt="บาร์โค้ดตั๋ว · กระจก"><figcaption>ป้ายชื่อ กระจก</figcaption></figure>
+    </div>
+    <p class="note">บาร์โค้ดลายเส้น + เลข STAR ใต้แท่ง · ป้ายชื่อกลายเป็นบัตร/ตั๋ว ดูมีราคา</p>
+    <p class="data"><span>ข้อมูล</span>stat:starNumber</p>
+  </article>
+  </div>
+  <p class="foot" id="foot">ยังไม่ได้เลือก · กด <b>เลือกแบบนี้</b> ที่แบบที่ชอบ (เลือกได้หลายแบบ)</p>
+</div>
+<script>
+const KEY = 'hero-verified-picks'
+let picks = []
+try { picks = JSON.parse(localStorage.getItem(KEY) || '[]') } catch (e) {}
+const foot = document.getElementById('foot')
+function paint() {
+  document.querySelectorAll('.pick').forEach((b) => { const on = picks.includes(b.dataset.id); b.setAttribute('aria-pressed', on); b.textContent = on ? 'เลือกแล้ว' : 'เลือกแบบนี้'; b.closest('.v').classList.toggle('picked', on) })
+  foot.innerHTML = picks.length ? 'เลือกไว้: <b>' + picks.join(', ') + '</b> · ส่งตัวอักษรนี้กลับมาในแชทได้เลย' : 'ยังไม่ได้เลือก · กด <b>เลือกแบบนี้</b> ที่แบบที่ชอบ (เลือกได้หลายแบบ)'
+}
+document.addEventListener('click', (e) => {
+  const p = e.target.closest('.pick')
+  if (p) { const id = p.dataset.id; picks = picks.includes(id) ? picks.filter((x) => x !== id) : [...picks, id].sort(); try { localStorage.setItem(KEY, JSON.stringify(picks)) } catch (err) {} paint() }
+  const s = e.target.closest('.sw')
+  if (s) { document.querySelectorAll('.sw').forEach((b) => b.setAttribute('aria-pressed', b === s)); document.querySelectorAll('img[data-src]').forEach((im) => { im.src = im.dataset.src + s.dataset.bg + '.png' }) }
+})
+paint()
+</script>
