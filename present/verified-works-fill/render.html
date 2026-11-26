@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>verified works fill</title>
+<style>body{margin:0;background:#fff;font:12px -apple-system} #stage{display:inline-flex;flex-direction:column;gap:18px;padding:16px}
+.row{display:flex;gap:14px;align-items:flex-start}.lab{font-weight:700;width:90px;padding-top:20px}.cap{font-size:11px;color:#555;margin-bottom:4px}</style>
+<div id="stage"></div>
+<script type="module">
+// web renderer จริง (sync-server/web/js) — 1 แถว = จำนวนผลงาน 1–4 · คอลัมน์ = กรอบหลายรูปทรง
+import { parseSpec } from '/js/spec-model.js'
+import { WebMeasurer, loadFonts } from '/js/measure.js'
+import { Profile, WebSpecData } from '/js/data.js'
+import { mountWidget } from '/js/chrome.js'
+import { paintBackdrop } from '/js/backdrop.js'
+import { themeOf } from '/js/backdrop-tray.js'
+import { SpecSolver } from '/js/spec-solver.js'
+
+await loadFonts('/fonts/')
+const measurer = new WebMeasurer()
+const profile = new Profile({ values: { name: 'Earth' }, list: {}, intake: { kind: 'creator' } }, {})
+
+window.sheet = async (json, frames, counts, opts = {}) => {
+  const stage = document.getElementById('stage'); stage.innerHTML = ''
+  const theme = themeOf({ backdrop: 'solid', primary: opts.card || '#5A2340', secondary: null, tone: opts.tone || 'dark' })
+  const spec = parseSpec(structuredClone(json))
+  for (const n of counts) {
+    const row = document.createElement('div'); row.className = 'row'
+    row.innerHTML = `<div class="lab">${n} ชิ้น</div>`
+    stage.appendChild(row)
+    for (const [W, H] of frames) {
+      const M = 10
+      const wrap = document.createElement('div')
+      wrap.innerHTML = `<div class="cap">${W}×${H}</div>`
+      const cell = document.createElement('div')
+      cell.style.cssText = `position:relative;width:${W + M * 2}px;height:${H + M * 2}px`
+      wrap.appendChild(cell); row.appendChild(wrap)
+      paintBackdrop(cell, theme, W + M * 2, H + M * 2)
+      const item = { id: '00000000-0000-0000-0000-00000000000' + n, kind: json.kind, x: M, y: M, w: W, h: H,
+                     surface: (json.widget?.surfaces || [])[0] || 'glass', border: false, kit: {}, options: {} }
+      const env = { doc: { photos: {}, owner: {}, notes: {} }, theme, profile, specs: { [json.kind]: spec }, measurer, base: '/',
+        imageURL: (id) => id, mock: null,
+        makeData: (it) => {
+          const d = new WebSpecData({ profile, item: it, sample: true, verified: true, inkLight: theme.inkStyle.isLight, surface: it.surface, duo: false, stamped: false, cutout: false, kitDark: json.widget?.on === 'dark' })
+          const t = d.track()
+          d.track = () => ({ ...t, works: t.works.slice(0, n) })
+          return d
+        } }
+      mountWidget(cell, item, { x: M, y: M, width: W, height: H }, env)
+    }
+  }
+  await Promise.race([Promise.all([...stage.querySelectorAll('img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r }))), new Promise((r) => setTimeout(r, 15000))])
+}
+// กล่องของโหนดที่มี id ใน ids (หน่วยผัง) — ใช้หาเพดานความสูงต่อจำนวนชิ้น
+window.measure = (json, W, H, n, ids, surface) => {
+  const spec = parseSpec(structuredClone(json))
+  const item = { id: 'm', kind: json.kind, x: 0, y: 0, w: W, h: H, surface: surface || (json.widget?.surfaces || [])[0] || 'glass', border: false, kit: {}, options: {} }
+  const theme = themeOf({ backdrop: 'solid', primary: '#5A2340', secondary: null, tone: 'dark' })
+  const d = new WebSpecData({ profile, item, sample: true, verified: true, inkLight: false, surface: item.surface, duo: false, stamped: false, cutout: false, kitDark: false })
+  const t = d.track(); d.track = () => ({ ...t, works: t.works.slice(0, n) })
+  const boxes = new SpecSolver(spec, { width: W, height: H }, d, measurer, 1).solve()
+  return boxes.filter((b) => ids.includes(b.node.id)).map((b) => ({ id: b.node.id, path: b.id, ...b.frame }))
+}
+window.ready = true
+</script>

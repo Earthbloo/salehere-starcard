@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="th">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ผลงานยืนยัน ก่อน/หลัง</title>
+<style>
+  body{margin:0;background:#F9FAFB;font:14px -apple-system,"Noto Sans Thai",sans-serif;color:#141417}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid #E5E7EB;padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;z-index:2}
+  h1{font-size:16px;margin:0 12px 0 0}
+  button{border:1px solid #D1D5DB;background:#fff;border-radius:999px;padding:6px 14px;font:inherit;cursor:pointer}
+  button.on{background:#141417;color:#fff;border-color:#141417}
+  .sep{width:1px;height:24px;background:#E5E7EB;margin:0 4px}
+  main{padding:16px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .pair.single{grid-template-columns:1fr}
+  figure{margin:0;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:10px;overflow:auto}
+  figcaption{font-weight:700;margin-bottom:6px}
+  img{width:100%;display:block}
+</style>
+<header>
+  <h1>ผลงานยืนยัน · ชิ้นโตตามที่ว่าง</h1>
+  <span id="kinds"></span>
+  <span class="sep"></span>
+  <button data-mode="both" class="on">ก่อน | หลัง</button>
+  <button data-mode="before">ก่อน</button>
+  <button data-mode="after">หลัง</button>
+</header>
+<main>
+  <p>แถว = มีผลงาน 1–4 ชิ้น · คอลัมน์ = กรอบ 366×254 (ขนาดออกแบบ) · 269×361 (กรอบสูงแบบในรูป) · 248×229 · 504×194 · 366×304</p>
+  <div class="pair" id="pair">
+    <figure id="fb"><figcaption>ก่อน</figcaption><img id="ib"></figure>
+    <figure id="fa"><figcaption>หลัง</figcaption><img id="ia"></figure>
+  </div>
+</main>
+<script>
+const KINDS = [['proofWork', 'COLLABORATIONS'], ['proofTicket', 'BRAND DEALS'], ['wallPolaroid', 'WORK DIARY'], ['reelBrand', 'Brand CAMPAIGN']]
+let kind = 'proofWork', mode = 'both'
+const kb = document.getElementById('kinds')
+for (const [k, label] of KINDS) {
+  const b = document.createElement('button'); b.textContent = label; b.dataset.kind = k
+  b.onclick = () => { kind = k; draw() }; kb.appendChild(b)
+}
+document.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => { mode = b.dataset.mode; draw() })
+function draw() {
+  document.getElementById('ib').src = `before/${kind}.png`
+  document.getElementById('ia').src = `after/${kind}.png`
+  document.getElementById('fb').hidden = mode === 'after'
+  document.getElementById('fa').hidden = mode === 'before'
+  document.getElementById('pair').classList.toggle('single', mode !== 'both')
+  document.querySelectorAll('[data-kind]').forEach((b) => b.classList.toggle('on', b.dataset.kind === kind))
+  document.querySelectorAll('[data-mode]').forEach((b) => b.classList.toggle('on', b.dataset.mode === mode))
+}
+draw()
+</script>
+</html>

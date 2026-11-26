@@ -27,7 +27,7 @@
   "on": "light",
   "lockAspect": true
  },
- "notes": "ดีไซน์ใหม่ 20 พ.ย. 2569 (รอบ 5 · มีหัวข้อ · อ้างอิงหน้า media kit \"Previous collaborations\" บน Dribbble) · กรอบ 366×254 ล็อกสัดส่วน (widget.lockAspect) ย่อขยาย = สเกลทั้งใบ · แถวเดียว สูงสุด 4 ชิ้นกว้างเท่ากันจัดกึ่งกลาง (จำนวนขึ้นกับผลงานเท่านั้น) · หัวข้อสองชั้น (kicker + title) แก้ได้ · ป้าย Verified by Sale Here (icon byline 84×19) มุมขวาบนทุกใบ · ลบพื้นหลังได้ทุกใบ (ถาด กล่อง: มีพื้น / ไม่มีพื้น) · วิว = ป้ายดำโปร่ง ph:eye-fill มุมขวาบนรูป · ไลก์ · แชร์ (0 ไม่โชว์ · ghost จองบรรทัด) · หน้าตา: หัวข้อ \"snapshots\" (Mitr 17 สี accent) + \"WORK DIARY\" (19/900) · ราวตากผ้า y 64 + หนีบไม้ · โพลารอยด์เอียง (−3 · 2.5 · −2 · 3) กว้าง 80 รูป 108 แถบขาว 24 ชื่อแบรนด์ Mitr 10.5 (ไม่มีโลโก้) · ตัวเลข 10 ใต้รูป · แผ่น bg + ลาย (papered)",
+ "notes": "ดีไซน์ใหม่ 20 พ.ย. 2569 (รอบ 5 · มีหัวข้อ · อ้างอิงหน้า media kit \"Previous collaborations\" บน Dribbble) · กรอบ 366×254 ล็อกสัดส่วน (widget.lockAspect) ย่อขยาย = สเกลทั้งใบ · แถวเดียว สูงสุด 4 ชิ้นกว้างเท่ากันจัดกึ่งกลาง (จำนวนขึ้นกับผลงานเท่านั้น) · หัวข้อสองชั้น (kicker + title) แก้ได้ · ป้าย Verified by Sale Here (icon byline 84×19) มุมขวาบนทุกใบ · ลบพื้นหลังได้ทุกใบ (ถาด กล่อง: มีพื้น / ไม่มีพื้น) · วิว = ป้ายดำโปร่ง ph:eye-fill มุมขวาบนรูป · ไลก์ · แชร์ (0 ไม่โชว์ · ghost จองบรรทัด) · หน้าตา: หัวข้อ \"snapshots\" (Mitr 17 สี accent) + \"WORK DIARY\" (19/900) · ราวตากผ้า y 64 + หนีบไม้ · โพลารอยด์เอียง (−3 · 2.5 · −2 · 3) กว้าง 80 รูป 108 แถบขาว 24 ชื่อแบรนด์ Mitr 10.5 (ไม่มีโลโก้) · ตัวเลข 10 ใต้รูป · แผ่น bg + ลาย (papered) · 26 พ.ย. 2569 โตตามที่ว่าง: แถวผลงานกินความสูงที่เหลือ ชิดบน (หมุดยังห้อยจากเชือก) · ชิ้นสูงเต็มแถว h 100% กว้างตาม aspect 0.4997 · กรอบโพลารอยด์ + รูป grow · เพดานสูงต่อจำนวนชิ้น (สำเนาแถว if list:works=N) {1: 688.41, 2: 336.2, 3: 218.8, 4: 160.11} = N ชิ้นยังเรียงในกว้าง 344 · 4 ชิ้นที่ขนาดออกแบบเท่าเดิม",
  "root": {
   "type": "stack",
   "children": [
@@ -156,7 +156,6 @@
           "wrap": false,
           "each": {
            "type": "col",
-           "w": 80,
            "gap": 8,
            "align": "stretch",
            "children": [
@@ -190,7 +189,6 @@
                 {
                  "type": "stack",
                  "id": "photo",
-                 "h": 108,
                  "children": [
                   {
                    "type": "image",
@@ -239,7 +237,8 @@
                     }
                    ]
                   }
-                 ]
+                 ],
+                 "grow": 1
                 },
                 {
                  "type": "row",
@@ -286,7 +285,8 @@
                "place": "top-center",
                "dy": -10
               }
-             ]
+             ],
+             "grow": 1
             },
             {
              "type": "stack",
@@ -365,7 +365,245 @@
              ],
              "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
             }
-           ]
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         }
+        ],
+        "if": "list:works=1",
+        "h": "fill",
+        "maxH": 688.41
+       },
+       {
+        "type": "row",
+        "id": "works",
+        "gap": 8,
+        "justify": "center",
+        "align": "start",
+        "w": "fill",
+        "children": [
+         {
+          "type": "chips",
+          "id": "spot0",
+          "if": "list:works>0",
+          "list": "works",
+          "where": "$i>=0&$i<1",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": -3,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
           }
          },
          {
@@ -377,7 +615,6 @@
           "wrap": false,
           "each": {
            "type": "col",
-           "w": 80,
            "gap": 8,
            "align": "stretch",
            "children": [
@@ -411,7 +648,6 @@
                 {
                  "type": "stack",
                  "id": "photo",
-                 "h": 108,
                  "children": [
                   {
                    "type": "image",
@@ -460,7 +696,8 @@
                     }
                    ]
                   }
-                 ]
+                 ],
+                 "grow": 1
                 },
                 {
                  "type": "row",
@@ -507,7 +744,8 @@
                "place": "top-center",
                "dy": -10
               }
-             ]
+             ],
+             "grow": 1
             },
             {
              "type": "stack",
@@ -586,7 +824,468 @@
              ],
              "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
             }
-           ]
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         }
+        ],
+        "if": "list:works=2",
+        "h": "fill",
+        "maxH": 336.2
+       },
+       {
+        "type": "row",
+        "id": "works",
+        "gap": 8,
+        "justify": "center",
+        "align": "start",
+        "w": "fill",
+        "children": [
+         {
+          "type": "chips",
+          "id": "spot0",
+          "if": "list:works>0",
+          "list": "works",
+          "where": "$i>=0&$i<1",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": -3,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         },
+         {
+          "type": "chips",
+          "id": "spot1",
+          "if": "list:works>1",
+          "list": "works",
+          "where": "$i>=1&$i<2",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": 2.5,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
           }
          },
          {
@@ -598,7 +1297,6 @@
           "wrap": false,
           "each": {
            "type": "col",
-           "w": 80,
            "gap": 8,
            "align": "stretch",
            "children": [
@@ -632,7 +1330,6 @@
                 {
                  "type": "stack",
                  "id": "photo",
-                 "h": 108,
                  "children": [
                   {
                    "type": "image",
@@ -681,7 +1378,8 @@
                     }
                    ]
                   }
-                 ]
+                 ],
+                 "grow": 1
                 },
                 {
                  "type": "row",
@@ -728,7 +1426,8 @@
                "place": "top-center",
                "dy": -10
               }
-             ]
+             ],
+             "grow": 1
             },
             {
              "type": "stack",
@@ -807,7 +1506,691 @@
              ],
              "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
             }
-           ]
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         }
+        ],
+        "if": "list:works=3",
+        "h": "fill",
+        "maxH": 218.8
+       },
+       {
+        "type": "row",
+        "id": "works",
+        "gap": 8,
+        "justify": "center",
+        "align": "start",
+        "w": "fill",
+        "children": [
+         {
+          "type": "chips",
+          "id": "spot0",
+          "if": "list:works>0",
+          "list": "works",
+          "where": "$i>=0&$i<1",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": -3,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         },
+         {
+          "type": "chips",
+          "id": "spot1",
+          "if": "list:works>1",
+          "list": "works",
+          "where": "$i>=1&$i<2",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": 2.5,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
+          }
+         },
+         {
+          "type": "chips",
+          "id": "spot2",
+          "if": "list:works>2",
+          "list": "works",
+          "where": "$i>=2&$i<3",
+          "wrap": false,
+          "each": {
+           "type": "col",
+           "gap": 8,
+           "align": "stretch",
+           "children": [
+            {
+             "type": "stack",
+             "id": "polaroidFrame",
+             "rotate": -2,
+             "children": [
+              {
+               "type": "col",
+               "id": "polaroid",
+               "fill": "white",
+               "pad": [
+                5,
+                5,
+                0,
+                5
+               ],
+               "align": "stretch",
+               "stroke": {
+                "color": "black@0.06",
+                "width": 0.6
+               },
+               "shadow": {
+                "x": 0,
+                "y": 4,
+                "sigma": 5,
+                "color": "black@0.22"
+               },
+               "children": [
+                {
+                 "type": "stack",
+                 "id": "photo",
+                 "children": [
+                  {
+                   "type": "image",
+                   "id": "picture",
+                   "src": "$cover",
+                   "photoRef": "$workPhoto",
+                   "fit": "cover"
+                  },
+                  {
+                   "type": "row",
+                   "id": "viewsTop",
+                   "pad": 3,
+                   "justify": "end",
+                   "align": "start",
+                   "children": [
+                    {
+                     "type": "row",
+                     "id": "viewsPill",
+                     "if": "$viewsRaw>0",
+                     "pad": [
+                      2.4,
+                      4.4
+                     ],
+                     "gap": 2.4,
+                     "align": "center",
+                     "circle": true,
+                     "fill": "black@0.5",
+                     "children": [
+                      {
+                       "type": "icon",
+                       "icon": "ph:eye-fill",
+                       "w": 8,
+                       "h": 8,
+                       "tint": "white"
+                      },
+                      {
+                       "type": "text",
+                       "text": "{views}",
+                       "face": "noto",
+                       "size": 8,
+                       "weight": 800,
+                       "color": "white",
+                       "maxLines": 1
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ],
+                 "grow": 1
+                },
+                {
+                 "type": "row",
+                 "id": "strip",
+                 "h": 24,
+                 "pad": [
+                  0,
+                  2
+                 ],
+                 "justify": "center",
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "text",
+                   "text": "{brand}",
+                   "face": "mitr",
+                   "size": 10.5,
+                   "weight": 400,
+                   "color": "#2A2730",
+                   "maxLines": 1,
+                   "shrinkTo": 7.5
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "type": "rect",
+               "id": "peg",
+               "w": 7,
+               "h": 17,
+               "radius": 2,
+               "gradient": {
+                "from": "#D8B48A",
+                "to": "#B98D5F",
+                "angle": 0
+               },
+               "shadow": {
+                "x": 0,
+                "y": 1,
+                "sigma": 1,
+                "color": "black@0.25"
+               },
+               "place": "top-center",
+               "dy": -10
+              }
+             ],
+             "grow": 1
+            },
+            {
+             "type": "stack",
+             "id": "stats",
+             "w": "fill",
+             "children": [
+              {
+               "type": "text",
+               "text": "0",
+               "face": "noto",
+               "size": 10,
+               "weight": 700,
+               "color": "ink@0",
+               "maxLines": 1,
+               "id": "ghost"
+              },
+              {
+               "type": "row",
+               "gap": 6,
+               "justify": "center",
+               "align": "center",
+               "w": "fill",
+               "children": [
+                {
+                 "type": "row",
+                 "if": "$likes & !$likes=0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:heart-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{likes}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                },
+                {
+                 "type": "row",
+                 "if": "$sharesRaw>0",
+                 "gap": 2.5,
+                 "align": "center",
+                 "children": [
+                  {
+                   "type": "icon",
+                   "icon": "ph:share-fat-fill",
+                   "w": 10,
+                   "h": 10,
+                   "tint": "ink@0.8"
+                  },
+                  {
+                   "type": "text",
+                   "text": "{shares}",
+                   "face": "noto",
+                   "size": 10,
+                   "weight": 700,
+                   "color": "ink@0.8",
+                   "maxLines": 1,
+                   "shrinkTo": 8
+                  }
+                 ]
+                }
+               ]
+              }
+             ],
+             "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
+            }
+           ],
+           "h": "100%",
+           "aspect": 0.4997
           }
          },
          {
@@ -819,7 +2202,6 @@
           "wrap": false,
           "each": {
            "type": "col",
-           "w": 80,
            "gap": 8,
            "align": "stretch",
            "children": [
@@ -853,7 +2235,6 @@
                 {
                  "type": "stack",
                  "id": "photo",
-                 "h": 108,
                  "children": [
                   {
                    "type": "image",
@@ -902,7 +2283,8 @@
                     }
                    ]
                   }
-                 ]
+                 ],
+                 "grow": 1
                 },
                 {
                  "type": "row",
@@ -949,7 +2331,8 @@
                "place": "top-center",
                "dy": -10
               }
-             ]
+             ],
+             "grow": 1
             },
             {
              "type": "stack",
@@ -1028,12 +2411,18 @@
              ],
              "if": "$viewsRaw.max>0 | $sharesRaw.max>0"
             }
-           ]
+           ],
+           "h": "100%",
+           "aspect": 0.4997
           }
          }
-        ]
+        ],
+        "if": "list:works>3",
+        "h": "fill",
+        "maxH": 160.11
        }
-      ]
+      ],
+      "h": "fill"
      }
     ]
    }
